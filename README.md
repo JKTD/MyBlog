@@ -1,2 +1,0 @@
-# hugo-blog-deployed
-blog

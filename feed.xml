@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title> on CoderZh Blog</title>
-        <link>http://blog.coderzh.com/</link>
+        <link>http://brasbug.github.io/</link>
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
@@ -10,10 +10,10 @@
         
         <item>
             <title>我和 ThoughtWorks 的一点小故事</title>
-            <link>http://blog.coderzh.com/2016/01/18/thoughtworks-story/</link>
+            <link>http://brasbug.github.io/2016/01/18/thoughtworks-story/</link>
             <pubDate>Mon, 18 Jan 2016 23:05:24 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2016/01/18/thoughtworks-story/</guid>
+            <guid>http://brasbug.github.io/2016/01/18/thoughtworks-story/</guid>
             <description>&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/TW.jpg-wt&#34; alt=&#34;TW&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2009 年的时候买了一本《卓有成效的程序员》，看的热血沸腾，当时还写了一篇读后感《&lt;a href=&#34;http://blog.coderzh.com/2009/07/18/1526082/&#34;&gt;程序员的共鸣 - 读《卓有成效的程序员》&lt;/a&gt;》，现在翻来看还觉得蛮有意思的。从此后，开始用 Launchy ， ClipX 等提高效率的工具，也开始接触代码编辑器神器 Emacs 和 Vim 。当时年少无知先学了 Emacs ，还全程用 Emacs 开发过一个小项目。后来实在是小指按 ctrl 键按到桑爽的不行了，才发现 Vim 是多么和谐的存在。&lt;/p&gt;
@@ -88,10 +88,10 @@
         
         <item>
             <title>谁也挡不住程序员在微信群里玩起了直播分享</title>
-            <link>http://blog.coderzh.com/2016/01/16/coding-style-share/</link>
+            <link>http://brasbug.github.io/2016/01/16/coding-style-share/</link>
             <pubDate>Sat, 16 Jan 2016 17:19:20 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2016/01/16/coding-style-share/</guid>
+            <guid>http://brasbug.github.io/2016/01/16/coding-style-share/</guid>
             <description>&lt;p&gt;上次写了一篇《&lt;a href=&#34;http://blog.coderzh.com/2015/12/27/code-review/&#34;&gt;大家都应该做的 Code Review&lt;/a&gt;》，在公众号里有位朋友留言：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/comments.jpg&#34; alt=&#34;comment&#34; /&gt;&lt;/p&gt;
@@ -134,10 +134,10 @@
         
         <item>
             <title>被脱裤也不怕 - 反馈总结</title>
-            <link>http://blog.coderzh.com/2016/01/13/password-security-additional/</link>
+            <link>http://brasbug.github.io/2016/01/13/password-security-additional/</link>
             <pubDate>Wed, 13 Jan 2016 19:06:42 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2016/01/13/password-security-additional/</guid>
+            <guid>http://brasbug.github.io/2016/01/13/password-security-additional/</guid>
             <description>
 
 &lt;p&gt;在发出前两篇安全相关的文章（&lt;a href=&#34;http://blog.coderzh.com/2016/01/03/security-design/&#34;&gt;设计安全的账号系统的正确姿势&lt;/a&gt; ，&lt;a href=&#34;http://blog.coderzh.com/2016/01/10/a-password-security-design-example/&#34;&gt;即使被拖库，也可以保证密码不泄露&lt;/a&gt;）后，我陆续收到了不少的反馈。我的文章本意是引起大家对密码安全的重视，给大家设计账号安全系统时提供一些参考和思路。&lt;/p&gt;
@@ -188,10 +188,10 @@
         
         <item>
             <title>即使被拖库，也可以保证密码不泄露</title>
-            <link>http://blog.coderzh.com/2016/01/10/a-password-security-design-example/</link>
+            <link>http://brasbug.github.io/2016/01/10/a-password-security-design-example/</link>
             <pubDate>Sun, 10 Jan 2016 23:06:42 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2016/01/10/a-password-security-design-example/</guid>
+            <guid>http://brasbug.github.io/2016/01/10/a-password-security-design-example/</guid>
             <description>
 
 &lt;p&gt;在前一篇文章《&lt;a href=&#34;http://blog.coderzh.com/2016/01/03/security-design/&#34;&gt;设计安全的账号系统的正确姿势&lt;/a&gt;》中，主要提出了一些设计的方法和思路，并没有给出一个更加具体的，可以实施的安全加密方案。经过我仔细的思考并了解了目前一些方案后，我设计了一个自认为还比较安全的安全加密方案。本文主要就是讲述这个方案，非常欢迎和期待有读者一起来讨论。&lt;/p&gt;
@@ -347,10 +347,10 @@ AES(SharedKey, Ticket)
         
         <item>
             <title>设计安全的账号系统的正确姿势</title>
-            <link>http://blog.coderzh.com/2016/01/03/security-design/</link>
+            <link>http://brasbug.github.io/2016/01/03/security-design/</link>
             <pubDate>Sun, 03 Jan 2016 18:23:28 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2016/01/03/security-design/</guid>
+            <guid>http://brasbug.github.io/2016/01/03/security-design/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/security.jpg-wt&#34; alt=&#34;security&#34; /&gt;&lt;/p&gt;
@@ -655,10 +655,10 @@ AES(SharedKey, Ticket)
         
         <item>
             <title>我的 2015</title>
-            <link>http://blog.coderzh.com/2016/01/01/my-2015/</link>
+            <link>http://brasbug.github.io/2016/01/01/my-2015/</link>
             <pubDate>Fri, 01 Jan 2016 00:34:08 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2016/01/01/my-2015/</guid>
+            <guid>http://brasbug.github.io/2016/01/01/my-2015/</guid>
             <description>&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/2016.jpg-wt&#34; alt=&#34;2016&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2015年对我来说是意义非凡的一年，这一年里，我主要干了以下几件事：&lt;/p&gt;
@@ -697,10 +697,10 @@ AES(SharedKey, Ticket)
         
         <item>
             <title>大家都应该做的 Code Review</title>
-            <link>http://blog.coderzh.com/2015/12/27/code-review/</link>
+            <link>http://brasbug.github.io/2015/12/27/code-review/</link>
             <pubDate>Sun, 27 Dec 2015 18:49:15 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/12/27/code-review/</guid>
+            <guid>http://brasbug.github.io/2015/12/27/code-review/</guid>
             <description>&lt;p&gt;代码审查（Code Review）是个老生常谈的话题了，我以前呆过的大公司也好，创业公司也好，都知道 Code Review 的好处，但真正去有效执行的却很少。有人认为“存在即合理”，大家都不愿意做 Code Review ，可能 Code Review 真的不好，影响开发效率。有的人想做，但是执行起来太困难。&lt;/p&gt;
 
 &lt;p&gt;造成大家放弃 Code Review 的原因有哪些呢？我仔细想了想，大概有这几种：&lt;/p&gt;
@@ -749,10 +749,10 @@ AES(SharedKey, Ticket)
         
         <item>
             <title>程序员的思考：我的 K12（我也曾是小学生）</title>
-            <link>http://blog.coderzh.com/2015/12/21/my-k12-pupil/</link>
+            <link>http://brasbug.github.io/2015/12/21/my-k12-pupil/</link>
             <pubDate>Mon, 21 Dec 2015 22:38:15 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/12/21/my-k12-pupil/</guid>
+            <guid>http://brasbug.github.io/2015/12/21/my-k12-pupil/</guid>
             <description>&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/math.jpeg-wt&#34; alt=&#34;math&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;我还记得小学一年级刚开学，老师教我们背字母表，然后对我们进行了测验。背的好的几个小朋友被老师留了下来，我也是其中一个。老师说要选我们当班干部。我当时傻了，从没听说过什么是“班干部”，于是回家后问家长。家长听了后很高兴，而我还是没明白到底啥是“班干部”。&lt;/p&gt;
@@ -783,10 +783,10 @@ AES(SharedKey, Ticket)
         
         <item>
             <title>程序员的思考：我的 K12（逃学威龙）</title>
-            <link>http://blog.coderzh.com/2015/12/20/my-k12-escape-school/</link>
+            <link>http://brasbug.github.io/2015/12/20/my-k12-escape-school/</link>
             <pubDate>Sun, 20 Dec 2015 21:38:31 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/12/20/my-k12-escape-school/</guid>
+            <guid>http://brasbug.github.io/2015/12/20/my-k12-escape-school/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/taoxue.jpg-wt&#34; alt=&#34;taoxue&#34; /&gt;&lt;/p&gt;
@@ -825,10 +825,10 @@ AES(SharedKey, Ticket)
         
         <item>
             <title>程序员的思考：教育的未来</title>
-            <link>http://blog.coderzh.com/2015/11/29/hacker-thinking-mooc/</link>
+            <link>http://brasbug.github.io/2015/11/29/hacker-thinking-mooc/</link>
             <pubDate>Sun, 29 Nov 2015 21:21:35 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/11/29/hacker-thinking-mooc/</guid>
+            <guid>http://brasbug.github.io/2015/11/29/hacker-thinking-mooc/</guid>
             <description>&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/mooc.jpg-wt&#34; alt=&#34;mooc&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;感谢大家的支持！自从上次发了《程序员的思考：分享即提高》一文，订阅数一下从 500 蹦到 1200，已经远远超出了我的预期。&lt;/p&gt;
@@ -873,10 +873,10 @@ AES(SharedKey, Ticket)
         
         <item>
             <title>程序员的思考：分享即提高</title>
-            <link>http://blog.coderzh.com/2015/11/22/hacker-thinking-study/</link>
+            <link>http://brasbug.github.io/2015/11/22/hacker-thinking-study/</link>
             <pubDate>Sun, 22 Nov 2015 10:36:35 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/11/22/hacker-thinking-study/</guid>
+            <guid>http://brasbug.github.io/2015/11/22/hacker-thinking-study/</guid>
             <description>&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/learning.jpg-wt&#34; alt=&#34;learning&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;从今年2月底开通微信公众账号以来，到现在差不多9个月的时间，订阅的用户差不多有 500 人了。这个数字当然不能和那些大 V 的订阅数相比，甚至那些大 V 在文章结尾处给别人的账号做个推荐，一天的订阅数也许都会超过我的。但是，我对 500 个订阅数的结果是很满意的。&lt;/p&gt;
@@ -950,10 +950,10 @@ AES(SharedKey, Ticket)
         
         <item>
             <title>Hugo 自动化部署脚本</title>
-            <link>http://blog.coderzh.com/2015/11/21/hugo-deploy-script/</link>
+            <link>http://brasbug.github.io/2015/11/21/hugo-deploy-script/</link>
             <pubDate>Sat, 21 Nov 2015 17:48:04 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/11/21/hugo-deploy-script/</guid>
+            <guid>http://brasbug.github.io/2015/11/21/hugo-deploy-script/</guid>
             <description>
 
 &lt;p&gt;之前我写了一个脚本用来自动部署我的 Hugo 博客，今天闲来无事完善了一下这个脚本，使这个脚本更加通用一些。&lt;/p&gt;
@@ -1016,10 +1016,10 @@ DEPLOY_DIR = &#39;gh-pages&#39;
         
         <item>
             <title>走进前端开发之：Vue.js</title>
-            <link>http://blog.coderzh.com/2015/11/15/front-end-dev-vuejs/</link>
+            <link>http://brasbug.github.io/2015/11/15/front-end-dev-vuejs/</link>
             <pubDate>Sun, 15 Nov 2015 21:53:51 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/11/15/front-end-dev-vuejs/</guid>
+            <guid>http://brasbug.github.io/2015/11/15/front-end-dev-vuejs/</guid>
             <description>&lt;p&gt;上一篇中，探讨了前端框架的前世今生，最后还列举了当前比较火的几个前端框架，比如：Google 的 Angular，老牌的 Backbone , Facebook 的 React 等等。今天，我只想介绍一个小而美的前端框架：&lt;a href=&#34;http://cn.vuejs.org/&#34;&gt;Vue.js&lt;/a&gt; 。&lt;/p&gt;
 
 &lt;p&gt;为什么说 &lt;a href=&#34;http://cn.vuejs.org/&#34;&gt;Vue.js&lt;/a&gt; 是一个小而美的前端框架呢？因为它小， min 版本大小是 72K （ gzip 压缩后是23 K），而 min 版本的 Angular 144K，React 132K。说它小而美并不单单指它的体积，因为还有很多体积比它小的框架，小而美主要是它使用起来太 TM 的简单直观了！&lt;/p&gt;
@@ -1089,10 +1089,10 @@ DEPLOY_DIR = &#39;gh-pages&#39;
         
         <item>
             <title>网站被随机挂广告，疑似被 HTTP 劫持</title>
-            <link>http://blog.coderzh.com/2015/11/14/http-dns-hijack/</link>
+            <link>http://brasbug.github.io/2015/11/14/http-dns-hijack/</link>
             <pubDate>Sat, 14 Nov 2015 19:36:38 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/11/14/http-dns-hijack/</guid>
+            <guid>http://brasbug.github.io/2015/11/14/http-dns-hijack/</guid>
             <description>
 
 &lt;p&gt;最近发现我的博客网站随机的会在右下角出现一个 google 的广告，郁闷至极，我的博客网站根本没有任何广告。于是今天特意去查了查，这广告到底从何而来。&lt;/p&gt;
@@ -1216,10 +1216,10 @@ DEPLOY_DIR = &#39;gh-pages&#39;
         
         <item>
             <title>走进前端开发之：框架的演变</title>
-            <link>http://blog.coderzh.com/2015/11/07/front-end-dev/</link>
+            <link>http://brasbug.github.io/2015/11/07/front-end-dev/</link>
             <pubDate>Sat, 07 Nov 2015 08:44:26 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/11/07/front-end-dev/</guid>
+            <guid>http://brasbug.github.io/2015/11/07/front-end-dev/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/angular-backbone-react-logo.jpg-wt&#34; alt=&#34;angular-backbone-react-logo&#34; /&gt;&lt;/p&gt;

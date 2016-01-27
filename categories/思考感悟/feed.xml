@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>思考感悟 on CoderZh Blog</title>
-        <link>http://blog.coderzh.com/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/</link>
+        <link>http://brasbug.github.io/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/</link>
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
@@ -10,10 +10,10 @@
         
         <item>
             <title>我和 ThoughtWorks 的一点小故事</title>
-            <link>http://blog.coderzh.com/2016/01/18/thoughtworks-story/</link>
+            <link>http://brasbug.github.io/2016/01/18/thoughtworks-story/</link>
             <pubDate>Mon, 18 Jan 2016 23:05:24 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2016/01/18/thoughtworks-story/</guid>
+            <guid>http://brasbug.github.io/2016/01/18/thoughtworks-story/</guid>
             <description>&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/TW.jpg-wt&#34; alt=&#34;TW&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2009 年的时候买了一本《卓有成效的程序员》，看的热血沸腾，当时还写了一篇读后感《&lt;a href=&#34;http://blog.coderzh.com/2009/07/18/1526082/&#34;&gt;程序员的共鸣 - 读《卓有成效的程序员》&lt;/a&gt;》，现在翻来看还觉得蛮有意思的。从此后，开始用 Launchy ， ClipX 等提高效率的工具，也开始接触代码编辑器神器 Emacs 和 Vim 。当时年少无知先学了 Emacs ，还全程用 Emacs 开发过一个小项目。后来实在是小指按 ctrl 键按到桑爽的不行了，才发现 Vim 是多么和谐的存在。&lt;/p&gt;
@@ -88,10 +88,10 @@
         
         <item>
             <title>我的 2015</title>
-            <link>http://blog.coderzh.com/2016/01/01/my-2015/</link>
+            <link>http://brasbug.github.io/2016/01/01/my-2015/</link>
             <pubDate>Fri, 01 Jan 2016 00:34:08 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2016/01/01/my-2015/</guid>
+            <guid>http://brasbug.github.io/2016/01/01/my-2015/</guid>
             <description>&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/2016.jpg-wt&#34; alt=&#34;2016&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2015年对我来说是意义非凡的一年，这一年里，我主要干了以下几件事：&lt;/p&gt;
@@ -130,10 +130,10 @@
         
         <item>
             <title>大家都应该做的 Code Review</title>
-            <link>http://blog.coderzh.com/2015/12/27/code-review/</link>
+            <link>http://brasbug.github.io/2015/12/27/code-review/</link>
             <pubDate>Sun, 27 Dec 2015 18:49:15 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/12/27/code-review/</guid>
+            <guid>http://brasbug.github.io/2015/12/27/code-review/</guid>
             <description>&lt;p&gt;代码审查（Code Review）是个老生常谈的话题了，我以前呆过的大公司也好，创业公司也好，都知道 Code Review 的好处，但真正去有效执行的却很少。有人认为“存在即合理”，大家都不愿意做 Code Review ，可能 Code Review 真的不好，影响开发效率。有的人想做，但是执行起来太困难。&lt;/p&gt;
 
 &lt;p&gt;造成大家放弃 Code Review 的原因有哪些呢？我仔细想了想，大概有这几种：&lt;/p&gt;
@@ -182,10 +182,10 @@
         
         <item>
             <title>程序员的思考：我的 K12（我也曾是小学生）</title>
-            <link>http://blog.coderzh.com/2015/12/21/my-k12-pupil/</link>
+            <link>http://brasbug.github.io/2015/12/21/my-k12-pupil/</link>
             <pubDate>Mon, 21 Dec 2015 22:38:15 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/12/21/my-k12-pupil/</guid>
+            <guid>http://brasbug.github.io/2015/12/21/my-k12-pupil/</guid>
             <description>&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/math.jpeg-wt&#34; alt=&#34;math&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;我还记得小学一年级刚开学，老师教我们背字母表，然后对我们进行了测验。背的好的几个小朋友被老师留了下来，我也是其中一个。老师说要选我们当班干部。我当时傻了，从没听说过什么是“班干部”，于是回家后问家长。家长听了后很高兴，而我还是没明白到底啥是“班干部”。&lt;/p&gt;
@@ -216,10 +216,10 @@
         
         <item>
             <title>程序员的思考：我的 K12（逃学威龙）</title>
-            <link>http://blog.coderzh.com/2015/12/20/my-k12-escape-school/</link>
+            <link>http://brasbug.github.io/2015/12/20/my-k12-escape-school/</link>
             <pubDate>Sun, 20 Dec 2015 21:38:31 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/12/20/my-k12-escape-school/</guid>
+            <guid>http://brasbug.github.io/2015/12/20/my-k12-escape-school/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/taoxue.jpg-wt&#34; alt=&#34;taoxue&#34; /&gt;&lt;/p&gt;
@@ -258,10 +258,10 @@
         
         <item>
             <title>程序员的思考：教育的未来</title>
-            <link>http://blog.coderzh.com/2015/11/29/hacker-thinking-mooc/</link>
+            <link>http://brasbug.github.io/2015/11/29/hacker-thinking-mooc/</link>
             <pubDate>Sun, 29 Nov 2015 21:21:35 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/11/29/hacker-thinking-mooc/</guid>
+            <guid>http://brasbug.github.io/2015/11/29/hacker-thinking-mooc/</guid>
             <description>&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/mooc.jpg-wt&#34; alt=&#34;mooc&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;感谢大家的支持！自从上次发了《程序员的思考：分享即提高》一文，订阅数一下从 500 蹦到 1200，已经远远超出了我的预期。&lt;/p&gt;
@@ -306,10 +306,10 @@
         
         <item>
             <title>程序员的思考：分享即提高</title>
-            <link>http://blog.coderzh.com/2015/11/22/hacker-thinking-study/</link>
+            <link>http://brasbug.github.io/2015/11/22/hacker-thinking-study/</link>
             <pubDate>Sun, 22 Nov 2015 10:36:35 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/11/22/hacker-thinking-study/</guid>
+            <guid>http://brasbug.github.io/2015/11/22/hacker-thinking-study/</guid>
             <description>&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/learning.jpg-wt&#34; alt=&#34;learning&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;从今年2月底开通微信公众账号以来，到现在差不多9个月的时间，订阅的用户差不多有 500 人了。这个数字当然不能和那些大 V 的订阅数相比，甚至那些大 V 在文章结尾处给别人的账号做个推荐，一天的订阅数也许都会超过我的。但是，我对 500 个订阅数的结果是很满意的。&lt;/p&gt;
@@ -383,10 +383,10 @@
         
         <item>
             <title>程序员直播写代码网站livecoding.tv即将登陆中国，你有兴趣吗？</title>
-            <link>http://blog.coderzh.com/2015/10/23/livecoding</link>
+            <link>http://brasbug.github.io/2015/10/23/livecoding</link>
             <pubDate>Fri, 23 Oct 2015 07:08:11 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/10/23/livecoding</guid>
+            <guid>http://brasbug.github.io/2015/10/23/livecoding</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/livecoding.jpg-wt&#34; alt=&#34;livecoding&#34; /&gt;&lt;/p&gt;
@@ -449,10 +449,10 @@
         
         <item>
             <title>关于开源的思考</title>
-            <link>http://blog.coderzh.com/2015/10/11/open-source-thinking/</link>
+            <link>http://brasbug.github.io/2015/10/11/open-source-thinking/</link>
             <pubDate>Sun, 11 Oct 2015 17:17:19 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/10/11/open-source-thinking/</guid>
+            <guid>http://brasbug.github.io/2015/10/11/open-source-thinking/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/OpenSource.png-wt&#34; alt=&#34;OpenSource&#34; /&gt;&lt;/p&gt;
@@ -509,10 +509,10 @@
         
         <item>
             <title>说说刚入手的程序员键盘神器：HHKB Pro2</title>
-            <link>http://blog.coderzh.com/2015/09/26/my-hhkb-pro2/</link>
+            <link>http://brasbug.github.io/2015/09/26/my-hhkb-pro2/</link>
             <pubDate>Sat, 26 Sep 2015 13:54:33 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/09/26/my-hhkb-pro2/</guid>
+            <guid>http://brasbug.github.io/2015/09/26/my-hhkb-pro2/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/hhkb-types.jpg&#34; alt=&#34;hhkb-types&#34; /&gt;&lt;/p&gt;
@@ -568,10 +568,10 @@
         
         <item>
             <title>关于最近的XcodeGhost事件，我也来说两句</title>
-            <link>http://blog.coderzh.com/2015/09/21/xcode-ghost/</link>
+            <link>http://brasbug.github.io/2015/09/21/xcode-ghost/</link>
             <pubDate>Mon, 21 Sep 2015 00:56:13 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/09/21/xcode-ghost/</guid>
+            <guid>http://brasbug.github.io/2015/09/21/xcode-ghost/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/xcodeghost.jpg-w&#34; alt=&#34;xcodeghost&#34; /&gt;&lt;/p&gt;
@@ -626,10 +626,10 @@
         
         <item>
             <title>微信公众号开通了原创保护功能</title>
-            <link>http://blog.coderzh.com/2015/09/19/mp-new-start/</link>
+            <link>http://brasbug.github.io/2015/09/19/mp-new-start/</link>
             <pubDate>Sat, 19 Sep 2015 00:35:48 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/09/19/mp-new-start/</guid>
+            <guid>http://brasbug.github.io/2015/09/19/mp-new-start/</guid>
             <description>&lt;p&gt;周三非常意外的收到了微信的原创保护功能邀请，之所以说意外，是因为我没想到这么快就给我发了邀请，毕竟我的公众号关注的数量还不多。但我保证了每篇文章都是原汁原味的原创内容，而且目前保持了一周一更的速度。&lt;/p&gt;
 
 &lt;p&gt;这个公众号是从今年2月底开始运营的，非常感谢所有关注了这个公众号的读者！每次我准备写公众号文章时，我都会提醒自己，我的消息会被强制推送出去到你们的手机里，我必须认真写一些有用的内容，不要浪费大家的时间。虽然这么说，文章的实际打开率还是很低的，这也是可以理解的。我也关注了很多订阅号，很多内容也是被我忽略过去，或者根本来不及看就被堆叠了。&lt;/p&gt;
@@ -654,10 +654,10 @@
         
         <item>
             <title>坑爹的多说评论</title>
-            <link>http://blog.coderzh.com/2015/09/18/holy-shit-duoshuo/</link>
+            <link>http://brasbug.github.io/2015/09/18/holy-shit-duoshuo/</link>
             <pubDate>Fri, 18 Sep 2015 19:38:18 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/09/18/holy-shit-duoshuo/</guid>
+            <guid>http://brasbug.github.io/2015/09/18/holy-shit-duoshuo/</guid>
             <description>&lt;p&gt;运用了各种奇技淫巧的黑科技手段，终于把之前旧页面的多说评论全部转过来了。如果再来选择一次的话，我绝不选多说。之后有时间，全部转移到disqus吧。&lt;/p&gt;
 
 &lt;p&gt;多说简直就没人维护啊有木有，居然还那么多人用着。罗列一下多说评论的各种不人性。&lt;/p&gt;
@@ -684,10 +684,10 @@
         
         <item>
             <title>周末折腾的各种东西</title>
-            <link>http://blog.coderzh.com/2015/09/05/busy-weekend/</link>
+            <link>http://brasbug.github.io/2015/09/05/busy-weekend/</link>
             <pubDate>Sat, 05 Sep 2015 23:44:48 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/09/05/busy-weekend/</guid>
+            <guid>http://brasbug.github.io/2015/09/05/busy-weekend/</guid>
             <description>
 
 &lt;p&gt;这个周末放了3天假，第一天当然是要看盛大的阅兵仪式了，剩下的时间一半多是在折腾博客系统Hugo，剩下的时间在折腾各种工具、IDE，还有学习了一下Unity。&lt;/p&gt;
@@ -773,10 +773,10 @@
         
         <item>
             <title>你说我是错的，那你最好证明你是对的</title>
-            <link>http://blog.coderzh.com/2015/08/08/IDonnotCare/</link>
+            <link>http://brasbug.github.io/2015/08/08/IDonnotCare/</link>
             <pubDate>Sat, 08 Aug 2015 00:00:00 UTC</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.coderzh.com/2015/08/08/IDonnotCare/</guid>
+            <guid>http://brasbug.github.io/2015/08/08/IDonnotCare/</guid>
             <description>&lt;p&gt;&amp;ldquo;你说我是错的，那你最好证明你是对的&amp;rdquo; &amp;ndash; Michael Jackson&lt;/p&gt;
 
 &lt;p&gt;这句话曾经出现在微信的启动封面上，后来被换下了。但在QQ邮箱的登录界面，还一直使用了这句MJ的名言：&lt;/p&gt;
