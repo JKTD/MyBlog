@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: http://blog.flywithme.top/sitemap.xml
