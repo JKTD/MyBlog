@@ -6,14 +6,156 @@
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
-        <updated>Thu, 28 Jan 2016 15:57:21 CST</updated>
+        <updated>Thu, 28 Jan 2016 16:42:11 CST</updated>
         
         <item>
-            <title>NSOperation-Brief-Introduction</title>
-            <link>http://blog.flywithme.top/2016/01/28/NSOperation-Brief-Introduction/</link>
+            <title>JKImageView</title>
+            <link>http://blog.flywithme.top/2016/01/28/JKImageView/</link>
+            <pubDate>Thu, 28 Jan 2016 16:42:11 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/01/28/JKImageView/</guid>
+            <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
+
+&lt;div style=&#34;font-size:21px; color:rgb(30,78,121)&#34;&gt;&lt;span style=&#34;font-family:Helvetica Neue&#34;&gt;&lt;a target=&#34;_blank&#34; target=&#34;_blank&#34; href=&#34;https://github.com/brasbug/JKImageView&#34;&gt;项目地址:https://github.com/brasbug/JKImageView&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div style=&#34;font-size:21px; color:rgb(30,78,121)&#34;&gt;&lt;span style=&#34;font-family:Helvetica Neue&#34;&gt;&lt;br&gt;
+&lt;/span&gt;&lt;/div&gt;
+&lt;div style=&#34;font-size:21px; color:rgb(30,78,121)&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;第一步：拿到网络图片并显示出来&lt;/span&gt;&lt;/div&gt;
+&lt;ol style=&#34;font-size:14px&#34;&gt;
+&lt;li value=&#34;1&#34; style=&#34;vertical-align:middle&#34;&gt;&lt;span style=&#34;font-size:16px&#34;&gt;&lt;span style=&#34;font-family:Helvetica&#34;&gt;首先重网络拿到图片资源&lt;/span&gt;&lt;/span&gt;
+&lt;ul&gt;
+&lt;li value=&#34;1&#34; style=&#34;vertical-align:middle&#34;&gt;代码&lt;img src=&#34;http://img.blog.csdn.net/20151111193517077?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;/ol&gt;
+&lt;div style=&#34;font-size:11px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;br&gt;
+&lt;/span&gt;&lt;/div&gt;
+&lt;ol style=&#34;font-size:14px&#34;&gt;
+&lt;li value=&#34;2&#34; style=&#34;vertical-align:middle&#34;&gt;&lt;span style=&#34;font-size:16px&#34;&gt;&lt;span style=&#34;font-family:Helvetica&#34;&gt;&lt;span lang=&#34;zh-CN&#34;&gt;把拿到的图片资源给相应的控件来展示&lt;/span&gt;&lt;span lang=&#34;en-US&#34;&gt;&amp;nbsp;&lt;/span&gt;&lt;span lang=&#34;zh-CN&#34;&gt;so&lt;/span&gt;&lt;span lang=&#34;en-US&#34;&gt;easy !!&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;ul&gt;
+&lt;li value=&#34;2&#34; style=&#34;vertical-align:middle&#34;&gt;代码&lt;img src=&#34;http://img.blog.csdn.net/20151111193549847?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;li value=&#34;2&#34; style=&#34;vertical-align:middle&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;&lt;span style=&#34;font-size:13px&#34;&gt;然而因为没有考虑线程阻塞问题，一张图片还好，如果有多张网络图片或者列表里需要展示一系列网络图片，这样做的结果就是被自己蠢哭！&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;/ol&gt;
+&lt;div style=&#34;font-size:11px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span style=&#34;color:rgb(151,151,151)&#34;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span style=&#34;color:rgb(117,112,112)&#34;&gt;&lt;br&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div style=&#34;font-size:21px; color:rgb(30,78,121)&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;第二步：怎么做才能让我拿到图片的时候不卡&lt;/span&gt;&lt;/div&gt;
+&lt;ul style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;&lt;span style=&#34;font-family:Helvetica&#34;&gt;&lt;span style=&#34;font-size:16px&#34;&gt;这个时候就需要借助于多线程技术了&lt;/span&gt;&lt;/span&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;多线程是什么玩意儿：&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;iOS程序在启动的时候会创建一个主线程。因为一个线程只能执行一件事情，如果主线程执行某些耗时操作，比如我之前遇到的问题加载图片，或者是下载资源文件等就会阻塞主线程(导致界面卡死现象)，所以就需要使用多线程技术避免这类情况。iOS中有三种多线程技术，NSThread，NSOperation，GCD，这3种技术随着iOS的发展引入，抽象层次由低到高，使用也越来越简单。&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-size:16px&#34;&gt;&lt;span style=&#34;font-family:Helvetica&#34;&gt;多线程一些必要知识点&lt;/span&gt;&lt;/span&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;&lt;strong&gt;多线程使用并不是无节制的&lt;/strong&gt;：iOS主线程堆栈大小是1M左右&lt;a target=&#34;_blank&#34; href=&#34;http://blog.csdn.net/brasbug/article/details/50232829&#34;&gt;点击打开链接&lt;/a&gt;，从第二个线程开始都是512KB（&lt;a target=&#34;_blank&#34; target=&#34;_blank&#34; href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/CreatingThreads/CreatingThreads.html&#34;&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;官方文档&lt;/span&gt;&lt;/a&gt;）&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;&lt;strong&gt;只有主线程可以修改UI&lt;/strong&gt;（显示图片，更改显示文字等）,因为其余线程都是独立于Cocao Touch的，虽然有时在异步线程中可以实现界面修改，但是强烈不建议这么做。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;&lt;strong&gt;多线程并不能提高程序的运行效率&lt;/strong&gt;，而是通过并发任务提高资源使用率来提高系统的整体性能。就单核而言，两个线程可以解决线程阻塞问题，但是执行效率比起一个线程执行是差不多的，并且再创建一个新线程的时候会消耗一定的内存和CPU时间。多线程只是葱粉发挥系统多核处理器的优势，并发执行任务以提高效率。但是哪个CPU上执行任务都是由系统调度的，开发者不需要纠结有几个CPU，只需要关系线程的使用以及线程间的关系就可以了。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;尽量不要多个线程去抢夺共享资源，如果必须要这样做，需要注意线程安全。&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;&lt;br&gt;
+&lt;/span&gt;&lt;/div&gt;
+&lt;ul style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;&lt;span style=&#34;font-size:16px&#34;&gt;&lt;span style=&#34;font-family:Helvetica&#34;&gt;&lt;span lang=&#34;zh-CN&#34;&gt;So 现在开始考虑到底选用哪一种方法来完成我的功能&lt;/span&gt;&lt;span lang=&#34;zh-CN&#34;&gt;。&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span style=&#34;color:rgb(117,112,112)&#34;&gt;&lt;span style=&#34;color:rgb(0,144,81)&#34;&gt;&lt;span lang=&#34;zh-CN&#34;&gt;&lt;a target=&#34;_blank&#34; target=&#34;_blank&#34; href=&#34;http://blog.flywithme.top/2016/01/28/NSThread/&#34;&gt;NSThread&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span lang=&#34;zh-CN&#34;&gt;&lt;a target=&#34;http://blog.flywithme.top/2016/01/28/NSOperation&#34; target=&#34;_blank&#34; href=&#34;&#34;&gt;NSOperation&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span style=&#34;color:rgb(117,112,112)&#34;&gt;&lt;span style=&#34;color:rgb(0,144,81)&#34;&gt;&lt;span lang=&#34;zh-CN&#34;&gt;&lt;a target=&#34;_blank&#34; href=&#34;http://blog.flywithme.top/2016/01/28/GCD/&#34;&gt;GCD（全称：Grand
+ Central Dispatch）&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;span lang=&#34;zh-CN&#34;&gt;（&lt;/span&gt;&lt;span lang=&#34;en-US&#34;&gt;&amp;nbsp;&lt;/span&gt;&lt;span lang=&#34;zh-CN&#34;&gt;是基于&lt;/span&gt;&lt;span lang=&#34;en-US&#34;&gt;C&lt;/span&gt;&lt;span lang=&#34;zh-CN&#34;&gt;语言的框架，可以充分利用多核，是苹果推荐使用的多线程技术）&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;ul style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;&lt;span style=&#34;font-size:16px&#34;&gt;&lt;span style=&#34;font-family:Helvetica&#34;&gt;选哪一种技术来完成我的图片异步加载&lt;/span&gt;&lt;/span&gt;
+&lt;ol&gt;
+&lt;li&gt;NSThread 不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期（我要做的太多）&lt;/li&gt;&lt;li&gt;GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）（我能做的太少，如果是一个用时非常长的操作，我无法取消）&lt;/li&gt;&lt;li&gt;NSOperation 我不想做的和我想自己做的都给我预留。 看来只能选你啦。（可以很方便的取消一个线程，可以很容易的添加依赖关系，可以设置最大并发数，提供了任务状态。）&lt;/li&gt;&lt;/ol&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;br&gt;
+&lt;/div&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span style=&#34;color:rgb(30,78,121)&#34;&gt;&lt;span style=&#34;font-size:21px&#34;&gt;第三步：新建一个UIImageView的Category &amp;nbsp;UIImageView&amp;#43;JKWebCache&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; color:rgb(117,112,112); font-size:15px&#34;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;
+&lt;ul style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;写出异步方法并用来加载网络图片
+&lt;ul&gt;
+&lt;li&gt;加载代码&lt;img src=&#34;http://img.blog.csdn.net/20151111193615033?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;li&gt;结果：图片加载成功，而且没有卡主线程。 但是列表每次重载图片的时候都会重新请求网络图片，效果没达到预期。&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;看来需要把图片缓存下来，以便下次重载的时候调用。
+&lt;ul&gt;
+&lt;li&gt;JKImageCache &amp;nbsp; 这个类是我用来处理缓存数据的。&lt;/li&gt;&lt;li&gt;有一个单例方法 &amp;#43;(instancetype)shareInstance &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/li&gt;&lt;li&gt;我选择用&lt;a target=&#34;_blank&#34; target=&#34;_blank&#34; href=&#34;&#34;&gt;NSCache&lt;/a&gt; 来存储下载的图片数据&lt;/li&gt;&lt;li&gt;&lt;br&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;但是有一个问题关闭应用或者内存报警之后NSCache会清除一部分数据或者清空，再次加载同一张照片的时候还是会再下载一次。&lt;/li&gt;&lt;li&gt;SO：我打算把下载的图片缓存到disk中,下次加载的时候先从内存拿，拿不到再去disk拿，也拿不到就去下载。下载成功之后会缓存到内存和disk中。
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151111193710356?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;br&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;ul style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;
+&lt;ul style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;但是当我再重本地拿图片的时候发现了一个Bug &amp;nbsp;之前加载的GIF图片不会动了。
+&lt;ul&gt;
+&lt;li&gt;经查找原因 ，应该是存储是时候损失了一些图片信息 判断data是不是空， 非空就不再做图片转换。&lt;/li&gt;&lt;li&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151120174037166?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;br&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;&lt;/li&gt;&lt;li&gt;加上占位图功能 过期图片自动清理（每次当应用退出到后天的时候会调用cleanDiskFile方法清理过期图片）
+&lt;ul&gt;
+&lt;li&gt;判断缓存和内存中没有改地址图片的的时候使用占位图展示。&lt;/li&gt;&lt;li&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151120174116617?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;li&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151120174139005?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;br&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;white-space:pre&#34;&gt;&lt;/span&gt;
+&lt;ul style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;一个最基本的 网络图片加载工具完成了。&lt;/li&gt;&lt;/ul&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;/div&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;br&gt;
+&lt;/div&gt;
+&lt;div style=&#34;font-size:15px; color:rgb(117,112,112)&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/span&gt;&lt;/div&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span style=&#34;color:rgb(30,78,121)&#34;&gt;&lt;span style=&#34;font-size:21px&#34;&gt;第四步：&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; font-size:21px&#34;&gt;&lt;span style=&#34;color:rgb(30,78,121)&#34;&gt;优化一些细节&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;ul style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; font-size:14px&#34;&gt;图片下载方法过于简单， 会遇到很多无法下载的情况，而无法查找原因&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; font-size:14px&#34;&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151120174212964?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;br&gt;
+&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; font-size:14px&#34;&gt;&lt;span style=&#34;font-size:14px&#34;&gt;把下载抽出来做管理&lt;/span&gt;&lt;br&gt;
+&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; font-size:14px&#34;&gt;&lt;span style=&#34;font-size:14px&#34;&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151120174248939?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;br&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; font-size:14px&#34;&gt;&lt;span style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:14px&#34;&gt;增加了cancel 方法&lt;/span&gt;&lt;br&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;/div&gt;
+   
+
+&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>NSThread</title>
+            <link>http://blog.flywithme.top/2016/01/28/NSThread/</link>
+            <pubDate>Thu, 28 Jan 2016 16:37:37 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/01/28/NSThread/</guid>
+            <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
+
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;一、概述:&lt;/span&gt;&lt;/div&gt;
+&lt;ol style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;NSThread是一个轻量级的多线程技术，每一个对象代表一个线程。&lt;/li&gt;&lt;li&gt;优点：轻量级，使用简单&lt;/li&gt;&lt;li&gt;缺点: &amp;nbsp;不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期&lt;/li&gt;&lt;/ol&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;二、开启一个异步线程&lt;/span&gt;&lt;/div&gt;
+&lt;ul style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;NSThread是一个轻量级&lt;a target=&#34;_blank&#34; href=&#34;&#34; style=&#34;color:#69aa35&#34;&gt;NSThread&lt;/a&gt;的多线程技术，每一个对象代表一个线程。
+&lt;ul&gt;
+&lt;li&gt;示例开启线程&lt;img src=&#34;http://img.blog.csdn.net/20151209101649280?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;三、在主线程上更新界面等操作&lt;/span&gt;&lt;/div&gt;
+&lt;ul style=&#34;font-size:14px&#34;&gt;
+&lt;li&gt;示例 子线程耗时操作结束之后去主线程更新UI&lt;/li&gt;&lt;li&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151209101707564?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;
+&lt;div style=&#34;border:0px; outline:0px; padding:0px; vertical-align:baseline; word-wrap:break-word&#34;&gt;
+&lt;div&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;,Helvetica,STheiti,微软雅黑,黑体,Arial,Tahoma,sans-serif,serif&#34;&gt;&lt;br&gt;
+&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&#34;font-size:18px&#34;&gt;四、其他&lt;/span&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;如果需要处理的东西很耗内存，则需要给线程做内存管理 加上autoreleasepool 会更好&lt;/li&gt;&lt;li&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151209101735255?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;br&gt;
+&lt;/li&gt;&lt;li&gt;线程休眠
+&lt;ul&gt;
+&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;// 指定休眠到多久日期&lt;br&gt;
+&amp;#43; (void)sleepUntilDate:(NSDate *)date;&lt;br&gt;
+// 指定休眠的毫秒数&lt;br&gt;
+&amp;#43; (void)sleepForTimeInterval:(NSTimeInterval)ti;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;&lt;/div&gt;
+   
+
+&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>NSOperation的简单使用</title>
+            <link>http://blog.flywithme.top/2016/01/28/NSOperation</link>
             <pubDate>Thu, 28 Jan 2016 15:57:21 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/01/28/NSOperation-Brief-Introduction/</guid>
+            <guid>http://blog.flywithme.top/2016/01/28/NSOperation</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;div style=&#34;font-size:14px&#34;&gt;

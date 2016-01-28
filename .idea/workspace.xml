@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90120686-2906-4166-9af8-e238cfe3d8c6" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/categories/思考感悟/feed.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/categories/思考感悟/index.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/feed.xml" afterPath="$PROJECT_DIR$/feed.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/categories/技术文章/feed.xml" afterPath="$PROJECT_DIR$/categories/技术文章/feed.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/categories/读书笔记/feed.xml" afterPath="$PROJECT_DIR$/categories/读书笔记/feed.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/post/feed.xml" afterPath="$PROJECT_DIR$/post/feed.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016/01/28/GCD/index.html" afterPath="$PROJECT_DIR$/2016/01/28/GCD/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/about/index.html" afterPath="$PROJECT_DIR$/about/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/categories/技术文章/index.html" afterPath="$PROJECT_DIR$/categories/技术文章/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/categories/读书笔记/index.html" afterPath="$PROJECT_DIR$/categories/读书笔记/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/post/index.html" afterPath="$PROJECT_DIR$/post/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sitemap.xml" afterPath="$PROJECT_DIR$/sitemap.xml" />
-    </list>
+    <list default="true" id="90120686-2906-4166-9af8-e238cfe3d8c6" name="Default" comment="" />
     <ignored path="MyBlog.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
