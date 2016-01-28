@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <base href="http://blog.flywithme.top//">
+  <script>
+    document._writeOriginal = document.write;
+    document.write = function(str) {
+        if (str.indexOf('livereload.js') > -1) {
+            document._writeOriginal(str);
+        } else {
+            document._writeOriginal('<!-- Be Hijack!! -->');
+        }
+    }
+  </script>
+  <title>GCD的介绍和使用 - 案发现场 </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="keywords" content="xxx,">
+<meta name="description" content="GCD的介绍和使用 介绍： Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务">
+<meta name="author" content="coderzh">
+<meta name="publisher" content="coderzh">
+<meta name="generator" content="http://gohugo.io/"/>
+
+<meta itemprop="name" content="GCD的介绍和使用 - 案发现场 ">
+<meta itemprop="description" content="GCD的介绍和使用 介绍： Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务">
+<meta itemprop="image" content="http://blog.flywithme.top//public/coderzh.jpg">
+
+<meta property="og:title" content="GCD的介绍和使用 - 案发现场 " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/01/28/GCD/" />
+<meta property="og:image" content="http://blog.flywithme.top//public/coderzh.jpg" />
+<meta property="og:description" content="GCD的介绍和使用 介绍： Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@coderzh">
+<meta name="twitter:title" content="GCD的介绍和使用 - 案发现场 ">
+<meta name="twitter:description" content="GCD的介绍和使用 介绍： Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务">
+<meta name="twitter:creator" content="@coderzh">
+<meta name="twitter:image" content="http://blog.flywithme.top//public/coderzh.jpg">
+
+  <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/01/28/GCD/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/01/28/GCD/"/>
+  <link rel="shortcut icon" href="http://blog.flywithme.top//public/favicon.ico"/>
+  
+<link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="font-awesome-css" href="http://blog.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="http://blog.flywithme.top/public/highlight/styles/github.css">
+<script src="http://blog.flywithme.top/public/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" id="human-style-css3" href="http://blog.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="public/font/hack/css/hack.min.css">
+
+<script type="text/javascript" src="assets/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="wp-content/themes/hueman/js/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="wp-content/themes/hueman/js/scripts.js"></script>
+<script type="text/javascript" src="assets/picturefill/picturefill.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.matchHeight-min.js"></script>
+<script type="text/javascript" async defer src="assets/js/myblog.js"></script>
+
+</head>
+
+<body class="single single-post single-format-standard col-3cm full-width topbar-enabled chrome">
+<div id="wrapper">
+  <header id="header">
+
+  <nav class="nav-container group" id="nav-topbar">
+    <div class="nav-toggle"><i class="fa fa-bars"></i></div>
+    <div class="nav-text"></div>
+    <div class="nav-wrap container">
+      <a rel="nofollow" href="http://blog.flywithme.top//" class="nav-cs-icon">
+        <img width="40" height="40" src="http://blog.flywithme.top/public/coderjk.jpg" alt="coderzh" title="Home">
+      </a>
+      <ul id="menu-default-menu" class="nav container-inner group">
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/post/">归档</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/about/">关于我</a>
+        </li>
+        
+        
+          
+        
+        <li class="menu-item menu-item-type-post_type menu-item-text">
+        开始了一段成为大师的自我修养之路
+        </li>
+      </ul>
+    </div>
+
+    <div class="container">
+      <div class="container-inner">
+        <div class="toggle-search"><i class="fa fa-search"></i></div>
+        <div class="search-expand">
+          <div class="search-expand-inner">
+            <form method="get" class="searchform themeform" action="https://www.google.com/search">
+              <div>
+                <input type="text" class="search" name="q" placeholder="Press enter to start searching">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+
+  </nav>
+  
+
+  <div class="container group">
+    <div class="container-inner">
+
+      <div class="group pad">
+
+        <div class="group pad">
+          <h1 class="site-title">
+            <a rel="nofollow" href="http://blog.flywithme.top//" rel="home">
+              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="coderzh" src="http://blog.flywithme.top/public/coderjk.jpg"></img>
+              案发现场 
+            </a>
+          </h1>
+          <p class="site-description"> 记住儿时的梦想,现在还为时不晚。 </p>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+  
+
+</header>
+
+
+
+  <div class="container" id="page">
+    <div class="container-inner">
+      <div class="main">
+        <div class="main-inner group">
+          <section class="content">
+            <div class="page-title pad group">
+              <ul class="meta-single group">
+                
+                <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="category tag">读书笔记</a>
+                </li>
+                
+                <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                </li>
+                
+                <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/" rel="category tag">思考感悟</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="pad group">
+
+              <article
+                  class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
+                <div class="post-inner group">
+
+                  <h1 class="post-title">GCD的介绍和使用</h1>
+
+                  <p class="post-byline">
+                    by  · 28016年01月288日 · 2460 Words ·
+                    ~5min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-01-28-GCD.md"
+                       target="_blank">Improve on <i class="fa fa-github"></i></a>
+                  </p>
+
+                  <div class="clear"></div>
+
+                  <div class="entry">
+                    <div class="entry-inner">
+                      
+                      <div id="article_content" class="article_content">
+
+<div style="font-size:14px"><span style="color:rgb(51,153,102); font-family:'Helvetica Neue',Helvetica,STheiti,微软雅黑,黑体,Arial,Tahoma,sans-serif,serif; font-size:14px">GCD的介绍和使用</span></div>
+<div style="font-family:'Helvetica Neue',Helvetica,STheiti,微软雅黑,黑体,Arial,Tahoma,sans-serif,serif; font-size:14px">
+<div style="padding:0px">
+<div><span style="color:rgb(51,51,51)"><span style="color:rgb(128,0,0)"><strong>介绍：</strong></span></span></div>
+<ul>
+<li>
+<div style="padding:0px; color:rgb(51,51,51)"></div>
+<div style="padding:0px; color:rgb(51,51,51)">Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务并行执行的线程池模式的基础上的。它首次发布在Mac OS X 10.6 ，iOS 4及以上也可用。 GCD是基于C语言的，这意味着高效率</div>
+</li></ul>
+</div>
+<div style="padding:0px; color:rgb(51,51,51)"></div>
+<div style="padding:0px"><span style="color:rgb(51,51,51)">&nbsp;</span></div>
+<div style="padding:0px">
+<div><span style="color:rgb(128,0,0)"><strong>设计</strong></span><span style="color:rgb(128,0,0)"><strong>：</strong></span></div>
+<ul>
+<li>GCD是苹果公司为多核的并行运算提出的解决方案</li><li>GCD会自动利用更多的CPU内核（比如双核、四核）</li><li>GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）</li><li>程序员只需要告诉GCD想要执行什么任务，不需要编写任何线程管理代码</li></ul>
+<div><span style="color:rgb(51,51,51)"><br>
+</span></div>
+<div><span style="color:rgb(128,0,0)"><strong>注意：</strong></span></div>
+<ol>
+<li><span style="color:rgb(51,51,51)">GCD存在于libdispatch.dylib这个库中，这个调度库包含了GCD的所有的东西，但任何IOS程序，默认就加载了这个库，在程序运行的过程中会动态的加载这个库，不需要我们手动导入。</span></li><li><span style="color:rgb(51,51,51)">GCD是纯C语言的，因此我们在编写GCD相关代码的时候，面对的函数，而不是方法。</span></li><li><span style="color:rgb(51,51,51)">GCD中的函数大多数都以dispatch开头。</span></li></ol>
+<div><span style="color:rgb(51,51,51)"><br>
+</span></div>
+<div><span style="color:rgb(51,51,51)"><br>
+</span></div>
+<div><span style="color:rgb(51,51,51)"><br>
+</span></div>
+<div><br>
+</div>
+<div><span style="color:rgb(128,0,0)"><strong>任务和队列：</strong></span></div>
+<div>
+<ul>
+<li><span style="font-size:13px"><span style="color:rgb(51,51,51)">GCD中有2个核心概念:</span></span>
+<ol>
+<li><span style="font-size:13px"><span style="color:rgb(51,51,51)">任务：执行什么操作</span></span></li><li><span style="font-size:13px"><span style="color:rgb(51,51,51)">队列：用来存放任务</span></span></li></ol>
+</li></ul>
+</div>
+<ul>
+<li><span style="font-size:13px"><span style="color:rgb(51,51,51)">GCD的使用就2个步骤:</span></span>
+<ol>
+<li><span style="font-size:13px"><span style="color:rgb(51,51,51)">定制任务</span></span></li><li><span style="font-size:13px"><span style="color:rgb(51,51,51)">确定想做的事情</span></span></li></ol>
+</li></ul>
+<div>
+<div><span style="font-size:13px"><span style="color:rgb(51,51,51)">将任务添加到队列中，GCD会自动将队列中的任务取出，放到对应的线程中执行</span></span></div>
+<div><span style="font-family:'Courier New'"><span style="font-size:12px"><span style="color:rgb(0,144,81)">提示：任务的取出遵循队列的FIFO原则：先进先出，后进后出</span></span></span></div>
+</div>
+<div><span style="color:rgb(51,51,51)"><br>
+</span></div>
+<div><span style="color:rgb(128,0,0)"><strong>执行任务：</strong></span></div>
+<div>
+<ul>
+<li><span style="color:rgb(51,51,51)">GCD中有2个用来执行任务的函数:</span></li></ul>
+</div>
+<ol>
+<li style="display:inline; list-style:none">
+<ol>
+<li><span style="color:rgb(51,51,51)">用同步的方式执行任务&nbsp;dispatch_sync(dispatch_queue_t&nbsp;queue,&nbsp;dispatch_block_t&nbsp;block)；</span></li><li><span style="color:rgb(51,51,51)">用异步的方式执行任务&nbsp;dispatch_async(dispatch_queue_t&nbsp;queue,&nbsp;dispatch_block_t&nbsp;block);</span></li></ol>
+</li></ol>
+<div><span style="color:rgb(0,144,81)"><span style="font-size:12px">&nbsp; &nbsp; &nbsp; 注：</span></span><span style="color:rgb(0,144,81); font-size:12px">参数说明：</span><span style="color:rgb(0,144,81); font-size:12px">queue：队列，</span><span style="color:rgb(0,144,81); font-size:12px">block：任务&nbsp;</span><span style="font-size:12px"><span style="color:rgb(51,51,51)"><span style="color:rgb(0,144,81)">函数说明：把右边的参数（任务）提交给左边的参数（队列）进行执行。&nbsp;</span></span></span></div>
+<div><span style="color:rgb(51,51,51)"><br>
+</span></div>
+<div>
+<ul>
+<li><span style="color:rgb(51,51,51)">同步和异步的区别:</span></li></ul>
+</div>
+<ol>
+<li style="display:inline; list-style:none">
+<ol>
+<li><span style="color:rgb(51,51,51)">同步：在当前线程中执行</span></li><li><span style="color:rgb(51,51,51)">异步：在另一条线程中执行</span></li></ol>
+</li></ol>
+<div><strong><span style="color:rgb(128,0,0)"><br>
+</span></strong></div>
+<div><strong><span style="color:rgb(128,0,0)"><br>
+</span></strong></div>
+<div><span style="color:rgb(128,0,0)"><strong>队列类型：</strong></span></div>
+<div>
+<ul>
+<li><span style="color:rgb(51,51,51)">GCD可以分为两大类：</span>
+<ul>
+<li><span style="color:#333333">并发队列（Concurrent&nbsp;Dispatch Queue） &nbsp;</span></li></ul>
+</li><li style="display:inline; list-style:none">
+<ol>
+<li style="display:inline; list-style:none">
+<ol>
+<li><span style="color:rgb(51,51,51)">可以让多个任务并发（同时）执行（自动开启多个线程同时执行任务）</span></li><li><span style="color:rgb(51,51,51)">并发功能只有在异步（dispatch_async）函数下才有效</span></li></ol>
+</li></ol>
+</li></ul>
+</div>
+<ul>
+<li style="display:inline; list-style:none">
+<ul>
+<li><span style="color:rgb(51,51,51)">串行队列（Serial Dispatch Queue）</span></li></ul>
+</li></ul>
+<div>
+<ol>
+<li style="display:inline; list-style:none">
+<ol>
+<li style="display:inline; list-style:none">
+<ol>
+<li><span style="color:rgb(51,51,51)">让任务一个接一个的执行（一个任务执行完毕后，再执行下一个任务）</span></li></ol>
+</li></ol>
+</li></ol>
+</div>
+<div>
+<div><strong><span style="color:rgb(128,0,0)"><br>
+</span></strong></div>
+<div><span style="color:rgb(128,0,0)"><strong>补充说明（同步，异步，串行，并发）：</strong></span></div>
+<ul>
+<li><span style="color:rgb(51,51,51)">&nbsp;同步异步决定了要不要开启新的线程</span>
+<ul>
+<li>同步：在当前线程中执行任务，不具备开启新线程的能力</li><li>异步：在新的线程中执行任务，具备开启新线程的能力</li></ul>
+</li><li><span style="color:rgb(51,51,51)">并发和串行决定了任务的执行方式</span>
+<ul>
+<li><span style="color:rgb(51,51,51)">并发：多个任务同时执行</span></li><li><span style="color:rgb(51,51,51)">串行:一个任务执行完毕后，再执行下一个任务</span></li></ul>
+</li></ul>
+</div>
+<div>
+<div><br>
+</div>
+<div><br>
+</div>
+<div><span style="color:rgb(128,0,0)"><strong>并发队列：</strong></span></div>
+<div>GCD默认已经提供了全局的并发队列，供整个应用使用，不需要手动创建</div>
+<ul>
+<li>使用dispatch_get_global_queue函数获得全局的并发队列</li><li>dispatch_queue_t&nbsp;dispatch_get_global_queue(dispatch_queue_priority_t&nbsp;priority,unsigned&nbsp;long&nbsp;flags);&nbsp;// flags 此参数暂时无用，现只能是0,<img src="http://img.blog.csdn.net/20151209102937705?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="cid:4ff2ece2a343aab97c17f6151e57002e" alt="" style="height:auto"></li><li>示例：
+<ul>
+<li>第一个参数为优先级，这里选择默认的。获取一个全局的默认优先级的并发队列。dispatch_queue_t&nbsp;queue&nbsp;=&nbsp;dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,&nbsp;0);&nbsp;//&nbsp;获得全局并发队列</li></ul>
+</li><li>说明：全局并发队列的优先级&nbsp;<br>
+#define&nbsp;DISPATCH_QUEUE_PRIORITY_HIGH&nbsp;2&nbsp;//&nbsp;高<br>
+#define&nbsp;DISPATCH_QUEUE_PRIORITY_DEFAULT&nbsp;0&nbsp;//&nbsp;默认（中）<br>
+#define&nbsp;DISPATCH_QUEUE_PRIORITY_LOW&nbsp;(-2)&nbsp;//&nbsp;低<br>
+#define&nbsp;DISPATCH_QUEUE_PRIORITY_BACKGROUND&nbsp;INT16_MIN&nbsp;//&nbsp;后台</li></ul>
+<div><br>
+</div>
+<div><br>
+</div>
+<div><span style="color:rgb(128,0,0)"><strong>串行队列：</strong></span></div>
+<div>GCD中获取串行队列有2种途径&nbsp;</div>
+<ul>
+<li>使用 <span style="font-family:Menlo">dispatch_queue_create函数创建串行队列</span>
+<ul>
+<li><span style="font-family:Menlo">dispatch_queue_t</span> <span style="font-family:Menlo">
+queue = dispatch_queue_create(&lt;#const char *label#&gt;, &lt;#dispatch_queue_attr_t attr#&gt;)</span></li><li><span style="font-family:Menlo">队列名称 &nbsp;</span><span style="font-family:Menlo">&lt;#const char *label#&gt;</span></li><li><span style="font-family:Menlo">队列属性&nbsp;</span> <span style="font-family:Menlo">
+&lt;#dispatch_queue_attr_t attr#&gt;</span><span style="font-size:11px; font-family:Menlo; color:rgb(255,255,255)">&nbsp;<span style="color:rgb(0,144,81)">(</span></span><span style="color:rgb(0,144,81)"><span style="font-size:11px; font-family:Menlo">//<span style="color:rgb(148,82,0)">DISPATCH_QUEUE_CONCURRENT</span></span>
+<span style="font-size:11px; font-family:'PingFang SC'">并行队列<span style="font-family:Menlo">&nbsp;</span></span>
+<span style="font-size:11px; font-family:Menlo">//<span style="color:rgb(148,82,0)">DISPATCH_QUEUE_SERIAL</span> &nbsp;</span>
+<span style="font-size:11px; font-family:'PingFang SC'">串行队列 或者使用null</span><span style="font-family:Menlo">)</span></span></li><li><span style="font-family:Menlo">示例</span>
+<ul>
+<li><span style="font-family:Menlo">dispatch_queue_t&nbsp;queue&nbsp;=&nbsp;dispatch_queue_create(&quot;Jack&quot;,</span>
+<span style="color:rgb(148,82,0)"><span style="font-family:Menlo">DISPATCH_QUEUE_SERIAL</span></span><span style="font-family:Menlo">);</span></li><li><span style="font-family:Menlo">//&nbsp;创建</span><span style="font-family:Menlo">dispatch_release(queue);&nbsp;//&nbsp;非ARC需要释放手动创建的队列</span></li></ul>
+</li></ul>
+</li></ul>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>
+<ul>
+<li>使用主队列（跟主线程相关联的队列）
+<ul>
+<li>主队列是GCD自带的一种特殊的串行队列,放在主队列中的任务，都会放到主线程中执行
+<ul>
+<li>使用dispatch_get_main_queue()获得主队列</li><li>示例：dispatch_queue_t&nbsp;queue&nbsp;=&nbsp;dispatch_get_main_queue();</li></ul>
+</li></ul>
+</li></ul>
+</div>
+<div><span style="color:rgb(51,51,51)"><br>
+</span></div>
+<div>
+<div><span style="color:rgb(128,0,0)"><strong>代码示例：</strong></span></div>
+<ul>
+<li><a target="_blank" href=""><span style="color:rgb(0,0,0)">Dispatch&nbsp;Queues&nbsp;的使用</span></a></li><li>用异步函数往并发队列中添加任务
+<ul>
+<li>示例<img src="http://img.blog.csdn.net/20151209102959642?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="">
+<div>
+<div style="border:1px solid rgb(204,204,204); padding:5px; overflow:auto; background-color:rgb(245,245,245)">
+<span style="color:rgb(51,51,51)">总结:同时开启了3个子线程 &nbsp; &nbsp;</span></div>
+</div>
+</li></ul>
+</li></ul>
+</div>
+<ul>
+<li><span style="color:rgb(51,51,51)">用异步函数往串行队列中添加任务</span>
+<ul>
+<li><span style="color:rgb(51,51,51)">示例<img src="http://img.blog.csdn.net/20151209103013076?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span>
+<div style="border:1px solid rgb(204,204,204); padding:5px; overflow:auto; background-color:rgb(245,245,245)">
+<span style="font-size:13px">总结：会开启线程，但是只开启一个线程</span></div>
+</li></ul>
+</li></ul>
+<div><span style="color:rgb(51,51,51)"><br>
+</span></div>
+<div>
+<ul>
+<li><span style="color:rgb(51,51,51)">&nbsp; &nbsp; &nbsp;用同步函数往并发队列中添加任务</span>
+<ul>
+<li><span style="color:rgb(51,51,51)">示例<img src="http://img.blog.csdn.net/20151209103040300?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span></li><li>
+<div style="border:1px solid rgb(204,204,204); padding:5px; overflow:auto; background-color:rgb(245,245,245)">
+总结：不会开启新的线程,并发队列失去了并发功能</div>
+</li></ul>
+</li></ul>
+</div>
+<div><span style="color:rgb(51,51,51)"><br>
+</span></div>
+</div>
+<div style="padding:0px">
+<ul>
+<li><span style="color:rgb(51,51,51)">&nbsp;补充</span>
+<ul>
+<li><span style="color:rgb(51,51,51)">队列名称的作用:</span>
+<ul>
+<li><span style="color:rgb(51,51,51)">调试的时候，可以看得出任务在哪个队列中执行</span></li></ul>
+</li></ul>
+</li></ul>
+<div><span style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="white-space:pre"> <img src="http://img.blog.csdn.net/20151209103155746?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span></span></div>
+<div><span style="color:rgb(51,51,51)"><span style="white-space:pre"><span style="white-space:pre"><img src="http://img.blog.csdn.net/20151209103214014?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span></span></span></div>
+<div><span style="color:rgb(51,51,51)"><span style="white-space:pre"><span style="white-space:pre"><span style="white-space:pre"><img src="http://img.blog.csdn.net/20151209103229639?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span></span></span></span></div>
+<ul>
+<li style="display:inline; list-style:none">
+<ul>
+<li style="display:inline; list-style:none">
+<ul>
+<li><span style="color:rgb(51,51,51)">总结：</span>
+<ul>
+<li><span style="color:rgb(94,94,94)">同步函数不具备开启线程的能力，无论是神马队列都不会开启线程，异步函数具备开启线程的能力，但不一定会开线程，开启几条线程由队列决定(串行队列只会开启一条新的进程，并发队列会开启多条进程).</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+</div>
+</div>
+   
+
+<p></div></p>
+
+                      
+                    </div>
+                    <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+                        <div style="float:left;margin-top:0px;">
+                        <img src="http://blog.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
+                        <div style="text-align:center;">微信扫一扫</div>
+                        </div>
+                        <div>
+                            <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
+                            <br />微信关注：Crime_Sence (我在案发现场）
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/01/28/GCD/">http://blog.flywithme.top/2016/01/28/GCD/</a>
+                            <br />
+                            文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  
+
+                </div>
+                
+              </article>
+              
+
+              <div class="clear"></div>
+
+              <p class="post-tags">
+                <span>Tags:</span>
+                
+              </p>
+
+              <h4 class="heading">
+  <i class="fa fa-hand-o-right"></i>Related posts</h4>
+
+    <ul class="related-posts group">
+    
+    
+    
+        
+        
+        
+    
+        
+        
+        
+    
+    </ul>
+
+
+
+              <section id="comments" class="themeform">
+<div class="ds-thread" data-thread-key="/2016/01/28/GCD/" data-title="GCD的介绍和使用" data-url="http://blog.flywithme.top/2016/01/28/GCD/"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"brasbug"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</section>
+
+
+              
+            </div>
+
+
+          </section>
+          <div class="sidebar s1">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
+  <div class="sidebar-content">
+    <div class="sidebar-top group">
+      <p>Follow:</p>
+      <ul class="social-links">
+    <li>
+    <a class="social-tooltip" title="On WeiBo"
+        href="http://weibo.com/coderzh" target="_blank">
+        <i class="fa fa-weibo"></i>
+    </a>
+    </li>
+    <li>
+    <a class="social-tooltip" title="On Twitter" rel="nofollow"
+        href="https://twitter.com/coderzh" target="_blank">
+        <i class="fa fa-twitter"></i>
+    </a>
+    </li>
+    <li>
+    <a class="social-tooltip" title="On GitHub"
+        href="https://github.com/coderzh" target="_blank">
+        <i class="fa fa-github"></i>
+    </a>
+    </li>
+</ul>
+
+    </div>
+    <div class="widget qrcode">
+    <img src="http://blog.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
+    <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
+</div>
+
+    <ul class="post-nav group">
+      <li class="next">
+        
+        <a href="http://blog.flywithme.top/about/" rel="next">
+          <i class="fa fa-chevron-right"></i>
+          <strong>Next post</strong>
+          <span>关于我</span>
+        </a>
+        
+      </li>
+      <li class="previous">
+        
+      </li>
+    </ul>
+    <div id="search-2" class="widget widget_search"><h3>Search</h3>
+      <form method="get" class="searchform themeform" action="https://www.google.com/search">
+        <div>
+          <input type="text" class="search" name="q" placeholder="Press enter to start searching">
+        </div>
+      </form>
+    </div>
+  </div>
+  
+</div>
+
+          <div class="sidebar s2">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
+  <div class="sidebar-content">
+    <div class="sidebar-top group">
+      <p>More</p>
+    </div>
+    <div id="categories-2" class="widget widget_categories"><h3>Categories</h3>
+      <ul>
+        
+          <li class="cat-item cat-item-1">
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          </li>
+        
+          <li class="cat-item cat-item-1">
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          </li>
+        
+          <li class="cat-item cat-item-1">
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer id="footer">
+
+  <nav class="nav-container group" id="nav-footer">
+    <div class="nav-toggle"><i class="fa fa-bars"></i></div>
+    <div class="nav-text"></div>
+    <div class="nav-wrap">
+      <ul id="menu-default-menu-1" class="nav container group">
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+        </li>
+        
+      </ul>
+    </div>
+  </nav>
+  
+
+  <section class="container" id="footer-bottom">
+    <div class="container-inner">
+      <a id="back-to-top" href="#"><i class="fa fa-angle-up"></i></a>
+      <div class="pad group">
+        <div class="grid one-half">
+          <div id="copyright">
+            <p>Copyright © 2015. All Rights Reserved. <br>Powered by
+              <a rel="nofollow" href="http://gohugo.io/" target="_blank">Hugo - the static site generator</a>.
+              <a rel="nofollow" href="http://golang.org" target="_blank">#golang</a>.
+            </p>
+          </div>
+          
+        </div>
+        
+        <div class="grid one-half last">
+          <ul class="social-links">
+    <li>
+    <a class="social-tooltip" title="On WeiBo"
+        href="http://weibo.com/coderzh" target="_blank">
+        <i class="fa fa-weibo"></i>
+    </a>
+    </li>
+    <li>
+    <a class="social-tooltip" title="On Twitter" rel="nofollow"
+        href="https://twitter.com/coderzh" target="_blank">
+        <i class="fa fa-twitter"></i>
+    </a>
+    </li>
+    <li>
+    <a class="social-tooltip" title="On GitHub"
+        href="https://github.com/coderzh" target="_blank">
+        <i class="fa fa-github"></i>
+    </a>
+    </li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+    
+  </section>
+  
+
+</footer>
+
+</div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-10147768-2', 'auto');
+  ga('send', 'pageview');
+
+  $('#messagesbsb').remove();
+
+</script>
+</body>
+</html>
+
