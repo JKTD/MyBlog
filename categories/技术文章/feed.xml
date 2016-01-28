@@ -6,244 +6,72 @@
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
-        <updated>Thu, 28 Jan 2016 14:16:48 CST</updated>
+        <updated>Thu, 28 Jan 2016 15:57:21 CST</updated>
         
         <item>
-            <title>GCD的介绍和使用</title>
-            <link>http://blog.flywithme.top/2016/01/28/GCD/</link>
-            <pubDate>Thu, 28 Jan 2016 14:16:48 CST</pubDate>
+            <title>NSOperation-Brief-Introduction</title>
+            <link>http://blog.flywithme.top/2016/01/28/NSOperation-Brief-Introduction/</link>
+            <pubDate>Thu, 28 Jan 2016 15:57:21 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/01/28/GCD/</guid>
+            <guid>http://blog.flywithme.top/2016/01/28/NSOperation-Brief-Introduction/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
-&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;color:rgb(51,153,102); font-family:&#39;Helvetica Neue&#39;,Helvetica,STheiti,微软雅黑,黑体,Arial,Tahoma,sans-serif,serif; font-size:14px&#34;&gt;GCD的介绍和使用&lt;/span&gt;&lt;/div&gt;
-&lt;div style=&#34;font-family:&#39;Helvetica Neue&#39;,Helvetica,STheiti,微软雅黑,黑体,Arial,Tahoma,sans-serif,serif; font-size:14px&#34;&gt;
-&lt;div style=&#34;padding:0px&#34;&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;介绍：&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;
+&lt;div&gt;&lt;span style=&#34;font-size:24px&#34;&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;一、NSOperation的简介&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;
+&lt;div style=&#34;border:0px; outline:0px; padding:0px; vertical-align:baseline; word-wrap:break-word&#34;&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;div style=&#34;padding:0px; color:rgb(51,51,51)&#34;&gt;&lt;/div&gt;
-&lt;div style=&#34;padding:0px; color:rgb(51,51,51)&#34;&gt;Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务并行执行的线程池模式的基础上的。它首次发布在Mac OS X 10.6 ，iOS 4及以上也可用。 GCD是基于C语言的，这意味着高效率&lt;/div&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div style=&#34;padding:0px; color:rgb(51,51,51)&#34;&gt;&lt;/div&gt;
-&lt;div style=&#34;padding:0px&#34;&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;
-&lt;div style=&#34;padding:0px&#34;&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;设计&lt;/strong&gt;&lt;/span&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;：&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;GCD是苹果公司为多核的并行运算提出的解决方案&lt;/li&gt;&lt;li&gt;GCD会自动利用更多的CPU内核（比如双核、四核）&lt;/li&gt;&lt;li&gt;GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）&lt;/li&gt;&lt;li&gt;程序员只需要告诉GCD想要执行什么任务，不需要编写任何线程管理代码&lt;/li&gt;&lt;/ul&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;注意：&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD存在于libdispatch.dylib这个库中，这个调度库包含了GCD的所有的东西，但任何IOS程序，默认就加载了这个库，在程序运行的过程中会动态的加载这个库，不需要我们手动导入。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD是纯C语言的，因此我们在编写GCD相关代码的时候，面对的函数，而不是方法。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD中的函数大多数都以dispatch开头。&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
+&lt;li&gt;&lt;span style=&#34;font-family:Muli,sans-serif&#34;&gt;&lt;span style=&#34;color:rgb(58,58,58)&#34;&gt;NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。NSOperation表示一个独立的计算单元，作为一个抽象类，你需要实例话他的子类&amp;nbsp;&amp;nbsp;NSInvocationOperation /&amp;nbsp;&amp;nbsp;NSBlockOperation 来进行具体操作。实例化之后，调用start方法或者加入到一个NSOperationQueue 操作队列中，就可以开始执行。&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
 &lt;div&gt;&lt;br&gt;
 &lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;任务和队列：&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD中有2个核心概念:&lt;/span&gt;&lt;/span&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;任务：执行什么操作&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;队列：用来存放任务&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;/li&gt;&lt;/ul&gt;
 &lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD的使用就2个步骤:&lt;/span&gt;&lt;/span&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;定制任务&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;确定想做的事情&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;div&gt;
-&lt;div&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;将任务添加到队列中，GCD会自动将队列中的任务取出，放到对应的线程中执行&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;font-family:&#39;Courier New&#39;&#34;&gt;&lt;span style=&#34;font-size:12px&#34;&gt;&lt;span style=&#34;color:rgb(0,144,81)&#34;&gt;提示：任务的取出遵循队列的FIFO原则：先进先出，后进后出&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;执行任务：&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD中有2个用来执行任务的函数:&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
 &lt;/div&gt;
-&lt;ol&gt;
-&lt;li style=&#34;display:inline; list-style:none&#34;&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;用同步的方式执行任务&amp;nbsp;dispatch_sync(dispatch_queue_t&amp;nbsp;queue,&amp;nbsp;dispatch_block_t&amp;nbsp;block)；&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;用异步的方式执行任务&amp;nbsp;dispatch_async(dispatch_queue_t&amp;nbsp;queue,&amp;nbsp;dispatch_block_t&amp;nbsp;block);&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;/li&gt;&lt;/ol&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(0,144,81)&#34;&gt;&lt;span style=&#34;font-size:12px&#34;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; 注：&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;color:rgb(0,144,81); font-size:12px&#34;&gt;参数说明：&lt;/span&gt;&lt;span style=&#34;color:rgb(0,144,81); font-size:12px&#34;&gt;queue：队列，&lt;/span&gt;&lt;span style=&#34;color:rgb(0,144,81); font-size:12px&#34;&gt;block：任务&amp;nbsp;&lt;/span&gt;&lt;span style=&#34;font-size:12px&#34;&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;span style=&#34;color:rgb(0,144,81)&#34;&gt;函数说明：把右边的参数（任务）提交给左边的参数（队列）进行执行。&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
+&lt;div style=&#34;font-size:14px&#34;&gt;
+&lt;div style=&#34;border:0px; outline:0px; padding:0px; vertical-align:baseline; clear:both&#34;&gt;
+&lt;div&gt;&lt;span style=&#34;font-size:24px&#34;&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;二、NSOperation的使用&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;
+&lt;div style=&#34;border:0px; outline:0px; padding:0px; vertical-align:baseline; clear:both&#34;&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;直接启动一个NSInvocationOperation&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;同步和异步的区别:&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/div&gt;
-&lt;ol&gt;
-&lt;li style=&#34;display:inline; list-style:none&#34;&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;同步：在当前线程中执行&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;异步：在另一条线程中执行&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;/li&gt;&lt;/ol&gt;
-&lt;div&gt;&lt;strong&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/strong&gt;&lt;/div&gt;
-&lt;div&gt;&lt;strong&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/strong&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;队列类型：&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;
+&lt;li&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102222185?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;使用NSOperationQueue管理NSOperation并开启一个异步线程
 &lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD可以分为两大类：&lt;/span&gt;
+&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102239167?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;使用NSOperationQueue管理并NSBlockOperation开启一个线程
 &lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:#333333&#34;&gt;并发队列（Concurrent&amp;nbsp;Dispatch Queue） &amp;nbsp;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;li style=&#34;display:inline; list-style:none&#34;&gt;
-&lt;ol&gt;
-&lt;li style=&#34;display:inline; list-style:none&#34;&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;可以让多个任务并发（同时）执行（自动开启多个线程同时执行任务）&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;并发功能只有在异步（dispatch_async）函数下才有效&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;/li&gt;&lt;/ol&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/div&gt;
+&lt;li&gt;NSBlockOperation与NSInvocationOperation没有神马本质的区别，只是NSBlockOperation使用代码块会更方便一些。&lt;/li&gt;&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102254701?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;在主线程中执行某些操作&amp;nbsp;&lt;img src=&#34;http://img.blog.csdn.net/20151209102333588?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;li&gt;添加线程之间的依赖关系
 &lt;ul&gt;
-&lt;li style=&#34;display:inline; list-style:none&#34;&gt;
+&lt;li&gt;直接再队列中添加操作会并发执行，谁先谁后是系统调用决定的，但是在某些特定时候我们需要控制操作的执行顺序，就会使用addDependency操作。addDependency：是NSOperation的成员方法,调用该方法的NSOperation对象将在参数执行完成之后执行。需要先添加依赖关系，再将操作添加到队列中。&lt;/li&gt;&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102349935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;控制线程并发数
 &lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;串行队列（Serial Dispatch Queue）&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;div&gt;
-&lt;ol&gt;
-&lt;li style=&#34;display:inline; list-style:none&#34;&gt;
-&lt;ol&gt;
-&lt;li style=&#34;display:inline; list-style:none&#34;&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;让任务一个接一个的执行（一个任务执行完毕后，再执行下一个任务）&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;/li&gt;&lt;/ol&gt;
+&lt;li&gt;并发的线程越多越耗资源，队列可以设置同事并发线程的数量来进行控制&lt;/li&gt;&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102406696?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;取消一个操作
+&lt;ul&gt;
+&lt;li&gt;NSOperation里有一系列的属性来表明自身状态： isReady → isExecuting → isFinish 。线程start后并不是立即执行，而是进入一个就绪的状态(isReady)，由系统调度执行。 有时可能需要进行取消操作，可以调用 -(void)cancel;来停止一些还未执行的不必要线程.&lt;/li&gt;&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102434144?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/li&gt;&lt;li&gt;优先级
+&lt;ul&gt;
+&lt;li&gt;NSOpertaion可以通过threadPriority属性来指定优先级。 但是在iOS8中，线程这个概念已经被苹果框架系统性的忽略了,threadPriority已由NSQualityOfService属性替代。&lt;/li&gt;&lt;li&gt;NSOperationQueuePriority的枚举类型如下&lt;img src=&#34;http://img.blog.csdn.net/20151209102452878?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;li&gt;NSQualityOfService的枚举类型如下&lt;img src=&#34;http://img.blog.csdn.net/20151209102505173?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
 &lt;/li&gt;&lt;/ol&gt;
 &lt;/div&gt;
-&lt;div&gt;
-&lt;div&gt;&lt;strong&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/strong&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;补充说明（同步，异步，串行，并发）：&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&amp;nbsp;同步异步决定了要不要开启新的线程&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;同步：在当前线程中执行任务，不具备开启新线程的能力&lt;/li&gt;&lt;li&gt;异步：在新的线程中执行任务，具备开启新线程的能力&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;并发和串行决定了任务的执行方式&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;并发：多个任务同时执行&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;串行:一个任务执行完毕后，再执行下一个任务&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
 &lt;/div&gt;
-&lt;div&gt;
-&lt;div&gt;&lt;br&gt;
 &lt;/div&gt;
-&lt;div&gt;&lt;br&gt;
 &lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;并发队列：&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;GCD默认已经提供了全局的并发队列，供整个应用使用，不需要手动创建&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;使用dispatch_get_global_queue函数获得全局的并发队列&lt;/li&gt;&lt;li&gt;dispatch_queue_t&amp;nbsp;dispatch_get_global_queue(dispatch_queue_priority_t&amp;nbsp;priority,unsigned&amp;nbsp;long&amp;nbsp;flags);&amp;nbsp;// flags 此参数暂时无用，现只能是0,&lt;img src=&#34;http://img.blog.csdn.net/20151209102937705?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;img src=&#34;cid:4ff2ece2a343aab97c17f6151e57002e&#34; alt=&#34;&#34; style=&#34;height:auto&#34;&gt;&lt;/li&gt;&lt;li&gt;示例：
-&lt;ul&gt;
-&lt;li&gt;第一个参数为优先级，这里选择默认的。获取一个全局的默认优先级的并发队列。dispatch_queue_t&amp;nbsp;queue&amp;nbsp;=&amp;nbsp;dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,&amp;nbsp;0);&amp;nbsp;//&amp;nbsp;获得全局并发队列&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;li&gt;说明：全局并发队列的优先级&amp;nbsp;&lt;br&gt;
-#define&amp;nbsp;DISPATCH_QUEUE_PRIORITY_HIGH&amp;nbsp;2&amp;nbsp;//&amp;nbsp;高&lt;br&gt;
-#define&amp;nbsp;DISPATCH_QUEUE_PRIORITY_DEFAULT&amp;nbsp;0&amp;nbsp;//&amp;nbsp;默认（中）&lt;br&gt;
-#define&amp;nbsp;DISPATCH_QUEUE_PRIORITY_LOW&amp;nbsp;(-2)&amp;nbsp;//&amp;nbsp;低&lt;br&gt;
-#define&amp;nbsp;DISPATCH_QUEUE_PRIORITY_BACKGROUND&amp;nbsp;INT16_MIN&amp;nbsp;//&amp;nbsp;后台&lt;/li&gt;&lt;/ul&gt;
-&lt;div&gt;&lt;br&gt;
-&lt;/div&gt;
-&lt;div&gt;&lt;br&gt;
-&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;串行队列：&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;GCD中获取串行队列有2种途径&amp;nbsp;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;使用 &lt;span style=&#34;font-family:Menlo&#34;&gt;dispatch_queue_create函数创建串行队列&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;dispatch_queue_t&lt;/span&gt; &lt;span style=&#34;font-family:Menlo&#34;&gt;
-queue = dispatch_queue_create(&amp;lt;#const char *label#&amp;gt;, &amp;lt;#dispatch_queue_attr_t attr#&amp;gt;)&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;队列名称 &amp;nbsp;&lt;/span&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;&amp;lt;#const char *label#&amp;gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;队列属性&amp;nbsp;&lt;/span&gt; &lt;span style=&#34;font-family:Menlo&#34;&gt;
-&amp;lt;#dispatch_queue_attr_t attr#&amp;gt;&lt;/span&gt;&lt;span style=&#34;font-size:11px; font-family:Menlo; color:rgb(255,255,255)&#34;&gt;&amp;nbsp;&lt;span style=&#34;color:rgb(0,144,81)&#34;&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;color:rgb(0,144,81)&#34;&gt;&lt;span style=&#34;font-size:11px; font-family:Menlo&#34;&gt;//&lt;span style=&#34;color:rgb(148,82,0)&#34;&gt;DISPATCH_QUEUE_CONCURRENT&lt;/span&gt;&lt;/span&gt;
-&lt;span style=&#34;font-size:11px; font-family:&#39;PingFang SC&#39;&#34;&gt;并行队列&lt;span style=&#34;font-family:Menlo&#34;&gt;&amp;nbsp;&lt;/span&gt;&lt;/span&gt;
-&lt;span style=&#34;font-size:11px; font-family:Menlo&#34;&gt;//&lt;span style=&#34;color:rgb(148,82,0)&#34;&gt;DISPATCH_QUEUE_SERIAL&lt;/span&gt; &amp;nbsp;&lt;/span&gt;
-&lt;span style=&#34;font-size:11px; font-family:&#39;PingFang SC&#39;&#34;&gt;串行队列 或者使用null&lt;/span&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;示例&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;dispatch_queue_t&amp;nbsp;queue&amp;nbsp;=&amp;nbsp;dispatch_queue_create(&amp;quot;Jack&amp;quot;,&lt;/span&gt;
-&lt;span style=&#34;color:rgb(148,82,0)&#34;&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;DISPATCH_QUEUE_SERIAL&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;);&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;//&amp;nbsp;创建&lt;/span&gt;&lt;span style=&#34;font-family:Menlo&#34;&gt;dispatch_release(queue);&amp;nbsp;//&amp;nbsp;非ARC需要释放手动创建的队列&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;使用主队列（跟主线程相关联的队列）
-&lt;ul&gt;
-&lt;li&gt;主队列是GCD自带的一种特殊的串行队列,放在主队列中的任务，都会放到主线程中执行
-&lt;ul&gt;
-&lt;li&gt;使用dispatch_get_main_queue()获得主队列&lt;/li&gt;&lt;li&gt;示例：dispatch_queue_t&amp;nbsp;queue&amp;nbsp;=&amp;nbsp;dispatch_get_main_queue();&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;代码示例：&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a target=&#34;_blank&#34; href=&#34;&#34;&gt;&lt;span style=&#34;color:rgb(0,0,0)&#34;&gt;Dispatch&amp;nbsp;Queues&amp;nbsp;的使用&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;用异步函数往并发队列中添加任务
-&lt;ul&gt;
-&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102959642?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;
-&lt;div&gt;
-&lt;div style=&#34;border:1px solid rgb(204,204,204); padding:5px; overflow:auto; background-color:rgb(245,245,245)&#34;&gt;
-&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;总结:同时开启了3个子线程 &amp;nbsp; &amp;nbsp;&lt;/span&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;用异步函数往串行队列中添加任务&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209103013076?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/span&gt;
-&lt;div style=&#34;border:1px solid rgb(204,204,204); padding:5px; overflow:auto; background-color:rgb(245,245,245)&#34;&gt;
-&lt;span style=&#34;font-size:13px&#34;&gt;总结：会开启线程，但是只开启一个线程&lt;/span&gt;&lt;/div&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;用同步函数往并发队列中添加任务&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209103040300?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;
-&lt;div style=&#34;border:1px solid rgb(204,204,204); padding:5px; overflow:auto; background-color:rgb(245,245,245)&#34;&gt;
-总结：不会开启新的线程,并发队列失去了并发功能&lt;/div&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div style=&#34;padding:0px&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&amp;nbsp;补充&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;队列名称的作用:&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;调试的时候，可以看得出任务在哪个队列中执行&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style=&#34;white-space:pre&#34;&gt; &lt;img src=&#34;http://img.blog.csdn.net/20151209103155746?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;span style=&#34;white-space:pre&#34;&gt;&lt;span style=&#34;white-space:pre&#34;&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151209103214014?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;span style=&#34;white-space:pre&#34;&gt;&lt;span style=&#34;white-space:pre&#34;&gt;&lt;span style=&#34;white-space:pre&#34;&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151209103229639?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li style=&#34;display:inline; list-style:none&#34;&gt;
-&lt;ul&gt;
-&lt;li style=&#34;display:inline; list-style:none&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;总结：&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;同步函数不具备开启线程的能力，无论是神马队列都不会开启线程，异步函数具备开启线程的能力，但不一定会开线程，开启几条线程由队列决定(串行队列只会开启一条新的进程，并发队列会开启多条进程).&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/div&gt;
+&lt;div style=&#34;color:rgb(51,51,51); font-family:&#39;Helvetica Neue&#39;,Helvetica,STheiti,微软雅黑,黑体,Arial,Tahoma,sans-serif,serif; font-size:14px&#34;&gt;
+&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br&gt;
+&lt;/strong&gt;&lt;/div&gt;
+&lt;div style=&#34;font-family:Rokkitt; font-size:14px&#34;&gt;
+&lt;div&gt;&lt;span style=&#34;font-size:24px&#34;&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;二、NSOperation小结&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;&amp;nbsp;NSOperation方便控制线程执行顺序&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;使用NSBlockOperation可以使用块代码，不必单鞋线程方法，便于传递多个参数&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;可以控制线程并发数，有效的对线程进行控制&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;可以添加线程完成代码块，执行需要的操作&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
 &lt;/div&gt;
    
 
 &lt;p&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;!-- Baidu Button BEGIN --&gt;
 </description>
         </item>
         
