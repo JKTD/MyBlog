@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90120686-2906-4166-9af8-e238cfe3d8c6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016/01/28/GCD/index.html" afterPath="$PROJECT_DIR$/2016/01/28/GCD/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016/01/28/JKImageView/index.html" afterPath="$PROJECT_DIR$/2016/01/28/JKImageView/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016/01/28/NSOperation/index.html" afterPath="$PROJECT_DIR$/2016/01/28/NSOperation/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016/01/28/NSThread/index.html" afterPath="$PROJECT_DIR$/2016/01/28/NSThread/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/about/index.html" afterPath="$PROJECT_DIR$/about/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/categories/思考感悟/index.html" afterPath="$PROJECT_DIR$/categories/思考感悟/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/categories/技术文章/index.html" afterPath="$PROJECT_DIR$/categories/技术文章/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/categories/读书笔记/index.html" afterPath="$PROJECT_DIR$/categories/读书笔记/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/post/index.html" afterPath="$PROJECT_DIR$/post/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="90120686-2906-4166-9af8-e238cfe3d8c6" name="Default" comment="" />
     <ignored path="MyBlog.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -171,7 +159,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24947146" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891566" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
