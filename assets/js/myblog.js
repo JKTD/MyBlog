@@ -16,7 +16,7 @@
             $('.hubinfo').each(function (i, e) {
                 var $elem = $(e);
                 $elem.hubInfo({
-                    user : $elem.data('u') || 'coderzh',
+                    user : $elem.data('u') || 'coderjk',
                     repo : $elem.data('r') || ''
                 });
             });
