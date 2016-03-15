@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>JKImageView - 案发现场 </title>
+  <title>iOS JS call OC - 案发现场 </title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="项目地址:https://github.com/brasbug/JKImageView 第一步：拿到网络图片并显示出来 首先重网络拿到图片资源 代">
+<meta name="description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="JKImageView - 案发现场 ">
-<meta itemprop="description" content="项目地址:https://github.com/brasbug/JKImageView 第一步：拿到网络图片并显示出来 首先重网络拿到图片资源 代">
+<meta itemprop="name" content="iOS JS call OC - 案发现场 ">
+<meta itemprop="description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="JKImageView - 案发现场 " />
+<meta property="og:title" content="iOS JS call OC - 案发现场 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2016/01/28/JKImageView/" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/03/15/JScallOC/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="项目地址:https://github.com/brasbug/JKImageView 第一步：拿到网络图片并显示出来 首先重网络拿到图片资源 代">
+<meta property="og:description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="JKImageView - 案发现场 ">
-<meta name="twitter:description" content="项目地址:https://github.com/brasbug/JKImageView 第一步：拿到网络图片并显示出来 首先重网络拿到图片资源 代">
+<meta name="twitter:title" content="iOS JS call OC - 案发现场 ">
+<meta name="twitter:description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2016/01/28/JKImageView/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2016/01/28/JKImageView/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/03/15/JScallOC/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/15/JScallOC/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -175,12 +175,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">JKImageView</h1>
+                  <h1 class="post-title">iOS JS call OC</h1>
 
                   <p class="post-byline">
-                    by  · 2016年01月28日 · 1642 Words ·
+                    by  · 2016年03月15日 · 1694 Words ·
                     ~4min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-01-28-JKImageView.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-15-iOS%20JS%20call%20OC.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -190,95 +190,191 @@
                     <div class="entry-inner">
                       
                       <div id="article_content" class="article_content">
+<p>接着上节我们讲到的iOS调用js</p>
+<p>下来我们使用js调用iOS</p>
+<p>js调用iOS分两种情况</p>
+<p>一，js里面直接调用方法</p>
+<p>二，js里面通过对象调用方法</p>
+<p><br>
+</p>
+<p>首先我们看第一种，直接调用方法。</p>
+<p>其中用到了iOS的block</p>
+<p><br>
+</p>
+<p>上代码</p>
+<p><br>
+</p>
+<p></p>
+<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_1_7755355"  code_snippet_id="1610385" snippet_file_name="blog_20160315_1_7755355" name="code" class="objc">-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //网页加载完成调用此方法
+    
+    //iOS调用js
+    
+    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
+    JSContext *context=[webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];
+  
+    //js调用iOS
+    //第一种情况
+    //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码
+    //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道
+    context[@&quot;test1&quot;] = ^() {
+        NSArray *args = [JSContext currentArguments];
+        for (id obj in args) {
+            NSLog(@&quot;%@&quot;,obj);
+        }
+    };
+    //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下）
+    //首先准备一下js代码，来调用js的函数test1 然后执行
+    //一个参数
+    NSString *jsFunctStr=@&quot;test1(&#39;参数1&#39;)&quot;;
+    [context evaluateScript:jsFunctStr];
+    
+    //二个参数
+    NSString *jsFunctStr1=@&quot;test1(&#39;参数a&#39;,&#39;参数b&#39;)&quot;;
+    [context evaluateScript:jsFunctStr1];
+    
+}</pre><br>
+以上代码中 给test1赋&#20540;的block要是执行了那么结果就是对的，js调用了iOS
+<p></p>
+<p>我们看结果</p>
+<blockquote style="margin:0 0 0 40px; border:none; padding:0px">
+<p><img src="http://img.blog.csdn.net/20150725183355773?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p><br>
+</p>
+</blockquote>
+<p>我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p>下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。</p>
+<p>此处稍微复杂一点我们需要使用到</p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(112,61,170)">
+JSExport</p>
+<p>凡事添加了JSExport协议的协议，所规定的方法，变量等 就会对js开放，我们可以通过js调用到</p>
+<p></p>
+<p><br>
+如果js是一个参数或者没有参数的话 就比较简单，我们的方法名和js的方法名保持一致即可</p>
+<p>比如： js方法为 &nbsp;</p>
+<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_2_3579444"  code_snippet_id="1610385" snippet_file_name="blog_20160315_2_3579444" name="code" class="objc">testobject.TestOneParameter(&#39;参数1&#39;)</pre>
+<p></p>
+<p></p>
+那么 我们在oc中添加的代理方法就为
+<p></p>
+<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_3_864229"  code_snippet_id="1610385" snippet_file_name="blog_20160315_3_864229" name="code" class="objc">-(void)TestOneParameter:(NSString *)message;</pre><br>
+<p></p>
+如果js是多个参数的话 &nbsp;我们代理方法的所有变量前的名字连起来要和js的方法名字一样
+<p>比如： js方法为 &nbsp;<br>
+</p>
+<p></p>
+<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_4_657268"  code_snippet_id="1610385" snippet_file_name="blog_20160315_4_657268" name="code" class="objc">testobject.TestTowParameterSecondParameter(&#39;参数A&#39;,&#39;参数B&#39;)</pre>他有两个参数 那么我们的代理方法 就是把js的方法名 TestTowParameterSecondParameter 任意拆分成两段作为代理方法名（此处我们拆分为 TestTowParameter 和&nbsp;SecondParameter ） 那么我们的代理方法就是
+<p></p>
+<p></p>
+<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_5_6862257"  code_snippet_id="1610385" snippet_file_name="blog_20160315_5_6862257" name="code" class="objc">-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2;</pre>我们看代理方法有两个变量别名
+<p></p>
+<p>TestTowParameter 和&nbsp;SecondParameter&nbsp;<br>
+</p>
+<p>他两个拼接起来就刚好是我们js的方法名</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p>此处有点绕。我们直接看代码</p>
+<p><br>
+</p>
+<p>首先创建一个类 继承NSObject 并且规定一个协议</p>
+<p></p>
+<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_6_592012"  code_snippet_id="1610385" snippet_file_name="blog_20160315_6_592012" name="code" class="objc">#import &lt;Foundation/Foundation.h&gt;
+#import &lt;JavaScriptCore/JavaScriptCore.h&gt;
 
-<div style="font-size:21px; color:rgb(30,78,121)"><span style="font-family:Helvetica Neue"><a target="_blank" target="_blank" href="https://github.com/brasbug/JKImageView">项目地址:https://github.com/brasbug/JKImageView</a></span></div>
-<div style="font-size:21px; color:rgb(30,78,121)"><span style="font-family:Helvetica Neue"><br>
-</span></div>
-<div style="font-size:21px; color:rgb(30,78,121)"><span style="font-family:'Helvetica Neue'">第一步：拿到网络图片并显示出来</span></div>
-<ol style="font-size:14px">
-<li value="1" style="vertical-align:middle"><span style="font-size:16px"><span style="font-family:Helvetica">首先重网络拿到图片资源</span></span>
-<ul>
-<li value="1" style="vertical-align:middle">代码<img src="http://img.blog.csdn.net/20151111193517077?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li></ul>
-</li></ol>
-<div style="font-size:11px"><span style="font-family:'Helvetica Neue'"><br>
-</span></div>
-<ol style="font-size:14px">
-<li value="2" style="vertical-align:middle"><span style="font-size:16px"><span style="font-family:Helvetica"><span lang="zh-CN">把拿到的图片资源给相应的控件来展示</span><span lang="en-US">&nbsp;</span><span lang="zh-CN">so</span><span lang="en-US">easy !!</span></span></span>
-<ul>
-<li value="2" style="vertical-align:middle">代码<img src="http://img.blog.csdn.net/20151111193549847?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li><li value="2" style="vertical-align:middle"><span style="font-family:'Helvetica Neue'"><span style="color:rgb(94,94,94)"><span style="font-size:13px">然而因为没有考虑线程阻塞问题，一张图片还好，如果有多张网络图片或者列表里需要展示一系列网络图片，这样做的结果就是被自己蠢哭！</span></span></span></li></ul>
-</li></ol>
-<div style="font-size:11px"><span style="font-family:'Helvetica Neue'"><span style="color:rgb(151,151,151)">&nbsp;</span></span></div>
-<div style="font-size:14px"><span style="font-family:'Helvetica Neue'"><span style="color:rgb(117,112,112)"><br>
-</span></span></div>
-<div style="font-size:21px; color:rgb(30,78,121)"><span style="font-family:'Helvetica Neue'">第二步：怎么做才能让我拿到图片的时候不卡</span></div>
-<ul style="font-size:14px">
-<li><span style="font-family:Helvetica"><span style="font-size:16px">这个时候就需要借助于多线程技术了</span></span>
-<ul>
-<li><span style="font-size:13px"><span style="font-family:'Helvetica Neue'">多线程是什么玩意儿：<span style="color:rgb(94,94,94)">iOS程序在启动的时候会创建一个主线程。因为一个线程只能执行一件事情，如果主线程执行某些耗时操作，比如我之前遇到的问题加载图片，或者是下载资源文件等就会阻塞主线程(导致界面卡死现象)，所以就需要使用多线程技术避免这类情况。iOS中有三种多线程技术，NSThread，NSOperation，GCD，这3种技术随着iOS的发展引入，抽象层次由低到高，使用也越来越简单。</span></span></span></li></ul>
-</li><li><span style="font-size:16px"><span style="font-family:Helvetica">多线程一些必要知识点</span></span>
-<ol>
-<li><span style="color:rgb(94,94,94)"><strong>多线程使用并不是无节制的</strong>：iOS主线程堆栈大小是1M左右<a target="_blank" href="http://blog.csdn.net/brasbug/article/details/50232829">点击打开链接</a>，从第二个线程开始都是512KB（<a target="_blank" target="_blank" href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/CreatingThreads/CreatingThreads.html"><span style="color:rgb(94,94,94)">官方文档</span></a>）</span></li><li><span style="color:rgb(94,94,94)"><strong>只有主线程可以修改UI</strong>（显示图片，更改显示文字等）,因为其余线程都是独立于Cocao Touch的，虽然有时在异步线程中可以实现界面修改，但是强烈不建议这么做。</span></li><li><span style="color:rgb(94,94,94)"><strong>多线程并不能提高程序的运行效率</strong>，而是通过并发任务提高资源使用率来提高系统的整体性能。就单核而言，两个线程可以解决线程阻塞问题，但是执行效率比起一个线程执行是差不多的，并且再创建一个新线程的时候会消耗一定的内存和CPU时间。多线程只是葱粉发挥系统多核处理器的优势，并发执行任务以提高效率。但是哪个CPU上执行任务都是由系统调度的，开发者不需要纠结有几个CPU，只需要关系线程的使用以及线程间的关系就可以了。</span></li><li><span style="color:rgb(94,94,94)">尽量不要多个线程去抢夺共享资源，如果必须要这样做，需要注意线程安全。</span></li></ol>
-</li></ul>
-<div style="font-size:14px"><span style="color:rgb(94,94,94)"><br>
-</span></div>
-<ul style="font-size:14px">
-<li><span style="font-size:16px"><span style="font-family:Helvetica"><span lang="zh-CN">So 现在开始考虑到底选用哪一种方法来完成我的功能</span><span lang="zh-CN">。</span></span></span>
-<ol>
-<li><span style="font-size:13px"><span style="font-family:'Helvetica Neue'"><span style="color:rgb(117,112,112)"><span style="color:rgb(0,144,81)"><span lang="zh-CN"><a target="_blank" target="_blank" href="http://blog.flywithme.top/2016/01/28/NSThread/">NSThread</a></span></span></span></span></span></li><li><span style="font-size:13px"><span style="font-family:'Helvetica Neue'"><span lang="zh-CN"><a target="_blank" target="_blank" href="http://blog.flywithme.top/2016/01/28/NSOperation/">NSOperation</a></span></span></span></li><li><span style="font-size:13px"><span style="font-family:'Helvetica Neue'"><span style="color:rgb(117,112,112)"><span style="color:rgb(0,144,81)"><span lang="zh-CN"><a target="_blank" href="http://blog.flywithme.top/2016/01/28/GCD/">GCD（全称：Grand
- Central Dispatch）</a></span></span><span lang="zh-CN">（</span><span lang="en-US">&nbsp;</span><span lang="zh-CN">是基于</span><span lang="en-US">C</span><span lang="zh-CN">语言的框架，可以充分利用多核，是苹果推荐使用的多线程技术）</span></span></span></span></li></ol>
-</li></ul>
-<ul style="font-size:14px">
-<li><span style="font-size:16px"><span style="font-family:Helvetica">选哪一种技术来完成我的图片异步加载</span></span>
-<ol>
-<li>NSThread 不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期（我要做的太多）</li><li>GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）（我能做的太少，如果是一个用时非常长的操作，我无法取消）</li><li>NSOperation 我不想做的和我想自己做的都给我预留。 看来只能选你啦。（可以很方便的取消一个线程，可以很容易的添加依赖关系，可以设置最大并发数，提供了任务状态。）</li></ol>
-</li></ul>
-<div style="font-size:14px"><br>
-</div>
-<div style="font-size:14px"><span style="font-family:'Helvetica Neue'"><span style="color:rgb(30,78,121)"><span style="font-size:21px">第三步：新建一个UIImageView的Category &nbsp;UIImageView&#43;JKWebCache</span></span></span><span style="font-family:'Helvetica Neue'; color:rgb(117,112,112); font-size:15px">&nbsp;</span></div>
-<ul style="font-size:14px">
-<li>写出异步方法并用来加载网络图片
-<ul>
-<li>加载代码<img src="http://img.blog.csdn.net/20151111193615033?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li><li>结果：图片加载成功，而且没有卡主线程。 但是列表每次重载图片的时候都会重新请求网络图片，效果没达到预期。</li></ul>
-</li><li>看来需要把图片缓存下来，以便下次重载的时候调用。
-<ul>
-<li>JKImageCache &nbsp; 这个类是我用来处理缓存数据的。</li><li>有一个单例方法 &#43;(instancetype)shareInstance &nbsp; &nbsp; &nbsp;</li><li>我选择用<a target="_blank" target="_blank" href="">NSCache</a> 来存储下载的图片数据</li><li><br>
-</li></ul>
-</li><li>但是有一个问题关闭应用或者内存报警之后NSCache会清除一部分数据或者清空，再次加载同一张照片的时候还是会再下载一次。</li><li>SO：我打算把下载的图片缓存到disk中,下次加载的时候先从内存拿，拿不到再去disk拿，也拿不到就去下载。下载成功之后会缓存到内存和disk中。
-<ul>
-<li><img src="http://img.blog.csdn.net/20151111193710356?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
-</li></ul>
-</li><li></li></ul>
-<ul style="font-size:14px">
-<li>
-<ul style="font-size:14px">
-<li>但是当我再重本地拿图片的时候发现了一个Bug &nbsp;之前加载的GIF图片不会动了。
-<ul>
-<li>经查找原因 ，应该是存储是时候损失了一些图片信息 判断data是不是空， 非空就不再做图片转换。</li><li><img src="http://img.blog.csdn.net/20151120174037166?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
-</li></ul>
-</li><li></li><li>加上占位图功能 过期图片自动清理（每次当应用退出到后天的时候会调用cleanDiskFile方法清理过期图片）
-<ul>
-<li>判断缓存和内存中没有改地址图片的的时候使用占位图展示。</li><li><img src="http://img.blog.csdn.net/20151120174116617?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li><li><img src="http://img.blog.csdn.net/20151120174139005?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
-</li></ul>
-</li></ul>
-</li><li><span style="white-space:pre"></span>
-<ul style="font-size:14px">
-<li>一个最基本的 网络图片加载工具完成了。</li></ul>
-<div style="font-size:14px"></div>
-</li></ul>
-<div style="font-size:14px"><br>
-</div>
-<div style="font-size:15px; color:rgb(117,112,112)"><span style="font-family:'Helvetica Neue'">&nbsp; &nbsp; &nbsp;</span></div>
-<div style="font-size:14px"><span style="font-family:'Helvetica Neue'"><span style="color:rgb(30,78,121)"><span style="font-size:21px">第四步：<span style="font-family:'Helvetica Neue'; font-size:21px"><span style="color:rgb(30,78,121)">优化一些细节</span></span></span></span></span></div>
-<ul style="font-size:14px">
-<li><span style="font-family:'Helvetica Neue'; font-size:14px">图片下载方法过于简单， 会遇到很多无法下载的情况，而无法查找原因</span></li><li><span style="font-family:'Helvetica Neue'; font-size:14px"><img src="http://img.blog.csdn.net/20151120174212964?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
-</span></li><li><span style="font-family:'Helvetica Neue'; font-size:14px"><span style="font-size:14px">把下载抽出来做管理</span><br>
-</span></li><li><span style="font-family:'Helvetica Neue'; font-size:14px"><span style="font-size:14px"><img src="http://img.blog.csdn.net/20151120174248939?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
-</span></span></li><li><span style="font-family:'Helvetica Neue'; font-size:14px"><span style="font-size:14px"><span style="font-size:14px">增加了cancel 方法</span><br>
-</span></span></li></ul>
-<div style="font-size:14px"></div>
+//首先创建一个实现了JSExport协议的协议
+@protocol TestJSObjectProtocol &lt;JSExport&gt;
+
+//此处我们测试几种参数的情况
+-(void)TestNOParameter;
+-(void)TestOneParameter:(NSString *)message;
+-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2;
+
+@end
+
+//让我们创建的类实现上边的协议
+@interface TestJSObject : NSObject&lt;TestJSObjectProtocol&gt;
+
+@end
+</pre><br>
+类的实现
+<p></p>
+<p></p>
+<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_7_1813511"  code_snippet_id="1610385" snippet_file_name="blog_20160315_7_1813511" name="code" class="objc">#import &quot;TestJSObject.h&quot;
+
+@implementation TestJSObject
+
+//一下方法都是只是打了个log 等会看log 以及参数能对上就说明js调用了此处的iOS 原生方法
+-(void)TestNOParameter
+{
+    NSLog(@&quot;this is ios TestNOParameter&quot;);
+}
+-(void)TestOneParameter:(NSString *)message
+{
+    NSLog(@&quot;this is ios TestOneParameter=%@&quot;,message);
+}
+-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2
+{
+   NSLog(@&quot;this is ios TestTowParameter=%@  Second=%@&quot;,message1,message2);
+}
+@end
+</pre><br>
+<br>
+<p></p>
+<p><br>
+</p>
+<p>下面我们在weibview加载完成之后调用测试一下</p>
+<p><br>
+</p>
+<p>代码如下：</p>
+<p></p>
+<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_8_5543264"  code_snippet_id="1610385" snippet_file_name="blog_20160315_8_5543264" name="code" class="objc">-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //网页加载完成调用此方法
+    
+    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
+    JSContext *context=[webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];
+    
+    //第二种情况，js是通过对象调用的，我们假设js里面有一个对象 testobject 在调用方法
+    //首先创建我们新建类的对象，将他赋值给js的对象
+    
+    TestJSObject *testJO=[TestJSObject new];
+    context[@&quot;testobject&quot;]=testJO;
+    
+    //同样我们也用刚才的方式模拟一下js调用方法
+    NSString *jsStr1=@&quot;testobject.TestNOParameter()&quot;;
+    [context evaluateScript:jsStr1];
+    NSString *jsStr2=@&quot;testobject.TestOneParameter(&#39;参数1&#39;)&quot;;
+    [context evaluateScript:jsStr2];
+    NSString *jsStr3=@&quot;testobject.TestTowParameterSecondParameter(&#39;参数A&#39;,&#39;参数B&#39;)&quot;;
+    [context evaluateScript:jsStr3];
+    
+}</pre><br>
+<br>
+<p></p>
+<p>结果如下图</p>
+<blockquote style="margin:0 0 0 40px; border:none; padding:0px">
+<p><img src="http://img.blog.csdn.net/20150725190107988?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p><br>
+</p>
+</blockquote>
+<p>好了 我们看到了结果 三个方法都调用了&nbsp;</p>
+<p>ok两种方式都完成了</p>
+<p><br>
+</p>
+
+
+<br>
+<p> 转载自:http://blog.csdn.net/lwjok2007/article/details/47058101<br>
+</p>
    
-
-<p></div></p>
+</div>
 
                       
                     </div>
@@ -290,7 +386,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/01/28/JKImageView/">http://blog.flywithme.top/2016/01/28/JKImageView/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/15/JScallOC/">http://blog.flywithme.top/2016/03/15/JScallOC/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -343,7 +439,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/01/28/JKImageView/" data-title="JKImageView" data-url="http://blog.flywithme.top/2016/01/28/JKImageView/"></div>
+<div class="ds-thread" data-thread-key="/2016/03/15/JScallOC/" data-title="iOS JS call OC" data-url="http://blog.flywithme.top/2016/03/15/JScallOC/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -398,20 +494,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2016/01/28/NSThread/" rel="next">
+        <a href="http://blog.flywithme.top/2016/03/15/OCCallJS/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>NSThread</span>
+          <span>iOS OC call JS</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2016/03/15/loadAndinitialize" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>Objective-C 中 &#43;load 与 &#43;initialize</span>
-        </a>
         
       </li>
     </ul>

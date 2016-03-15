@@ -3,12 +3,22 @@
     
     <url>
         <loc>http://blog.flywithme.top/</loc>
-        <lastmod>2016-03-15T17:52:43+08:00</lastmod>
+        <lastmod>2016-03-15T18:12:45+08:00</lastmod>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/15/Objective-C-%E4%B8%AD-load-%E4%B8%8E-initialize/</loc>
+        <loc>http://blog.flywithme.top/2016/03/15/JScallOC/</loc>
+        <lastmod>2016-03-15T18:12:45+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://blog.flywithme.top/2016/03/15/OCCallJS/</loc>
+        <lastmod>2016-03-15T18:05:59+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://blog.flywithme.top/2016/03/15/loadAndinitialize</loc>
         <lastmod>2016-03-15T17:52:43+08:00</lastmod>
     </url>
     

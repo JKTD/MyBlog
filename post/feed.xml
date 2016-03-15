@@ -6,14 +6,380 @@
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
-        <updated>Tue, 15 Mar 2016 17:52:43 CST</updated>
+        <updated>Tue, 15 Mar 2016 18:12:45 CST</updated>
+        
+        <item>
+            <title>iOS JS call OC</title>
+            <link>http://blog.flywithme.top/2016/03/15/JScallOC/</link>
+            <pubDate>Tue, 15 Mar 2016 18:12:45 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/03/15/JScallOC/</guid>
+            <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
+&lt;p&gt;接着上节我们讲到的iOS调用js&lt;/p&gt;
+&lt;p&gt;下来我们使用js调用iOS&lt;/p&gt;
+&lt;p&gt;js调用iOS分两种情况&lt;/p&gt;
+&lt;p&gt;一，js里面直接调用方法&lt;/p&gt;
+&lt;p&gt;二，js里面通过对象调用方法&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;首先我们看第一种，直接调用方法。&lt;/p&gt;
+&lt;p&gt;其中用到了iOS的block&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;上代码&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_1_7755355&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_1_7755355&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //网页加载完成调用此方法
+    
+    //iOS调用js
+    
+    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
+    JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;];
+  
+    //js调用iOS
+    //第一种情况
+    //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码
+    //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道
+    context[@&amp;quot;test1&amp;quot;] = ^() {
+        NSArray *args = [JSContext currentArguments];
+        for (id obj in args) {
+            NSLog(@&amp;quot;%@&amp;quot;,obj);
+        }
+    };
+    //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下）
+    //首先准备一下js代码，来调用js的函数test1 然后执行
+    //一个参数
+    NSString *jsFunctStr=@&amp;quot;test1(&amp;#39;参数1&amp;#39;)&amp;quot;;
+    [context evaluateScript:jsFunctStr];
+    
+    //二个参数
+    NSString *jsFunctStr1=@&amp;quot;test1(&amp;#39;参数a&amp;#39;,&amp;#39;参数b&amp;#39;)&amp;quot;;
+    [context evaluateScript:jsFunctStr1];
+    
+}&lt;/pre&gt;&lt;br&gt;
+以上代码中 给test1赋&amp;#20540;的block要是执行了那么结果就是对的，js调用了iOS
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;我们看结果&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725183355773?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。&lt;/p&gt;
+&lt;p&gt;此处稍微复杂一点我们需要使用到&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(112,61,170)&#34;&gt;
+JSExport&lt;/p&gt;
+&lt;p&gt;凡事添加了JSExport协议的协议，所规定的方法，变量等 就会对js开放，我们可以通过js调用到&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+如果js是一个参数或者没有参数的话 就比较简单，我们的方法名和js的方法名保持一致即可&lt;/p&gt;
+&lt;p&gt;比如： js方法为 &amp;nbsp;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_2_3579444&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_2_3579444&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;testobject.TestOneParameter(&amp;#39;参数1&amp;#39;)&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+那么 我们在oc中添加的代理方法就为
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_3_864229&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_3_864229&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)TestOneParameter:(NSString *)message;&lt;/pre&gt;&lt;br&gt;
+&lt;p&gt;&lt;/p&gt;
+如果js是多个参数的话 &amp;nbsp;我们代理方法的所有变量前的名字连起来要和js的方法名字一样
+&lt;p&gt;比如： js方法为 &amp;nbsp;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_4_657268&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_4_657268&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;testobject.TestTowParameterSecondParameter(&amp;#39;参数A&amp;#39;,&amp;#39;参数B&amp;#39;)&lt;/pre&gt;他有两个参数 那么我们的代理方法 就是把js的方法名 TestTowParameterSecondParameter 任意拆分成两段作为代理方法名（此处我们拆分为 TestTowParameter 和&amp;nbsp;SecondParameter ） 那么我们的代理方法就是
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_5_6862257&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_5_6862257&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2;&lt;/pre&gt;我们看代理方法有两个变量别名
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;TestTowParameter 和&amp;nbsp;SecondParameter&amp;nbsp;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;他两个拼接起来就刚好是我们js的方法名&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;此处有点绕。我们直接看代码&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;首先创建一个类 继承NSObject 并且规定一个协议&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_6_592012&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_6_592012&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
+#import &amp;lt;JavaScriptCore/JavaScriptCore.h&amp;gt;
+
+//首先创建一个实现了JSExport协议的协议
+@protocol TestJSObjectProtocol &amp;lt;JSExport&amp;gt;
+
+//此处我们测试几种参数的情况
+-(void)TestNOParameter;
+-(void)TestOneParameter:(NSString *)message;
+-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2;
+
+@end
+
+//让我们创建的类实现上边的协议
+@interface TestJSObject : NSObject&amp;lt;TestJSObjectProtocol&amp;gt;
+
+@end
+&lt;/pre&gt;&lt;br&gt;
+类的实现
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_7_1813511&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_7_1813511&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;#import &amp;quot;TestJSObject.h&amp;quot;
+
+@implementation TestJSObject
+
+//一下方法都是只是打了个log 等会看log 以及参数能对上就说明js调用了此处的iOS 原生方法
+-(void)TestNOParameter
+{
+    NSLog(@&amp;quot;this is ios TestNOParameter&amp;quot;);
+}
+-(void)TestOneParameter:(NSString *)message
+{
+    NSLog(@&amp;quot;this is ios TestOneParameter=%@&amp;quot;,message);
+}
+-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2
+{
+   NSLog(@&amp;quot;this is ios TestTowParameter=%@  Second=%@&amp;quot;,message1,message2);
+}
+@end
+&lt;/pre&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;下面我们在weibview加载完成之后调用测试一下&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;代码如下：&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_8_5543264&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_8_5543264&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //网页加载完成调用此方法
+    
+    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
+    JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;];
+    
+    //第二种情况，js是通过对象调用的，我们假设js里面有一个对象 testobject 在调用方法
+    //首先创建我们新建类的对象，将他赋值给js的对象
+    
+    TestJSObject *testJO=[TestJSObject new];
+    context[@&amp;quot;testobject&amp;quot;]=testJO;
+    
+    //同样我们也用刚才的方式模拟一下js调用方法
+    NSString *jsStr1=@&amp;quot;testobject.TestNOParameter()&amp;quot;;
+    [context evaluateScript:jsStr1];
+    NSString *jsStr2=@&amp;quot;testobject.TestOneParameter(&amp;#39;参数1&amp;#39;)&amp;quot;;
+    [context evaluateScript:jsStr2];
+    NSString *jsStr3=@&amp;quot;testobject.TestTowParameterSecondParameter(&amp;#39;参数A&amp;#39;,&amp;#39;参数B&amp;#39;)&amp;quot;;
+    [context evaluateScript:jsStr3];
+    
+}&lt;/pre&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;结果如下图&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725190107988?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;好了 我们看到了结果 三个方法都调用了&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;ok两种方式都完成了&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+
+
+&lt;br&gt;
+&lt;p&gt; 转载自:http://blog.csdn.net/lwjok2007/article/details/47058101&lt;br&gt;
+&lt;/p&gt;
+   
+&lt;/div&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>iOS OC call JS</title>
+            <link>http://blog.flywithme.top/2016/03/15/OCCallJS/</link>
+            <pubDate>Tue, 15 Mar 2016 18:05:59 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/03/15/OCCallJS/</guid>
+            <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
+
+&lt;p&gt;从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。&lt;/p&gt;
+&lt;p&gt;下面我们就简单了解一下这个框架&lt;/p&gt;
+&lt;p&gt;首先我导入framework&lt;/p&gt;
+&lt;p&gt;方法如下&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725170931474?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;点击Linked Frameworks and Libraries 的添加后 选择 JavaScriptCore.framework&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725171216557?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;选中JavaScriptCore.framework后 点击右下角Add 添加完成&lt;/p&gt;
+&lt;p&gt;好 创建完成之后我们导入一下头文件&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;#import &amp;lt;JavaScriptCore/JavaScriptCore.h&amp;gt;&lt;/pre&gt;&lt;br&gt;
+点进去 会看到如下几个方法
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; min-height:15px&#34;&gt;
+&lt;br&gt;
+&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(209,47,27)&#34;&gt;
+&lt;span style=&#34;color:#78492a&#34;&gt;#import &lt;/span&gt;&amp;quot;JSContext.h&amp;quot;&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(209,47,27)&#34;&gt;
+&lt;span style=&#34;color:#78492a&#34;&gt;#import &lt;/span&gt;&amp;quot;JSValue.h&amp;quot;&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(209,47,27)&#34;&gt;
+&lt;span style=&#34;color:#78492a&#34;&gt;#import &lt;/span&gt;&amp;quot;JSManagedValue.h&amp;quot;&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(209,47,27)&#34;&gt;
+&lt;span style=&#34;color:#78492a&#34;&gt;#import &lt;/span&gt;&amp;quot;JSVirtualMachine.h&amp;quot;&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(209,47,27)&#34;&gt;
+&lt;span style=&#34;color:#78492a&#34;&gt;#import &lt;/span&gt;&amp;quot;JSExport.h&amp;quot;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;这些方法我们等会再细讲&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;下来我们创建一个UIWebView &amp;nbsp;用来测试&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;创建UIWebView&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;    UIWebView *myWebView;&lt;/pre&gt;&lt;br&gt;
+初始化，添加，打开网址
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;    //初始化webview
+    myWebView=[[UIWebView alloc]initWithFrame:CGRectMake(0, 22, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-22)];
+    myWebView.delegate=self;
+    //添加webview到当前viewcontroller的view上
+    [self.view addSubview:myWebView];
+    
+    //网址
+    NSString *httpStr=@&amp;quot;https://www.baidu.com&amp;quot;;
+    NSURL *httpUrl=[NSURL URLWithString:httpStr];
+    NSURLRequest *httpRequest=[NSURLRequest requestWithURL:httpUrl];
+    [myWebView loadRequest:httpRequest];&lt;/pre&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;运行效果如下&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725174032573?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;下面我们来实现UIWebView的几个代理方法&lt;/p&gt;
+&lt;p&gt;首先我们看下它的代理方法&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;@protocol UIWebViewDelegate &amp;lt;NSObject&amp;gt;
+
+@optional
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+- (void)webViewDidStartLoad:(UIWebView *)webView;
+- (void)webViewDidFinishLoad:(UIWebView *)webView;
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error;
+
+@end&lt;/pre&gt;&lt;br&gt;
+每个方法的作用等会在带里面做注释
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;首先我们添加协议&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;@interface ViewController ()&amp;lt;UIWebViewDelegate&amp;gt;&lt;/pre&gt;&lt;br&gt;
+实现代理方法
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;#pragma mark --webViewDelegate
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    //网页加载之前会调用此方法
+    
+    //retrun YES 表示正常加载网页 返回NO 将停止网页加载
+    return YES;
+}
+
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
+    //开始加载网页调用此方法
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //网页加载完成调用此方法
+}
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    //网页加载失败 调用此方法
+}
+&lt;/pre&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;每个方法是什么时候调用都在注释里面&lt;/p&gt;
+&lt;p&gt;下来我们先尝试用oc调用一下js方法&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //网页加载完成调用此方法
+    
+    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
+    JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;];
+    NSString *alertJS=@&amp;quot;alert(&amp;#39;test js OC&amp;#39;)&amp;quot;; //准备执行的js代码
+    [context evaluateScript:alertJS];//通过oc方法调用js的alert
+    
+}&lt;/pre&gt;&lt;br&gt;
+执行效果如下：
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725181940412?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;好了，我们已经实现了iOS 调用js&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+
+&lt;br&gt;
+&lt;p&gt; 转载自:http://blog.csdn.net/lwjok2007/article/details/47058101&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+   
+&lt;/div&gt;
+</description>
+        </item>
         
         <item>
             <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
-            <link>http://blog.flywithme.top/2016/03/15/Objective-C-%E4%B8%AD-load-%E4%B8%8E-initialize/</link>
+            <link>http://blog.flywithme.top/2016/03/15/loadAndinitialize</link>
             <pubDate>Tue, 15 Mar 2016 17:52:43 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/15/Objective-C-%E4%B8%AD-load-%E4%B8%8E-initialize/</guid>
+            <guid>http://blog.flywithme.top/2016/03/15/loadAndinitialize</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;p class=&#34;p1&#34; style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:25.2000007629395px&#34;&gt;
