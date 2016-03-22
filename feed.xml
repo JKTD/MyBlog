@@ -6,7 +6,44 @@
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
-        <updated>Thu, 17 Mar 2016 14:06:05 CST</updated>
+        <updated>Tue, 22 Mar 2016 19:04:26 CST</updated>
+        
+        <item>
+            <title>golang Web 框架 gin 简介</title>
+            <link>http://blog.flywithme.top/2016/03/22/golang-Web-gin-gonic/</link>
+            <pubDate>Tue, 22 Mar 2016 19:04:26 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/03/22/golang-Web-gin-gonic/</guid>
+            <description>&lt;p&gt;GitHub：&lt;a href=&#34;https://gin-gonic.github.io/gin/&#34;&gt;https://gin-gonic.github.io/gin/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了一个小 demo&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;func main() {
+    router := gin.Default()
+
+    // This handler will match /user/john but will not match neither /user/ or /user
+    router.GET(&amp;quot;/user/:name&amp;quot;, func(c *gin.Context) {
+        name := c.Param(&amp;quot;name&amp;quot;)
+        c.String(http.StatusOK, &amp;quot;Hello %s&amp;quot;, name)
+    })
+
+    // However, this one will match /user/john/ and also /user/john/send
+    // If no other routers match /user/john, it will redirect to /user/john/
+    router.GET(&amp;quot;/user/:name/*action&amp;quot;, func(c *gin.Context) {
+        name := c.Param(&amp;quot;name&amp;quot;)
+        action := c.Param(&amp;quot;action&amp;quot;)
+        message := name + &amp;quot; is &amp;quot; + action
+        c.String(http.StatusOK, message)
+    })
+
+    router.Run(&amp;quot;:8080&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一点点代码,一个简单的 server 就完成了.
+so let&amp;rsquo;s Do it!&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>iOS App检测AppStore更新</title>
