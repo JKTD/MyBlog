@@ -6,7 +6,551 @@
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
-        <updated>Tue, 22 Mar 2016 19:04:26 CST</updated>
+        <updated>Thu, 24 Mar 2016 10:58:29 CST</updated>
+        
+        <item>
+            <title>Objective-C&#43;Runtime 浅析</title>
+            <link>http://blog.flywithme.top/2016/03/24/OCRuntime/</link>
+            <pubDate>Thu, 24 Mar 2016 10:58:29 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/03/24/OCRuntime/</guid>
+            <description>
+
+&lt;h4 id=&#34;一-什么是objective-c-runtime:f56a9e9e73a618e80c7099e7e8ebe510&#34;&gt;一、什么是Objective-C Runtime?&lt;/h4&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Objective-C Runtime是一个实现Objective-C语言的C库。对象可以用C语言中的结构体表示，而方法（methods）可以用C函数实现。事实上，他们差不多也是这么干了，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，Objective-C程序员可以在程序运行时创建，检查，修改类，对象和它们的方法。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;首先可以考虑一个问题：如果让我们设计、实现一门计算机语言，要如何下手？可能我们平时很少这么思考过，但是这么一问，就会强迫我们从更高层次思考问题了。编译优化先忽略，语言的优雅性也可以暂时放一边，我们可以从实现来看下面三个层次：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;传统的面向过程的语言开发，例如c语言。实现c语言编译器只要按照语法规则实现一个LALR语法分析器就可以了，忽略编译器的优化问题，我们可以先实现编译器中最最基础和原始的目标：把一份代码里的函数名称，转化成一个相对内存地址，把调用这个函数的语句转换成一个jmp跳转指令。在程序开始运行时候，调用语句可以正确跳转到对应的函数地址。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;void fly(char *name)
+    {
+            printf(&amp;quot;%s fly&amp;quot;, name);
+    }
+    void run(char *name)
+    {
+            printf(&amp;quot;%s run&amp;quot;, name);
+    }
+
+
+    fly(&amp;quot;Pig&amp;quot;);
+    run(&amp;quot;Pig&amp;quot;);
+    fly(&amp;quot;Dog&amp;quot;);
+    run(&amp;quot;Dog&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;我们希望灵活，于是需要开发面向对象的语言，例如c++。 c++在c的基础上增加了类的部分。但这到底意味着什么呢？我们在写它的编译器要如何考虑呢？其实，就是让编译器多绕个弯，在严格的c编译器上增加一层类处理的机制，把一个函数限制在它处在的class环境里，每次请求一个函数调用，先找到它的对象, 其类型,返回值，参数等等，确定了这些后再jmp跳转到需要的函数。这样很多程序增加了灵活性同样一个函数调用会根据请求参数和类的环境返回完全不同的结果。增加类机制后，就模拟了现实世界的抽象模式，不同的对象有不同的属性和方法。同样的方法，不同的类有不同的行为!&lt;br /&gt;
+下面就可以开始尝试开发一种新的面向对象语言，先暂定这种语言叫DP-C吧！&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Class Animal 
+    {
+            char *name;
+            Animal(char *name)
+           {
+                 this.name = name;
+           }
+          void fly()
+          {
+               printf(&amp;quot;%s fly&amp;quot;, this.name);
+          }
+          void run()
+          {
+               printf(&amp;quot;%s run&amp;quot;, this.name);
+          }
+    }
+    Animal *pig = new Animal(&amp;quot;pig&amp;quot;);
+    Animal *dog = new Animal(&amp;quot;dog&amp;quot;);
+    pig.fly();
+    pig.run();
+    dog.fly();
+    dog.run();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的代码看上去应该挺熟悉，接下来将DP-C语言编成C代码。什么，还没写编译器？好吧，虽然现在强大的AlphaGO战胜伟大的韩国围棋小甜菜李世石，但是我还是相信我们人类的大脑永远是机器无法取代的，那么我们前端技术组临时成立个部门，就叫DP-C语言编译部，由部门的小伙伴用他们强大的大脑和灵活的小手指将DP-C翻译成C语言，然后剩下的编译工作就交给C语言编译器：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;typedef struct dp_class_animal *Animal;
+    void fly(Animal this)
+    {
+            printf(&amp;quot;%s fly&amp;quot;, this-&amp;gt;name);
+    }
+    void run(Animal this)
+    {
+            printf(&amp;quot;%s run&amp;quot;, this-&amp;gt;name);
+    }
+
+
+    struct dp_class_animal
+    {
+            char *name;
+            void (*fly)(Animal this);
+            void (*run)(Animal this);
+    }
+
+
+    Animal pig = {
+            .name = &amp;quot;pig&amp;quot;;
+            .fly = &amp;amp;fly;
+            .run = &amp;amp;run;
+    }
+    Animal dog = {
+           .name = &amp;quot;dog&amp;quot;;
+            .fly = &amp;amp;fly;
+            .run = &amp;amp;run;
+    }
+    pig-&amp;gt;fly(pig);
+    pig-&amp;gt;run(pig);
+    dog-&amp;gt;fly(dog);
+    dog-&amp;gt;run(dog);
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;希望更加灵活！ 于是完全把上面Animal类的实现部分抽象出来，做成一套完整运行阶段的检测环境。这次再写编译器甚至保留部分代码里的sytax名称，名称错误检测，runtime环境注册所有全局的类，函数，变量等等信息等等，我们可以无限的为这个层增加必要的功能。调用函数时候，会先从这个运行时环境里检测所以可能的参数再做jmp跳转，这就是runtime。编译器开发起来比上面更加弯弯绕。但是这个层极大增加了程序的灵活性。 例如当调用一个函数时候，上面的编译方法很有可能一个jmp到了一个非法地址导致程序crash, 但是在这个层次里面，runtime就过滤掉了这些可能性。 这就是为什么dynamic langauge更加强壮。 因为编译器和runtime环境开发人员已经帮你处理了这些问题，而Objecitve-C是C的超集加上一个小巧的runtime环境。我们可以继续完善我们的DP-C，为她增加一个小小的Runtime，可能暂时没有头绪，但是他山之石可以攻玉，我们现在请出我们的主角Objective-C，看看她的Runtime是如何实现的。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&#34;二-runtime相关的主要类型:f56a9e9e73a618e80c7099e7e8ebe510&#34;&gt;二、Runtime相关的主要类型&lt;/h4&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SEL&lt;/strong&gt;：Objective-C在编译的时候，会根据方法的名字（包括参数序列），生成一个用 来区分这个方法的唯一的一个ID，这个ID就是SEL类型的。我们需要注意的是，只要方法的名字（包括参数序列）相同，那么它们的ID都是相同的。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IMP&lt;/strong&gt;：函数指针，指向函数（方法）的具体实现。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Class&lt;/strong&gt;：objc_class*&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;typedef struct objc_class *Class;
+
+struct objc_class {
+
+    Class isa; // 指向metaClass
+
+    Class super_class; // 指向该类的父类, 如果该类已经是最顶层的根类(如 NSObject 或 NSProxy),那么 super_class 就为 NULL.
+
+    const char *name; // 类名
+
+    long version; // 类的版本信息,默认为0,可以通过runtime函数class_setVersion和class_getVersion进行修改、读取  
+
+    long info; // 供运行期使用的一些位标识，如CLS_CLASS (0x1L) 表示该类为普通 class ，其中包含对象方法和成员变量;CLS_META (0x2L) 表示该类为 metaclass，其中包含类方法;
+
+    long instance_size; // 该类的实例变量大小
+
+    struct objc_ivar_list *ivars; // 成员变量的数组
+
+    struct objc_method_list **methodLists; // 与 info 的一些标志位有关,如CLS_CLASS (0x1L),则存储对象方法，如CLS_META (0x2L)，则存储类方法;
+
+    struct objc_cache *cache; // 指向最近使用的方法.用于方法调用的优化
+
+    struct objc_protocol_list *protocols; // 存储遵守的协议的数组
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;objc_ivar_list&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct objc_ivar_list {
+        int ivar_count;   // 变量数
+        int space ;  // 64位时可用，在objc-runtime-old中没有发现其使用，作用未知，估计是寻址用
+        struct objc_ivar ivar_list[1]; // 变量列表，暂时声明长度为1，在添加变量时会动态分配内存，增加列表长度
+    }   
+    Ivar：objc_ivar*
+    struct objc_ivar {
+        char *ivar_name ; // 变量名
+        char *ivar_type ; // 变量类型
+        int ivar_offset ; // 变量在对象内存中的偏移量，用于获取对象中成员变量的首地址
+        int space; // 64位时可用，作用未知，估计是寻址用
+    }  
+
+
+    objc_method_list
+    struct objc_method_list {
+        struct objc_method_list *obsolete; // 过时的方法列表
+        int method_count; // 方法数
+        int space; // 64位时可用，作用未知，估计是寻址用
+        struct objc_method method_list[1]; // 方法列表，暂时声明长度为1，在添加方法时会动态分配内存，增加列表长度
+    }  
+    Method：objc_method *
+    struct objc_method {
+        SEL method_name; // 方法名，SEL类型，用于快速查找方法
+        char *method_types; // 方法参数类型字符串，包括返参和入参
+        IMP method_imp; /// 方法具体实现，指向方法在内存的首地址
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;method_types释义&lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html#//apple_ref/doc/uid/TP40008048-CH100-SW1&#34;&gt;（点击传送到苹果官方文档）&lt;/a&gt;:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Code&lt;/th&gt;
+&lt;th&gt;Meaning&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;{name=type&amp;hellip;}&lt;/td&gt;
+&lt;td&gt;A structure&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Code&lt;/td&gt;
+&lt;td&gt;Meaning&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;c&lt;/td&gt;
+&lt;td&gt;MA char&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;i&lt;/td&gt;
+&lt;td&gt;MAn int&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;s&lt;/td&gt;
+&lt;td&gt;MA short&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;l&lt;/td&gt;
+&lt;td&gt;MA long &lt;br/&gt;l is treated as a 32-bit quantity on 64-bit programs.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;q&lt;/td&gt;
+&lt;td&gt;MA long long&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C&lt;/td&gt;
+&lt;td&gt;MAn unsigned char&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;I&lt;/td&gt;
+&lt;td&gt;MAn unsigned int&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;S&lt;/td&gt;
+&lt;td&gt;MAn unsigned short&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;L&lt;/td&gt;
+&lt;td&gt;MAn unsigned long&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Q&lt;/td&gt;
+&lt;td&gt;MAn unsigned long long&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;f&lt;/td&gt;
+&lt;td&gt;MA float&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;d&lt;/td&gt;
+&lt;td&gt;MA double&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;B&lt;/td&gt;
+&lt;td&gt;MA C++ bool or a C99 _Bool&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;v&lt;/td&gt;
+&lt;td&gt;MA void&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;A character string (char *)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;@&lt;/td&gt;
+&lt;td&gt;An object (whether statically typed or typed id)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;#&lt;/td&gt;
+&lt;td&gt;A class object (Class)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;:&lt;/td&gt;
+&lt;td&gt;A method selector (SEL)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;[array type]&lt;/td&gt;
+&lt;td&gt;An array&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;name=type&amp;hellip;}&lt;/td&gt;
+&lt;td&gt;A structure&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;(name=type&amp;hellip;)&lt;/td&gt;
+&lt;td&gt;A union&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;bnum&lt;/td&gt;
+&lt;td&gt;A bit field of num bits&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;^type&lt;/td&gt;
+&lt;td&gt;A pointer to type&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;?&lt;/td&gt;
+&lt;td&gt;An unknown type (among other things, this code is used for function pointers)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;objc_protocol_list&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct objc_protocol_list {
+    struct objc_protocol_list *next; // 下一个objc_protocol_list，链表的实现，比如当新增一个Category时，会将Category的objc_protocol_list加到当前链表之前，见objc-runtime-old.mm第3008-3010行
+    long count; // 协议数
+    Protocol *list[1]; // 协议列表，初始声明长度为1，在添加协议时会动态分配内存，增加列表长度
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Protocol： objc_object*&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct objc_object{
+     Class isa;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Category: objc_category&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct objc_category {
+    char *category_name;
+    char *class_name;
+    struct objc_method_list *instance_methods ;
+    struct objc_method_list *class_methods;
+    struct objc_protocol_list *protocols ;
+} 
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&#34;三-关系及消息机制:f56a9e9e73a618e80c7099e7e8ebe510&#34;&gt;三、关系及消息机制&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Objective-C&lt;/strong&gt; 中类和对象&lt;br /&gt;
+下面一幅图比较经典，描述了Objective-C中类和对象的关系&lt;br /&gt;
+&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/superclassRelation.png&#34; alt=&#34;superClass&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;消息机制&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;简单的方法调用&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;以方法&lt;strong&gt;makeText&lt;/strong&gt;为例，&lt;strong&gt;@selector (makeText)&lt;/strong&gt;是一个SEL方法选择器。上文在描述SEL提到过，SEL其主要作用是快速的通过方法名字（makeText）查找到对应方法的函数指针，然后调用其函 数。SEL其本身是一个Int类型的一个地址，地址中存放着方法的名字。对于一个类中。每一个方法对应着一个SEL。所以iOS类中不能存在2个名称相同 的方法，即使参数类型不同，因为SEL是根据方法名字生成的，相同的方法名称只能对应一个SEL。&lt;/p&gt;
+
+&lt;p&gt;首先，编译器将代码[obj makeText];转化为objc_msgSend(obj, @selector (makeText));，在objc_msgSend函数中。首先通过obj的isa指针找到obj对应的class。在Class中先去cache中 通过SEL查找对应函数method（猜测cache中method列表是以SEL为key通过hash表来存储的，这样能提高函数查找速度），若 cache中未找到。再去methodList中查找，若methodlist中未找到，则去superClass中查找。若能找到，则将method加 入到cache中，以方便下次查找，并通过method中的函数指针跳转到对应的函数中去执行。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/methodListGet.jpg&#34; alt=&#34;methodList&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;objc_msgSend的定义：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;id objc_msgSend ( id self, SEL op, ... ); 
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;self&lt;/strong&gt;和&lt;strong&gt;super&lt;/strong&gt;&lt;br /&gt;
+先看一段代码，看看Som在init时控制台输出什么&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface Son : Father
+@end
+@implementation Son 
+- (id)init 
+{ 
+        self = [super init]; 
+        if (self) 
+        { 
+                NSLog(@&amp;quot;%@&amp;quot;, NSStringFromClass([self class])); 
+                NSLog(@&amp;quot;%@&amp;quot;, NSStringFromClass([super class])); 
+        } 
+        return self; 
+} 
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;self表示当前这个类的对象，而super是一个编译器标示符，和self指向同一个消息接受者。在本例中，无论是[self class]还是[super class]，接受消息者都是Son对象，但super与self不同的是，self调用class方法时，是在子类Son中查找方法，而super调用class方法时，是在父类Father中查找方法。&lt;/p&gt;
+
+&lt;p&gt;当调用[self class]方法时，会转化为objc_msgSend函数。这时会从当前Son类的方法列表中查找，如果没有，就到Father类查找，还是没有，最后在NSObject类查找到。我们可以从NSObject.mm文件中看到- (Class)class的实现：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;- (Class)class { 
+        return object_getClass(self); 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;所以NSLog(@&amp;ldquo;%@&amp;rdquo;, NSStringFromClass([self class]));会输出Son。
+  当调用[super class]方法时，会转化为objc_msgSendSuper，这个函数定义如下：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;id objc_msgSendSuper(struct objc_super *super, SEL op, ...)  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;objc_msgSendSuper函数第一个参数super的数据类型是一个指向objc_super的结构体，从message.h文件中查看它的定义：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;/// Specifies the superclass of an instance. 
+struct objc_super { 
+        /// Specifies an instance of a class. 
+        __unsafe_unretained id receiver; 
+
+
+        /// Specifies the particular superclass of the instance to message. 
+        #if !defined(__cplusplus) &amp;amp;&amp;amp; !__OBJC2__ 
+        /* For compatibility with old objc-runtime.h header */ 
+        __unsafe_unretained Class class; 
+        #else 
+        __unsafe_unretained Class super_class; 
+        #endif 
+        /* super_class is the first class to search */ 
+}; 
+#endif
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;结构体包含两个成员，第一个是receiver，表示某个类的实例。第二个是super_class表示当前类的父类。这时首先会构造出objc_super结构体，这个结构体第一个成员是self，第二个成员是(id)class_getSuperclass(objc_getClass(&amp;ldquo;Son&amp;rdquo;))，实际上该函数会输出Father。然后在Father类查找class方法，查找不到，最后在NSObject查到。此时，内部使用objc_msgSend(objc_super-&amp;gt;receiver, @selector(class))去调用，与[self class]调用相同，所以结果还是Son。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;隐藏参数_cmd&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;当[receiver message]调用方法时，系统会在运行时偷偷地动态传入两个隐藏参数self和_cmd，之所以称它们为隐藏参数，是因为在源代码中没有声明和定义这两个参数。self我们知道是什么，_cmd表示当前调用方法，其实它就是一个方法选择器SEL。一般用于判断方法名或在Associated Objects中唯一标识键名。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;方法解析与消息转发&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;[obj doSomething]调用方法时，如果在doSomething方法在obj对象的类继承体系中没有找到方法时，一般情况下，程序在运行时就会Crash掉，抛出unrecognized selector sent to…类似这样的异常信息。但在抛出异常之前，还有三次机会按以下顺序让你拯救程序。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;阶段一、&lt;strong&gt;Method Resolution&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;当找不到方法时，首先Objective-C在运行时调用+ resolveInstanceMethod:或+ resolveClassMethod:方法，让你添加方法的实现。如果你添加方法并返回YES，那系统在运行时就会重新启动一次消息发送的过程，如果返回NO，怎进入阶段二：消息转发。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;阶段二、&lt;strong&gt;Fast Forwarding&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果目标对象实现- forwardingTargetForSelector:方法，系统就会在运行时调用这个方法，只要这个方法返回的不是nil或self，也会重启消息发送的过程，把这消息转发给其他对象来处理，之所以叫Fast，是因为这一阶段不会创建NSInvocation对象，但Normal Forwarding会创建它，所以相对于更快点。如果返回nil或self，就会继续Normal Fowarding。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;阶段三、&lt;strong&gt;Normal Forwarding&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Normal Forwarding阶段首先调用methodSignatureForSelector:方法来获取函数的参数和返回值，如果返回为nil，程序会Crash掉，并抛出unrecognized selector sent to instance异常信息。如果返回一个函数签名，系统就会创建一个NSInvocation对象并调用-forwardInvocation:方法。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;三种消息转发机制总结：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Method Resolution&lt;/strong&gt;：由于Method Resolution不能像消息转发那样可以交给其他对象来处理，所以只适用于在原来的类中代替掉。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Fast Forwarding&lt;/strong&gt;：它可以将消息处理转发给其他对象，使用范围更广，不只是限于原来的对象。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Normal Forwarding&lt;/strong&gt;：它跟Fast Forwarding一样可以消息转发，但它能通过NSInvocation对象获取更多消息发送的信息，例如：target、selector、arguments和返回值等信息。&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&#34;四-associated-objects:f56a9e9e73a618e80c7099e7e8ebe510&#34;&gt;四、Associated Objects&lt;/h4&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;当使用Category对某个类进行扩展时，有时需要存储属性，Category是不支持的，这时需要使用Associated Objects来给已存在的类Category添加自定义的属性。Associated Objects提供三个API来向对象添加、获取和删除关联值：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;    void objc_setAssociatedObject (id object, const void *key, id value, objc_AssociationPolicy policy )
+    id objc_getAssociatedObject (id object, const void *key )
+    void objc_removeAssociatedObjects (id object )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;其中objc_AssociationPolicy是个枚举类型，它可以指定Objc内存管理的引用计数机制。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;    typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) { 
+            OBJC_ASSOCIATION_ASSIGN = 0, /**&amp;lt; Specifies a weak reference to the associated object. */ 
+            OBJC_ASSOCIATION_RETAIN_NONATOMIC = 1, /**&amp;lt; Specifies a strong reference to the associated object. 
+            /* The association is not made atomically. */ 
+            OBJC_ASSOCIATION_COPY_NONATOMIC = 3, /**&amp;lt; Specifies that the associated object is copied. 
+            /* The association is not made atomically. */ 
+            OBJC_ASSOCIATION_RETAIN = 01401, /**&amp;lt; Specifies a strong reference to the associated object. 
+           / * The association is made atomically. */ 
+            OBJC_ASSOCIATION_COPY = 01403 /**&amp;lt; Specifies that the associated object is copied. 
+            /* The association is made atomically. */ 
+    };
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Associated Objects的key要求是唯一并且是常量。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&#34;五-method-swizzling:f56a9e9e73a618e80c7099e7e8ebe510&#34;&gt;五、 &lt;strong&gt;Method Swizzling&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Method Swizzling就是在运行时将一个方法的实现代替为另一个方法的实现。如果能够利用好这个技巧，可以写出简洁、有效且维护性更好的代码，比如实现AOP。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;     void method_exchangeImplementations(Method m1, Method m2) 
+
+     void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
+     {
+         Method originalMethod = class_getInstanceMethod(class, originalSelector);
+         Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+
+         BOOL didAddMethod = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+
+         if (didAddMethod) {
+             class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+         }
+         else {
+             method_exchangeImplementations(originalMethod, swizzledMethod);
+         }
+     }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>golang Web 框架 gin 简介</title>
