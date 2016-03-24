@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <base href="http://blog.flywithme.top//">
+  <script>
+    document._writeOriginal = document.write;
+    document.write = function(str) {
+        if (str.indexOf('livereload.js') > -1) {
+            document._writeOriginal(str);
+        } else {
+            document._writeOriginal('<!-- Be Hijack!! -->');
+        }
+    }
+  </script>
+  <title>Objective-C 中 &#43;load 与 &#43;initialize - 案发现场 </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="keywords" content="xxx,">
+<meta name="description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+<meta name="author" content="brasbug">
+<meta name="publisher" content="brasbug">
+<meta name="generator" content="http://gohugo.io/"/>
+
+<meta itemprop="name" content="Objective-C 中 &#43;load 与 &#43;initialize - 案发现场 ">
+<meta itemprop="description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+<meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
+
+<meta property="og:title" content="Objective-C 中 &#43;load 与 &#43;initialize - 案发现场 " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/03/24/loadAndinitialize/" />
+<meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
+<meta property="og:description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@brasbug">
+<meta name="twitter:title" content="Objective-C 中 &#43;load 与 &#43;initialize - 案发现场 ">
+<meta name="twitter:description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+<meta name="twitter:creator" content="@brasbug">
+<meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
+
+  <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/03/24/loadAndinitialize/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/24/loadAndinitialize/"/>
+  <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
+  
+<link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="font-awesome-css" href="http://blog.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="http://blog.flywithme.top/public/highlight/styles/github.css">
+<script src="http://blog.flywithme.top/public/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" id="human-style-css3" href="http://blog.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="public/font/hack/css/hack.min.css">
+
+<script type="text/javascript" src="assets/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="wp-content/themes/hueman/js/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="wp-content/themes/hueman/js/scripts.js"></script>
+<script type="text/javascript" src="assets/picturefill/picturefill.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.matchHeight-min.js"></script>
+<script type="text/javascript" async defer src="assets/js/myblog.js"></script>
+
+</head>
+
+<body class="single single-post single-format-standard col-3cm full-width topbar-enabled chrome">
+<div id="wrapper">
+  <header id="header">
+
+  <nav class="nav-container group" id="nav-topbar">
+    <div class="nav-toggle"><i class="fa fa-bars"></i></div>
+    <div class="nav-text"></div>
+    <div class="nav-wrap container">
+      <a rel="nofollow" href="http://blog.flywithme.top//" class="nav-cs-icon">
+        <img width="40" height="40" src="http://blog.flywithme.top/public/coderjk.jpg" alt="brasbug" title="Home">
+      </a>
+      <ul id="menu-default-menu" class="nav container-inner group">
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/post/">归档</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/about/">关于我</a>
+        </li>
+        
+        
+          
+        
+        <li class="menu-item menu-item-type-post_type menu-item-text">
+        开始了一段成为大师的自我修养之路
+        </li>
+      </ul>
+    </div>
+
+    <div class="container">
+      <div class="container-inner">
+        <div class="toggle-search"><i class="fa fa-search"></i></div>
+        <div class="search-expand">
+          <div class="search-expand-inner">
+            <form method="get" class="searchform themeform" action="https://www.google.com/search">
+              <div>
+                <input type="text" class="search" name="q" placeholder="Press enter to start searching">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+
+  </nav>
+  
+
+  <div class="container group">
+    <div class="container-inner">
+
+      <div class="group pad">
+
+        <div class="group pad">
+          <h1 class="site-title">
+            <a rel="nofollow" href="http://blog.flywithme.top//" rel="home">
+              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="brasbug" src="http://blog.flywithme.top/public/coderjk.jpg"></img>
+              案发现场 
+            </a>
+          </h1>
+          <p class="site-description"> 记住儿时的梦想,现在还为时不晚。 </p>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+  
+
+</header>
+
+
+
+  <div class="container" id="page">
+    <div class="container-inner">
+      <div class="main">
+        <div class="main-inner group">
+          <section class="content">
+            <div class="page-title pad group">
+              <ul class="meta-single group">
+                
+                <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="pad group">
+
+              <article
+                  class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
+                <div class="post-inner group">
+
+                  <h1 class="post-title">Objective-C 中 &#43;load 与 &#43;initialize</h1>
+
+                  <p class="post-byline">
+                    by  · 2016年03月24日 · 2426 Words ·
+                    ~5min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-24-load&#43;initialize.md"
+                       target="_blank">Improve on <i class="fa fa-github"></i></a>
+                  </p>
+
+                  <div class="clear"></div>
+
+                  <div class="entry">
+                    <div class="entry-inner">
+                      
+                      <p>类的加载
+在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如</p>
+
+<hr />
+
+<blockquote>
+<p><strong>Java</strong>代码</p>
+</blockquote>
+
+<pre><code>public class MyClass{    
+    static{    
+        ……    
+    }    
+}           
+</code></pre>
+
+<blockquote>
+<p>在objc语言里，对应的机制是，2个类初始化方法，+(void)load和+(void)initialize。</p>
+</blockquote>
+
+<pre><code>#import &quot;Constants.h&quot; 
+@implementation Constants    
+
++ (void)initialize{    
+    NSLog(@&quot;init constants &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;);    
+}    
+
++ (void)load{    
+    NSLog(@&quot;load constants &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;);    
+}    
+
+@end 
+</code></pre>
+
+<blockquote>
+<p>两个方法有一些不同。<br />
+load，是加载类的时候，这里是Constants类，就会调用。也就是说，ios应用启动的时候，就会加载所有的类，就会调用这个方法<br />
+这样有个缺点，当加载类需要很昂贵的资源，或者比较耗时的时候，可能造成不良的用户体验，或者系统的抖动。这时候，就要考虑initialize方法了。这个方法可看作类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。比如：
+[Constants alloc];</p>
+
+<p>alloc将为Constants实例在堆上分配变量。这时调用一次initialize方法，而且仅调用一次，也就是说再次alloc操作的时候，不会再调用initialize方法了。</p>
+
+<p>initialize 会在运行时仅被触发一次，如果没有向类发送消息的话，这个方法将不会被调用。这个方法的调用是线程安全的。父类会比子类先收到此消息。</p>
+
+<p>如果希望在类及其Categorgy中执行不同的初始化的话可以使用+load<br />
++(void)load; 在Objective-C运行时载入类或者Category时被调用<br />
+这个方法对动态库和静态库中的类或(Category)都有效.</p>
+</blockquote>
+
+<ul>
+<li>在Mac OS X 10.5及之后的版本，初始化的顺序如下：<br />
+
+<ol>
+<li>调用所有的Framework中的初始化方法</li>
+<li>调用所有的+load方法</li>
+<li>调用C++的静态初始化方及C/C++中的<strong>attribute</strong>(constructor)函数</li>
+<li>调用所有链接到目标文件的framework中的初始化方法</li>
+</ol></li>
+</ul>
+
+<blockquote>
+<p>另外</p>
+</blockquote>
+
+<ul>
+<li>一个类的+load方法在其父类的+load方法后调用</li>
+<li>一个Category的+load方法在被其扩展的类的自有+load方法后调用
+在+load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的+load方法可能尚未被调用。</li>
+</ul>
+
+<blockquote>
+<p>下面是一个load的顺序</p>
+</blockquote>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;    
+
+#define LOAD +(void)load{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
+#define INITIALIZE +(void)initialize{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
+#define DEF_CLASS(clsName) @interface clsName : NSObject \    
+@end \    
+@implementation clsName \    
+INITIALIZE \    
+LOAD \    
+@end    
+
+DEF_CLASS(C1)   //1    
+DEF_CLASS(C2)   //2    
+
+@interface C1 (Hello)    
++ (void)hello;    
+@end    
+@implementation C1 (Hello)    
+INITIALIZE       //   
+LOAD            //3    
++ (void)hello    
+{    
+    NSLog(@&quot;Hello&quot;);    
+}    
++ (void)hi    
+{    
+    NSLog(@&quot;hi&quot;);    
+}    
+@end    
+
+@interface C2 (Hello)    
+@end    
+@implementation C2 (Hello)    
++ (void)load    //4   
+{    
+    NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);    
+}    
+
++ (void)initialize    //   
+{    
+    NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);    
+}    
+@end    
+int main (int argc, const char * argv[])    
+{    
+
+    @autoreleasepool {    
+        // insert code here...    
+        //        [[C1 alloc]init]; // 向C1发送消息    
+        //       [[C2 alloc]init]; // 向C2发送消息    
+    }    
+    return 0;    
+}    
+</code></pre>
+
+<blockquote>
+<p>输出</p>
+</blockquote>
+
+<pre><code class="language-bash">   2012-08-1400:47:07.859 www[654:903] +[C1 load]
+   2012-08-1400:47:07.862 www[654:903] +[C2 load]
+   2012-08-14 00:47:07.863 www[654:903] +[C1(Hello) load]
+   2012-08-14 00:47:07.863 www[654:903] +[C2(Hello) load]   
+  
+</code></pre>
+
+<blockquote>
+<p>以上只执行了load方法。<br />
+load和initialize的顺序:</p>
+</blockquote>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;    
+
+#define LOAD +(void)load{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
+#define INITIALIZE +(void)initialize{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
+#define DEF_CLASS(clsName) @interface clsName : NSObject \    
+@end \    
+@implementation clsName \    
+INITIALIZE \    
+LOAD \    
+@end    
+
+DEF_CLASS(C1)   //1    
+DEF_CLASS(C2)   //2    
+
+@interface C1 (Hello)    
++ (void)hello;    
+@end    
+@implementation C1 (Hello)    
+INITIALIZE       //4    
+LOAD            //3    
++ (void)hello    
+{    
+    NSLog(@&quot;Hello&quot;);    
+}    
++ (void)hi    
+{    
+    NSLog(@&quot;hi&quot;);    
+}    
+@end    
+
+@interface C2 (Hello)    
+@end    
+@implementation C2 (Hello)    
++ (void)load    //5    
+{    
+    NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);//[C1 hello];//NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);    
+}    
+
++ (void)initialize    //6    
+{    
+    NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);    
+}    
+@end    
+int main (int argc, const char * argv[])    
+{    
+
+    @autoreleasepool {    
+        // insert code here...    
+        [[C1 alloc]init]; // 向C1发送消息    
+        [[C2 alloc]init]; // 向C2发送消息    
+    }    
+    return 0;    
+}
+</code></pre>
+
+<blockquote>
+<p>输出</p>
+</blockquote>
+
+<pre><code class="language-bash">  2012-08-1400:55:26.769 www[741:903] +[C1 load]
+  2012-08-1400:55:26.772 www[741:903] +[C2 load]
+  2012-08-14 00:55:26.772 www[741:903] +[C1(Hello) load]
+  2012-08-14 00:55:26.773 www[741:903] +[C2(Hello) load]
+  2012-08-14 00:55:26.773 www[741:903] +[C1(Hello) initialize]
+  2012-08-14 00:55:26.774 www[741:903] +[C2(Hello) initialize]
+</code></pre>
+
+<blockquote>
+<p>貌似类中的initialize没有执行。alloc]init某个类就调用每个类的initialize方法。
+假如只[[C2 alloc]init];就只执行C2类中的initialize方法 ，输出：</p>
+</blockquote>
+
+<pre><code class="language-bash">  2012-08-1400:55:26.769 www[741:903] +[C1 load]
+  2012-08-1400:55:26.772 www[741:903] +[C2 load]
+  2012-08-14 00:55:26.772 www[741:903] +[C1(Hello) load]
+  2012-08-14 00:55:26.773 www[741:903] +[C2(Hello) load]
+  2012-08-14 00:55:26.774 www[741:903] +[C2(Hello) initialize]
+</code></pre>
+
+<blockquote>
+<p>再看下面代码：<br />
+    #import <Foundation/Foundation.h></p>
+</blockquote>
+
+<pre><code>#define LOAD +(void)load{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
+#define INITIALIZE +(void)initialize{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
+#define DEF_CLASS(clsName) @interface clsName : NSObject \    
+@end \    
+@implementation clsName \    
+INITIALIZE \    
+LOAD \    
+@end    
+
+DEF_CLASS(C1)   //1    
+DEF_CLASS(C2)   //2    
+
+@interface C1 (Hello)    
++ (void)hello;    
+@end    
+@implementation C1 (Hello)    
+INITIALIZE       //4    
+LOAD            //3    
++ (void)hello    
+{    
+    NSLog(@&quot;Hello&quot;);    
+}    
++ (void)hi    
+{    
+    NSLog(@&quot;hi&quot;);    
+}    
+@end    
+
+@interface C2 (Hello)    
+@end    
+@implementation C2 (Hello)    
++ (void)load    //5    
+{    
+    [C1 hello];//NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__); //这里做了修改，调用了C1的静态方法，导致执行了C1的+initialize   
+}    
+
++ (void)initialize    //6    
+{    
+    NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);    
+}    
+@end    
+int main (int argc, const char * argv[])    
+{    
+
+    @autoreleasepool {    
+        // insert code here...    
+        //                [[C1 alloc]init]; // 向C1发送消息    
+        [[C2 alloc]init]; // 向C2发送消息    
+    }    
+    return 0;    
+}  
+</code></pre>
+
+<blockquote>
+<p>输出</p>
+</blockquote>
+
+<pre><code class="language-bash"> 2012-08-1423:31:28.834 www[14975:903] +[C1 load]
+ 2012-08-1423:31:28.837 www[14975:903] +[C2 load]
+ 2012-08-14 23:31:28.837 www[14975:903] +[C1(Hello) load]
+ 2012-08-14 23:31:28.838 www[14975:903] +[C1(Hello) initialize]
+ 2012-08-1423:31:28.838 www[14975:903] Hello
+ 2012-08-14 23:31:28.839 www[14975:903] +[C2(Hello) initialize]
+</code></pre>
+
+<ul>
+<li><p>问题：</p>
+
+<ol>
+<li>在倒数第二个代码中，为什么没有执行类中的initialize而是执行Category中的initialize方法？？（Category覆盖方法时优先级更高）</li>
+</ol></li>
+
+<li><p>要点：</p>
+
+<ol>
+<li>initialize和load，我们并不需要在这两个方法的实现中使用super调用父类的方法。</li>
+<li>load和initialize被调用一次是相对runtime而言 ，你可以当作普通类方法多次调用。</li>
+<li>类加载到系统的时候就用调用load方法，类首次使用的时候调用initialize方法。</li>
+
+<li><p>load不像普通方法一样遵从那套继承规则，当每个类没有实现 load方法，不管各级超类是否实现，系统都不会调用此类的load方法。initialize与其他方法一样，如果每个类没有实现initialize方法，而超类实现了，那么就会执行超类的这个方法，所以通常会：</p>
+
+<pre><code>+(void)initialize{  
+      if(self == [XXXClass clasee])  
+      //todo  
+}
+</code></pre>
+
+<blockquote>
+<p>加了这个检测后，只会在期望的那个类被加载的时候执行。</p>
+</blockquote></li>
+
+<li><p>initialize和load的方法必须写的精简。</p></li>
+
+<li><p>initialize中可以实现无法在编译期初始化的全局变量，load的方法中可以实现swizzling的逻辑。</p></li>
+
+<li><p>load的调用并不视为类的第一个方法完成，因为load中调用了当前类中的方法，就先去执行initialize方法了。</p></li>
+
+<li><p>Runtime调用+(void)load时没有autorelease pool，</p>
+
+<p>@interface MainClass : NSObject<br />
+@end</p>
+
+<p>@implementation MainClass</p>
+
+<ul>
+<li>(void) load {<br />
+NSArray *array = [NSArray array];<br />
+NSLog(@&ldquo;%@ %s&rdquo;, array, <strong>FUNCTION</strong>);<br />
+}<br /></li>
+</ul>
+
+<p>@end</p>
+
+<blockquote>
+<p>objc[84934]: Object 0x10a512930 of class __NSArrayI autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug 2012-09-28 18:07:39.042 ClassMethod[84934:403] ( ) +[MainClass load]
+  其原因是runtime调用+(void)load的时候，程序还没有建立其autorelease pool，所以那些会需要使用到autorelease pool的代码，都会出现异常。这一点是非常需要注意的，也就是说放在+(void)load中的对象都应该是alloc出来并且不能使用autorelease来释放。</p>
+</blockquote></li>
+
+<li><p>load方法调用的顺序：父类(Superclass)的方法优先于子类(Subclass)的方法，类中的方法优先于类别(Category)中的方法。</p></li>
+
+<li><p>所有类别(Category)中的load方法都会执行。</p></li>
+
+<li><p>最后一个类别(Category)中的initialize方法会覆盖之前类别和类中的initialize方法。</p></li>
+</ol></li>
+</ul>
+
+                      
+                    </div>
+                    <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+                        <div style="float:left;margin-top:0px;">
+                        <img src="http://blog.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
+                        <div style="text-align:center;">微信扫一扫</div>
+                        </div>
+                        <div>
+                            <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
+                            <br />微信关注：Crime_Sence (我在案发现场）
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/24/loadAndinitialize/">http://blog.flywithme.top/2016/03/24/loadAndinitialize/</a>
+                            <br />
+                            文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  
+
+                </div>
+                
+              </article>
+              
+
+              <div class="clear"></div>
+
+              <p class="post-tags">
+                <span>Tags:</span>
+                
+              </p>
+
+              <h4 class="heading">
+  <i class="fa fa-hand-o-right"></i>Related posts</h4>
+
+    <ul class="related-posts group">
+    
+    
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+    </ul>
+
+
+
+              <section id="comments" class="themeform">
+<div class="ds-thread" data-thread-key="/2016/03/24/loadAndinitialize/" data-title="Objective-C 中 &#43;load 与 &#43;initialize" data-url="http://blog.flywithme.top/2016/03/24/loadAndinitialize/"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"brasbug"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</section>
+
+
+              
+            </div>
+
+
+          </section>
+          <div class="sidebar s1">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
+  <div class="sidebar-content">
+    <div class="sidebar-top group">
+      <p>Follow:</p>
+      <ul class="social-links">
+    <li>
+    <a class="social-tooltip" title="On WeiBo"
+        href="http://weibo.com/brasbug" target="_blank">
+        <i class="fa fa-weibo"></i>
+    </a>
+    </li>
+    <li>
+    <a class="social-tooltip" title="On Twitter" rel="nofollow"
+        href="https://twitter.com/brasbug" target="_blank">
+        <i class="fa fa-twitter"></i>
+    </a>
+    </li>
+    <li>
+    <a class="social-tooltip" title="On GitHub"
+        href="https://github.com/brasbug" target="_blank">
+        <i class="fa fa-github"></i>
+    </a>
+    </li>
+</ul>
+
+    </div>
+    <div class="widget qrcode">
+    <img src="http://blog.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
+    <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
+</div>
+
+    <ul class="post-nav group">
+      <li class="next">
+        
+        <a href="http://blog.flywithme.top/2016/03/24/OCRuntime/" rel="next">
+          <i class="fa fa-chevron-right"></i>
+          <strong>Next post</strong>
+          <span>Objective-C&#43;Runtime 浅析</span>
+        </a>
+        
+      </li>
+      <li class="previous">
+        
+      </li>
+    </ul>
+    <div id="search-2" class="widget widget_search"><h3>Search</h3>
+      <form method="get" class="searchform themeform" action="https://www.google.com/search">
+        <div>
+          <input type="text" class="search" name="q" placeholder="Press enter to start searching">
+        </div>
+      </form>
+    </div>
+  </div>
+  
+</div>
+
+          <div class="sidebar s2">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
+  <div class="sidebar-content">
+    <div class="sidebar-top group">
+      <p>More</p>
+    </div>
+    <div id="categories-2" class="widget widget_categories"><h3>Categories</h3>
+      <ul>
+        
+          <li class="cat-item cat-item-1">
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          </li>
+        
+          <li class="cat-item cat-item-1">
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          </li>
+        
+          <li class="cat-item cat-item-1">
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer id="footer">
+
+  <nav class="nav-container group" id="nav-footer">
+    <div class="nav-toggle"><i class="fa fa-bars"></i></div>
+    <div class="nav-text"></div>
+    <div class="nav-wrap">
+      <ul id="menu-default-menu-1" class="nav container group">
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+        </li>
+        
+      </ul>
+    </div>
+  </nav>
+  
+
+  <section class="container" id="footer-bottom">
+    <div class="container-inner">
+      <a id="back-to-top" href="#"><i class="fa fa-angle-up"></i></a>
+      <div class="pad group">
+        <div class="grid one-half">
+          <div id="copyright">
+            <p>Copyright © 2015. All Rights Reserved. <br>Powered by
+              <a rel="nofollow" href="http://gohugo.io/" target="_blank">Hugo - the static site generator</a>.
+              <a rel="nofollow" href="http://golang.org" target="_blank">#golang</a>.
+            </p>
+          </div>
+          
+        </div>
+        
+        <div class="grid one-half last">
+          <ul class="social-links">
+    <li>
+    <a class="social-tooltip" title="On WeiBo"
+        href="http://weibo.com/brasbug" target="_blank">
+        <i class="fa fa-weibo"></i>
+    </a>
+    </li>
+    <li>
+    <a class="social-tooltip" title="On Twitter" rel="nofollow"
+        href="https://twitter.com/brasbug" target="_blank">
+        <i class="fa fa-twitter"></i>
+    </a>
+    </li>
+    <li>
+    <a class="social-tooltip" title="On GitHub"
+        href="https://github.com/brasbug" target="_blank">
+        <i class="fa fa-github"></i>
+    </a>
+    </li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+    
+  </section>
+  
+
+</footer>
+
+</div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-10147768-2', 'auto');
+  ga('send', 'pageview');
+
+  $('#messagesbsb').remove();
+
+</script>
+</body>
+</html>
+
