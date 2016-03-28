@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>Objective-C 中 &#43;load 与 &#43;initialize - 案发现场 </title>
+  <title>iOS下Category添加属性字段 - 案发现场 </title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+<meta name="description" content="首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Objective-C 中 &#43;load 与 &#43;initialize - 案发现场 ">
-<meta itemprop="description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+<meta itemprop="name" content="iOS下Category添加属性字段 - 案发现场 ">
+<meta itemprop="description" content="首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="Objective-C 中 &#43;load 与 &#43;initialize - 案发现场 " />
+<meta property="og:title" content="iOS下Category添加属性字段 - 案发现场 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2016/03/24/loadAndinitialize/" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+<meta property="og:description" content="首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="Objective-C 中 &#43;load 与 &#43;initialize - 案发现场 ">
-<meta name="twitter:description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+<meta name="twitter:title" content="iOS下Category添加属性字段 - 案发现场 ">
+<meta name="twitter:description" content="首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2016/03/24/loadAndinitialize/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/24/loadAndinitialize/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -175,12 +175,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">Objective-C 中 &#43;load 与 &#43;initialize</h1>
+                  <h1 class="post-title">iOS下Category添加属性字段</h1>
 
                   <p class="post-byline">
-                    by  · 2016年03月24日 · 2426 Words ·
-                    ~5min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-24-load&#43;initialize.md"
+                    by  · 2016年03月25日 · 681 Words ·
+                    ~2min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-25-iOSCategoryProperty.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -189,360 +189,159 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <p>类的加载
-在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如</p>
+                      
 
-<hr />
+<p>首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。</p>
 
-<blockquote>
-<p><strong>Java</strong>代码</p>
-</blockquote>
+<p>首先看下报错情况</p>
 
-<pre><code>public class MyClass{    
-    static{    
-        ……    
-    }    
-}           
-</code></pre>
-
-<blockquote>
-<p>在objc语言里，对应的机制是，2个类初始化方法，+(void)load和+(void)initialize。</p>
-</blockquote>
-
-<pre><code>#import &quot;Constants.h&quot; 
-@implementation Constants    
-
-+ (void)initialize{    
-    NSLog(@&quot;init constants &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;);    
-}    
-
-+ (void)load{    
-    NSLog(@&quot;load constants &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;);    
-}    
-
-@end 
-</code></pre>
-
-<blockquote>
-<p>两个方法有一些不同。<br />
-load，是加载类的时候，这里是Constants类，就会调用。也就是说，iOS应用启动的时候，就会加载所有的类，就会调用这个方法<br />
-这样有个缺点，当加载类需要很昂贵的资源，或者比较耗时的时候，可能造成不良的用户体验，或者系统的抖动。这时候，就要考虑initialize方法了。这个方法可看作类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。比如：
-[Constants alloc];</p>
-
-<p>alloc将为Constants实例在堆上分配变量。这时调用一次initialize方法，而且仅调用一次，也就是说再次alloc操作的时候，不会再调用initialize方法了。</p>
-
-<p>initialize 会在运行时仅被触发一次，如果没有向类发送消息的话，这个方法将不会被调用。这个方法的调用是线程安全的。父类会比子类先收到此消息。</p>
-
-<p>如果希望在类及其Categorgy中执行不同的初始化的话可以使用+load<br />
-+(void)load; 在Objective-C运行时载入类或者Category时被调用<br />
-这个方法对动态库和静态库中的类或(Category)都有效.</p>
-</blockquote>
-
-<ul>
-<li>在Mac OS X 10.5及之后的版本，初始化的顺序如下：<br />
+<h5 id="category添加字段-常规方法:39c9c95c702d9dfb0e5afaac21bb60d2">Category添加字段(常规方法)</h5>
 
 <ol>
-<li>调用所有的Framework中的初始化方法</li>
-<li>调用所有的+load方法</li>
-<li>调用C++的静态初始化方及C/C++中的<strong>attribute</strong>(constructor)函数</li>
-<li>调用所有链接到目标文件的framework中的初始化方法</li>
-</ol></li>
-</ul>
+<li><p>编写 Category 头文件, 以 UIImage 为例</p>
 
-<blockquote>
-<p>另外</p>
-</blockquote>
+<pre><code>//
+//  UIImage+category.h
+//  
+//
+//  Created by Linf on 15-5-19.
+//  Copyright (c) 2015年 Linf. All rights reserved.
+//
+#import &lt;UIKit/UIKit.h&gt;
 
-<ul>
-<li>一个类的+load方法在其父类的+load方法后调用</li>
-<li>一个Category的+load方法在被其扩展的类的自有+load方法后调用
-在+load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的+load方法可能尚未被调用。</li>
-</ul>
 
-<blockquote>
-<p>下面是一个load的顺序</p>
-</blockquote>
+@interface UIImage (category)
 
-<pre><code>#import &lt;Foundation/Foundation.h&gt;    
 
-#define LOAD +(void)load{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
-#define INITIALIZE +(void)initialize{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
-#define DEF_CLASS(clsName) @interface clsName : NSObject \    
-@end \    
-@implementation clsName \    
-INITIALIZE \    
-LOAD \    
-@end    
+// 在UIImage中新建一个tag属性
+@property (nonatomic, copy) NSString *tag;
 
-DEF_CLASS(C1)   //1    
-DEF_CLASS(C2)   //2    
 
-@interface C1 (Hello)    
-+ (void)hello;    
-@end    
-@implementation C1 (Hello)    
-INITIALIZE       //   
-LOAD            //3    
-+ (void)hello    
-{    
-    NSLog(@&quot;Hello&quot;);    
-}    
-+ (void)hi    
-{    
-    NSLog(@&quot;hi&quot;);    
-}    
-@end    
+@end
+</code></pre></li>
 
-@interface C2 (Hello)    
-@end    
-@implementation C2 (Hello)    
-+ (void)load    //4   
-{    
-    NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);    
-}    
+<li><p>编写 Category 源文件</p>
 
-+ (void)initialize    //   
-{    
-    NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);    
-}    
-@end    
-int main (int argc, const char * argv[])    
-{    
+<pre><code>//
+//  UIImage+category.m
+//  
+//
+//  Created by Linf on 15-5-19.
+//  Copyright (c) 2015年 Linf. All rights reserved.
+//
 
-    @autoreleasepool {    
-        // insert code here...    
-        //        [[C1 alloc]init]; // 向C1发送消息    
-        //       [[C2 alloc]init]; // 向C2发送消息    
-    }    
-    return 0;    
-}    
-</code></pre>
 
-<blockquote>
-<p>输出</p>
-</blockquote>
+#import &quot;UIImage+category.h&quot;
 
-<pre><code class="language-bash">   2012-08-1400:47:07.859 www[654:903] +[C1 load]
-   2012-08-1400:47:07.862 www[654:903] +[C2 load]
-   2012-08-14 00:47:07.863 www[654:903] +[C1(Hello) load]
-   2012-08-14 00:47:07.863 www[654:903] +[C2(Hello) load]   
-  
-</code></pre>
 
-<blockquote>
-<p>以上只执行了load方法。<br />
-load和initialize的顺序:</p>
-</blockquote>
+@implementation UIImage (category)
 
-<pre><code>#import &lt;Foundation/Foundation.h&gt;    
 
-#define LOAD +(void)load{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
-#define INITIALIZE +(void)initialize{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
-#define DEF_CLASS(clsName) @interface clsName : NSObject \    
-@end \    
-@implementation clsName \    
-INITIALIZE \    
-LOAD \    
-@end    
-
-DEF_CLASS(C1)   //1    
-DEF_CLASS(C2)   //2    
-
-@interface C1 (Hello)    
-+ (void)hello;    
-@end    
-@implementation C1 (Hello)    
-INITIALIZE       //4    
-LOAD            //3    
-+ (void)hello    
-{    
-    NSLog(@&quot;Hello&quot;);    
-}    
-+ (void)hi    
-{    
-    NSLog(@&quot;hi&quot;);    
-}    
-@end    
-
-@interface C2 (Hello)    
-@end    
-@implementation C2 (Hello)    
-+ (void)load    //5    
-{    
-    NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);//[C1 hello];//NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);    
-}    
-
-+ (void)initialize    //6    
-{    
-    NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);    
-}    
-@end    
-int main (int argc, const char * argv[])    
-{    
-
-    @autoreleasepool {    
-        // insert code here...    
-        [[C1 alloc]init]; // 向C1发送消息    
-        [[C2 alloc]init]; // 向C2发送消息    
-    }    
-    return 0;    
+- (NSString *)tag {
+    return self.tag;
 }
-</code></pre>
 
-<blockquote>
-<p>输出</p>
-</blockquote>
 
-<pre><code class="language-bash">  2012-08-1400:55:26.769 www[741:903] +[C1 load]
-  2012-08-1400:55:26.772 www[741:903] +[C2 load]
-  2012-08-14 00:55:26.772 www[741:903] +[C1(Hello) load]
-  2012-08-14 00:55:26.773 www[741:903] +[C2(Hello) load]
-  2012-08-14 00:55:26.773 www[741:903] +[C1(Hello) initialize]
-  2012-08-14 00:55:26.774 www[741:903] +[C2(Hello) initialize]
-</code></pre>
-
-<blockquote>
-<p>貌似类中的initialize没有执行。alloc]init某个类就调用每个类的initialize方法。
-假如只[[C2 alloc]init];就只执行C2类中的initialize方法 ，输出：</p>
-</blockquote>
-
-<pre><code class="language-bash">  2012-08-1400:55:26.769 www[741:903] +[C1 load]
-  2012-08-1400:55:26.772 www[741:903] +[C2 load]
-  2012-08-14 00:55:26.772 www[741:903] +[C1(Hello) load]
-  2012-08-14 00:55:26.773 www[741:903] +[C2(Hello) load]
-  2012-08-14 00:55:26.774 www[741:903] +[C2(Hello) initialize]
-</code></pre>
-
-<blockquote>
-<p>再看下面代码：<br />
-    #import <Foundation/Foundation.h></p>
-</blockquote>
-
-<pre><code>#define LOAD +(void)load{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
-#define INITIALIZE +(void)initialize{NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);}    
-#define DEF_CLASS(clsName) @interface clsName : NSObject \    
-@end \    
-@implementation clsName \    
-INITIALIZE \    
-LOAD \    
-@end    
-
-DEF_CLASS(C1)   //1    
-DEF_CLASS(C2)   //2    
-
-@interface C1 (Hello)    
-+ (void)hello;    
-@end    
-@implementation C1 (Hello)    
-INITIALIZE       //4    
-LOAD            //3    
-+ (void)hello    
-{    
-    NSLog(@&quot;Hello&quot;);    
-}    
-+ (void)hi    
-{    
-    NSLog(@&quot;hi&quot;);    
-}    
-@end    
-
-@interface C2 (Hello)    
-@end    
-@implementation C2 (Hello)    
-+ (void)load    //5    
-{    
-    [C1 hello];//NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__); //这里做了修改，调用了C1的静态方法，导致执行了C1的+initialize   
-}    
-
-+ (void)initialize    //6    
-{    
-    NSLog(@&quot;%s&quot;, __PRETTY_FUNCTION__);    
-}    
-@end    
-int main (int argc, const char * argv[])    
-{    
-
-    @autoreleasepool {    
-        // insert code here...    
-        //                [[C1 alloc]init]; // 向C1发送消息    
-        [[C2 alloc]init]; // 向C2发送消息    
-    }    
-    return 0;    
-}  
-</code></pre>
-
-<blockquote>
-<p>输出</p>
-</blockquote>
-
-<pre><code class="language-bash"> 2012-08-1423:31:28.834 www[14975:903] +[C1 load]
- 2012-08-1423:31:28.837 www[14975:903] +[C2 load]
- 2012-08-14 23:31:28.837 www[14975:903] +[C1(Hello) load]
- 2012-08-14 23:31:28.838 www[14975:903] +[C1(Hello) initialize]
- 2012-08-1423:31:28.838 www[14975:903] Hello
- 2012-08-14 23:31:28.839 www[14975:903] +[C2(Hello) initialize]
-</code></pre>
-
-<ul>
-<li><p>问题：</p>
-
-<ol>
-<li>在倒数第二个代码中，为什么没有执行类中的initialize而是执行Category中的initialize方法？？（Category覆盖方法时优先级更高）</li>
-</ol></li>
-
-<li><p>要点：</p>
-
-<ol>
-<li>initialize和load，我们并不需要在这两个方法的实现中使用super调用父类的方法。</li>
-<li>load和initialize被调用一次是相对runtime而言 ，你可以当作普通类方法多次调用。</li>
-<li>类加载到系统的时候就用调用load方法，类首次使用的时候调用initialize方法。</li>
-
-<li><p>load不像普通方法一样遵从那套继承规则，当每个类没有实现 load方法，不管各级超类是否实现，系统都不会调用此类的load方法。initialize与其他方法一样，如果每个类没有实现initialize方法，而超类实现了，那么就会执行超类的这个方法，所以通常会：</p>
-
-<pre><code>+(void)initialize{  
-      if(self == [XXXClass clasee])  
-      //todo  
+- (void)setTag:(NSString *)tag {
+    self.tag = [tag copy];
 }
+@end
+</code></pre></li>
+
+<li><p>访问Category属性添加的 tag 属性</p>
+
+<pre><code>UIImage *image = [UIImage imageNamed:@&quot;&quot;];
+[image setTag:@&quot;100&quot;];
+NSLog(@&quot;tag:%@&quot;, [image tag]);
 </code></pre>
 
 <blockquote>
-<p>加了这个检测后，只会在期望的那个类被加载的时候执行。</p>
-</blockquote></li>
+<p>打印信息为:</p>
+</blockquote>
 
-<li><p>initialize和load的方法必须写的精简。</p></li>
-
-<li><p>initialize中可以实现无法在编译期初始化的全局变量，load的方法中可以实现swizzling的逻辑。</p></li>
-
-<li><p>load的调用并不视为类的第一个方法完成，因为load中调用了当前类中的方法，就先去执行initialize方法了。</p></li>
-
-<li><p>Runtime调用+(void)load时没有autorelease pool，</p>
-
-<p>@interface MainClass : NSObject<br />
-@end</p>
-
-<p>@implementation MainClass</p>
-
-<ul>
-<li>(void) load {<br />
-NSArray *array = [NSArray array];<br />
-NSLog(@&ldquo;%@ %s&rdquo;, array, <strong>FUNCTION</strong>);<br />
-}<br /></li>
-</ul>
-
-<p>@end</p>
+<pre><code>2015-08-12 15:17:10.321 InformPub[16828:1373803] CUICatalog: Invalid asset name supplied: 
+2015-08-12 15:17:10.321 InformPub[16828:1373803] tag:(null)
+</code></pre>
 
 <blockquote>
-<p>objc[84934]: Object 0x10a512930 of class __NSArrayI autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug 2012-09-28 18:07:39.042 ClassMethod[84934:403] ( ) +[MainClass load]
-  其原因是runtime调用+(void)load的时候，程序还没有建立其autorelease pool，所以那些会需要使用到autorelease pool的代码，都会出现异常。这一点是非常需要注意的，也就是说放在+(void)load中的对象都应该是alloc出来并且不能使用autorelease来释放。</p>
+<p>看到了没有，我们设置了tag值，完全没有用。那么有没有什么办法可以给Category添加属性字段呢？请看下面：</p>
 </blockquote></li>
+</ol>
 
-<li><p>load方法调用的顺序：父类(Superclass)的方法优先于子类(Subclass)的方法，类中的方法优先于类别(Category)中的方法。</p></li>
+<h5 id="category添加字段-runtime方法:39c9c95c702d9dfb0e5afaac21bb60d2">Category添加字段（Runtime方法）</h5>
 
-<li><p>所有类别(Category)中的load方法都会执行。</p></li>
+<ol>
+<li><p>编写 Category 头文件, 以 UIImage 为例</p>
 
-<li><p>最后一个类别(Category)中的initialize方法会覆盖之前类别和类中的initialize方法。</p></li>
-</ol></li>
-</ul>
+<pre><code>   //
+   //  UIImage+category.h
+   //  
+   //
+   //  Created by Linf on 15-5-19.
+   //  Copyright (c) 2015年 Linf. All rights reserved.
+   //
+   #import &lt;UIKit/UIKit.h&gt;
+
+
+   @interface UIImage (category)
+
+
+   // 在UIImage中新建一个tag属性
+   @property (nonatomic, copy) NSString *tag;
+
+
+   @end
+</code></pre></li>
+
+<li><p>编写 Category 源文件</p>
+
+<pre><code>//
+//  UIImage+category.m
+//  
+//
+//  Created by Linf on 15-5-19.
+//  Copyright (c) 2015年 Linf. All rights reserved.
+//
+
+
+#import &quot;UIImage+category.h&quot;
+
+
+static const void *tagKey = &amp;tagKey;
+
+
+@implementation UIImage (category)
+
+
+- (NSString *)tag {
+    return objc_getAssociatedObject(self, tagKey);
+}
+
+
+- (void)setTag:(NSString *)tag {
+    objc_setAssociatedObject(self, tagKey, tag, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+@end
+</code></pre></li>
+
+<li><p>访问Category属性添加的 tag 属性</p>
+
+<pre><code> UIImage *image = [UIImage imageNamed:@&quot;&quot;];
+ [image setTag:@&quot;100&quot;];
+ NSLog(@&quot;tag:%@&quot;, [image tag]);
+</code></pre>
+
+<blockquote>
+<p>打印信息为:</p>
+</blockquote>
+
+<pre><code>  2015-08-12 14:57:58.777 InformPub[16741:1271788] tag:100
+</code></pre>
+
+<blockquote>
+<p>到这里代码就添加完成了，Category就可以添加属性字段了。这里面用到了objective-c的Runtime。如果有不了解Runtime的小伙伴，可以参考以下网站：<a href="http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/">http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/</a>。</p>
+</blockquote></li>
+</ol>
 
                       
                     </div>
@@ -554,7 +353,7 @@ NSLog(@&ldquo;%@ %s&rdquo;, array, <strong>FUNCTION</strong>);<br />
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/24/loadAndinitialize/">http://blog.flywithme.top/2016/03/24/loadAndinitialize/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/">http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -607,7 +406,7 @@ NSLog(@&ldquo;%@ %s&rdquo;, array, <strong>FUNCTION</strong>);<br />
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/03/24/loadAndinitialize/" data-title="Objective-C 中 &#43;load 与 &#43;initialize" data-url="http://blog.flywithme.top/2016/03/24/loadAndinitialize/"></div>
+<div class="ds-thread" data-thread-key="/2016/03/25/iOSCategoryProperty/" data-title="iOS下Category添加属性字段" data-url="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -662,19 +461,19 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2016/03/24/OCRuntime/" rel="next">
+        <a href="http://blog.flywithme.top/2016/03/25/interviewQuestion/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Objective-C&#43;Runtime 浅析</span>
+          <span>iOS基础知识点梳理</span>
         </a>
         
       </li>
       <li class="previous">
         
-        <a href="http://blog.flywithme.top/2016/03/25/interviewQuestion/" rel="prev">
+        <a href="http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
-          <span>iOS基础知识点梳理</span>
+          <span>iOS中的谓词（NSPredicate）使用</span>
         </a>
         
       </li>

@@ -6,7 +6,2943 @@
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
-        <updated>Thu, 24 Mar 2016 19:20:35 CST</updated>
+        <updated>Sat, 26 Mar 2016 23:10:12 CST</updated>
+        
+        <item>
+            <title>深入理解RunLoop</title>
+            <link>http://blog.flywithme.top/2016/03/26/iOSRunloop/</link>
+            <pubDate>Sat, 26 Mar 2016 23:10:12 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/03/26/iOSRunloop/</guid>
+            <description>
+
+&lt;p&gt;RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h5 id=&#34;runloop-的概念:b5f2a4287d83d87d9bfd2cd8c8e7b0af&#34;&gt;RunLoop 的概念&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;function loop() {
+        initialize();
+        do {
+            var message = get_next_message();
+            process_message(message);
+        } while (message != quit);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这种模型通常被称作 &lt;a href=&#34;http://en.wikipedia.org/wiki/Event_loop&#34;&gt;Event Loop&lt;/a&gt;。 Event Loop 在很多系统和框架里都有实现，比如 Node.js 的事件处理，比如 Windows 程序的消息循环，再比如 OSX/iOS 里的 RunLoop。实现这种模型的关键点在于：如何管理事件/消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。&lt;/p&gt;
+
+&lt;p&gt;所以，RunLoop 实际上就是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行上面 Event Loop 的逻辑。线程执行了这个函数后，就会一直处于这个函数内部 &amp;ldquo;接受消息-&amp;gt;等待-&amp;gt;处理&amp;rdquo; 的循环中，直到这个循环结束（比如传入 quit 的消息），函数返回。&lt;/p&gt;
+
+&lt;p&gt;OSX/iOS 系统中，提供了两个这样的对象：NSRunLoop 和 CFRunLoopRef。
+CFRunLoopRef 是在 CoreFoundation 框架内的，它提供了纯 C 函数的 API，所有这些 API 都是线程安全的。
+NSRunLoop 是基于 CFRunLoopRef 的封装，提供了面向对象的 API，但是这些 API 不是线程安全的。&lt;/p&gt;
+
+&lt;p&gt;CFRunLoopRef 的代码是开源的，你可以在这里 &lt;a href=&#34;http://opensource.apple.com/tarballs/CF/&#34;&gt;http://opensource.apple.com/tarballs/CF/&lt;/a&gt; 下载到整个 CoreFoundation 的源码来查看。&lt;/p&gt;
+
+&lt;p&gt;(Update: Swift 开源后，苹果又维护了一个跨平台的 CoreFoundation 版本：&lt;a href=&#34;https://github.com/apple/swift-corelibs-foundation/&#34;&gt;https://github.com/apple/swift-corelibs-foundation/&lt;/a&gt;，这个版本的源码可能和现有 iOS 系统中的实现略不一样，但更容易编译，而且已经适配了 Linux/Windows。)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;runloop-与线程的关系:b5f2a4287d83d87d9bfd2cd8c8e7b0af&#34;&gt;RunLoop 与线程的关系&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;首先，iOS 开发中能遇到两个线程对象: pthread_t 和 NSThread。过去苹果有份文档标明了 NSThread 只是 pthread_t 的封装，但那份文档已经失效了，现在它们也有可能都是直接包装自最底层的 mach thread。苹果并没有提供这两个对象相互转换的接口，但不管怎么样，可以肯定的是 pthread_t 和 NSThread 是一一对应的。比如，你可以通过 pthread_main_thread_np() 或 [NSThread mainThread] 来获取主线程；也可以通过 pthread_self() 或 [NSThread currentThread] 来获取当前线程。CFRunLoop 是基于 pthread 来管理的。&lt;/p&gt;
+
+&lt;p&gt;苹果不允许直接创建 RunLoop，它只提供了两个自动获取的函数：CFRunLoopGetMain() 和 CFRunLoopGetCurrent()。 这两个函数内部的逻辑大概是下面这样:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;/// 全局的Dictionary，key 是 pthread_t， value 是 CFRunLoopRef
+static CFMutableDictionaryRef loopsDic;
+/// 访问 loopsDic 时的锁
+static CFSpinLock_t loopsLock;
+
+/// 获取一个 pthread 对应的 RunLoop。
+CFRunLoopRef _CFRunLoopGet(pthread_t thread) {
+    OSSpinLockLock(&amp;amp;loopsLock);
+
+    if (!loopsDic) {
+        // 第一次进入时，初始化全局Dic，并先为主线程创建一个 RunLoop。
+        loopsDic = CFDictionaryCreateMutable();
+        CFRunLoopRef mainLoop = _CFRunLoopCreate();
+        CFDictionarySetValue(loopsDic, pthread_main_thread_np(), mainLoop);
+    }
+
+    /// 直接从 Dictionary 里获取。
+    CFRunLoopRef loop = CFDictionaryGetValue(loopsDic, thread));
+
+    if (!loop) {
+        /// 取不到时，创建一个
+        loop = _CFRunLoopCreate();
+        CFDictionarySetValue(loopsDic, thread, loop);
+        /// 注册一个回调，当线程销毁时，顺便也销毁其对应的 RunLoop。
+        _CFSetTSD(..., thread, loop, __CFFinalizeRunLoop);
+    }
+
+    OSSpinLockUnLock(&amp;amp;loopsLock);
+    return loop;
+}
+
+CFRunLoopRef CFRunLoopGetMain() {
+    return _CFRunLoopGet(pthread_main_thread_np());
+}
+
+CFRunLoopRef CFRunLoopGetCurrent() {
+    return _CFRunLoopGet(pthread_self());
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;从上面的代码可以看出，线程和 RunLoop 之间是一一对应的，其关系是保存在一个全局的 Dictionary 里。线程刚创建时并没有 RunLoop，如果你不主动获取，那它一直都不会有。RunLoop 的创建是发生在第一次获取时，RunLoop 的销毁是发生在线程结束时。你只能在一个线程的内部获取其 RunLoop（主线程除外）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;runloop-对外的接口:b5f2a4287d83d87d9bfd2cd8c8e7b0af&#34;&gt;RunLoop 对外的接口&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在 CoreFoundation 里面关于 RunLoop 有5个类:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;  CFRunLoopRef
+  CFRunLoopModeRef
+  CFRunLoopSourceRef
+  CFRunLoopTimerRef
+  CFRunLoopObserverRef
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;其中 CFRunLoopModeRef 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/RunLoop_0.png&#34; alt=&#34;RunLoop_0.png&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;一个 RunLoop 包含若干个 Mode，每个 Mode 又包含若干个 Source/Timer/Observer。每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。这样做主要是为了分隔开不同组的 Source/Timer/Observer，让其互不影响。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;CFRunLoopSourceRef&lt;/strong&gt; 是事件产生的地方。Source有两个版本：Source0 和 Source1。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Source0 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 CFRunLoopSourceSignal(source)，将这个 Source 标记为待处理，然后手动调用 CFRunLoopWakeUp(runloop) 来唤醒 RunLoop，让其处理这个事件。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Source1 包含了一个 mach_port 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 Source 能主动唤醒 RunLoop 的线程，其原理在下面会讲到。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;CFRunLoopTimerRef&lt;/strong&gt; 是基于时间的触发器，它和 NSTimer 是toll-free bridged 的，可以混用。其包含一个时间长度和一个回调（函数指针）。当其加入到 RunLoop 时，RunLoop会注册对应的时间点，当时间点到时，RunLoop会被唤醒以执行那个回调。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;CFRunLoopObserverRef&lt;/strong&gt; 是观察者，每个 Observer 都包含了一个回调（函数指针），当 RunLoop 的状态发生变化时，观察者就能通过回调接受到这个变化。可以观测的时间点有以下几个：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
+    kCFRunLoopEntry         = (1UL &amp;lt;&amp;lt; 0), // 即将进入Loop
+    kCFRunLoopBeforeTimers  = (1UL &amp;lt;&amp;lt; 1), // 即将处理 Timer
+    kCFRunLoopBeforeSources = (1UL &amp;lt;&amp;lt; 2), // 即将处理 Source
+    kCFRunLoopBeforeWaiting = (1UL &amp;lt;&amp;lt; 5), // 即将进入休眠
+    kCFRunLoopAfterWaiting  = (1UL &amp;lt;&amp;lt; 6), // 刚从休眠中唤醒
+    kCFRunLoopExit          = (1UL &amp;lt;&amp;lt; 7), // 即将退出Loop
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;上面的 Source/Timer/Observer 被统称为 mode item，一个 item 可以被同时加入多个 mode。但一个 item 被重复加入同一个 mode 时是不会有效果的。如果一个 mode 中一个 item 都没有，则 RunLoop 会直接退出，不进入循环。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;runloop-的-mode:b5f2a4287d83d87d9bfd2cd8c8e7b0af&#34;&gt;RunLoop 的 Mode&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;CFRunLoopMode 和 CFRunLoop 的结构大致如下：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;struct __CFRunLoopMode {
+    CFStringRef _name;            // Mode Name, 例如 @&amp;quot;kCFRunLoopDefaultMode&amp;quot;
+    CFMutableSetRef _sources0;    // Set
+    CFMutableSetRef _sources1;    // Set
+    CFMutableArrayRef _observers; // Array
+    CFMutableArrayRef _timers;    // Array
+    ...
+};
+
+struct __CFRunLoop {
+    CFMutableSetRef _commonModes;     // Set
+    CFMutableSetRef _commonModeItems; // Set&amp;lt;Source/Observer/Timer&amp;gt;
+    CFRunLoopModeRef _currentMode;    // Current Runloop Mode
+    CFMutableSetRef _modes;           // Set
+    ...
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这里有个概念叫 &amp;ldquo;CommonModes&amp;rdquo;：一个 Mode 可以将自己标记为&amp;rdquo;Common&amp;rdquo;属性（通过将其 ModeName 添加到 RunLoop 的 &amp;ldquo;commonModes&amp;rdquo; 中）。每当 RunLoop 的内容发生变化时，RunLoop 都会自动将 _commonModeItems 里的 Source/Observer/Timer 同步到具有 &amp;ldquo;Common&amp;rdquo; 标记的所有Mode里。&lt;/p&gt;
+
+&lt;p&gt;应用场景举例：主线程的 RunLoop 里有两个预置的 Mode：kCFRunLoopDefaultMode 和 UITrackingRunLoopMode。这两个 Mode 都已经被标记为&amp;rdquo;Common&amp;rdquo;属性。DefaultMode 是 App 平时所处的状态，TrackingRunLoopMode 是追踪 ScrollView 滑动时的状态。当你创建一个 Timer 并加到 DefaultMode 时，Timer 会得到重复回调，但此时滑动一个TableView时，RunLoop 会将 mode 切换为 TrackingRunLoopMode，这时 Timer 就不会被回调，并且也不会影响到滑动操作。&lt;/p&gt;
+
+&lt;p&gt;有时你需要一个 Timer，在两个 Mode 中都能得到回调，一种办法就是将这个 Timer 分别加入这两个 Mode。还有一种方式，就是将 Timer 加入到顶层的 RunLoop 的 &amp;ldquo;commonModeItems&amp;rdquo; 中。&amp;rdquo;commonModeItems&amp;rdquo; 被 RunLoop 自动更新到所有具有&amp;rdquo;Common&amp;rdquo;属性的 Mode 里去。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;CFRunLoop对外暴露的管理 Mode 接口只有下面2个:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;CFRunLoopAddCommonMode(CFRunLoopRef runloop, CFStringRef modeName);
+CFRunLoopRunInMode(CFStringRef modeName, ...);
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Mode 暴露的管理 mode item 的接口有下面几个：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;CFRunLoopAddSource(CFRunLoopRef rl, CFRunLoopSourceRef source, CFStringRef modeName);
+CFRunLoopAddObserver(CFRunLoopRef rl, CFRunLoopObserverRef observer, CFStringRef modeName);
+CFRunLoopAddTimer(CFRunLoopRef rl, CFRunLoopTimerRef timer, CFStringRef mode);
+CFRunLoopRemoveSource(CFRunLoopRef rl, CFRunLoopSourceRef source, CFStringRef modeName);
+CFRunLoopRemoveObserver(CFRunLoopRef rl, CFRunLoopObserverRef observer, CFStringRef modeName);
+CFRunLoopRemoveTimer(CFRunLoopRef rl, CFRunLoopTimerRef timer, CFStringRef mode);
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;你只能通过 mode name 来操作内部的 mode，当你传入一个新的 mode name 但 RunLoop 内部没有对应 mode 时，RunLoop会自动帮你创建对应的 CFRunLoopModeRef。对于一个 RunLoop 来说，其内部的 mode 只能增加不能删除。&lt;/p&gt;
+
+&lt;p&gt;苹果公开提供的 Mode 有两个：kCFRunLoopDefaultMode (NSDefaultRunLoopMode) 和 UITrackingRunLoopMode，你可以用这两个 Mode Name 来操作其对应的 Mode。&lt;/p&gt;
+
+&lt;p&gt;同时苹果还提供了一个操作 Common 标记的字符串：kCFRunLoopCommonModes (NSRunLoopCommonModes)，你可以用这个字符串来操作 Common Items，或标记一个 Mode 为 &amp;ldquo;Common&amp;rdquo;。使用时注意区分这个字符串和其他 mode name。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;runloop-的内部逻辑:b5f2a4287d83d87d9bfd2cd8c8e7b0af&#34;&gt;RunLoop 的内部逻辑&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;根据苹果在&lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html#//apple_ref/doc/uid/10000057i-CH16-SW23&#34;&gt;文档&lt;/a&gt;里的说明，RunLoop 内部的逻辑大致如下:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogRunLoop_1.png&#34; alt=&#34;runloop_1_&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;其内部代码整理如下 （太长了不想看可以直接跳过去，后面会有说明）：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;/// 用DefaultMode启动
+void CFRunLoopRun(void) {
+    CFRunLoopRunSpecific(CFRunLoopGetCurrent(), kCFRunLoopDefaultMode, 1.0e10, false);
+}
+
+/// 用指定的Mode启动，允许设置RunLoop超时时间
+int CFRunLoopRunInMode(CFStringRef modeName, CFTimeInterval seconds, Boolean stopAfterHandle) {
+    return CFRunLoopRunSpecific(CFRunLoopGetCurrent(), modeName, seconds, returnAfterSourceHandled);
+}
+
+/// RunLoop的实现
+int CFRunLoopRunSpecific(runloop, modeName, seconds, stopAfterHandle) {
+
+    /// 首先根据modeName找到对应mode
+    CFRunLoopModeRef currentMode = __CFRunLoopFindMode(runloop, modeName, false);
+    /// 如果mode里没有source/timer/observer, 直接返回。
+    if (__CFRunLoopModeIsEmpty(currentMode)) return;
+
+    /// 1. 通知 Observers: RunLoop 即将进入 loop。
+    __CFRunLoopDoObservers(runloop, currentMode, kCFRunLoopEntry);
+
+    /// 内部函数，进入loop
+    __CFRunLoopRun(runloop, currentMode, seconds, returnAfterSourceHandled) {
+
+        Boolean sourceHandledThisLoop = NO;
+        int retVal = 0;
+        do {
+
+            /// 2. 通知 Observers: RunLoop 即将触发 Timer 回调。
+            __CFRunLoopDoObservers(runloop, currentMode, kCFRunLoopBeforeTimers);
+            /// 3. 通知 Observers: RunLoop 即将触发 Source0 (非port) 回调。
+            __CFRunLoopDoObservers(runloop, currentMode, kCFRunLoopBeforeSources);
+            /// 执行被加入的block
+            __CFRunLoopDoBlocks(runloop, currentMode);
+
+            /// 4. RunLoop 触发 Source0 (非port) 回调。
+            sourceHandledThisLoop = __CFRunLoopDoSources0(runloop, currentMode, stopAfterHandle);
+            /// 执行被加入的block
+            __CFRunLoopDoBlocks(runloop, currentMode);
+
+            /// 5. 如果有 Source1 (基于port) 处于 ready 状态，直接处理这个 Source1 然后跳转去处理消息。
+            if (__Source0DidDispatchPortLastTime) {
+                Boolean hasMsg = __CFRunLoopServiceMachPort(dispatchPort, &amp;amp;msg)
+                if (hasMsg) goto handle_msg;
+            }
+
+            /// 通知 Observers: RunLoop 的线程即将进入休眠(sleep)。
+            if (!sourceHandledThisLoop) {
+                __CFRunLoopDoObservers(runloop, currentMode, kCFRunLoopBeforeWaiting);
+            }
+
+            /// 7. 调用 mach_msg 等待接受 mach_port 的消息。线程将进入休眠, 直到被下面某一个事件唤醒。
+            /// • 一个基于 port 的Source 的事件。
+            /// • 一个 Timer 到时间了
+            /// • RunLoop 自身的超时时间到了
+            /// • 被其他什么调用者手动唤醒
+            __CFRunLoopServiceMachPort(waitSet, &amp;amp;msg, sizeof(msg_buffer), &amp;amp;livePort) {
+                mach_msg(msg, MACH_RCV_MSG, port); // thread wait for receive msg
+            }
+
+            /// 8. 通知 Observers: RunLoop 的线程刚刚被唤醒了。
+            __CFRunLoopDoObservers(runloop, currentMode, kCFRunLoopAfterWaiting);
+
+            /// 收到消息，处理消息。
+            handle_msg:
+
+            /// 9.1 如果一个 Timer 到时间了，触发这个Timer的回调。
+            if (msg_is_timer) {
+                __CFRunLoopDoTimers(runloop, currentMode, mach_absolute_time())
+            } 
+
+            /// 9.2 如果有dispatch到main_queue的block，执行block。
+            else if (msg_is_dispatch) {
+                __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__(msg);
+            } 
+
+            /// 9.3 如果一个 Source1 (基于port) 发出事件了，处理这个事件
+            else {
+                CFRunLoopSourceRef source1 = __CFRunLoopModeFindSourceForMachPort(runloop, currentMode, livePort);
+                sourceHandledThisLoop = __CFRunLoopDoSource1(runloop, currentMode, source1, msg);
+                if (sourceHandledThisLoop) {
+                    mach_msg(reply, MACH_SEND_MSG, reply);
+                }
+            }
+
+            /// 执行加入到Loop的block
+            __CFRunLoopDoBlocks(runloop, currentMode);
+
+
+            if (sourceHandledThisLoop &amp;amp;&amp;amp; stopAfterHandle) {
+                /// 进入loop时参数说处理完事件就返回。
+                retVal = kCFRunLoopRunHandledSource;
+            } else if (timeout) {
+                /// 超出传入参数标记的超时时间了
+                retVal = kCFRunLoopRunTimedOut;
+            } else if (__CFRunLoopIsStopped(runloop)) {
+                /// 被外部调用者强制停止了
+                retVal = kCFRunLoopRunStopped;
+            } else if (__CFRunLoopModeIsEmpty(runloop, currentMode)) {
+                /// source/timer/observer一个都没有了
+                retVal = kCFRunLoopRunFinished;
+            }
+
+            /// 如果没超时，mode里没空，loop也没被停止，那继续loop。
+        } while (retVal == 0);
+    }
+
+    /// 10. 通知 Observers: RunLoop 即将退出。
+    __CFRunLoopDoObservers(rl, currentMode, kCFRunLoopExit);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;可以看到，实际上 RunLoop 就是这样一个函数，其内部是一个 do-while 循环。当你调用 CFRunLoopRun() 时，线程就会一直停留在这个循环里；直到超时或被手动停止，该函数才会返回。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;runloop-的底层实现:b5f2a4287d83d87d9bfd2cd8c8e7b0af&#34;&gt;RunLoop 的底层实现&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;从上面代码可以看到，RunLoop 的核心是基于 mach port 的，其进入休眠时调用的函数是 mach_msg()。为了解释这个逻辑，下面稍微介绍一下 OSX/iOS 的系统架构。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogRunLoop_3.png&#34; alt=&#34;runloop3&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;苹果官方将整个系统大致划分为上述4个层次：
+ 应用层包括用户能接触到的图形应用，例如 Spotlight、Aqua、SpringBoard 等。
+ 应用框架层即开发人员接触到的 Cocoa 等框架。
+ 核心框架层包括各种核心框架、OpenGL 等内容。
+ Darwin 即操作系统的核心，包括系统内核、驱动、Shell 等内容，这一层是开源的，其所有源码都可以在 &lt;a href=&#34;http://opensource.apple.com/&#34;&gt;opensource.apple.com&lt;/a&gt; 里找到。&lt;/p&gt;
+
+&lt;p&gt;我们在深入看一下 Darwin 这个核心的架构：&lt;/p&gt;
+
+&lt;p&gt;我们在深入看一下 Darwin 这个核心的架构：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogRunLoop_4.png&#34; alt=&#34;runloop4&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;其中，在硬件层上面的三个组成部分：Mach、BSD、IOKit (还包括一些上面没标注的内容)，共同组成了 XNU 内核。
+XNU 内核的内环被称作 Mach，其作为一个微内核，仅提供了诸如处理器调度、IPC (进程间通信)等非常少量的基础服务。
+BSD 层可以看作围绕 Mach 层的一个外环，其提供了诸如进程管理、文件系统和网络等功能。
+IOKit 层是为设备驱动提供了一个面向对象(C++)的一个框架。&lt;/p&gt;
+
+&lt;p&gt;Mach 本身提供的 API 非常有限，而且苹果也不鼓励使用 Mach 的 API，但是这些API非常基础，如果没有这些API的话，其他任何工作都无法实施。在 Mach 中，所有的东西都是通过自己的对象实现的，进程、线程和虚拟内存都被称为&amp;rdquo;对象&amp;rdquo;。和其他架构不同， Mach 的对象间不能直接调用，只能通过消息传递的方式实现对象间的通信。&amp;rdquo;消息&amp;rdquo;是 Mach 中最基础的概念，消息在两个端口 (port) 之间传递，这就是 Mach 的 IPC (进程间通信) 的核心。&lt;/p&gt;
+
+&lt;p&gt;Mach 的消息定义是在 &lt;mach/message.h&gt; 头文件的，很简单：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;typedef struct {
+  mach_msg_header_t header;
+  mach_msg_body_t body;
+} mach_msg_base_t;
+
+typedef struct {
+  mach_msg_bits_t msgh_bits;
+  mach_msg_size_t msgh_size;
+  mach_port_t msgh_remote_port;
+  mach_port_t msgh_local_port;
+  mach_port_name_t msgh_voucher_port;
+  mach_msg_id_t msgh_id;
+} mach_msg_header_t;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;一条 Mach 消息实际上就是一个二进制数据包 (BLOB)，其头部定义了当前端口 local_port 和目标端口 remote_port，
+    发送和接受消息是通过同一个 API 进行的，其 option 标记了消息传递的方向：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;mach_msg_return_t mach_msg(
+            mach_msg_header_t *msg,
+            mach_msg_option_t option,
+            mach_msg_size_t send_size,
+            mach_msg_size_t rcv_size,
+            mach_port_name_t rcv_name,
+            mach_msg_timeout_t timeout,
+            mach_port_name_t notify);  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;为了实现消息的发送和接收，mach_msg() 函数实际上是调用了一个 Mach 陷阱 (trap)，即函数mach_msg_trap()，陷阱这个概念在 Mach 中等同于系统调用。当你在用户态调用 mach_msg_trap() 时会触发陷阱机制，切换到内核态；内核态中内核实现的 mach_msg() 函数会完成实际的工作，如下图：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogRunLoop_5.png&#34; alt=&#34;runloop5&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这些概念可以参考维基百科: &lt;a href=&#34;http://en.wikipedia.org/wiki/System_call&#34;&gt;System_call&lt;/a&gt;、&lt;a href=&#34;http://en.wikipedia.org/wiki/Trap_(computing&#34;&gt;Trap_(computing)&lt;/a&gt;)。&lt;/p&gt;
+
+&lt;p&gt;RunLoop 的核心就是一个 mach_msg() (见上面代码的第7步)，RunLoop 调用这个函数去接收消息，如果没有别人发送 port 消息过来，内核会将线程置于等待状态。例如你在模拟器里跑起一个 iOS 的 App，然后在 App 静止时点击暂停，你会看到主线程调用栈是停留在 mach_msg_trap() 这个地方。&lt;/p&gt;
+
+&lt;p&gt;关于具体的如何利用 mach port 发送信息，可以看看 &lt;a href=&#34;http://nshipster.com/inter-process-communication/&#34;&gt;NSHipster 这一篇文章&lt;/a&gt;，或者这里的中文翻译 。&lt;/p&gt;
+
+&lt;p&gt;关于Mach的历史可以看看这篇很有趣的文章：&lt;a href=&#34;http://www.programmer.com.cn/8121/&#34;&gt;Mac OS X 背后的故事（三）Mach 之父 Avie Tevanian。&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;苹果用-runloop-实现的功能:b5f2a4287d83d87d9bfd2cd8c8e7b0af&#34;&gt;苹果用 RunLoop 实现的功能&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;首先我们可以看一下 App 启动后 RunLoop 的状态&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;首先我们可以看一下 App 启动后 RunLoop 的状态：
+
+
+CFRunLoop {
+    current mode = kCFRunLoopDefaultMode
+    common modes = {
+        UITrackingRunLoopMode
+        kCFRunLoopDefaultMode
+    }
+
+    common mode items = {
+
+        // source0 (manual)
+        CFRunLoopSource {order =-1, {
+            callout = _UIApplicationHandleEventQueue}}
+        CFRunLoopSource {order =-1, {
+            callout = PurpleEventSignalCallback }}
+        CFRunLoopSource {order = 0, {
+            callout = FBSSerialQueueRunLoopSourceHandler}}
+
+        // source1 (mach port)
+        CFRunLoopSource {order = 0,  {port = 17923}}
+        CFRunLoopSource {order = 0,  {port = 12039}}
+        CFRunLoopSource {order = 0,  {port = 16647}}
+        CFRunLoopSource {order =-1, {
+            callout = PurpleEventCallback}}
+        CFRunLoopSource {order = 0, {port = 2407,
+            callout = _ZL20notify_port_callbackP12__CFMachPortPvlS1_}}
+        CFRunLoopSource {order = 0, {port = 1c03,
+            callout = __IOHIDEventSystemClientAvailabilityCallback}}
+        CFRunLoopSource {order = 0, {port = 1b03,
+            callout = __IOHIDEventSystemClientQueueCallback}}
+        CFRunLoopSource {order = 1, {port = 1903,
+            callout = __IOMIGMachPortPortCallback}}
+
+        // Ovserver
+        CFRunLoopObserver {order = -2147483647, activities = 0x1, // Entry
+            callout = _wrapRunLoopWithAutoreleasePoolHandler}
+        CFRunLoopObserver {order = 0, activities = 0x20,          // BeforeWaiting
+            callout = _UIGestureRecognizerUpdateObserver}
+        CFRunLoopObserver {order = 1999000, activities = 0xa0,    // BeforeWaiting | Exit
+            callout = _afterCACommitHandler}
+        CFRunLoopObserver {order = 2000000, activities = 0xa0,    // BeforeWaiting | Exit
+            callout = _ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv}
+        CFRunLoopObserver {order = 2147483647, activities = 0xa0, // BeforeWaiting | Exit
+            callout = _wrapRunLoopWithAutoreleasePoolHandler}
+
+        // Timer
+        CFRunLoopTimer {firing = No, interval = 3.1536e+09, tolerance = 0,
+            next fire date = 453098071 (-4421.76019 @ 96223387169499),
+            callout = _ZN2CAL14timer_callbackEP16__CFRunLoopTimerPv (QuartzCore.framework)}
+    },
+
+    modes ＝ {
+        CFRunLoopMode  {
+            sources0 =  { /* same as &#39;common mode items&#39; */ },
+            sources1 =  { /* same as &#39;common mode items&#39; */ },
+            observers = { /* same as &#39;common mode items&#39; */ },
+            timers =    { /* same as &#39;common mode items&#39; */ },
+        },
+
+        CFRunLoopMode  {
+            sources0 =  { /* same as &#39;common mode items&#39; */ },
+            sources1 =  { /* same as &#39;common mode items&#39; */ },
+            observers = { /* same as &#39;common mode items&#39; */ },
+            timers =    { /* same as &#39;common mode items&#39; */ },
+        },
+
+        CFRunLoopMode  {
+            sources0 = {
+                CFRunLoopSource {order = 0, {
+                    callout = FBSSerialQueueRunLoopSourceHandler}}
+            },
+            sources1 = (null),
+            observers = {
+                CFRunLoopObserver &amp;gt;{activities = 0xa0, order = 2000000,
+                    callout = _ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv}
+            )},
+            timers = (null),
+        },
+
+        CFRunLoopMode  {
+            sources0 = {
+                CFRunLoopSource {order = -1, {
+                    callout = PurpleEventSignalCallback}}
+            },
+            sources1 = {
+                CFRunLoopSource {order = -1, {
+                    callout = PurpleEventCallback}}
+            },
+            observers = (null),
+            timers = (null),
+        },
+
+        CFRunLoopMode  {
+            sources0 = (null),
+            sources1 = (null),
+            observers = (null),
+            timers = (null),
+        }
+    }
+}
+CFRunLoop {
+    current mode = kCFRunLoopDefaultMode
+    common modes = {
+        UITrackingRunLoopMode
+        kCFRunLoopDefaultMode
+    }
+
+    common mode items = {
+
+        // source0 (manual)
+        CFRunLoopSource {order =-1, {
+            callout = _UIApplicationHandleEventQueue}}
+        CFRunLoopSource {order =-1, {
+            callout = PurpleEventSignalCallback }}
+        CFRunLoopSource {order = 0, {
+            callout = FBSSerialQueueRunLoopSourceHandler}}
+
+        // source1 (mach port)
+        CFRunLoopSource {order = 0,  {port = 17923}}
+        CFRunLoopSource {order = 0,  {port = 12039}}
+        CFRunLoopSource {order = 0,  {port = 16647}}
+        CFRunLoopSource {order =-1, {
+            callout = PurpleEventCallback}}
+        CFRunLoopSource {order = 0, {port = 2407,
+            callout = _ZL20notify_port_callbackP12__CFMachPortPvlS1_}}
+        CFRunLoopSource {order = 0, {port = 1c03,
+            callout = __IOHIDEventSystemClientAvailabilityCallback}}
+        CFRunLoopSource {order = 0, {port = 1b03,
+            callout = __IOHIDEventSystemClientQueueCallback}}
+        CFRunLoopSource {order = 1, {port = 1903,
+            callout = __IOMIGMachPortPortCallback}}
+
+        // Ovserver
+        CFRunLoopObserver {order = -2147483647, activities = 0x1, // Entry
+            callout = _wrapRunLoopWithAutoreleasePoolHandler}
+        CFRunLoopObserver {order = 0, activities = 0x20,          // BeforeWaiting
+            callout = _UIGestureRecognizerUpdateObserver}
+        CFRunLoopObserver {order = 1999000, activities = 0xa0,    // BeforeWaiting | Exit
+            callout = _afterCACommitHandler}
+        CFRunLoopObserver {order = 2000000, activities = 0xa0,    // BeforeWaiting | Exit
+            callout = _ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv}
+        CFRunLoopObserver {order = 2147483647, activities = 0xa0, // BeforeWaiting | Exit
+            callout = _wrapRunLoopWithAutoreleasePoolHandler}
+
+        // Timer
+        CFRunLoopTimer {firing = No, interval = 3.1536e+09, tolerance = 0,
+            next fire date = 453098071 (-4421.76019 @ 96223387169499),
+            callout = _ZN2CAL14timer_callbackEP16__CFRunLoopTimerPv (QuartzCore.framework)}
+    },
+
+    modes ＝ {
+        CFRunLoopMode  {
+            sources0 =  { /* same as &#39;common mode items&#39; */ },
+            sources1 =  { /* same as &#39;common mode items&#39; */ },
+            observers = { /* same as &#39;common mode items&#39; */ },
+            timers =    { /* same as &#39;common mode items&#39; */ },
+        },
+
+        CFRunLoopMode  {
+            sources0 =  { /* same as &#39;common mode items&#39; */ },
+            sources1 =  { /* same as &#39;common mode items&#39; */ },
+            observers = { /* same as &#39;common mode items&#39; */ },
+            timers =    { /* same as &#39;common mode items&#39; */ },
+        },
+
+        CFRunLoopMode  {
+            sources0 = {
+                CFRunLoopSource {order = 0, {
+                    callout = FBSSerialQueueRunLoopSourceHandler}}
+            },
+            sources1 = (null),
+            observers = {
+                CFRunLoopObserver &amp;gt;{activities = 0xa0, order = 2000000,
+                    callout = _ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv}
+            )},
+            timers = (null),
+        },
+
+        CFRunLoopMode  {
+            sources0 = {
+                CFRunLoopSource {order = -1, {
+                    callout = PurpleEventSignalCallback}}
+            },
+            sources1 = {
+                CFRunLoopSource {order = -1, {
+                    callout = PurpleEventCallback}}
+            },
+            observers = (null),
+            timers = (null),
+        },
+
+        CFRunLoopMode  {
+            sources0 = (null),
+            sources1 = (null),
+            observers = (null),
+            timers = (null),
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;可以看到，系统默认注册了5个Mode:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ol&gt;
+&lt;li&gt;kCFRunLoopDefaultMode: App的默认 Mode，通常主线程是在这个 Mode 下运行的。&lt;/li&gt;
+&lt;li&gt;UITrackingRunLoopMode: 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响。&lt;/li&gt;
+&lt;li&gt;UIInitializationRunLoopMode: 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用。&lt;/li&gt;
+&lt;li&gt;GSEventReceiveRunLoopMode: 接受系统事件的内部 Mode，通常用不到。&lt;/li&gt;
+&lt;li&gt;kCFRunLoopCommonModes: 这是一个占位的 Mode，没有实际作用。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;你可以在&lt;a href=&#34;http://iphonedevwiki.net/index.php/CFRunLoop&#34;&gt;这里&lt;/a&gt;看到更多的苹果内部的 Mode，但那些 Mode 在开发中就很难遇到了。&lt;/p&gt;
+
+&lt;p&gt;当 RunLoop 进行回调时，一般都是通过一个很长的函数调用出去 (call out), 当你在你的代码中下断点调试时，通常能在调用栈上看到这些函数。下面是这几个函数的整理版本，如果你在调用栈中看到这些长函数名，在这里查找一下就能定位到具体的调用地点了：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+    /// 1. 通知Observers，即将进入RunLoop
+    /// 此处有Observer会创建AutoreleasePool: _objc_autoreleasePoolPush();
+    __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopEntry);
+    do {
+
+        /// 2. 通知 Observers: 即将触发 Timer 回调。
+        __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopBeforeTimers);
+        /// 3. 通知 Observers: 即将触发 Source (非基于port的,Source0) 回调。
+        __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopBeforeSources);
+        __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__(block);
+
+        /// 4. 触发 Source0 (非基于port的) 回调。
+        __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__(source0);
+        __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__(block);
+
+        /// 6. 通知Observers，即将进入休眠
+        /// 此处有Observer释放并新建AutoreleasePool: _objc_autoreleasePoolPop(); _objc_autoreleasePoolPush();
+        __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopBeforeWaiting);
+
+        /// 7. sleep to wait msg.
+        mach_msg() -&amp;gt; mach_msg_trap();
+
+
+        /// 8. 通知Observers，线程被唤醒
+        __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopAfterWaiting);
+
+        /// 9. 如果是被Timer唤醒的，回调Timer
+        __CFRUNLOOP_IS_CALLING_OUT_TO_A_TIMER_CALLBACK_FUNCTION__(timer);
+
+        /// 9. 如果是被dispatch唤醒的，执行所有调用 dispatch_async 等方法放入main queue 的 block
+        __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__(dispatched_block);
+
+        /// 9. 如果如果Runloop是被 Source1 (基于port的) 的事件唤醒了，处理这个事件
+        __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE1_PERFORM_FUNCTION__(source1);
+
+
+    } while (...);
+
+    /// 10. 通知Observers，即将退出RunLoop
+    /// 此处有Observer释放AutoreleasePool: _objc_autoreleasePoolPop();
+    __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopExit);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;AutoreleasePool&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;App启动后，苹果在主线程 RunLoop 里注册了两个 Observer，其回调都是 _wrapRunLoopWithAutoreleasePoolHandler()。&lt;/p&gt;
+
+&lt;p&gt;第一个 Observer 监视的事件是 Entry(即将进入Loop)，其回调内会调用 _objc_autoreleasePoolPush() 创建自动释放池。其 order 是-2147483647，优先级最高，保证创建释放池发生在其他所有回调之前。&lt;/p&gt;
+
+&lt;p&gt;第二个 Observer 监视了两个事件： BeforeWaiting(准备进入休眠) 时调用_objc_autoreleasePoolPop() 和 _objc_autoreleasePoolPush() 释放旧的池并创建新池；Exit(即将退出Loop) 时调用 _objc_autoreleasePoolPop() 来释放自动释放池。这个 Observer 的 order 是 2147483647，优先级最低，保证其释放池子发生在其他所有回调之后。&lt;/p&gt;
+
+&lt;p&gt;在主线程执行的代码，通常是写在诸如事件回调、Timer回调内的。这些回调会被 RunLoop 创建好的 AutoreleasePool 环绕着，所以不会出现内存泄漏，开发者也不必显示创建 Pool 了。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;事件响应&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;苹果注册了一个 Source1 (基于 mach port 的) 用来接收系统事件，其回调函数为 __IOHIDEventSystemClientQueueCallback()。&lt;/p&gt;
+
+&lt;p&gt;当一个硬件事件(触摸/锁屏/摇晃等)发生后，首先由 IOKit.framework 生成一个 IOHIDEvent 事件并由 SpringBoard 接收。这个过程的详细情况可以参考&lt;a href=&#34;http://iphonedevwiki.net/index.php/IOHIDFamily&#34;&gt;这里&lt;/a&gt;。SpringBoard 只接收按键(锁屏/静音等)，触摸，加速，接近传感器等几种 Event，随后用 mach port 转发给需要的App进程。随后苹果注册的那个 Source1 就会触发回调，并调用 _UIApplicationHandleEventQueue() 进行应用内部的分发。&lt;/p&gt;
+
+&lt;p&gt;_UIApplicationHandleEventQueue() 会把 IOHIDEvent 处理并包装成 UIEvent 进行处理或分发，其中包括识别 UIGesture/处理屏幕旋转/发送给 UIWindow 等。通常事件比如 UIButton 点击、touchesBegin/Move/End/Cancel 事件都是在这个回调中完成的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;手势识别&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;当上面的 _UIApplicationHandleEventQueue() 识别了一个手势时，其首先会调用 Cancel 将当前的 touchesBegin/Move/End 系列回调打断。随后系统将对应的 UIGestureRecognizer 标记为待处理。&lt;/p&gt;
+
+&lt;p&gt;苹果注册了一个 Observer 监测 BeforeWaiting (Loop即将进入休眠) 事件，这个Observer的回调函数是 _UIGestureRecognizerUpdateObserver()，其内部会获取所有刚被标记为待处理的 GestureRecognizer，并执行GestureRecognizer的回调。&lt;/p&gt;
+
+&lt;p&gt;当有 UIGestureRecognizer 的变化(创建/销毁/状态改变)时，这个回调都会进行相应处理。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;界面更新&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;当在操作 UI 时，比如改变了 Frame、更新了 UIView/CALayer 的层次时，或者手动调用了 UIView/CALayer 的 setNeedsLayout/setNeedsDisplay方法后，这个 UIView/CALayer 就被标记为待处理，并被提交到一个全局的容器去。&lt;/p&gt;
+
+&lt;p&gt;苹果注册了一个 Observer 监听 BeforeWaiting(即将进入休眠) 和 Exit (即将退出Loop) 事件，回调去执行一个很长的函数：
+  _ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv()。这个函数里会遍历所有待处理的 UIView/CAlayer 以执行实际的绘制和调整，并更新 UI 界面。&lt;/p&gt;
+
+&lt;p&gt;这个函数内部的调用栈大概是这样的：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;_ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv()
+    QuartzCore:CA::Transaction::observer_callback:
+        CA::Transaction::commit();
+            CA::Context::commit_transaction();
+                CA::Layer::layout_and_display_if_needed();
+                    CA::Layer::layout_if_needed();
+                        [CALayer layoutSublayers];
+                            [UIView layoutSubviews];
+                    CA::Layer::display_if_needed();
+                        [CALayer display];
+                            [UIView drawRect];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;定时器&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;NSTimer 其实就是 CFRunLoopTimerRef，他们之间是 toll-free bridged 的。一个 NSTimer 注册到 RunLoop 后，RunLoop 会为其重复的时间点注册好事件。例如 10:00, 10:10, 10:20 这几个时间点。RunLoop为了节省资源，并不会在非常准确的时间点回调这个Timer。Timer 有个属性叫做 Tolerance (宽容度)，标示了当时间点到后，容许有多少最大误差。&lt;/p&gt;
+
+&lt;p&gt;如果某个时间点被错过了，例如执行了一个很长的任务，则那个时间点的回调也会跳过去，不会延后执行。就比如等公交，如果 10:10 时我忙着玩手机错过了那个点的公交，那我只能等 10:20 这一趟了。&lt;/p&gt;
+
+&lt;p&gt;CADisplayLink 是一个和屏幕刷新率一致的定时器（但实际实现原理更复杂，和 NSTimer 并不一样，其内部实际是操作了一个 Source）。如果在两次屏幕刷新之间执行了一个长任务，那其中就会有一帧被跳过去（和 NSTimer 相似），造成界面卡顿的感觉。在快速滑动TableView时，即使一帧的卡顿也会让用户有所察觉。Facebook 开源的 AsyncDisplayLink 就是为了解决界面卡顿的问题，其内部也用到了 RunLoop，这个稍后我会再单独写一页博客来分析。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;PerformSelecter&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;当调用 NSObject 的 performSelecter:afterDelay: 后，实际上其内部会创建一个 Timer 并添加到当前线程的 RunLoop 中。所以如果当前线程没有 RunLoop，则这个方法会失效。&lt;/p&gt;
+
+&lt;p&gt;当调用 performSelector:onThread: 时，实际上其会创建一个 Timer 加到对应的线程去，同样的，如果对应线程没有 RunLoop 该方法也会失效。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;关于GCD&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;实际上 RunLoop 底层也会用到 GCD 的东西，&lt;del&gt;比如 RunLoop 是用 dispatch_source_t 实现的 Timer&lt;/del&gt;（NSTimer 是用了 XNU 内核的 mk_timer，我也仔细调试了一下，发现 NSTimer 确实是由 mk_timer 驱动，而非 GCD 驱动的）。但同时 GCD 提供的某些接口也用到了 RunLoop， 例如 dispatch_async()。&lt;/p&gt;
+
+&lt;p&gt;当调用 dispatch_async(dispatch_get_main_queue(), block) 时，libDispatch 会向主线程的 RunLoop 发送消息，RunLoop会被唤醒，并从消息中取得这个 block，并在回调 &lt;strong&gt;CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE&lt;/strong&gt;() 里执行这个 block。但这个逻辑仅限于 dispatch 到主线程，dispatch 到其他线程仍然是由 libDispatch 处理的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;关于网络请求&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;iOS 中，关于网络请求的接口自下至上有如下几层:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;CFSocket
+CFNetwork       -&amp;gt;ASIHttpRequest
+NSURLConnection -&amp;gt;AFNetworking
+NSURLSession    -&amp;gt;AFNetworking2, Alamofire
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;CFSocket 是最底层的接口，只负责 socket 通信。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;CFNetwork 是基于 CFSocket 等接口的上层封装，ASIHttpRequest 工作于这一层。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSURLConnection 是基于 CFNetwork 的更高层的封装，提供面向对象的接口，AFNetworking 工作于这一层。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSURLSession 是 iOS7 中新增的接口，表面上是和 NSURLConnection 并列的，但底层仍然用到了 NSURLConnection 的部分功能 (比如 com.apple.NSURLConnectionLoader 线程)，AFNetworking2 和 Alamofire 工作于这一层。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;下面主要介绍下 NSURLConnection 的工作过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;通常使用 NSURLConnection 时，你会传入一个 Delegate，当调用了 [connection start] 后，这个 Delegate 就会不停收到事件回调。实际上，start 这个函数的内部会会获取 CurrentRunLoop，然后在其中的 DefaultMode 添加了4个 Source0 (即需要手动触发的Source)。CFMultiplexerSource 是负责各种 Delegate 回调的，CFHTTPCookieStorage 是处理各种 Cookie 的。&lt;/p&gt;
+
+&lt;p&gt;当开始网络传输时，我们可以看到 NSURLConnection 创建了两个新线程：com.apple.NSURLConnectionLoader 和 com.apple.CFSocket.private。其中 CFSocket 线程是处理底层 socket 连接的。NSURLConnectionLoader 这个线程内部会使用 RunLoop 来接收底层 socket 的事件，并通过之前添加的 Source0 通知到上层的 Delegate。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogRunLoop_network.png&#34; alt=&#34;runloopConnection&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;NSURLConnectionLoader 中的 RunLoop 通过一些基于 mach port 的 Source 接收来自底层 CFSocket 的通知。当收到通知后，其会在合适的时机向 CFMultiplexerSource 等 Source0 发送通知，同时唤醒 Delegate 线程的 RunLoop 来让其处理这些通知。CFMultiplexerSource 会在 Delegate 线程的 RunLoop 对 Delegate 执行实际的回调。&lt;/p&gt;
+
+&lt;h5 id=&#34;runloop-的实际应用举例:b5f2a4287d83d87d9bfd2cd8c8e7b0af&#34;&gt;RunLoop 的实际应用举例&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;AFNetworking&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/AFNetworking/AFNetworking/blob/master/AFNetworking%2FAFURLConnectionOperation.m&#34;&gt;AFURLConnectionOperation&lt;/a&gt; 这个类是基于 NSURLConnection 构建的，其希望能在后台线程接收 Delegate 回调。为此 AFNetworking 单独创建了一个线程，并在这个线程中启动了一个 RunLoop：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;+ (void)networkRequestThreadEntryPoint:(id)__unused object {
+    @autoreleasepool {
+        [[NSThread currentThread] setName:@&amp;quot;AFNetworking&amp;quot;];
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+        [runLoop run];
+    }
+}
+
++ (NSThread *)networkRequestThread {
+    static NSThread *_networkRequestThread = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&amp;amp;oncePredicate, ^{
+        _networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];
+        [_networkRequestThread start];
+    });
+    return _networkRequestThread;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;RunLoop 启动前内部必须要有至少一个 Timer/Observer/Source，所以 AFNetworking 在 [runLoop run] 之前先创建了一个新的 NSMachPort 添加进去了。通常情况下，调用者需要持有这个 NSMachPort (mach_port) 并在外部线程通过这个 port 发送消息到 loop 内；但此处添加 port 只是为了让 RunLoop 不至于退出，并没有用于实际的发送消息。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)start {
+    [self.lock lock];
+    if ([self isCancelled]) {
+        [self performSelector:@selector(cancelConnection) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:[self.runLoopModes allObjects]];
+    } else if ([self isReady]) {
+        self.state = AFOperationExecutingState;
+        [self performSelector:@selector(operationDidStart) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:[self.runLoopModes allObjects]];
+    }
+    [self.lock unlock];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;当需要这个后台线程执行任务时，AFNetworking 通过调用 [NSObject performSelector:onThread:..] 将这个任务扔到了后台线程的 RunLoop 中。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;AsyncDisplayKit&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/facebook/AsyncDisplayKit&#34;&gt;AsyncDisplayKit&lt;/a&gt; 是 Facebook 推出的用于保持界面流畅性的框架，其原理大致如下：&lt;/p&gt;
+
+&lt;p&gt;UI 线程中一旦出现繁重的任务就会导致界面卡顿，这类任务通常分为3类：排版，绘制，UI对象操作。&lt;/p&gt;
+
+&lt;p&gt;排版通常包括计算视图大小、计算文本高度、重新计算子式图的排版等操作。
+    绘制一般有文本绘制 (例如 CoreText)、图片绘制 (例如预先解压)、元素绘制 (Quartz)等操作。
+    UI对象操作通常包括 UIView/CALayer 等 UI 对象的创建、设置属性和销毁。&lt;/p&gt;
+
+&lt;p&gt;其中前两类操作可以通过各种方法扔到后台线程执行，而最后一类操作只能在主线程完成，并且有时后面的操作需要依赖前面操作的结果 （例如TextView创建时可能需要提前计算出文本的大小）。ASDK 所做的，就是尽量将能放入后台的任务放入后台，不能的则尽量推迟 (例如视图的创建、属性的调整)。&lt;/p&gt;
+
+&lt;p&gt;为此，ASDK 创建了一个名为 ASDisplayNode 的对象，并在内部封装了 UIView/CALayer，它具有和 UIView/CALayer 相似的属性，例如 frame、backgroundColor等。所有这些属性都可以在后台线程更改，开发者可以只通过 Node 来操作其内部的 UIView/CALayer，这样就可以将排版和绘制放入了后台线程。但是无论怎么操作，这些属性总需要在某个时刻同步到主线程的 UIView/CALayer 去。&lt;/p&gt;
+
+&lt;p&gt;ASDK 仿照 QuartzCore/UIKit 框架的模式，实现了一套类似的界面更新的机制：即在主线程的 RunLoop 中添加一个 Observer，监听了 kCFRunLoopBeforeWaiting 和 kCFRunLoopExit 事件，在收到回调时，遍历所有之前放入队列的待处理的任务，然后一一执行。
+    具体的代码可以看这里：&lt;a href=&#34;https://github.com/facebook/AsyncDisplayKit/blob/master/AsyncDisplayKit%2FDetails%2FTransactions%2F_ASAsyncTransactionGroup.m__&#34;&gt;_ASAsyncTransactionGroup&lt;/a&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Responder -- iOS用户响应者链完全剖析</title>
+            <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
+            <pubDate>Sat, 26 Mar 2016 22:28:03 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
+            <description>&lt;p&gt;这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们先从UIButton谈起，UIButton大家使用的太多了，他特殊的地方就在于其内置的普通Default/高亮Highlighted/选择Selected/可用Enable的几个状态(UIControlState)。其次就是SDK内部已经为我们封装了以下用户事件:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/UIControlEvents.jpg&#34; alt=&#34;controlEvent&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;最常用的莫过于Touch Up Inside这个事件了，他代表:  用户在按钮区域内按下，并且也在按钮区域内松开。&lt;/p&gt;
+
+&lt;p&gt;关键点:按下并且松开 才能触发此方法，也就是正确的操作 按下一次，松开一次只会触发一次此事件。与之不同的Touch Drag Inside等方法不需要松开这个过程，Up变为了Drag,其实大家都能理解，SDK在封装的时候原理跟UITouchEvent是一个道理，第一个单词Touch 代表按下(Began)第二个单词Up代表松开(Ended),Drag代表拖动(Moved)。TouchMoved方法在一次完整的触摸中会被触发很多次，所以Touch Drag Inside方法会在用户手松开之前一直被触发。&lt;/p&gt;
+
+&lt;p&gt;这些就是UIButton已封装的事件，而UIButton继承自UIControl。UIControl又继承自UIView。我们平时能用这些已封装的事件的控件都是UIControl的子类。那么父类UIView是没有内部事件的。&lt;/p&gt;
+
+&lt;p&gt;我们常常利用UIView来写自己的UITouchEvent。例如在一个View/ViewController中直接实现以下3个方法:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+
+}  
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+
+}  
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+
+}  
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们用的非常多，但是大家知道这4个方法是谁的实例方法吗？如果你一下就说出是UIView的，那么为什么我们在UIViewController中也可以用呢，他们不是继承关系。&lt;/p&gt;
+
+&lt;p&gt;注意这4个实例方法来自UIView与UIViewController的共同父类:UIResponder。它是我们今天的主角。&lt;/p&gt;
+
+&lt;p&gt;基本上我们所能看到的所有图形界面都是继承自UIResponder的，So，它究竟为何方神圣?&lt;/p&gt;
+
+&lt;p&gt;UIResponder所谓很多视图的父类，他掌管着用户的操作事件分发大权。如果没有他，我们的电容屏如何将用户的操作传递给我们的视图令其做出反应呢？&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;我们先看看iOS中的响应者链的概念:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;每一个应用有一个响应者链，我们的视图结构是一个N叉树(一个视图可以有多个子视图，一个子视图同一时刻只有一个父视图),而每一个继承UIResponder的对象都可以在这个N叉树中扮演一个节点。当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;例子:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我用SingleView模板创建了一个新的工程，它的主Window上只有一个UIViewController，其View之上有一个Button。这个项目中所有UIResponder的子类所构成的N叉树为这样的结构:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/actionChain.jpg&#34; alt=&#34;buttonActionChain&#34; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;那么他看起来并不像N叉树，但是不代表者不是一颗N叉树，当我们项目复杂之后，这个View可不可以有多个UIButton节点？所以他就是一棵树。
+&amp;gt; 实际上我们要把这棵树写完整，应该还要算上UIButton的UILabel和UIImageView，因为他们也是UIReponder的子类。这里先不考虑了。
+&amp;gt; 我们对UIButton来讲，他此时若是叶节点，那么这时我们针对他所在的响应链来说，他在他之前的响应者就应该是我们controller的view(树中的叶节点比父节点永远更优先被分发事件,但是并不是说他就能在时间上先响应，我们下面讲为什么)。所以我们尝试在任意地方打印这个Button的nextReponder对象。nextResponder对象是UIReponder类的实例方法，它会返回任意对象在树中的上一个响应者实例:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSLog(@&amp;quot;%@&amp;quot;,_testButton.nextResponder);  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;控制台输出消息:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2013-09-21 03:40:25.989 响应链[614:60b] &amp;lt;UIView: 0x16555e10; frame = (0 0; 320 568); autoresize = RM+BM; layer = &amp;lt;CALayer: 0x16555e70&amp;gt;&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们可以根据这个UIView的尺寸来得知，他就是我们唯一的控制器中的那个UIView。
+ 接下来我们再打印下这个UIView的下一个响应者是谁:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;NSLog(@&amp;quot;%@&amp;quot;,_testButton.nextResponder.nextResponder);  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;输出:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2013-09-21 03:45:03.914响应链[621:60b] &amp;lt;RSViewController: 0x15da0e30&amp;gt;
+//依次看，接着加一个nextResponder:
+2013-09-21 03:50:49.428 响应链[669:60b] (null)
+为什么这里ViewController没有父亲呢？  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意这句代码我是写在ViewDidLoad中，而我们知道这个方法的生命周期比较早，所以我们换个地方写或者延迟一段时间再打印，两种方法都可以得到结果(由此可以推理出我们响应者树的构造过程是在ViewDidLoad周期中来完成的，这个函数会将当前实例的构成的响应者子树合并到我们整个根树中):&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2013-09-21 03:53:47.304 响应链[681:60b] &amp;lt;UIWindow: 0x14e24200; frame = (0 0; 320 568); gestureRecognizers = &amp;lt;NSArray: 0x14e242e0&amp;gt;; layer = &amp;lt;UIWindowLayer: 0x14e244a0&amp;gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;再继续往上追朔:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;double delayInSeconds = 2.0;  
+ dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));  
+ dispatch_after(popTime, dispatch_get_main_queue(), ^(void){  
+      NSLog(@&amp;quot;%@&amp;quot;,_testButton.nextResponder.nextResponder.nextResponder.nextResponder);  
+ }); 
+
+
+2013-09-21 03:56:22.043 响应链[690:60b] &amp;lt;UIApplication: 0x15659c00&amp;gt;
+//再加一个:
+2013-09-21 03:56:51.186 响应链[696:60b] &amp;lt;RSAppDelegate: 0x16663520&amp;gt;
+ //那么我们的appDelegate还有没有父节点?
+2013-09-21 03:57:22.588 响应链[706:60b] (null)
+//没有了，注意，一个从叶节点开始分发的事件，最多也就只能分发到我们的AppDelegate了！
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;这个树形结构在我们的项目中尤为重要，举个栗子，如果我们想在一个view中重写UITouchEvent的4个方法，并且不影响他的父视图也响应这些事件，就要注意你重写的方式了，
+&amp;gt; 比如我们在ViewController中重写touchBegan如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+    NSLog(@&amp;quot;ViewController接收到触摸事件&amp;quot;);  
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在appDelegate的中同样也写上这一段:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+    NSLog(@&amp;quot;appDelegate接收到触摸事件&amp;quot;);  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;那么究竟是谁被触发呢？&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2013-09-21 04:02:49.405 响应链[743:60b] ViewController接收到触摸事件
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这个很好理解，我刚刚也说了，viewController明显是appDelegate的子节点，他有事件分发的优先权。
+如果我们想两个地方都触发呢？这里super一下就可以了:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+    [super touchesBegan:touches withEvent:event];  
+    NSLog(@&amp;quot;ViewController接收到触摸事件&amp;quot;);  
+}    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;输出:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2013-09-21 04:07:26.206 响应链[749:60b] appDelegate接收到触摸事件
+2013-09-21 04:07:26.208 响应链[749:60b] ViewController接收到触摸事件
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意看时间戳，appDelegate虽然优先级别不如ViewController，但是他响应的时间上面足足比ViewController早了0.002秒，我这里试了几次，都是相差0.002秒。
+那么我们分析一下这里的响应者链是怎样工作的:&lt;/p&gt;
+
+&lt;p&gt;用户手指触摸到了UIView上,由于我们没有重写UIView的UITouchEvent,所以他里面和super执行的一样的，将该事件继续分发到UIViewController；
+UIViewController的TouchBegan被我们重写了，如果我们不super，那么我们在这里写响应代码。事件到这里就不继续分发了。可想而知，UIViewController祖先节点:UIWindow，UIApplication，AppDelegate都无权被分发此事件。
+如果我们super了TouchBegan，那么此次触摸事件由
+ViewController分发给UIWindow,
+UIWindow继而分发给UIApplication，
+UIApplication再分发给AppDelegate，
+于是我们在ViewController和appDelegate的touchBegan方法中都捕获到了这次事件。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>iOS中的谓词（NSPredicate）使用</title>
+            <link>http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse/</link>
+            <pubDate>Fri, 25 Mar 2016 17:40:29 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse/</guid>
+            <description>
+
+&lt;p&gt;首先，我们需要知道何谓谓词，让我们看看官方的解释:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The NSPredicate class is used to define logical conditions used to constrain a search either for a fetch or for in-memory filtering.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;NSPredicate类是用来定义逻辑条件约束的获取或内存中的过滤搜索。
+可以使用谓词来表示逻辑条件，用于描述对象持久性存储在内存中的对象过滤。其实意思就是：&lt;em&gt;我是一个过滤器，不符合条件的都滚开。&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h5 id=&#34;一-nspredicate的基本语法:cea7ae07dfa550edecc1aabbedfd86c7&#34;&gt;一、NSPredicate的基本语法&lt;/h5&gt;
+
+&lt;p&gt;我们使用一门语言，无论是外语还是计算机语言，总是从语法开始的，这样我们才能正确的把握逻辑。所以我们从语法开始说起。在这部分我们仅关心其语法的使用
+ 只要我们使用谓词（NSPredicate）都需要为谓词定义谓词表达式,而这个表达式必须是一个返回BOOL的值。
+ 谓词表达式由表达式、运算符和值构成。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;比较运算符&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;比较运算符如下&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;=、==：判断两个表达式是否相等，在谓词中=和==是相同的意思都是判断，而没有赋值这一说&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSNumber *testNumber = @123;
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;SELF = 123&amp;quot;];
+if ([predicate evaluateWithObject:testNumber]) {
+    NSLog(@&amp;quot;testString:%@&amp;quot;, testNumber);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们可以看到输出的内容为:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2016-01-07 11:12:27.281 PredicteDemo[4130:80412] testString:123
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;blockquote&gt;
+&lt;p&gt;=，=&amp;gt;：判断左边表达式的值是否大于或等于右边表达式的值&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&amp;lt;=，=&amp;lt;：判断右边表达式的值是否小于或等于右边表达式的值&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;blockquote&gt;
+&lt;p&gt;：判断左边表达式的值是否大于右边表达式的值&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&amp;lt;：判断左边表达式的值是否小于右边表达式的值&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;!=、&amp;lt;&amp;gt;：判断两个表达式是否不相等&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;BETWEEN：BETWEEN表达式必须满足表达式 BETWEEN {下限，上限}的格式，要求该表达式必须大于或等于下限，并小于或等于上限&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSNumber *testNumber = @123;
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;SELF BETWEEN {100, 200}&amp;quot;];
+if ([predicate evaluateWithObject:testNumber]) {
+    NSLog(@&amp;quot;testString:%@&amp;quot;, testNumber);
+} else {
+    NSLog(@&amp;quot;不符合条件&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;输出结果为：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2016-01-07 11:20:39.921 PredicteDemo[4366:85408] testString:123
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;逻辑运算符&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;AND、&amp;amp;&amp;amp;：逻辑与，要求两个表达式的值都为YES时，结果才为YES。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSArray *testArray = @[@1, @2, @3, @4, @5, @6];
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;SELF &amp;gt; 2 &amp;amp;&amp;amp; SELF &amp;lt; 5&amp;quot;];
+NSArray *filterArray = [testArray filteredArrayUsingPredicate:predicate];
+NSLog(@&amp;quot;filterArray:%@&amp;quot;, filterArray);
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;输出结果为:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;    2016-01-07 11:27:01.885 PredicteDemo[4531:89537] filterArray:(
+     3,
+     4
+    )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;OR、||：逻辑或，要求其中一个表达式为YES时，结果就是YES&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NOT、 !：逻辑非，对原有的表达式取反&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;字符串比较运算符&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;BEGINSWITH&lt;/strong&gt;：检查某个字符串是否以指定的字符串开头（如判断字符串是否以a开头：BEGINSWITH &amp;lsquo;a&amp;rsquo;）&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;ENDSWITH&lt;/strong&gt;：检查某个字符串是否以指定的字符串结尾&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;CONTAINS&lt;/strong&gt;：检查某个字符串是否包含指定的字符串&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;LIKE&lt;/strong&gt;：检查某个字符串是否匹配指定的字符串模板。其之后可以跟?代表一个字符和 ※ 代表任意多个字符两个通配符。比如&amp;rdquo;name LIKE &amp;lsquo;※ac※&amp;rdquo;，这表示name的值中包含ac则返回YES；&amp;rdquo;name LIKE &amp;lsquo;?ac※&amp;rsquo;&amp;ldquo;，表示name的第2、3个字符为ac时返回YES。(※ 指的*号)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;MATCHES&lt;/strong&gt;：检查某个字符串是否匹配指定的正则表达式。虽然正则表达式的执行效率是最低的，但其功能是最强大的，也是我们最常用的。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注：字符串比较都是区分大小写和重音符号的。如：café和cafe是不一样的，Cafe和cafe也是不一样的。如果希望字符串比较运算不区分大小写和重音符号，请在这些运算符后使用[c]，[d]选项。其中[c]是不区分大小写，[d]是不区分重音符号，其写在字符串比较运算符之后，比如：name LIKE[cd] &amp;lsquo;cafe&amp;rsquo;，那么不论name是cafe、Cafe还是café上面的表达式都会返回YES。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;集合运算符&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;ANY、SOME：集合中任意一个元素满足条件，就返回YES。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ALL：集合中所有元素都满足条件，才返回YES。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NONE：集合中没有任何元素满足条件就返回YES。如:NONE person.age &amp;lt; 18，表示person集合中所有元素的age&amp;gt;=18时，才返回YES。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;IN：等价于SQL语句中的IN运算符，只有当左边表达式或值出现在右边的集合中才会返回YES。我们通过一个例子来看一下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSArray *filterArray = @[@&amp;quot;ab&amp;quot;, @&amp;quot;abc&amp;quot;];
+NSArray *array = @[@&amp;quot;a&amp;quot;, @&amp;quot;ab&amp;quot;, @&amp;quot;abc&amp;quot;, @&amp;quot;abcd&amp;quot;];
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;NOT (SELF IN %@)&amp;quot;, filterArray];
+NSLog(@&amp;quot;%@&amp;quot;, [array filteredArrayUsingPredicate:predicate]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;代码的作用是将array中和filterArray中相同的元素去除，输出为：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2016-01-07 13:17:43.669 PredicteDemo[6701:136206] (
+    a,
+    abcd
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;array[index]：返回array数组中index索引处的元素&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;array[FIRST]：返回array数组中第一个元素&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;array[LAST]：返回array数组中最后一个元素&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;array[SIZE]：返回array数组中元素的个数&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;直接量&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;FALSE、NO：代表逻辑假&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;TRUE、YES：代表逻辑真&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NULL、NIL：代表空值&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;SELF：代表正在被判断的对象自身&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&amp;ldquo;string&amp;rdquo;或&amp;rsquo;string&amp;rsquo;：代表字符串&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;数组：和c中的写法相同，如：{&amp;lsquo;one&amp;rsquo;, &amp;lsquo;two&amp;rsquo;, &amp;lsquo;three&amp;rsquo;}。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;数值：包括证书、小数和科学计数法表示的形式&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;十六进制数：0x开头的数字&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;八进制：0o开头的数字&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;二进制：0b开头的数字&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;保留字&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;下列单词都是保留字（不论大小写）&lt;/p&gt;
+
+&lt;p&gt;AND、OR、IN、NOT、ALL、ANY、SOME、NONE、LIKE、CASEINSENSITIVE、CI、MATCHES、CONTAINS、BEGINSWITH、ENDSWITH、BETWEEN、NULL、NIL、SELF、TRUE、YES、FALSE、NO、FIRST、LAST、SIZE、ANYKEY、SUBQUERY、CAST、TRUEPREDICATE、FALSEPREDICATE&lt;/p&gt;
+
+&lt;p&gt;注：虽然大小写都可以，但是更推荐使用大写来表示这些保留字&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&#34;二-谓词的用法:cea7ae07dfa550edecc1aabbedfd86c7&#34;&gt;二、谓词的用法&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;定义谓词&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;一般我们使用下列方法定义一个谓词:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;   NSPredicate *predicate = [NSPredicate predicateWithFormat:&amp;lt;#(nonnull NSString *), ...#&amp;gt;];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;下面我们通过几个简单的例子来看看它该如何使用：
+    首先我们需要定义一个模型，因为示例中需要用到它&lt;/p&gt;
+
+&lt;p&gt;ZLPersonModel.h&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
+
+
+typedef NS_ENUM(NSInteger, ZLPersonSex) {
+    ZLPersonSexMale = 0,
+    ZLPersonSexFamale
+};
+
+
+@interface ZLPersonModel : NSObject
+/** NSString 姓名 */
+@property (nonatomic, copy) NSString *name;
+/** NSUInteger 年龄 */
+@property (nonatomic, assign, readonly) NSUInteger age;
+/** ZLPersonSex 性别 */
+@property (nonatomic, assign, readonly) ZLPersonSex sex;
+
+
++ (instancetype)personWithName:(NSString *)name age:(NSUInteger)age sex:(ZLPersonSex)sex;
+
+
+@end  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;ZLPersonModel.m&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;@implementation ZLPersonModel
+
+
+- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(ZLPersonSex)sex
+{
+    if (self = [super init]) {
+        _name = name;
+        _age = age;
+        _sex = sex;
+    }
+    return self;
+}
+
+
++ (instancetype)personWithName:(NSString *)name age:(NSUInteger)age sex:(ZLPersonSex)sex
+{
+    return [[self alloc] initWithName:name age:age sex:sex];
+}
+
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@&amp;quot;[name = %@, age = %ld, sex = %ld]&amp;quot;, self.name, self.age, self.sex];
+}
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;下面让我们进入正题&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;例一:(最简单的使用)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;ZLPersonModel *sunnyzl = [ZLPersonModel personWithName:@&amp;quot;sunnyzl&amp;quot; age:29 sex:ZLPersonSexMale];
+
+
+ZLPersonModel *jack = [ZLPersonModel personWithName:@&amp;quot;jack&amp;quot; age:22 sex:ZLPersonSexMale];
+    //  首先我们来看一些简单的使用
+    //  1.判断姓名是否是以s开头的
+NSPredicate *pred1 = [NSPredicate predicateWithFormat:@&amp;quot;name LIKE &#39;s*&#39;&amp;quot;];
+    //  输出为：sunnyzl:1, jack:0
+NSLog(@&amp;quot;sunnyzl:%d, jack:%d&amp;quot;, [pred1 evaluateWithObject:sunnyzl], [pred1 evaluateWithObject:jack]);
+
+
+    //  2.判断年龄是否大于25
+NSPredicate *pred2 = [NSPredicate predicateWithFormat:@&amp;quot;age &amp;gt; 25&amp;quot;];
+    //  输出为：sunnyzl的年龄是否大于25：1, jack的年龄是否大于25：0
+NSLog(@&amp;quot;sunnyzl的年龄是否大于25：%d, jack的年龄是否大于25：%d&amp;quot;, [pred2 evaluateWithObject:sunnyzl], [pred2 evaluateWithObject:jack]);  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;看到这里我们会发现evaluateWithObject:方法返回的是一个BOOL值，如果符合条件就返回YES，不符合就返回NO。而即使是最简单的使用也有一些大用处，比如以前我们写判断手机号码、邮编等等，像我就喜欢用John Engelhart大神的RegexKitLite，然而由于年代久远需要导入libicucore.dylib库（xcode7为libicucore.tbd）且由于是mrc又需要添加-fno-objc-arc，至此我们才能使用。然而使用谓词让我们可以用同样简洁的代码实现相同的功能&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;例二：(判断手机号是否正确）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;- (BOOL)checkPhoneNumber:(NSString *)phoneNumber
+{
+    NSString *regex = @&amp;quot;^[1][3-8]\\d{9}$&amp;quot;;
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@&amp;quot;SELF MATCHES %@&amp;quot;, regex];
+    return [pred evaluateWithObject:phoneNumber];
+}    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;看到这里是不是感觉好爽，感觉以前所有的正则都可以这么匹配，但是谓词匹配正则时也是有缺点的，下面通过一个例子来看一下这个致命的缺点&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;例三：谓词匹配正则的缺点 本意：检测字符串中是否有特殊字符）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;- (BOOL)checkSpecialCharacter:(NSString *)string
+{
+    NSString *regex = @&amp;quot;[`~!@#$^&amp;amp;*()=|{}&#39;:;&#39;,\\[\\].&amp;lt;&amp;gt;/?~！@#￥……&amp;amp;*（）——|{}【】‘；：”“&#39;。，、？]&amp;quot;;
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@&amp;quot;SELF MATCHES %@&amp;quot;, regex];
+    return [pred evaluateWithObject:string];
+}    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;我们想要的效果是字符串中有特殊字符时就返回YES，然而梦想是美好的，现实是残酷的&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;让我们看看这悲催的结局&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;NSString *testString = @&amp;quot;!&amp;quot;;
+NSLog(@&amp;quot;是否含有特殊字符：%d&amp;quot;, [self checkSpecialCharacter:testString]);
+//  当testString为一个特殊字符时，我们惊喜的发现输出为
+//  是否含有特殊字符：1       
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;看到这里我们心里猛然一喜，这tmd根本没问题嘛&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;让我们修改下testString的值&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;NSString *testString = @&amp;quot;!~&amp;quot;;
+NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
+//  我们会发现悲催的结局来了输出为
+//  是否含有特殊字符：0  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;再次修改 testString 的值&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;NSString *testString = @&amp;quot;abc!~d&amp;quot;;
+NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
+//  我们会发现输出为
+//  是否含有特殊字符：0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;这总与我们的想法事与愿违，看到这里我们会发现谓词对正则并不像我们使用NSRegularExpression时匹配的那么好，究其原因是为什么呢？我们用NSRegularExpression时会发现匹配到一个结果时就会存入数组，再从匹配到的位置继续向下匹配。
+然而NSPredicate并不会做这样的自动操作，我们最终发现在NSPredicate输入[&lt;code&gt;~!@#$^&amp;amp;*()=|{}&#39;:;&#39;,\[\].&amp;lt;&amp;gt;/?~！@#￥……&amp;amp;*（）——|{}【】‘；：”“&#39;。，、？]正则表达式时和写成^[&lt;/code&gt;~!@#$^&amp;amp;*()=|{}&amp;rsquo;:;&amp;lsquo;,[].&amp;lt;&amp;gt;/?~！@#￥……&amp;amp;*（）——|{}【】‘；：”“&amp;rsquo;。，、？]$的效果是一样的。所以通过这个例子我们总结出来，只有在正则表达式为^表达式$时才使用谓词，而不是所有情况都使用。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;当然上例中我们可以用一个投机取巧的方法实现（但是仅能用于匹配是否包含特殊符号，而无法像NSRegularExpression那样对这些特殊符号进行复杂操作）&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们可以将- (BOOL)checkSpecialCharacter:(NSString *)string更改为：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;- (BOOL)checkSpecialCharacter:(NSString *)string
+{
+    NSString *regex = @&amp;quot;.*[`~!@#$^&amp;amp;*()=|{}&#39;:;&#39;,\\[\\].&amp;lt;&amp;gt;/?~！@#￥……&amp;amp;*（）——|{}【】‘；：”“&#39;。，、？].*&amp;quot;;
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@&amp;quot;SELF MATCHES %@&amp;quot;, regex];
+    return [pred evaluateWithObject:string];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;文其实上述方法也只是匹配了一次，只不过我们将它的范围扩大了。那么我们是不是因为这一点就摒弃它了呢，答案是否定的。因为虽然NSPredicate有这么一点瑕疵，但是它总体带给我们的便利其实除了正则表达式匹配时的这个问题外是更多的&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用谓词过滤集合&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;此部分是我们需要掌握的重点，因为从这里我们就可以看到谓词的真正的强大之处
+其实谓词本身就代表了一个逻辑条件，计算谓词之后返回的结果永远为BOOL类型的值。而谓词最常用的功能就是对集合进行过滤。当程序使用谓词对集合元素进行过滤时，程序会自动遍历其元素，并根据集合元素来计算谓词的值，当这个集合中的元素计算谓词并返回YES时，这个元素才会被保留下来。请注意程序会自动遍历其元素，它会将自动遍历过之后返回为YES的值重新组合成一个集合返回。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;其实类似于我们使用tableView设置索引时使用的下段代码&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;- (NSArray&amp;lt;NSString *&amp;gt; *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return [self.cityGroup valueForKey:@&amp;quot;title&amp;quot;];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;中的[self.cityGroup valueForKey:@&amp;ldquo;title&amp;rdquo;]。它的作用是遍历所有title并将得到的值组成新的数组。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;NSArray提供了如下方法使用谓词来过滤集合&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;(NSArray&lt;ObjectType&gt; *)filteredArrayUsingPredicate:(NSPredicate *)predicate:
+//使用指定的谓词过滤NSArray集合，返回符合条件的元素组成的新集合&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSMutableArray提供了如下方法使用谓词来过滤集合&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;(void)filterUsingPredicate:(NSPredicate *)predicate：&lt;br /&gt;
+//使用指定的谓词过滤NSMutableArray，剔除集合中不符合条件的元素&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSSet提供了如下方法使用谓词来过滤集合&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;(NSSet&lt;ObjectType&gt; *)filteredSetUsingPredicate:(NSPredicate *)predicate NS_AVAILABLE(10_5, 3_0)&lt;br /&gt;
+//：作用同NSArray中的方法&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSMutableSet提供了如下方法使用谓词来过滤集合&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;(void)filterUsingPredicate:(NSPredicate *)predicate NS_AVAILABLE(10_5, 3_0)&lt;br /&gt;
+：作用同NSMutableArray中的方法。&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;通过上面的描述可以看出，使用谓词过滤不可变集合和可变集合的区别是：过滤不可变集合时，会返回符合条件的集合元素组成的新集合；过滤可变集合时，没有返回值，会直接剔除不符合条件的集合元素&lt;/p&gt;
+
+&lt;p&gt;下面让我们来看几个例子：
+例一&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;NSMutableArray *arrayM = [@[@20, @40, @50, @30, @60, @70] mutableCopy];
+    //  过滤大于50的值
+    NSPredicate *pred1 = [NSPredicate predicateWithFormat:@&amp;quot;SELF &amp;gt; 50&amp;quot;];
+    [arrayM filterUsingPredicate:pred1];
+    NSLog(@&amp;quot;arrayM:%@&amp;quot;, arrayM);
+
+
+    NSArray *array = @[[ZLPersonModel personWithName:@&amp;quot;Jack&amp;quot; age:20 sex:ZLPersonSexMale],
+                       [ZLPersonModel personWithName:@&amp;quot;Rose&amp;quot; age:22 sex:ZLPersonSexFamale],
+                       [ZLPersonModel personWithName:@&amp;quot;Jackson&amp;quot; age:30 sex:ZLPersonSexMale],
+                       [ZLPersonModel personWithName:@&amp;quot;Johnson&amp;quot; age:35 sex:ZLPersonSexMale]];
+    //  要求取出包含‘son’的元素
+    NSPredicate *pred2 = [NSPredicate predicateWithFormat:@&amp;quot;name CONTAINS &#39;son&#39;&amp;quot;];
+    NSArray *newArray = [array filteredArrayUsingPredicate:pred2];
+    NSLog(@&amp;quot;%@&amp;quot;, newArray);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;输出为&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2016-01-07 16:50:09.510 PredicteDemo[13660:293822] arrayM:(
+    60,
+    70
+)
+2016-01-07 16:50:09.511 PredicteDemo[13660:293822] (
+    &amp;quot;[name = Jackson, age = 30, sex = 0]&amp;quot;,
+    &amp;quot;[name = Johnson, age = 35, sex = 0]&amp;quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;从这个例子我们就可以看到NSPredicate有多么强大，如果让我们用其他的方法来实现又是一大堆if&amp;hellip;else。
+    让我们来回顾一下上面的从第二个数组中去除第一个数组中相同的元素&lt;/p&gt;
+
+&lt;p&gt;例二：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;NSArray *filterArray = @[@&amp;quot;ab&amp;quot;, @&amp;quot;abc&amp;quot;];
+    NSArray *array = @[@&amp;quot;a&amp;quot;, @&amp;quot;ab&amp;quot;, @&amp;quot;abc&amp;quot;, @&amp;quot;abcd&amp;quot;];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;NOT (SELF IN %@)&amp;quot;, filterArray];
+    NSLog(@&amp;quot;%@&amp;quot;, [array filteredArrayUsingPredicate:predicate]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;输出为:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2016-01-07 13:17:43.669 PredicteDemo[6701:136206] (
+    a,
+    abcd
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果我们不用NSPredicate的话，肯定又是各种if&amp;hellip;else，for循环等等。可以看出NSPredicate的出现为我们节省了大量的时间和精力。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;在为此中使用占位符参数&lt;/p&gt;
+
+&lt;p&gt;我们上面所有的例子中谓词总是固定的，然而我们在现实中处理变量时决定了谓词应该是可变的。下面我们来看看如果让谓词变化起来。
+ 首先如果我们想在谓词表达式中使用变量，那么我们需要了解下列两种占位符&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;%K：用于动态传入属性名&lt;/li&gt;
+&lt;li&gt;%@：用于动态设置属性值&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;其实相当于变量名与变量值&lt;br /&gt;
+除此之外，还可以在谓词表达式中使用动态改变的属性值，就像环境变量一样&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;NSPredicate *pred = [NSPredicate predicateWithFormat:@&amp;quot;SELF CONTAINS $VALUE&amp;quot;];
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;上述表达式中，$VALUE是一个可以动态变化的值，它其实最后是在字典中的一个key，所以可以根据你的需要写不同的值，但是必须有$开头，随着程序改变$VALUE这个谓词表达式的比较条件就可以动态改变。
+       下面我们通过一个例子来看看这三个重要的占位符应该如何使用&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt; &amp;gt; 例一
+
+    NSArray *array = @[[ZLPersonModel personWithName:@&amp;quot;Jack&amp;quot; age:20 sex:ZLPersonSexMale],
+                         [ZLPersonModel personWithName:@&amp;quot;Rose&amp;quot; age:22 sex:ZLPersonSexFamale],
+                         [ZLPersonModel personWithName:@&amp;quot;Jackson&amp;quot; age:30 sex:ZLPersonSexMale],
+                         [ZLPersonModel personWithName:@&amp;quot;Johnson&amp;quot; age:35 sex:ZLPersonSexMale]];
+      //  定义一个property来存放属性名，定义一个value来存放值
+      NSString *property = @&amp;quot;name&amp;quot;;
+      NSString *value = @&amp;quot;Jack&amp;quot;;
+      //  该谓词的作用是如果元素中property属性含有值value时就取出放入新的数组内，这里是name包含Jack
+      NSPredicate *pred = [NSPredicate predicateWithFormat:@&amp;quot;%K CONTAINS %@&amp;quot;, property, value];
+      NSArray *newArray = [array filteredArrayUsingPredicate:pred];
+      NSLog(@&amp;quot;newArray:%@&amp;quot;, newArray);
+
+      //  创建谓词，属性名改为age，要求这个age包含$VALUE字符串
+      NSPredicate *predTemp = [NSPredicate predicateWithFormat:@&amp;quot;%K &amp;gt; $VALUE&amp;quot;, @&amp;quot;age&amp;quot;];
+      // 指定$VALUE的值为 25
+      NSPredicate *pred1 = [predTemp predicateWithSubstitutionVariables:@{@&amp;quot;VALUE&amp;quot; : @25}];
+      NSArray *newArray1 = [array filteredArrayUsingPredicate:pred1];
+      NSLog(@&amp;quot;newArray1:%@&amp;quot;, newArray1);
+
+      //  修改 $VALUE的值为32
+      NSPredicate *pred2 = [predTemp predicateWithSubstitutionVariables:@{@&amp;quot;VALUE&amp;quot; : @32}];
+      NSArray *newArray2 = [array filteredArrayUsingPredicate:pred2];
+      NSLog(@&amp;quot;newArray2:%@&amp;quot;, newArray2);
+
+ &amp;gt; 输出为:
+
+    2016-01-07 17:28:02.062 PredicteDemo[14542:309494] newArray:(
+      &amp;quot;[name = Jack, age = 20, sex = 0]&amp;quot;,
+      &amp;quot;[name = Jackson, age = 30, sex = 0]&amp;quot;
+    )
+    2016-01-07 17:28:02.063 PredicteDemo[14542:309494] newArray1:(
+      &amp;quot;[name = Jackson, age = 30, sex = 0]&amp;quot;,
+      &amp;quot;[name = Johnson, age = 35, sex = 0]&amp;quot;
+    )
+    2016-01-07 17:28:02.063 PredicteDemo[14542:309494] newArray2:(
+      &amp;quot;[name = Johnson, age = 35, sex = 0]&amp;quot;
+    )    
+
+
+ &amp;gt; 从上例中我们主要可以看出来%K和$VALUE的含义。
+ &amp;gt; 那么至此NSPredicate就到到此介绍完毕.  
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>iOS下Category添加属性字段</title>
+            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
+            <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
+            <description>
+
+&lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
+
+&lt;p&gt;首先看下报错情况&lt;/p&gt;
+
+&lt;h5 id=&#34;category添加字段-常规方法:39c9c95c702d9dfb0e5afaac21bb60d2&#34;&gt;Category添加字段(常规方法)&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;编写 Category 头文件, 以 UIImage 为例&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  UIImage+category.h
+//  
+//
+//  Created by Linf on 15-5-19.
+//  Copyright (c) 2015年 Linf. All rights reserved.
+//
+#import &amp;lt;UIKit/UIKit.h&amp;gt;
+
+
+@interface UIImage (category)
+
+
+// 在UIImage中新建一个tag属性
+@property (nonatomic, copy) NSString *tag;
+
+
+@end
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;编写 Category 源文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  UIImage+category.m
+//  
+//
+//  Created by Linf on 15-5-19.
+//  Copyright (c) 2015年 Linf. All rights reserved.
+//
+
+
+#import &amp;quot;UIImage+category.h&amp;quot;
+
+
+@implementation UIImage (category)
+
+
+- (NSString *)tag {
+    return self.tag;
+}
+
+
+- (void)setTag:(NSString *)tag {
+    self.tag = [tag copy];
+}
+@end
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;访问Category属性添加的 tag 属性&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;UIImage *image = [UIImage imageNamed:@&amp;quot;&amp;quot;];
+[image setTag:@&amp;quot;100&amp;quot;];
+NSLog(@&amp;quot;tag:%@&amp;quot;, [image tag]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;打印信息为:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2015-08-12 15:17:10.321 InformPub[16828:1373803] CUICatalog: Invalid asset name supplied: 
+2015-08-12 15:17:10.321 InformPub[16828:1373803] tag:(null)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;看到了没有，我们设置了tag值，完全没有用。那么有没有什么办法可以给Category添加属性字段呢？请看下面：&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&#34;category添加字段-runtime方法:39c9c95c702d9dfb0e5afaac21bb60d2&#34;&gt;Category添加字段（Runtime方法）&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;编写 Category 头文件, 以 UIImage 为例&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   //
+   //  UIImage+category.h
+   //  
+   //
+   //  Created by Linf on 15-5-19.
+   //  Copyright (c) 2015年 Linf. All rights reserved.
+   //
+   #import &amp;lt;UIKit/UIKit.h&amp;gt;
+
+
+   @interface UIImage (category)
+
+
+   // 在UIImage中新建一个tag属性
+   @property (nonatomic, copy) NSString *tag;
+
+
+   @end
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;编写 Category 源文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  UIImage+category.m
+//  
+//
+//  Created by Linf on 15-5-19.
+//  Copyright (c) 2015年 Linf. All rights reserved.
+//
+
+
+#import &amp;quot;UIImage+category.h&amp;quot;
+
+
+static const void *tagKey = &amp;amp;tagKey;
+
+
+@implementation UIImage (category)
+
+
+- (NSString *)tag {
+    return objc_getAssociatedObject(self, tagKey);
+}
+
+
+- (void)setTag:(NSString *)tag {
+    objc_setAssociatedObject(self, tagKey, tag, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+@end
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;访问Category属性添加的 tag 属性&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; UIImage *image = [UIImage imageNamed:@&amp;quot;&amp;quot;];
+ [image setTag:@&amp;quot;100&amp;quot;];
+ NSLog(@&amp;quot;tag:%@&amp;quot;, [image tag]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;打印信息为:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;  2015-08-12 14:57:58.777 InformPub[16741:1271788] tag:100
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;到这里代码就添加完成了，Category就可以添加属性字段了。这里面用到了objective-c的Runtime。如果有不了解Runtime的小伙伴，可以参考以下网站：&lt;a href=&#34;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&#34;&gt;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&lt;/a&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>iOS基础知识点梳理</title>
+            <link>http://blog.flywithme.top/2016/03/25/interviewQuestion/</link>
+            <pubDate>Fri, 25 Mar 2016 14:07:36 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/03/25/interviewQuestion/</guid>
+            <description>
+
+&lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/1418191330476751.jpg&#34; alt=&#34;banner&#34; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;序言:89b94fa4d68b0570d78f093df3858123&#34;&gt;序言&lt;/h5&gt;
+
+&lt;p&gt;目前形势，参加到iOS队伍的人是越来越多，已经到供过于求了。今年，找过工作人可能会更深刻地体会到今年的就业形势不容乐观，加之，培训机构一火车地向用人单位输送iOS开发人员，打破了生态圈的动态平衡。矫情一下，言归正传，我奉献一下，为iOS应聘者梳理一下面试题，希望能助一臂之力!&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h5 id=&#34;oc的理解与特性:89b94fa4d68b0570d78f093df3858123&#34;&gt;OC的理解与特性&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C++），又有动态语言的效率（动态绑定、动态加载等）。总体来讲，OC确实是一门不错的编程语言，&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Objective-C具有相当多的动态特性，表现为三方面：动态类型（Dynamic typing）、动态绑定（Dynamic binding）和动态加载（Dynamic loading）。动态——必须到运行时（run time）才会做的一些事情。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;动态类型：即运行时再决定对象的类型，这种动态特性在日常的应用中非常常见，简单来说就是id类型。事实上，由于静态类型的固定性和可预知性，从而使用的更加广泛。静态类型是强类型，而动态类型属于弱类型，运行时决定接受者。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;动态绑定：基于动态类型，在某个实例对象被确定后，其类型便被确定了，该对象对应的属性和响应消息也被完全确定。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;动态加载：根据需求加载所需要的资源，最基本就是不同机型的适配，例如，在Retina设备上加载@2x的图片，而在老一些的普通苹设备上加载原图，让程序在运行时添加代码模块以及其他资源，用户可根据需要加载一些可执行代码和资源，而不是在启动时就加载所有组件，可执行代码可以含有和程序运行时整合的新类。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;简述内存管理基本原则:89b94fa4d68b0570d78f093df3858123&#34;&gt;简述内存管理基本原则&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;之前：OC内存管理遵循“谁创建，谁释放，谁引用，谁管理”的机制，当创建或引用一个对象的时候，需要向她发送alloc、copy、retain消息，当释放该对象时需要发送release消息，当对象引用计数为0时，系统将释放该对象，这是OC的手动管理机制（MRC）。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;目前：iOS 5.0之后引用自动管理机制——自动引用计数（ARC），管理机制与手动机制一样，只是不再需要调用retain、release、autorelease；它编译时的特性，当你使用ARC时，在适当位置插入release和autorelease；它引用strong和weak关键字，strong修饰的指针变量指向对象时，当指针指向新值或者指针不复存在，相关联的对象就会自动释放，而weak修饰的指针变量指向对象，当对象的拥有者指向新值或者不存在时weak修饰的指针会自动置为nil。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果使用alloc、copy(mutableCopy)或者retian一个对象时,你就有义务,向它发送一条release或者autorelease消息。其他方法创建的对象,不需要由你来管理内存。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;向一个对象发送一条autorelease消息,这个对象并不会立即销毁, 而是将这个对象放入了自动释放池,待池子释放时,它会向池中每一个对象发送 一条release消息,以此来释放对象.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;向一个对象发送release消息,并不意味着这个对象被销毁了,而是当这个对象的引用计数为0时,系统才会调用dealloc方法,释放该对象和对象本身它所拥有的实例。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;其他注意事项:89b94fa4d68b0570d78f093df3858123&#34;&gt;其他注意事项&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;如果一个对象有一个_strong类型的指针指向着，找个对象就不会被释放。如果一个指针指向超出了它的作用域，就会被指向nil。如果一个指针被指向nil，那么它原来指向的对象就被释放了。当一个视图控制器被释放时，它内部的全局指针会被指向nil。用法“：不管全局变量还是局部变量用_strong描述就行。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;局部变量：出了作用域，指针会被置为nil。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;方法内部创建对象，外部使用需要添加_autorelease;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;连线的时候，用_weak描述。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;代理使用unsafe_unretained就相当于assign；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;block中为了避免循环引用问题，使用_weak描述；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;声明属性时，不要以new开头。如果非要以new开头命名属性的名字，需要自己定制get方法名，如&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;@property(getter=theString) NSString * newString;&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果要使用自动释放池，用@autoreleasepool{}&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ARC只能管理Foundation框架的变量，如果程序中把Foundation中的变量强制换成COre Foundation中的变量需要交换管理权；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在非ARC工程中采用ARC去编译某些类：-fobjc-arc。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在ARC下的工程采用非ARC去编译某些类：-fno-fobjc-arc。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;如何理解mvc设计模式:89b94fa4d68b0570d78f093df3858123&#34;&gt;如何理解MVC设计模式&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;MVC是一种架构模式，M表示Model，V表示视图View，C表示控制器Controller：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Model负责存储、定义、操作数据；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;View用来展示书给用户，和用户进行操作交互；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Controller是Model和View的协调者，Controller把Model中的数据拿过来给View用。Controller可以直接与Model和View进行通信，而View不能和Controller直接通信。View与Controller通信需要利用代理协议的方式，当有数据更新时，MOdel也要与Controller进行通信，这个时候就要用Notification和KVO，这个方式就像一个广播一样，MOdel发信号，Controller设置监听接受信号，当有数据更新时就发信号给Controller，Model和View不能直接进行通信，这样会违背MVC设计模式。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;如何理解mvvm设计模式:89b94fa4d68b0570d78f093df3858123&#34;&gt;如何理解MVVM设计模式。&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;ViewModel层，就是View和Model层的粘合剂，他是一个放置用户输入验证逻辑，视图显示逻辑，发起网络请求和其他各种各样的代码的极好的地方。说白了，就是把原来ViewController层的业务逻辑和页面逻辑等剥离出来放到ViewModel层。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;View层，就是ViewController层，他的任务就是从ViewModel层获取数据，然后显示。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如需了解更多，请查看&lt;a href=&#34;http://www.jianshu.com/p/f4faa720f00d&#34;&gt;这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;objective-c-中是否支持垃圾回收机制:89b94fa4d68b0570d78f093df3858123&#34;&gt;Objective-C 中是否支持垃圾回收机制？&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;OC是支持垃圾回收机制的(Garbage collection简称GC),但是apple的移动终端中,是不支持GC的,Mac桌面系统开发中是支持的.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;移动终端开发是支持ARC（Automatic Reference Counting的简称）,ARC是在IOS5之后推出的新技术,它与GC的机制是不同的。我们在编写代码时, 不需要向对象发送release或者autorelease方法,也不可以调用delloc方法,编译器会在合适的位置自动给用户生成release消息(autorelease),ARC 的特点是自动引用技术简化了内存管理的难度.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;协议的基本概念和协议中方法默认为什么类型:89b94fa4d68b0570d78f093df3858123&#34;&gt;协议的基本概念和协议中方法默认为什么类型。&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;OC中的协议是一个方法列表,且多少有点相关。它的特点是可以被任何类使用(实现),但它并不是类(这里我们需要注意),自身不会实现这样方法, 而是又其他人来实现协议经常用来实现委托对象(委托设计模式)。如果一个类采用了一个协议,那么它必须实现协议中必须需要实现的方法,在协议中的方法默认是必须实现(@required),添加关键字@optional,表明一旦采用该协议,这些“可选”的方法是可以选择不实现的。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;简述类目category优点和缺点:89b94fa4d68b0570d78f093df3858123&#34;&gt;简述类目category优点和缺点。&lt;/h5&gt;
+
+&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;不需要通过增加子类而增加现有类的行为(方法),且类目中的方法与原始类方法基本没有区别;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;通过类目可以将庞大一个类的方法进行划分,从而便于代码的日后的维护、更新以及提高代码的阅读性;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;类目中的方法与原始类以及父类方法相比具有更高优先级,如果覆盖父类的方法,可能导致super消息的断裂。因此,最好不要覆盖原始类中的方法。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&#34;类别的作用:89b94fa4d68b0570d78f093df3858123&#34;&gt;类别的作用&lt;/h6&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;给系统原有类添加方法，不能扩展属性。如果类别中方法的名字跟系统的方法名一样，在调用的时候类别中的方法优先级更高；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;分散类的实现：如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  + (NSIndexPath *)indexPathForRow:(NSInteger)row
+  inSection:(NSInteger)section
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;原本属于NSIndexPath的方法，但因为这个方法经常使用的表的时候调用、跟表的关系特别密切，因此把这个方法一类别的形式、声明在UITableView.h中。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;声明私有方法，某一个方法只实现，不声明，相当于私有方法。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;类别不能声明变量，类别不可以直接添加属性。property描述setter方法，就不会报错。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;循环引用的产生原因-以及解决方法:89b94fa4d68b0570d78f093df3858123&#34;&gt;循环引用的产生原因，以及解决方法。&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;产生原因：如下图所示，对象A和对象B相互引用了对方作为自己的成员变量，只有自己销毁的时候才能将成员变量的引用计数减1。对象A的销毁依赖于对象B的销毁，同时对象B销毁也依赖与对象A的销毁，从而形成循环引用，此时，即使外界没有任何指针访问它，它也无法释放&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;循环引用示例图&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/circularreference1.png&#34; alt=&#34;circularreference1&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;多个对象间依然会存在循环引用问题，形成一个环，在编程中，形成的环越大越不容易察觉，如下图所示：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/circularreference2.png&#34; alt=&#34;circularreference1&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;解决方法：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;事先知道存在循环引用的地方，在合理的位置主动断开一个引用，是对象回收；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用弱引用的方法。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&#34;键路径-keypath-键值编码-kvc-和键值观察-kvo:89b94fa4d68b0570d78f093df3858123&#34;&gt;键路径(keyPath)、键值编码（KVC）和键值观察（KVO）&lt;/h6&gt;
+
+&lt;p&gt;&lt;strong&gt;键路径&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;在一个给定的实体中,同一个属性的所有值具有相同的数据类型。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;键-值编码技术用于进行这样的查找—它是一种间接访问对象属性的机制。 - 键路径是一个由用点作分隔符的键组成的字符串,用于指定一个连接在一起的对象性质序列。第一个键的性质是由先前的性质决定的,接下来每个键的值也是相对于其前面的性质。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;键路径使您可以以独立于模型实现的方式指定相关对象的性质。通过键路径,您可以指定对象图中的一个任意深度的路径,使其指向相关对象的特定属性。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;键值编码KVC&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;键值编码是一种间接访问对象的属性使用字符串来标识属性，而不是通过调用存取方法，直接或通过实例变量访问的机制，非对象类型的变量将被自动封装或者解封成对象，很多情况下会简化程序代码；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;KVC的缺点：一旦使用 KVC 你的编译器无法检查出错误,即不会对设置的键、键路径进行错误检查,且执行效率要低于合成存取器方法和自定的 setter 和 getter 方法。因为使用 KVC 键值编码,它必须先解析字符串,然后在设置或者访问对象的实例变量。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;键值观察KVO&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;键值观察机制是一种能使得对象获取到其他对象属性变化的通知 ，极大的简化了代码。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;实现 KVO 键值观察模式,被观察的对象必须使用 KVC 键值编码来修 改它的实例变量,这样才能被观察者观察到。因此,KVC是KVO的基础。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Demo&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;    [self addObserver:self forKeyPath:@&amp;quot;highlighted&amp;quot; options:0 context:nil]; 
+    #pragma mark KVO 
+    - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context 
+    { 
+         if ([keyPath isEqualToString:@&amp;quot;highlighted&amp;quot;] ) { 
+          [self setNeedsDisplay]; 
+        } 
+     }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;对于系统是根据keypath去取的到相应的值发生改变，理论上来说是和kvc机制的道理是一样的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;kvc机制通过key找到value的原理:89b94fa4d68b0570d78f093df3858123&#34;&gt;KVC机制通过key找到value的原理。&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;当通过KVC调用对象时，比如：[self valueForKey:@”someKey”]时，程序会自动试图通过下面几种不同的方式解析这个调用。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;首先查找对象是否带有 someKey 这个方法，如果没找到，会继续查找对象是否带有someKey这个实例变量（iVar），如果还没有找到，程序会继续试图调用 -(id) valueForUndefinedKey:这个方法。如果这个方法还是没有被实现的话，程序会抛出一个NSUndefinedKeyException异常错误。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;补充：KVC查找方法的时候，不仅仅会查找someKey这个方法，还会查找getsomeKey这个方法，前面加一个get，或者_someKey以_getsomeKey这几种形式。同时，查找实例变量的时候也会不仅仅查找someKey这个变量，也会查找_someKey这个变量是否存在。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;设计valueForUndefinedKey:方法的主要目的是当你使用-(id)valueForKey方法从对象中请求值时，对象能够在错误发生前，有最后的机会响应这个请求。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;在-objective-c-中如何实现-kvo:89b94fa4d68b0570d78f093df3858123&#34;&gt;在 Objective-C 中如何实现 KVO&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;注册观察者(注意：观察者和被观察者不会被保留也不会被释放)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath 
+options:(NSKeyValueObservingOptions)options 
+context:(void *)context;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;接收变更通知&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)observeValueForKeyPath:(NSString *)keyPath 
+ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;移除对象的观察者身份&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)observeValueForKeyPath:(NSString *)keyPath 
+ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;KVO中谁要监听谁注册，然后对响应进行处理，使得观察者与被观察者完全解耦。KVO只检测类中的属性，并且属性名都是通过NSString来查找，编译器不会检错和补全，全部取决于自己。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;代理的作用:89b94fa4d68b0570d78f093df3858123&#34;&gt;代理的作用&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;代理又叫委托，是一种设计模式，代理是对象与对象之间的通信交互，代理解除了对象之间的耦合性。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;改变或传递控制链。允许一个类在某些特定时刻通知到其他类，而不需要获取到那些类的指针。可以减少框架复杂度。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;另外一点，代理可以理解为java中的回调监听机制的一种类似。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;代理的属性常是assign的原因：防止循环引用,以至对象无法得到正确的释放。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;nsnotification-block-delegate和kvo的区别:89b94fa4d68b0570d78f093df3858123&#34;&gt;NSNotification、Block、Delegate和KVO的区别&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;代理是一种回调机制，且是一对一的关系，通知是一对多的关系，一个对向所有的观察者提供变更通知；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;效率：Delegate比NSNOtification高；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Delegate和Block一般是一对一的通信；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Delegate需要定义协议方法，代理对象实现协议方法，并且需要建立代理关系才可以实现通信；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Block：Block更加简洁，不需要定义繁琐的协议方法，但通信事件比较多的话，建议使用Delegate；&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;objective-c中可修改和不可以修改类型:89b94fa4d68b0570d78f093df3858123&#34;&gt;Objective-C中可修改和不可以修改类型&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;可修改不可修改的集合类，就是可动态添加修改和不可动态添加修改。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;比如NSArray和NSMutableArray,前者在初始化后的内存控件就是固定不可变的，后者可以添加等，可以动态申请新的内存空间&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;当我们调用一个静态方法时-需要对对象进行-release-吗:89b94fa4d68b0570d78f093df3858123&#34;&gt;当我们调用一个静态方法时,需要对对象进行 release 吗?&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;不需要,静态方法(类方法)创建一个对象时,对象已被放入自动释放池。在自动释放池被释放时,很有可能被销毁。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;当我们释放我们的对象时-为什么需要调用-super-dealloc-方法-它的位置又是如何的呢:89b94fa4d68b0570d78f093df3858123&#34;&gt;当我们释放我们的对象时,为什么需要调用[super dealloc]方法,它的位置又是如何的呢?&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;因为子类的某些实例是继承自父类的,因此需要调用[super dealloc]方法, 来释放父类拥有的实例,其实也就是子类本身的。一般来说我们优先释放子类拥 有的实例,最后释放父类所拥有的实例&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;对谓词的认识:89b94fa4d68b0570d78f093df3858123&#34;&gt;对谓词的认识&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;static-self-super关键字的作用:89b94fa4d68b0570d78f093df3858123&#34;&gt;static、self、super关键字的作用&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;函数体内static变量的作用范围为该函数体，不同于auto变量，该变量的内存只被分配一次，因此其值在下次调用时仍维持上次的值.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在模块内的 static 全局变量可以被模块内所用函数访问，但不能被模块外其它函数访问.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在模块内的static函数只可被这一模块内的其它函数调用，这个函数的使用范围被限制在声明.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在类中的static成员变量属于整个类所拥有，对类的所有对象只有一份拷贝.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;self:当前消息的接收者。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;super:向父类发送消息。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;include与-import的区别-import-与-class-的区别:89b94fa4d68b0570d78f093df3858123&#34;&gt;#include与#import的区别，#import 与@class 的区别&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;#include 和#import其效果相同,都是查询类中定义的行为(方法);&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;#import不会引起交叉编译,确保头文件只会被导入一次；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;@class 的表明,只定义了类的名称,而具体类的行为是未知的,一般用于.h 文件；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;@class 比#import 编译效率更高。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;此外@class 和#import 的主要区别在于解决引用死锁的问题。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;public-protected-private-它们的含义与作用:89b94fa4d68b0570d78f093df3858123&#34;&gt;@public、@protected、@private 它们的含义与作用&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;@public:对象的实例变量的作用域在任意地方都可以被访问 ;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;@protected:对象的实例变量作用域在本类和子类都可以被访问 ;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;@private:实例变量的作用域只能在本类(自身)中访问 .&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;解释-id-类型:89b94fa4d68b0570d78f093df3858123&#34;&gt;解释 id 类型&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;任意类型对象，程序运行时才决定对象的类型。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;switch-语句-if-语句区别与联系:89b94fa4d68b0570d78f093df3858123&#34;&gt;switch 语句 if 语句区别与联系&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;均表示条件的判断,switch语句表达式只能处理的是整型、字符型和枚举类型,而选择流程语句则没有这样的限制。但switch语句比选择流程控制语句效率更高。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;ismemberofclass-和-iskindofclass-联系与区别:89b94fa4d68b0570d78f093df3858123&#34;&gt;isMemberOfClass 和 isKindOfClass 联系与区别&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;联系：两者都能检测一个对象是否是某个类的成员&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;区别：isKindOfClass 不仅用来确定一个对象是否是一个类的成员,也可以用来确定一个对象是否派生自该类的类的成员 ,而isMemberOfClass 只能做到第一点。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;举例：如 ClassA派 生 自NSObject 类 , ClassA *a = [ClassA alloc] init];,[a isKindOfClass:[NSObject class]] 可以检查出 a 是否是 NSObject派生类 的成员,但 isMemberOfClass 做不到。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;os-开发中数据持久性有哪几种:89b94fa4d68b0570d78f093df3858123&#34;&gt;OS 开发中数据持久性有哪几种?&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;数据存储的核心都是写文件。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;属性列表：只有NSString、NSArray、NSDictionary、NSData可writeToFile；存储依旧是plist文件。plist文件可以存储的7中数据类型：array、dictionary、string、bool、data、date、number。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;对象序列化（对象归档）：对象序列化通过序列化的形式，键值关系存储到本地，转化成二进制流。通过runtime实现自动化归档/解档，请参考这个文章。实现NSCoding协议必须实现的两个方法：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;编码（对象序列化）：把不能直接存储到plist文件中得到数据，转化为二进制数据，NSData，可以存储到本地；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;解码（对象反序列化）：把二进制数据转化为本来的类型。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;SQLite 数据库：大量有规律的数据使用数据库。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;CoreData ：通过管理对象进行增、删、查、改操作的。它不是一个数据库，不仅可以使用SQLite数据库来保持数据，也可以使用其他的方式来存储数据。如：XML。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;coredata的介绍:89b94fa4d68b0570d78f093df3858123&#34;&gt;CoreData的介绍：&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;CoreData是面向对象的API，CoreData是iOS中非常重要的一项技术，几乎在所有编写的程序中，CoreData都作为数据存储的基础。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;CoreData是苹果官方提供的一套框架，用来解决与对象声明周期管理、对象关系管理和持久化等方面相关的问题。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;大多数情况下，我们引用CoreData作为持久化数据的解决方案，并利用它作为持久化数据映射为内存对象。提供的是对象-关系映射功能，也就是说，CoreData可以将Objective-C对象转换成数据，保存到SQL中，然后将保存后的数据还原成OC对象。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;coredata的特征:89b94fa4d68b0570d78f093df3858123&#34;&gt;CoreData的特征：&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;通过CoreData管理应用程序的数据模型，可以极大程度减少需要编写的代码数量。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;将对象数据存储在SQLite数据库已获得性能优化。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;提供NSFetchResultsController类用于管理表视图的数据，即将Core Data的持久化存储在表视图中，并对这些数据进行管理：增删查改。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;管理undo/redo操纵；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;检查托管对象的属性值是否正确。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;core-data的6成员对象:89b94fa4d68b0570d78f093df3858123&#34;&gt;Core Data的6成员对象&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;NSManageObject:被管理的数据记录Managed Object Model是描述应用程序的数据模型，这个模型包含实体（Entity）、特性（Property）、读取请求（Fetch Request）等。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSManageObjectContext：管理对象上下文，持久性存储模型对象，参与数据对象进行各种操作的全过程，并监测数据对象的变化，以提供对undo/redo的支持及更新绑定到数据的UI。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSPersistentStoreCoordinator:连接数据库的Persistent Store Coordinator相当于数据文件管理器，处理底层的对数据文件的读取和写入，一般我们与这个没有交集。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSManagedObjectModel：被管理的数据模型、数据结构。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSFetchRequest：数据请求；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSEntityDescription：表格实体结构，还需知道.xcdatamodel文件编译后为.momd或者.mom文件。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;core-data的功能:89b94fa4d68b0570d78f093df3858123&#34;&gt;Core Data的功能&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;对于KVC和KVO完整且自动化的支持，除了为属性整合KVO和KVC访问方法外，还整合了适当的集合访问方法来处理多值关系；
+自动验证属性（property）值；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;支持跟踪修改和撤销操作；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;关系维护，Core Data管理数据的关系传播，包括维护对象间的一致性；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在内存上和界面上分组、过滤、组织数据；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;自动支持对象存储在外部数据仓库的功能；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;创建复杂请求：无需动手写SQL语句，在获取请求（fetch request）中关联NSPredicate。NSPreadicate支持基本功能、相关子查询和其他高级的SQL特性。它支持正确的Unicode编码、区域感知查询、排序和正则表达式；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;延迟操作：Core Data使用懒加载（lazy loading）方式减少内存负载，还支持部分实体化延迟加载和复制对象的数据共享机制；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;合并策略：Core Data内置版本跟踪和乐观锁（optimistic locking）来支持多用户写入冲突的解决，其中，乐观锁就是对数据冲突进行检测，若冲突就返回冲突的信息；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;数据迁移：Core Data的Schema Migration工具可以简化应对数据库结构变化的任务，在某些情况允许你执行高效率的数据库原地迁移工作；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;可选择针对程序Controller层的集成，来支持UI的显示同步Core Data在IPhone OS之上，提供NSFetchedResultsController对象来做相关工作，在Mac OS X上我们用Cocoa提供的绑定（Binding）机制来完成的。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;对象可以被copy的条件:89b94fa4d68b0570d78f093df3858123&#34;&gt;对象可以被copy的条件&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;只有实现了NSCopying和NSMutableCopying协议的类的对象才能被拷贝,分为不可变拷贝和可变拷贝,具体区别戳这里&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSCopying协议方法为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (id)copyWithZone:(NSZone *)zone {
+ MyObject *copy = [[[self class] allocWithZone: zone] init];
+ copy.username = [self.username copyWithZone:zone];
+ return copy;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;自动释放池工作原理:89b94fa4d68b0570d78f093df3858123&#34;&gt;自动释放池工作原理&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;自动释放池是NSAutorelease类的一个实例,当向一个对象发送autorelease消息时,该对象会自动入池,待池销毁时,将会向池中所有对象发送一条release消息,释放对象。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;[pool release]、 [pool drain]表示的是池本身不会销毁,而是池子中的临时对象都被发送release,从而将对象销毁。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;在某个方法中-self-name-name-name-name-它-们有区别吗-为什么:89b94fa4d68b0570d78f093df3858123&#34;&gt;在某个方法中 self.name = _name，name = _name 它 们有区别吗，为什么?&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;前者是存在内存管理的setter方法赋值,它会对_name对象进行保留或者拷贝操作&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;后者是普通赋值&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;一般来说，在对象的方法里成员变量和方法都是可以访问的，我们通常会重写Setter方法来执行某些额外的工作。比如说，外部传一个模型过来，那么我会直接重写Setter方法，当模型传过来时，也就是意味着数据发生了变化，那么视图也需要更新显示，则在赋值新模型的同时也去刷新UI。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;解释self-super-init-方法:89b94fa4d68b0570d78f093df3858123&#34;&gt;解释self = [super init]方法&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;容错处理,当父类初始化失败,会返回一个nil,表示初始化失败。由于继承的关系,子类是需要拥有父类的实例和行为,因此,我们必须先初始化父类,然后再初始化子类&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;定义属性时-什么时候用-assign-retain-copy-以及它们的之间的区别:89b94fa4d68b0570d78f093df3858123&#34;&gt;定义属性时，什么时候用 assign、retain、copy 以及它们的之间的区别。&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;assign&lt;/strong&gt;:普通赋值,一般常用于基本数据类型,常见委托设计模式, 以此来防止循环引用。(我们称之为弱引用).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;retain&lt;/strong&gt;:保留计数,获得到了对象的所有权,引用计数在原有基础上加1.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;copy&lt;/strong&gt;:一般认为,是在内存中重新开辟了一个新的内存空间,用来 存储新的对象,和原来的对象是两个不同的地址,引用计数分别为1。但是当copy对象为不可变对象时,那么copy 的作用相当于retain。因为,这样可以节约内存空间&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;堆和栈的区别:89b94fa4d68b0570d78f093df3858123&#34;&gt;堆和栈的区别&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;栈区(stack)由编译器自动分配释放 ,存放方法(函数)的参数值, 局部变量的值等，栈是向低地址扩展的数据结构，是一块连续的内存的区域。即栈顶的地址和栈的最大容量是系统预先规定好的。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;堆区(heap)一般由程序员分配释放, 若程序员不释放,程序结束时由OS回收，向高地址扩展的数据结构，是不连续的内存区域，从而堆获得的空间比较灵活。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;碎片问题：对于堆来讲，频繁的new/delete势必会造成内存空间的不连续，从而造成大量的碎片，使程序效率降低。对于栈来讲，则不会存在这个问题，因为栈是先进后出的队列，他们是如此的一一对应，以至于永远都不可能有一个内存块从栈中间弹出.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;分配方式：堆都是动态分配的，没有静态分配的堆。栈有2种分配方式：静态分配和动态分配。静态分配是编译器完成的，比如局部变量的分配。动态分配由alloca函数进行分配，但是栈的动态分配和堆是不同的，他的动态分配是由编译器进行释放，无需我们手工实现。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;分配效率：栈是机器系统提供的数据结构，计算机会在底层对栈提供支持：分配专门的寄存器存放栈的地址，压栈出栈都有专门的指令执行，这就决定了栈的效率比较高。堆则是C/C++函数库提供的，它的机制是很复杂的。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;全局区(静态区)(static),全局变量和静态变量的存储是放在一块 的,初始化的全局变量和静态变量在一块区域, 未初始化的全局变量和未初始化的静态变量在相邻的另一块区域。程序结束后有系统释放。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;文字常量区—常量字符串就是放在这里的。程序结束后由系统释放。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;程序代码区—存放函数体的二进制代码&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;怎样使用performselector传入3个以上参数-其中一个为结构体:89b94fa4d68b0570d78f093df3858123&#34;&gt;怎样使用performSelector传入3个以上参数，其中一个为结构体。&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;因为系统提供的performSelector的API中，并没有提供三个参数。因此，我们只能传数组或者字典，但是数组或者字典只有存入对象类型，而结构体并不是对象类型,我们只能通过对象放入结构作为属性来传过去了.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;    - (id)performSelector:(SEL)aSelector;
+    - (id)performSelector:(SEL)aSelector withObject:(id)object;
+    - (id)performSelector:(SEL)aSelector withObject:
+       (id)object1 withObject:(id)object2;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;具体实现如下：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;    typedef struct HYBStruct {
+    int a;
+    int b;
+    } *my_struct;
+
+    @interface HYBObject : NSObject
+
+    @property (nonatomic, assign) my_struct arg3;
+    @property (nonatomic, copy)  NSString *arg1;
+    @property (nonatomic, copy) NSString *arg2;
+
+    @end
+    @implementation HYBObject
+    。
+    // 在堆上分配的内存，我们要手动释放掉
+    - (void)dealloc {
+    free(self.arg3);
+    }
+
+    @end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;测试：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;    my_struct str = (my_struct)(malloc(sizeof(my_struct)));
+    str-&amp;gt;a = 1;
+    str-&amp;gt;b = 2;
+    HYBObject *obj = [[HYBObject alloc] init];
+    obj.arg1 = @&amp;quot;arg1&amp;quot;;
+    obj.arg2 = @&amp;quot;arg2&amp;quot;;
+    obj.arg3 = str; 
+    [self performSelector:@selector(call:) withObject:obj]; 
+    // 在回调时得到正确的数据的
+    - (void)call:(HYBObject *)obj {
+     NSLog(@&amp;quot;%d %d&amp;quot;, obj.arg3-&amp;gt;a, obj.arg3-&amp;gt;b);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;uitableviewcell上有个uilabel-显示nstimer实现的秒表时间-手指滚动cell过程中-label是否刷新-为什么:89b94fa4d68b0570d78f093df3858123&#34;&gt;UITableViewCell上有个UILabel，显示NSTimer实现的秒表时间，手指滚动cell过程中，label是否刷新，为什么？&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这是否刷新取决于timer加入到Run Loop中的Mode是什么。Mode主要是用来指定事件在运行循环中的优先级的，分为：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;·  NSDefaultRunLoopMode（kCFRunLoopDefaultMode）：默认，空闲状态
+·  UITrackingRunLoopMode：ScrollView滑动时会切换到该Mode
+·  UIInitializationRunLoopMode：run loop启动时，会切换到该mode
+·  NSRunLoopCommonModes（kCFRunLoopCommonModes）：Mode集合
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;苹果公开提供的Mode有两个&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;·  NSDefaultRunLoopMode（kCFRunLoopDefaultMode）
+·  NSRunLoopCommonModes（kCFRunLoopCommonModes）
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在编程中：如果我们把一个NSTimer对象以NSDefaultRunLoopMode（kCFRunLoopDefaultMode）添加到主运行循环中的时候, ScrollView滚动过程中会因为mode的切换，而导致NSTimer将不再被调度。当我们滚动的时候，也希望不调度，那就应该使用默认模式。但是，如果希望在滚动时，定时器也要回调，那就应该使用common mode。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;对于单元格重用的理解:89b94fa4d68b0570d78f093df3858123&#34;&gt;对于单元格重用的理解&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;当屏幕上滑出屏幕时，系统会把这个单元格添加到重用队列中，等待被重用，当有新单元从屏幕外滑入屏幕内时，从重用队列中找看有没有可以重用的单元格，若有，就直接用，没有就重新创建一个。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;解决cell重用的问题:89b94fa4d68b0570d78f093df3858123&#34;&gt;解决cell重用的问题&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;UITableView通过重用单元格来达到节省内存的目的，通过为每个单元格指定一个重用标示（reuseidentifier），即指定了单元格的种类，以及当单元格滚出屏幕时，允许恢复单元格以便复用。对于不同种类的单元格使用不同的ID，对于简单的表格，一个标示符就够了。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如一个TableView中有10个单元格，但屏幕最多显示4个，实际上iPhone只为其分配4个单元格的内存，没有分配10个，当滚动单元格时，屏幕内显示的单元格重复使用这4个内存。实际上分配的cell的个数为屏幕最大显示数，当有新的cell进入屏幕时，会随机调用已经滚出屏幕的Cell所占的内存，这就是Cell的重用。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;对于多变的自定义Cell，这种重用机制会导致内容出错，为解决这种出错的方法，把原来的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;UITableViewCell *cell = [tableview dequeueReusableCellWithIdentifier:defineString]
+//修改为：这样就解决掉cell重用机制导致的问题。 
+UITableViewCell *cell = [tableview cellForRowAtIndexPath:indexPath];
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;有a-b-c-d-4个异步请求-如何判断a-b-c-d都完成执行-如果需要a-b-c-d顺序执行-该如何实现:89b94fa4d68b0570d78f093df3858123&#34;&gt;有a、b、c、d 4个异步请求，如何判断a、b、c、d都完成执行？如果需要a、b、c、d顺序执行，该如何实现？&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;对于这四个异步请求，要判断都执行完成最简单的方式就是通过GCD的group来实现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+dispatch_group_t group = dispatch_group_create();
+dispatch_group_async(group, queue, ^{ /*任务a */ });
+dispatch_group_async(group, queue, ^{ /*任务b */ });
+dispatch_group_async(group, queue, ^{ /*任务c */ }); 
+dispatch_group_async(group, queue, ^{ /*任务d */ }); 
+dispatch_group_notify(group,dispatch_get_main_queue(), ^{
+ // 在a、b、c、d异步执行完成后，会回调这里
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;当然，我们还可以使用非常老套的方法来处理，通过四个变量来标识a、b、c、d四个任务是否完成，然后在runloop中让其等待，当完成时才退出runloop。但是这样做会让后面的代码得不到执行，直到Run loop执行完毕。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;解释：要求顺序执行，那么可以将任务放到串行队列中，自然就是按顺序来异步执行了。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;使用block有什么好处-使用nstimer写出一个使用block显示-在uilabel上-秒表的代码:89b94fa4d68b0570d78f093df3858123&#34;&gt;使用block有什么好处？使用NSTimer写出一个使用block显示（在UILabel上）秒表的代码。&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;代码紧凑，传值、回调都很方便，省去了写代理的很多代码。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSTimer封装成的block，(TODO)具体实现。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;实现方法：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;   NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                 repeats:YES
+                                callback:^() {
+     weakSelf.secondsLabel.text = ...
+   }
+   [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;一个view已经初始化完毕-view上面添加了n个button-除用view的tag之外-还可以采用什么办法来找到自己想要的button来修改button的值:89b94fa4d68b0570d78f093df3858123&#34;&gt;一个view已经初始化完毕，view上面添加了n个button，除用view的tag之外，还可以采用什么办法来找到自己想要的button来修改button的值。&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;第一种：如果是点击某个按钮后，才会刷新它的值，其它不用修改，那么不用引用任何按钮，直接在回调时，就已经将接收响应的按钮给传过来了，直接通过它修改即可。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;第二种：点击某个按钮后，所有与之同类型的按钮都要修改值，那么可以通过在创建按钮时将按钮存入到数组中，在需要的时候遍历查找。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;线程与进程的区别和联系:89b94fa4d68b0570d78f093df3858123&#34;&gt;线程与进程的区别和联系?&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;一个程序至少要有进城,一个进程至少要有一个线程。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;进程:资源分配的最小独立单元,进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动,进程是系统进行资源分配和调度的一个独立单位。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;线程:进程下的一个分支,是进程的实体,是CPU调度和分派的基本单元,它是比进程更小的能独立运行的基本单位,线程自己基本不拥有系统资源,只拥有一点在运行中必不可少的资源(程序计数器、一组寄存器、栈)，但是它可与同属一个进程的其他线程共享进程所拥有的全部资源。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;进程和线程都是由操作系统所体会的程序运行的基本单元，系统利用该基本单元实现系统对应用的并发性。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;进程和线程的主要差别在于它们是不同的操作系统资源管理方式。进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。线程有自己的堆栈和局部变量，但线程之间没有单独的地址空间，一个线程死掉就等于整个进程死掉，所以多进程的程序要比多线程的程序健壮，但在进程切换时，耗费资源较大，效率要差一些。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;但对于一些要求同时进行并且又要共享某些变量的并发操作，只能用线程，不能用进程。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;多线程编程:89b94fa4d68b0570d78f093df3858123&#34;&gt;多线程编程&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;NSThread:当需要进行一些耗时操作时会把耗时的操作放到线程中。线程同步：多个线程同时访问一个数据会出问题，NSlock、线程同步块、@synchronized(self){}。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSOperationQueue操作队列（不需考虑线程同步问题）。编程的重点都放在main里面，NSInvocationOperation、BSBlockOperation、自定义Operation。创建一个操作绑定相应的方法，当把操作添加到操作队列中时，操作绑定的方法就会自动执行了，当把操作添加到操作队列中时，默认会调用main方法。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;GCD（`Grand Central Dispatch）宏大的中央调度，串行队列、并发队列、主线程队列；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;同步和异步：同步指第一个任务不执行完，不会开始第二个，异步是不管第一个有没有执行完，都开始第二个。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;串行和并行：串行是多个任务按一定顺序执行，并行是多个任务同时执行；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;代码是在分线程执行，在主线程嘟列中刷新UI。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;多线程编程是防止主线程堵塞、增加运行效率的最佳方法。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Apple提供了NSOperation这个类，提供了一个优秀的多线程编程方法；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;一个NSOperationQueue操作队列，相当于一个线程管理器，而非一个线程，因为你可以设置这个线程管理器内可以并行运行的线程数量等。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;多线程是一个比较轻量级的方法来实现单个应用程序内多个代码执行路径。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;iPhoneOS下的主线程的堆栈大小是1M。第二个线程开始就是512KB，并且该值不能通过编译器开关或线程API函数来更改，只有主线程有直接修改UI的能力&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;定时器与线程的区别:89b94fa4d68b0570d78f093df3858123&#34;&gt;定时器与线程的区别&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;定时器;可以执行多次，默认在主线程中。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;线程：只能执行一次。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;tcp和udp的区别于联系:89b94fa4d68b0570d78f093df3858123&#34;&gt;TCP和UDP的区别于联系&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;TCP为传输控制层协议，为面向连接、可靠的、点到点的通信；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;UDP 是User Datagram Protocol的简称， 中文名是用户数据报协议，是OSI（Open System Interconnection，开放式系统互联，非连接的不可靠的点到多点的通信；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;TCP侧重可靠传输，UDP侧重快速传输。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;tcp连接的三次握手:89b94fa4d68b0570d78f093df3858123&#34;&gt;TCP连接的三次握手&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;第一次握手：客户端发送syn包（syn=j）到服务器，并进入SYN_SEND状态，等待服务器确认；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;第二次握手：服务器收到syn包，必须确认客户的SYN（ack=j+1），同时自己也发送一个SYN包，即SYN+ACK包，此时服务器进入SYN+RECV状态；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;第三次握手：客户端收到服务器的SYN+ACK包，向服务器发送确认包ACK（ack=k+1），此发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次状态。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;scoket连接和http连接的区别:89b94fa4d68b0570d78f093df3858123&#34;&gt;Scoket连接和HTTP连接的区别&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;HTTP协议是基于TCP连接的，是应用层协议，主要解决如何包装数据。Socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket，我们才能使用TCP/IP协议。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;HTTP连接：短连接，客户端向服务器发送一次请求，服务器响应后连接断开，节省资源。服务器不能主动给客户端响应（除非采用HTTP长连接技术），iPhone主要使用类NSURLConnection/NSURLSession。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Socket连接：长连接，客户端跟服务器端直接使用Socket进行连接，没有规定连接后断开，因此客户端和服务器段保持连接通道，双方可以主动发送数据，一般多用于游戏.Socket默认连接超时时间是30秒，默认大小是8K（理解为一个数据包大小）。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;http协议的特点-关于http请求get和post的区别:89b94fa4d68b0570d78f093df3858123&#34;&gt;HTTP协议的特点，关于HTTP请求GET和POST的区别&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;GET和POST的区别&lt;/strong&gt;：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;HTTP超文本传输协议，是短连接，是客户端主动发送请求，服务器做出响应，服务器响应之后，链接断开。HTTP是一个属于应用层面向对象的协议，HTTP有两类报文：请求报文和响应报文。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;HTTP请求报文：一个HTTP请求报文由请求行、请求头部、空行和请求数据4部分组成。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;HTTP响应报文：由三部分组成：状态行、消息报头、响应正文。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;GET请求：参数在地址后拼接，没有请求数据，不安全（因为所有参数都拼接在地址后面），不适合传输大量数据（长度有限制，为1024个字节）。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;GET提交、请求的数据会附在URL之后，即把数据放置在HTTP协议头中。分割URL和传输数据，多个参数用&amp;amp;连接。如果数据是英文字母或数字，原样发送,如果是空格，转换为+，如果是中文/其他字符，则直接把字符串用BASE64加密。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;POST请求：参数在请求数据区放着，相对GET请求更安全，并且数据大小没有限制。把提交的数据放置在HTTP包的包体中.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;GET提交的数据会在地址栏显示出来，而POST提交，地址栏不会改变。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;传输数据的大小&lt;/strong&gt;:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;GET提交时，传输数据就会受到URL长度限制，POST由于不是通过URL传值，理论上书不受限。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;安全性&lt;/strong&gt;:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;POST的安全性要比GET的安全性高；&lt;/li&gt;
+&lt;li&gt;通过GET提交数据，用户名和密码将明文出现在URL上，比如登陆界面有可能被浏览器缓存。&lt;/li&gt;
+&lt;li&gt;HTTPS：安全超文本传输协议（Secure Hypertext Transfer Protocol），它是一个安全通信通道，基于HTTP开发，用于客户计算机和服务器之间交换信息，使用安全套结字层（SSI）进行信息交换，即HTTP的安全版。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;xml数据解析方式各有什么不同-json解析有哪些框架:89b94fa4d68b0570d78f093df3858123&#34;&gt;XML数据解析方式各有什么不同，JSON解析有哪些框架？&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;XML数据解析的两种解析方式：DOM解析和SAX解析；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;DOM解析必须完成DOM树的构造，在处理规模较大的XML文档时就很耗内存，占用资源较多，读入整个XML文档并构建一个驻留内存的树结构（节点树），通过遍历树结构可以检索任意XML节点，读取它的属性和值，通常情况下，可以借助XPath查询XML节点；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;SAX与DOM不同，它是事件驱动模型，解析XML文档时每遇到一个开始或者结束标签、属性或者一条指令时，程序就产生一个事件进行相应的处理，一边读取XML文档一边处理，不必等整个文档加载完才采取措施，当在读取解析过程中遇到需要处理的对象，会发出通知进行处理。因此，SAX相对于DOM来说更适合操作大的XML文档。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;JSON解析：性能比较好的主要是第三方的JSONKIT和iOS自带的JSON解析类，其中自带的JSON解析性能最高，但只能用于iOS5之后。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;如何进行网络消息推送:89b94fa4d68b0570d78f093df3858123&#34;&gt;如何进行网络消息推送&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;一种是Apple自己提供的通知服务（APNS服务器）、一种是用第三方推送机制。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;首先应用发送通知，系统弹出提示框询问用户是否允许，当用户允许后向苹果服务器(APNS)请求deviceToken，并由苹果服务器发送给自己的应用，自己的应用将DeviceToken发送自己的服务器，自己服务器想要发送网络推送时将deviceToken以及想要推送的信息发送给苹果服务器，苹果服务器将信息发送给应用。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;推送信息内容，总容量不超过256个字节；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;iOS SDK本身提供的APNS服务器推送，它可以直接推送给目标用户并根据您的方式弹出提示。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：不论应用是否开启，都会发送到手机端；&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：消息推送机制是苹果服务端控制，个别时候可能会有延迟，因为苹果服务器也有队列来处理所有的消息请求；&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;第三方推送机制，普遍使用Socket机制来实现，几乎可以达到即时的发送到目标用户手机端，适用于即时通讯类应用。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;: 实时的，取决于心跳包的节奏；&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：iOS系统的限制，应用不能长时间的后台运行，所以应用关闭的情况下这种推送机制不可用。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;网络七层协议:89b94fa4d68b0570d78f093df3858123&#34;&gt;网络七层协议&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;应用层：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;用户接口、应用程序；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Application典型设备：网关；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型协议、标准和应用：TELNET、FTP、HTTP&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;表示层：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;数据表示、压缩和加密presentation&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型设备：网关&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型协议、标准和应用：ASCLL、PICT、TIFF、JPEG|MPEG&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;表示层相当于一个东西的表示，表示的一些协议，比如图片、声音和视频MPEG。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;会话层：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;会话的建立和结束；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型设备：网关；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型协议、标准和应用：RPC、SQL、NFS、X WINDOWS、ASP&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;传输层：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;主要功能：端到端控制Transport；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型设备：网关；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型协议、标准和应用：TCP、UDP、SPX&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;网络层：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;主要功能：路由、寻址Network；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型设备：路由器；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型协议、标准和应用：IP、IPX、APPLETALK、ICMP；&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;数据链路层：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;主要功能：保证无差错的疏忽链路的data link；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型设备：交换机、网桥、网卡；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型协议、标准和应用：802.2、802.3ATM、HDLC、FRAME RELAY；&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;物理层：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;主要功能：传输比特流Physical；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型设备：集线器、中继器&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;典型协议、标准和应用：V.35、EIA/TIA-232.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;对nsuserdefaults的理解:89b94fa4d68b0570d78f093df3858123&#34;&gt;对NSUserDefaults的理解&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;NSUserDefaults：系统提供的一种存储数据的方式，主要用于保存少量的数据，默认存储到library下的Preferences文件夹。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;sdwebimage原理:89b94fa4d68b0570d78f093df3858123&#34;&gt;SDWebImage原理&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;调用类别的方法：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;从内存中（字典）找图片（当这个图片在本次程序加载过），找到直接使用；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;从沙盒中找，找到直接使用，缓存到内存。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;从网络上获取，使用，缓存到内存，缓存到沙盒。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;oc中是否有二维数组-如何实现二维数组:89b94fa4d68b0570d78f093df3858123&#34;&gt;OC中是否有二维数组，如何实现二维数组？&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;OC中没有二维数组，可通过嵌套数组实现二维数组。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;layoutsubviews在什么时候被调用:89b94fa4d68b0570d78f093df3858123&#34;&gt;LayoutSubViews在什么时候被调用？&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;当View本身的frame改变时，会调用这个方法。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;深拷贝和浅拷贝:89b94fa4d68b0570d78f093df3858123&#34;&gt;深拷贝和浅拷贝&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;如果对象有个指针型成员变量指向内存中的某个资源，那么如何复制这个对象呢？你会只是复制指针的值传给副本的新对象吗？指针只是存储内存中资源地址的占位符。在复制操作中，如果只是将指针复制给新对象，那么底层的资源实际上仍然由两个实例在共享。&lt;br /&gt;
+&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/1458633865626354.png&#34; alt=&#34;copyPoint&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;浅复制：两个实例的指针仍指向内存中的同一资源，只复制指针值而不是实际资源；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;深复制：不仅复制指针值，还复制指向指针所指向的资源。如下图:&lt;br /&gt;
+ &lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/1458633819176042.png&#34; alt=&#34;copyMemer&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;单例模式理解与使用:89b94fa4d68b0570d78f093df3858123&#34;&gt;单例模式理解与使用&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;单例模式是一种常用设计模式，单例模式是一个类在系统中只有一个实例对象。通过全局的一个入口点对这个实例对象进行访问；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;iOS中单例模式的实现方式一般分为两种：非ARC和ARC+GCD。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;对沙盒的理解:89b94fa4d68b0570d78f093df3858123&#34;&gt;对沙盒的理解&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;每个iOS应用都被限制在“沙盒”中，沙盒相当于一个加了仅主人可见权限的文件夹，及时在应用程序安装过程中，系统为每个单独的应用程序生成它的主目录和一些关键的子目录。苹果对沙盒有几条限制:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;应用程序在自己的沙盒中运作，但是不能访问任何其他应用程序的沙盒；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;应用之间不能共享数据，沙盒里的文件不能被复制到其他应用程序的文件夹中，也不能把其他应用文件夹复制到沙盒中；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;苹果禁止任何读写沙盒以外的文件，禁止应用程序将内容写到沙盒以外的文件夹中；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;沙盒目录里有三个文件夹：Documents——存储；应用程序的数据文件，存储用户数据或其他定期备份的信息；Library下有两个文件夹，Caches存储应用程序再次启动所需的信息，&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;preferences包含应用程序的偏好设置文件-不可在这更改偏好设置-temp存放临时文件即应用程序再次启动不需要的文件:89b94fa4d68b0570d78f093df3858123&#34;&gt;Preferences包含应用程序的偏好设置文件，不可在这更改偏好设置；temp存放临时文件即应用程序再次启动不需要的文件。&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;获取沙盒根目录的方法，有几种方法：用NSHomeDirectory获取。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;获取Document路径：NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES).&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;对瀑布流的理解:89b94fa4d68b0570d78f093df3858123&#34;&gt;对瀑布流的理解&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;首先图片的宽度都是一样的，1.将图片等比例压缩，让图片不变形；2.计算图片最低应该摆放的位置，哪一列低就放在哪；3.进行最优排列，在ScrollView的基础上添加两个tableView，然后将之前所计算的scrollView的高度通过tableView展示出来。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如何使用两个TableView产生联动：将两个tableView的滚动事件禁止掉，最外层scrollView滚动时将两个TableView跟着滚动，并且更改contentOffset，这样产生效果滚动的两个tableView。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;viewcontroller-的-loadview-viewdidload-viewdidunload-分别是在什么时候调用的:89b94fa4d68b0570d78f093df3858123&#34;&gt;ViewController 的 loadView、viewDidLoad、viewDidUnload 分别是在什么时候调用的？&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;viewDidLoad在view从nib文件初始化时调用，loadView在controller的view为nil时调用。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;此方法在编程实现view时调用,view控制器默认会注册memory warning notification,当view controller的任何view没有用的时候，viewDidUnload会被调用，在这里实现将retain的view release,如果是retain的IBOutlet view 属性则不要在这里release,IBOutlet会负责release 。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;关键字volatile有什么含意-并给出三个不同的例子:89b94fa4d68b0570d78f093df3858123&#34;&gt;关键字volatile有什么含意?并给出三个不同的例子：&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;一个定义为volatile的变量是说这变量可能会被意想不到地改变，这样，编译器就不会去假设这个变量的值了。精确地说就是，优化器在用到这个变量时必须每次都小心地重新读取这个变量的值，而不是使用保存在寄存器里的备份。下面是volatile变量的几个例子：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;并行设备的硬件寄存器（如：状态寄存器）；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;一个中断服务子程序中会访问到的非自动变量(Non-automatic variables)；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;多线程应用中被几个任务共享的变量。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;synthesize-dynamic的理解:89b94fa4d68b0570d78f093df3858123&#34;&gt;@synthesize、@dynamic的理解&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;@synthesize是系统自动生成getter和setter属性声明;@synthesize的意思是，除非开发人员已经做了，否则由编译器生成相应的代码，以满足属性声明；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;@dynamic是开发者自已提供相应的属性声明,@dynamic意思是由开发人员提供相应的代码：对于只读属性需要提供setter，对于读写属性需要提供 setter 和getter。查阅了一些资料确定@dynamic的意思是告诉编译器,属性的获取与赋值方法由用户自己实现, 不自动生成。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;frame和bounds有什么不同:89b94fa4d68b0570d78f093df3858123&#34;&gt;frame和bounds有什么不同？&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;frame指的是：该view在父view坐标系统中的位置和大小。（参照点是父亲的坐标系统）&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;bounds指的是：该view在本身坐标系统中的位置和大小。（参照点是本身坐标系统）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/frameBounds.jpg&#34; alt=&#34;boundsFrame&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;view的touch事件有哪些:89b94fa4d68b0570d78f093df3858123&#34;&gt;view的touch事件有哪些？&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event; 
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;自定义实现uitabbarcontroller的原理:89b94fa4d68b0570d78f093df3858123&#34;&gt;自定义实现UITabbarController的原理&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;运用字典，点击五个按钮的一个可以从字典里选择一个控制器对象，将其View显示到主控制器视图上.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;ios中的响应者链的工作原理:89b94fa4d68b0570d78f093df3858123&#34;&gt;iOS中的响应者链的工作原理&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;每一个应用有一个响应者链，我们的视图结构是一个N叉树(一个视图可以有多个子视图，一个子视图同一时刻只有一个父视图),而每一个继承UIResponder的对象都可以在这个N叉树中扮演一个节点。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;view和view之间传值方式:89b94fa4d68b0570d78f093df3858123&#34;&gt;View和View之间传值方式&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;对象的property属性传值；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;方法参数传值；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSUserDefault传值；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;块传值。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;property属性的修饰符的作用:89b94fa4d68b0570d78f093df3858123&#34;&gt;property属性的修饰符的作用&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;getter=getName、setter=setName：设置setter与getter的方法名；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;readwrite、readonly：设置可供访问级别；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;assign：方法直接赋值，不进行任何retain操作，为了解决原类型与环循引用问题；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;retain：其setter方法对参数进行release旧值再retain新值，所有实现都是这个顺序；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;copy：其setter方法进行copy操作，与retain处理流程一样，先对旧值release，再copy出新的对象，retainCount为1。这是为了减少对上下文的依赖而引入的机制。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;对于run-loop的理解-span-id-runloop-跳转到这里-span:89b94fa4d68b0570d78f093df3858123&#34;&gt;对于Run Loop的理解 &lt;span id = &#34;Runloop&#34;&gt;跳转到这里：&lt;/span&gt;&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;每一个线程都有其对应的RunLoop，只是默认只有主线程的RunLoop是启动的，其它子线程的RunLoop默认是不启动的，若要启动则需要手动启动；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在一个单独的线程中，如果需要在处理完某个任务后不退出，继续等待接收事件，则需要启用RunLoop；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;NSRunLoop提供了一个添加NSTimer的方法，可以指定Mode，如果要让任何情况下都回调，则需要设置Mode为Common模式；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;实质上，对于子线程的runloop默认是不存在的，因为苹果采用了懒加载的方式。如果我们没有手动调用&lt;code&gt;[NSRunLoop currentRunLoop]&lt;/code&gt;的话，就不会去查询是否存在当前线程的RunLoop，也就不会去加载，更不会创建&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
         
         <item>
             <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
