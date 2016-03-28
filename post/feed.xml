@@ -2928,7 +2928,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 &lt;li&gt;&lt;p&gt;nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h5 id=&#34;对于run-loop的理解-span-id-runloop-跳转到这里-span:89b94fa4d68b0570d78f093df3858123&#34;&gt;对于Run Loop的理解 &lt;span id = &#34;Runloop&#34;&gt;跳转到这里：&lt;/span&gt;&lt;/h5&gt;
+&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:89b94fa4d68b0570d78f093df3858123&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；&lt;/p&gt;&lt;/li&gt;
@@ -2941,6 +2941,155 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 
 &lt;li&gt;&lt;p&gt;实质上，对于子线程的runloop默认是不存在的，因为苹果采用了懒加载的方式。如果我们没有手动调用&lt;code&gt;[NSRunLoop currentRunLoop]&lt;/code&gt;的话，就不会去查询是否存在当前线程的RunLoop，也就不会去加载，更不会创建&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h5 id=&#34;sqlite中常用的sql语句:89b94fa4d68b0570d78f093df3858123&#34;&gt;SQLite中常用的SQL语句&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;创建表：creat table 表名 (字段名 字段数据类型 是否为主键, 字段名 字段数据类型, 字段名 字段数据类型&amp;hellip;)；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;增: insert into 表名 (字段1, 字段2&amp;hellip;) values (值1, 值2&amp;hellip;)；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;删: delete from 表名 where 字段 = 值；&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;xib与storyboards的优缺点:89b94fa4d68b0570d78f093df3858123&#34;&gt;XIB与Storyboards的优缺点&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;优点：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;XIB：在编译前就提供了可视化界面，可以直接拖控件，也可以直接给控件添加约束，更直观一些，而且类文件中就少了创建控件的代码，确实简化不少，通常每个XIB对应一个类。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Storyboard：在编译前提供了可视化界面，可拖控件，可加约束，在开发时比较直观，而且一个storyboard可以有很多的界面，每个界面对应一个类文件，通过storybard，可以直观地看出整个App的结构。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;缺点：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;XIB：需求变动时，需要修改XIB很大，有时候甚至需要重新添加约束，导致开发周期变长。XIB载入相比纯代码自然要慢一些。对于比较复杂逻辑控制不同状态下显示不同内容时，使用XIB是比较困难的。当多人团队或者多团队开发时，如果XIB文件被发动，极易导致冲突，而且解决冲突相对要困难很多。&lt;/li&gt;
+&lt;li&gt;Storyboard：需求变动时，需要修改storyboard上对应的界面的约束，与XIB一样可能要重新添加约束，或者添加约束会造成大量的冲突，尤其是多团队开发。对于复杂逻辑控制不同显示内容时，比较困难。当多人团队或者多团队开发时，大家会同时修改一个storyboard，导致大量冲突，解决起来相当困难。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;将字符串-2015-04-10-格式化日期转为nsdate类型:89b94fa4d68b0570d78f093df3858123&#34;&gt;将字符串“2015-04-10”格式化日期转为NSDate类型&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;NSString *timeStr = @&amp;quot;2016-03-10&amp;quot;;
+NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+formatter.dateFormat = @&amp;quot;yyyy-MM-dd&amp;quot;;
+formatter.timeZone = [NSTimeZone defaultTimeZone];
+NSDate *date = [formatter dateFromString:timeStr];
+// 2016-03-09 16:00:00 +0000
+NSLog(@&amp;quot;%@&amp;quot;, date);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;队列和多线程的使用原理:89b94fa4d68b0570d78f093df3858123&#34;&gt;队列和多线程的使用原理&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在iOS中队列分为以下几种：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;串行队列：队列中的任务只会顺序执行；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dispatch_queue_t q = dispatch_queue_create(&amp;quot;...&amp;quot;, DISPATCH_QUEUE_SERIAL);
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;并行队列： 队列中的任务通常会并发执行；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dispatch_queue_t q = dispatch_queue_create(&amp;quot;......&amp;quot;,DISPATCH_QUEUE_CONCURRENT);
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;全局队列：是系统的，直接拿过来（GET）用就可以；与并行队列类似；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;主队列：每一个应用程序对应唯一主队列，直接GET即可；在多线程开发中，使用主队列更新UI；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dispatch_queue_t q = dispatch_get_main_queue();
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;更多细节见下图：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog1458633174180748.png&#34; alt=&#34;gcd&#34; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;内存的使用和优化的注意事项:89b94fa4d68b0570d78f093df3858123&#34;&gt;内存的使用和优化的注意事项&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;重用问题：如UITableViewCells、UICollectionViewCells、UITableViewHeaderFooterViews设置正确的reuseIdentifier，充分重用；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;尽量把views设置为不透明：当opque为NO的时候，图层的半透明取决于图片和其本身合成的图层为结果，可提高性能；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不要使用太复杂的XIB/Storyboard：载入时就会将XIB/storyboard需要的所有资源，包括图片全部载入内存，即使未来很久才会使用。那些相比纯代码写的延迟加载，性能及内存就差了很多；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;选择正确的数据结构：学会选择对业务场景最合适的数组结构是写出高效代码的基础。比如，数组: 有序的一组值。使用索引来查询很快，使用值查询很慢，插入/删除很慢。字典: 存储键值对，用键来查找比较快。集合: 无序的一组值，用值来查找很快，插入/删除很快。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;gzip/zip压缩：当从服务端下载相关附件时，可以通过gzip/zip压缩后再下载，使得内存更小，下载速度也更快。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;延迟加载：对于不应该使用的数据，使用延迟加载方式。对于不需要马上显示的视图，使用延迟加载方式。比如，网络请求失败时显示的提示界面，可能一直都不会使用到，因此应该使用延迟加载。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;数据缓存：对于cell的行高要缓存起来，使得reload数据时，效率也极高。而对于那些网络数据，不需要每次都请求的，应该缓存起来，可以写入数据库，也可以通过plist文件存储。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;处理内存警告：一般在基类统一处理内存警告，将相关不用资源立即释放掉&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;重用大开销对象：一些objects的初始化很慢，比如NSDateFormatter和NSCalendar，但又不可避免地需要使用它们。通常是作为属性存储起来，防止反复创建。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;避免反复处理数据：许多应用需要从服务器加载功能所需的常为JSON或者XML格式的数据。在服务器端和客户端使用相同的数据结构很重要;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用Autorelease Pool：在某些循环创建临时变量处理数据时，自动释放池以保证能及时释放内存;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;正确选择图片加载方式：详情阅读细读&lt;a href=&#34;http://www.henishuo.com/image-loaded-method/&#34;&gt;UIImage加载方式&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;uiviewcontroller的完整生命周期:89b94fa4d68b0570d78f093df3858123&#34;&gt;UIViewController的完整生命周期&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;-[ViewController initWithNibName:bundle:]；
+-[ViewController init]；
+-[ViewController loadView]；
+-[ViewController viewDidLoad]；
+-[ViewController viewWillDisappear:]；
+-[ViewController viewWillAppear:]；
+-[ViewController viewDidAppear:]；
+-[ViewController viewDidDisappear:]；
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;uiimageview添加圆角:89b94fa4d68b0570d78f093df3858123&#34;&gt;UIImageView添加圆角&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;最直接的方法就是使用如下属性设置：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;//**这是离屏渲染（off-screen-rendering），消耗性能的**
+imgView.layer.cornerRadius = 10;
+// 这一行代码是很消耗性能的
+imgView.clipsToBounds = YES;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;给UIImage添加生成圆角图片的扩展API：这是on-screen-rendering&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;- (UIImage *)imageWithCornerRadius:(CGFloat)radius {
+CGRect rect = (CGRect){0.f, 0.f, self.size};
+
+UIGraphicsBeginImageContextWithOptions(self.size, NO, UIScreen.mainScreen.scale);
+CGContextAddPath(UIGraphicsGetCurrentContext(),
+ [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius].CGPath);
+CGContextClip(UIGraphicsGetCurrentContext());
+
+[self drawInRect:rect];
+UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+
+UIGraphicsEndImageContext();
+
+return image;
+}
+&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         

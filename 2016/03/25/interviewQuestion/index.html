@@ -178,8 +178,8 @@
                   <h1 class="post-title">iOS基础知识点梳理</h1>
 
                   <p class="post-byline">
-                    by  · 2016年03月25日 · 19229 Words ·
-                    ~39min reading time |
+                    by  · 2016年03月25日 · 21285 Words ·
+                    ~43min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-25-interviewQuestion.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
@@ -1279,7 +1279,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。</p></li>
 </ul>
 
-<h5 id="对于run-loop的理解-span-id-runloop-跳转到这里-span:89b94fa4d68b0570d78f093df3858123">对于Run Loop的理解 <span id = "Runloop">跳转到这里：</span></h5>
+<h5 id="对于run-loop的理解-详情-2016-03-26-iosrunloop:89b94fa4d68b0570d78f093df3858123">对于Run Loop的理解<a href="http://blog.flywithme.top/2016/03/26/iOSRunloop/">详情</a></h5>
 
 <ul>
 <li><p>RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；</p></li>
@@ -1292,6 +1292,155 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 
 <li><p>实质上，对于子线程的runloop默认是不存在的，因为苹果采用了懒加载的方式。如果我们没有手动调用<code>[NSRunLoop currentRunLoop]</code>的话，就不会去查询是否存在当前线程的RunLoop，也就不会去加载，更不会创建</p></li>
 </ul>
+
+<h5 id="sqlite中常用的sql语句:89b94fa4d68b0570d78f093df3858123">SQLite中常用的SQL语句</h5>
+
+<ul>
+<li><p>创建表：creat table 表名 (字段名 字段数据类型 是否为主键, 字段名 字段数据类型, 字段名 字段数据类型&hellip;)；</p></li>
+
+<li><p>增: insert into 表名 (字段1, 字段2&hellip;) values (值1, 值2&hellip;)；</p></li>
+
+<li><p>删: delete from 表名 where 字段 = 值；</p></li>
+</ul>
+
+<h5 id="xib与storyboards的优缺点:89b94fa4d68b0570d78f093df3858123">XIB与Storyboards的优缺点</h5>
+
+<blockquote>
+<p>优点：</p>
+</blockquote>
+
+<ul>
+<li><p>XIB：在编译前就提供了可视化界面，可以直接拖控件，也可以直接给控件添加约束，更直观一些，而且类文件中就少了创建控件的代码，确实简化不少，通常每个XIB对应一个类。</p></li>
+
+<li><p>Storyboard：在编译前提供了可视化界面，可拖控件，可加约束，在开发时比较直观，而且一个storyboard可以有很多的界面，每个界面对应一个类文件，通过storybard，可以直观地看出整个App的结构。</p></li>
+</ul>
+
+<blockquote>
+<p>缺点：</p>
+</blockquote>
+
+<ul>
+<li>XIB：需求变动时，需要修改XIB很大，有时候甚至需要重新添加约束，导致开发周期变长。XIB载入相比纯代码自然要慢一些。对于比较复杂逻辑控制不同状态下显示不同内容时，使用XIB是比较困难的。当多人团队或者多团队开发时，如果XIB文件被发动，极易导致冲突，而且解决冲突相对要困难很多。</li>
+<li>Storyboard：需求变动时，需要修改storyboard上对应的界面的约束，与XIB一样可能要重新添加约束，或者添加约束会造成大量的冲突，尤其是多团队开发。对于复杂逻辑控制不同显示内容时，比较困难。当多人团队或者多团队开发时，大家会同时修改一个storyboard，导致大量冲突，解决起来相当困难。</li>
+</ul>
+
+<h5 id="将字符串-2015-04-10-格式化日期转为nsdate类型:89b94fa4d68b0570d78f093df3858123">将字符串“2015-04-10”格式化日期转为NSDate类型</h5>
+
+<pre><code>NSString *timeStr = @&quot;2016-03-10&quot;;
+NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+formatter.dateFormat = @&quot;yyyy-MM-dd&quot;;
+formatter.timeZone = [NSTimeZone defaultTimeZone];
+NSDate *date = [formatter dateFromString:timeStr];
+// 2016-03-09 16:00:00 +0000
+NSLog(@&quot;%@&quot;, date);
+</code></pre>
+
+<h5 id="队列和多线程的使用原理:89b94fa4d68b0570d78f093df3858123">队列和多线程的使用原理</h5>
+
+<blockquote>
+<p>在iOS中队列分为以下几种：</p>
+</blockquote>
+
+<ul>
+<li><p>串行队列：队列中的任务只会顺序执行；</p>
+
+<pre><code>dispatch_queue_t q = dispatch_queue_create(&quot;...&quot;, DISPATCH_QUEUE_SERIAL);
+</code></pre></li>
+
+<li><p>并行队列： 队列中的任务通常会并发执行；</p>
+
+<pre><code>dispatch_queue_t q = dispatch_queue_create(&quot;......&quot;,DISPATCH_QUEUE_CONCURRENT);
+</code></pre></li>
+
+<li><p>全局队列：是系统的，直接拿过来（GET）用就可以；与并行队列类似；</p>
+
+<pre><code>dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+</code></pre></li>
+
+<li><p>主队列：每一个应用程序对应唯一主队列，直接GET即可；在多线程开发中，使用主队列更新UI；</p>
+
+<pre><code>dispatch_queue_t q = dispatch_get_main_queue();
+</code></pre></li>
+</ul>
+
+<blockquote>
+<p>更多细节见下图：</p>
+</blockquote>
+
+<p><img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog1458633174180748.png" alt="gcd" /></p>
+
+<h5 id="内存的使用和优化的注意事项:89b94fa4d68b0570d78f093df3858123">内存的使用和优化的注意事项</h5>
+
+<ul>
+<li><p>重用问题：如UITableViewCells、UICollectionViewCells、UITableViewHeaderFooterViews设置正确的reuseIdentifier，充分重用；</p></li>
+
+<li><p>尽量把views设置为不透明：当opque为NO的时候，图层的半透明取决于图片和其本身合成的图层为结果，可提高性能；</p></li>
+
+<li><p>不要使用太复杂的XIB/Storyboard：载入时就会将XIB/storyboard需要的所有资源，包括图片全部载入内存，即使未来很久才会使用。那些相比纯代码写的延迟加载，性能及内存就差了很多；</p></li>
+
+<li><p>选择正确的数据结构：学会选择对业务场景最合适的数组结构是写出高效代码的基础。比如，数组: 有序的一组值。使用索引来查询很快，使用值查询很慢，插入/删除很慢。字典: 存储键值对，用键来查找比较快。集合: 无序的一组值，用值来查找很快，插入/删除很快。</p></li>
+
+<li><p>gzip/zip压缩：当从服务端下载相关附件时，可以通过gzip/zip压缩后再下载，使得内存更小，下载速度也更快。</p></li>
+
+<li><p>延迟加载：对于不应该使用的数据，使用延迟加载方式。对于不需要马上显示的视图，使用延迟加载方式。比如，网络请求失败时显示的提示界面，可能一直都不会使用到，因此应该使用延迟加载。</p></li>
+
+<li><p>数据缓存：对于cell的行高要缓存起来，使得reload数据时，效率也极高。而对于那些网络数据，不需要每次都请求的，应该缓存起来，可以写入数据库，也可以通过plist文件存储。</p></li>
+
+<li><p>处理内存警告：一般在基类统一处理内存警告，将相关不用资源立即释放掉</p></li>
+
+<li><p>重用大开销对象：一些objects的初始化很慢，比如NSDateFormatter和NSCalendar，但又不可避免地需要使用它们。通常是作为属性存储起来，防止反复创建。</p></li>
+
+<li><p>避免反复处理数据：许多应用需要从服务器加载功能所需的常为JSON或者XML格式的数据。在服务器端和客户端使用相同的数据结构很重要;</p></li>
+
+<li><p>使用Autorelease Pool：在某些循环创建临时变量处理数据时，自动释放池以保证能及时释放内存;</p></li>
+
+<li><p>正确选择图片加载方式：详情阅读细读<a href="http://www.henishuo.com/image-loaded-method/">UIImage加载方式</a></p></li>
+</ul>
+
+<h5 id="uiviewcontroller的完整生命周期:89b94fa4d68b0570d78f093df3858123">UIViewController的完整生命周期</h5>
+
+<pre><code>-[ViewController initWithNibName:bundle:]；
+-[ViewController init]；
+-[ViewController loadView]；
+-[ViewController viewDidLoad]；
+-[ViewController viewWillDisappear:]；
+-[ViewController viewWillAppear:]；
+-[ViewController viewDidAppear:]；
+-[ViewController viewDidDisappear:]；
+</code></pre>
+
+<h5 id="uiimageview添加圆角:89b94fa4d68b0570d78f093df3858123">UIImageView添加圆角</h5>
+
+<blockquote>
+<p>最直接的方法就是使用如下属性设置：</p>
+</blockquote>
+
+<pre><code>//**这是离屏渲染（off-screen-rendering），消耗性能的**
+imgView.layer.cornerRadius = 10;
+// 这一行代码是很消耗性能的
+imgView.clipsToBounds = YES;
+</code></pre>
+
+<blockquote>
+<p>给UIImage添加生成圆角图片的扩展API：这是on-screen-rendering</p>
+</blockquote>
+
+<pre><code>- (UIImage *)imageWithCornerRadius:(CGFloat)radius {
+CGRect rect = (CGRect){0.f, 0.f, self.size};
+
+UIGraphicsBeginImageContextWithOptions(self.size, NO, UIScreen.mainScreen.scale);
+CGContextAddPath(UIGraphicsGetCurrentContext(),
+ [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius].CGPath);
+CGContextClip(UIGraphicsGetCurrentContext());
+
+[self drawInRect:rect];
+UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+
+UIGraphicsEndImageContext();
+
+return image;
+}
+</code></pre>
 
                       
                     </div>
