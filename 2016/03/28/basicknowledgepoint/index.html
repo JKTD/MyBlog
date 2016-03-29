@@ -16,32 +16,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="keywords" content="面试题目,iOS,">
-<meta name="description" content="面试题目,iOS">
+<meta name="keywords" content=",">
+<meta name="description" content="序言 目前形势，参加到iOS队伍的人是越来越多，已经到供过于求了。今年，找过工作人可能会更深刻地体会到今年的就业形势不容乐观，加之，培训机构一">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
 <meta itemprop="name" content="iOS基础知识点梳理 - 案发现场 ">
-<meta itemprop="description" content="面试题目,iOS">
+<meta itemprop="description" content="序言 目前形势，参加到iOS队伍的人是越来越多，已经到供过于求了。今年，找过工作人可能会更深刻地体会到今年的就业形势不容乐观，加之，培训机构一">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
 <meta property="og:title" content="iOS基础知识点梳理 - 案发现场 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2016/03/25/interviewQuestion/" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/03/28/basicknowledgepoint/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="面试题目,iOS">
+<meta property="og:description" content="序言 目前形势，参加到iOS队伍的人是越来越多，已经到供过于求了。今年，找过工作人可能会更深刻地体会到今年的就业形势不容乐观，加之，培训机构一">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
 <meta name="twitter:title" content="iOS基础知识点梳理 - 案发现场 ">
-<meta name="twitter:description" content="面试题目,iOS">
+<meta name="twitter:description" content="序言 目前形势，参加到iOS队伍的人是越来越多，已经到供过于求了。今年，找过工作人可能会更深刻地体会到今年的就业形势不容乐观，加之，培训机构一">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2016/03/25/interviewQuestion/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/25/interviewQuestion/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/03/28/basicknowledgepoint/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/28/basicknowledgepoint/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -178,9 +178,9 @@
                   <h1 class="post-title">iOS基础知识点梳理</h1>
 
                   <p class="post-byline">
-                    by  · 2016年03月25日 · 21285 Words ·
+                    by  · 2016年03月28日 · 21285 Words ·
                     ~43min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-25-interviewQuestion.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-28-basicknowledgepoint.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -193,13 +193,13 @@
 
 <p><img src="http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/1418191330476751.jpg" alt="banner" /></p>
 
-<h5 id="序言:89b94fa4d68b0570d78f093df3858123">序言</h5>
+<h5 id="序言:0c0e4bd28fa1ec6a440af5b2adca9cc7">序言</h5>
 
 <p>目前形势，参加到iOS队伍的人是越来越多，已经到供过于求了。今年，找过工作人可能会更深刻地体会到今年的就业形势不容乐观，加之，培训机构一火车地向用人单位输送iOS开发人员，打破了生态圈的动态平衡。矫情一下，言归正传，我奉献一下，为iOS应聘者梳理一下面试题，希望能助一臂之力!</p>
 
 <hr />
 
-<h5 id="oc的理解与特性:89b94fa4d68b0570d78f093df3858123">OC的理解与特性</h5>
+<h5 id="oc的理解与特性:0c0e4bd28fa1ec6a440af5b2adca9cc7">OC的理解与特性</h5>
 
 <ul>
 <li><p>OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C++），又有动态语言的效率（动态绑定、动态加载等）。总体来讲，OC确实是一门不错的编程语言，</p></li>
@@ -213,7 +213,7 @@
 <li><p>动态加载：根据需求加载所需要的资源，最基本就是不同机型的适配，例如，在Retina设备上加载@2x的图片，而在老一些的普通苹设备上加载原图，让程序在运行时添加代码模块以及其他资源，用户可根据需要加载一些可执行代码和资源，而不是在启动时就加载所有组件，可执行代码可以含有和程序运行时整合的新类。</p></li>
 </ul>
 
-<h5 id="简述内存管理基本原则:89b94fa4d68b0570d78f093df3858123">简述内存管理基本原则</h5>
+<h5 id="简述内存管理基本原则:0c0e4bd28fa1ec6a440af5b2adca9cc7">简述内存管理基本原则</h5>
 
 <ul>
 <li><p>之前：OC内存管理遵循“谁创建，谁释放，谁引用，谁管理”的机制，当创建或引用一个对象的时候，需要向她发送alloc、copy、retain消息，当释放该对象时需要发送release消息，当对象引用计数为0时，系统将释放该对象，这是OC的手动管理机制（MRC）。</p></li>
@@ -227,7 +227,7 @@
 <li><p>向一个对象发送release消息,并不意味着这个对象被销毁了,而是当这个对象的引用计数为0时,系统才会调用dealloc方法,释放该对象和对象本身它所拥有的实例。</p></li>
 </ul>
 
-<h5 id="其他注意事项:89b94fa4d68b0570d78f093df3858123">其他注意事项</h5>
+<h5 id="其他注意事项:0c0e4bd28fa1ec6a440af5b2adca9cc7">其他注意事项</h5>
 
 <ul>
 <li><p>如果一个对象有一个_strong类型的指针指向着，找个对象就不会被释放。如果一个指针指向超出了它的作用域，就会被指向nil。如果一个指针被指向nil，那么它原来指向的对象就被释放了。当一个视图控制器被释放时，它内部的全局指针会被指向nil。用法“：不管全局变量还是局部变量用_strong描述就行。</p></li>
@@ -257,7 +257,7 @@
 <li><p>在ARC下的工程采用非ARC去编译某些类：-fno-fobjc-arc。</p></li>
 </ul>
 
-<h5 id="如何理解mvc设计模式:89b94fa4d68b0570d78f093df3858123">如何理解MVC设计模式</h5>
+<h5 id="如何理解mvc设计模式:0c0e4bd28fa1ec6a440af5b2adca9cc7">如何理解MVC设计模式</h5>
 
 <blockquote>
 <p>MVC是一种架构模式，M表示Model，V表示视图View，C表示控制器Controller：</p>
@@ -271,7 +271,7 @@
 <li><p>Controller是Model和View的协调者，Controller把Model中的数据拿过来给View用。Controller可以直接与Model和View进行通信，而View不能和Controller直接通信。View与Controller通信需要利用代理协议的方式，当有数据更新时，MOdel也要与Controller进行通信，这个时候就要用Notification和KVO，这个方式就像一个广播一样，MOdel发信号，Controller设置监听接受信号，当有数据更新时就发信号给Controller，Model和View不能直接进行通信，这样会违背MVC设计模式。</p></li>
 </ul>
 
-<h5 id="如何理解mvvm设计模式:89b94fa4d68b0570d78f093df3858123">如何理解MVVM设计模式。</h5>
+<h5 id="如何理解mvvm设计模式:0c0e4bd28fa1ec6a440af5b2adca9cc7">如何理解MVVM设计模式。</h5>
 
 <ul>
 <li><p>ViewModel层，就是View和Model层的粘合剂，他是一个放置用户输入验证逻辑，视图显示逻辑，发起网络请求和其他各种各样的代码的极好的地方。说白了，就是把原来ViewController层的业务逻辑和页面逻辑等剥离出来放到ViewModel层。</p></li>
@@ -281,7 +281,7 @@
 <li><p>如需了解更多，请查看<a href="http://www.jianshu.com/p/f4faa720f00d">这篇文章</a>。</p></li>
 </ul>
 
-<h5 id="objective-c-中是否支持垃圾回收机制:89b94fa4d68b0570d78f093df3858123">Objective-C 中是否支持垃圾回收机制？</h5>
+<h5 id="objective-c-中是否支持垃圾回收机制:0c0e4bd28fa1ec6a440af5b2adca9cc7">Objective-C 中是否支持垃圾回收机制？</h5>
 
 <ul>
 <li><p>OC是支持垃圾回收机制的(Garbage collection简称GC),但是apple的移动终端中,是不支持GC的,Mac桌面系统开发中是支持的.</p></li>
@@ -289,13 +289,13 @@
 <li><p>移动终端开发是支持ARC（Automatic Reference Counting的简称）,ARC是在IOS5之后推出的新技术,它与GC的机制是不同的。我们在编写代码时, 不需要向对象发送release或者autorelease方法,也不可以调用delloc方法,编译器会在合适的位置自动给用户生成release消息(autorelease),ARC 的特点是自动引用技术简化了内存管理的难度.</p></li>
 </ul>
 
-<h5 id="协议的基本概念和协议中方法默认为什么类型:89b94fa4d68b0570d78f093df3858123">协议的基本概念和协议中方法默认为什么类型。</h5>
+<h5 id="协议的基本概念和协议中方法默认为什么类型:0c0e4bd28fa1ec6a440af5b2adca9cc7">协议的基本概念和协议中方法默认为什么类型。</h5>
 
 <ul>
 <li>OC中的协议是一个方法列表,且多少有点相关。它的特点是可以被任何类使用(实现),但它并不是类(这里我们需要注意),自身不会实现这样方法, 而是又其他人来实现协议经常用来实现委托对象(委托设计模式)。如果一个类采用了一个协议,那么它必须实现协议中必须需要实现的方法,在协议中的方法默认是必须实现(@required),添加关键字@optional,表明一旦采用该协议,这些“可选”的方法是可以选择不实现的。</li>
 </ul>
 
-<h5 id="简述类目category优点和缺点:89b94fa4d68b0570d78f093df3858123">简述类目category优点和缺点。</h5>
+<h5 id="简述类目category优点和缺点:0c0e4bd28fa1ec6a440af5b2adca9cc7">简述类目category优点和缺点。</h5>
 
 <p><strong>优点</strong>：</p>
 
@@ -312,7 +312,7 @@
 <li>类目中的方法与原始类以及父类方法相比具有更高优先级,如果覆盖父类的方法,可能导致super消息的断裂。因此,最好不要覆盖原始类中的方法。</li>
 </ul>
 
-<h6 id="类别的作用:89b94fa4d68b0570d78f093df3858123">类别的作用</h6>
+<h6 id="类别的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7">类别的作用</h6>
 
 <ul>
 <li><p>给系统原有类添加方法，不能扩展属性。如果类别中方法的名字跟系统的方法名一样，在调用的时候类别中的方法优先级更高；</p></li>
@@ -332,7 +332,7 @@
 <li><p>类别不能声明变量，类别不可以直接添加属性。property描述setter方法，就不会报错。</p></li>
 </ul>
 
-<h5 id="循环引用的产生原因-以及解决方法:89b94fa4d68b0570d78f093df3858123">循环引用的产生原因，以及解决方法。</h5>
+<h5 id="循环引用的产生原因-以及解决方法:0c0e4bd28fa1ec6a440af5b2adca9cc7">循环引用的产生原因，以及解决方法。</h5>
 
 <ul>
 <li><p>产生原因：如下图所示，对象A和对象B相互引用了对方作为自己的成员变量，只有自己销毁的时候才能将成员变量的引用计数减1。对象A的销毁依赖于对象B的销毁，同时对象B销毁也依赖与对象A的销毁，从而形成循环引用，此时，即使外界没有任何指针访问它，它也无法释放</p>
@@ -358,7 +358,7 @@
 </ul></li>
 </ul>
 
-<h6 id="键路径-keypath-键值编码-kvc-和键值观察-kvo:89b94fa4d68b0570d78f093df3858123">键路径(keyPath)、键值编码（KVC）和键值观察（KVO）</h6>
+<h6 id="键路径-keypath-键值编码-kvc-和键值观察-kvo:0c0e4bd28fa1ec6a440af5b2adca9cc7">键路径(keyPath)、键值编码（KVC）和键值观察（KVO）</h6>
 
 <p><strong>键路径</strong></p>
 
@@ -404,7 +404,7 @@
 <p>对于系统是根据keypath去取的到相应的值发生改变，理论上来说是和kvc机制的道理是一样的。</p>
 </blockquote>
 
-<h5 id="kvc机制通过key找到value的原理:89b94fa4d68b0570d78f093df3858123">KVC机制通过key找到value的原理。</h5>
+<h5 id="kvc机制通过key找到value的原理:0c0e4bd28fa1ec6a440af5b2adca9cc7">KVC机制通过key找到value的原理。</h5>
 
 <ul>
 <li><p>当通过KVC调用对象时，比如：[self valueForKey:@”someKey”]时，程序会自动试图通过下面几种不同的方式解析这个调用。</p></li>
@@ -416,7 +416,7 @@
 <li><p>设计valueForUndefinedKey:方法的主要目的是当你使用-(id)valueForKey方法从对象中请求值时，对象能够在错误发生前，有最后的机会响应这个请求。</p></li>
 </ul>
 
-<h5 id="在-objective-c-中如何实现-kvo:89b94fa4d68b0570d78f093df3858123">在 Objective-C 中如何实现 KVO</h5>
+<h5 id="在-objective-c-中如何实现-kvo:0c0e4bd28fa1ec6a440af5b2adca9cc7">在 Objective-C 中如何实现 KVO</h5>
 
 <ul>
 <li><p>注册观察者(注意：观察者和被观察者不会被保留也不会被释放)</p>
@@ -441,7 +441,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>KVO中谁要监听谁注册，然后对响应进行处理，使得观察者与被观察者完全解耦。KVO只检测类中的属性，并且属性名都是通过NSString来查找，编译器不会检错和补全，全部取决于自己。</p></li>
 </ul>
 
-<h5 id="代理的作用:89b94fa4d68b0570d78f093df3858123">代理的作用</h5>
+<h5 id="代理的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7">代理的作用</h5>
 
 <ul>
 <li><p>代理又叫委托，是一种设计模式，代理是对象与对象之间的通信交互，代理解除了对象之间的耦合性。</p></li>
@@ -453,7 +453,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>代理的属性常是assign的原因：防止循环引用,以至对象无法得到正确的释放。</p></li>
 </ul>
 
-<h5 id="nsnotification-block-delegate和kvo的区别:89b94fa4d68b0570d78f093df3858123">NSNotification、Block、Delegate和KVO的区别</h5>
+<h5 id="nsnotification-block-delegate和kvo的区别:0c0e4bd28fa1ec6a440af5b2adca9cc7">NSNotification、Block、Delegate和KVO的区别</h5>
 
 <ul>
 <li><p>代理是一种回调机制，且是一对一的关系，通知是一对多的关系，一个对向所有的观察者提供变更通知；</p></li>
@@ -467,7 +467,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>Block：Block更加简洁，不需要定义繁琐的协议方法，但通信事件比较多的话，建议使用Delegate；</p></li>
 </ul>
 
-<h5 id="objective-c中可修改和不可以修改类型:89b94fa4d68b0570d78f093df3858123">Objective-C中可修改和不可以修改类型</h5>
+<h5 id="objective-c中可修改和不可以修改类型:0c0e4bd28fa1ec6a440af5b2adca9cc7">Objective-C中可修改和不可以修改类型</h5>
 
 <ul>
 <li><p>可修改不可修改的集合类，就是可动态添加修改和不可动态添加修改。</p></li>
@@ -475,25 +475,25 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>比如NSArray和NSMutableArray,前者在初始化后的内存控件就是固定不可变的，后者可以添加等，可以动态申请新的内存空间</p></li>
 </ul>
 
-<h5 id="当我们调用一个静态方法时-需要对对象进行-release-吗:89b94fa4d68b0570d78f093df3858123">当我们调用一个静态方法时,需要对对象进行 release 吗?</h5>
+<h5 id="当我们调用一个静态方法时-需要对对象进行-release-吗:0c0e4bd28fa1ec6a440af5b2adca9cc7">当我们调用一个静态方法时,需要对对象进行 release 吗?</h5>
 
 <ul>
 <li>不需要,静态方法(类方法)创建一个对象时,对象已被放入自动释放池。在自动释放池被释放时,很有可能被销毁。</li>
 </ul>
 
-<h5 id="当我们释放我们的对象时-为什么需要调用-super-dealloc-方法-它的位置又是如何的呢:89b94fa4d68b0570d78f093df3858123">当我们释放我们的对象时,为什么需要调用[super dealloc]方法,它的位置又是如何的呢?</h5>
+<h5 id="当我们释放我们的对象时-为什么需要调用-super-dealloc-方法-它的位置又是如何的呢:0c0e4bd28fa1ec6a440af5b2adca9cc7">当我们释放我们的对象时,为什么需要调用[super dealloc]方法,它的位置又是如何的呢?</h5>
 
 <ul>
 <li>因为子类的某些实例是继承自父类的,因此需要调用[super dealloc]方法, 来释放父类拥有的实例,其实也就是子类本身的。一般来说我们优先释放子类拥 有的实例,最后释放父类所拥有的实例</li>
 </ul>
 
-<h5 id="对谓词的认识:89b94fa4d68b0570d78f093df3858123">对谓词的认识</h5>
+<h5 id="对谓词的认识:0c0e4bd28fa1ec6a440af5b2adca9cc7">对谓词的认识</h5>
 
 <ul>
 <li>Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，<a href="http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse">请看谓词的具体使用</a></li>
 </ul>
 
-<h5 id="static-self-super关键字的作用:89b94fa4d68b0570d78f093df3858123">static、self、super关键字的作用</h5>
+<h5 id="static-self-super关键字的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7">static、self、super关键字的作用</h5>
 
 <ul>
 <li><p>函数体内static变量的作用范围为该函数体，不同于auto变量，该变量的内存只被分配一次，因此其值在下次调用时仍维持上次的值.</p></li>
@@ -509,7 +509,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>super:向父类发送消息。</p></li>
 </ul>
 
-<h5 id="include与-import的区别-import-与-class-的区别:89b94fa4d68b0570d78f093df3858123">#include与#import的区别，#import 与@class 的区别</h5>
+<h5 id="include与-import的区别-import-与-class-的区别:0c0e4bd28fa1ec6a440af5b2adca9cc7">#include与#import的区别，#import 与@class 的区别</h5>
 
 <ul>
 <li><p>#include 和#import其效果相同,都是查询类中定义的行为(方法);</p></li>
@@ -523,7 +523,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>此外@class 和#import 的主要区别在于解决引用死锁的问题。</p></li>
 </ul>
 
-<h5 id="public-protected-private-它们的含义与作用:89b94fa4d68b0570d78f093df3858123">@public、@protected、@private 它们的含义与作用</h5>
+<h5 id="public-protected-private-它们的含义与作用:0c0e4bd28fa1ec6a440af5b2adca9cc7">@public、@protected、@private 它们的含义与作用</h5>
 
 <ul>
 <li><p>@public:对象的实例变量的作用域在任意地方都可以被访问 ;</p></li>
@@ -533,19 +533,19 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>@private:实例变量的作用域只能在本类(自身)中访问 .</p></li>
 </ul>
 
-<h5 id="解释-id-类型:89b94fa4d68b0570d78f093df3858123">解释 id 类型</h5>
+<h5 id="解释-id-类型:0c0e4bd28fa1ec6a440af5b2adca9cc7">解释 id 类型</h5>
 
 <ul>
 <li>任意类型对象，程序运行时才决定对象的类型。</li>
 </ul>
 
-<h5 id="switch-语句-if-语句区别与联系:89b94fa4d68b0570d78f093df3858123">switch 语句 if 语句区别与联系</h5>
+<h5 id="switch-语句-if-语句区别与联系:0c0e4bd28fa1ec6a440af5b2adca9cc7">switch 语句 if 语句区别与联系</h5>
 
 <ul>
 <li>均表示条件的判断,switch语句表达式只能处理的是整型、字符型和枚举类型,而选择流程语句则没有这样的限制。但switch语句比选择流程控制语句效率更高。</li>
 </ul>
 
-<h5 id="ismemberofclass-和-iskindofclass-联系与区别:89b94fa4d68b0570d78f093df3858123">isMemberOfClass 和 isKindOfClass 联系与区别</h5>
+<h5 id="ismemberofclass-和-iskindofclass-联系与区别:0c0e4bd28fa1ec6a440af5b2adca9cc7">isMemberOfClass 和 isKindOfClass 联系与区别</h5>
 
 <ul>
 <li><p>联系：两者都能检测一个对象是否是某个类的成员</p></li>
@@ -555,7 +555,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>举例：如 ClassA派 生 自NSObject 类 , ClassA *a = [ClassA alloc] init];,[a isKindOfClass:[NSObject class]] 可以检查出 a 是否是 NSObject派生类 的成员,但 isMemberOfClass 做不到。</p></li>
 </ul>
 
-<h5 id="os-开发中数据持久性有哪几种:89b94fa4d68b0570d78f093df3858123">OS 开发中数据持久性有哪几种?</h5>
+<h5 id="os-开发中数据持久性有哪几种:0c0e4bd28fa1ec6a440af5b2adca9cc7">OS 开发中数据持久性有哪几种?</h5>
 
 <blockquote>
 <p>数据存储的核心都是写文件。</p>
@@ -577,7 +577,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>CoreData ：通过管理对象进行增、删、查、改操作的。它不是一个数据库，不仅可以使用SQLite数据库来保持数据，也可以使用其他的方式来存储数据。如：XML。</p></li>
 </ul>
 
-<h5 id="coredata的介绍:89b94fa4d68b0570d78f093df3858123">CoreData的介绍：</h5>
+<h5 id="coredata的介绍:0c0e4bd28fa1ec6a440af5b2adca9cc7">CoreData的介绍：</h5>
 
 <ul>
 <li><p>CoreData是面向对象的API，CoreData是iOS中非常重要的一项技术，几乎在所有编写的程序中，CoreData都作为数据存储的基础。</p></li>
@@ -587,7 +587,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>大多数情况下，我们引用CoreData作为持久化数据的解决方案，并利用它作为持久化数据映射为内存对象。提供的是对象-关系映射功能，也就是说，CoreData可以将Objective-C对象转换成数据，保存到SQL中，然后将保存后的数据还原成OC对象。</p></li>
 </ul>
 
-<h5 id="coredata的特征:89b94fa4d68b0570d78f093df3858123">CoreData的特征：</h5>
+<h5 id="coredata的特征:0c0e4bd28fa1ec6a440af5b2adca9cc7">CoreData的特征：</h5>
 
 <ul>
 <li><p>通过CoreData管理应用程序的数据模型，可以极大程度减少需要编写的代码数量。</p></li>
@@ -601,7 +601,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>检查托管对象的属性值是否正确。</p></li>
 </ul>
 
-<h4 id="core-data的6成员对象:89b94fa4d68b0570d78f093df3858123">Core Data的6成员对象</h4>
+<h4 id="core-data的6成员对象:0c0e4bd28fa1ec6a440af5b2adca9cc7">Core Data的6成员对象</h4>
 
 <ul>
 <li><p>NSManageObject:被管理的数据记录Managed Object Model是描述应用程序的数据模型，这个模型包含实体（Entity）、特性（Property）、读取请求（Fetch Request）等。</p></li>
@@ -617,7 +617,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>NSEntityDescription：表格实体结构，还需知道.xcdatamodel文件编译后为.momd或者.mom文件。</p></li>
 </ul>
 
-<h5 id="core-data的功能:89b94fa4d68b0570d78f093df3858123">Core Data的功能</h5>
+<h5 id="core-data的功能:0c0e4bd28fa1ec6a440af5b2adca9cc7">Core Data的功能</h5>
 
 <ul>
 <li><p>对于KVC和KVO完整且自动化的支持，除了为属性整合KVO和KVC访问方法外，还整合了适当的集合访问方法来处理多值关系；
@@ -642,7 +642,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>可选择针对程序Controller层的集成，来支持UI的显示同步Core Data在IPhone OS之上，提供NSFetchedResultsController对象来做相关工作，在Mac OS X上我们用Cocoa提供的绑定（Binding）机制来完成的。</p></li>
 </ul>
 
-<h5 id="对象可以被copy的条件:89b94fa4d68b0570d78f093df3858123">对象可以被copy的条件</h5>
+<h5 id="对象可以被copy的条件:0c0e4bd28fa1ec6a440af5b2adca9cc7">对象可以被copy的条件</h5>
 
 <ul>
 <li><p>只有实现了NSCopying和NSMutableCopying协议的类的对象才能被拷贝,分为不可变拷贝和可变拷贝,具体区别戳这里</p></li>
@@ -657,7 +657,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 </code></pre></li>
 </ul>
 
-<h5 id="自动释放池工作原理:89b94fa4d68b0570d78f093df3858123">自动释放池工作原理</h5>
+<h5 id="自动释放池工作原理:0c0e4bd28fa1ec6a440af5b2adca9cc7">自动释放池工作原理</h5>
 
 <ul>
 <li><p>自动释放池是NSAutorelease类的一个实例,当向一个对象发送autorelease消息时,该对象会自动入池,待池销毁时,将会向池中所有对象发送一条release消息,释放对象。</p></li>
@@ -665,7 +665,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>[pool release]、 [pool drain]表示的是池本身不会销毁,而是池子中的临时对象都被发送release,从而将对象销毁。</p></li>
 </ul>
 
-<h5 id="在某个方法中-self-name-name-name-name-它-们有区别吗-为什么:89b94fa4d68b0570d78f093df3858123">在某个方法中 self.name = _name，name = _name 它 们有区别吗，为什么?</h5>
+<h5 id="在某个方法中-self-name-name-name-name-它-们有区别吗-为什么:0c0e4bd28fa1ec6a440af5b2adca9cc7">在某个方法中 self.name = _name，name = _name 它 们有区别吗，为什么?</h5>
 
 <ul>
 <li><p>前者是存在内存管理的setter方法赋值,它会对_name对象进行保留或者拷贝操作</p></li>
@@ -675,13 +675,13 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>一般来说，在对象的方法里成员变量和方法都是可以访问的，我们通常会重写Setter方法来执行某些额外的工作。比如说，外部传一个模型过来，那么我会直接重写Setter方法，当模型传过来时，也就是意味着数据发生了变化，那么视图也需要更新显示，则在赋值新模型的同时也去刷新UI。</p></li>
 </ul>
 
-<h5 id="解释self-super-init-方法:89b94fa4d68b0570d78f093df3858123">解释self = [super init]方法</h5>
+<h5 id="解释self-super-init-方法:0c0e4bd28fa1ec6a440af5b2adca9cc7">解释self = [super init]方法</h5>
 
 <ul>
 <li>容错处理,当父类初始化失败,会返回一个nil,表示初始化失败。由于继承的关系,子类是需要拥有父类的实例和行为,因此,我们必须先初始化父类,然后再初始化子类</li>
 </ul>
 
-<h5 id="定义属性时-什么时候用-assign-retain-copy-以及它们的之间的区别:89b94fa4d68b0570d78f093df3858123">定义属性时，什么时候用 assign、retain、copy 以及它们的之间的区别。</h5>
+<h5 id="定义属性时-什么时候用-assign-retain-copy-以及它们的之间的区别:0c0e4bd28fa1ec6a440af5b2adca9cc7">定义属性时，什么时候用 assign、retain、copy 以及它们的之间的区别。</h5>
 
 <ul>
 <li><p><strong>assign</strong>:普通赋值,一般常用于基本数据类型,常见委托设计模式, 以此来防止循环引用。(我们称之为弱引用).</p></li>
@@ -691,7 +691,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p><strong>copy</strong>:一般认为,是在内存中重新开辟了一个新的内存空间,用来 存储新的对象,和原来的对象是两个不同的地址,引用计数分别为1。但是当copy对象为不可变对象时,那么copy 的作用相当于retain。因为,这样可以节约内存空间</p></li>
 </ul>
 
-<h5 id="堆和栈的区别:89b94fa4d68b0570d78f093df3858123">堆和栈的区别</h5>
+<h5 id="堆和栈的区别:0c0e4bd28fa1ec6a440af5b2adca9cc7">堆和栈的区别</h5>
 
 <ul>
 <li><p>栈区(stack)由编译器自动分配释放 ,存放方法(函数)的参数值, 局部变量的值等，栈是向低地址扩展的数据结构，是一块连续的内存的区域。即栈顶的地址和栈的最大容量是系统预先规定好的。</p></li>
@@ -711,7 +711,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <li><p>程序代码区—存放函数体的二进制代码</p></li>
 </ul>
 
-<h5 id="怎样使用performselector传入3个以上参数-其中一个为结构体:89b94fa4d68b0570d78f093df3858123">怎样使用performSelector传入3个以上参数，其中一个为结构体。</h5>
+<h5 id="怎样使用performselector传入3个以上参数-其中一个为结构体:0c0e4bd28fa1ec6a440af5b2adca9cc7">怎样使用performSelector传入3个以上参数，其中一个为结构体。</h5>
 
 <blockquote>
 <p>因为系统提供的performSelector的API中，并没有提供三个参数。因此，我们只能传数组或者字典，但是数组或者字典只有存入对象类型，而结构体并不是对象类型,我们只能通过对象放入结构作为属性来传过去了.</p>
@@ -767,7 +767,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
     }
 </code></pre>
 
-<h5 id="uitableviewcell上有个uilabel-显示nstimer实现的秒表时间-手指滚动cell过程中-label是否刷新-为什么:89b94fa4d68b0570d78f093df3858123">UITableViewCell上有个UILabel，显示NSTimer实现的秒表时间，手指滚动cell过程中，label是否刷新，为什么？</h5>
+<h5 id="uitableviewcell上有个uilabel-显示nstimer实现的秒表时间-手指滚动cell过程中-label是否刷新-为什么:0c0e4bd28fa1ec6a440af5b2adca9cc7">UITableViewCell上有个UILabel，显示NSTimer实现的秒表时间，手指滚动cell过程中，label是否刷新，为什么？</h5>
 
 <blockquote>
 <p>这是否刷新取决于timer加入到Run Loop中的Mode是什么。Mode主要是用来指定事件在运行循环中的优先级的，分为：</p>
@@ -791,13 +791,13 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <p>在编程中：如果我们把一个NSTimer对象以NSDefaultRunLoopMode（kCFRunLoopDefaultMode）添加到主运行循环中的时候, ScrollView滚动过程中会因为mode的切换，而导致NSTimer将不再被调度。当我们滚动的时候，也希望不调度，那就应该使用默认模式。但是，如果希望在滚动时，定时器也要回调，那就应该使用common mode。</p>
 </blockquote>
 
-<h5 id="对于单元格重用的理解:89b94fa4d68b0570d78f093df3858123">对于单元格重用的理解</h5>
+<h5 id="对于单元格重用的理解:0c0e4bd28fa1ec6a440af5b2adca9cc7">对于单元格重用的理解</h5>
 
 <ul>
 <li>当屏幕上滑出屏幕时，系统会把这个单元格添加到重用队列中，等待被重用，当有新单元从屏幕外滑入屏幕内时，从重用队列中找看有没有可以重用的单元格，若有，就直接用，没有就重新创建一个。</li>
 </ul>
 
-<h5 id="解决cell重用的问题:89b94fa4d68b0570d78f093df3858123">解决cell重用的问题</h5>
+<h5 id="解决cell重用的问题:0c0e4bd28fa1ec6a440af5b2adca9cc7">解决cell重用的问题</h5>
 
 <ul>
 <li><p>UITableView通过重用单元格来达到节省内存的目的，通过为每个单元格指定一个重用标示（reuseidentifier），即指定了单元格的种类，以及当单元格滚出屏幕时，允许恢复单元格以便复用。对于不同种类的单元格使用不同的ID，对于简单的表格，一个标示符就够了。</p></li>
@@ -812,7 +812,7 @@ UITableViewCell *cell = [tableview cellForRowAtIndexPath:indexPath];
 </code></pre></li>
 </ul>
 
-<h5 id="有a-b-c-d-4个异步请求-如何判断a-b-c-d都完成执行-如果需要a-b-c-d顺序执行-该如何实现:89b94fa4d68b0570d78f093df3858123">有a、b、c、d 4个异步请求，如何判断a、b、c、d都完成执行？如果需要a、b、c、d顺序执行，该如何实现？</h5>
+<h5 id="有a-b-c-d-4个异步请求-如何判断a-b-c-d都完成执行-如果需要a-b-c-d顺序执行-该如何实现:0c0e4bd28fa1ec6a440af5b2adca9cc7">有a、b、c、d 4个异步请求，如何判断a、b、c、d都完成执行？如果需要a、b、c、d顺序执行，该如何实现？</h5>
 
 <ul>
 <li><p>对于这四个异步请求，要判断都执行完成最简单的方式就是通过GCD的group来实现：</p>
@@ -835,7 +835,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>解释：要求顺序执行，那么可以将任务放到串行队列中，自然就是按顺序来异步执行了。</p></li>
 </ul>
 
-<h5 id="使用block有什么好处-使用nstimer写出一个使用block显示-在uilabel上-秒表的代码:89b94fa4d68b0570d78f093df3858123">使用block有什么好处？使用NSTimer写出一个使用block显示（在UILabel上）秒表的代码。</h5>
+<h5 id="使用block有什么好处-使用nstimer写出一个使用block显示-在uilabel上-秒表的代码:0c0e4bd28fa1ec6a440af5b2adca9cc7">使用block有什么好处？使用NSTimer写出一个使用block显示（在UILabel上）秒表的代码。</h5>
 
 <ul>
 <li><p>代码紧凑，传值、回调都很方便，省去了写代理的很多代码。</p></li>
@@ -855,7 +855,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 </code></pre></li>
 </ul>
 
-<h5 id="一个view已经初始化完毕-view上面添加了n个button-除用view的tag之外-还可以采用什么办法来找到自己想要的button来修改button的值:89b94fa4d68b0570d78f093df3858123">一个view已经初始化完毕，view上面添加了n个button，除用view的tag之外，还可以采用什么办法来找到自己想要的button来修改button的值。</h5>
+<h5 id="一个view已经初始化完毕-view上面添加了n个button-除用view的tag之外-还可以采用什么办法来找到自己想要的button来修改button的值:0c0e4bd28fa1ec6a440af5b2adca9cc7">一个view已经初始化完毕，view上面添加了n个button，除用view的tag之外，还可以采用什么办法来找到自己想要的button来修改button的值。</h5>
 
 <ul>
 <li><p>第一种：如果是点击某个按钮后，才会刷新它的值，其它不用修改，那么不用引用任何按钮，直接在回调时，就已经将接收响应的按钮给传过来了，直接通过它修改即可。</p></li>
@@ -863,7 +863,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>第二种：点击某个按钮后，所有与之同类型的按钮都要修改值，那么可以通过在创建按钮时将按钮存入到数组中，在需要的时候遍历查找。</p></li>
 </ul>
 
-<h5 id="线程与进程的区别和联系:89b94fa4d68b0570d78f093df3858123">线程与进程的区别和联系?</h5>
+<h5 id="线程与进程的区别和联系:0c0e4bd28fa1ec6a440af5b2adca9cc7">线程与进程的区别和联系?</h5>
 
 <ul>
 <li><p>一个程序至少要有进城,一个进程至少要有一个线程。</p></li>
@@ -879,7 +879,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>但对于一些要求同时进行并且又要共享某些变量的并发操作，只能用线程，不能用进程。</p></li>
 </ul>
 
-<h5 id="多线程编程:89b94fa4d68b0570d78f093df3858123">多线程编程</h5>
+<h5 id="多线程编程:0c0e4bd28fa1ec6a440af5b2adca9cc7">多线程编程</h5>
 
 <ul>
 <li><p>NSThread:当需要进行一些耗时操作时会把耗时的操作放到线程中。线程同步：多个线程同时访问一个数据会出问题，NSlock、线程同步块、@synchronized(self){}。</p></li>
@@ -909,7 +909,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>iPhoneOS下的主线程的堆栈大小是1M。第二个线程开始就是512KB，并且该值不能通过编译器开关或线程API函数来更改，只有主线程有直接修改UI的能力</p></li>
 </ul>
 
-<h5 id="定时器与线程的区别:89b94fa4d68b0570d78f093df3858123">定时器与线程的区别</h5>
+<h5 id="定时器与线程的区别:0c0e4bd28fa1ec6a440af5b2adca9cc7">定时器与线程的区别</h5>
 
 <ul>
 <li><p>定时器;可以执行多次，默认在主线程中。</p></li>
@@ -917,7 +917,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>线程：只能执行一次。</p></li>
 </ul>
 
-<h5 id="tcp和udp的区别于联系:89b94fa4d68b0570d78f093df3858123">TCP和UDP的区别于联系</h5>
+<h5 id="tcp和udp的区别于联系:0c0e4bd28fa1ec6a440af5b2adca9cc7">TCP和UDP的区别于联系</h5>
 
 <ul>
 <li><p>TCP为传输控制层协议，为面向连接、可靠的、点到点的通信；</p></li>
@@ -927,7 +927,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>TCP侧重可靠传输，UDP侧重快速传输。</p></li>
 </ul>
 
-<h5 id="tcp连接的三次握手:89b94fa4d68b0570d78f093df3858123">TCP连接的三次握手</h5>
+<h5 id="tcp连接的三次握手:0c0e4bd28fa1ec6a440af5b2adca9cc7">TCP连接的三次握手</h5>
 
 <ul>
 <li><p>第一次握手：客户端发送syn包（syn=j）到服务器，并进入SYN_SEND状态，等待服务器确认；</p></li>
@@ -937,7 +937,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>第三次握手：客户端收到服务器的SYN+ACK包，向服务器发送确认包ACK（ack=k+1），此发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次状态。</p></li>
 </ul>
 
-<h5 id="scoket连接和http连接的区别:89b94fa4d68b0570d78f093df3858123">Scoket连接和HTTP连接的区别</h5>
+<h5 id="scoket连接和http连接的区别:0c0e4bd28fa1ec6a440af5b2adca9cc7">Scoket连接和HTTP连接的区别</h5>
 
 <ul>
 <li><p>HTTP协议是基于TCP连接的，是应用层协议，主要解决如何包装数据。Socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket，我们才能使用TCP/IP协议。</p></li>
@@ -947,7 +947,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>Socket连接：长连接，客户端跟服务器端直接使用Socket进行连接，没有规定连接后断开，因此客户端和服务器段保持连接通道，双方可以主动发送数据，一般多用于游戏.Socket默认连接超时时间是30秒，默认大小是8K（理解为一个数据包大小）。</p></li>
 </ul>
 
-<h5 id="http协议的特点-关于http请求get和post的区别:89b94fa4d68b0570d78f093df3858123">HTTP协议的特点，关于HTTP请求GET和POST的区别</h5>
+<h5 id="http协议的特点-关于http请求get和post的区别:0c0e4bd28fa1ec6a440af5b2adca9cc7">HTTP协议的特点，关于HTTP请求GET和POST的区别</h5>
 
 <blockquote>
 <p><strong>GET和POST的区别</strong>：</p>
@@ -989,7 +989,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li>HTTPS：安全超文本传输协议（Secure Hypertext Transfer Protocol），它是一个安全通信通道，基于HTTP开发，用于客户计算机和服务器之间交换信息，使用安全套结字层（SSI）进行信息交换，即HTTP的安全版。</li>
 </ul>
 
-<h5 id="xml数据解析方式各有什么不同-json解析有哪些框架:89b94fa4d68b0570d78f093df3858123">XML数据解析方式各有什么不同，JSON解析有哪些框架？</h5>
+<h5 id="xml数据解析方式各有什么不同-json解析有哪些框架:0c0e4bd28fa1ec6a440af5b2adca9cc7">XML数据解析方式各有什么不同，JSON解析有哪些框架？</h5>
 
 <ul>
 <li><p>XML数据解析的两种解析方式：DOM解析和SAX解析；</p></li>
@@ -1001,7 +1001,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>JSON解析：性能比较好的主要是第三方的JSONKIT和iOS自带的JSON解析类，其中自带的JSON解析性能最高，但只能用于iOS5之后。</p></li>
 </ul>
 
-<h5 id="如何进行网络消息推送:89b94fa4d68b0570d78f093df3858123">如何进行网络消息推送</h5>
+<h5 id="如何进行网络消息推送:0c0e4bd28fa1ec6a440af5b2adca9cc7">如何进行网络消息推送</h5>
 
 <ul>
 <li><p>一种是Apple自己提供的通知服务（APNS服务器）、一种是用第三方推送机制。</p></li>
@@ -1027,7 +1027,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 </blockquote></li>
 </ul>
 
-<h5 id="网络七层协议:89b94fa4d68b0570d78f093df3858123">网络七层协议</h5>
+<h5 id="网络七层协议:0c0e4bd28fa1ec6a440af5b2adca9cc7">网络七层协议</h5>
 
 <ul>
 <li><p>应用层：</p>
@@ -1103,13 +1103,13 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 </ol></li>
 </ul>
 
-<h5 id="对nsuserdefaults的理解:89b94fa4d68b0570d78f093df3858123">对NSUserDefaults的理解</h5>
+<h5 id="对nsuserdefaults的理解:0c0e4bd28fa1ec6a440af5b2adca9cc7">对NSUserDefaults的理解</h5>
 
 <ul>
 <li>NSUserDefaults：系统提供的一种存储数据的方式，主要用于保存少量的数据，默认存储到library下的Preferences文件夹。</li>
 </ul>
 
-<h5 id="sdwebimage原理:89b94fa4d68b0570d78f093df3858123">SDWebImage原理</h5>
+<h5 id="sdwebimage原理:0c0e4bd28fa1ec6a440af5b2adca9cc7">SDWebImage原理</h5>
 
 <blockquote>
 <p>调用类别的方法：</p>
@@ -1123,19 +1123,19 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>从网络上获取，使用，缓存到内存，缓存到沙盒。</p></li>
 </ul>
 
-<h5 id="oc中是否有二维数组-如何实现二维数组:89b94fa4d68b0570d78f093df3858123">OC中是否有二维数组，如何实现二维数组？</h5>
+<h5 id="oc中是否有二维数组-如何实现二维数组:0c0e4bd28fa1ec6a440af5b2adca9cc7">OC中是否有二维数组，如何实现二维数组？</h5>
 
 <ul>
 <li>OC中没有二维数组，可通过嵌套数组实现二维数组。</li>
 </ul>
 
-<h5 id="layoutsubviews在什么时候被调用:89b94fa4d68b0570d78f093df3858123">LayoutSubViews在什么时候被调用？</h5>
+<h5 id="layoutsubviews在什么时候被调用:0c0e4bd28fa1ec6a440af5b2adca9cc7">LayoutSubViews在什么时候被调用？</h5>
 
 <ul>
 <li>当View本身的frame改变时，会调用这个方法。</li>
 </ul>
 
-<h5 id="深拷贝和浅拷贝:89b94fa4d68b0570d78f093df3858123">深拷贝和浅拷贝</h5>
+<h5 id="深拷贝和浅拷贝:0c0e4bd28fa1ec6a440af5b2adca9cc7">深拷贝和浅拷贝</h5>
 
 <ul>
 <li><p>如果对象有个指针型成员变量指向内存中的某个资源，那么如何复制这个对象呢？你会只是复制指针的值传给副本的新对象吗？指针只是存储内存中资源地址的占位符。在复制操作中，如果只是将指针复制给新对象，那么底层的资源实际上仍然由两个实例在共享。<br />
@@ -1147,7 +1147,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
  <img src="http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/1458633819176042.png" alt="copyMemer" /></p></li>
 </ul>
 
-<h5 id="单例模式理解与使用:89b94fa4d68b0570d78f093df3858123">单例模式理解与使用</h5>
+<h5 id="单例模式理解与使用:0c0e4bd28fa1ec6a440af5b2adca9cc7">单例模式理解与使用</h5>
 
 <ul>
 <li><p>单例模式是一种常用设计模式，单例模式是一个类在系统中只有一个实例对象。通过全局的一个入口点对这个实例对象进行访问；</p></li>
@@ -1155,7 +1155,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>iOS中单例模式的实现方式一般分为两种：非ARC和ARC+GCD。</p></li>
 </ul>
 
-<h5 id="对沙盒的理解:89b94fa4d68b0570d78f093df3858123">对沙盒的理解</h5>
+<h5 id="对沙盒的理解:0c0e4bd28fa1ec6a440af5b2adca9cc7">对沙盒的理解</h5>
 
 <ul>
 <li><p>每个iOS应用都被限制在“沙盒”中，沙盒相当于一个加了仅主人可见权限的文件夹，及时在应用程序安装过程中，系统为每个单独的应用程序生成它的主目录和一些关键的子目录。苹果对沙盒有几条限制:</p>
@@ -1171,7 +1171,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 </ol></li>
 </ul>
 
-<h4 id="preferences包含应用程序的偏好设置文件-不可在这更改偏好设置-temp存放临时文件即应用程序再次启动不需要的文件:89b94fa4d68b0570d78f093df3858123">Preferences包含应用程序的偏好设置文件，不可在这更改偏好设置；temp存放临时文件即应用程序再次启动不需要的文件。</h4>
+<h4 id="preferences包含应用程序的偏好设置文件-不可在这更改偏好设置-temp存放临时文件即应用程序再次启动不需要的文件:0c0e4bd28fa1ec6a440af5b2adca9cc7">Preferences包含应用程序的偏好设置文件，不可在这更改偏好设置；temp存放临时文件即应用程序再次启动不需要的文件。</h4>
 
 <ul>
 <li><p>获取沙盒根目录的方法，有几种方法：用NSHomeDirectory获取。</p></li>
@@ -1179,7 +1179,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>获取Document路径：NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES).</p></li>
 </ul>
 
-<h5 id="对瀑布流的理解:89b94fa4d68b0570d78f093df3858123">对瀑布流的理解</h5>
+<h5 id="对瀑布流的理解:0c0e4bd28fa1ec6a440af5b2adca9cc7">对瀑布流的理解</h5>
 
 <ul>
 <li><p>首先图片的宽度都是一样的，1.将图片等比例压缩，让图片不变形；2.计算图片最低应该摆放的位置，哪一列低就放在哪；3.进行最优排列，在ScrollView的基础上添加两个tableView，然后将之前所计算的scrollView的高度通过tableView展示出来。</p></li>
@@ -1187,7 +1187,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>如何使用两个TableView产生联动：将两个tableView的滚动事件禁止掉，最外层scrollView滚动时将两个TableView跟着滚动，并且更改contentOffset，这样产生效果滚动的两个tableView。</p></li>
 </ul>
 
-<h5 id="viewcontroller-的-loadview-viewdidload-viewdidunload-分别是在什么时候调用的:89b94fa4d68b0570d78f093df3858123">ViewController 的 loadView、viewDidLoad、viewDidUnload 分别是在什么时候调用的？</h5>
+<h5 id="viewcontroller-的-loadview-viewdidload-viewdidunload-分别是在什么时候调用的:0c0e4bd28fa1ec6a440af5b2adca9cc7">ViewController 的 loadView、viewDidLoad、viewDidUnload 分别是在什么时候调用的？</h5>
 
 <ul>
 <li><p>viewDidLoad在view从nib文件初始化时调用，loadView在controller的view为nil时调用。</p></li>
@@ -1195,7 +1195,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>此方法在编程实现view时调用,view控制器默认会注册memory warning notification,当view controller的任何view没有用的时候，viewDidUnload会被调用，在这里实现将retain的view release,如果是retain的IBOutlet view 属性则不要在这里release,IBOutlet会负责release 。</p></li>
 </ul>
 
-<h5 id="关键字volatile有什么含意-并给出三个不同的例子:89b94fa4d68b0570d78f093df3858123">关键字volatile有什么含意?并给出三个不同的例子：</h5>
+<h5 id="关键字volatile有什么含意-并给出三个不同的例子:0c0e4bd28fa1ec6a440af5b2adca9cc7">关键字volatile有什么含意?并给出三个不同的例子：</h5>
 
 <ul>
 <li><p>一个定义为volatile的变量是说这变量可能会被意想不到地改变，这样，编译器就不会去假设这个变量的值了。精确地说就是，优化器在用到这个变量时必须每次都小心地重新读取这个变量的值，而不是使用保存在寄存器里的备份。下面是volatile变量的几个例子：</p>
@@ -1209,7 +1209,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 </ol></li>
 </ul>
 
-<h5 id="synthesize-dynamic的理解:89b94fa4d68b0570d78f093df3858123">@synthesize、@dynamic的理解</h5>
+<h5 id="synthesize-dynamic的理解:0c0e4bd28fa1ec6a440af5b2adca9cc7">@synthesize、@dynamic的理解</h5>
 
 <ul>
 <li><p>@synthesize是系统自动生成getter和setter属性声明;@synthesize的意思是，除非开发人员已经做了，否则由编译器生成相应的代码，以满足属性声明；</p></li>
@@ -1217,7 +1217,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>@dynamic是开发者自已提供相应的属性声明,@dynamic意思是由开发人员提供相应的代码：对于只读属性需要提供setter，对于读写属性需要提供 setter 和getter。查阅了一些资料确定@dynamic的意思是告诉编译器,属性的获取与赋值方法由用户自己实现, 不自动生成。</p></li>
 </ul>
 
-<h5 id="frame和bounds有什么不同:89b94fa4d68b0570d78f093df3858123">frame和bounds有什么不同？</h5>
+<h5 id="frame和bounds有什么不同:0c0e4bd28fa1ec6a440af5b2adca9cc7">frame和bounds有什么不同？</h5>
 
 <ul>
 <li><p>frame指的是：该view在父view坐标系统中的位置和大小。（参照点是父亲的坐标系统）</p></li>
@@ -1227,7 +1227,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <p><img src="http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/frameBounds.jpg" alt="boundsFrame" /></p></li>
 </ul>
 
-<h5 id="view的touch事件有哪些:89b94fa4d68b0570d78f093df3858123">view的touch事件有哪些？</h5>
+<h5 id="view的touch事件有哪些:0c0e4bd28fa1ec6a440af5b2adca9cc7">view的touch事件有哪些？</h5>
 
 <pre><code>- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
@@ -1235,13 +1235,13 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;
 </code></pre>
 
-<h5 id="自定义实现uitabbarcontroller的原理:89b94fa4d68b0570d78f093df3858123">自定义实现UITabbarController的原理</h5>
+<h5 id="自定义实现uitabbarcontroller的原理:0c0e4bd28fa1ec6a440af5b2adca9cc7">自定义实现UITabbarController的原理</h5>
 
 <ul>
 <li>运用字典，点击五个按钮的一个可以从字典里选择一个控制器对象，将其View显示到主控制器视图上.</li>
 </ul>
 
-<h5 id="ios中的响应者链的工作原理:89b94fa4d68b0570d78f093df3858123">iOS中的响应者链的工作原理</h5>
+<h5 id="ios中的响应者链的工作原理:0c0e4bd28fa1ec6a440af5b2adca9cc7">iOS中的响应者链的工作原理</h5>
 
 <ul>
 <li><p>每一个应用有一个响应者链，我们的视图结构是一个N叉树(一个视图可以有多个子视图，一个子视图同一时刻只有一个父视图),而每一个继承UIResponder的对象都可以在这个N叉树中扮演一个节点。</p></li>
@@ -1251,7 +1251,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>如需了解更多细节，<a href="http://blog.flywithme.top/2016/03/26/ResponderChain/">请读这篇文章</a>。</p></li>
 </ul>
 
-<h5 id="view和view之间传值方式:89b94fa4d68b0570d78f093df3858123">View和View之间传值方式</h5>
+<h5 id="view和view之间传值方式:0c0e4bd28fa1ec6a440af5b2adca9cc7">View和View之间传值方式</h5>
 
 <ul>
 <li><p>对象的property属性传值；</p></li>
@@ -1263,7 +1263,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>块传值。</p></li>
 </ul>
 
-<h5 id="property属性的修饰符的作用:89b94fa4d68b0570d78f093df3858123">property属性的修饰符的作用</h5>
+<h5 id="property属性的修饰符的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7">property属性的修饰符的作用</h5>
 
 <ul>
 <li><p>getter=getName、setter=setName：设置setter与getter的方法名；</p></li>
@@ -1279,7 +1279,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。</p></li>
 </ul>
 
-<h5 id="对于run-loop的理解-详情-2016-03-26-iosrunloop:89b94fa4d68b0570d78f093df3858123">对于Run Loop的理解<a href="http://blog.flywithme.top/2016/03/26/iOSRunloop/">详情</a></h5>
+<h5 id="对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7">对于Run Loop的理解<a href="http://blog.flywithme.top/2016/03/26/iOSRunloop/">详情</a></h5>
 
 <ul>
 <li><p>RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；</p></li>
@@ -1293,7 +1293,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>实质上，对于子线程的runloop默认是不存在的，因为苹果采用了懒加载的方式。如果我们没有手动调用<code>[NSRunLoop currentRunLoop]</code>的话，就不会去查询是否存在当前线程的RunLoop，也就不会去加载，更不会创建</p></li>
 </ul>
 
-<h5 id="sqlite中常用的sql语句:89b94fa4d68b0570d78f093df3858123">SQLite中常用的SQL语句</h5>
+<h5 id="sqlite中常用的sql语句:0c0e4bd28fa1ec6a440af5b2adca9cc7">SQLite中常用的SQL语句</h5>
 
 <ul>
 <li><p>创建表：creat table 表名 (字段名 字段数据类型 是否为主键, 字段名 字段数据类型, 字段名 字段数据类型&hellip;)；</p></li>
@@ -1303,7 +1303,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>删: delete from 表名 where 字段 = 值；</p></li>
 </ul>
 
-<h5 id="xib与storyboards的优缺点:89b94fa4d68b0570d78f093df3858123">XIB与Storyboards的优缺点</h5>
+<h5 id="xib与storyboards的优缺点:0c0e4bd28fa1ec6a440af5b2adca9cc7">XIB与Storyboards的优缺点</h5>
 
 <blockquote>
 <p>优点：</p>
@@ -1324,7 +1324,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li>Storyboard：需求变动时，需要修改storyboard上对应的界面的约束，与XIB一样可能要重新添加约束，或者添加约束会造成大量的冲突，尤其是多团队开发。对于复杂逻辑控制不同显示内容时，比较困难。当多人团队或者多团队开发时，大家会同时修改一个storyboard，导致大量冲突，解决起来相当困难。</li>
 </ul>
 
-<h5 id="将字符串-2015-04-10-格式化日期转为nsdate类型:89b94fa4d68b0570d78f093df3858123">将字符串“2015-04-10”格式化日期转为NSDate类型</h5>
+<h5 id="将字符串-2015-04-10-格式化日期转为nsdate类型:0c0e4bd28fa1ec6a440af5b2adca9cc7">将字符串“2015-04-10”格式化日期转为NSDate类型</h5>
 
 <pre><code>NSString *timeStr = @&quot;2016-03-10&quot;;
 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -1335,7 +1335,7 @@ NSDate *date = [formatter dateFromString:timeStr];
 NSLog(@&quot;%@&quot;, date);
 </code></pre>
 
-<h5 id="队列和多线程的使用原理:89b94fa4d68b0570d78f093df3858123">队列和多线程的使用原理</h5>
+<h5 id="队列和多线程的使用原理:0c0e4bd28fa1ec6a440af5b2adca9cc7">队列和多线程的使用原理</h5>
 
 <blockquote>
 <p>在iOS中队列分为以下几种：</p>
@@ -1369,7 +1369,7 @@ NSLog(@&quot;%@&quot;, date);
 
 <p><img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog1458633174180748.png" alt="gcd" /></p>
 
-<h5 id="内存的使用和优化的注意事项:89b94fa4d68b0570d78f093df3858123">内存的使用和优化的注意事项</h5>
+<h5 id="内存的使用和优化的注意事项:0c0e4bd28fa1ec6a440af5b2adca9cc7">内存的使用和优化的注意事项</h5>
 
 <ul>
 <li><p>重用问题：如UITableViewCells、UICollectionViewCells、UITableViewHeaderFooterViews设置正确的reuseIdentifier，充分重用；</p></li>
@@ -1397,7 +1397,7 @@ NSLog(@&quot;%@&quot;, date);
 <li><p>正确选择图片加载方式：详情阅读细读<a href="http://www.henishuo.com/image-loaded-method/">UIImage加载方式</a></p></li>
 </ul>
 
-<h5 id="uiviewcontroller的完整生命周期:89b94fa4d68b0570d78f093df3858123">UIViewController的完整生命周期</h5>
+<h5 id="uiviewcontroller的完整生命周期:0c0e4bd28fa1ec6a440af5b2adca9cc7">UIViewController的完整生命周期</h5>
 
 <pre><code>-[ViewController initWithNibName:bundle:]；
 -[ViewController init]；
@@ -1409,7 +1409,7 @@ NSLog(@&quot;%@&quot;, date);
 -[ViewController viewDidDisappear:]；
 </code></pre>
 
-<h5 id="uiimageview添加圆角:89b94fa4d68b0570d78f093df3858123">UIImageView添加圆角</h5>
+<h5 id="uiimageview添加圆角:0c0e4bd28fa1ec6a440af5b2adca9cc7">UIImageView添加圆角</h5>
 
 <blockquote>
 <p>最直接的方法就是使用如下属性设置：</p>
@@ -1452,7 +1452,7 @@ return image;
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/25/interviewQuestion/">http://blog.flywithme.top/2016/03/25/interviewQuestion/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/28/basicknowledgepoint/">http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -1505,7 +1505,7 @@ return image;
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/03/25/interviewQuestion/" data-title="iOS基础知识点梳理" data-url="http://blog.flywithme.top/2016/03/25/interviewQuestion/"></div>
+<div class="ds-thread" data-thread-key="/2016/03/28/basicknowledgepoint/" data-title="iOS基础知识点梳理" data-url="http://blog.flywithme.top/2016/03/28/basicknowledgepoint/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -1560,20 +1560,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2016/03/24/loadAndinitialize/" rel="next">
+        <a href="http://blog.flywithme.top/2016/03/26/iOSRunloop/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Objective-C 中 &#43;load 与 &#43;initialize</span>
+          <span>深入理解RunLoop</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>iOS下Category添加属性字段</span>
-        </a>
         
       </li>
     </ul>
