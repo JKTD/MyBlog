@@ -3,18 +3,18 @@
     
     <url>
         <loc>http://blog.flywithme.top/</loc>
-        <lastmod>2016-03-29T19:04:26+08:00</lastmod>
+        <lastmod>2016-03-31T13:56:29+08:00</lastmod>
         <priority>0</priority>
+    </url>
+    
+    <url>
+        <loc>http://blog.flywithme.top/2016/03/31/golang-Mgo/</loc>
+        <lastmod>2016-03-31T13:56:29+08:00</lastmod>
     </url>
     
     <url>
         <loc>http://blog.flywithme.top/2016/03/29/golangGin</loc>
         <lastmod>2016-03-29T19:04:26+08:00</lastmod>
-    </url>
-    
-    <url>
-        <loc>http://blog.flywithme.top/2016/03/29/golang-Mgo/</loc>
-        <lastmod>2016-03-29T16:56:29+08:00</lastmod>
     </url>
     
     <url>

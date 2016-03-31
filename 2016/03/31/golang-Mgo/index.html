@@ -28,7 +28,7 @@
 
 <meta property="og:title" content="MongoDB的Go语言驱动 - 案发现场 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2016/03/29/golang-Mgo/" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/03/31/golang-Mgo/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
 <meta property="og:description" content="Golang mongodb">
 
@@ -40,8 +40,8 @@
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2016/03/29/golang-Mgo/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/29/golang-Mgo/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/03/31/golang-Mgo/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/31/golang-Mgo/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -178,9 +178,9 @@
                   <h1 class="post-title">MongoDB的Go语言驱动</h1>
 
                   <p class="post-byline">
-                    by  · 2016年03月29日 · 5 Words ·
-                    ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-29-golang-Mgo.md"
+                    by  · 2016年03月31日 · 1728 Words ·
+                    ~4min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-31-golang-Mgo.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -191,7 +191,373 @@
                       
                       
 
-<h5 id="mgo简介-https-godoc-org-labix-org-v2-mgo:3e0fd290eba5fbaaecd1ce991a638eca"><a href="https://godoc.org/labix.org/v2/mgo">mgo简介</a></h5>
+<!--http://jimmykuu.sinaapp.com/static/books/mgo_guide/-->
+
+<h5 id="mgo简介-https-godoc-org-labix-org-v2-mgo:156647709f766e3bb58c3e6b445a0770"><a href="https://godoc.org/labix.org/v2/mgo">mgo简介</a></h5>
+
+<blockquote>
+<p>mgo（音mango）是MongoDB的Go语言驱动，它用基于Go语法的简单API实现了丰富的特性，并经过良好测试。</p>
+
+<p>官方网站：<a href="http://labix.org/mgo">http://labix.org/mgo</a>。</p>
+
+<p>golang.tc（<a href="golangtc.com">golangtc.com</a>）网站的数据存储就是是用的MongoDB+mgo。</p>
+</blockquote>
+
+<h5 id="api文档:156647709f766e3bb58c3e6b445a0770">API文档</h5>
+
+<blockquote>
+<p>下面是mgo、mgo/bson、mgo/txn的在线文档。</p>
+</blockquote>
+
+<ul>
+<li>mgo <a href="http://godoc.org/labix.org/v2/mgo">GoDoc</a> <a href="http://gowalker.org/labix.org/v2/mgo">GoWalker</a></li>
+<li>mgo/bson <a href="http://godoc.org/labix.org/v2/mgo/bson">GoDoc</a> <a href="http://gowalker.org/labix.org/v2/mgo/bson">GoWalker</a></li>
+<li>mgo/txn <a href="https://godoc.org/labix.org/v2/mgo/txn">GoDoc</a> <a href="http://gowalker.org/labix.org/v2/mgo/txn">GoWalker</a></li>
+</ul>
+
+<h5 id="安装:156647709f766e3bb58c3e6b445a0770">安装</h5>
+
+<blockquote>
+<p>安装mgo之前请先安装Golang和MongoDB，安装过程不再赘述。</p>
+
+<p>安装<a href="http://bazaar.canonical.com/en/">bzr</a>版本工具（mgo使用Bazaar作为版本控制系统，因安装的时候需要去Bazaar拉取代码）。</p>
+
+<p>安装命令</p>
+</blockquote>
+
+<pre><code>go get labix.org/v2/mgo 
+</code></pre>
+
+<h5 id="示例:156647709f766e3bb58c3e6b445a0770">示例</h5>
+
+<blockquote>
+<p>下面的代码是个示例。</p>
+</blockquote>
+
+<pre><code>package main
+
+import (
+    &quot;fmt&quot;
+    &quot;labix.org/v2/mgo&quot;
+    &quot;labix.org/v2/mgo/bson&quot;
+)
+
+type Person struct {
+    Name  string
+    Phone string
+}
+
+func main() {
+    session, err := mgo.Dial(&quot;&quot;)
+    if err != nil {
+        panic(err)
+    }
+    defer session.Close()
+
+    // Optional. Switch the session to a monotonic behavior.
+    session.SetMode(mgo.Monotonic, true)
+
+    c := session.DB(&quot;test&quot;).C(&quot;people&quot;)
+    err = c.Insert(&amp;Person{&quot;Ale&quot;, &quot;+55 53 8116 9639&quot;},
+        &amp;Person{&quot;Cla&quot;, &quot;+55 53 8402 8510&quot;})
+    if err != nil {
+        panic(err)
+    }
+
+    result := Person{}
+    err = c.Find(bson.M{&quot;name&quot;: &quot;Ale&quot;}).One(&amp;result)
+    if err != nil {
+        panic(err)
+    }
+
+    fmt.Println(&quot;Phone:&quot;, result.Phone)
+}
+</code></pre>
+
+<blockquote>
+<p>启动MongoDB，把上面代码复制了跑一下，如果输出下面内容，说明安装成功。</p>
+</blockquote>
+
+<pre><code>Phone: +55 53 8116 9639
+</code></pre>
+
+<blockquote>
+<p>具体代码什么意思先不用管，后面讲解每个方法的用法。</p>
+</blockquote>
+
+<h5 id="如何使用:156647709f766e3bb58c3e6b445a0770">如何使用</h5>
+
+<blockquote>
+<p>下面介绍如何使用mgo，主要介绍集合的操作。对数据库，用户等操作，请自行查看文档。</p>
+
+<p>第一步当然是先导入mgo包</p>
+</blockquote>
+
+<pre><code>import (
+    &quot;labix.org/v2/mgo&quot;
+    &quot;labix.org/v2/mgo/bson&quot;
+)
+</code></pre>
+
+<h5 id="连接服务器:156647709f766e3bb58c3e6b445a0770">连接服务器</h5>
+
+<blockquote>
+<p>通过方法Dial()来和MongoDB服务器建立连接。Dial()定义如下：</p>
+</blockquote>
+
+<pre><code>//func Dial(url string) (*Session, error)
+session, err := mgo.Dial(url)
+</code></pre>
+
+<blockquote>
+<p>如果是本机，并且MongoDB是默认端口27017启动的话，下面几种方式都可以。</p>
+</blockquote>
+
+<pre><code>session, err := mgo.Dial(&quot;&quot;)
+session, err := mgo.Dial(&quot;localhost&quot;)
+session, err := mgo.Dial(&quot;127.0.0.1&quot;)
+session, err := mgo.Dial(&quot;localhost:27017&quot;)
+session, err := mgo.Dial(&quot;127.0.0.1:27017&quot;)
+</code></pre>
+
+<blockquote>
+<p>如果不在本机或端口不同，传入相应的地址即可。如：</p>
+</blockquote>
+
+<pre><code>mongodb://myuser:mypass@localhost:40001,otherhost:40001/mydb
+</code></pre>
+
+<h5 id="切换数据库:156647709f766e3bb58c3e6b445a0770">切换数据库</h5>
+
+<blockquote>
+<p>通过Session.DB()来切换相应的数据库。</p>
+</blockquote>
+
+<pre><code>//方法: func (s *Session) DB(name string) *Database
+//如切换到test数据库。
+db := session.DB(&quot;test&quot;)
+</code></pre>
+
+<h5 id="切换集合:156647709f766e3bb58c3e6b445a0770">切换集合</h5>
+
+<blockquote>
+<p>通过Database.C()方法切换集合（Collection），这样我们就可以通过对集合进行增删查改操作了。</p>
+</blockquote>
+
+<pre><code>//func (db *Database) C(name string) *Collection
+//如切换到`users`集合。
+c := db.C(&quot;users&quot;)
+</code></pre>
+
+<h5 id="对集合进行操作:156647709f766e3bb58c3e6b445a0770">对集合进行操作</h5>
+
+<blockquote>
+<p>介绍插入、查询、修改、删除操作。</p>
+
+<p>先提一下ObjectId，MongoDB每个集合都会一个名为_id的主键，这是一个24位的16进制字符串。对应到mgo中就是bson.ObjectId。</p>
+
+<p>这里我们定义一个struct，用来和集合对应。</p>
+</blockquote>
+
+<pre><code>type User struct {
+    Id_       bson.ObjectId `bson:&quot;_id&quot;`
+    Name      string        `bson:&quot;name&quot;`
+    Age       int           `bson:&quot;age&quot;`
+    JoinedAt   time.Time     `bson:&quot;joined_at&quot;`
+    Interests []string      `bson:&quot;interests&quot;`
+}
+</code></pre>
+
+<p><strong>注意</strong>:User的字段首字母大写，不然不可见。通过bson:”name”这种方式可以定义MongoDB中集合的字段名，如果不定义，mgo自动把struct的字段名首字母小写作为集合的字段名。如果不需要获得id_，Id_可以不定义，在插入的时候会自动生成。</p>
+
+<h5 id="插入:156647709f766e3bb58c3e6b445a0770">插入</h5>
+
+<pre><code>//插入方法定义如下：
+//func (c *Collection) Insert(docs ...interface{}) error
+//下面代码插入两条集合数据。
+
+err = c.Insert(&amp;User{
+    Id_:       bson.NewObjectId(),
+    Name:      &quot;Jimmy Kuu&quot;,
+    Age:       33,
+    JoinedAt:  time.Now(),
+    Interests: []string{&quot;Develop&quot;, &quot;Movie&quot;},
+})
+
+if err != nil {
+    panic(err)
+}
+
+err = c.Insert(&amp;User{
+    Id_:       bson.NewObjectId(),
+    Name:      &quot;Tracy Yu&quot;,
+    Age:       31,
+    JoinedAt:  time.Now(),
+    Interests: []string{&quot;Shoping&quot;, &quot;TV&quot;},
+})
+
+if err != nil {
+    panic(err)
+}
+</code></pre>
+
+<blockquote>
+<p>这里通过bson.NewObjectId()来创建新的ObjectId，如果创建完需要用到的话，放在一个变量中即可，一般在Web开发中可以作为参数跳转到其他页面。</p>
+
+<p>通过MongoDB客户端可以发现，两条记录已经插入。</p>
+</blockquote>
+
+<p><img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/mongodbclient01.png" alt="mongodbclient" /></p>
+
+<h5 id="查询:156647709f766e3bb58c3e6b445a0770">查询</h5>
+
+<blockquote>
+<p>通过func (c *Collection) Find(query interface{}) *Query来进行查询，返回的Query struct可以有附加各种条件来进行过滤。</p>
+
+<p>通过Query.All()可以获得所有结果，通过Query.One()可以获得一个结果，注意如果没有数据或者数量超过一个，One()会报错。</p>
+
+<p>条件用bson.M{key: value}，注意key必须用MongoDB中的字段名，而不是struct的字段名。</p>
+</blockquote>
+
+<ul>
+<li><p>无条件查询</p>
+
+<pre><code>var users []User
+c.Find(nil).All(&amp;users)
+fmt.Println(users)  
+</code></pre>
+
+<blockquote>
+<p>上面代码可以把所有Users都查出来</p>
+</blockquote>
+
+<pre><code>[{ObjectIdHex(&quot;5204af979955496907000001&quot;) Jimmy Kuu 33 2013-08-09 17:00:07.95 +0800 CST [Develop Movie]} {ObjectIdHex(&quot;5204af979955496907000002&quot;) Tracy Yu 31 2013-08-09 17:00:07.971 +0800 CST [Shoping TV]}]
+</code></pre></li>
+
+<li><p>根据ObjectId查询</p>
+
+<pre><code>id := &quot;5204af979955496907000001&quot;
+objectId := bson.ObjectIdHex(id)
+
+
+user := new(User)
+c.Find(bson.M{&quot;_id&quot;: objectId}).One(&amp;user)
+
+
+fmt.Println(user)
+</code></pre>
+
+<blockquote>
+<p>结果如下</p>
+</blockquote>
+
+<pre><code>&amp;{ObjectIdHex(&quot;56fb8731e92e6b2995000001&quot;) Jimmy Kuu 33 2016-03-30 15:58:41.33 +0800 CST [Develop Movie]}
+</code></pre></li>
+
+<li><p>更简单的方式是直接用FindId()方法：</p>
+
+<pre><code>c.FindId(objectId).One(&amp;user)
+//注意这里没有处理err。当找不到的时候用One()方法会出错。
+</code></pre></li>
+
+<li><p>单条件查询</p>
+
+<p><strong>=($eq)</strong></p>
+
+<pre><code>c.Find(bson.M{&quot;name&quot;: &quot;Jimmy Kuu&quot;}).All(&amp;users)
+</code></pre>
+
+<p><strong>!=($ne)</strong></p>
+
+<pre><code>c.Find(bson.M{&quot;name&quot;: bson.M{&quot;$ne&quot;: &quot;Jimmy Kuu&quot;}}).All(&amp;users)
+</code></pre>
+
+<p><strong>&gt;($gt)</strong></p>
+
+<pre><code>c.Find(bson.M{&quot;age&quot;: bson.M{&quot;$gt&quot;: 32}}).All(&amp;users)
+</code></pre>
+
+<p><strong>&lt;($lt)</strong></p>
+
+<pre><code>c.Find(bson.M{&quot;age&quot;: bson.M{&quot;$lt&quot;: 32}}).All(&amp;users)
+</code></pre>
+
+<p><strong>&gt;=($gte)</strong></p>
+
+<pre><code>c.Find(bson.M{&quot;age&quot;: bson.M{&quot;$gte&quot;: 33}}).All(&amp;users)
+</code></pre>
+
+<p><strong>&lt;=($lte)</strong></p>
+
+<pre><code>c.Find(bson.M{&quot;age&quot;: bson.M{&quot;$lte&quot;: 31}}).All(&amp;users)
+</code></pre>
+
+<p><strong>in($in)</strong></p>
+
+<pre><code>c.Find(bson.M{&quot;name&quot;: bson.M{&quot;$in&quot;: []string{&quot;Jimmy Kuu&quot;, &quot;Tracy Yu&quot;}}}).All(&amp;users)
+</code></pre></li>
+
+<li><p>多条件查询</p>
+
+<p><strong>and($and)</strong></p>
+
+<pre><code>c.Find(bson.M{&quot;name&quot;: &quot;Jimmy Kuu&quot;, &quot;age&quot;: 33}).All(&amp;users)
+</code></pre>
+
+<p><strong>or($or)</strong></p>
+
+<pre><code>c.Find(bson.M{&quot;$or&quot;: []bson.M{bson.M{&quot;name&quot;: &quot;Jimmy Kuu&quot;}, bson.M{&quot;age&quot;: 31}}}).All(&amp;users)
+</code></pre></li>
+
+<li><p>修改</p>
+
+<pre><code>//通过func (*Collection) Update来进行修改操作。
+func (c *Collection) Update(selector interface{}, change interface{}) error
+ //注意修改单个或多个字段需要通过$set操作符号，否则集合会被替换。
+</code></pre>
+
+<p>修改字段的值
+<strong>($set)</strong></p>
+
+<pre><code>c.Update(bson.M{&quot;_id&quot;: bson.ObjectIdHex(&quot;5204af979955496907000001&quot;)},
+    bson.M{&quot;$set&quot;: bson.M{
+        &quot;name&quot;: &quot;Jimmy Gu&quot;,
+        &quot;age&quot;:  34,
+    }})
+</code></pre>
+
+<p>字段增加值<br />
+<strong>inc($inc)</strong></p>
+
+<pre><code>c.Update(bson.M{&quot;_id&quot;: bson.ObjectIdHex(&quot;5204af979955496907000001&quot;)},
+    bson.M{&quot;$inc&quot;: bson.M{
+        &quot;age&quot;: -1,
+    }})
+</code></pre>
+
+<p>从数组中增加一个元素
+<strong>push($push)</strong></p>
+
+<pre><code>c.Update(bson.M{&quot;_id&quot;: bson.ObjectIdHex(&quot;5204af979955496907000001&quot;)},
+    bson.M{&quot;$push&quot;: bson.M{
+        &quot;interests&quot;: &quot;Golang&quot;,
+    }})
+</code></pre>
+
+<p>从数组中删除一个元素
+<strong>pull($pull)</strong></p>
+
+<pre><code>c.Update(bson.M{&quot;_id&quot;: bson.ObjectIdHex(&quot;5204af979955496907000001&quot;)},
+    bson.M{&quot;$pull&quot;: bson.M{
+        &quot;interests&quot;: &quot;Golang&quot;,
+    }})
+</code></pre>
+
+<p><strong>删除</strong></p>
+
+<pre><code>c.Remove(bson.M{&quot;name&quot;: &quot;Jimmy Kuu&quot;})
+</code></pre></li>
+</ul>
 
                       
                     </div>
@@ -203,7 +569,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/29/golang-Mgo/">http://blog.flywithme.top/2016/03/29/golang-Mgo/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/31/golang-Mgo/">http://blog.flywithme.top/2016/03/31/golang-Mgo/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -256,7 +622,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/03/29/golang-Mgo/" data-title="MongoDB的Go语言驱动" data-url="http://blog.flywithme.top/2016/03/29/golang-Mgo/"></div>
+<div class="ds-thread" data-thread-key="/2016/03/31/golang-Mgo/" data-title="MongoDB的Go语言驱动" data-url="http://blog.flywithme.top/2016/03/31/golang-Mgo/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -311,20 +677,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2016/03/28/basicknowledgepoint/" rel="next">
+        <a href="http://blog.flywithme.top/2016/03/29/golangGin" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>iOS基础知识点梳理</span>
+          <span>golang Web 框架 gin 简介</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2016/03/29/golangGin" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>golang Web 框架 gin 简介</span>
-        </a>
         
       </li>
     </ul>

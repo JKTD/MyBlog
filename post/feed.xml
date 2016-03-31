@@ -6,7 +6,385 @@
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
-        <updated>Tue, 29 Mar 2016 19:04:26 CST</updated>
+        <updated>Thu, 31 Mar 2016 13:56:29 CST</updated>
+        
+        <item>
+            <title>MongoDB的Go语言驱动</title>
+            <link>http://blog.flywithme.top/2016/03/31/golang-Mgo/</link>
+            <pubDate>Thu, 31 Mar 2016 13:56:29 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://blog.flywithme.top/2016/03/31/golang-Mgo/</guid>
+            <description>
+
+&lt;!--http://jimmykuu.sinaapp.com/static/books/mgo_guide/--&gt;
+
+&lt;h5 id=&#34;mgo简介-https-godoc-org-labix-org-v2-mgo:156647709f766e3bb58c3e6b445a0770&#34;&gt;&lt;a href=&#34;https://godoc.org/labix.org/v2/mgo&#34;&gt;mgo简介&lt;/a&gt;&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;mgo（音mango）是MongoDB的Go语言驱动，它用基于Go语法的简单API实现了丰富的特性，并经过良好测试。&lt;/p&gt;
+
+&lt;p&gt;官方网站：&lt;a href=&#34;http://labix.org/mgo&#34;&gt;http://labix.org/mgo&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;golang.tc（&lt;a href=&#34;golangtc.com&#34;&gt;golangtc.com&lt;/a&gt;）网站的数据存储就是是用的MongoDB+mgo。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;api文档:156647709f766e3bb58c3e6b445a0770&#34;&gt;API文档&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;下面是mgo、mgo/bson、mgo/txn的在线文档。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;mgo &lt;a href=&#34;http://godoc.org/labix.org/v2/mgo&#34;&gt;GoDoc&lt;/a&gt; &lt;a href=&#34;http://gowalker.org/labix.org/v2/mgo&#34;&gt;GoWalker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;mgo/bson &lt;a href=&#34;http://godoc.org/labix.org/v2/mgo/bson&#34;&gt;GoDoc&lt;/a&gt; &lt;a href=&#34;http://gowalker.org/labix.org/v2/mgo/bson&#34;&gt;GoWalker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;mgo/txn &lt;a href=&#34;https://godoc.org/labix.org/v2/mgo/txn&#34;&gt;GoDoc&lt;/a&gt; &lt;a href=&#34;http://gowalker.org/labix.org/v2/mgo/txn&#34;&gt;GoWalker&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;安装:156647709f766e3bb58c3e6b445a0770&#34;&gt;安装&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;安装mgo之前请先安装Golang和MongoDB，安装过程不再赘述。&lt;/p&gt;
+
+&lt;p&gt;安装&lt;a href=&#34;http://bazaar.canonical.com/en/&#34;&gt;bzr&lt;/a&gt;版本工具（mgo使用Bazaar作为版本控制系统，因安装的时候需要去Bazaar拉取代码）。&lt;/p&gt;
+
+&lt;p&gt;安装命令&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;go get labix.org/v2/mgo 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;示例:156647709f766e3bb58c3e6b445a0770&#34;&gt;示例&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;下面的代码是个示例。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+    &amp;quot;labix.org/v2/mgo&amp;quot;
+    &amp;quot;labix.org/v2/mgo/bson&amp;quot;
+)
+
+type Person struct {
+    Name  string
+    Phone string
+}
+
+func main() {
+    session, err := mgo.Dial(&amp;quot;&amp;quot;)
+    if err != nil {
+        panic(err)
+    }
+    defer session.Close()
+
+    // Optional. Switch the session to a monotonic behavior.
+    session.SetMode(mgo.Monotonic, true)
+
+    c := session.DB(&amp;quot;test&amp;quot;).C(&amp;quot;people&amp;quot;)
+    err = c.Insert(&amp;amp;Person{&amp;quot;Ale&amp;quot;, &amp;quot;+55 53 8116 9639&amp;quot;},
+        &amp;amp;Person{&amp;quot;Cla&amp;quot;, &amp;quot;+55 53 8402 8510&amp;quot;})
+    if err != nil {
+        panic(err)
+    }
+
+    result := Person{}
+    err = c.Find(bson.M{&amp;quot;name&amp;quot;: &amp;quot;Ale&amp;quot;}).One(&amp;amp;result)
+    if err != nil {
+        panic(err)
+    }
+
+    fmt.Println(&amp;quot;Phone:&amp;quot;, result.Phone)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;启动MongoDB，把上面代码复制了跑一下，如果输出下面内容，说明安装成功。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;Phone: +55 53 8116 9639
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;具体代码什么意思先不用管，后面讲解每个方法的用法。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;如何使用:156647709f766e3bb58c3e6b445a0770&#34;&gt;如何使用&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;下面介绍如何使用mgo，主要介绍集合的操作。对数据库，用户等操作，请自行查看文档。&lt;/p&gt;
+
+&lt;p&gt;第一步当然是先导入mgo包&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;import (
+    &amp;quot;labix.org/v2/mgo&amp;quot;
+    &amp;quot;labix.org/v2/mgo/bson&amp;quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;连接服务器:156647709f766e3bb58c3e6b445a0770&#34;&gt;连接服务器&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;通过方法Dial()来和MongoDB服务器建立连接。Dial()定义如下：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;//func Dial(url string) (*Session, error)
+session, err := mgo.Dial(url)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果是本机，并且MongoDB是默认端口27017启动的话，下面几种方式都可以。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;session, err := mgo.Dial(&amp;quot;&amp;quot;)
+session, err := mgo.Dial(&amp;quot;localhost&amp;quot;)
+session, err := mgo.Dial(&amp;quot;127.0.0.1&amp;quot;)
+session, err := mgo.Dial(&amp;quot;localhost:27017&amp;quot;)
+session, err := mgo.Dial(&amp;quot;127.0.0.1:27017&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果不在本机或端口不同，传入相应的地址即可。如：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;mongodb://myuser:mypass@localhost:40001,otherhost:40001/mydb
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;切换数据库:156647709f766e3bb58c3e6b445a0770&#34;&gt;切换数据库&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;通过Session.DB()来切换相应的数据库。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;//方法: func (s *Session) DB(name string) *Database
+//如切换到test数据库。
+db := session.DB(&amp;quot;test&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;切换集合:156647709f766e3bb58c3e6b445a0770&#34;&gt;切换集合&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;通过Database.C()方法切换集合（Collection），这样我们就可以通过对集合进行增删查改操作了。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;//func (db *Database) C(name string) *Collection
+//如切换到`users`集合。
+c := db.C(&amp;quot;users&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;对集合进行操作:156647709f766e3bb58c3e6b445a0770&#34;&gt;对集合进行操作&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;介绍插入、查询、修改、删除操作。&lt;/p&gt;
+
+&lt;p&gt;先提一下ObjectId，MongoDB每个集合都会一个名为_id的主键，这是一个24位的16进制字符串。对应到mgo中就是bson.ObjectId。&lt;/p&gt;
+
+&lt;p&gt;这里我们定义一个struct，用来和集合对应。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;type User struct {
+    Id_       bson.ObjectId `bson:&amp;quot;_id&amp;quot;`
+    Name      string        `bson:&amp;quot;name&amp;quot;`
+    Age       int           `bson:&amp;quot;age&amp;quot;`
+    JoinedAt   time.Time     `bson:&amp;quot;joined_at&amp;quot;`
+    Interests []string      `bson:&amp;quot;interests&amp;quot;`
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;:User的字段首字母大写，不然不可见。通过bson:”name”这种方式可以定义MongoDB中集合的字段名，如果不定义，mgo自动把struct的字段名首字母小写作为集合的字段名。如果不需要获得id_，Id_可以不定义，在插入的时候会自动生成。&lt;/p&gt;
+
+&lt;h5 id=&#34;插入:156647709f766e3bb58c3e6b445a0770&#34;&gt;插入&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//插入方法定义如下：
+//func (c *Collection) Insert(docs ...interface{}) error
+//下面代码插入两条集合数据。
+
+err = c.Insert(&amp;amp;User{
+    Id_:       bson.NewObjectId(),
+    Name:      &amp;quot;Jimmy Kuu&amp;quot;,
+    Age:       33,
+    JoinedAt:  time.Now(),
+    Interests: []string{&amp;quot;Develop&amp;quot;, &amp;quot;Movie&amp;quot;},
+})
+
+if err != nil {
+    panic(err)
+}
+
+err = c.Insert(&amp;amp;User{
+    Id_:       bson.NewObjectId(),
+    Name:      &amp;quot;Tracy Yu&amp;quot;,
+    Age:       31,
+    JoinedAt:  time.Now(),
+    Interests: []string{&amp;quot;Shoping&amp;quot;, &amp;quot;TV&amp;quot;},
+})
+
+if err != nil {
+    panic(err)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这里通过bson.NewObjectId()来创建新的ObjectId，如果创建完需要用到的话，放在一个变量中即可，一般在Web开发中可以作为参数跳转到其他页面。&lt;/p&gt;
+
+&lt;p&gt;通过MongoDB客户端可以发现，两条记录已经插入。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/mongodbclient01.png&#34; alt=&#34;mongodbclient&#34; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;查询:156647709f766e3bb58c3e6b445a0770&#34;&gt;查询&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;通过func (c *Collection) Find(query interface{}) *Query来进行查询，返回的Query struct可以有附加各种条件来进行过滤。&lt;/p&gt;
+
+&lt;p&gt;通过Query.All()可以获得所有结果，通过Query.One()可以获得一个结果，注意如果没有数据或者数量超过一个，One()会报错。&lt;/p&gt;
+
+&lt;p&gt;条件用bson.M{key: value}，注意key必须用MongoDB中的字段名，而不是struct的字段名。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;无条件查询&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var users []User
+c.Find(nil).All(&amp;amp;users)
+fmt.Println(users)  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;上面代码可以把所有Users都查出来&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;[{ObjectIdHex(&amp;quot;5204af979955496907000001&amp;quot;) Jimmy Kuu 33 2013-08-09 17:00:07.95 +0800 CST [Develop Movie]} {ObjectIdHex(&amp;quot;5204af979955496907000002&amp;quot;) Tracy Yu 31 2013-08-09 17:00:07.971 +0800 CST [Shoping TV]}]
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;根据ObjectId查询&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;id := &amp;quot;5204af979955496907000001&amp;quot;
+objectId := bson.ObjectIdHex(id)
+
+
+user := new(User)
+c.Find(bson.M{&amp;quot;_id&amp;quot;: objectId}).One(&amp;amp;user)
+
+
+fmt.Println(user)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;结果如下&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;amp;{ObjectIdHex(&amp;quot;56fb8731e92e6b2995000001&amp;quot;) Jimmy Kuu 33 2016-03-30 15:58:41.33 +0800 CST [Develop Movie]}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;更简单的方式是直接用FindId()方法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.FindId(objectId).One(&amp;amp;user)
+//注意这里没有处理err。当找不到的时候用One()方法会出错。
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;单条件查询&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;=($eq)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Find(bson.M{&amp;quot;name&amp;quot;: &amp;quot;Jimmy Kuu&amp;quot;}).All(&amp;amp;users)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;!=($ne)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Find(bson.M{&amp;quot;name&amp;quot;: bson.M{&amp;quot;$ne&amp;quot;: &amp;quot;Jimmy Kuu&amp;quot;}}).All(&amp;amp;users)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;($gt)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Find(bson.M{&amp;quot;age&amp;quot;: bson.M{&amp;quot;$gt&amp;quot;: 32}}).All(&amp;amp;users)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;lt;($lt)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Find(bson.M{&amp;quot;age&amp;quot;: bson.M{&amp;quot;$lt&amp;quot;: 32}}).All(&amp;amp;users)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;gt;=($gte)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Find(bson.M{&amp;quot;age&amp;quot;: bson.M{&amp;quot;$gte&amp;quot;: 33}}).All(&amp;amp;users)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;lt;=($lte)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Find(bson.M{&amp;quot;age&amp;quot;: bson.M{&amp;quot;$lte&amp;quot;: 31}}).All(&amp;amp;users)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;in($in)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Find(bson.M{&amp;quot;name&amp;quot;: bson.M{&amp;quot;$in&amp;quot;: []string{&amp;quot;Jimmy Kuu&amp;quot;, &amp;quot;Tracy Yu&amp;quot;}}}).All(&amp;amp;users)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;多条件查询&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;and($and)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Find(bson.M{&amp;quot;name&amp;quot;: &amp;quot;Jimmy Kuu&amp;quot;, &amp;quot;age&amp;quot;: 33}).All(&amp;amp;users)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;or($or)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Find(bson.M{&amp;quot;$or&amp;quot;: []bson.M{bson.M{&amp;quot;name&amp;quot;: &amp;quot;Jimmy Kuu&amp;quot;}, bson.M{&amp;quot;age&amp;quot;: 31}}}).All(&amp;amp;users)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//通过func (*Collection) Update来进行修改操作。
+func (c *Collection) Update(selector interface{}, change interface{}) error
+ //注意修改单个或多个字段需要通过$set操作符号，否则集合会被替换。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;修改字段的值
+&lt;strong&gt;($set)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Update(bson.M{&amp;quot;_id&amp;quot;: bson.ObjectIdHex(&amp;quot;5204af979955496907000001&amp;quot;)},
+    bson.M{&amp;quot;$set&amp;quot;: bson.M{
+        &amp;quot;name&amp;quot;: &amp;quot;Jimmy Gu&amp;quot;,
+        &amp;quot;age&amp;quot;:  34,
+    }})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;字段增加值&lt;br /&gt;
+&lt;strong&gt;inc($inc)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Update(bson.M{&amp;quot;_id&amp;quot;: bson.ObjectIdHex(&amp;quot;5204af979955496907000001&amp;quot;)},
+    bson.M{&amp;quot;$inc&amp;quot;: bson.M{
+        &amp;quot;age&amp;quot;: -1,
+    }})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;从数组中增加一个元素
+&lt;strong&gt;push($push)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Update(bson.M{&amp;quot;_id&amp;quot;: bson.ObjectIdHex(&amp;quot;5204af979955496907000001&amp;quot;)},
+    bson.M{&amp;quot;$push&amp;quot;: bson.M{
+        &amp;quot;interests&amp;quot;: &amp;quot;Golang&amp;quot;,
+    }})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;从数组中删除一个元素
+&lt;strong&gt;pull($pull)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Update(bson.M{&amp;quot;_id&amp;quot;: bson.ObjectIdHex(&amp;quot;5204af979955496907000001&amp;quot;)},
+    bson.M{&amp;quot;$pull&amp;quot;: bson.M{
+        &amp;quot;interests&amp;quot;: &amp;quot;Golang&amp;quot;,
+    }})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;删除&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;c.Remove(bson.M{&amp;quot;name&amp;quot;: &amp;quot;Jimmy Kuu&amp;quot;})
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
         
         <item>
             <title>golang Web 框架 gin 简介</title>
@@ -42,18 +420,6 @@
 
 &lt;p&gt;一点点代码,一个简单的 server 就完成了.
 so let&amp;rsquo;s Do it!&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>MongoDB的Go语言驱动</title>
-            <link>http://blog.flywithme.top/2016/03/29/golang-Mgo/</link>
-            <pubDate>Tue, 29 Mar 2016 16:56:29 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/29/golang-Mgo/</guid>
-            <description>
-
-&lt;h5 id=&#34;mgo简介-https-godoc-org-labix-org-v2-mgo:3e0fd290eba5fbaaecd1ce991a638eca&#34;&gt;&lt;a href=&#34;https://godoc.org/labix.org/v2/mgo&#34;&gt;mgo简介&lt;/a&gt;&lt;/h5&gt;
 </description>
         </item>
         
