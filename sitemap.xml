@@ -33,11 +33,6 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse/</loc>
-        <lastmod>2016-03-25T17:40:29+08:00</lastmod>
-    </url>
-    
-    <url>
         <loc>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</loc>
         <lastmod>2016-03-25T16:52:16+08:00</lastmod>
     </url>
@@ -50,6 +45,11 @@
     <url>
         <loc>http://blog.flywithme.top/2016/03/24/OCRuntime/</loc>
         <lastmod>2016-03-24T10:58:29+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</loc>
+        <lastmod>2016-03-20T17:40:29+08:00</lastmod>
     </url>
     
     <url>
@@ -83,13 +83,13 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/01/28/GCD/</loc>
-        <lastmod>2016-01-28T14:16:48+08:00</lastmod>
+        <loc>http://blog.flywithme.top/about/</loc>
+        <lastmod>2016-01-28T08:55:31+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/about/</loc>
-        <lastmod>2016-01-28T08:55:31+08:00</lastmod>
+        <loc>http://blog.flywithme.top/2016/01/20/GCD/</loc>
+        <lastmod>2016-01-20T14:16:48+08:00</lastmod>
     </url>
     
     <url>
