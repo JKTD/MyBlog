@@ -4721,7 +4721,7 @@ JSExport&lt;/p&gt;
 &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&#34;color:rgb(128,0,0)&#34;&gt;&lt;strong&gt;注意：&lt;/strong&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD存在于libdispatch.dylib这个库中，这个调度库包含了GCD的所有的东西，但任何IOS程序，默认就加载了这个库，在程序运行的过程中会动态的加载这个库，不需要我们手动导入。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD是纯C语言的，因此我们在编写GCD相关代码的时候，面对的函数，而不是方法。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD中的函数大多数都以dispatch开头。&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
+&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD存在于libdispatch.dylib这个库中，这个调度库包含了GCD的所有的东西，但任何IOS程序，默认就加载了这个库，在程序运行的过程中会动态的加载这个库，不需要我们手动导入。&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD是纯C语言的，因此我们在编写GCD相关代码的时候，面对的函数，而不是方法。      &lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;GCD中的函数大多数都以dispatch开头。&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
 &lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
 &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&#34;color:rgb(51,51,51)&#34;&gt;&lt;br&gt;
