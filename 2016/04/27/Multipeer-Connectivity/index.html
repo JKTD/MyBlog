@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>iOS JS call OC - 案发现场 </title>
+  <title>利用Multipeer Connectivity框架进行WiFi传输 - 案发现场 </title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
+<meta name="description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="iOS JS call OC - 案发现场 ">
-<meta itemprop="description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
+<meta itemprop="name" content="利用Multipeer Connectivity框架进行WiFi传输 - 案发现场 ">
+<meta itemprop="description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
 <meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="iOS JS call OC - 案发现场 " />
+<meta property="og:title" content="利用Multipeer Connectivity框架进行WiFi传输 - 案发现场 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.flywithme.top/2016/03/15/JScallOC/" />
+<meta property="og:url" content="http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/" />
 <meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
+<meta property="og:description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="iOS JS call OC - 案发现场 ">
-<meta name="twitter:description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
+<meta name="twitter:title" content="利用Multipeer Connectivity框架进行WiFi传输 - 案发现场 ">
+<meta name="twitter:description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://www.flywithme.top/2016/03/15/JScallOC/">
-  <link rel='shortlink' href="http://www.flywithme.top/2016/03/15/JScallOC/"/>
+  <link rel="canonical" href="http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/">
+  <link rel='shortlink' href="http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/"/>
   <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -175,12 +175,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">iOS JS call OC</h1>
+                  <h1 class="post-title">利用Multipeer Connectivity框架进行WiFi传输</h1>
 
                   <p class="post-byline">
-                    by  · 2016年03月15日 · 1694 Words ·
-                    ~4min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-15-iOS%20JS%20call%20OC.md"
+                    by  · 2016年04月27日 · 1235 Words ·
+                    ~3min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-04-27-Multipeer-Connectivity.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -189,192 +189,205 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <div id="article_content" class="article_content">
-<p>接着上节我们讲到的iOS调用js</p>
-<p>下来我们使用js调用iOS</p>
-<p>js调用iOS分两种情况</p>
-<p>一，js里面直接调用方法</p>
-<p>二，js里面通过对象调用方法</p>
-<p><br>
-</p>
-<p>首先我们看第一种，直接调用方法。</p>
-<p>其中用到了iOS的block</p>
-<p><br>
-</p>
-<p>上代码</p>
-<p><br>
-</p>
-<p></p>
-<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_1_7755355"  code_snippet_id="1610385" snippet_file_name="blog_20160315_1_7755355" name="code" class="objc">-(void)webViewDidFinishLoad:(UIWebView *)webView
+                      
+
+<h4 id="什么是multipeer-connectivity:27a3a0c64a12fac0d59bdc2baa3e0218">什么是Multipeer Connectivity</h4>
+
+<p>在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipeer Connectivity框架，即使在没有连接到WiFi（WLAN）或移动网络（xG）的情况下，距离较近的Apple设备（iMac/iPad/iPhone）之间可基于蓝牙和WiFi（P2P WiFi）技术进行发现和连接实现近场通信。</p>
+
+<p>Multipeer Connectivity扩充的功能与利用AirDrop传输文件非常类似，可以将其看作AirDrop不能直接使用的补偿，代价是需要自己实现。</p>
+
+<ul>
+<li>本Demo主要用到4个类：<br /></li>
+</ul>
+
+<blockquote>
+<p><code>MCBrowserViewController</code>:MCBrowserViewController继承自UIViewController，提供了基本的UI应用框架。</p>
+
+<p><code>MCAdvertiserAssistant</code>、MCAdvertiserAssistant为针对Advertiser封装的管理助手,主要处理广播信息。</p>
+
+<p><code>MCSession</code>:类似TCP链接中的socket。创建MCSession时，需指定自身MCPeerID，类似bind。</p>
+
+<p><code>MCPeerID</code>:类似sockaddr，用于标识连接的两端endpoint，通常是昵称或设备名称。</p>
+</blockquote>
+
+<h6 id="简单地建立一个界面-主要有连接和发送2个uibutton:27a3a0c64a12fac0d59bdc2baa3e0218">简单地建立一个界面，主要有连接和发送2个UIButton。</h6>
+
+<p><img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/Simulator%20Screen%20Shot4.57.57.png" width = "200"  alt="Shcrenn shot" align=center /></p>
+
+<h6 id="multipeer-connectivity框架初始化这4个类:27a3a0c64a12fac0d59bdc2baa3e0218">Multipeer Connectivity框架初始化这4个类</h6>
+
+<pre><code>#pragma mark - Wifi Sharing Methods
+-(void)setUpMultipeer
 {
-    //网页加载完成调用此方法
-    
-    //iOS调用js
-    
-    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
-    JSContext *context=[webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];
-  
-    //js调用iOS
-    //第一种情况
-    //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码
-    //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道
-    context[@&quot;test1&quot;] = ^() {
-        NSArray *args = [JSContext currentArguments];
-        for (id obj in args) {
-            NSLog(@&quot;%@&quot;,obj);
+    //  Setup peer ID
+    self.myPeerID = [[MCPeerID alloc] initWithDisplayName:[UIDevice currentDevice].name];
+
+    //  Setup session
+    self.mySession = [[MCSession alloc] initWithPeer:self.myPeerID];
+    self.mySession.delegate = self;
+
+    //  Setup BrowserViewController
+    self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:@&quot;chat&quot; session:self.mySession];
+    self.browserVC.delegate = self;
+
+    //  Setup Advertiser
+    self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@&quot;chat&quot; discoveryInfo:nil session:self.mySession];
+    [self.advertiser start];
+}
+
+-(void)showBrowserVC
+{
+    [self presentViewController:self.browserVC animated:YES completion:nil];
+}
+
+-(void)dismissBrowserVC
+{
+    [self.browserVC dismissViewControllerAnimated:YES completion:^(void){
+        [self invokeAlertMethod:@&quot;连接成功&quot; Body:@&quot;Both device connected successfully.&quot; Delegate:nil];
+    }];
+}
+
+-(void)stopWifiSharing:(BOOL)isClear
+{
+    if(isClear &amp;&amp; self.mySession != nil){
+        [self.mySession disconnect];
+
+        [self.mySession setDelegate:nil];
+
+        self.mySession = nil;
+
+        self.browserVC = nil;
+    }
+}  
+</code></pre>
+
+<h6 id="mcbrowserviewcontroller-代理方法:27a3a0c64a12fac0d59bdc2baa3e0218"><code>MCBrowserViewController</code> 代理方法</h6>
+
+<pre><code>#pragma marks MCBrowserViewControllerDelegate
+// 点击完成
+-(void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController
+{
+    [self dismissBrowserVC];
+    [marrReceiveData removeAllObjects];
+}
+
+// 点击取消
+-(void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController
+{
+    [self dismissBrowserVC];
+}
+</code></pre>
+
+<h6 id="mcsession代理方法:27a3a0c64a12fac0d59bdc2baa3e0218">MCSession代理方法</h6>
+
+<blockquote>
+<p>主要处理发送方传递的文件或者信息</p>
+</blockquote>
+
+<pre><code>// Received data from remote peer
+- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
+{
+    NSLog(@&quot;data receiveddddd : %lu&quot;,(unsigned long)data.length);
+
+    if (data.length &gt; 0) {
+        if (data.length &lt; 2) {
+            noOfDataSend++;
+            NSLog(@&quot;noofdatasend : %zd&quot;,noOfDataSend);
+            NSLog(@&quot;array count : %zd&quot;,marrFileData.count);
+            if (noOfDataSend &lt; ([marrFileData count])) {
+                [self.mySession sendData:[marrFileData objectAtIndex:noOfDataSend] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
+            }else {
+                [self.mySession sendData:[@&quot;File Transfer Done&quot; dataUsingEncoding:NSUTF8StringEncoding] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
+            }
+        } else {
+            if ([[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] isEqualToString:@&quot;File Transfer Done&quot;]) {
+                [self appendFileData];
+            }else {
+                [self.mySession sendData:[@&quot;1&quot; dataUsingEncoding:NSUTF8StringEncoding] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
+                [marrReceiveData addObject:data];
+            }
         }
-    };
-    //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下）
-    //首先准备一下js代码，来调用js的函数test1 然后执行
-    //一个参数
-    NSString *jsFunctStr=@&quot;test1(&#39;参数1&#39;)&quot;;
-    [context evaluateScript:jsFunctStr];
-    
-    //二个参数
-    NSString *jsFunctStr1=@&quot;test1(&#39;参数a&#39;,&#39;参数b&#39;)&quot;;
-    [context evaluateScript:jsFunctStr1];
-    
-}</pre><br>
-以上代码中 给test1赋&#20540;的block要是执行了那么结果就是对的，js调用了iOS
-<p></p>
-<p>我们看结果</p>
-<blockquote style="margin:0 0 0 40px; border:none; padding:0px">
-<p><img src="http://img.blog.csdn.net/20150725183355773?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
-<p><br>
-</p>
-</blockquote>
-<p>我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制</p>
-<p><br>
-</p>
-<p><br>
-</p>
-<p>下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。</p>
-<p>此处稍微复杂一点我们需要使用到</p>
-<p style="margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(112,61,170)">
-JSExport</p>
-<p>凡事添加了JSExport协议的协议，所规定的方法，变量等 就会对js开放，我们可以通过js调用到</p>
-<p></p>
-<p><br>
-如果js是一个参数或者没有参数的话 就比较简单，我们的方法名和js的方法名保持一致即可</p>
-<p>比如： js方法为 &nbsp;</p>
-<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_2_3579444"  code_snippet_id="1610385" snippet_file_name="blog_20160315_2_3579444" name="code" class="objc">testobject.TestOneParameter(&#39;参数1&#39;)</pre>
-<p></p>
-<p></p>
-那么 我们在oc中添加的代理方法就为
-<p></p>
-<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_3_864229"  code_snippet_id="1610385" snippet_file_name="blog_20160315_3_864229" name="code" class="objc">-(void)TestOneParameter:(NSString *)message;</pre><br>
-<p></p>
-如果js是多个参数的话 &nbsp;我们代理方法的所有变量前的名字连起来要和js的方法名字一样
-<p>比如： js方法为 &nbsp;<br>
-</p>
-<p></p>
-<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_4_657268"  code_snippet_id="1610385" snippet_file_name="blog_20160315_4_657268" name="code" class="objc">testobject.TestTowParameterSecondParameter(&#39;参数A&#39;,&#39;参数B&#39;)</pre>他有两个参数 那么我们的代理方法 就是把js的方法名 TestTowParameterSecondParameter 任意拆分成两段作为代理方法名（此处我们拆分为 TestTowParameter 和&nbsp;SecondParameter ） 那么我们的代理方法就是
-<p></p>
-<p></p>
-<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_5_6862257"  code_snippet_id="1610385" snippet_file_name="blog_20160315_5_6862257" name="code" class="objc">-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2;</pre>我们看代理方法有两个变量别名
-<p></p>
-<p>TestTowParameter 和&nbsp;SecondParameter&nbsp;<br>
-</p>
-<p>他两个拼接起来就刚好是我们js的方法名</p>
-<p><br>
-</p>
-<p><br>
-</p>
-<p>此处有点绕。我们直接看代码</p>
-<p><br>
-</p>
-<p>首先创建一个类 继承NSObject 并且规定一个协议</p>
-<p></p>
-<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_6_592012"  code_snippet_id="1610385" snippet_file_name="blog_20160315_6_592012" name="code" class="objc">#import &lt;Foundation/Foundation.h&gt;
-#import &lt;JavaScriptCore/JavaScriptCore.h&gt;
-
-//首先创建一个实现了JSExport协议的协议
-@protocol TestJSObjectProtocol &lt;JSExport&gt;
-
-//此处我们测试几种参数的情况
--(void)TestNOParameter;
--(void)TestOneParameter:(NSString *)message;
--(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2;
-
-@end
-
-//让我们创建的类实现上边的协议
-@interface TestJSObject : NSObject&lt;TestJSObjectProtocol&gt;
-
-@end
-</pre><br>
-类的实现
-<p></p>
-<p></p>
-<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_7_1813511"  code_snippet_id="1610385" snippet_file_name="blog_20160315_7_1813511" name="code" class="objc">#import &quot;TestJSObject.h&quot;
-
-@implementation TestJSObject
-
-//一下方法都是只是打了个log 等会看log 以及参数能对上就说明js调用了此处的iOS 原生方法
--(void)TestNOParameter
-{
-    NSLog(@&quot;this is ios TestNOParameter&quot;);
+    }
 }
--(void)TestOneParameter:(NSString *)message
-{
-    NSLog(@&quot;this is ios TestOneParameter=%@&quot;,message);
-}
--(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2
-{
-   NSLog(@&quot;this is ios TestTowParameter=%@  Second=%@&quot;,message1,message2);
-}
-@end
-</pre><br>
-<br>
-<p></p>
-<p><br>
-</p>
-<p>下面我们在weibview加载完成之后调用测试一下</p>
-<p><br>
-</p>
-<p>代码如下：</p>
-<p></p>
-<pre code_snippet_id="1610385" snippet_file_name="blog_20160315_8_5543264"  code_snippet_id="1610385" snippet_file_name="blog_20160315_8_5543264" name="code" class="objc">-(void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    //网页加载完成调用此方法
-    
-    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
-    JSContext *context=[webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];
-    
-    //第二种情况，js是通过对象调用的，我们假设js里面有一个对象 testobject 在调用方法
-    //首先创建我们新建类的对象，将他赋值给js的对象
-    
-    TestJSObject *testJO=[TestJSObject new];
-    context[@&quot;testobject&quot;]=testJO;
-    
-    //同样我们也用刚才的方式模拟一下js调用方法
-    NSString *jsStr1=@&quot;testobject.TestNOParameter()&quot;;
-    [context evaluateScript:jsStr1];
-    NSString *jsStr2=@&quot;testobject.TestOneParameter(&#39;参数1&#39;)&quot;;
-    [context evaluateScript:jsStr2];
-    NSString *jsStr3=@&quot;testobject.TestTowParameterSecondParameter(&#39;参数A&#39;,&#39;参数B&#39;)&quot;;
-    [context evaluateScript:jsStr3];
-    
-}</pre><br>
-<br>
-<p></p>
-<p>结果如下图</p>
-<blockquote style="margin:0 0 0 40px; border:none; padding:0px">
-<p><img src="http://img.blog.csdn.net/20150725190107988?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
-<p><br>
-</p>
-</blockquote>
-<p>好了 我们看到了结果 三个方法都调用了&nbsp;</p>
-<p>ok两种方式都完成了</p>
-<p><br>
-</p>
 
+// Received a byte stream from remote peer
+- (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
+{
+    NSLog(@&quot;did receive stream&quot;);
+}
 
-<br>
-<p> 转载自:http://blog.csdn.net/lwjok2007/article/details/47058101<br>
-</p>
-   
-</div>
+// Start receiving a resource from remote peer
+- (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
+{
+    NSLog(@&quot;start receiving&quot;);
+}
+
+// Finished receiving a resource from remote peer and saved the content in a temporary location - the app is responsible for moving the file to a permanent location within its sandbox
+- (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError *)error
+{
+    NSLog(@&quot;finish receiving resource&quot;);
+}
+
+-(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
+{
+    NSLog(@&quot;change state : %zd&quot;,state);
+}
+</code></pre>
+
+<h6 id="发送图片-此demo只是简单地做了个收发图片的demo-此框架可实现的功能当然不止这么简单:27a3a0c64a12fac0d59bdc2baa3e0218">发送图片（此Demo只是简单地做了个收发图片的Demo，此框架可实现的功能当然不止这么简单。）</h6>
+
+<pre><code>-(void)sendData
+{
+    [marrFileData removeAllObjects];
+
+    NSData *sendData = UIImagePNGRepresentation([UIImage imageNamed:@&quot;test2.png&quot;]);
+    NSUInteger length = [sendData length];
+    NSUInteger chunkSize = 100 * 1024;
+    NSUInteger offset = 0;
+    do {
+        NSUInteger thisChunkSize = length - offset &gt; chunkSize ? chunkSize : length - offset;
+        NSData* chunk = [NSData dataWithBytesNoCopy:(char *)[sendData bytes] + offset
+                                             length:thisChunkSize
+                                       freeWhenDone:NO];
+        NSLog(@&quot;chunk length : %lu&quot;,(unsigned long)chunk.length);
+
+        [marrFileData addObject:[NSData dataWithData:chunk]];
+        offset += thisChunkSize;
+    } while (offset &lt; length);
+
+    noOfdata = [marrFileData count];
+    noOfDataSend = 0;
+
+    if ([marrFileData count] &gt; 0) {
+        [self.mySession sendData:[marrFileData objectAtIndex:noOfDataSend] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
+    }
+}
+
+-(void)appendFileData
+{
+    NSMutableData *fileData = [NSMutableData data];
+
+    for (int i = 0; i &lt; [marrReceiveData count]; i++) {
+        [fileData appendData:[marrReceiveData objectAtIndex:i]];
+    }
+
+    [fileData writeToFile:[NSString stringWithFormat:@&quot;%@/Image.png&quot;, [NSHomeDirectory() stringByAppendingPathComponent:@&quot;Documents&quot;]] atomically:YES];
+
+    UIImageWriteToSavedPhotosAlbum([UIImage imageWithData:fileData], self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    if (!error) {
+        [self invokeAlertMethod:@&quot;发送成功&quot; Body:@&quot;图片已保存到手机相册&quot; Delegate:nil];
+    }
+}
+</code></pre>
+
+<p>您可在<a href="https://github.com/brasbug/WiFiShare.git">Github</a>上下载完整Demo。</p>
+
+<p><a href="http://www.jianshu.com/p/f198bbe98014"><strong>转载from</strong></a></p>
 
                       
                     </div>
@@ -386,7 +399,7 @@ JSExport</p>
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/03/15/JScallOC/">http://www.flywithme.top/2016/03/15/JScallOC/</a>
+                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/">http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -439,7 +452,7 @@ JSExport</p>
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/03/15/JScallOC/" data-title="iOS JS call OC" data-url="http://www.flywithme.top/2016/03/15/JScallOC/"></div>
+<div class="ds-thread" data-thread-key="/2016/04/27/Multipeer-Connectivity/" data-title="利用Multipeer Connectivity框架进行WiFi传输" data-url="http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -494,20 +507,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://www.flywithme.top/2016/03/15/OCCallJS/" rel="next">
+        <a href="http://www.flywithme.top/2016/03/31/golang-Mgo/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>iOS OC call JS</span>
+          <span>MongoDB的Go语言驱动</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://www.flywithme.top/2016/03/17/appUpdate/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>iOS App检测AppStore更新</span>
-        </a>
         
       </li>
     </ul>

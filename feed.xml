@@ -2,21 +2,227 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title> on 案发现场 </title>
-        <link>http://blog.flywithme.top/</link>
+        <link>http://www.flywithme.top/</link>
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
-        <updated>Thu, 31 Mar 2016 13:56:29 CST</updated>
+        <updated>Wed, 27 Apr 2016 16:47:13 CST</updated>
+        
+        <item>
+            <title>利用Multipeer Connectivity框架进行WiFi传输</title>
+            <link>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
+            <pubDate>Wed, 27 Apr 2016 16:47:13 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
+            <description>
+
+&lt;h4 id=&#34;什么是multipeer-connectivity:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;什么是Multipeer Connectivity&lt;/h4&gt;
+
+&lt;p&gt;在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipeer Connectivity框架，即使在没有连接到WiFi（WLAN）或移动网络（xG）的情况下，距离较近的Apple设备（iMac/iPad/iPhone）之间可基于蓝牙和WiFi（P2P WiFi）技术进行发现和连接实现近场通信。&lt;/p&gt;
+
+&lt;p&gt;Multipeer Connectivity扩充的功能与利用AirDrop传输文件非常类似，可以将其看作AirDrop不能直接使用的补偿，代价是需要自己实现。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;本Demo主要用到4个类：&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;MCBrowserViewController&lt;/code&gt;:MCBrowserViewController继承自UIViewController，提供了基本的UI应用框架。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;MCAdvertiserAssistant&lt;/code&gt;、MCAdvertiserAssistant为针对Advertiser封装的管理助手,主要处理广播信息。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;MCSession&lt;/code&gt;:类似TCP链接中的socket。创建MCSession时，需指定自身MCPeerID，类似bind。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;MCPeerID&lt;/code&gt;:类似sockaddr，用于标识连接的两端endpoint，通常是昵称或设备名称。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h6 id=&#34;简单地建立一个界面-主要有连接和发送2个uibutton:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;简单地建立一个界面，主要有连接和发送2个UIButton。&lt;/h6&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/Simulator%20Screen%20Shot4.57.57.png&#34; width = &#34;200&#34;  alt=&#34;Shcrenn shot&#34; align=center /&gt;&lt;/p&gt;
+
+&lt;h6 id=&#34;multipeer-connectivity框架初始化这4个类:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;Multipeer Connectivity框架初始化这4个类&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code&gt;#pragma mark - Wifi Sharing Methods
+-(void)setUpMultipeer
+{
+    //  Setup peer ID
+    self.myPeerID = [[MCPeerID alloc] initWithDisplayName:[UIDevice currentDevice].name];
+
+    //  Setup session
+    self.mySession = [[MCSession alloc] initWithPeer:self.myPeerID];
+    self.mySession.delegate = self;
+
+    //  Setup BrowserViewController
+    self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:@&amp;quot;chat&amp;quot; session:self.mySession];
+    self.browserVC.delegate = self;
+
+    //  Setup Advertiser
+    self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@&amp;quot;chat&amp;quot; discoveryInfo:nil session:self.mySession];
+    [self.advertiser start];
+}
+
+-(void)showBrowserVC
+{
+    [self presentViewController:self.browserVC animated:YES completion:nil];
+}
+
+-(void)dismissBrowserVC
+{
+    [self.browserVC dismissViewControllerAnimated:YES completion:^(void){
+        [self invokeAlertMethod:@&amp;quot;连接成功&amp;quot; Body:@&amp;quot;Both device connected successfully.&amp;quot; Delegate:nil];
+    }];
+}
+
+-(void)stopWifiSharing:(BOOL)isClear
+{
+    if(isClear &amp;amp;&amp;amp; self.mySession != nil){
+        [self.mySession disconnect];
+
+        [self.mySession setDelegate:nil];
+
+        self.mySession = nil;
+
+        self.browserVC = nil;
+    }
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;mcbrowserviewcontroller-代理方法:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;&lt;code&gt;MCBrowserViewController&lt;/code&gt; 代理方法&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code&gt;#pragma marks MCBrowserViewControllerDelegate
+// 点击完成
+-(void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController
+{
+    [self dismissBrowserVC];
+    [marrReceiveData removeAllObjects];
+}
+
+// 点击取消
+-(void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController
+{
+    [self dismissBrowserVC];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;mcsession代理方法:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;MCSession代理方法&lt;/h6&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;主要处理发送方传递的文件或者信息&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;// Received data from remote peer
+- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
+{
+    NSLog(@&amp;quot;data receiveddddd : %lu&amp;quot;,(unsigned long)data.length);
+
+    if (data.length &amp;gt; 0) {
+        if (data.length &amp;lt; 2) {
+            noOfDataSend++;
+            NSLog(@&amp;quot;noofdatasend : %zd&amp;quot;,noOfDataSend);
+            NSLog(@&amp;quot;array count : %zd&amp;quot;,marrFileData.count);
+            if (noOfDataSend &amp;lt; ([marrFileData count])) {
+                [self.mySession sendData:[marrFileData objectAtIndex:noOfDataSend] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
+            }else {
+                [self.mySession sendData:[@&amp;quot;File Transfer Done&amp;quot; dataUsingEncoding:NSUTF8StringEncoding] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
+            }
+        } else {
+            if ([[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] isEqualToString:@&amp;quot;File Transfer Done&amp;quot;]) {
+                [self appendFileData];
+            }else {
+                [self.mySession sendData:[@&amp;quot;1&amp;quot; dataUsingEncoding:NSUTF8StringEncoding] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
+                [marrReceiveData addObject:data];
+            }
+        }
+    }
+}
+
+// Received a byte stream from remote peer
+- (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
+{
+    NSLog(@&amp;quot;did receive stream&amp;quot;);
+}
+
+// Start receiving a resource from remote peer
+- (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
+{
+    NSLog(@&amp;quot;start receiving&amp;quot;);
+}
+
+// Finished receiving a resource from remote peer and saved the content in a temporary location - the app is responsible for moving the file to a permanent location within its sandbox
+- (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError *)error
+{
+    NSLog(@&amp;quot;finish receiving resource&amp;quot;);
+}
+
+-(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
+{
+    NSLog(@&amp;quot;change state : %zd&amp;quot;,state);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;发送图片-此demo只是简单地做了个收发图片的demo-此框架可实现的功能当然不止这么简单:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;发送图片（此Demo只是简单地做了个收发图片的Demo，此框架可实现的功能当然不止这么简单。）&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)sendData
+{
+    [marrFileData removeAllObjects];
+
+    NSData *sendData = UIImagePNGRepresentation([UIImage imageNamed:@&amp;quot;test2.png&amp;quot;]);
+    NSUInteger length = [sendData length];
+    NSUInteger chunkSize = 100 * 1024;
+    NSUInteger offset = 0;
+    do {
+        NSUInteger thisChunkSize = length - offset &amp;gt; chunkSize ? chunkSize : length - offset;
+        NSData* chunk = [NSData dataWithBytesNoCopy:(char *)[sendData bytes] + offset
+                                             length:thisChunkSize
+                                       freeWhenDone:NO];
+        NSLog(@&amp;quot;chunk length : %lu&amp;quot;,(unsigned long)chunk.length);
+
+        [marrFileData addObject:[NSData dataWithData:chunk]];
+        offset += thisChunkSize;
+    } while (offset &amp;lt; length);
+
+    noOfdata = [marrFileData count];
+    noOfDataSend = 0;
+
+    if ([marrFileData count] &amp;gt; 0) {
+        [self.mySession sendData:[marrFileData objectAtIndex:noOfDataSend] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
+    }
+}
+
+-(void)appendFileData
+{
+    NSMutableData *fileData = [NSMutableData data];
+
+    for (int i = 0; i &amp;lt; [marrReceiveData count]; i++) {
+        [fileData appendData:[marrReceiveData objectAtIndex:i]];
+    }
+
+    [fileData writeToFile:[NSString stringWithFormat:@&amp;quot;%@/Image.png&amp;quot;, [NSHomeDirectory() stringByAppendingPathComponent:@&amp;quot;Documents&amp;quot;]] atomically:YES];
+
+    UIImageWriteToSavedPhotosAlbum([UIImage imageWithData:fileData], self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    if (!error) {
+        [self invokeAlertMethod:@&amp;quot;发送成功&amp;quot; Body:@&amp;quot;图片已保存到手机相册&amp;quot; Delegate:nil];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;您可在&lt;a href=&#34;https://github.com/brasbug/WiFiShare.git&#34;&gt;Github&lt;/a&gt;上下载完整Demo。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.jianshu.com/p/f198bbe98014&#34;&gt;&lt;strong&gt;转载from&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>MongoDB的Go语言驱动</title>
-            <link>http://blog.flywithme.top/2016/03/31/golang-Mgo/</link>
+            <link>http://www.flywithme.top/2016/03/31/golang-Mgo/</link>
             <pubDate>Thu, 31 Mar 2016 13:56:29 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/31/golang-Mgo/</guid>
+            <guid>http://www.flywithme.top/2016/03/31/golang-Mgo/</guid>
             <description>
-
-&lt;!--http://jimmykuu.sinaapp.com/static/books/mgo_guide/--&gt;
 
 &lt;h5 id=&#34;mgo简介-https-godoc-org-labix-org-v2-mgo:156647709f766e3bb58c3e6b445a0770&#34;&gt;&lt;a href=&#34;https://godoc.org/labix.org/v2/mgo&#34;&gt;mgo简介&lt;/a&gt;&lt;/h5&gt;
 
@@ -388,10 +594,10 @@ func (c *Collection) Update(selector interface{}, change interface{}) error
         
         <item>
             <title>golang Web 框架 gin 简介</title>
-            <link>http://blog.flywithme.top/2016/03/29/golangGin</link>
+            <link>http://www.flywithme.top/2016/03/29/golangGin</link>
             <pubDate>Tue, 29 Mar 2016 19:04:26 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/29/golangGin</guid>
+            <guid>http://www.flywithme.top/2016/03/29/golangGin</guid>
             <description>&lt;p&gt;&lt;a href=&#34;https://gin-gonic.github.io/gin/&#34;&gt;GitHub&lt;/a&gt;：&lt;/p&gt;
 
 &lt;p&gt;对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了一个小 demo&lt;/p&gt;
@@ -425,10 +631,10 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
         
         <item>
             <title>iOS基础知识点梳理</title>
-            <link>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</link>
+            <link>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</link>
             <pubDate>Mon, 28 Mar 2016 14:07:36 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
+            <guid>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/1418191330476751.jpg&#34; alt=&#34;banner&#34; /&gt;&lt;/p&gt;
@@ -548,7 +754,7 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
 &lt;li&gt;类目中的方法与原始类以及父类方法相比具有更高优先级,如果覆盖父类的方法,可能导致super消息的断裂。因此,最好不要覆盖原始类中的方法。&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -730,7 +936,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 &lt;h5 id=&#34;对谓词的认识:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对谓词的认识&lt;/h5&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;static-self-super关键字的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;static、self、super关键字的作用&lt;/h5&gt;
@@ -1488,7 +1694,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 
 &lt;li&gt;&lt;p&gt;当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://www.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;view和view之间传值方式:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;View和View之间传值方式&lt;/h5&gt;
@@ -1519,7 +1725,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 &lt;li&gt;&lt;p&gt;nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
+&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://www.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；&lt;/p&gt;&lt;/li&gt;
@@ -1686,10 +1892,10 @@ return image;
         
         <item>
             <title>深入理解RunLoop</title>
-            <link>http://blog.flywithme.top/2016/03/26/iOSRunloop/</link>
+            <link>http://www.flywithme.top/2016/03/26/iOSRunloop/</link>
             <pubDate>Sat, 26 Mar 2016 23:10:12 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/26/iOSRunloop/</guid>
+            <guid>http://www.flywithme.top/2016/03/26/iOSRunloop/</guid>
             <description>
 
 &lt;p&gt;RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。&lt;/p&gt;
@@ -2572,10 +2778,10 @@ NSURLSession    -&amp;gt;AFNetworking2, Alamofire
         
         <item>
             <title>Responder -- iOS用户响应者链完全剖析</title>
-            <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
+            <link>http://www.flywithme.top/2016/03/26/ResponderChain/</link>
             <pubDate>Sat, 26 Mar 2016 22:28:03 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
+            <guid>http://www.flywithme.top/2016/03/26/ResponderChain/</guid>
             <description>&lt;p&gt;这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -2764,10 +2970,10 @@ UIApplication再分发给AppDelegate，
         
         <item>
             <title>iOS下Category添加属性字段</title>
-            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
+            <link>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
             <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
+            <guid>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
             <description>
 
 &lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
@@ -2926,10 +3132,10 @@ static const void *tagKey = &amp;amp;tagKey;
         
         <item>
             <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
-            <link>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</link>
+            <link>http://www.flywithme.top/2016/03/24/loadAndinitialize/</link>
             <pubDate>Thu, 24 Mar 2016 19:20:35 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</guid>
+            <guid>http://www.flywithme.top/2016/03/24/loadAndinitialize/</guid>
             <description>&lt;p&gt;类的加载
 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如&lt;/p&gt;
 
@@ -3289,10 +3495,10 @@ NSLog(@&amp;ldquo;%@ %s&amp;rdquo;, array, &lt;strong&gt;FUNCTION&lt;/strong&gt;
         
         <item>
             <title>Objective-C&#43;Runtime 浅析</title>
-            <link>http://blog.flywithme.top/2016/03/24/OCRuntime/</link>
+            <link>http://www.flywithme.top/2016/03/24/OCRuntime/</link>
             <pubDate>Thu, 24 Mar 2016 10:58:29 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/24/OCRuntime/</guid>
+            <guid>http://www.flywithme.top/2016/03/24/OCRuntime/</guid>
             <description>
 
 &lt;h4 id=&#34;一-什么是objective-c-runtime:f56a9e9e73a618e80c7099e7e8ebe510&#34;&gt;一、什么是Objective-C Runtime?&lt;/h4&gt;
@@ -3833,10 +4039,10 @@ struct objc_super {
         
         <item>
             <title>iOS中的谓词（NSPredicate）使用</title>
-            <link>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
+            <link>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
             <pubDate>Sun, 20 Mar 2016 17:40:29 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
+            <guid>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
             <description>
 
 &lt;p&gt;首先，我们需要知道何谓谓词，让我们看看官方的解释:&lt;/p&gt;
@@ -4417,10 +4623,10 @@ NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
         
         <item>
             <title>iOS App检测AppStore更新</title>
-            <link>http://blog.flywithme.top/2016/03/17/appUpdate/</link>
+            <link>http://www.flywithme.top/2016/03/17/appUpdate/</link>
             <pubDate>Thu, 17 Mar 2016 14:06:05 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/17/appUpdate/</guid>
+            <guid>http://www.flywithme.top/2016/03/17/appUpdate/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:21px; color:rgb(70,70,70); font-size:14px; background-color:rgb(188,211,229); font-family:Menlo&#34;&gt;
@@ -4664,10 +4870,10 @@ NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
         
         <item>
             <title>iOS JS call OC</title>
-            <link>http://blog.flywithme.top/2016/03/15/JScallOC/</link>
+            <link>http://www.flywithme.top/2016/03/15/JScallOC/</link>
             <pubDate>Tue, 15 Mar 2016 18:12:45 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/15/JScallOC/</guid>
+            <guid>http://www.flywithme.top/2016/03/15/JScallOC/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 &lt;p&gt;接着上节我们讲到的iOS调用js&lt;/p&gt;
 &lt;p&gt;下来我们使用js调用iOS&lt;/p&gt;
@@ -4859,10 +5065,10 @@ JSExport&lt;/p&gt;
         
         <item>
             <title>iOS OC call JS</title>
-            <link>http://blog.flywithme.top/2016/03/15/OCCallJS/</link>
+            <link>http://www.flywithme.top/2016/03/15/OCCallJS/</link>
             <pubDate>Tue, 15 Mar 2016 18:05:59 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/15/OCCallJS/</guid>
+            <guid>http://www.flywithme.top/2016/03/15/OCCallJS/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;p&gt;从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。&lt;/p&gt;
@@ -5030,10 +5236,10 @@ JSExport&lt;/p&gt;
         
         <item>
             <title>JKImageView</title>
-            <link>http://blog.flywithme.top/2016/01/28/JKImageView/</link>
+            <link>http://www.flywithme.top/2016/01/28/JKImageView/</link>
             <pubDate>Thu, 28 Jan 2016 16:42:11 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/01/28/JKImageView/</guid>
+            <guid>http://www.flywithme.top/2016/01/28/JKImageView/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;div style=&#34;font-size:21px; color:rgb(30,78,121)&#34;&gt;&lt;span style=&#34;font-family:Helvetica Neue&#34;&gt;&lt;a target=&#34;_blank&#34; target=&#34;_blank&#34; href=&#34;https://github.com/brasbug/JKImageView&#34;&gt;项目地址:https://github.com/brasbug/JKImageView&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
@@ -5129,10 +5335,10 @@ JSExport&lt;/p&gt;
         
         <item>
             <title>NSThread</title>
-            <link>http://blog.flywithme.top/2016/01/28/NSThread/</link>
+            <link>http://www.flywithme.top/2016/01/28/NSThread/</link>
             <pubDate>Thu, 28 Jan 2016 16:37:37 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/01/28/NSThread/</guid>
+            <guid>http://www.flywithme.top/2016/01/28/NSThread/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;一、概述:&lt;/span&gt;&lt;/div&gt;
@@ -5167,73 +5373,6 @@ JSExport&lt;/p&gt;
    
 
 &lt;p&gt;&lt;/div&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>NSOperation的简单使用</title>
-            <link>http://blog.flywithme.top/2016/01/28/NSOperation</link>
-            <pubDate>Thu, 28 Jan 2016 15:57:21 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/01/28/NSOperation</guid>
-            <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
-
-&lt;div style=&#34;font-size:14px&#34;&gt;
-&lt;div&gt;&lt;span style=&#34;font-size:24px&#34;&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;一、NSOperation的简介&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;
-&lt;div style=&#34;border:0px; outline:0px; padding:0px; vertical-align:baseline; word-wrap:break-word&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;font-family:Muli,sans-serif&#34;&gt;&lt;span style=&#34;color:rgb(58,58,58)&#34;&gt;NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。NSOperation表示一个独立的计算单元，作为一个抽象类，你需要实例话他的子类&amp;nbsp;&amp;nbsp;NSInvocationOperation /&amp;nbsp;&amp;nbsp;NSBlockOperation 来进行具体操作。实例化之后，调用start方法或者加入到一个NSOperationQueue 操作队列中，就可以开始执行。&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;div&gt;&lt;br&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div style=&#34;font-size:14px&#34;&gt;
-&lt;div style=&#34;border:0px; outline:0px; padding:0px; vertical-align:baseline; clear:both&#34;&gt;
-&lt;div&gt;&lt;span style=&#34;font-size:24px&#34;&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;二、NSOperation的使用&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;
-&lt;div style=&#34;border:0px; outline:0px; padding:0px; vertical-align:baseline; clear:both&#34;&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;直接启动一个NSInvocationOperation&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102222185?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;li&gt;使用NSOperationQueue管理NSOperation并开启一个异步线程
-&lt;ul&gt;
-&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102239167?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;li&gt;使用NSOperationQueue管理并NSBlockOperation开启一个线程
-&lt;ul&gt;
-&lt;li&gt;NSBlockOperation与NSInvocationOperation没有神马本质的区别，只是NSBlockOperation使用代码块会更方便一些。&lt;/li&gt;&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102254701?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;li&gt;在主线程中执行某些操作&amp;nbsp;&lt;img src=&#34;http://img.blog.csdn.net/20151209102333588?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;li&gt;添加线程之间的依赖关系
-&lt;ul&gt;
-&lt;li&gt;直接再队列中添加操作会并发执行，谁先谁后是系统调用决定的，但是在某些特定时候我们需要控制操作的执行顺序，就会使用addDependency操作。addDependency：是NSOperation的成员方法,调用该方法的NSOperation对象将在参数执行完成之后执行。需要先添加依赖关系，再将操作添加到队列中。&lt;/li&gt;&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102349935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;li&gt;控制线程并发数
-&lt;ul&gt;
-&lt;li&gt;并发的线程越多越耗资源，队列可以设置同事并发线程的数量来进行控制&lt;/li&gt;&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102406696?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;li&gt;取消一个操作
-&lt;ul&gt;
-&lt;li&gt;NSOperation里有一系列的属性来表明自身状态： isReady → isExecuting → isFinish 。线程start后并不是立即执行，而是进入一个就绪的状态(isReady)，由系统调度执行。 有时可能需要进行取消操作，可以调用 -(void)cancel;来停止一些还未执行的不必要线程.&lt;/li&gt;&lt;li&gt;示例&lt;img src=&#34;http://img.blog.csdn.net/20151209102434144?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;li&gt;优先级
-&lt;ul&gt;
-&lt;li&gt;NSOpertaion可以通过threadPriority属性来指定优先级。 但是在iOS8中，线程这个概念已经被苹果框架系统性的忽略了,threadPriority已由NSQualityOfService属性替代。&lt;/li&gt;&lt;li&gt;NSOperationQueuePriority的枚举类型如下&lt;img src=&#34;http://img.blog.csdn.net/20151209102452878?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;li&gt;NSQualityOfService的枚举类型如下&lt;img src=&#34;http://img.blog.csdn.net/20151209102505173?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div style=&#34;color:rgb(51,51,51); font-family:&#39;Helvetica Neue&#39;,Helvetica,STheiti,微软雅黑,黑体,Arial,Tahoma,sans-serif,serif; font-size:14px&#34;&gt;
-&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br&gt;
-&lt;/strong&gt;&lt;/div&gt;
-&lt;div style=&#34;font-family:Rokkitt; font-size:14px&#34;&gt;
-&lt;div&gt;&lt;span style=&#34;font-size:24px&#34;&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;二、NSOperation小结&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;span style=&#34;font-family:Rokkitt,serif&#34;&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;&amp;nbsp;NSOperation方便控制线程执行顺序&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;使用NSBlockOperation可以使用块代码，不必单鞋线程方法，便于传递多个参数&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;可以控制线程并发数，有效的对线程进行控制&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;color:rgb(71,71,71)&#34;&gt;可以添加线程完成代码块，执行需要的操作&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;/div&gt;
-   
-
-&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
-
-&lt;!-- Baidu Button BEGIN --&gt;
 </description>
         </item>
         
