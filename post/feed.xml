@@ -2,18 +2,430 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on 案发现场 </title>
-        <link>http://blog.flywithme.top/post/</link>
+        <link>http://www.flywithme.top/post/</link>
         <language>zh-CN</language>
         <author>CoderZh</author>
         <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
-        <updated>Wed, 27 Apr 2016 16:47:13 CST</updated>
+        <updated>Thu, 28 Apr 2016 10:54:03 CST</updated>
+        
+        <item>
+            <title>React Native如何做跨平台设计</title>
+            <link>http://www.flywithme.top/2016/04/28/ReactNativeRD/</link>
+            <pubDate>Thu, 28 Apr 2016 10:54:03 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>http://www.flywithme.top/2016/04/28/ReactNativeRD/</guid>
+            <description>
+
+&lt;h5 id=&#34;facebook-开源:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;Facebook 开源&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Facebook 在它的F8开发者大会上开源了它的F8大会App，甚至还配上了教程，我组织了一个翻译小队对这个教程进行了翻译。虽然比百万哥晚了几天，但总算还是完成了，欢迎大家Review。项目地址：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/brasbug/Building-the-F8-2016-App-CN/&#34;&gt;https://github.com/brasbug/Building-the-F8-2016-App-CN/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;本文出自教程第二篇，介绍React Native在设计跨平台应用时的一些原则和技巧。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;React Native 的一大优势是：可以只用一种语法编写分别运行在 iOS 和 Android 平台上的程序，且可重用部分应用逻辑。&lt;/p&gt;
+
+&lt;p&gt;然而，与“一次编写，到处运行”的理念不同的是，React Native 的哲学是“一次学习，到处编写”。如此一来，即使用 React Native 编写不同平台的程序，也可以尽可能贴合每个平台的特性。&lt;/p&gt;
+
+&lt;p&gt;从 UI 的角度来看，每个平台都有自己独特的视觉风格、UI 范例甚或是技术层面的功能，那我们设计出一个统一的 UI 基础组件，然后再按照各平台特性进行调整岂不乐乎？&lt;/p&gt;
+
+&lt;h6 id=&#34;准备工作:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;准备工作&lt;/h6&gt;
+
+&lt;p&gt;在后续的所有教程中，我们会仔细解读 App 的源代码，请克隆一份源代码到本地可访问的路径，然后根据配置说明在本地运行 App。在本章的教程中，你只需要阅读相关源代码。源代码地址：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/brasbug/f8app&#34;&gt;https://github.com/brasbug/f8app&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6 id=&#34;react-native-思维模式:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;React Native 思维模式&lt;/h6&gt;
+
+&lt;p&gt;在你写任何 React 代码之前，请认真思考这个至关重要的问题：&lt;strong&gt;如何才能尽可能多地重用代码?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;React Native 的理念是针对每个平台分而治之，代码重用的做法看起来与之相违背，好像我们就应该为每个平台定制其专属的视觉组件一样，但实际上我们仍需努力让每个平台上的代码尽可能多地统一。&lt;/p&gt;
+
+&lt;p&gt;构建一套 React Native 应用视觉组件的关键点在于如何最好地实现平台抽象。开发人员和设计师可以列出应用中需要重用的组件，例如按钮、容器、列表行，头部等等，只有在必要的时候才单独为每个平台设计特定的组件。&lt;/p&gt;
+
+&lt;p&gt;当然，有一些组件相对于其它组件而言更为复杂，我们先一起来看看 F8 应用中不同的组件有什么区别。&lt;/p&gt;
+
+&lt;h6 id=&#34;小组件:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;小组件&lt;/h6&gt;
+
+&lt;p&gt;请看 F8 应用的示例图：
+&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/reactnativeiOSAndroid.png&#34; alt=&#34;react native iOSAndroid.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在 iOS 版本中，我们用 iOS 系统中很常见的圆角边框风格来切分 Tab 控制；在 Android 版本中，我们用下划线的风格来标示这个组件。而这两个控制组件的功能其实完全相同。&lt;/p&gt;
+
+&lt;p&gt;所以，即使两者样式稍有不同，但是实现的功能相同，所以我们可以用同一套代码抽象此处的逻辑，从而可以尽可能多地重用代码。&lt;/p&gt;
+
+&lt;p&gt;我们针对像这样的小组件做了很多跨平台重用逻辑代码的案例，比如一个简单的文本按钮，在每个平台上我们都会设计不同的 hover 和 active 状态的样式，但是除开这些视觉上的细微的差异外，逻辑功能完全相同。所以我们总结了一个抽象 React Native 视觉组件的最佳实践方法：设计一套相同的逻辑代码，然后在控制语句中编写其余需要差异化的部分。&lt;/p&gt;
+
+&lt;p&gt;以下是这个组件的示例代码（来自 &lt;F8SegmentedControl&gt;）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Segment extends React.Component {
+  props: {
+    value: string;
+    isSelected: boolean;
+    selectionColor: string;
+    onPress: () =&amp;gt; void;
+  };
+
+  render() {
+    var selectedButtonStyle;
+    if (this.props.isSelected) {
+      selectedButtonStyle = { borderColor: this.props.selectionColor };
+    }
+    var deselectedLabelStyle;
+    if (!this.props.isSelected &amp;amp;&amp;amp; Platform.OS === &#39;android&#39;) {
+      deselectedLabelStyle = styles.deselectedLabel;
+    }
+    var title = this.props.value &amp;amp;&amp;amp; this.props.value.toUpperCase();
+
+    var accessibilityTraits = [&#39;button&#39;];
+    if (this.props.isSelected) {
+      accessibilityTraits.push(&#39;selected&#39;);
+    }
+
+    return (
+      &amp;lt;TouchableOpacity
+        accessibilityTraits={accessibilityTraits}
+        activeOpacity={0.8}
+        onPress={this.props.onPress}
+        style={[styles.button, selectedButtonStyle]}&amp;gt;
+        &amp;lt;Text style={[styles.label, deselectedLabelStyle]}&amp;gt;
+          {title}
+        &amp;lt;/Text&amp;gt;
+      &amp;lt;/TouchableOpacity&amp;gt;
+    );
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在这段代码中，我们为每一种平台分别应用了不同的样式（用到了 React Native 的 &lt;strong&gt;Platform 模块&lt;/strong&gt;）。各平台中的 Tab 按钮都应用了相同的通用样式，同时也根据各平台特性定制了独占样式（同样出自 &lt;F8SegmentedControl&gt;）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var styles = StyleSheet.create({
+  container: {
+    flexDirection: &#39;row&#39;,
+    backgroundColor: &#39;transparent&#39;,
+    ios: {
+      paddingBottom: 6,
+      justifyContent: &#39;center&#39;,
+      alignItems: &#39;center&#39;,
+    },
+    android: {
+      paddingLeft: 60,
+    },
+  },
+  button: {
+    borderColor: &#39;transparent&#39;,
+    alignItems: &#39;center&#39;,
+    justifyContent: &#39;center&#39;,
+    backgroundColor: &#39;transparent&#39;,
+    ios: {
+      height: HEIGHT,
+      paddingHorizontal: 20,
+      borderRadius: HEIGHT / 2,
+      borderWidth: 1,
+    },
+    android: {
+      paddingBottom: 6,
+      paddingHorizontal: 10,
+      borderBottomWidth: 3,
+      marginRight: 10,
+    },
+  },
+  label: {
+    letterSpacing: 1,
+    fontSize: 12,
+    color: &#39;white&#39;,
+  },
+  deselectedLabel: {
+    color: &#39;rgba(255, 255, 255, 0.7)&#39;,
+  },
+});    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在这段代码中我们使用了一个改编自 &lt;strong&gt;React Native StyleSheet API&lt;/strong&gt; 的函数 F8StyleSheet，它可以针对各平台分别进行样式转换操作：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export function create(styles: Object): {[name: string]: number} {
+  const platformStyles = {};
+  Object.keys(styles).forEach((name) =&amp;gt; {
+    let {ios, android, ...style} = {...styles[name]};
+    if (ios &amp;amp;&amp;amp; Platform.OS === &#39;ios&#39;) {
+      style = {...style, ...ios};
+    }
+    if (android &amp;amp;&amp;amp; Platform.OS === &#39;android&#39;) {
+      style = {...style, ...android};
+    }
+    platformStyles[name] = style;
+  });
+  return StyleSheet.create(platformStyles);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在这个 F8StyleSheet 函数中我们解析了前面示例代码中的 styles 对象，如果我们发现了匹配当前平台的 ios 或 android键值，就会应用相应的样式，如果都没有，则应用默认样式。以此看来，减少代码重复的另一种做法是：尽可能多地重用通用样式代码。&lt;/p&gt;
+
+&lt;p&gt;现在，我们已经可以在我们的App中重用这个组件了，它也可以根据不同的平台自动匹配相应的样式。&lt;/p&gt;
+
+&lt;h6 id=&#34;分离复杂差异:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;分离复杂差异&lt;/h6&gt;
+
+&lt;p&gt;如果一个组件在各平台上的差异不仅仅是样式的不同，也存在大量的逻辑代码差异，那我们就需要换一种方式了。正如下图所示，iOS 和 Android 平台中最高阶的菜单导航组件就有非常大的差异：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/reactnativeiOSAndroid02.png&#34; alt=&#34;react native02&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;正如你所见，在 iOS 版本中我们在屏幕底部放了一个固定的 Tab，而在 Android 版本中，我们却实现了一种可划出的侧边栏。这两种组件其实是本质上的不同，况且一般来说，在 Android 应用中，这种侧边栏通常还会包含更多的菜单选项，例如：退出登录。&lt;/p&gt;
+
+&lt;p&gt;你当然可以将这两种菜单模式写到一个组件中去，但是这个组件会变得异常臃肿，所有的差异不得不通过大量的分支语句来实现，你一定会在不久的将来对这段代码感到陌生难懂。&lt;/p&gt;
+
+&lt;p&gt;其实，我们可以用 React Native 内建的平台特定的扩展来解决这个问题。我们可以创建两个独立的应用，在下面的示例中我们会创建两个组件，分别命名为：&lt;code&gt;F8TabsView.ios.js&lt;/code&gt; 和 &lt;code&gt;F8TabsView.android.js&lt;/code&gt;。React Native 会自动检测当前平台并根据扩展命名加载相应的组件。&lt;/p&gt;
+
+&lt;h6 id=&#34;内建ui组件:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;内建UI组件&lt;/h6&gt;
+
+&lt;p&gt;在每一个 FBTabsView 组件中，我们也可以重用一些内建的 React Native UI 组件，Android 版本使用的是&lt;code&gt;DrawerLayoutAndroid&lt;/code&gt;（很显然，只在 Android 中可用）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;render(){
+ return(
+   &amp;lt;DrawerLayoutAndroid
+     ref=&amp;quot;drawer&amp;quot;
+     drawerWidth={300}
+     drawerPosition={DrawerLayoutAndroid.positions.Left}
+     renderNavigationView={this.renderNavigationView}&amp;gt;
+     &amp;lt;View style={style.content} key={this.props.activeTab}&amp;gt;
+     {this.renderContent()}
+     &amp;lt;View&amp;gt;
+     &amp;lt;/DrawerLayoutAndroid&amp;gt;
+ );
+}     
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在第8行代码中，我们在当前的类中显式地为 drawer 组件指定了 renderNavigationView() 函数。这个函数会返回 drawer 中渲染出来的内容。在这个示例中，我们渲染的是一个包含在自定义 MenuItem 组件(点击查看 &lt;code&gt;MenuItem.js&lt;/code&gt;)中的 &lt;code&gt;View&lt;/code&gt; 组件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;renderNavigationView() {
+...
+ return (
+      &amp;lt;View style={styles.drawer}&amp;gt;
+        &amp;lt;Image
+          style={styles.header}
+          source={require(&#39;./img/drawer-header.png&#39;)}&amp;gt;
+          {accountItem}
+        &amp;lt;/Image&amp;gt;
+        &amp;lt;MenuItem
+          title=&amp;quot;Schedule&amp;quot;
+          selected={this.props.tab === &#39;schedule&#39;}
+          onPress={this.onTabSelect.bind(this, &#39;schedule&#39;)}
+          icon={scheduleIcon}
+          selectedIcon={scheduleIconSelected}
+        /&amp;gt;
+        {myF8Item}
+        &amp;lt;MenuItem
+          title=&amp;quot;Maps&amp;quot;
+          selected={this.props.tab === &#39;map&#39;}
+          onPress={this.onTabSelect.bind(this, &#39;map&#39;)}
+          icon={require(&#39;./maps/img/maps-icon.png&#39;)}
+          selectedIcon={require(&#39;./maps/img/maps-icon-active.png&#39;)}
+        /&amp;gt;
+        &amp;lt;MenuItem
+          title=&amp;quot;Notifications&amp;quot;
+          selected={this.props.tab === &#39;notifications&#39;}
+          onPress={this.onTabSelect.bind(this, &#39;notifications&#39;)}
+          badge={this.props.notificationsBadge}
+          icon={require(&#39;./notifications/img/notifications-icon.png&#39;)}
+          selectedIcon={require(&#39;./notifications/img/notifications-icon-active.png&#39;)}
+        /&amp;gt;
+        &amp;lt;MenuItem
+          title=&amp;quot;Info&amp;quot;
+          selected={this.props.tab === &#39;info&#39;}
+          onPress={this.onTabSelect.bind(this, &#39;info&#39;)}
+          icon={require(&#39;./info/img/info-icon.png&#39;)}
+          selectedIcon={require(&#39;./info/img/info-icon-active.png&#39;)}
+        /&amp;gt;
+        {loginItem}
+      &amp;lt;/View&amp;gt;
+ );
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;相比之下，iOS 版本直接在 render() 函数中使用了一个不同的内建组件，&lt;code&gt;TabBarIOS&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;render() {
+    var scheduleIcon = this.props.day === 1
+      ? require(&#39;./schedule/img/schedule-icon-1.png&#39;)
+      : require(&#39;./schedule/img/schedule-icon-2.png&#39;);
+    var scheduleIconSelected = this.props.day === 1
+      ? require(&#39;./schedule/img/schedule-icon-1-active.png&#39;)
+      : require(&#39;./schedule/img/schedule-icon-2-active.png&#39;);
+    return (
+      &amp;lt;TabBarIOS tintColor={F8Colors.darkText}&amp;gt;
+        &amp;lt;TabBarItemIOS
+          title=&amp;quot;Schedule&amp;quot;
+          selected={this.props.tab === &#39;schedule&#39;}
+          onPress={this.onTabSelect.bind(this, &#39;schedule&#39;)}
+          icon={scheduleIcon}
+          selectedIcon={scheduleIconSelected}&amp;gt;
+          &amp;lt;GeneralScheduleView
+            navigator={this.props.navigator}
+            onDayChange={this.handleDayChange}
+          /&amp;gt;
+        &amp;lt;/TabBarItemIOS&amp;gt;
+        &amp;lt;TabBarItemIOS
+          title=&amp;quot;My F8&amp;quot;
+          selected={this.props.tab === &#39;my-schedule&#39;}
+          onPress={this.onTabSelect.bind(this, &#39;my-schedule&#39;)}
+          icon={require(&#39;./schedule/img/my-schedule-icon.png&#39;)}
+          selectedIcon={require(&#39;./schedule/img/my-schedule-icon-active.png&#39;)}&amp;gt;
+          &amp;lt;MyScheduleView
+            navigator={this.props.navigator}
+            onJumpToSchedule={() =&amp;gt; this.props.onTabSelect(&#39;schedule&#39;)}
+          /&amp;gt;
+        &amp;lt;/TabBarItemIOS&amp;gt;
+        &amp;lt;TabBarItemIOS
+          title=&amp;quot;Maps&amp;quot;
+          selected={this.props.tab === &#39;map&#39;}
+          onPress={this.onTabSelect.bind(this, &#39;map&#39;)}
+          icon={require(&#39;./maps/img/maps-icon.png&#39;)}
+          selectedIcon={require(&#39;./maps/img/maps-icon-active.png&#39;)}&amp;gt;
+          &amp;lt;F8MapView /&amp;gt;
+        &amp;lt;/TabBarItemIOS&amp;gt;
+        &amp;lt;TabBarItemIOS
+          title=&amp;quot;Notifications&amp;quot;
+          selected={this.props.tab === &#39;notifications&#39;}
+          onPress={this.onTabSelect.bind(this, &#39;notifications&#39;)}
+          badge={this.props.notificationsBadge || null}
+          icon={require(&#39;./notifications/img/notifications-icon.png&#39;)}
+          selectedIcon={require(&#39;./notifications/img/notifications-icon-active.png&#39;)}&amp;gt;
+          &amp;lt;F8NotificationsView navigator={this.props.navigator} /&amp;gt;
+        &amp;lt;/TabBarItemIOS&amp;gt;
+        &amp;lt;TabBarItemIOS
+          title=&amp;quot;Info&amp;quot;
+          selected={this.props.tab === &#39;info&#39;}
+          onPress={this.onTabSelect.bind(this, &#39;info&#39;)}
+          icon={require(&#39;./info/img/info-icon.png&#39;)}
+          selectedIcon={require(&#39;./info/img/info-icon-active.png&#39;)}&amp;gt;
+          &amp;lt;F8InfoView navigator={this.props.navigator} /&amp;gt;
+        &amp;lt;/TabBarItemIOS&amp;gt;
+      &amp;lt;/TabBarIOS&amp;gt;
+    );
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;显而易见，尽管 iOS 菜单接受了相同的数据，但是它的结构略有不同。我们并没有用一个独立的函数创建菜单元素，而是将这些元素作为父级菜单的子元素插入进来，正如 &lt;code&gt;TabBarItemIOS&lt;/code&gt; 组件这样。 这里的 &lt;code&gt;TabBarItem&lt;/code&gt; 与 &lt;code&gt;Android&lt;/code&gt; 中 的 &lt;code&gt;MenuItem&lt;/code&gt; 本质上是相同的，唯一的区别是在 &lt;code&gt;Android&lt;/code&gt; 组件中我们会定义一个独立的主&lt;strong&gt;View 组件&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;View 
+  style={styles.content} 
+  key={this.props.activeTab}&amp;gt;
+  {this.renderContent()}
+&amp;lt;/View&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后当一个 tab 改变时改变这个组件（通过 &lt;code&gt;renderContent()&lt;/code&gt; 函数），而 iOS 组件则会有多个分离的 View 组件，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;GeneralScheduleView
+  navigator={this.props.navigator}
+  onDayChange={this.handleDayChange}
+/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这是 TabBarItem 的一部分，可以点击使它们可见。&lt;/p&gt;
+
+&lt;h6 id=&#34;设计迭代周期:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;设计迭代周期&lt;/h6&gt;
+
+&lt;p&gt;当你构建任何应用，无论是在移动平台还是 web 环境下，调整适配的 UI 元素是非常痛苦的。如果工程师和设计师共同协作，会使整个过程慢下来。&lt;/p&gt;
+
+&lt;p&gt;React Native 包含了一个&lt;strong&gt;实时重载&lt;/strong&gt;的 debug 功能，可以当 JavaScript 改变时触发刷新应用。这可以在极大程度上减少设计迭代过程，一旦改变了组件样式并保存后，你会立即看到更新的样式。&lt;/p&gt;
+
+&lt;p&gt;但是如果组件在不同条件下看起来不同怎么办呢？举个例子，一个按钮组件可能有一个默认样式，也分别包含按下、执行任务中、执行任务完成时的样式。&lt;/p&gt;
+
+&lt;p&gt;为了避免每次都与应用交互，我们内建了一个用于 debug 视觉效果的 Playgroud 组件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Playground extends React.Component {
+  constructor() {
+    super();
+    const content = [];
+    const define = (name: string, render: Function) =&amp;gt; {
+      content.push(&amp;lt;Example key={name} render={render} /&amp;gt;);
+    };
+    // var Module = require(&#39;F8PageControl&#39;);
+    var Module = require(&#39;F8Header&#39;);
+    // var Module = require(&#39;./tabs/schedule/AddToScheduleButton&#39;);
+    // var Module = require(&#39;./rating/Header&#39;);
+    Module.__cards__(define);
+    this.state = {content};
+  }
+
+  render() {
+    return (
+      &amp;lt;View style={{backgroundColor: &#39;#336699&#39;, flex: 1,}}&amp;gt;
+        {this.state.content}
+      &amp;lt;/View&amp;gt;
+    );
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其实我们只是创建了一个可交换加载的空视图，将其与一些示例定义整合到其中一个 UI 组件中，正如下面这段&lt;code&gt;AddToScheduleButton.js&lt;/code&gt; 所示：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;module.exports = AddToScheduleButton;
+module.exports.__cards__ = (define) =&amp;gt; {
+  let f;
+  setInterval(() =&amp;gt; f &amp;amp;&amp;amp; f(), 1000);
+
+  define(&#39;Inactive&#39;, (state = true, update) =&amp;gt;
+    &amp;lt;AddToScheduleButton isAdded={state} onPress={() =&amp;gt; update(!state)} /&amp;gt;);
+
+  define(&#39;Active&#39;, (state = false, update) =&amp;gt;
+    &amp;lt;AddToScheduleButton isAdded={state} onPress={() =&amp;gt; update(!state)} /&amp;gt;);
+
+  define(&#39;Animated&#39;, (state = false, update) =&amp;gt; {
+    f = () =&amp;gt; update(!state);
+    return &amp;lt;AddToScheduleButton isAdded={state} /&amp;gt;;
+  });
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以将这个应用转化为一个 UI 预览工具：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/gif/blog/reactnativeiOSAndroid3.gif&#34; alt=&#34;react native03&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在这个示例中为这个按钮定义了按下和抬起两种状态，第三个按钮在这两者的状态之间不断循环，以此来预览过渡的动画效果。&lt;/p&gt;
+
+&lt;p&gt;现在，我们可以跟设计师一起快速调整基础组件的视觉样式了。&lt;/p&gt;
+
+&lt;p&gt;如果想用这个功能，&lt;code&gt;&amp;lt;Playground&amp;gt;&lt;/code&gt;组件必须在任何 React Native 应用中都可用，我们需要在 setup() 函数中交换一些代码来加载 &lt;Playground&gt; 组件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/* from js/setup.js */
+render() {  
+  ...
+  return (
+    &amp;lt;Provider store={this.state.store}&amp;gt;
+      &amp;lt;F8App /&amp;gt;
+    &amp;lt;/Provider&amp;gt;
+  );
+}
+
+变为
+
+/* in js/setup.js */
+render() {
+  ...
+  return (
+    &amp;lt;Provider store={this.state.store}&amp;gt;
+      &amp;lt;Playground /&amp;gt;
+    &amp;lt;/Provider&amp;gt;
+  );
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当然，你也可以修改 &lt;Playground&gt; 组件，使其能够改变引入的其它组件。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&amp;amp;mid=2651112134&amp;amp;idx=1&amp;amp;sn=c26ceb682e361ae33bc1eb5348e5e7bb&amp;amp;scene=1&amp;amp;srcid=0427SeJXKKZSAvVR2M52qOsw&amp;amp;key=b28b03434249256ba8ea0cb4d56d79d314519c90f31a529f8d632996958f4eaca1cbdad191c223497b256c6ceea8391c&amp;amp;ascene=0&amp;amp;uin=MTg5NzM2MjkyMA%3D%3D&amp;amp;devicetype=iMac+MacBookPro11%2C5+OSX+OSX+10.11.4+build(15E65&#34;&gt;转载 From&lt;/a&gt;&amp;amp;version=11020201&amp;amp;pass_ticket=Nu5nSZlfui6B7G7DcB%2F6TCakJdlOAf3o9ND1eoSVkm2wZBUGQjsZFgKkrsou%2Bk4%2B)&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>利用Multipeer Connectivity框架进行WiFi传输</title>
-            <link>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
+            <link>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
             <pubDate>Wed, 27 Apr 2016 16:47:13 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
+            <guid>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
             <description>
 
 &lt;h4 id=&#34;什么是multipeer-connectivity:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;什么是Multipeer Connectivity&lt;/h4&gt;
@@ -218,10 +630,10 @@
         
         <item>
             <title>MongoDB的Go语言驱动</title>
-            <link>http://blog.flywithme.top/2016/03/31/golang-Mgo/</link>
+            <link>http://www.flywithme.top/2016/03/31/golang-Mgo/</link>
             <pubDate>Thu, 31 Mar 2016 13:56:29 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/31/golang-Mgo/</guid>
+            <guid>http://www.flywithme.top/2016/03/31/golang-Mgo/</guid>
             <description>
 
 &lt;h5 id=&#34;mgo简介-https-godoc-org-labix-org-v2-mgo:156647709f766e3bb58c3e6b445a0770&#34;&gt;&lt;a href=&#34;https://godoc.org/labix.org/v2/mgo&#34;&gt;mgo简介&lt;/a&gt;&lt;/h5&gt;
@@ -594,10 +1006,10 @@ func (c *Collection) Update(selector interface{}, change interface{}) error
         
         <item>
             <title>golang Web 框架 gin 简介</title>
-            <link>http://blog.flywithme.top/2016/03/29/golangGin</link>
+            <link>http://www.flywithme.top/2016/03/29/golangGin</link>
             <pubDate>Tue, 29 Mar 2016 19:04:26 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/29/golangGin</guid>
+            <guid>http://www.flywithme.top/2016/03/29/golangGin</guid>
             <description>&lt;p&gt;&lt;a href=&#34;https://gin-gonic.github.io/gin/&#34;&gt;GitHub&lt;/a&gt;：&lt;/p&gt;
 
 &lt;p&gt;对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了一个小 demo&lt;/p&gt;
@@ -631,10 +1043,10 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
         
         <item>
             <title>iOS基础知识点梳理</title>
-            <link>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</link>
+            <link>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</link>
             <pubDate>Mon, 28 Mar 2016 14:07:36 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
+            <guid>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/1418191330476751.jpg&#34; alt=&#34;banner&#34; /&gt;&lt;/p&gt;
@@ -754,7 +1166,7 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
 &lt;li&gt;类目中的方法与原始类以及父类方法相比具有更高优先级,如果覆盖父类的方法,可能导致super消息的断裂。因此,最好不要覆盖原始类中的方法。&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -936,7 +1348,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 &lt;h5 id=&#34;对谓词的认识:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对谓词的认识&lt;/h5&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;static-self-super关键字的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;static、self、super关键字的作用&lt;/h5&gt;
@@ -1694,7 +2106,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 
 &lt;li&gt;&lt;p&gt;当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://www.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;view和view之间传值方式:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;View和View之间传值方式&lt;/h5&gt;
@@ -1725,7 +2137,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 &lt;li&gt;&lt;p&gt;nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
+&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://www.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；&lt;/p&gt;&lt;/li&gt;
@@ -1892,10 +2304,10 @@ return image;
         
         <item>
             <title>深入理解RunLoop</title>
-            <link>http://blog.flywithme.top/2016/03/26/iOSRunloop/</link>
+            <link>http://www.flywithme.top/2016/03/26/iOSRunloop/</link>
             <pubDate>Sat, 26 Mar 2016 23:10:12 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/26/iOSRunloop/</guid>
+            <guid>http://www.flywithme.top/2016/03/26/iOSRunloop/</guid>
             <description>
 
 &lt;p&gt;RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。&lt;/p&gt;
@@ -2778,10 +3190,10 @@ NSURLSession    -&amp;gt;AFNetworking2, Alamofire
         
         <item>
             <title>Responder -- iOS用户响应者链完全剖析</title>
-            <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
+            <link>http://www.flywithme.top/2016/03/26/ResponderChain/</link>
             <pubDate>Sat, 26 Mar 2016 22:28:03 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
+            <guid>http://www.flywithme.top/2016/03/26/ResponderChain/</guid>
             <description>&lt;p&gt;这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -2970,10 +3382,10 @@ UIApplication再分发给AppDelegate，
         
         <item>
             <title>iOS下Category添加属性字段</title>
-            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
+            <link>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
             <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
+            <guid>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
             <description>
 
 &lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
@@ -3132,10 +3544,10 @@ static const void *tagKey = &amp;amp;tagKey;
         
         <item>
             <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
-            <link>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</link>
+            <link>http://www.flywithme.top/2016/03/24/loadAndinitialize/</link>
             <pubDate>Thu, 24 Mar 2016 19:20:35 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</guid>
+            <guid>http://www.flywithme.top/2016/03/24/loadAndinitialize/</guid>
             <description>&lt;p&gt;类的加载
 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如&lt;/p&gt;
 
@@ -3495,10 +3907,10 @@ NSLog(@&amp;ldquo;%@ %s&amp;rdquo;, array, &lt;strong&gt;FUNCTION&lt;/strong&gt;
         
         <item>
             <title>Objective-C&#43;Runtime 浅析</title>
-            <link>http://blog.flywithme.top/2016/03/24/OCRuntime/</link>
+            <link>http://www.flywithme.top/2016/03/24/OCRuntime/</link>
             <pubDate>Thu, 24 Mar 2016 10:58:29 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/24/OCRuntime/</guid>
+            <guid>http://www.flywithme.top/2016/03/24/OCRuntime/</guid>
             <description>
 
 &lt;h4 id=&#34;一-什么是objective-c-runtime:f56a9e9e73a618e80c7099e7e8ebe510&#34;&gt;一、什么是Objective-C Runtime?&lt;/h4&gt;
@@ -4039,10 +4451,10 @@ struct objc_super {
         
         <item>
             <title>iOS中的谓词（NSPredicate）使用</title>
-            <link>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
+            <link>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
             <pubDate>Sun, 20 Mar 2016 17:40:29 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
+            <guid>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
             <description>
 
 &lt;p&gt;首先，我们需要知道何谓谓词，让我们看看官方的解释:&lt;/p&gt;
@@ -4623,10 +5035,10 @@ NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
         
         <item>
             <title>iOS App检测AppStore更新</title>
-            <link>http://blog.flywithme.top/2016/03/17/appUpdate/</link>
+            <link>http://www.flywithme.top/2016/03/17/appUpdate/</link>
             <pubDate>Thu, 17 Mar 2016 14:06:05 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/17/appUpdate/</guid>
+            <guid>http://www.flywithme.top/2016/03/17/appUpdate/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:21px; color:rgb(70,70,70); font-size:14px; background-color:rgb(188,211,229); font-family:Menlo&#34;&gt;
@@ -4870,10 +5282,10 @@ NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
         
         <item>
             <title>iOS JS call OC</title>
-            <link>http://blog.flywithme.top/2016/03/15/JScallOC/</link>
+            <link>http://www.flywithme.top/2016/03/15/JScallOC/</link>
             <pubDate>Tue, 15 Mar 2016 18:12:45 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/15/JScallOC/</guid>
+            <guid>http://www.flywithme.top/2016/03/15/JScallOC/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 &lt;p&gt;接着上节我们讲到的iOS调用js&lt;/p&gt;
 &lt;p&gt;下来我们使用js调用iOS&lt;/p&gt;
@@ -5065,10 +5477,10 @@ JSExport&lt;/p&gt;
         
         <item>
             <title>iOS OC call JS</title>
-            <link>http://blog.flywithme.top/2016/03/15/OCCallJS/</link>
+            <link>http://www.flywithme.top/2016/03/15/OCCallJS/</link>
             <pubDate>Tue, 15 Mar 2016 18:05:59 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/15/OCCallJS/</guid>
+            <guid>http://www.flywithme.top/2016/03/15/OCCallJS/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;p&gt;从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。&lt;/p&gt;
@@ -5236,10 +5648,10 @@ JSExport&lt;/p&gt;
         
         <item>
             <title>JKImageView</title>
-            <link>http://blog.flywithme.top/2016/01/28/JKImageView/</link>
+            <link>http://www.flywithme.top/2016/01/28/JKImageView/</link>
             <pubDate>Thu, 28 Jan 2016 16:42:11 CST</pubDate>
             <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/01/28/JKImageView/</guid>
+            <guid>http://www.flywithme.top/2016/01/28/JKImageView/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;div style=&#34;font-size:21px; color:rgb(30,78,121)&#34;&gt;&lt;span style=&#34;font-family:Helvetica Neue&#34;&gt;&lt;a target=&#34;_blank&#34; target=&#34;_blank&#34; href=&#34;https://github.com/brasbug/JKImageView&#34;&gt;项目地址:https://github.com/brasbug/JKImageView&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
@@ -5326,49 +5738,6 @@ JSExport&lt;/p&gt;
 &lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; font-size:14px&#34;&gt;&lt;span style=&#34;font-size:14px&#34;&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151120174248939?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;br&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; font-size:14px&#34;&gt;&lt;span style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:14px&#34;&gt;增加了cancel 方法&lt;/span&gt;&lt;br&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;div style=&#34;font-size:14px&#34;&gt;&lt;/div&gt;
-   
-
-&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>NSThread</title>
-            <link>http://blog.flywithme.top/2016/01/28/NSThread/</link>
-            <pubDate>Thu, 28 Jan 2016 16:37:37 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/01/28/NSThread/</guid>
-            <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
-
-&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;一、概述:&lt;/span&gt;&lt;/div&gt;
-&lt;ol style=&#34;font-size:14px&#34;&gt;
-&lt;li&gt;NSThread是一个轻量级的多线程技术，每一个对象代表一个线程。&lt;/li&gt;&lt;li&gt;优点：轻量级，使用简单&lt;/li&gt;&lt;li&gt;缺点: &amp;nbsp;不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期&lt;/li&gt;&lt;/ol&gt;
-&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;二、开启一个异步线程&lt;/span&gt;&lt;/div&gt;
-&lt;ul style=&#34;font-size:14px&#34;&gt;
-&lt;li&gt;NSThread是一个轻量级&lt;a target=&#34;_blank&#34; href=&#34;&#34; style=&#34;color:#69aa35&#34;&gt;NSThread&lt;/a&gt;的多线程技术，每一个对象代表一个线程。
-&lt;ul&gt;
-&lt;li&gt;示例开启线程&lt;img src=&#34;http://img.blog.csdn.net/20151209101649280?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;三、在主线程上更新界面等操作&lt;/span&gt;&lt;/div&gt;
-&lt;ul style=&#34;font-size:14px&#34;&gt;
-&lt;li&gt;示例 子线程耗时操作结束之后去主线程更新UI&lt;/li&gt;&lt;li&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151209101707564?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;div style=&#34;font-size:14px&#34;&gt;
-&lt;div style=&#34;border:0px; outline:0px; padding:0px; vertical-align:baseline; word-wrap:break-word&#34;&gt;
-&lt;div&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;,Helvetica,STheiti,微软雅黑,黑体,Arial,Tahoma,sans-serif,serif&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;font-size:18px&#34;&gt;四、其他&lt;/span&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;如果需要处理的东西很耗内存，则需要给线程做内存管理 加上autoreleasepool 会更好&lt;/li&gt;&lt;li&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151209101735255?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;br&gt;
-&lt;/li&gt;&lt;li&gt;线程休眠
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;// 指定休眠到多久日期&lt;br&gt;
-&amp;#43; (void)sleepUntilDate:(NSDate *)date;&lt;br&gt;
-// 指定休眠的毫秒数&lt;br&gt;
-&amp;#43; (void)sleepForTimeInterval:(NSTimeInterval)ti;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 &lt;div style=&#34;font-size:14px&#34;&gt;&lt;/div&gt;
    
 
