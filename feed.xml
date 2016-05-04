@@ -28,15 +28,15 @@
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;获取导航条&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;   UINavigationBar *navBar = self.navigationController.navigationBar;
-   //设置导航栏 title
-   self.navigationItem.title = @&amp;quot;UINavigationBar使用总结&amp;quot;;
+&lt;pre&gt;&lt;code&gt;UINavigationBar *navBar = self.navigationController.navigationBar;
+//设置导航栏 title
+self.navigationItem.title = @&amp;quot;UINavigationBar使用总结&amp;quot;;
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;设置导航栏背景色&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;   //通过barTintColor来设置背景色
-    self.navigationController.navigationBar.barTintColor = [UIColor redColor];//iOS7 以上系统  
+&lt;pre&gt;&lt;code&gt;//通过barTintColor来设置背景色
+self.navigationController.navigationBar.barTintColor = [UIColor redColor];//iOS7 以上系统  
 ![navigation back bar tint Color](http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationbackbartiniColor.png)
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
@@ -81,30 +81,30 @@ typedef NS_ENUM(NSInteger, UIBarStyle) {
             后来，发现增加了一个方法：[navBar setTranslucent:YES];用来指示是否透明。
             所以，我们使用UIBarStyleDefault和UIBarStyleBlack来定义UINavigationBar样式，并且用setTranslucent:方法来设置透明与否。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;   //使用方式
-    switch (buttonIndex) {
-       case 0: // &amp;quot;Default&amp;quot;
-           self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-           // Bars are translucent by default.
-           self.navigationController.navigationBar.translucent = YES;
-           // Reset the bar&#39;s tint color to the system default.
-           self.navigationController.navigationBar.tintColor = nil;
-           self.navigationController.navigationBar.barTintColor = nil;//iOS7 以上系统
+&lt;pre&gt;&lt;code&gt;//使用方式
+switch (buttonIndex) {
+   case 0: // &amp;quot;Default&amp;quot;
+       self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+       // Bars are translucent by default.
+       self.navigationController.navigationBar.translucent = YES;
+       // Reset the bar&#39;s tint color to the system default.
+       self.navigationController.navigationBar.tintColor = nil;
+       self.navigationController.navigationBar.barTintColor = nil;//iOS7 以上系统
 
 
-           break;
-       case 1: // &amp;quot;Black Opaque&amp;quot;
-           self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-           self.navigationController.navigationBar.translucent = NO;
-           self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-           break;
-       case 2: // &amp;quot;Black Translucent&amp;quot;
-           self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-           self.navigationController.navigationBar.translucent = YES;
-           self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-           self.navigationController.navigationBar.barTintColor = [UIColor redColor];
-           break;
-   }
+       break;
+   case 1: // &amp;quot;Black Opaque&amp;quot;
+       self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+       self.navigationController.navigationBar.translucent = NO;
+       self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+       break;
+   case 2: // &amp;quot;Black Translucent&amp;quot;
+       self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+       self.navigationController.navigationBar.translucent = YES;
+       self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+       self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+       break;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;更改顶部状态栏的颜色
