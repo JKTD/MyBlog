@@ -1,19 +1,428 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>技术文章 on 案发现场 </title>
-        <link>http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
+        <title>技术文章 on 鬼舞月</title>
+        <link>http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
         <language>zh-CN</language>
-        <author>CoderZh</author>
-        <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
-        <updated>Thu, 28 Apr 2016 10:54:03 CST</updated>
+        <author>Brasbug</author>
+        <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
+        <updated>Tue, 03 May 2016 11:49:19 CST</updated>
+        
+        <item>
+            <title>UINavigationBar-使用总结</title>
+            <link>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
+            <pubDate>Tue, 03 May 2016 11:49:19 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
+            <description>
+
+&lt;h5 id=&#34;简介:fd9faebe845f09d44f4a35833c132216&#34;&gt;简介&lt;/h5&gt;
+
+&lt;p&gt;&lt;code&gt;UINavigationBar&lt;/code&gt;是用于实现管理层级关系内容的组件，直接继承自&lt;code&gt;UIView&lt;/code&gt;。通常用在&lt;code&gt;UINavgationController&lt;/code&gt;类中，用于管理和显示&lt;code&gt;UINavgationController&lt;/code&gt;的&lt;code&gt;subViewController&lt;/code&gt; , 同时&lt;code&gt;UINavgationBar&lt;/code&gt;也可以单独使用，添加至任何的&lt;code&gt;UIView&lt;/code&gt;中。&lt;code&gt;UINavigationBar&lt;/code&gt;比较重要的属性为，左侧按钮，中间的标题，以及右侧按钮。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; NS_CLASS_AVAILABLE_IOS(2_0) @interface UINavigationBar : UIView &amp;lt;NSCoding, UIBarPositioning&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;在导航控制器中的简单使用:fd9faebe845f09d44f4a35833c132216&#34;&gt;在导航控制器中的简单使用&lt;/h6&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;获取导航条&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   UINavigationBar *navBar = self.navigationController.navigationBar;
+   //设置导航栏 title
+   self.navigationItem.title = @&amp;quot;UINavigationBar使用总结&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;设置导航栏背景色&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   //通过barTintColor来设置背景色
+    self.navigationController.navigationBar.barTintColor = [UIColor redColor];//iOS7 以上系统  
+![navigation back bar tint Color](http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationbackbartiniColor.png)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;设置导航栏的背景图片&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@&amp;quot;Background&amp;quot;] forBarMetrics:UIBarMetricsDefault];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/uinavigationBarbackground.png&#34; alt=&#34;navigation Bar background&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在这里得稍微说说UIBarMetrics这个枚举, 它主要是用来控制在不同状态下导航栏的显示。和&lt;code&gt;UIButton&lt;/code&gt;的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)setBackgroundImage:(nullable UIImage *)image forState:(UIControlState)state
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个方法有点类似。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;typedef NS_ENUM(NSInteger, UIBarMetrics) {
+    UIBarMetricsDefault,
+    UIBarMetricsCompact,
+    UIBarMetricsDefaultPrompt = 101, // Applicable only in bars with the prompt property, such as UINavigationBar and UISearchBar
+    UIBarMetricsCompactPrompt,
+    UIBarMetricsLandscapePhone NS_ENUM_DEPRECATED_IOS(5_0, 8_0, &amp;quot;Use UIBarMetricsCompact instead&amp;quot;) = UIBarMetricsCompact,
+    UIBarMetricsLandscapePhonePrompt NS_ENUM_DEPRECATED_IOS(7_0, 8_0, &amp;quot;Use UIBarMetricsCompactPrompt&amp;quot;) = UIBarMetricsCompactPrompt,
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;设置导航栏样式&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[navBar setBarStyle:UIBarStyleDefault];  
+   分别有如下几种样式：  
+typedef NS_ENUM(NSInteger, UIBarStyle) {  
+    UIBarStyleDefault          = 0,  
+    UIBarStyleBlack            = 1,  
+    UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack  
+    UIBarStyleBlackTranslucent = 2, // Deprecated. Use UIBarStyleBlack and set the translucent property to YES
+};    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;注意:&lt;/strong&gt;我们发现，在后面两个标记为Deprecated，我们知道使用后面两种将不被提倡。
+            从枚举中，我们也可以看出：UIBarStyleBlack=1和UIBarStyleBlackOpaque=1表示为一样的。
+            后来，发现增加了一个方法：[navBar setTranslucent:YES];用来指示是否透明。
+            所以，我们使用UIBarStyleDefault和UIBarStyleBlack来定义UINavigationBar样式，并且用setTranslucent:方法来设置透明与否。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   //使用方式
+    switch (buttonIndex) {
+       case 0: // &amp;quot;Default&amp;quot;
+           self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+           // Bars are translucent by default.
+           self.navigationController.navigationBar.translucent = YES;
+           // Reset the bar&#39;s tint color to the system default.
+           self.navigationController.navigationBar.tintColor = nil;
+           self.navigationController.navigationBar.barTintColor = nil;//iOS7 以上系统
+
+
+           break;
+       case 1: // &amp;quot;Black Opaque&amp;quot;
+           self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+           self.navigationController.navigationBar.translucent = NO;
+           self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+           break;
+       case 2: // &amp;quot;Black Translucent&amp;quot;
+           self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+           self.navigationController.navigationBar.translucent = YES;
+           self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+           self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+           break;
+   }
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;更改顶部状态栏的颜色
+   修改完导航栏的颜色之后,顶部状态栏可能因为导航栏的颜色相近而现实不清楚,所以有时候需要修改状态栏的颜色
+   状态栏的颜色修改:系统给我们提供了&lt;code&gt;UIStatusBarStyleDefault&lt;/code&gt;和&lt;code&gt;UIStatusBarStyleLightContent&lt;/code&gt;两种样式供我们选择。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   UIStatusBarStyleDefault，系统的默认样式，黑色内容，用于浅色的背景（如白色）
+   UIStatusBarStyleLightContent 白色内容，用于深色的背景（如红色）
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;下面来看看具体怎么实现，主流的实现方式是分两步：&lt;br /&gt;
+   &lt;strong&gt;a.&lt;/strong&gt; 在工程的Info.plist文件中添加一行&lt;code&gt;UIViewControllerBasedStatusBarAppearance&lt;/code&gt;，选择Boolean类型，并设置为YES，Xcode会自动把名称变为&lt;code&gt;View controller-based status bar appearance&lt;/code&gt;。&lt;br /&gt;
+   &lt;strong&gt;b.&lt;/strong&gt; 在你的ViewController中添加下面的方法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-(UIStatusBarStyle)preferredStatusBarStyle{
+  return UIStatusBarStyleLightContent;
+}   
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;另外，&lt;strong&gt;特别需要注意的是&lt;/strong&gt;，如果你的ViewController是通过navigationController push进来的，还需要加下面一句代码才能生效：
+   &lt;code&gt;self.navigationController.navigationBar.barStyle = UIBarStyleBlack;&lt;/code&gt;
+   具体，可参考&lt;a href=&#34;http://stackoverflow.com/questions/19108513/uistatusbarstyle-preferredstatusbarstyle-does-not-work-on-ios-7&#34;&gt;UIStatusBarStyle PreferredStatusBarStyle does not work on iOS 7&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;恩，我们来看看运行效果。&lt;br /&gt;
+   &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/uinavigationBarbackground.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;设置返回按钮
+  从上面的效果图中我们可以看到返回按钮还是默认的蓝色按钮，下面我将会大家来介绍返回按钮的个性化。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;设置返回按钮的颜色 只需要设置tintColor属性即可&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;得到的效果图如下：&lt;br /&gt;
+&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationbartiniColor.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;只设置返回按钮的图片&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)goToBack {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+- (void)setBackButtonWithImage {
+    UIImage *leftButtonIcon = [[UIImage imageNamed:@&amp;quot;LeftButton_back_Icon&amp;quot;]
+                               imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:leftButtonIcon
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(goToBack)];
+    self.navigationItem.leftBarButtonItem = leftButton;
+
+
+    //修复navigationController侧滑关闭失效的问题
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;得到的效果如下：&lt;br /&gt;
+&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationBarBackBtn.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这里需要注意的地方有三点：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;需要自己实现返回按钮的事件。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;特别的解释下&lt;code&gt;UIImage&lt;/code&gt;的&lt;code&gt;imageWithRenderingMode:&lt;/code&gt;方法，参数&lt;code&gt;UIImageRenderingModeAlwaysOriginal&lt;/code&gt; 表示总是用原图渲染，如果不这么设置，返回按钮将会显示&lt;code&gt;tintColor&lt;/code&gt;的颜色(默认为蓝色)。&lt;code&gt;UITabbarItem&lt;/code&gt;也存在同样地问题。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;我们自己设置返回按钮，会导致系统的侧滑关闭效果失效。添加上面代码中最后一句代码即可修复(&lt;code&gt;self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;&lt;/code&gt;)。&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;仅设置返回按钮的文字&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)setBackButtonTitle {
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]
+            initWithTitle:NSLocalizedString(@&amp;quot;取消&amp;quot;, nil)  
+            style:UIBarButtonItemStylePlain  
+            target:self action:@selector(goToBack)];
+    leftButton.tintColor = [UIColor whiteColor];
+    self.navigationItem.leftBarButtonItem = leftButton;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;得到的效果如下：&lt;br /&gt;
+  &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationbarBtnTitle.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;自定义返回按钮&lt;br /&gt;
+ 如果上面几种方式还无法满足你的要求（比如，需要同时设置返回按钮文字和图片），就需要用到UIBarButtonItem的initWithCustomView方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)setCustomLeftButton {
+    UIView* leftButtonView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 60, 40)];
+    UIButton* leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    leftButton.backgroundColor = [UIColor clearColor];
+    leftButton.frame = leftButtonView.frame;
+    [leftButton setImage:[UIImage imageNamed:@&amp;quot;LeftButton_back_Icon&amp;quot;] forState:UIControlStateNormal];
+    [leftButton setTitle:@&amp;quot;返回&amp;quot; forState:UIControlStateNormal];
+    leftButton.tintColor = [UIColor redColor];
+    leftButton.autoresizesSubviews = YES;
+    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    leftButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+    [leftButton addTarget:self action:@selector(goToBack) forControlEvents:UIControlEventTouchUpInside];
+    [leftButtonView addSubview:leftButton];
+    UIBarButtonItem* leftBarButton = [[UIBarButtonItem alloc] initWithCustomView:leftButtonView];
+    self.navigationItem.leftBarButtonItem = leftBarButton;
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;得到的效果图如下：&lt;br /&gt;
+   &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationBackBartBackImage.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;设置&lt;code&gt;rightBarButtonItem&lt;/code&gt;基本上脱离不了上面的几种方式，大家可以参照上面返回按钮的设置方式。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;隐藏导航栏底部的线条&lt;br /&gt;
+  有时候遇到一些特殊的要求，需要隐藏导航栏底部的线条。
+  两行代码就可以做到。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;设置导航栏的背景图（&lt;code&gt;setBackgroundImage&lt;/code&gt;方法）&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;设置导航栏的shadowImage (&lt;code&gt;setShadowImage&lt;/code&gt;方法)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;UINavigationBar *navigationBar = self.navigationController.navigationBar;
+//设置透明的背景图，便于识别底部线条有没有被隐藏
+[navigationBar setBackgroundImage:[[UIImage alloc] init]
+                       forBarPosition:UIBarPositionAny
+                           barMetrics:UIBarMetricsDefault];
+//此处使底部线条失效
+[navigationBar setShadowImage:[UIImage new]];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;来看看效果图：&lt;br /&gt;
+   &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navShadowLineHide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;还有一种做法，一行代码就可以达到效果&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//方法二：
+self.navigationController.navigationBar.clipsToBounds = YES;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;想要知道更详细的内容可以参考这个页面：&lt;a href=&#34;http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line&#34;&gt;How to hide iOS7 UINavigationBar 1px bottom line&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;设置导航条底部线条的颜色&lt;br /&gt;
+   有了上面的基础，设置导航栏线条的颜色就变得很简单了。&lt;br /&gt;
+   首先，我做了个UIImage的分类：通过颜色转成UIImage；&lt;br /&gt;
+   然后，用上面的方案来设置导航栏底部线条。&lt;/p&gt;
+
+&lt;p&gt;颜色转图片的代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@implementation UIImage (ColorImage)
+
+
++ (UIImage *)imageWithColor:(UIColor *)color
+{
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+
+    return image;
+}
+
+
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;设置导航栏底部线条颜色的代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;UINavigationBar *navigationBar = self.navigationController.navigationBar;
+[navigationBar setBackgroundImage:[[UIImage alloc] init]
+                        forBarPosition:UIBarPositionAny
+                            barMetrics:UIBarMetricsDefault];
+//此处使底部线条颜色为红色
+[navigationBar setShadowImage:[UIImage imageWithColor:[UIColor redColor]]]; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;依照惯例，看下效果图：&lt;br /&gt;
+     &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/anvShadowSet.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;当然还有其他的方式也可以做到，如&lt;code&gt;addSubview&lt;/code&gt;,&lt;code&gt;addSubLayer&lt;/code&gt;等。感兴趣的话可以参考下这个页面：&lt;a href=&#34;http://stackoverflow.com/questions/19101361/ios7-change-uinavigationbar-border-color&#34;&gt;iOS7 - Change UINavigationBar border color&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在导航栏上添加多个按钮&lt;br /&gt;
+  以微信打开网页时的效果为例，效果图如下，有两个按钮：返回和关闭。&lt;br /&gt;
+    &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/dianpschreenshot.png&#34; alt=&#34;center&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;有下面两种方式可供选择，但是最终还是要用到&lt;code&gt;leftBarButtonItems&lt;/code&gt;这个方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#define UserMethod1 0
+
+
+UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:@&amp;quot;关闭&amp;quot; style:UIBarButtonItemStylePlain target:self action:@selector(closeAction)];
+if (UserMethod1) {
+    //方法一:
+    self.navigationItem.leftBarButtonItems = @[closeItem];
+    //要求显示默认的返回按钮，但是文字会显示默认的Back，暂时还不知道这个文字怎么改
+    self.navigationItem.leftItemsSupplementBackButton = YES;
+}
+else {
+    //方法二
+    UIButton* leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    leftButton.backgroundColor = [UIColor clearColor];
+    leftButton.frame = CGRectMake(0, 0, 45, 40);
+    [leftButton setImage:[UIImage imageNamed:@&amp;quot;LeftButton_back_Icon&amp;quot;] forState:UIControlStateNormal];
+    [leftButton setTitle:@&amp;quot;返回&amp;quot; forState:UIControlStateNormal];
+    leftButton.tintColor = [UIColor whiteColor];
+    leftButton.autoresizesSubviews = YES;
+    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    leftButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+    [leftButton addTarget:self action:@selector(goToBack) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+
+
+    self.navigationItem.leftBarButtonItems = @[backItem,closeItem];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后，运行的效果图如下：&lt;br /&gt;
+    &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/addbtnOnNavBar.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;方法一用到了&lt;code&gt;leftItemsSupplementBackButton&lt;/code&gt; 这个属性，会显示系统默认的返回按钮，但是文字也是显示默认的Back文字，目前还没找到怎么修改这个文字，如果有谁知道，还请不吝赐教；所以我暂时还是建议大家用方法二。相应的还有 &lt;code&gt;rightBarButtonItems&lt;/code&gt; 这个属性，如果要在导航栏右侧展示多个按钮的话，可以设置这个属性。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在导航栏上添加分段控件&lt;/p&gt;
+
+&lt;p&gt;这次，以QQ为例，代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;UISegmentedControl *segControl = [[UISegmentedControl alloc] initWithItems:@[@&amp;quot;消息&amp;quot;,@&amp;quot;电话&amp;quot;]];
+segControl.tintColor = [UIColor colorWithRed:0.07 green:0.72 blue:0.96 alpha:1];
+[segControl setSelectedSegmentIndex:0];
+self.navigationItem.titleView = segControl;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;代码很简单，就是设置 &lt;code&gt;titleView&lt;/code&gt; 这个属性，当然，你也可以把这个属性设置为你自定义的View.&lt;br /&gt;
+  &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/NavTitleView.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;导航栏全局属性设置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//全局设置导航栏主题
+- (void)setNavigationControllerAppearance {
+    [UINavigationBar appearance].barStyle  = UIBarStyleBlack;
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithWhite:0.1 alpha:0.5]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;全局设置导航栏的好处有两个：一是不用对每个 &lt;code&gt;NavigationBar&lt;/code&gt; 进行设置；二是方便做主题管理，切换主题，只需要更改全局设置即可。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;与导航栏相关的一些开源组件&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ninjinkun/NJKWebViewProgress&#34;&gt;NJKWebViewProgress&lt;/a&gt; - 类似于Safiri加载网页时的进度显示&lt;br /&gt;
+&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/njgWebprogress.png&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/forkingdog/FDFullscreenPopGesture&#34;&gt;FDFullscreenPopGesture&lt;/a&gt; 一个丝滑的全屏滑动返回手势&lt;br /&gt;
+    原文介绍&lt;a href=&#34;http://blog.sunnyxx.com/2015/06/07/fullscreen-pop-gesture/&#34;&gt;链接&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;h5&gt;&lt;code&gt;UINavigationItem&lt;/code&gt; 和 &lt;code&gt;UINavigationBar&lt;/code&gt; 关系分&lt;/h5&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;关系分析 &lt;code&gt;UIBarItem&lt;/code&gt; -&amp;gt; &lt;code&gt;UIBarButtonItem&lt;/code&gt; -&amp;gt; &lt;code&gt;UINavigationItem&lt;/code&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;UIBarItem&lt;/code&gt;: 类是一个可以放置在Bar之上的所有小控件类的抽象类。继承了该基类所有子类在外观上类似于一个Button，它们都有一个标题，图片，动作以及目标，这点可以从其子类的初始化方法处看到。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;UIBarButtonItem&lt;/code&gt;: 专门用来放在 &lt;code&gt;UIToolbar&lt;/code&gt; 或者 &lt;code&gt;UINavigationBar&lt;/code&gt; 的特殊 &lt;code&gt;button&lt;/code&gt;. 基本行为跟 &lt;code&gt;button&lt;/code&gt; 是一样的。另外从IOS5开始的 &lt;code&gt;Customizing Appearance&lt;/code&gt; 增加了一系列的方法调整显示。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;UINavigationItem: NSObject&lt;/code&gt;: 包含了当前页面导航栏上需要显示的全部信息 &lt;code&gt;title,prompt,titleView,leftBarButtonItem,rightBarButtonItem,backBarButonItem&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;UINavigationBar :UIView&lt;/code&gt; :  NavigaitonBar 就是导航栏，位于屏幕的上方，管理整个NavigationController的navigationItem，即类似navigationcontroller一样提供了一个栈来管理item。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;UINavigtionController :UIViewController&lt;/code&gt;: 包含：viewcontrollers、navigationbar、toolbar&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;navigationbar：UIView&lt;/code&gt;: 包含：items(UINavigationItem)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;viewController&lt;/code&gt;:  包含navigationitem，toolItem.  这两个属性控制了当前页面当前页面的navigationbar，toolbar的外观。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;关系综述&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;navigationcontroller&lt;/code&gt; 直接控制 &lt;code&gt;viewcontrollers&lt;/code&gt;，然后包含的 &lt;code&gt;navigationbar&lt;/code&gt; 形成整个nv的导航栏，bar并包含整个&lt;code&gt;navigationItem&lt;/code&gt; 的栈,管理整个nv的  navigationitem（ NSArray *items 属性）。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;navigationItem&lt;/code&gt; 包含了bar视图的全部元素（如&lt;code&gt;title,tileview,backBarButtonItem&lt;/code&gt;等），受当前&lt;code&gt;viewcontroller&lt;/code&gt;管理，即bar形成整个nv的导航视图，然后每个nv页面的导航栏元素由所在页面的 &lt;code&gt;navigationItem&lt;/code&gt; 管理。即设置当前页面的左右barbutton，用 &lt;code&gt;self.navigationItem.leftBarButtonItem&lt;/code&gt; 等。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
         
         <item>
             <title>React Native如何做跨平台设计</title>
-            <link>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</link>
+            <link>http://www.flywithme.top/2016/04/28/ReactNativeRD/</link>
             <pubDate>Thu, 28 Apr 2016 10:54:03 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/04/28/ReactNativeRD/</guid>
             <description>
 
 &lt;h5 id=&#34;facebook-开源:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;Facebook 开源&lt;/h5&gt;
@@ -422,10 +831,10 @@ render() {
         
         <item>
             <title>利用Multipeer Connectivity框架进行WiFi传输</title>
-            <link>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
+            <link>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
             <pubDate>Wed, 27 Apr 2016 16:47:13 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
             <description>
 
 &lt;h4 id=&#34;什么是multipeer-connectivity:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;什么是Multipeer Connectivity&lt;/h4&gt;
@@ -630,10 +1039,10 @@ render() {
         
         <item>
             <title>MongoDB的Go语言驱动</title>
-            <link>http://blog.flywithme.top/2016/03/31/golang-Mgo/</link>
+            <link>http://www.flywithme.top/2016/03/31/golang-Mgo/</link>
             <pubDate>Thu, 31 Mar 2016 13:56:29 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/31/golang-Mgo/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/31/golang-Mgo/</guid>
             <description>
 
 &lt;h5 id=&#34;mgo简介-https-godoc-org-labix-org-v2-mgo:156647709f766e3bb58c3e6b445a0770&#34;&gt;&lt;a href=&#34;https://godoc.org/labix.org/v2/mgo&#34;&gt;mgo简介&lt;/a&gt;&lt;/h5&gt;
@@ -1006,10 +1415,10 @@ func (c *Collection) Update(selector interface{}, change interface{}) error
         
         <item>
             <title>golang Web 框架 gin 简介</title>
-            <link>http://blog.flywithme.top/2016/03/29/golangGin</link>
+            <link>http://www.flywithme.top/2016/03/29/golangGin</link>
             <pubDate>Tue, 29 Mar 2016 19:04:26 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/29/golangGin</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/29/golangGin</guid>
             <description>&lt;p&gt;&lt;a href=&#34;https://gin-gonic.github.io/gin/&#34;&gt;GitHub&lt;/a&gt;：&lt;/p&gt;
 
 &lt;p&gt;对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了一个小 demo&lt;/p&gt;
@@ -1043,10 +1452,10 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
         
         <item>
             <title>iOS基础知识点梳理</title>
-            <link>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</link>
+            <link>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</link>
             <pubDate>Mon, 28 Mar 2016 14:07:36 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/1418191330476751.jpg&#34; alt=&#34;banner&#34; /&gt;&lt;/p&gt;
@@ -1166,7 +1575,7 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
 &lt;li&gt;类目中的方法与原始类以及父类方法相比具有更高优先级,如果覆盖父类的方法,可能导致super消息的断裂。因此,最好不要覆盖原始类中的方法。&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -1348,7 +1757,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 &lt;h5 id=&#34;对谓词的认识:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对谓词的认识&lt;/h5&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;static-self-super关键字的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;static、self、super关键字的作用&lt;/h5&gt;
@@ -2106,7 +2515,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 
 &lt;li&gt;&lt;p&gt;当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://www.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;view和view之间传值方式:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;View和View之间传值方式&lt;/h5&gt;
@@ -2137,7 +2546,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 &lt;li&gt;&lt;p&gt;nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
+&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://www.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；&lt;/p&gt;&lt;/li&gt;
@@ -2304,10 +2713,10 @@ return image;
         
         <item>
             <title>深入理解RunLoop</title>
-            <link>http://blog.flywithme.top/2016/03/26/iOSRunloop/</link>
+            <link>http://www.flywithme.top/2016/03/26/iOSRunloop/</link>
             <pubDate>Sat, 26 Mar 2016 23:10:12 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/26/iOSRunloop/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/26/iOSRunloop/</guid>
             <description>
 
 &lt;p&gt;RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。&lt;/p&gt;
@@ -3190,10 +3599,10 @@ NSURLSession    -&amp;gt;AFNetworking2, Alamofire
         
         <item>
             <title>Responder -- iOS用户响应者链完全剖析</title>
-            <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
+            <link>http://www.flywithme.top/2016/03/26/ResponderChain/</link>
             <pubDate>Sat, 26 Mar 2016 22:28:03 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/26/ResponderChain/</guid>
             <description>&lt;p&gt;这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -3382,10 +3791,10 @@ UIApplication再分发给AppDelegate，
         
         <item>
             <title>iOS下Category添加属性字段</title>
-            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
+            <link>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
             <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
             <description>
 
 &lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
@@ -3544,10 +3953,10 @@ static const void *tagKey = &amp;amp;tagKey;
         
         <item>
             <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
-            <link>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</link>
+            <link>http://www.flywithme.top/2016/03/24/loadAndinitialize/</link>
             <pubDate>Thu, 24 Mar 2016 19:20:35 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/24/loadAndinitialize/</guid>
             <description>&lt;p&gt;类的加载
 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如&lt;/p&gt;
 
@@ -3907,10 +4316,10 @@ NSLog(@&amp;ldquo;%@ %s&amp;rdquo;, array, &lt;strong&gt;FUNCTION&lt;/strong&gt;
         
         <item>
             <title>iOS中的谓词（NSPredicate）使用</title>
-            <link>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
+            <link>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
             <pubDate>Sun, 20 Mar 2016 17:40:29 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
             <description>
 
 &lt;p&gt;首先，我们需要知道何谓谓词，让我们看看官方的解释:&lt;/p&gt;
@@ -4491,10 +4900,10 @@ NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
         
         <item>
             <title>iOS App检测AppStore更新</title>
-            <link>http://blog.flywithme.top/2016/03/17/appUpdate/</link>
+            <link>http://www.flywithme.top/2016/03/17/appUpdate/</link>
             <pubDate>Thu, 17 Mar 2016 14:06:05 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/17/appUpdate/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/17/appUpdate/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:21px; color:rgb(70,70,70); font-size:14px; background-color:rgb(188,211,229); font-family:Menlo&#34;&gt;
@@ -4738,10 +5147,10 @@ NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
         
         <item>
             <title>iOS JS call OC</title>
-            <link>http://blog.flywithme.top/2016/03/15/JScallOC/</link>
+            <link>http://www.flywithme.top/2016/03/15/JScallOC/</link>
             <pubDate>Tue, 15 Mar 2016 18:12:45 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/15/JScallOC/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/15/JScallOC/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 &lt;p&gt;接着上节我们讲到的iOS调用js&lt;/p&gt;
 &lt;p&gt;下来我们使用js调用iOS&lt;/p&gt;
@@ -4933,10 +5342,10 @@ JSExport&lt;/p&gt;
         
         <item>
             <title>iOS OC call JS</title>
-            <link>http://blog.flywithme.top/2016/03/15/OCCallJS/</link>
+            <link>http://www.flywithme.top/2016/03/15/OCCallJS/</link>
             <pubDate>Tue, 15 Mar 2016 18:05:59 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/03/15/OCCallJS/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/03/15/OCCallJS/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;p&gt;从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。&lt;/p&gt;
@@ -5104,10 +5513,10 @@ JSExport&lt;/p&gt;
         
         <item>
             <title>JKImageView</title>
-            <link>http://blog.flywithme.top/2016/01/28/JKImageView/</link>
+            <link>http://www.flywithme.top/2016/01/28/JKImageView/</link>
             <pubDate>Thu, 28 Jan 2016 16:42:11 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/01/28/JKImageView/</guid>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/01/28/JKImageView/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
 &lt;div style=&#34;font-size:21px; color:rgb(30,78,121)&#34;&gt;&lt;span style=&#34;font-family:Helvetica Neue&#34;&gt;&lt;a target=&#34;_blank&#34; target=&#34;_blank&#34; href=&#34;https://github.com/brasbug/JKImageView&#34;&gt;项目地址:https://github.com/brasbug/JKImageView&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
@@ -5194,49 +5603,6 @@ JSExport&lt;/p&gt;
 &lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; font-size:14px&#34;&gt;&lt;span style=&#34;font-size:14px&#34;&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151120174248939?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;br&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;; font-size:14px&#34;&gt;&lt;span style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:14px&#34;&gt;增加了cancel 方法&lt;/span&gt;&lt;br&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;div style=&#34;font-size:14px&#34;&gt;&lt;/div&gt;
-   
-
-&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>NSThread</title>
-            <link>http://blog.flywithme.top/2016/01/28/NSThread/</link>
-            <pubDate>Thu, 28 Jan 2016 16:37:37 CST</pubDate>
-            <author>CoderZh</author>
-            <guid>http://blog.flywithme.top/2016/01/28/NSThread/</guid>
-            <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
-
-&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;一、概述:&lt;/span&gt;&lt;/div&gt;
-&lt;ol style=&#34;font-size:14px&#34;&gt;
-&lt;li&gt;NSThread是一个轻量级的多线程技术，每一个对象代表一个线程。&lt;/li&gt;&lt;li&gt;优点：轻量级，使用简单&lt;/li&gt;&lt;li&gt;缺点: &amp;nbsp;不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期&lt;/li&gt;&lt;/ol&gt;
-&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;二、开启一个异步线程&lt;/span&gt;&lt;/div&gt;
-&lt;ul style=&#34;font-size:14px&#34;&gt;
-&lt;li&gt;NSThread是一个轻量级&lt;a target=&#34;_blank&#34; href=&#34;&#34; style=&#34;color:#69aa35&#34;&gt;NSThread&lt;/a&gt;的多线程技术，每一个对象代表一个线程。
-&lt;ul&gt;
-&lt;li&gt;示例开启线程&lt;img src=&#34;http://img.blog.csdn.net/20151209101649280?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;div style=&#34;font-size:14px&#34;&gt;&lt;span style=&#34;font-size:18px&#34;&gt;三、在主线程上更新界面等操作&lt;/span&gt;&lt;/div&gt;
-&lt;ul style=&#34;font-size:14px&#34;&gt;
-&lt;li&gt;示例 子线程耗时操作结束之后去主线程更新UI&lt;/li&gt;&lt;li&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151209101707564?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;div style=&#34;font-size:14px&#34;&gt;
-&lt;div style=&#34;border:0px; outline:0px; padding:0px; vertical-align:baseline; word-wrap:break-word&#34;&gt;
-&lt;div&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;,Helvetica,STheiti,微软雅黑,黑体,Arial,Tahoma,sans-serif,serif&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&#34;font-size:18px&#34;&gt;四、其他&lt;/span&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;如果需要处理的东西很耗内存，则需要给线程做内存管理 加上autoreleasepool 会更好&lt;/li&gt;&lt;li&gt;&lt;img src=&#34;http://img.blog.csdn.net/20151209101735255?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;br&gt;
-&lt;/li&gt;&lt;li&gt;线程休眠
-&lt;ul&gt;
-&lt;li&gt;&lt;span style=&#34;font-size:13px&#34;&gt;&lt;span style=&#34;font-family:&#39;Helvetica Neue&#39;&#34;&gt;&lt;span style=&#34;color:rgb(94,94,94)&#34;&gt;// 指定休眠到多久日期&lt;br&gt;
-&amp;#43; (void)sleepUntilDate:(NSDate *)date;&lt;br&gt;
-// 指定休眠的毫秒数&lt;br&gt;
-&amp;#43; (void)sleepForTimeInterval:(NSTimeInterval)ti;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;/li&gt;&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 &lt;div style=&#34;font-size:14px&#34;&gt;&lt;/div&gt;
    
 

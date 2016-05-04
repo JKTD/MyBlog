@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <base href="http://www.flywithme.top//">
+  <script>
+    document._writeOriginal = document.write;
+    document.write = function(str) {
+        if (str.indexOf('livereload.js') > -1) {
+            document._writeOriginal(str);
+        } else {
+            document._writeOriginal('<!-- Be Hijack!! -->');
+        }
+    }
+  </script>
+  <title>UINavigationBar-使用总结 - 鬼舞月</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="keywords" content="UINavigationBar,">
+<meta name="description" content="UINavigationBar">
+<meta name="author" content="brasbug">
+<meta name="publisher" content="brasbug">
+<meta name="generator" content="http://gohugo.io/"/>
+
+<meta itemprop="name" content="UINavigationBar-使用总结 - 鬼舞月">
+<meta itemprop="description" content="UINavigationBar">
+<meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
+
+<meta property="og:title" content="UINavigationBar-使用总结 - 鬼舞月" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/" />
+<meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
+<meta property="og:description" content="UINavigationBar">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@brasbug">
+<meta name="twitter:title" content="UINavigationBar-使用总结 - 鬼舞月">
+<meta name="twitter:description" content="UINavigationBar">
+<meta name="twitter:creator" content="@brasbug">
+<meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
+
+  <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
+  <link rel="canonical" href="http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/">
+  <link rel='shortlink' href="http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/"/>
+  <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
+  
+<link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css2" href="http://www.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="responsive-css" href="http://www.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="font-awesome-css" href="http://www.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="http://www.flywithme.top/public/highlight/styles/github.css">
+<script src="http://www.flywithme.top/public/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" id="human-style-css3" href="http://www.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="public/font/hack/css/hack.min.css">
+
+<script type="text/javascript" src="assets/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="wp-content/themes/hueman/js/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="wp-content/themes/hueman/js/scripts.js"></script>
+<script type="text/javascript" src="assets/picturefill/picturefill.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.matchHeight-min.js"></script>
+<script type="text/javascript" async defer src="assets/js/myblog.js"></script>
+
+</head>
+
+<body class="single single-post single-format-standard col-3cm full-width topbar-enabled chrome">
+<div id="wrapper">
+  <header id="header">
+
+  <nav class="nav-container group" id="nav-topbar">
+    <div class="nav-toggle"><i class="fa fa-bars"></i></div>
+    <div class="nav-text"></div>
+    <div class="nav-wrap container">
+      <a rel="nofollow" href="http://www.flywithme.top//" class="nav-cs-icon">
+        <img width="40" height="40" src="http://www.flywithme.top/public/coderjk.jpg" alt="brasbug" title="Home">
+      </a>
+      <ul id="menu-default-menu" class="nav container-inner group">
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://www.flywithme.top/">首页</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://www.flywithme.top/post/">归档</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://www.flywithme.top/about/">关于我</a>
+        </li>
+        
+        
+          
+        
+        <li class="menu-item menu-item-type-post_type menu-item-text">
+        开始了一段成为大师的自我修养之路
+        </li>
+      </ul>
+    </div>
+
+    <div class="container">
+      <div class="container-inner">
+        <div class="toggle-search"><i class="fa fa-search"></i></div>
+        <div class="search-expand">
+          <div class="search-expand-inner">
+            <form method="get" class="searchform themeform" action="https://www.google.com/search">
+              <div>
+                <input type="text" class="search" name="q" placeholder="Press enter to start searching">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+
+  </nav>
+  
+
+  <div class="container group">
+    <div class="container-inner">
+
+      <div class="group pad">
+
+        <div class="group pad">
+          <h1 class="site-title">
+            <a rel="nofollow" href="http://www.flywithme.top//" rel="home">
+              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="brasbug" src="http://www.flywithme.top/public/coderjk.jpg"></img>
+              鬼舞月
+            </a>
+          </h1>
+          <p class="site-description"> 记住儿时的梦想,现在还为时不晚。 </p>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+  
+
+</header>
+
+
+
+  <div class="container" id="page">
+    <div class="container-inner">
+      <div class="main">
+        <div class="main-inner group">
+          <section class="content">
+            <div class="page-title pad group">
+              <ul class="meta-single group">
+                
+                <li class="category">
+                  <a href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="pad group">
+
+              <article
+                  class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
+                <div class="post-inner group">
+
+                  <h1 class="post-title">UINavigationBar-使用总结</h1>
+
+                  <p class="post-byline">
+                    by  · 2016年05月03日 · 3896 Words ·
+                    ~8min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-05-03-UINavigationBar-Summary.md"
+                       target="_blank">Improve on <i class="fa fa-github"></i></a>
+                  </p>
+
+                  <div class="clear"></div>
+
+                  <div class="entry">
+                    <div class="entry-inner">
+                      
+                      
+
+<h5 id="简介:fd9faebe845f09d44f4a35833c132216">简介</h5>
+
+<p><code>UINavigationBar</code>是用于实现管理层级关系内容的组件，直接继承自<code>UIView</code>。通常用在<code>UINavgationController</code>类中，用于管理和显示<code>UINavgationController</code>的<code>subViewController</code> , 同时<code>UINavgationBar</code>也可以单独使用，添加至任何的<code>UIView</code>中。<code>UINavigationBar</code>比较重要的属性为，左侧按钮，中间的标题，以及右侧按钮。</p>
+
+<pre><code> NS_CLASS_AVAILABLE_IOS(2_0) @interface UINavigationBar : UIView &lt;NSCoding, UIBarPositioning&gt;
+</code></pre>
+
+<h6 id="在导航控制器中的简单使用:fd9faebe845f09d44f4a35833c132216">在导航控制器中的简单使用</h6>
+
+<ol>
+<li><p>获取导航条</p>
+
+<pre><code>   UINavigationBar *navBar = self.navigationController.navigationBar;
+   //设置导航栏 title
+   self.navigationItem.title = @&quot;UINavigationBar使用总结&quot;;
+</code></pre></li>
+
+<li><p>设置导航栏背景色</p>
+
+<pre><code>   //通过barTintColor来设置背景色
+    self.navigationController.navigationBar.barTintColor = [UIColor redColor];//iOS7 以上系统  
+![navigation back bar tint Color](http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationbackbartiniColor.png)
+</code></pre></li>
+
+<li><p>设置导航栏的背景图片</p>
+
+<pre><code>[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@&quot;Background&quot;] forBarMetrics:UIBarMetricsDefault];
+</code></pre>
+
+<p><img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/uinavigationBarbackground.png" alt="navigation Bar background" /></p>
+
+<p>在这里得稍微说说UIBarMetrics这个枚举, 它主要是用来控制在不同状态下导航栏的显示。和<code>UIButton</code>的</p>
+
+<pre><code>- (void)setBackgroundImage:(nullable UIImage *)image forState:(UIControlState)state
+</code></pre>
+
+<p>这个方法有点类似。</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, UIBarMetrics) {
+    UIBarMetricsDefault,
+    UIBarMetricsCompact,
+    UIBarMetricsDefaultPrompt = 101, // Applicable only in bars with the prompt property, such as UINavigationBar and UISearchBar
+    UIBarMetricsCompactPrompt,
+    UIBarMetricsLandscapePhone NS_ENUM_DEPRECATED_IOS(5_0, 8_0, &quot;Use UIBarMetricsCompact instead&quot;) = UIBarMetricsCompact,
+    UIBarMetricsLandscapePhonePrompt NS_ENUM_DEPRECATED_IOS(7_0, 8_0, &quot;Use UIBarMetricsCompactPrompt&quot;) = UIBarMetricsCompactPrompt,
+};
+</code></pre></li>
+
+<li><p>设置导航栏样式</p>
+
+<pre><code>[navBar setBarStyle:UIBarStyleDefault];  
+   分别有如下几种样式：  
+typedef NS_ENUM(NSInteger, UIBarStyle) {  
+    UIBarStyleDefault          = 0,  
+    UIBarStyleBlack            = 1,  
+    UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack  
+    UIBarStyleBlackTranslucent = 2, // Deprecated. Use UIBarStyleBlack and set the translucent property to YES
+};    
+</code></pre>
+
+<p><strong>注意:</strong>我们发现，在后面两个标记为Deprecated，我们知道使用后面两种将不被提倡。
+            从枚举中，我们也可以看出：UIBarStyleBlack=1和UIBarStyleBlackOpaque=1表示为一样的。
+            后来，发现增加了一个方法：[navBar setTranslucent:YES];用来指示是否透明。
+            所以，我们使用UIBarStyleDefault和UIBarStyleBlack来定义UINavigationBar样式，并且用setTranslucent:方法来设置透明与否。</p>
+
+<pre><code>   //使用方式
+    switch (buttonIndex) {
+       case 0: // &quot;Default&quot;
+           self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+           // Bars are translucent by default.
+           self.navigationController.navigationBar.translucent = YES;
+           // Reset the bar's tint color to the system default.
+           self.navigationController.navigationBar.tintColor = nil;
+           self.navigationController.navigationBar.barTintColor = nil;//iOS7 以上系统
+
+
+           break;
+       case 1: // &quot;Black Opaque&quot;
+           self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+           self.navigationController.navigationBar.translucent = NO;
+           self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+           break;
+       case 2: // &quot;Black Translucent&quot;
+           self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+           self.navigationController.navigationBar.translucent = YES;
+           self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+           self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+           break;
+   }
+</code></pre></li>
+
+<li><p>更改顶部状态栏的颜色
+   修改完导航栏的颜色之后,顶部状态栏可能因为导航栏的颜色相近而现实不清楚,所以有时候需要修改状态栏的颜色
+   状态栏的颜色修改:系统给我们提供了<code>UIStatusBarStyleDefault</code>和<code>UIStatusBarStyleLightContent</code>两种样式供我们选择。</p>
+
+<pre><code>   UIStatusBarStyleDefault，系统的默认样式，黑色内容，用于浅色的背景（如白色）
+   UIStatusBarStyleLightContent 白色内容，用于深色的背景（如红色）
+</code></pre>
+
+<ul>
+<li><p>下面来看看具体怎么实现，主流的实现方式是分两步：<br />
+   <strong>a.</strong> 在工程的Info.plist文件中添加一行<code>UIViewControllerBasedStatusBarAppearance</code>，选择Boolean类型，并设置为YES，Xcode会自动把名称变为<code>View controller-based status bar appearance</code>。<br />
+   <strong>b.</strong> 在你的ViewController中添加下面的方法</p>
+
+<pre><code>-(UIStatusBarStyle)preferredStatusBarStyle{
+  return UIStatusBarStyleLightContent;
+}   
+</code></pre>
+
+<blockquote>
+<p>另外，<strong>特别需要注意的是</strong>，如果你的ViewController是通过navigationController push进来的，还需要加下面一句代码才能生效：
+   <code>self.navigationController.navigationBar.barStyle = UIBarStyleBlack;</code>
+   具体，可参考<a href="http://stackoverflow.com/questions/19108513/uistatusbarstyle-preferredstatusbarstyle-does-not-work-on-ios-7">UIStatusBarStyle PreferredStatusBarStyle does not work on iOS 7</a></p>
+</blockquote></li>
+</ul>
+
+<p>恩，我们来看看运行效果。<br />
+   <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/uinavigationBarbackground.png" alt="" /></p></li>
+
+<li><p>设置返回按钮
+  从上面的效果图中我们可以看到返回按钮还是默认的蓝色按钮，下面我将会大家来介绍返回按钮的个性化。</p>
+
+<ul>
+<li><p>设置返回按钮的颜色 只需要设置tintColor属性即可</p>
+
+<pre><code>self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+</code></pre>
+
+<p>得到的效果图如下：<br />
+<img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationbartiniColor.png" alt="" /></p></li>
+
+<li><p>只设置返回按钮的图片</p>
+
+<pre><code>- (void)goToBack {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+- (void)setBackButtonWithImage {
+    UIImage *leftButtonIcon = [[UIImage imageNamed:@&quot;LeftButton_back_Icon&quot;]
+                               imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:leftButtonIcon
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(goToBack)];
+    self.navigationItem.leftBarButtonItem = leftButton;
+
+
+    //修复navigationController侧滑关闭失效的问题
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+}
+</code></pre>
+
+<p>得到的效果如下：<br />
+<img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationBarBackBtn.png" alt="" /></p>
+
+<blockquote>
+<p>这里需要注意的地方有三点：</p>
+
+<ol>
+<li>需要自己实现返回按钮的事件。<br /></li>
+<li>特别的解释下<code>UIImage</code>的<code>imageWithRenderingMode:</code>方法，参数<code>UIImageRenderingModeAlwaysOriginal</code> 表示总是用原图渲染，如果不这么设置，返回按钮将会显示<code>tintColor</code>的颜色(默认为蓝色)。<code>UITabbarItem</code>也存在同样地问题。<br /></li>
+<li>我们自己设置返回按钮，会导致系统的侧滑关闭效果失效。添加上面代码中最后一句代码即可修复(<code>self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;</code>)。<br /></li>
+</ol>
+</blockquote></li>
+
+<li><p>仅设置返回按钮的文字</p>
+
+<pre><code>- (void)setBackButtonTitle {
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]
+            initWithTitle:NSLocalizedString(@&quot;取消&quot;, nil)  
+            style:UIBarButtonItemStylePlain  
+            target:self action:@selector(goToBack)];
+    leftButton.tintColor = [UIColor whiteColor];
+    self.navigationItem.leftBarButtonItem = leftButton;
+}
+</code></pre>
+
+<p>得到的效果如下：<br />
+  <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationbarBtnTitle.png" alt="" /></p></li>
+
+<li><p>自定义返回按钮<br />
+ 如果上面几种方式还无法满足你的要求（比如，需要同时设置返回按钮文字和图片），就需要用到UIBarButtonItem的initWithCustomView方法。</p>
+
+<pre><code>- (void)setCustomLeftButton {
+    UIView* leftButtonView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 60, 40)];
+    UIButton* leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    leftButton.backgroundColor = [UIColor clearColor];
+    leftButton.frame = leftButtonView.frame;
+    [leftButton setImage:[UIImage imageNamed:@&quot;LeftButton_back_Icon&quot;] forState:UIControlStateNormal];
+    [leftButton setTitle:@&quot;返回&quot; forState:UIControlStateNormal];
+    leftButton.tintColor = [UIColor redColor];
+    leftButton.autoresizesSubviews = YES;
+    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    leftButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+    [leftButton addTarget:self action:@selector(goToBack) forControlEvents:UIControlEventTouchUpInside];
+    [leftButtonView addSubview:leftButton];
+    UIBarButtonItem* leftBarButton = [[UIBarButtonItem alloc] initWithCustomView:leftButtonView];
+    self.navigationItem.leftBarButtonItem = leftBarButton;
+}  
+</code></pre>
+
+<p>得到的效果图如下：<br />
+   <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationBackBartBackImage.png" alt="" /></p>
+
+<blockquote>
+<p>设置<code>rightBarButtonItem</code>基本上脱离不了上面的几种方式，大家可以参照上面返回按钮的设置方式。</p>
+</blockquote></li>
+</ul></li>
+
+<li><p>隐藏导航栏底部的线条<br />
+  有时候遇到一些特殊的要求，需要隐藏导航栏底部的线条。
+  两行代码就可以做到。</p>
+
+<ul>
+<li>设置导航栏的背景图（<code>setBackgroundImage</code>方法）</li>
+
+<li><p>设置导航栏的shadowImage (<code>setShadowImage</code>方法)</p>
+
+<pre><code>UINavigationBar *navigationBar = self.navigationController.navigationBar;
+//设置透明的背景图，便于识别底部线条有没有被隐藏
+[navigationBar setBackgroundImage:[[UIImage alloc] init]
+                       forBarPosition:UIBarPositionAny
+                           barMetrics:UIBarMetricsDefault];
+//此处使底部线条失效
+[navigationBar setShadowImage:[UIImage new]];
+</code></pre>
+
+<p>来看看效果图：<br />
+   <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navShadowLineHide.png" alt="" /></p></li>
+
+<li><p>还有一种做法，一行代码就可以达到效果</p>
+
+<pre><code>//方法二：
+self.navigationController.navigationBar.clipsToBounds = YES;  
+</code></pre>
+
+<blockquote>
+<p>想要知道更详细的内容可以参考这个页面：<a href="http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line">How to hide iOS7 UINavigationBar 1px bottom line</a></p>
+</blockquote></li>
+</ul></li>
+
+<li><p>设置导航条底部线条的颜色<br />
+   有了上面的基础，设置导航栏线条的颜色就变得很简单了。<br />
+   首先，我做了个UIImage的分类：通过颜色转成UIImage；<br />
+   然后，用上面的方案来设置导航栏底部线条。</p>
+
+<p>颜色转图片的代码：</p>
+
+<pre><code>@implementation UIImage (ColorImage)
+
+
++ (UIImage *)imageWithColor:(UIColor *)color
+{
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+
+    return image;
+}
+
+
+@end
+</code></pre>
+
+<p>设置导航栏底部线条颜色的代码：</p>
+
+<pre><code>UINavigationBar *navigationBar = self.navigationController.navigationBar;
+[navigationBar setBackgroundImage:[[UIImage alloc] init]
+                        forBarPosition:UIBarPositionAny
+                            barMetrics:UIBarMetricsDefault];
+//此处使底部线条颜色为红色
+[navigationBar setShadowImage:[UIImage imageWithColor:[UIColor redColor]]]; 
+</code></pre>
+
+<p>依照惯例，看下效果图：<br />
+     <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/anvShadowSet.png" alt="" /></p>
+
+<blockquote>
+<p>当然还有其他的方式也可以做到，如<code>addSubview</code>,<code>addSubLayer</code>等。感兴趣的话可以参考下这个页面：<a href="http://stackoverflow.com/questions/19101361/ios7-change-uinavigationbar-border-color">iOS7 - Change UINavigationBar border color</a></p>
+</blockquote></li>
+
+<li><p>在导航栏上添加多个按钮<br />
+  以微信打开网页时的效果为例，效果图如下，有两个按钮：返回和关闭。<br />
+    <img src="http://7xsdes.com1.z0.glb.clouddn.com/dianpschreenshot.png" alt="center" width="500"></p>
+
+<p>有下面两种方式可供选择，但是最终还是要用到<code>leftBarButtonItems</code>这个方法。</p>
+
+<pre><code>#define UserMethod1 0
+
+
+UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:@&quot;关闭&quot; style:UIBarButtonItemStylePlain target:self action:@selector(closeAction)];
+if (UserMethod1) {
+    //方法一:
+    self.navigationItem.leftBarButtonItems = @[closeItem];
+    //要求显示默认的返回按钮，但是文字会显示默认的Back，暂时还不知道这个文字怎么改
+    self.navigationItem.leftItemsSupplementBackButton = YES;
+}
+else {
+    //方法二
+    UIButton* leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    leftButton.backgroundColor = [UIColor clearColor];
+    leftButton.frame = CGRectMake(0, 0, 45, 40);
+    [leftButton setImage:[UIImage imageNamed:@&quot;LeftButton_back_Icon&quot;] forState:UIControlStateNormal];
+    [leftButton setTitle:@&quot;返回&quot; forState:UIControlStateNormal];
+    leftButton.tintColor = [UIColor whiteColor];
+    leftButton.autoresizesSubviews = YES;
+    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    leftButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+    [leftButton addTarget:self action:@selector(goToBack) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+
+
+    self.navigationItem.leftBarButtonItems = @[backItem,closeItem];
+}
+</code></pre>
+
+<p>然后，运行的效果图如下：<br />
+    <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/addbtnOnNavBar.png" alt="" /></p>
+
+<blockquote>
+<p>方法一用到了<code>leftItemsSupplementBackButton</code> 这个属性，会显示系统默认的返回按钮，但是文字也是显示默认的Back文字，目前还没找到怎么修改这个文字，如果有谁知道，还请不吝赐教；所以我暂时还是建议大家用方法二。相应的还有 <code>rightBarButtonItems</code> 这个属性，如果要在导航栏右侧展示多个按钮的话，可以设置这个属性。</p>
+</blockquote></li>
+
+<li><p>在导航栏上添加分段控件</p>
+
+<p>这次，以QQ为例，代码如下：</p>
+
+<pre><code>UISegmentedControl *segControl = [[UISegmentedControl alloc] initWithItems:@[@&quot;消息&quot;,@&quot;电话&quot;]];
+segControl.tintColor = [UIColor colorWithRed:0.07 green:0.72 blue:0.96 alpha:1];
+[segControl setSelectedSegmentIndex:0];
+self.navigationItem.titleView = segControl;
+</code></pre>
+
+<p>代码很简单，就是设置 <code>titleView</code> 这个属性，当然，你也可以把这个属性设置为你自定义的View.<br />
+  <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/NavTitleView.png" alt="" /></p></li>
+
+<li><p>导航栏全局属性设置</p>
+
+<pre><code>//全局设置导航栏主题
+- (void)setNavigationControllerAppearance {
+    [UINavigationBar appearance].barStyle  = UIBarStyleBlack;
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithWhite:0.1 alpha:0.5]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+}
+</code></pre>
+
+<p>全局设置导航栏的好处有两个：一是不用对每个 <code>NavigationBar</code> 进行设置；二是方便做主题管理，切换主题，只需要更改全局设置即可。</p></li>
+
+<li><p>与导航栏相关的一些开源组件</p>
+
+<ol>
+<li><a href="https://github.com/ninjinkun/NJKWebViewProgress">NJKWebViewProgress</a> - 类似于Safiri加载网页时的进度显示<br />
+<img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/njgWebprogress.png" alt="" /></li>
+</ol></li>
+
+<li><p><a href="https://github.com/forkingdog/FDFullscreenPopGesture">FDFullscreenPopGesture</a> 一个丝滑的全屏滑动返回手势<br />
+    原文介绍<a href="http://blog.sunnyxx.com/2015/06/07/fullscreen-pop-gesture/">链接</a></p></li>
+</ol>
+
+<p><h5><code>UINavigationItem</code> 和 <code>UINavigationBar</code> 关系分</h5></p>
+
+<ul>
+<li><p>关系分析 <code>UIBarItem</code> -&gt; <code>UIBarButtonItem</code> -&gt; <code>UINavigationItem</code></p>
+
+<ol>
+<li><p><code>UIBarItem</code>: 类是一个可以放置在Bar之上的所有小控件类的抽象类。继承了该基类所有子类在外观上类似于一个Button，它们都有一个标题，图片，动作以及目标，这点可以从其子类的初始化方法处看到。</p></li>
+
+<li><p><code>UIBarButtonItem</code>: 专门用来放在 <code>UIToolbar</code> 或者 <code>UINavigationBar</code> 的特殊 <code>button</code>. 基本行为跟 <code>button</code> 是一样的。另外从IOS5开始的 <code>Customizing Appearance</code> 增加了一系列的方法调整显示。</p></li>
+
+<li><p><code>UINavigationItem: NSObject</code>: 包含了当前页面导航栏上需要显示的全部信息 <code>title,prompt,titleView,leftBarButtonItem,rightBarButtonItem,backBarButonItem</code></p></li>
+
+<li><p><code>UINavigationBar :UIView</code> :  NavigaitonBar 就是导航栏，位于屏幕的上方，管理整个NavigationController的navigationItem，即类似navigationcontroller一样提供了一个栈来管理item。</p></li>
+
+<li><p><code>UINavigtionController :UIViewController</code>: 包含：viewcontrollers、navigationbar、toolbar</p></li>
+
+<li><p><code>navigationbar：UIView</code>: 包含：items(UINavigationItem)</p></li>
+
+<li><p><code>viewController</code>:  包含navigationitem，toolItem.  这两个属性控制了当前页面当前页面的navigationbar，toolbar的外观。</p></li>
+</ol></li>
+
+<li><p>关系综述</p></li>
+</ul>
+
+<blockquote>
+<p><code>navigationcontroller</code> 直接控制 <code>viewcontrollers</code>，然后包含的 <code>navigationbar</code> 形成整个nv的导航栏，bar并包含整个<code>navigationItem</code> 的栈,管理整个nv的  navigationitem（ NSArray *items 属性）。</p>
+
+<p><code>navigationItem</code> 包含了bar视图的全部元素（如<code>title,tileview,backBarButtonItem</code>等），受当前<code>viewcontroller</code>管理，即bar形成整个nv的导航视图，然后每个nv页面的导航栏元素由所在页面的 <code>navigationItem</code> 管理。即设置当前页面的左右barbutton，用 <code>self.navigationItem.leftBarButtonItem</code> 等。</p>
+</blockquote>
+
+                      
+                    </div>
+                    <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+                        <div style="float:left;margin-top:0px;">
+                        <img src="http://www.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
+                        <div style="text-align:center;">微信扫一扫</div>
+                        </div>
+                        <div>
+                            <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
+                            <br />微信关注：Crime_Sence (我在案发现场）
+                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/">http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</a>
+                            <br />
+                            文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  
+
+                </div>
+                
+              </article>
+              
+
+              <div class="clear"></div>
+
+              <p class="post-tags">
+                <span>Tags:</span>
+                
+              </p>
+
+              <h4 class="heading">
+  <i class="fa fa-hand-o-right"></i>Related posts</h4>
+
+    <ul class="related-posts group">
+    
+    
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+    </ul>
+
+
+
+              <section id="comments" class="themeform">
+<div class="ds-thread" data-thread-key="/2016/05/03/UINavigationBar-Summary/" data-title="UINavigationBar-使用总结" data-url="http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"brasbug"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</section>
+
+
+              
+            </div>
+
+
+          </section>
+          <div class="sidebar s1">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
+  <div class="sidebar-content">
+    <div class="sidebar-top group">
+      <p>Follow:</p>
+      <ul class="social-links">
+    <li>
+    <a class="social-tooltip" title="On WeiBo"
+        href="http://weibo.com/u/2144561657?refer_flag=1005055013_&is_all=1" target="_blank">
+        <i class="fa fa-weibo"></i>
+    </a>
+    </li>
+    
+    
+        
+        
+    
+    
+    <li>
+    <a class="social-tooltip" title="On GitHub"
+        href="https://github.com/brasbug" target="_blank">
+        <i class="fa fa-github"></i>
+    </a>
+    </li>
+</ul>
+
+    </div>
+    <div class="widget qrcode">
+    <img src="http://www.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
+    <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
+</div>
+
+    <ul class="post-nav group">
+      <li class="next">
+        
+        <a href="http://www.flywithme.top/2016/04/28/ReactNativeRD/" rel="next">
+          <i class="fa fa-chevron-right"></i>
+          <strong>Next post</strong>
+          <span>React Native如何做跨平台设计</span>
+        </a>
+        
+      </li>
+      <li class="previous">
+        
+      </li>
+    </ul>
+    <div id="search-2" class="widget widget_search"><h3>Search</h3>
+      <form method="get" class="searchform themeform" action="https://www.google.com/search">
+        <div>
+          <input type="text" class="search" name="q" placeholder="Press enter to start searching">
+        </div>
+      </form>
+    </div>
+  </div>
+  
+</div>
+
+          <div class="sidebar s2">
+  <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
+  <div class="sidebar-content">
+    <div class="sidebar-top group">
+      <p>More</p>
+    </div>
+    <div id="categories-2" class="widget widget_categories"><h3>Categories</h3>
+      <ul>
+        
+          <li class="cat-item cat-item-1">
+            <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          </li>
+        
+          <li class="cat-item cat-item-1">
+            <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          </li>
+        
+          <li class="cat-item cat-item-1">
+            <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer id="footer">
+
+  <nav class="nav-container group" id="nav-footer">
+    <div class="nav-toggle"><i class="fa fa-bars"></i></div>
+    <div class="nav-text"></div>
+    <div class="nav-wrap">
+      <ul id="menu-default-menu-1" class="nav container group">
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://www.flywithme.top/">首页</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+        </li>
+        
+        <li class="menu-item menu-item-type-post_type menu-item-object-page">
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+        </li>
+        
+      </ul>
+    </div>
+  </nav>
+  
+
+  <section class="container" id="footer-bottom">
+    <div class="container-inner">
+      <a id="back-to-top" href="#"><i class="fa fa-angle-up"></i></a>
+      <div class="pad group">
+        <div class="grid one-half">
+          <div id="copyright">
+            <p>Copyright © 2015. All Rights Reserved. <br>Powered by
+              <a rel="nofollow" href="http://gohugo.io/" target="_blank">Hugo - the static site generator</a>.
+              <a rel="nofollow" href="http://golang.org" target="_blank">#golang</a>.
+            </p>
+          </div>
+          
+        </div>
+        
+        <div class="grid one-half last">
+          <ul class="social-links">
+    <li>
+    <a class="social-tooltip" title="On WeiBo"
+        href="http://weibo.com/u/2144561657?refer_flag=1005055013_&is_all=1" target="_blank">
+        <i class="fa fa-weibo"></i>
+    </a>
+    </li>
+    
+    
+        
+        
+    
+    
+    <li>
+    <a class="social-tooltip" title="On GitHub"
+        href="https://github.com/brasbug" target="_blank">
+        <i class="fa fa-github"></i>
+    </a>
+    </li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+    
+  </section>
+  
+
+</footer>
+
+</div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-10147768-2', 'auto');
+  ga('send', 'pageview');
+
+  $('#messagesbsb').remove();
+
+</script>
+</body>
+</html>
+
