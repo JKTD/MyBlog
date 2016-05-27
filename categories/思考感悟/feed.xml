@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>思考感悟 on JKCoder&#39;s Blog </title>
+        <link>http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/</link>
+        <language>zh-CN</language>
+        <author>Brasbug</author>
+        <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
+        <updated>Fri, 27 May 2016 10:46:06 CST</updated>
+        
+        <item>
+            <title>iOS 自定义 Log 简介</title>
+            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#ifdef DEBUG
+# define DLog(fmt, ...) NSLog((@&amp;quot;[FileName:%s]\n&amp;quot; &amp;quot;[FuctionName:%s]\n&amp;quot; &amp;quot;[Line:%d] \n&amp;quot; fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+# define DLog(...);
+#endif
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogDlog.png&#34; alt=&#34;dog&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;参数解释：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;VA_ARGS&lt;/strong&gt;是一个可变参数的宏，很少人知道这个宏，这个可变参数的宏是新的C99规范中新增的，目前似乎只有gcc支（VC6.0的编译器不支持）。宏前面加上##的作用在于，当可变参数的个数为0时，这里的##起到把前面多余的&amp;rdquo;,&amp;ldquo;去掉的作用,否则会编译出错, 你可以试试。&lt;a href=&#34;http://stackoverflow.com/questions/21873616/how-to-use-va-args-properly&#34;&gt;stackOverflow&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;FILE&lt;/strong&gt;宏在预编译时会替换成当前的源文件名&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;LINE&lt;/strong&gt;宏在预编译时会替换成当前的行号&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;FUNCTION&lt;/strong&gt;宏在预编译时会替换成当前的函数名称&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;有了以上这几个宏，特别是有了&lt;strong&gt;VA_ARGS&lt;/strong&gt;，调试信息的输出就变得灵活多了。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

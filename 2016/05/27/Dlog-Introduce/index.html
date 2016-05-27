@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>NSOperation的简单使用 - JKCoder&#39;s Blog </title>
+  <title>iOS 自定义 Log 简介 - JKCoder&#39;s Blog </title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="keywords" content="NSOperation,">
-<meta name="description" content="NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。 NSOperation表示一个独立的计算单元，作为一个抽象类，你需要实例话他的子类 NSInvocationOperation /  NSBlockOperation 来进行具体操作。 实例化之后，调用start方法或者加入到一个NSOperationQueue 操作队列中，就可以开始执行。">
+<meta name="keywords" content="xxx,">
+<meta name="description" content="我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="NSOperation的简单使用 - JKCoder&#39;s Blog ">
-<meta itemprop="description" content="NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。 NSOperation表示一个独立的计算单元，作为一个抽象类，你需要实例话他的子类 NSInvocationOperation /  NSBlockOperation 来进行具体操作。 实例化之后，调用start方法或者加入到一个NSOperationQueue 操作队列中，就可以开始执行。">
+<meta itemprop="name" content="iOS 自定义 Log 简介 - JKCoder&#39;s Blog ">
+<meta itemprop="description" content="我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，">
 <meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="NSOperation的简单使用 - JKCoder&#39;s Blog " />
+<meta property="og:title" content="iOS 自定义 Log 简介 - JKCoder&#39;s Blog " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.flywithme.top/2016/01/28/NSOperation" />
+<meta property="og:url" content="http://www.flywithme.top/2016/05/27/Dlog-Introduce/" />
 <meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。 NSOperation表示一个独立的计算单元，作为一个抽象类，你需要实例话他的子类 NSInvocationOperation /  NSBlockOperation 来进行具体操作。 实例化之后，调用start方法或者加入到一个NSOperationQueue 操作队列中，就可以开始执行。">
+<meta property="og:description" content="我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="NSOperation的简单使用 - JKCoder&#39;s Blog ">
-<meta name="twitter:description" content="NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。 NSOperation表示一个独立的计算单元，作为一个抽象类，你需要实例话他的子类 NSInvocationOperation /  NSBlockOperation 来进行具体操作。 实例化之后，调用start方法或者加入到一个NSOperationQueue 操作队列中，就可以开始执行。">
+<meta name="twitter:title" content="iOS 自定义 Log 简介 - JKCoder&#39;s Blog ">
+<meta name="twitter:description" content="我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://www.flywithme.top/2016/01/28/NSOperation">
-  <link rel='shortlink' href="http://www.flywithme.top/2016/01/28/NSOperation"/>
+  <link rel="canonical" href="http://www.flywithme.top/2016/05/27/Dlog-Introduce/">
+  <link rel='shortlink' href="http://www.flywithme.top/2016/05/27/Dlog-Introduce/"/>
   <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -163,7 +163,15 @@
               <ul class="meta-single group">
                 
                 <li class="category">
+                  <a href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="category tag">读书笔记</a>
+                </li>
+                
+                <li class="category">
                   <a href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                </li>
+                
+                <li class="category">
+                  <a href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/" rel="category tag">思考感悟</a>
                 </li>
                 
               </ul>
@@ -175,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">NSOperation的简单使用</h1>
+                  <h1 class="post-title">iOS 自定义 Log 简介</h1>
 
                   <p class="post-byline">
-                    by  · 2016年01月28日 · 993 Words ·
-                    ~2min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-01-28-NSOperation-Brief-Introduction.md"
+                    by  · 2016年05月27日 · 355 Words ·
+                    ~1min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-05-27-Dlog-Introduce.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -189,64 +197,30 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <div id="article_content" class="article_content">
+                      <p>我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：</p>
 
-<div style="font-size:14px">
-<div><span style="font-size:24px"><span style="font-family:Rokkitt,serif"><span style="color:rgb(71,71,71)">一、NSOperation的简介</span></span></span></div>
-<div>
-<div style="border:0px; outline:0px; padding:0px; vertical-align:baseline; word-wrap:break-word">
-<ul>
-<li><span style="font-family:Muli,sans-serif"><span style="color:rgb(58,58,58)">NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。NSOperation表示一个独立的计算单元，作为一个抽象类，你需要实例话他的子类&nbsp;&nbsp;NSInvocationOperation /&nbsp;&nbsp;NSBlockOperation 来进行具体操作。实例化之后，调用start方法或者加入到一个NSOperationQueue 操作队列中，就可以开始执行。</span></span></li></ul>
-<div><br>
-</div>
-</div>
-</div>
-</div>
-<div style="font-size:14px">
-<div style="border:0px; outline:0px; padding:0px; vertical-align:baseline; clear:both">
-<div><span style="font-size:24px"><span style="color:rgb(71,71,71)"><span style="font-family:Rokkitt,serif">二、NSOperation的使用</span></span></span></div>
-<div>
-<div style="border:0px; outline:0px; padding:0px; vertical-align:baseline; clear:both">
+<pre><code>#ifdef DEBUG
+# define DLog(fmt, ...) NSLog((@&quot;[FileName:%s]\n&quot; &quot;[FuctionName:%s]\n&quot; &quot;[Line:%d] \n&quot; fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+# define DLog(...);
+#endif
+</code></pre>
+
+<p><img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blogDlog.png" alt="dog" /></p>
+
+<p>参数解释：</p>
+
 <ol>
-<li><span style="color:rgb(71,71,71)"><span style="font-family:Rokkitt,serif"><span style="font-size:18px">直接启动一个NSInvocationOperation</span></span></span>
-<ul>
-<li><span style="color:rgb(71,71,71)"><span style="font-family:Rokkitt,serif"><span style="font-size:18px">示例<img src="http://img.blog.csdn.net/20151209102222185?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></span></span></span></li></ul>
-</li><li>使用NSOperationQueue管理NSOperation并开启一个异步线程
-<ul>
-<li>示例<img src="http://img.blog.csdn.net/20151209102239167?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li></ul>
-</li><li>使用NSOperationQueue管理并NSBlockOperation开启一个线程
-<ul>
-<li>NSBlockOperation与NSInvocationOperation没有神马本质的区别，只是NSBlockOperation使用代码块会更方便一些。</li><li>示例<img src="http://img.blog.csdn.net/20151209102254701?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li></ul>
-</li><li>在主线程中执行某些操作&nbsp;<img src="http://img.blog.csdn.net/20151209102333588?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li><li>添加线程之间的依赖关系
-<ul>
-<li>直接再队列中添加操作会并发执行，谁先谁后是系统调用决定的，但是在某些特定时候我们需要控制操作的执行顺序，就会使用addDependency操作。addDependency：是NSOperation的成员方法,调用该方法的NSOperation对象将在参数执行完成之后执行。需要先添加依赖关系，再将操作添加到队列中。</li><li>示例<img src="http://img.blog.csdn.net/20151209102349935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li></ul>
-</li><li>控制线程并发数
-<ul>
-<li>并发的线程越多越耗资源，队列可以设置同事并发线程的数量来进行控制</li><li>示例<img src="http://img.blog.csdn.net/20151209102406696?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li></ul>
-</li><li>取消一个操作
-<ul>
-<li>NSOperation里有一系列的属性来表明自身状态： isReady → isExecuting → isFinish 。线程start后并不是立即执行，而是进入一个就绪的状态(isReady)，由系统调度执行。 有时可能需要进行取消操作，可以调用 -(void)cancel;来停止一些还未执行的不必要线程.</li><li>示例<img src="http://img.blog.csdn.net/20151209102434144?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li></ul>
-</li><li>优先级
-<ul>
-<li>NSOpertaion可以通过threadPriority属性来指定优先级。 但是在iOS8中，线程这个概念已经被苹果框架系统性的忽略了,threadPriority已由NSQualityOfService属性替代。</li><li>NSOperationQueuePriority的枚举类型如下<img src="http://img.blog.csdn.net/20151209102452878?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li><li>NSQualityOfService的枚举类型如下<img src="http://img.blog.csdn.net/20151209102505173?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li></ul>
-</li></ol>
-</div>
-</div>
-</div>
-</div>
-<div style="color:rgb(51,51,51); font-family:'Helvetica Neue',Helvetica,STheiti,微软雅黑,黑体,Arial,Tahoma,sans-serif,serif; font-size:14px">
-<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-</strong></div>
-<div style="font-family:Rokkitt; font-size:14px">
-<div><span style="font-size:24px"><span style="color:rgb(71,71,71)"><span style="font-family:Rokkitt,serif">二、NSOperation小结</span></span></span></div>
-<ol>
-<li><span style="font-family:Rokkitt,serif"><span style="color:rgb(71,71,71)">&nbsp;NSOperation方便控制线程执行顺序</span></span></li><li><span style="color:rgb(71,71,71)">使用NSBlockOperation可以使用块代码，不必单鞋线程方法，便于传递多个参数</span></li><li><span style="color:rgb(71,71,71)">可以控制线程并发数，有效的对线程进行控制</span></li><li><span style="color:rgb(71,71,71)">可以添加线程完成代码块，执行需要的操作</span></li></ol>
-</div>
-   
+<li><p><strong>VA_ARGS</strong>是一个可变参数的宏，很少人知道这个宏，这个可变参数的宏是新的C99规范中新增的，目前似乎只有gcc支（VC6.0的编译器不支持）。宏前面加上##的作用在于，当可变参数的个数为0时，这里的##起到把前面多余的&rdquo;,&ldquo;去掉的作用,否则会编译出错, 你可以试试。<a href="http://stackoverflow.com/questions/21873616/how-to-use-va-args-properly">stackOverflow</a></p></li>
 
-<p></div></p>
+<li><p><strong>FILE</strong>宏在预编译时会替换成当前的源文件名</p></li>
 
-<!-- Baidu Button BEGIN -->
+<li><p><strong>LINE</strong>宏在预编译时会替换成当前的行号</p></li>
+
+<li><p><strong>FUNCTION</strong>宏在预编译时会替换成当前的函数名称</p></li>
+</ol>
+
+<p>有了以上这几个宏，特别是有了<strong>VA_ARGS</strong>，调试信息的输出就变得灵活多了。</p>
 
                       
                     </div>
@@ -258,7 +232,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/01/28/NSOperation">http://www.flywithme.top/2016/01/28/NSOperation</a>
+                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/05/27/Dlog-Introduce/">http://www.flywithme.top/2016/05/27/Dlog-Introduce/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -311,7 +285,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/01/28/NSOperation" data-title="NSOperation的简单使用" data-url="http://www.flywithme.top/2016/01/28/NSOperation"></div>
+<div class="ds-thread" data-thread-key="/2016/05/27/Dlog-Introduce/" data-title="iOS 自定义 Log 简介" data-url="http://www.flywithme.top/2016/05/27/Dlog-Introduce/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -366,20 +340,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://www.flywithme.top/about/" rel="next">
+        <a href="http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>关于我</span>
+          <span>UINavigationBar-使用总结</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://www.flywithme.top/2016/01/28/NSThread/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>NSThread</span>
-        </a>
         
       </li>
     </ul>
