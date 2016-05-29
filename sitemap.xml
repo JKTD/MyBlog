@@ -2,119 +2,119 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
-        <loc>http://blog.flywithme.top/</loc>
+        <loc>http://www.flywithme.top/</loc>
         <lastmod>2016-05-27T10:46:06+08:00</lastmod>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</loc>
+        <loc>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</loc>
         <lastmod>2016-05-27T10:46:06+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</loc>
+        <loc>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</loc>
         <lastmod>2016-05-03T11:49:19+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</loc>
+        <loc>http://www.flywithme.top/2016/04/28/ReactNativeRD/</loc>
         <lastmod>2016-04-28T10:54:03+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</loc>
+        <loc>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</loc>
         <lastmod>2016-04-27T16:47:13+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/31/golang-Mgo/</loc>
+        <loc>http://www.flywithme.top/2016/03/31/golang-Mgo/</loc>
         <lastmod>2016-03-31T13:56:29+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/29/golangGin</loc>
+        <loc>http://www.flywithme.top/2016/03/29/golangGin</loc>
         <lastmod>2016-03-29T19:04:26+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</loc>
+        <loc>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</loc>
         <lastmod>2016-03-28T14:07:36+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/26/iOSRunloop/</loc>
+        <loc>http://www.flywithme.top/2016/03/26/iOSRunloop/</loc>
         <lastmod>2016-03-26T23:10:12+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/26/ResponderChain/</loc>
+        <loc>http://www.flywithme.top/2016/03/26/ResponderChain/</loc>
         <lastmod>2016-03-26T22:28:03+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</loc>
+        <loc>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</loc>
         <lastmod>2016-03-25T16:52:16+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</loc>
+        <loc>http://www.flywithme.top/2016/03/24/loadAndinitialize/</loc>
         <lastmod>2016-03-24T19:20:35+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/24/OCRuntime/</loc>
+        <loc>http://www.flywithme.top/2016/03/24/OCRuntime/</loc>
         <lastmod>2016-03-24T10:58:29+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</loc>
+        <loc>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</loc>
         <lastmod>2016-03-20T17:40:29+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/17/appUpdate/</loc>
-        <lastmod>2016-03-17T14:06:05+08:00</lastmod>
-    </url>
-    
-    <url>
-        <loc>http://blog.flywithme.top/2016/03/15/JScallOC/</loc>
-        <lastmod>2016-03-15T18:12:45+08:00</lastmod>
-    </url>
-    
-    <url>
-        <loc>http://blog.flywithme.top/2016/03/15/OCCallJS/</loc>
-        <lastmod>2016-03-15T18:05:59+08:00</lastmod>
-    </url>
-    
-    <url>
-        <loc>http://blog.flywithme.top/2016/01/28/JKImageView/</loc>
-        <lastmod>2016-01-28T16:42:11+08:00</lastmod>
-    </url>
-    
-    <url>
-        <loc>http://blog.flywithme.top/2016/01/28/NSThread/</loc>
-        <lastmod>2016-01-28T16:37:37+08:00</lastmod>
-    </url>
-    
-    <url>
-        <loc>http://blog.flywithme.top/2016/01/28/NSOperation</loc>
-        <lastmod>2016-01-28T15:57:21+08:00</lastmod>
-    </url>
-    
-    <url>
-        <loc>http://blog.flywithme.top/about/</loc>
-        <lastmod>2016-01-28T08:55:31+08:00</lastmod>
-    </url>
-    
-    <url>
-        <loc>http://blog.flywithme.top/2016/01/20/GCD/</loc>
-        <lastmod>2016-01-20T14:16:48+08:00</lastmod>
-    </url>
-    
-    <url>
-        <loc>http://blog.flywithme.top/2015/08/29/hugo/</loc>
+        <loc>http://www.flywithme.top/2015/08/29/hugo/</loc>
         <lastmod>2015-08-29T16:52:15+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://www.flywithme.top/2015/08/17/appUpdate/</loc>
+        <lastmod>2015-08-17T14:06:05+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://www.flywithme.top/2015/06/15/JScallOC/</loc>
+        <lastmod>2015-06-15T18:12:45+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://www.flywithme.top/2015/06/15/OCCallJS/</loc>
+        <lastmod>2015-06-15T18:05:59+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://www.flywithme.top/2015/02/27/JKImageView/</loc>
+        <lastmod>2015-02-27T16:42:11+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://www.flywithme.top/2015/02/25/NSThread/</loc>
+        <lastmod>2015-02-25T16:37:37+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://www.flywithme.top/2015/02/24/NSOperation</loc>
+        <lastmod>2015-02-24T15:57:21+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://www.flywithme.top/2015/01/20/GCD/</loc>
+        <lastmod>2015-01-20T14:16:48+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://www.flywithme.top/about/</loc>
+        <lastmod>0001-01-01T00:00:00+00:00</lastmod>
     </url>
     
 </urlset>
