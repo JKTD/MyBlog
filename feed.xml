@@ -5482,502 +5482,368 @@ NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
         </item>
         
         <item>
-            <title>使用hugo搭建个人博客站点</title>
-            <link>http://www.flywithme.top/2015/08/29/hugo/</link>
-            <pubDate>Sat, 29 Aug 2015 16:52:15 CST</pubDate>
+            <title>iOS JS call OC</title>
+            <link>http://www.flywithme.top/2015/09/15/JScallOC/</link>
+            <pubDate>Tue, 15 Sep 2015 18:12:45 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2015/08/29/hugo/</guid>
-            <description>
-
-&lt;blockquote&gt;
-&lt;p&gt;转载 from: &lt;a href=&#34;http://blog.coderzh.com/2015/08/29/hugo/&#34;&gt;coderzh&lt;/a&gt;&lt;/p&gt;
+            <guid>http://www.flywithme.top/2015/09/15/JScallOC/</guid>
+            <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
+&lt;p&gt;接着上节我们讲到的iOS调用js&lt;/p&gt;
+&lt;p&gt;下来我们使用js调用iOS&lt;/p&gt;
+&lt;p&gt;js调用iOS分两种情况&lt;/p&gt;
+&lt;p&gt;一，js里面直接调用方法&lt;/p&gt;
+&lt;p&gt;二，js里面通过对象调用方法&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;首先我们看第一种，直接调用方法。&lt;/p&gt;
+&lt;p&gt;其中用到了iOS的block&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;上代码&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_1_7755355&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_1_7755355&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //网页加载完成调用此方法
+    
+    //iOS调用js
+    
+    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
+    JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;];
+  
+    //js调用iOS
+    //第一种情况
+    //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码
+    //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道
+    context[@&amp;quot;test1&amp;quot;] = ^() {
+        NSArray *args = [JSContext currentArguments];
+        for (id obj in args) {
+            NSLog(@&amp;quot;%@&amp;quot;,obj);
+        }
+    };
+    //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下）
+    //首先准备一下js代码，来调用js的函数test1 然后执行
+    //一个参数
+    NSString *jsFunctStr=@&amp;quot;test1(&amp;#39;参数1&amp;#39;)&amp;quot;;
+    [context evaluateScript:jsFunctStr];
+    
+    //二个参数
+    NSString *jsFunctStr1=@&amp;quot;test1(&amp;#39;参数a&amp;#39;,&amp;#39;参数b&amp;#39;)&amp;quot;;
+    [context evaluateScript:jsFunctStr1];
+    
+}&lt;/pre&gt;&lt;br&gt;
+以上代码中 给test1赋&amp;#20540;的block要是执行了那么结果就是对的，js调用了iOS
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;我们看结果&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725183355773?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
 &lt;/blockquote&gt;
-
-&lt;p&gt;Hugo是一个用Go语言编写的静态网站生成器，它使用起来非常简单，相对于Jekyll复杂的安装设置来说，Hugo仅需要一个二进制文件hugo(hugo.exe)即可轻松用于本地调试和生成静态页面。&lt;/p&gt;
-
-&lt;p&gt;Hugo生成静态页面的效率很高，我的260多篇博客文章生成几乎是瞬间完成的，而之前用Jekyll需要等待10秒左右。&lt;/p&gt;
-
-&lt;p&gt;Hugo自带watch的调试模式，可以在我修改MarkDown文章之后切换到浏览器，页面会检测到更新并且自动刷新，呈现出最终效果，能极大的提高博客书写效率。再加上Hugo是使用Go语言编写，已经没有任何理由不使用Hugo来代替Jekyll作为我的个人博客站点生成器了。&lt;/p&gt;
-
-&lt;h3 id=&#34;静态网站生成器:826b8fbf4b1c9d49ecec9c1552f05b58&#34;&gt;静态网站生成器&lt;/h3&gt;
-
-&lt;p&gt;什么是静态网站生成器？如果追溯到最早的网站形式，那时候的网页都是静态的，即一个内容不变的html文件放在服务器上，人们通过互联网访问浏览的都是这个一成不变的页面。后来，人们发现，需要和网页进行交互，能根据用户的输入动态呈现出相应的内容，这就是动态网站。那，为什么现在又回归使用静态网站呢？特别是对于博客网站这种特殊的形式。我的理解是：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;访问速度提升。静态页面不需要像动态页面那样经常去查询数据库，而是直接将最终页面内容返回。&lt;/li&gt;
-&lt;li&gt;搜素引擎友好。便于搜索引擎索引，比如很多动态网站的页面地址是一样的，只是后面传入的参数不一样，容易让搜索引擎误认为是同一个页面。（虽然不会）&lt;/li&gt;
-&lt;li&gt;可以完全抛弃数据库，减少复杂度，将最复杂的一步交给静态网站生成器，自己只专注写作、生成、发布三个步骤。&lt;/li&gt;
-&lt;li&gt;博客文章可以以文本文件的方式（MarkDown）在本地维护管理，不需要像之前那样在网页的编辑器里提交到网站数据库。你可以方便的使用github管理你的博客文章，不会丢失，又能追溯到每一次的内容变更。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;目前最流行的静态网站生成器是Jekyll，它是github创始人自己实现的一套ruby的静态网站生成器。一经推出，各个程序哥竞相效仿，一时间使用Jekyll搭建自己的博客变成了一件很高逼格的事情。&lt;/p&gt;
-
-&lt;p&gt;我也是跟风者之一，在Jekyll之前，我主要也是在博客园写文章，同时独立博客这块也尝试过自己实现的博客程序，用GAE写过，后来又用Tornado写过，都是动态网站。自己实现博客程序，总是在开始一段时间内很狂热，当一切实现完成，细节修缮好之后很快就失去了兴趣。因为你的注意力从只是写文章，经常转移到其他地方去。比如网站不好看，需要去改一改网站的风格样式，修复BUG，加一加功能等等。&lt;/p&gt;
-
-&lt;p&gt;所以，如果只是专注于写作，还是找一个稳定一些，提供大量现成皮肤，有稳定专业的组织维护更新的博客系统。使用Jekyll确实让我眼前一亮，原来博客程序可以这么玩。于是利用周末的时间，我将我之前所有的文章，包括博客园的文章，都迁移到了Jekyll上来。自从有了Jekyll，我终于可以开开心心的专注的写文章了，而且使用喜欢的MarkDown格式。：）&lt;/p&gt;
-
-&lt;p&gt;在使用了Jekyll一段时间后，它的问题也逐渐暴露出来：静态页面生成的效率不够高。因为我把以前的文章都导入了过来，一共有260来篇，每次编辑文章后，需要等等10秒，待它将所有页面检查并生成完成之后，才能看到最终的效果。这是我最不能忍受的一点。对于初学者，Jekyll还有很多问题，比如环境搭建非常复杂，导致使用Jekyll的人大都是一些喜欢折腾，不怕折腾的程序哥。&lt;/p&gt;
-
-&lt;p&gt;随着Go1.5版本的发布，让我意识到是时候好好玩一玩Go语言了。使用Go语言实现的静态网站生成器Hugo（雨果）立即吸引了我，它解决了我最大的痛点：生成的效率。文档、社区各方面的支持都不错，使用起来非常简单，各种皮肤直接套用，于是我又开始了Jekyll迁移到Hugo的漫漫长路。（一个周末的时间）&lt;/p&gt;
-
-&lt;p&gt;&lt;del&gt;即使迁移到了Hugo，我还保留着原来的Jekyll博客，只是不会再更新了，用来怀念？还是哪天突然又跳回来也不一定。&lt;/del&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;del&gt;我的Jeklly博客：&lt;a href=&#34;http://jekyll.coderzh.com&#34;&gt;http://jekyll.coderzh.com&lt;/a&gt;&lt;/del&gt; Update(2015-09-20): 觉得没啥用了，还是干掉了&lt;/p&gt;
-
-&lt;p&gt;我的Hugo博客：&lt;a href=&#34;http://blog.coderzh.com/&#34;&gt;http://blog.coderzh.com/&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;github-pages:826b8fbf4b1c9d49ecec9c1552f05b58&#34;&gt;GitHub Pages&lt;/h3&gt;
-
-&lt;p&gt;使用静态网站生成器生成好静态页面之后，需要把文件放到服务器上供别人浏览。比较传统的方式是租用VPS虚拟服务器，比如：linode、digitalocean。将生成好的静态页面手工上传到服务器上。如果你习惯这种方式部署，推荐你使用&lt;a href=&#34;https://www.digitalocean.com/?refcode=e131e2bba197&#34;&gt;digitalocean&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;当然， 还有更好的方式，就是直接把网站托管到GitHub Pages。你只需要在GitHub上创建一个项目，然后将生成出来的静态页面文件push到这个项目的gh-pages分支，保证根目录有一个index.html文件即可。这样，一个免费、无限流量的博客系统就搭建完成了。同时，通过github你可以方便对博客文章进行管理和追踪。&lt;/p&gt;
-
-&lt;h3 id=&#34;hugo:826b8fbf4b1c9d49ecec9c1552f05b58&#34;&gt;Hugo&lt;/h3&gt;
-
-&lt;p&gt;前面的铺垫介绍的差不多了，该主角上场了。Hugo是什么？它主要做了什么？&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Hugo只有一个二进制文件（比如Windows里只是一个hugo.exe）&lt;/li&gt;
-&lt;li&gt;Hugo可以将你写好的MarkDown格式的文章自动转换为静态的网页。&lt;/li&gt;
-&lt;li&gt;Hugo内置web服务器，可以方便的用于本地调试。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;hello-hugo:826b8fbf4b1c9d49ecec9c1552f05b58&#34;&gt;Hello Hugo&lt;/h3&gt;
-
-&lt;p&gt;Hugo官方主页：&lt;a href=&#34;https://gohugo.io/&#34;&gt;https://gohugo.io/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Hugo的安装方式有两种，一种是直接下载编译好的Hugo二进制文件。如果只是使用Hugo推荐用这种方式。另一种方式是获取Hugo的源码，自己编译。由于各种不可预料的网络问题，第二种方式不是那么轻易能成功，虽然最后我还是折腾出来了。&lt;/p&gt;
-
-&lt;p&gt;Hugo二进制下载地址：&lt;a href=&#34;https://github.com/spf13/hugo/releases&#34;&gt;https://github.com/spf13/hugo/releases&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;下载下来后，只有一个叫hugo或者hugo.exe的程序，接下来开始生成自己的站点：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hugo new site mysite
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后hugo会自动生成这样一个目录结构：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;  ▸ archetypes/
-  ▸ content/
-  ▸ layouts/
-  ▸ static/
-    config.toml
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;简要介绍一下，config.toml是网站的配置文件，这是一个TOML文件，全称是Tom&amp;rsquo;s Obvious, Minimal Language，这是它的作者GitHub联合创始人Tom Preston-Werner 觉得YAML不够优雅，捣鼓出来的一个新格式。如果你不喜欢这种格式，你可以将config.toml替换为YAML格式的config.yaml，或者json格式的config.json。hugo都支持。&lt;/p&gt;
-
-&lt;p&gt;content目录里放的是你写的markdown文章，layouts目录里放的是网站的模板文件，static目录里放的是一些图片、css、js等资源。&lt;/p&gt;
-
-&lt;p&gt;进入生成的site目录：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ cd mysite
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;创建一个页面：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hugo new about.md
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如果是博客日志，最好将md文件放在content的post目录里。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hugo new post/first.md
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;执行完后，会在content/post目录自动生成一个MarkDown格式的first.md文件：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;+++
-date = &amp;quot;2015-01-08T08:36:54-07:00&amp;quot;
-draft = true
-title = &amp;quot;first&amp;quot;
- 
-+++
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;+++可以替换为Jekyll一样的---，里面的内容是这篇文章的一些信息。下面就可以开始写你的文章内容，比如：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;+++
-date = &amp;quot;2015-01-08T08:36:54-07:00&amp;quot;
-draft = true
-title = &amp;quot;first&amp;quot;
- 
-+++
-
-### Hello Hugo
-
- 1. aaa
- 1. bbb
- 1. ccc
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;OK，刚才的about.md也有内容，该看看最后的效果了。然后你屁颠屁颠的使用hugo server启动，打开浏览器里一看，发现毛都没有！这是肿么了！&lt;/p&gt;
-
-&lt;p&gt;这是Hugo对初学者非常不友好的地方，默认生成的网站是没有任何皮肤模板的。为了看看第一个写的示例，还得去Github上把一个网页模板下载下来。如果你网络够好，网速够快，你可以在刚才的目录将Hugo官方的所有模板都下载下来：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ git clone --recursive https://github.com/spf13/hugoThemes themes
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;我尝试过，也失败过，且从未成功一次性将所有的模板下载下来。所以，我们还是老老实实只下载其中一个模板来看看效果吧：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ cd themes
-$ git clone https://github.com/spf13/hyde.git
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;启动本地调试：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hugo server --theme=hyde --buildDrafts --watch
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;浏览器里打开：&lt;a href=&#34;http://127.0.0.1:1313&#34;&gt;http://127.0.0.1:1313&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/HugoFirstPost.png-w&#34; alt=&#34;HugoFirstPost&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&amp;ndash;watch或者-w 选项打开的话，将会监控到文章的改动从而自动去刷新浏览器，不需要自己手工去刷新浏览器，非常方便。&lt;/p&gt;
-
-&lt;p&gt;如果你看了上面的说明已经有冲动去试一试Hugo了，我的目的也算达到了，接下来你需要的只是查看官方的说明文档就够了，所以具体的一些设置我就不重复了。&lt;/p&gt;
-
-&lt;p&gt;官方文档：&lt;a href=&#34;https://gohugo.io/overview/introduction/&#34;&gt;https://gohugo.io/overview/introduction/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;皮肤列表：&lt;a href=&#34;https://github.com/spf13/hugoThemes&#34;&gt;https://github.com/spf13/hugoThemes&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;常用文档：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;https://gohugo.io/overview/configuration/&#34;&gt;Configuring Hugo&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://gohugo.io/content/front-matter/&#34;&gt;Front Matter&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://gohugo.io/extras/menus/&#34;&gt;Menus&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://gohugo.io/templates/variables/&#34;&gt;Template Variables&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog/&#34;&gt;Hosting on GitHub Pages&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;遇到的问题:826b8fbf4b1c9d49ecec9c1552f05b58&#34;&gt;遇到的问题&lt;/h3&gt;
-
-&lt;ol&gt;
-&lt;li&gt;默认的ServerSide的代码着色会有问题，有些字的颜色会和背景色一样导致看不见。&lt;br /&gt;
-解决方法：使用ClientSide的代码着色方案即可解决。（见：&lt;a href=&#34;https://gohugo.io/extras/highlighting/#client-side:c4210b265c792cac9a6cf6a5f53b671d&#34;&gt;Client-side Syntax Highlighting&lt;/a&gt;）&lt;/li&gt;
-&lt;li&gt;URL全部被转成了小写，如果是旧博客迁移过来，将是无法接受的。&lt;br /&gt;
-解决方法：&lt;del&gt;我是直接改了Hugo的代码，将URL强制转换为小写那段逻辑去掉了，之后考虑在config里提供配置开关，然后给Hugo提一个PR。如果是Windows用户可以直接&lt;a href=&#34;https://github.com/coderzh/ConvertToHugo&#34;&gt;https://github.com/coderzh/ConvertToHugo&lt;/a&gt; 下载到我修改后的版本myhugo.exe。&lt;/del&gt;&lt;br /&gt;
-Update(2015-09-03): 已经提交&lt;a href=&#34;https://github.com/spf13/hugo/pull/1392&#34;&gt;PR&lt;/a&gt;并&lt;a href=&#34;https://github.com/spf13/hugo/commit/52d94fa67578f6b63035e73b236ca8abd40d0006&#34;&gt;commit&lt;/a&gt;到Hugo，最新版本只需要在config里增加：&lt;br /&gt;
-&lt;code&gt;disablePathToLower: true&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;文章的内容里不能像Jekyll一样可以内嵌代码模板了。最终会生成哪些页面，有一套相对固定而复杂的规则，你会发现想创建一个自定义界面会非常的困难。&lt;br /&gt;
-解决方法：无，看文档，了解它的规则。博客程序一般也不需要特别的自定义界面。Hugo本身已经支持了类似posts, tags, categories等内容聚合的页面，同时支持rss.xml，404.html等。如果你的博客程序复杂到需要其他的页面，好好想想是否必须吧。&lt;/li&gt;
-&lt;li&gt;如何将rss.xml替换为feed.xml？&lt;br /&gt;
-解决方法：在config.yaml里加入：
-&lt;code&gt;
-rssuri: &amp;quot;feed.xml&amp;quot;
-&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;jekyll迁移到hugo:826b8fbf4b1c9d49ecec9c1552f05b58&#34;&gt;Jekyll迁移到Hugo&lt;/h3&gt;
-
-&lt;p&gt;Jekyll的文章内容迁移到Hugo中，大部分内容是兼容的，但也有一些地方是不兼容的。主要有以下几个地方需要修改：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Jekyll文章能从文件名里的日期部分读取到日期，并将剩余的部分当做的页面url的名称，比如：2015-08-29-first.md。而Hugo只认md文件里的date字段，url的名称如果用文件名的话将会使用完整的文件名（不会去除日期部分）。为了兼容，必须在md的Front Matter里写入url字段，用来说明该页面的相对url地址，从而保持兼容。&lt;/li&gt;
-&lt;li&gt;tags, categories等字段必须用列表的方式，不像Jekyll中那样随意了。&lt;/li&gt;
-&lt;li&gt;{% raw %} {% endraw %}将不需要了。&lt;/li&gt;
-&lt;li&gt;{% highlight ruby %} 变成了{{&amp;lt; highlight ruby &amp;gt;}} 。不过我还是推荐使用``` ruby ```形式，然后使用ClientSide的Highlight，这样两边都兼容。&lt;/li&gt;
-&lt;li&gt;需要将Jekyll里的public里的文件拷贝到Hugo的static目录里。&lt;/li&gt;
-&lt;li&gt;Jekyll的文章必须放到Hugo的content/post目录里。&lt;/li&gt;
-&lt;li&gt;Jekyll只需要push文章内容到github，服务器会自动生成静态页面。毕竟是github的亲儿子。而Hugo需要你将生成的public目录里的内容做为gh-pages分支push上去。具体的简便的方法见：&lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog/&#34;&gt;Hosting on GitHub Pages&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;假如你之前的博客和我一样是Jekyll的，可以尝试使用我写的&lt;a href=&#34;https://github.com/coderzh/ConvertToHugo/blob/master/ConvertToHugo.py&#34;&gt;ConvertToHugo.py&lt;/a&gt; 工具。这个转换工具逻辑相对比较简单和清晰，如果满足不了你的需求你也可以轻易在此基础上做些修改，如果我能收到PR当然是最好了。&lt;/p&gt;
-
-&lt;p&gt;反正，我是完全使用CovertToHugo.py将我原来的Jekyll博客全部转过来了。而且，我找到了一个非常炫酷的主题，并且在此基础稍微修改下。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://7xlx3k.com1.z0.glb.clouddn.com/HugoBlog.jpg&#34; alt=&#34;HugoBlog&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Blog地址：&lt;a href=&#34;http://blog.coderzh.com&#34;&gt;http://blog.coderzh.com&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Github: &lt;a href=&#34;https://github.com/coderzh/coderzh-hugo-blog&#34;&gt;https://github.com/coderzh/coderzh-hugo-blog&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Update(2015-10-08) 国庆在家给Hugo提了个PR，已经将Jekyll迁移功能集成到了Hugo里，pull最新的Hugo代码，编译Hugo，然后可以执行：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hugo import jekyll YourJekyllDir TargetDir
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;将自动把你的Jekyll站点转换成Hugo的站点。欢迎试用并反馈。&lt;/p&gt;
-
-&lt;h3 id=&#34;关于部署:826b8fbf4b1c9d49ecec9c1552f05b58&#34;&gt;关于部署&lt;/h3&gt;
-
-&lt;p&gt;假设你需要部署在 &lt;code&gt;GitHub Pages&lt;/code&gt; 上，首先在GitHub上创建一个Repository，命名为：&lt;code&gt;coderzh.github.io&lt;/code&gt; （coderzh替换为你的github用户名）。&lt;/p&gt;
-
-&lt;p&gt;在站点根目录执行 &lt;code&gt;Hugo&lt;/code&gt; 命令生成最终页面：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hugo --theme=hyde --baseUrl=&amp;quot;http://coderzh.github.io/&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如果一切顺利，所有静态页面都会生成到 &lt;code&gt;public&lt;/code&gt; 目录，将pubilc目录里所有文件 &lt;code&gt;push&lt;/code&gt; 到刚创建的Repository的 &lt;code&gt;master&lt;/code&gt; 分支。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ cd public
-$ git init
-$ git remote add origin https://github.com/coderzh/coderzh.github.io.git
-$ git add -A
-$ git commit -m &amp;quot;first commit&amp;quot;
-$ git push -u origin master
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;浏览器里访问：&lt;code&gt;http://coderzh.github.io/&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;自动部署的脚本可以参考我的Repo里的&lt;code&gt;deploy.py&lt;/code&gt;脚本：&lt;a href=&#34;https://github.com/coderzh/coderzh-hugo-blog&#34;&gt;https://github.com/coderzh/coderzh-hugo-blog&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;全自动化部署到GitHub和GitCafe，见我的另一篇博客：&lt;a href=&#34;http://blog.coderzh.com/2015/09/13/use-webhook-automated-deploy-hugo/&#34;&gt;通过webhook将Hugo自动部署至GitHub Pages和GitCafe Pages&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;hugo中文文档:826b8fbf4b1c9d49ecec9c1552f05b58&#34;&gt;Hugo中文文档&lt;/h3&gt;
-
-&lt;p&gt;Hugo中文文档网站：&lt;a href=&#34;http://www.gohugo.org/&#34;&gt;http://www.gohugo.org/&lt;/a&gt; 已上线， 并且在不断完善中，欢迎访问。&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;转载 from: &lt;a href=&#34;http://blog.coderzh.com/2015/08/29/hugo/&#34;&gt;coderzh&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。&lt;/p&gt;
+&lt;p&gt;此处稍微复杂一点我们需要使用到&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(112,61,170)&#34;&gt;
+JSExport&lt;/p&gt;
+&lt;p&gt;凡事添加了JSExport协议的协议，所规定的方法，变量等 就会对js开放，我们可以通过js调用到&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+如果js是一个参数或者没有参数的话 就比较简单，我们的方法名和js的方法名保持一致即可&lt;/p&gt;
+&lt;p&gt;比如： js方法为 &amp;nbsp;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_2_3579444&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_2_3579444&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;testobject.TestOneParameter(&amp;#39;参数1&amp;#39;)&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+那么 我们在oc中添加的代理方法就为
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_3_864229&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_3_864229&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)TestOneParameter:(NSString *)message;&lt;/pre&gt;&lt;br&gt;
+&lt;p&gt;&lt;/p&gt;
+如果js是多个参数的话 &amp;nbsp;我们代理方法的所有变量前的名字连起来要和js的方法名字一样
+&lt;p&gt;比如： js方法为 &amp;nbsp;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_4_657268&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_4_657268&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;testobject.TestTowParameterSecondParameter(&amp;#39;参数A&amp;#39;,&amp;#39;参数B&amp;#39;)&lt;/pre&gt;他有两个参数 那么我们的代理方法 就是把js的方法名 TestTowParameterSecondParameter 任意拆分成两段作为代理方法名（此处我们拆分为 TestTowParameter 和&amp;nbsp;SecondParameter ） 那么我们的代理方法就是
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_5_6862257&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_5_6862257&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2;&lt;/pre&gt;我们看代理方法有两个变量别名
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;TestTowParameter 和&amp;nbsp;SecondParameter&amp;nbsp;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;他两个拼接起来就刚好是我们js的方法名&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;此处有点绕。我们直接看代码&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;首先创建一个类 继承NSObject 并且规定一个协议&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_6_592012&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_6_592012&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
+#import &amp;lt;JavaScriptCore/JavaScriptCore.h&amp;gt;
+
+//首先创建一个实现了JSExport协议的协议
+@protocol TestJSObjectProtocol &amp;lt;JSExport&amp;gt;
+
+//此处我们测试几种参数的情况
+-(void)TestNOParameter;
+-(void)TestOneParameter:(NSString *)message;
+-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2;
+
+@end
+
+//让我们创建的类实现上边的协议
+@interface TestJSObject : NSObject&amp;lt;TestJSObjectProtocol&amp;gt;
+
+@end
+&lt;/pre&gt;&lt;br&gt;
+类的实现
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_7_1813511&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_7_1813511&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;#import &amp;quot;TestJSObject.h&amp;quot;
+
+@implementation TestJSObject
+
+//一下方法都是只是打了个log 等会看log 以及参数能对上就说明js调用了此处的iOS 原生方法
+-(void)TestNOParameter
+{
+    NSLog(@&amp;quot;this is ios TestNOParameter&amp;quot;);
+}
+-(void)TestOneParameter:(NSString *)message
+{
+    NSLog(@&amp;quot;this is ios TestOneParameter=%@&amp;quot;,message);
+}
+-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2
+{
+   NSLog(@&amp;quot;this is ios TestTowParameter=%@  Second=%@&amp;quot;,message1,message2);
+}
+@end
+&lt;/pre&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;下面我们在weibview加载完成之后调用测试一下&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;代码如下：&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_8_5543264&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_8_5543264&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //网页加载完成调用此方法
+    
+    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
+    JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;];
+    
+    //第二种情况，js是通过对象调用的，我们假设js里面有一个对象 testobject 在调用方法
+    //首先创建我们新建类的对象，将他赋值给js的对象
+    
+    TestJSObject *testJO=[TestJSObject new];
+    context[@&amp;quot;testobject&amp;quot;]=testJO;
+    
+    //同样我们也用刚才的方式模拟一下js调用方法
+    NSString *jsStr1=@&amp;quot;testobject.TestNOParameter()&amp;quot;;
+    [context evaluateScript:jsStr1];
+    NSString *jsStr2=@&amp;quot;testobject.TestOneParameter(&amp;#39;参数1&amp;#39;)&amp;quot;;
+    [context evaluateScript:jsStr2];
+    NSString *jsStr3=@&amp;quot;testobject.TestTowParameterSecondParameter(&amp;#39;参数A&amp;#39;,&amp;#39;参数B&amp;#39;)&amp;quot;;
+    [context evaluateScript:jsStr3];
+    
+}&lt;/pre&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;结果如下图&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725190107988?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;p&gt;好了 我们看到了结果 三个方法都调用了&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;ok两种方式都完成了&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+
+
+&lt;br&gt;
+&lt;p&gt; 转载自:http://blog.csdn.net/lwjok2007/article/details/47058101&lt;br&gt;
+&lt;/p&gt;
+   
+&lt;/div&gt;
 </description>
         </item>
         
         <item>
-            <title>iOS App检测AppStore更新</title>
-            <link>http://www.flywithme.top/2015/08/17/appUpdate/</link>
-            <pubDate>Mon, 17 Aug 2015 14:06:05 CST</pubDate>
+            <title>iOS OC call JS</title>
+            <link>http://www.flywithme.top/2015/09/15/OCCallJS/</link>
+            <pubDate>Tue, 15 Sep 2015 18:05:59 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2015/08/17/appUpdate/</guid>
+            <guid>http://www.flywithme.top/2015/09/15/OCCallJS/</guid>
             <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
 
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:21px; color:rgb(70,70,70); font-size:14px; background-color:rgb(188,211,229); font-family:Menlo&#34;&gt;
-//id&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:normal; font-family:&#39;Heiti sC Light&#39;&#34;&gt;是&lt;/span&gt;&amp;nbsp;itunes connect&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:normal; font-family:&#39;Heiti sC Light&#39;&#34;&gt;里的&lt;/span&gt;&amp;nbsp;Apple ID&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:21px; font-size:14px; background-color:rgb(188,211,229); font-family:Menlo; color:rgb(160,31,31)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; color:rgb(126,72,48)&#34;&gt;#define APP_URL @&lt;/span&gt;&amp;quot;http://itunes.apple.com/lookup?id=587231152&amp;quot;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:21px; color:rgb(70,70,70); font-size:14px; background-color:rgb(188,211,229); font-family:Menlo&#34;&gt;
-//term&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:normal; font-family:&#39;Heiti sC Light&#39;&#34;&gt;是&lt;/span&gt;&amp;nbsp;itunes connect&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:normal; font-family:&#39;Heiti sC Light&#39;&#34;&gt;里的&lt;/span&gt;&amp;nbsp;Apple Name&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:21px; font-size:14px; background-color:rgb(188,211,229); font-family:Menlo; color:rgb(20,64,245)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; color:rgb(30,126,60)&#34;&gt;//#define APP_URL @&amp;quot;&lt;span style=&#34;word-wrap:normal; word-break:normal; color:rgb(20,64,245)&#34;&gt;&lt;a target=&#34;_blank&#34; href=&#34;http://itunes.apple.com/search?term=Sunz&#34; style=&#34;text-decoration:none; color:rgb(62,115,160)&#34;&gt;http://itunes.apple.com/search?term=&lt;/a&gt;应用名称&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; color:rgb(30,126,60)&#34;&gt;&amp;amp;entity=software&amp;quot;&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; background-color:rgb(188,211,229); font-size:18px; font-family:&#39;Heiti sC Light&#39;; color:rgb(30,126,60)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; font-family:Menlo&#34;&gt;&lt;br&gt;
-&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; background-color:rgb(188,211,229); font-size:18px; font-family:&#39;Heiti sC Light&#39;; color:rgb(30,126,60)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; font-family:Menlo&#34;&gt;//&lt;/span&gt;检测版本更新&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-- (&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(142,33,96)&#34;&gt;void&lt;/span&gt;)GetUpdate&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-{&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSDictionary&lt;/span&gt;&amp;nbsp;*infoDict = [[&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSBundle&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;mainBundle&lt;/span&gt;]&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;infoDictionary&lt;/span&gt;];&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSString&lt;/span&gt;&amp;nbsp;*nowVersion = [infoDict&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;objectForKey&lt;/span&gt;:&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(160,31,31)&#34;&gt;@&amp;quot;CFBundleVersion&amp;quot;&lt;/span&gt;];&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSString&lt;/span&gt;&amp;nbsp;*URL =&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(122,72,47)&#34;&gt;APP_URL&lt;/span&gt;;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; background-color:rgb(188,211,229); font-size:18px; font-family:Menlo; color:rgb(115,64,163)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&amp;nbsp;NSMutableURLRequest&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;*request = [[&lt;/span&gt;NSMutableURLRequest&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;alloc&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;]&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;init&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;];&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;[request&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;setURL&lt;/span&gt;:[&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSURL&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;URLWithString&lt;/span&gt;:URL]];&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;[request&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;setHTTPMethod&lt;/span&gt;:&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(160,31,31)&#34;&gt;@&amp;quot;POST&amp;quot;&lt;/span&gt;];&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSHTTPURLResponse&lt;/span&gt;&amp;nbsp;*urlResponse =&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(142,33,96)&#34;&gt;nil&lt;/span&gt;;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSError&lt;/span&gt;&amp;nbsp;*error =&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(142,33,96)&#34;&gt;nil&lt;/span&gt;;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSData&lt;/span&gt;&amp;nbsp;*recervedData = [&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSURLConnection&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;sendSynchronousRequest&lt;/span&gt;:request&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;returningResponse&lt;/span&gt;:&amp;amp;urlResponse&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;error&lt;/span&gt;:&amp;amp;error];&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo; min-height:21px&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; background-color:rgb(188,211,229); font-size:18px; font-family:Menlo; color:rgb(63,33,124)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSString&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;*results
- = [[&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSString&lt;/span&gt;&amp;nbsp;alloc&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;]&lt;/span&gt;&amp;nbsp;initWithBytes&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;:[recervedData&lt;/span&gt;&amp;nbsp;bytes&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;]&lt;/span&gt;&amp;nbsp;length&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;:[recervedData&lt;/span&gt;&amp;nbsp;length&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;]&lt;/span&gt;encoding&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;:&lt;/span&gt;NSUTF8StringEncoding&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;];&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSRange&lt;/span&gt;&amp;nbsp;substr = [results&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;rangeOfString&lt;/span&gt;:&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(160,31,31)&#34;&gt;@&amp;quot;&amp;quot;version&amp;quot;:&amp;quot;&amp;quot;&lt;/span&gt;];&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSRange&lt;/span&gt;&amp;nbsp;substr2 =[results&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;rangeOfString&lt;/span&gt;:&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(160,31,31)&#34;&gt;@&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;options&lt;/span&gt;:&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(5,61,245)&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;range&lt;/span&gt;:&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;NSMakeRange&lt;/span&gt;(substr.&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;location&lt;/span&gt;&amp;#43;substr.&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;length&lt;/span&gt;,&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(5,61,245)&#34;&gt;10&lt;/span&gt;)];&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSRange&lt;/span&gt;&amp;nbsp;range = {substr.&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;location&lt;/span&gt;&amp;#43;substr.&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;length&lt;/span&gt;,substr2.&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;location&lt;/span&gt;-substr.&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;location&lt;/span&gt;-substr.&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;length&lt;/span&gt;};&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSString&lt;/span&gt;&amp;nbsp;*newVersion =[results&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;substringWithRange&lt;/span&gt;:range];&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(142,33,96)&#34;&gt;if&lt;/span&gt;([nowVersion&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;isEqualToString&lt;/span&gt;:newVersion] ==&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(142,33,96)&#34;&gt;NO&lt;/span&gt;)&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;{&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; background-color:rgb(188,211,229); font-size:18px; font-family:Menlo; color:rgb(63,33,124)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;UIAlertView&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;*alert
- = [[&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;UIAlertView&lt;/span&gt;alloc&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;]&lt;/span&gt;initWithTitle&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(142,33,96)&#34;&gt;nil&lt;/span&gt;&amp;nbsp;message&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(160,31,31)&#34;&gt;@&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; font-family:&#39;Heiti sC Light&#39;; color:rgb(160,31,31)&#34;&gt;版本有更新&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(160,31,31)&#34;&gt;&amp;quot;&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;delegate:&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(142,33,96)&#34;&gt;self&lt;/span&gt;cancelButtonTitle&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(160,31,31)&#34;&gt;@&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; font-family:&#39;Heiti sC Light&#39;; color:rgb(160,31,31)&#34;&gt;取消&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(160,31,31)&#34;&gt;&amp;quot;&lt;/span&gt;&amp;nbsp;otherButtonTitles&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(160,31,31)&#34;&gt;@&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; font-family:&#39;Heiti sC Light&#39;; color:rgb(160,31,31)&#34;&gt;更新&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(160,31,31)&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;,&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(142,33,96)&#34;&gt;nil&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;];&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;[alert&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;show&lt;/span&gt;];&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;}&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-}&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; background-color:rgb(188,211,229); font-size:18px; font-family:Menlo; color:rgb(126,72,48)&#34;&gt;
-#pragma mark - UIAlertViewDelegate Method&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-- (&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(142,33,96)&#34;&gt;void&lt;/span&gt;)alertView:(&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;UIAlertView&lt;/span&gt;&amp;nbsp;*)alertView clickedButtonAtIndex:(&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSInteger&lt;/span&gt;)buttonIndex&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-{&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(142,33,96)&#34;&gt;if&lt;/span&gt;(buttonIndex ==&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(5,61,245)&#34;&gt;1&lt;/span&gt;)&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;{&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; background-color:rgb(188,211,229); font-size:18px; font-family:Menlo; color:rgb(160,31,31)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSURL&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;*url
- = [&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;NSURL&lt;/span&gt;&amp;nbsp;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(63,33,124)&#34;&gt;URLWithString&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;:&lt;/span&gt;@&amp;quot;应用地址&amp;quot;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;];&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; background-color:rgb(188,211,229); font-size:18px; font-family:Menlo; color:rgb(63,33,124)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;[[&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(115,64,163)&#34;&gt;UIApplication&lt;/span&gt;&amp;nbsp;sharedApplication&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;]&lt;/span&gt;&amp;nbsp;openURL&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:27px; color:rgb(0,0,0)&#34;&gt;:url];&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;}&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; color:rgb(70,70,70); background-color:rgb(188,211,229); font-size:18px; font-family:Menlo&#34;&gt;
-}&lt;/p&gt;
-&lt;div style=&#34;color:rgb(70,70,70); font-family:simsun; font-size:14px; line-height:21px; background-color:rgb(188,211,229)&#34;&gt;
+&lt;p&gt;从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。&lt;/p&gt;
+&lt;p&gt;下面我们就简单了解一下这个框架&lt;/p&gt;
+&lt;p&gt;首先我导入framework&lt;/p&gt;
+&lt;p&gt;方法如下&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725170931474?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;点击Linked Frameworks and Libraries 的添加后 选择 JavaScriptCore.framework&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725171216557?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;选中JavaScriptCore.framework后 点击右下角Add 添加完成&lt;/p&gt;
+&lt;p&gt;好 创建完成之后我们导入一下头文件&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;#import &amp;lt;JavaScriptCore/JavaScriptCore.h&amp;gt;&lt;/pre&gt;&lt;br&gt;
+点进去 会看到如下几个方法
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; min-height:15px&#34;&gt;
 &lt;br&gt;
-&lt;/div&gt;
-&lt;div style=&#34;color:rgb(70,70,70); font-family:simsun; font-size:14px; line-height:21px; background-color:rgb(188,211,229)&#34;&gt;
+&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(209,47,27)&#34;&gt;
+&lt;span style=&#34;color:#78492a&#34;&gt;#import &lt;/span&gt;&amp;quot;JSContext.h&amp;quot;&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(209,47,27)&#34;&gt;
+&lt;span style=&#34;color:#78492a&#34;&gt;#import &lt;/span&gt;&amp;quot;JSValue.h&amp;quot;&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(209,47,27)&#34;&gt;
+&lt;span style=&#34;color:#78492a&#34;&gt;#import &lt;/span&gt;&amp;quot;JSManagedValue.h&amp;quot;&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(209,47,27)&#34;&gt;
+&lt;span style=&#34;color:#78492a&#34;&gt;#import &lt;/span&gt;&amp;quot;JSVirtualMachine.h&amp;quot;&lt;/p&gt;
+&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(209,47,27)&#34;&gt;
+&lt;span style=&#34;color:#78492a&#34;&gt;#import &lt;/span&gt;&amp;quot;JSExport.h&amp;quot;&lt;/p&gt;
 &lt;br&gt;
-&lt;/div&gt;
-&lt;div style=&#34;color:rgb(70,70,70); font-family:simsun; font-size:14px; line-height:21px; background-color:rgb(188,211,229)&#34;&gt;
+&lt;p&gt;这些方法我们等会再细讲&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;下来我们创建一个UIWebView &amp;nbsp;用来测试&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;创建UIWebView&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;    UIWebView *myWebView;&lt;/pre&gt;&lt;br&gt;
+初始化，添加，打开网址
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;    //初始化webview
+    myWebView=[[UIWebView alloc]initWithFrame:CGRectMake(0, 22, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-22)];
+    myWebView.delegate=self;
+    //添加webview到当前viewcontroller的view上
+    [self.view addSubview:myWebView];
+    
+    //网址
+    NSString *httpStr=@&amp;quot;https://www.baidu.com&amp;quot;;
+    NSURL *httpUrl=[NSURL URLWithString:httpStr];
+    NSURLRequest *httpRequest=[NSURLRequest requestWithURL:httpUrl];
+    [myWebView loadRequest:httpRequest];&lt;/pre&gt;&lt;br&gt;
 &lt;br&gt;
-&lt;/div&gt;
-&lt;div style=&#34;color:rgb(70,70,70); font-family:simsun; font-size:14px; line-height:21px; background-color:rgb(188,211,229)&#34;&gt;
-&lt;br&gt;
-&lt;/div&gt;
-&lt;div style=&#34;color:rgb(70,70,70); font-family:simsun; font-size:14px; line-height:21px; background-color:rgb(188,211,229)&#34;&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-如果我们要检测app版本的更新，那么我们必须获取当前运行app版本的版本信息和appstore 上发布的最新版本的信息。&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
 &lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-当前运行版本信息可以通过info.plist文件中的bundle version中获取：&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&lt;/p&gt;
-&lt;div style=&#34;padding:1px 0px 0px; font-family:Consolas,&#39;Courier new&#39;,Courier,mono,serif; font-size:12px; background-color:rgb(231,229,220); width:687px; overflow:auto; color:rgb(51,51,51); line-height:26px; margin:18px 0px!important&#34;&gt;
-&lt;div style=&#34;margin:0px; padding:0px 0px 0px 45px&#34;&gt;
-&lt;div style=&#34;margin:0px; padding:3px 8px 10px 10px; font-size:9px; line-height:normal; font-family:Verdana,Geneva,Arial,Helvetica,sans-serif; color:silver; background-color:rgb(248,248,248); border-left-width:3px; border-left-style:solid; border-left-color:rgb(108,226,108)&#34;&gt;
-&lt;span style=&#34;margin:0px; padding:0px&#34;&gt;[cpp]&lt;/span&gt;&amp;nbsp;&lt;wbr&gt;&lt;a target=&#34;_blank&#34; href=&#34;http://blog.csdn.net/nong1209/article/details/7847346#&#34; title=&#34;view plain&#34; style=&#34;text-decoration:none; color:rgb(62,115,160)&#34;&gt;view plain&lt;/a&gt;&lt;a target=&#34;_blank&#34; href=&#34;http://blog.csdn.net/nong1209/article/details/7847346#&#34; title=&#34;copy&#34; style=&#34;text-decoration:none; color:rgb(62,115,160)&#34;&gt;copy&lt;/a&gt;
-&lt;div&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;ol start=&#34;1&#34; style=&#34;margin:0px 0px 1px 45px!important; padding:0px; border:none; list-style:none; background-color:rgb(255,255,255); color:rgb(92,92,92)&#34;&gt;
-&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;NSDictionary&amp;nbsp;&lt;wbr&gt;*infoDic&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[[NSBundle&amp;nbsp;&lt;wbr&gt;mainBundle]&amp;nbsp;&lt;wbr&gt;infoDictionary];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;CFShow(infoDic);&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSString&amp;nbsp;&lt;wbr&gt;*appVersion&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[infoDic&amp;nbsp;&lt;wbr&gt;objectForKey:@&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:blue; background-color:inherit&#34;&gt;&amp;quot;CFBundleVersion&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;/div&gt;
-&lt;br style=&#34;margin:0px; padding:0px; color:rgb(51,51,51); font-family:Arial; line-height:26px; background-color:rgb(255,255,255)&#34;&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-这样就获取到当前运行的app的版本了&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
+&lt;p&gt;&lt;br&gt;
 &lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-要获取当前app store上的最新的版本，有两种方法，&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-一、在某特定的服务器上，发布和存储app最新的版本信息，需要的时候向该服务器请求查询。&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
+&lt;p&gt;运行效果如下&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725174032573?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
 &lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-二、从app store上查询，可以获取到app的作者，连接，版本等。&lt;a target=&#34;_blank&#34; href=&#34;http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.htm&#34; style=&#34;text-decoration:none; color:rgb(62,115,160)&#34;&gt;官方相关文档&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&lt;a target=&#34;_blank&#34; href=&#34;http://www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.html&#34; target=&#34;_blank&#34; style=&#34;text-decoration:none; color:rgb(62,115,160)&#34;&gt;www.apple.com/itunes/affiliates/resources/documentation/itunes-store-web-service-search-api.htm&lt;/a&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
+&lt;p&gt;&lt;br&gt;
 &lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:25px; margin:0px; padding:0px; color:rgb(69,69,69); font-family:Tahoma,Arial,Helvetica,sTHeiti&#34;&gt;具体步骤如下：&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px; color:rgb(69,69,69); font-family:Tahoma,Arial,Helvetica,sTHeiti; line-height:25px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:25px; margin:0px; padding:0px; color:rgb(69,69,69); font-family:Tahoma,Arial,Helvetica,sTHeiti&#34;&gt;1，用 POST 方式发送请求：&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;a target=&#34;_blank&#34; href=&#34;http://itunes.apple.com/search?term=&#34; target=&#34;_blank&#34; style=&#34;text-decoration:none; color:rgb(62,115,160)&#34;&gt;http://itunes.apple.com/search?term=&lt;/a&gt;你的应用程序名称&amp;amp;entity=software&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-更加精准的做法是根据 app 的 id 来查找：&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;a target=&#34;_blank&#34; href=&#34;http://itunes.apple.com/lookup?id=&#34; target=&#34;_blank&#34; style=&#34;text-decoration:none; color:rgb(62,115,160)&#34;&gt;http://itunes.apple.com/lookup?id=&lt;/a&gt;你的应用程序的ID&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:21px; margin:0px; padding:0px; font-family:Tahoma,Arial,Helvetica,sTHeiti; color:rgb(255,0,0)&#34;&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:25px; margin:0px; padding:0px&#34;&gt;#define
- APP_URL&amp;nbsp;&lt;wbr&gt;&lt;a target=&#34;_blank&#34; href=&#34;http://itunes.apple.com/lookup?id=&#34; target=&#34;_blank&#34; style=&#34;text-decoration:none; color:rgb(62,115,160)&#34;&gt;http://itunes.apple.com/lookup?id=&lt;/a&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;你的应用程序的ID&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:21px; margin:0px; padding:0px; font-family:Tahoma,Arial,Helvetica,sTHeiti; color:rgb(255,0,0)&#34;&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:25px; margin:0px; padding:0px&#34;&gt;你的应用程序的ID
- 是 itunes connect里的 Apple ID&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:25px; margin:0px; padding:0px; color:rgb(69,69,69); font-family:Tahoma,Arial,Helvetica,sTHeiti&#34;&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;2，从获得的 response 数据中解析需要的数据。因为从
- appstore 查询得到的信息是 JSON &amp;#26684;式的，所以需要经过解析。解析之后得到的原始数据就是如下这个样子的：&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;{&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;resultCount = 1;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;results =&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;(&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;{&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;artistId =&amp;nbsp;&lt;wbr&gt;开发者 ID;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;artistName = 开发者名称;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;price = 0;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;isGameCenterEnabled = 0;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;kind = software;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;languageCodesISO2A =&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;(&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;EN&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;);&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;trackCensoredName = 审查名称;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;trackContentRating = 评级;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;trackId = 应用程序 ID;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;trackName = 应用程序名称&amp;quot;;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;trackViewUrl = 应用程序介绍网址;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;userRatingCount = 用户评级;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;userRatingCountForCurren&lt;wbr&gt;tVersion = 1;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;version = 版本号;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;wrapperType = software;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;}&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;);&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;}&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;然后从中取得 results 数组即可，具体代码如下所示：&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;NSDictionary *jsonData = [dataPayload JSONValue];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;NSArray *infoArray = [jsonData objectForKey:@&amp;quot;results&amp;quot;];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;NSDictionary *releaseInfo = [infoArray objectAtIndex:0];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;NSString *latestVersion = [releaseInfo objectForKey:@&amp;quot;version&amp;quot;];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;NSString *trackViewUrl = [releaseInfo objectForKey:@&amp;quot;trackViewUrl&amp;quot;];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;如果你拷贝 trackViewUrl 的实际地址，然后在浏览器中打开，就会打开你的应用程序在 appstore 中的介绍页面。当然我们也可以在代码中调用 safari 来打开它。&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;UIApplication *application = [UIApplication sharedApplication];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px&#34;&gt;[application openURL:[NSURL URLWithString:trackViewUrl]]; &amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; line-height:25px; margin:0px; padding:0px; color:rgb(69,69,69); font-family:Tahoma,Arial,Helvetica,sTHeiti&#34;&gt;&lt;br style=&#34;margin:0px; padding:0px&#34;&gt;
-&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; border:0px; list-style:none; word-wrap:normal; word-break:normal; line-height:26px; color:rgb(51,51,51); font-family:Arial; background-color:rgb(255,255,255)&#34;&gt;
-&amp;nbsp;&lt;wbr&gt;&lt;/p&gt;
-&lt;div style=&#34;padding:1px 0px 0px; font-family:Consolas,&#39;Courier new&#39;,Courier,mono,serif; font-size:12px; background-color:rgb(231,229,220); width:687px; overflow:auto; color:rgb(51,51,51); line-height:26px; margin:18px 0px!important&#34;&gt;
-&lt;div style=&#34;margin:0px; padding:0px 0px 0px 45px&#34;&gt;
-&lt;div style=&#34;margin:0px; padding:3px 8px 10px 10px; font-size:9px; line-height:normal; font-family:Verdana,Geneva,Arial,Helvetica,sans-serif; color:silver; background-color:rgb(248,248,248); border-left-width:3px; border-left-style:solid; border-left-color:rgb(108,226,108)&#34;&gt;
-&lt;span style=&#34;margin:0px; padding:0px&#34;&gt;[cpp]&lt;/span&gt;&amp;nbsp;&lt;wbr&gt;&lt;a target=&#34;_blank&#34; href=&#34;http://blog.csdn.net/nong1209/article/details/7847346#&#34; title=&#34;view plain&#34; style=&#34;text-decoration:none; color:rgb(62,115,160)&#34;&gt;view plain&lt;/a&gt;&lt;a target=&#34;_blank&#34; href=&#34;http://blog.csdn.net/nong1209/article/details/7847346#&#34; title=&#34;copy&#34; style=&#34;text-decoration:none; color:rgb(62,115,160)&#34;&gt;copy&lt;/a&gt;
-&lt;div&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;ol start=&#34;1&#34; style=&#34;margin:0px 0px 1px 45px!important; padding:0px; border:none; list-style:none; background-color:rgb(255,255,255); color:rgb(92,92,92)&#34;&gt;
-&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;-(&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:rgb(0,102,153); background-color:inherit&#34;&gt;&lt;strong&gt;void&lt;/strong&gt;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;)onCheckVersion:(NSString&amp;nbsp;&lt;wbr&gt;*)currentVersion&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;{&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSString&amp;nbsp;&lt;wbr&gt;*URL&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;APP_URL;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSMutableURLRequest&amp;nbsp;&lt;wbr&gt;*request&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[[NSMutableURLRequest&amp;nbsp;&lt;wbr&gt;alloc]&amp;nbsp;&lt;wbr&gt;init];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;[request&amp;nbsp;&lt;wbr&gt;setURL:[NSURL&amp;nbsp;&lt;wbr&gt;URLWithString:URL]];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;[request&amp;nbsp;&lt;wbr&gt;setHTTPMethod:@&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:blue; background-color:inherit&#34;&gt;&amp;quot;POST&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSHTTPURLResponse&amp;nbsp;&lt;wbr&gt;*urlResponse&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;nil;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSError&amp;nbsp;&lt;wbr&gt;*error&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;nil;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSData&amp;nbsp;&lt;wbr&gt;*recervedData&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[NSURLConnection&amp;nbsp;&lt;wbr&gt;sendSynchronousRequest:request&amp;nbsp;&lt;wbr&gt;returningResponse:&amp;amp;urlResponse&amp;nbsp;&lt;wbr&gt;error:&amp;amp;error];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSString&amp;nbsp;&lt;wbr&gt;*results&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[[NSString&amp;nbsp;&lt;wbr&gt;alloc]&amp;nbsp;&lt;wbr&gt;initWithBytes:[recervedData&amp;nbsp;&lt;wbr&gt;bytes]&amp;nbsp;&lt;wbr&gt;length:[recervedData&amp;nbsp;&lt;wbr&gt;length]&amp;nbsp;&lt;wbr&gt;encoding:NSUTF8StringEncoding];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSDictionary&amp;nbsp;&lt;wbr&gt;*dic&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[results&amp;nbsp;&lt;wbr&gt;JSONValue];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSArray&amp;nbsp;&lt;wbr&gt;*infoArray&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[dic&amp;nbsp;&lt;wbr&gt;objectForKey:@&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:blue; background-color:inherit&#34;&gt;&amp;quot;results&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:rgb(0,102,153); background-color:inherit&#34;&gt;&lt;strong&gt;if&lt;/strong&gt;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;([infoArray&amp;nbsp;&lt;wbr&gt;count])&amp;nbsp;&lt;wbr&gt;{&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSDictionary&amp;nbsp;&lt;wbr&gt;*releaseInfo&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[infoArray&amp;nbsp;&lt;wbr&gt;objectAtIndex:0];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;NSString&amp;nbsp;&lt;wbr&gt;*lastVersion&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[releaseInfo&amp;nbsp;&lt;wbr&gt;objectForKey:@&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:blue; background-color:inherit&#34;&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:rgb(0,102,153); background-color:inherit&#34;&gt;&lt;strong&gt;if&lt;/strong&gt;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;(![lastVersion&amp;nbsp;&lt;wbr&gt;isEqualToString:currentVersion])&amp;nbsp;&lt;wbr&gt;{&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;trackViewURL&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[releaseInfo&amp;nbsp;&lt;wbr&gt;objectForKey:@&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:blue; background-color:inherit&#34;&gt;&amp;quot;trackVireUrl&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;UIAlertView&amp;nbsp;&lt;wbr&gt;*alert&amp;nbsp;&lt;wbr&gt;=&amp;nbsp;&lt;wbr&gt;[[[UIAlertView&amp;nbsp;&lt;wbr&gt;alloc]&amp;nbsp;&lt;wbr&gt;initWithTitle:@&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:blue; background-color:inherit&#34;&gt;&amp;quot;更新&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;message:@&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:blue; background-color:inherit&#34;&gt;&amp;quot;有新的版本更新，是否前往更新？&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;delegate:self&amp;nbsp;&lt;wbr&gt;cancelButtonTitle:@&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:blue; background-color:inherit&#34;&gt;&amp;quot;关闭&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;otherButtonTitles:@&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:blue; background-color:inherit&#34;&gt;&amp;quot;更新&amp;quot;&lt;/span&gt;&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; background-color:inherit&#34;&gt;,&amp;nbsp;&lt;wbr&gt;nil]&amp;nbsp;&lt;wbr&gt;autorelease];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;[alert&amp;nbsp;&lt;wbr&gt;show];&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;}&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; color:inherit; line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;}&amp;nbsp;&lt;wbr&gt;&amp;nbsp;&lt;wbr&gt;&lt;/span&gt;&lt;/li&gt;&lt;li style=&#34;margin:0px!important; padding:0px 3px 0px 10px!important; border-width:0px 0px 0px 3px; border-style:none none none solid; border-left-color:rgb(108,226,108); list-style:decimal-leading-zero outside; background-color:rgb(248,248,248); line-height:18px&#34;&gt;
-&lt;span style=&#34;word-wrap:normal; word-break:normal; margin:0px; padding:0px; border:none; color:black; background-color:inherit&#34;&gt;} &amp;nbsp;&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-   
+&lt;/blockquote&gt;
+&lt;p&gt;下面我们来实现UIWebView的几个代理方法&lt;/p&gt;
+&lt;p&gt;首先我们看下它的代理方法&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;@protocol UIWebViewDelegate &amp;lt;NSObject&amp;gt;
 
-&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
+@optional
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+- (void)webViewDidStartLoad:(UIWebView *)webView;
+- (void)webViewDidFinishLoad:(UIWebView *)webView;
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error;
+
+@end&lt;/pre&gt;&lt;br&gt;
+每个方法的作用等会在带里面做注释
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;首先我们添加协议&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;@interface ViewController ()&amp;lt;UIWebViewDelegate&amp;gt;&lt;/pre&gt;&lt;br&gt;
+实现代理方法
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;#pragma mark --webViewDelegate
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    //网页加载之前会调用此方法
+    
+    //retrun YES 表示正常加载网页 返回NO 将停止网页加载
+    return YES;
+}
+
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
+    //开始加载网页调用此方法
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //网页加载完成调用此方法
+}
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    //网页加载失败 调用此方法
+}
+&lt;/pre&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;每个方法是什么时候调用都在注释里面&lt;/p&gt;
+&lt;p&gt;下来我们先尝试用oc调用一下js方法&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //网页加载完成调用此方法
+    
+    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
+    JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;];
+    NSString *alertJS=@&amp;quot;alert(&amp;#39;test js OC&amp;#39;)&amp;quot;; //准备执行的js代码
+    [context evaluateScript:alertJS];//通过oc方法调用js的alert
+    
+}&lt;/pre&gt;&lt;br&gt;
+执行效果如下：
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725181940412?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;好了，我们已经实现了iOS 调用js&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+
+&lt;br&gt;
+&lt;p&gt; 转载自:http://blog.csdn.net/lwjok2007/article/details/47058101&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
+&lt;p&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+   
+&lt;/div&gt;
 </description>
         </item>
         
