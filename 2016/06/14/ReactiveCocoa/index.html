@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>利用Multipeer Connectivity框架进行WiFi传输 - JKCoder&#39;s Blog </title>
+  <title>ReactiveCocoa简单实用 - JKCoder&#39;s Blog </title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
+<meta name="description" content="一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本 pod &#39;ReactiveCocoa&#39; 二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="利用Multipeer Connectivity框架进行WiFi传输 - JKCoder&#39;s Blog ">
-<meta itemprop="description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
+<meta itemprop="name" content="ReactiveCocoa简单实用 - JKCoder&#39;s Blog ">
+<meta itemprop="description" content="一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本 pod &#39;ReactiveCocoa&#39; 二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入">
 <meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="利用Multipeer Connectivity框架进行WiFi传输 - JKCoder&#39;s Blog " />
+<meta property="og:title" content="ReactiveCocoa简单实用 - JKCoder&#39;s Blog " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/" />
+<meta property="og:url" content="http://www.flywithme.top/2016/06/14/ReactiveCocoa/" />
 <meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
+<meta property="og:description" content="一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本 pod &#39;ReactiveCocoa&#39; 二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="利用Multipeer Connectivity框架进行WiFi传输 - JKCoder&#39;s Blog ">
-<meta name="twitter:description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
+<meta name="twitter:title" content="ReactiveCocoa简单实用 - JKCoder&#39;s Blog ">
+<meta name="twitter:description" content="一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本 pod &#39;ReactiveCocoa&#39; 二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/">
-  <link rel='shortlink' href="http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/"/>
+  <link rel="canonical" href="http://www.flywithme.top/2016/06/14/ReactiveCocoa/">
+  <link rel='shortlink' href="http://www.flywithme.top/2016/06/14/ReactiveCocoa/"/>
   <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -175,12 +175,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">利用Multipeer Connectivity框架进行WiFi传输</h1>
+                  <h1 class="post-title">ReactiveCocoa简单实用</h1>
 
                   <p class="post-byline">
-                    by  · 2016年04月27日 · 1235 Words ·
-                    ~3min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-04-27-Multipeer-Connectivity.md"
+                    by  · 2016年06月14日 · 1937 Words ·
+                    ~4min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-06-14-ReactiveCocoa.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -191,203 +191,196 @@
                       
                       
 
-<h4 id="什么是multipeer-connectivity:27a3a0c64a12fac0d59bdc2baa3e0218">什么是Multipeer Connectivity</h4>
+<h5 id="一-引入-reactivecocoa:28e95232603870e31ddfa6e2560a7d74">一 引入 ReactiveCocoa</h5>
 
-<p>在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipeer Connectivity框架，即使在没有连接到WiFi（WLAN）或移动网络（xG）的情况下，距离较近的Apple设备（iMac/iPad/iPhone）之间可基于蓝牙和WiFi（P2P WiFi）技术进行发现和连接实现近场通信。</p>
+<p>使用 pod 引入 选择自己需要的版本</p>
 
-<p>Multipeer Connectivity扩充的功能与利用AirDrop传输文件非常类似，可以将其看作AirDrop不能直接使用的补偿，代价是需要自己实现。</p>
+<pre><code>pod 'ReactiveCocoa' 
+</code></pre>
 
-<ul>
-<li>本Demo主要用到4个类：<br /></li>
-</ul>
+<h6 id="二-使用-reactivecocoa:28e95232603870e31ddfa6e2560a7d74">二 使用 ReactiveCocoa</h6>
 
-<blockquote>
-<p><code>MCBrowserViewController</code>:MCBrowserViewController继承自UIViewController，提供了基本的UI应用框架。</p>
+<p>下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。</p>
 
-<p><code>MCAdvertiserAssistant</code>、MCAdvertiserAssistant为针对Advertiser封装的管理助手,主要处理广播信息。</p>
+<ol>
+<li><p>引入相应的头文件,在工程中引入下方的头文件（建议在Pch文件中引入）就可以使用我们的ReactiveCocoa框架了</p>
 
-<p><code>MCSession</code>:类似TCP链接中的socket。创建MCSession时，需指定自身MCPeerID，类似bind。</p>
+<pre><code>#import &lt;ReactiveCocoa/ReactiveCocoa.h&gt;
+#import &lt;ReactiveCocoa/RACEXTScope.h&gt;
+</code></pre></li>
 
-<p><code>MCPeerID</code>:类似sockaddr，用于标识连接的两端endpoint，通常是昵称或设备名称。</p>
-</blockquote>
+<li><p>Sequence和Map<br />
+Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组，我们可以暂且把Sequence看做绑定信号量的数组吧。在OC中的NSArray可以通过rac_sequence方法转换成ReactiveCocoa中的Sequence，然后就可以调用处理信号的一些方法了。<br />
+参考以下实例代码：<br />
+   a. 把NSArray通过rac_sequence方法生成RAC中的Sequence<br />
+   b. 获取该Sequence对象的信号量<br />
+   c. 调用Signal的Map方法，使每个元素的首字母大写<br />
+   d. 通过subscribNext方法对其进行遍历输出   　　　</p>
 
-<h6 id="简单地建立一个界面-主要有连接和发送2个uibutton:27a3a0c64a12fac0d59bdc2baa3e0218">简单地建立一个界面，主要有连接和发送2个UIButton。</h6>
+<pre><code>//uppercaseString use map
+- (void)uppercaseString {
 
-<p><img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/Simulator%20Screen%20Shot4.57.57.png" width = "200"  alt="Shcrenn shot" align=center /></p>
 
-<h6 id="multipeer-connectivity框架初始化这4个类:27a3a0c64a12fac0d59bdc2baa3e0218">Multipeer Connectivity框架初始化这4个类</h6>
+    RACSequence *sequence = [@[@&quot;you&quot;, @&quot;are&quot;, @&quot;beautiful&quot;] rac_sequence];
 
-<pre><code>#pragma mark - Wifi Sharing Methods
--(void)setUpMultipeer
-{
-    //  Setup peer ID
-    self.myPeerID = [[MCPeerID alloc] initWithDisplayName:[UIDevice currentDevice].name];
 
-    //  Setup session
-    self.mySession = [[MCSession alloc] initWithPeer:self.myPeerID];
-    self.mySession.delegate = self;
+    RACSignal *signal =  sequence.signal;
 
-    //  Setup BrowserViewController
-    self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:@&quot;chat&quot; session:self.mySession];
-    self.browserVC.delegate = self;
 
-    //  Setup Advertiser
-    self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@&quot;chat&quot; discoveryInfo:nil session:self.mySession];
-    [self.advertiser start];
-}
+    RACSignal *capitalizedSignal = [signal map:^id(NSString * value) {
+                               return [value capitalizedString];
+                            }];
 
--(void)showBrowserVC
-{
-    [self presentViewController:self.browserVC animated:YES completion:nil];
-}
 
--(void)dismissBrowserVC
-{
-    [self.browserVC dismissViewControllerAnimated:YES completion:^(void){
-        [self invokeAlertMethod:@&quot;连接成功&quot; Body:@&quot;Both device connected successfully.&quot; Delegate:nil];
+    [signal subscribeNext:^(NSString * x) {
+        NSLog(@&quot;signal --- %@&quot;, x);
+    }];
+
+
+    [capitalizedSignal subscribeNext:^(NSString * x) {
+        NSLog(@&quot;capitalizedSignal --- %@&quot;, x);
     }];
 }
-
--(void)stopWifiSharing:(BOOL)isClear
-{
-    if(isClear &amp;&amp; self.mySession != nil){
-        [self.mySession disconnect];
-
-        [self.mySession setDelegate:nil];
-
-        self.mySession = nil;
-
-        self.browserVC = nil;
-    }
-}  
 </code></pre>
 
-<h6 id="mcbrowserviewcontroller-代理方法:27a3a0c64a12fac0d59bdc2baa3e0218"><code>MCBrowserViewController</code> 代理方法</h6>
+<p>下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。</p>
 
-<pre><code>#pragma marks MCBrowserViewControllerDelegate
-// 点击完成
--(void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController
-{
-    [self dismissBrowserVC];
-    [marrReceiveData removeAllObjects];
-}
+<p><img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blogreactivelog.png" alt="reactivelog" /></p>
 
-// 点击取消
--(void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController
-{
-    [self dismissBrowserVC];
+<p>由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。</p>
+
+<pre><code>- (void)uppercaseString {
+
+
+    [[[@[@&quot;you&quot;, @&quot;are&quot;, @&quot;beautiful&quot;] rac_sequence].signal
+     map:^id(NSString * value) {
+        return [value capitalizedString];
+    }] subscribeNext:^(id x) {
+        NSLog(@&quot;capitalizedSignal --- %@&quot;, x);
+    }];
 }
 </code></pre>
 
-<h6 id="mcsession代理方法:27a3a0c64a12fac0d59bdc2baa3e0218">MCSession代理方法</h6>
+<ol>
+<li>信号量开关(Switch)<br /></li>
+</ol>
 
-<blockquote>
-<p>主要处理发送方传递的文件或者信息</p>
-</blockquote>
+<p>上面把信号量比喻成水管，那么Switch就是水龙头呢。通过Switch我们可以控制那个信号量起作用，并且可以在信号量之间进行切换。也可以这么理解，把Switch看成另一段水管，Switch对接那个水管，就流那个水管的水，这样比喻应该更为贴切一些。下方是一个关于Switch的一个小实例。</p>
 
-<pre><code>// Received data from remote peer
-- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
-{
-    NSLog(@&quot;data receiveddddd : %lu&quot;,(unsigned long)data.length);
+<p>(1) 首先创建3个自定义信号量（3个水管），前两个水管是用来接通不同的水源的(google, baidu), 而最后一个信号量是用来对接不同水源水管的水管（signalOfSignal）。signalOfSignal接baidu水管上，他就流baidu水源的水，接google水管上就流google水源的水。<br />
+   (2) 把signalOfSignal信号量通过switchToLatest方法加工成开关信号量。<br />
+   (3) 紧接着是对通过开关数据进行处理。<br />
+   (4) 开关对接baidu信号量，然后baidu和google信号量同时往水管里灌入数据，那么起作用的是baidu信号量。<br />
+   (5) 开关对接google信号量，google和baidu信号量发送数据，则google信号量输出到signalOfSignal中</p>
 
-    if (data.length &gt; 0) {
-        if (data.length &lt; 2) {
-            noOfDataSend++;
-            NSLog(@&quot;noofdatasend : %zd&quot;,noOfDataSend);
-            NSLog(@&quot;array count : %zd&quot;,marrFileData.count);
-            if (noOfDataSend &lt; ([marrFileData count])) {
-                [self.mySession sendData:[marrFileData objectAtIndex:noOfDataSend] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
-            }else {
-                [self.mySession sendData:[@&quot;File Transfer Done&quot; dataUsingEncoding:NSUTF8StringEncoding] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
-            }
-        } else {
-            if ([[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] isEqualToString:@&quot;File Transfer Done&quot;]) {
-                [self appendFileData];
-            }else {
-                [self.mySession sendData:[@&quot;1&quot; dataUsingEncoding:NSUTF8StringEncoding] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
-                [marrReceiveData addObject:data];
-            }
-        }
-    }
-}
+<pre><code>//信号开关Switch
+- (void)signalSwitch {
+    //创建3个自定义信号
+    RACSubject *google = [RACSubject subject];
+    RACSubject *baidu = [RACSubject subject];
+    RACSubject *signalOfSignal = [RACSubject subject];
 
-// Received a byte stream from remote peer
-- (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
-{
-    NSLog(@&quot;did receive stream&quot;);
-}
 
-// Start receiving a resource from remote peer
-- (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
-{
-    NSLog(@&quot;start receiving&quot;);
-}
+    //获取开关信号
+    RACSignal *switchSignal = [signalOfSignal switchToLatest];
 
-// Finished receiving a resource from remote peer and saved the content in a temporary location - the app is responsible for moving the file to a permanent location within its sandbox
-- (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError *)error
-{
-    NSLog(@&quot;finish receiving resource&quot;);
-}
 
--(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
-{
-    NSLog(@&quot;change state : %zd&quot;,state);
+    //对通过开关的信号量进行操作
+    [[switchSignal  map:^id(NSString * value) {
+        return [@&quot;https//www.&quot; stringByAppendingFormat:@&quot;%@&quot;, value];
+    }] subscribeNext:^(NSString * x) {
+        NSLog(@&quot;%@&quot;, x);
+    }];
+
+
+    //通过开关打开baidu
+    [signalOfSignal sendNext:baidu];
+    [baidu sendNext:@&quot;baidu.com&quot;];
+    [google sendNext:@&quot;google.com&quot;];
+
+
+    //通过开关打开google
+    [signalOfSignal sendNext:google];
+    [baidu sendNext:@&quot;baidu.com/&quot;];
+    [google sendNext:@&quot;google.com/&quot;];
 }
 </code></pre>
 
-<h6 id="发送图片-此demo只是简单地做了个收发图片的demo-此框架可实现的功能当然不止这么简单:27a3a0c64a12fac0d59bdc2baa3e0218">发送图片（此Demo只是简单地做了个收发图片的Demo，此框架可实现的功能当然不止这么简单。）</h6>
+<p>上面代码输出结果如下：<br />
+    <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blogreactivelog1.png" alt="log1" /></p>
 
-<pre><code>-(void)sendData
-{
-    [marrFileData removeAllObjects];
+<ol>
+<li>信号量的合并<br /></li>
+</ol>
 
-    NSData *sendData = UIImagePNGRepresentation([UIImage imageNamed:@&quot;test2.png&quot;]);
-    NSUInteger length = [sendData length];
-    NSUInteger chunkSize = 100 * 1024;
-    NSUInteger offset = 0;
-    do {
-        NSUInteger thisChunkSize = length - offset &gt; chunkSize ? chunkSize : length - offset;
-        NSData* chunk = [NSData dataWithBytesNoCopy:(char *)[sendData bytes] + offset
-                                             length:thisChunkSize
-                                       freeWhenDone:NO];
-        NSLog(@&quot;chunk length : %lu&quot;,(unsigned long)chunk.length);
+<p>信号量的合并说白了就是把两个水管中的水合成一个水管中的水。但这个合并有个限制，当两个水管中都有水的时候才合并。如果一个水管中有水，另一个水管中没有水，那么有水的水管会等到无水的水管中来水了，在与这个水管中的水按规则进行合并。下面这个实例就是把两个信号量进行合并。</p>
 
-        [marrFileData addObject:[NSData dataWithData:chunk]];
-        offset += thisChunkSize;
-    } while (offset &lt; length);
+<p>(1) 首先创建两个自定义的信号量letters和numbers<br />
+   (2) 吧两个信号量通过combineLatest函数进行合并，combineLatest说明要合并信号量中最后发送的值<br />
+   (3) reduce块中是合并规则：把numbers中的值拼接到letters信号量中的值后边。<br />
+   (4) 经过上面的步骤就是创建所需的相关信号量，也就是相当于架好运输的管道。接着我们就可以通过sendNext方法来往信号量中发送值了，也就是往管道中进行灌水。</p>
 
-    noOfdata = [marrFileData count];
-    noOfDataSend = 0;
+<pre><code>//组合信号
+- (void)combiningLatest{
+    RACSubject *letters = [RACSubject subject];
+    RACSubject *numbers = [RACSubject subject];
 
-    if ([marrFileData count] &gt; 0) {
-        [self.mySession sendData:[marrFileData objectAtIndex:noOfDataSend] toPeers:[self.mySession connectedPeers] withMode:MCSessionSendDataReliable error:nil];
-    }
-}
 
--(void)appendFileData
-{
-    NSMutableData *fileData = [NSMutableData data];
+    [[RACSignal
+     combineLatest:@[letters, numbers]
+     reduce:^(NSString *letter, NSString *number){
+         return [letter stringByAppendingString:number];
+     }]
+     subscribeNext:^(NSString * x) {
+         NSLog(@&quot;%@&quot;, x);
+     }];
 
-    for (int i = 0; i &lt; [marrReceiveData count]; i++) {
-        [fileData appendData:[marrReceiveData objectAtIndex:i]];
-    }
 
-    [fileData writeToFile:[NSString stringWithFormat:@&quot;%@/Image.png&quot;, [NSHomeDirectory() stringByAppendingPathComponent:@&quot;Documents&quot;]] atomically:YES];
-
-    UIImageWriteToSavedPhotosAlbum([UIImage imageWithData:fileData], self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-}
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    if (!error) {
-        [self invokeAlertMethod:@&quot;发送成功&quot; Body:@&quot;图片已保存到手机相册&quot; Delegate:nil];
-    }
+    //B1 C1 C2
+    [letters sendNext:@&quot;A&quot;];
+    [letters sendNext:@&quot;B&quot;];
+    [numbers sendNext:@&quot;1&quot;];
+    [letters sendNext:@&quot;C&quot;];
+    [numbers sendNext:@&quot;2&quot;];
 }
 </code></pre>
 
-<p>您可在<a href="https://github.com/brasbug/WiFiShare.git">Github</a>上下载完整Demo。</p>
+<p>上面示例的运行输出结果如下：<br />
+   <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/reactivelog2.png" alt="log2" /></p>
 
-<p><a href="http://www.jianshu.com/p/f198bbe98014"><strong>转载from</strong></a></p>
+<ol>
+<li>信号的合并（merge）</li>
+</ol>
+
+<p>信号合并就理解起来就比较简单了，merge信号量规则比较简单，就是把多个信号量，放入数组中通过merge函数来合并数组中的所有信号量为一个。类比一下，合并后，无论哪个水管中有水都会在merge产生的水管中流出来的。下方是merge信号量的代码：</p>
+
+<p>(1) 创建三个自定义信号量, 用于merge<br />
+   (2) 合并上面创建的3个信号量<br />
+   (3) 往信号里灌入数据</p>
+
+<pre><code>//合并信号
+- (void)merge {
+    RACSubject *letters = [RACSubject subject];
+    RACSubject *numbers = [RACSubject subject];
+    RACSubject *chinese = [RACSubject subject];
+
+
+    [[RACSignal
+     merge:@[letters, numbers, chinese]]
+     subscribeNext:^(id x) {
+        NSLog(@&quot;merge:%@&quot;, x);
+    }];
+
+
+    [letters sendNext:@&quot;AAA&quot;];
+    [numbers sendNext:@&quot;666&quot;];
+    [chinese 
+}
+</code></pre>
+
+<p>上面代码运行结果如下：<br />
+  <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/reactivelog3.png" alt="log3" /></p></li>
+</ol>
 
                       
                     </div>
@@ -399,7 +392,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/">http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</a>
+                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/06/14/ReactiveCocoa/">http://www.flywithme.top/2016/06/14/ReactiveCocoa/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -452,7 +445,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/04/27/Multipeer-Connectivity/" data-title="利用Multipeer Connectivity框架进行WiFi传输" data-url="http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/"></div>
+<div class="ds-thread" data-thread-key="/2016/06/14/ReactiveCocoa/" data-title="ReactiveCocoa简单实用" data-url="http://www.flywithme.top/2016/06/14/ReactiveCocoa/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -507,20 +500,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://www.flywithme.top/2016/03/31/golang-Mgo/" rel="next">
+        <a href="http://www.flywithme.top/2016/06/12/modelExt/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>MongoDB的Go语言驱动</span>
+          <span>YYModel 简介与使用</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://www.flywithme.top/2016/04/28/ReactNativeRD/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>React Native如何做跨平台设计</span>
-        </a>
         
       </li>
     </ul>

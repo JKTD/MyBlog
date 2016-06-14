@@ -2,18 +2,219 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on JKCoder&#39;s Blog </title>
-        <link>http://blog.flywithme.top/post/</link>
+        <link>http://www.flywithme.top/post/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sun, 12 Jun 2016 15:14:43 CST</updated>
+        <updated>Tue, 14 Jun 2016 14:33:00 CST</updated>
+        
+        <item>
+            <title>ReactiveCocoa简单实用</title>
+            <link>http://www.flywithme.top/2016/06/14/ReactiveCocoa/</link>
+            <pubDate>Tue, 14 Jun 2016 14:33:00 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/06/14/ReactiveCocoa/</guid>
+            <description>
+
+&lt;h5 id=&#34;一-引入-reactivecocoa:28e95232603870e31ddfa6e2560a7d74&#34;&gt;一 引入 ReactiveCocoa&lt;/h5&gt;
+
+&lt;p&gt;使用 pod 引入 选择自己需要的版本&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pod &#39;ReactiveCocoa&#39; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;二-使用-reactivecocoa:28e95232603870e31ddfa6e2560a7d74&#34;&gt;二 使用 ReactiveCocoa&lt;/h6&gt;
+
+&lt;p&gt;下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;引入相应的头文件,在工程中引入下方的头文件（建议在Pch文件中引入）就可以使用我们的ReactiveCocoa框架了&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#import &amp;lt;ReactiveCocoa/ReactiveCocoa.h&amp;gt;
+#import &amp;lt;ReactiveCocoa/RACEXTScope.h&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Sequence和Map&lt;br /&gt;
+Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组，我们可以暂且把Sequence看做绑定信号量的数组吧。在OC中的NSArray可以通过rac_sequence方法转换成ReactiveCocoa中的Sequence，然后就可以调用处理信号的一些方法了。&lt;br /&gt;
+参考以下实例代码：&lt;br /&gt;
+   a. 把NSArray通过rac_sequence方法生成RAC中的Sequence&lt;br /&gt;
+   b. 获取该Sequence对象的信号量&lt;br /&gt;
+   c. 调用Signal的Map方法，使每个元素的首字母大写&lt;br /&gt;
+   d. 通过subscribNext方法对其进行遍历输出   　　　&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//uppercaseString use map
+- (void)uppercaseString {
+
+
+    RACSequence *sequence = [@[@&amp;quot;you&amp;quot;, @&amp;quot;are&amp;quot;, @&amp;quot;beautiful&amp;quot;] rac_sequence];
+
+
+    RACSignal *signal =  sequence.signal;
+
+
+    RACSignal *capitalizedSignal = [signal map:^id(NSString * value) {
+                               return [value capitalizedString];
+                            }];
+
+
+    [signal subscribeNext:^(NSString * x) {
+        NSLog(@&amp;quot;signal --- %@&amp;quot;, x);
+    }];
+
+
+    [capitalizedSignal subscribeNext:^(NSString * x) {
+        NSLog(@&amp;quot;capitalizedSignal --- %@&amp;quot;, x);
+    }];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)uppercaseString {
+
+
+    [[[@[@&amp;quot;you&amp;quot;, @&amp;quot;are&amp;quot;, @&amp;quot;beautiful&amp;quot;] rac_sequence].signal
+     map:^id(NSString * value) {
+        return [value capitalizedString];
+    }] subscribeNext:^(id x) {
+        NSLog(@&amp;quot;capitalizedSignal --- %@&amp;quot;, x);
+    }];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;信号量开关(Switch)&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;上面把信号量比喻成水管，那么Switch就是水龙头呢。通过Switch我们可以控制那个信号量起作用，并且可以在信号量之间进行切换。也可以这么理解，把Switch看成另一段水管，Switch对接那个水管，就流那个水管的水，这样比喻应该更为贴切一些。下方是一个关于Switch的一个小实例。&lt;/p&gt;
+
+&lt;p&gt;(1) 首先创建3个自定义信号量（3个水管），前两个水管是用来接通不同的水源的(google, baidu), 而最后一个信号量是用来对接不同水源水管的水管（signalOfSignal）。signalOfSignal接baidu水管上，他就流baidu水源的水，接google水管上就流google水源的水。&lt;br /&gt;
+   (2) 把signalOfSignal信号量通过switchToLatest方法加工成开关信号量。&lt;br /&gt;
+   (3) 紧接着是对通过开关数据进行处理。&lt;br /&gt;
+   (4) 开关对接baidu信号量，然后baidu和google信号量同时往水管里灌入数据，那么起作用的是baidu信号量。&lt;br /&gt;
+   (5) 开关对接google信号量，google和baidu信号量发送数据，则google信号量输出到signalOfSignal中&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//信号开关Switch
+- (void)signalSwitch {
+    //创建3个自定义信号
+    RACSubject *google = [RACSubject subject];
+    RACSubject *baidu = [RACSubject subject];
+    RACSubject *signalOfSignal = [RACSubject subject];
+
+
+    //获取开关信号
+    RACSignal *switchSignal = [signalOfSignal switchToLatest];
+
+
+    //对通过开关的信号量进行操作
+    [[switchSignal  map:^id(NSString * value) {
+        return [@&amp;quot;https//www.&amp;quot; stringByAppendingFormat:@&amp;quot;%@&amp;quot;, value];
+    }] subscribeNext:^(NSString * x) {
+        NSLog(@&amp;quot;%@&amp;quot;, x);
+    }];
+
+
+    //通过开关打开baidu
+    [signalOfSignal sendNext:baidu];
+    [baidu sendNext:@&amp;quot;baidu.com&amp;quot;];
+    [google sendNext:@&amp;quot;google.com&amp;quot;];
+
+
+    //通过开关打开google
+    [signalOfSignal sendNext:google];
+    [baidu sendNext:@&amp;quot;baidu.com/&amp;quot;];
+    [google sendNext:@&amp;quot;google.com/&amp;quot;];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面代码输出结果如下：&lt;br /&gt;
+    &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogreactivelog1.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;信号量的合并&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;信号量的合并说白了就是把两个水管中的水合成一个水管中的水。但这个合并有个限制，当两个水管中都有水的时候才合并。如果一个水管中有水，另一个水管中没有水，那么有水的水管会等到无水的水管中来水了，在与这个水管中的水按规则进行合并。下面这个实例就是把两个信号量进行合并。&lt;/p&gt;
+
+&lt;p&gt;(1) 首先创建两个自定义的信号量letters和numbers&lt;br /&gt;
+   (2) 吧两个信号量通过combineLatest函数进行合并，combineLatest说明要合并信号量中最后发送的值&lt;br /&gt;
+   (3) reduce块中是合并规则：把numbers中的值拼接到letters信号量中的值后边。&lt;br /&gt;
+   (4) 经过上面的步骤就是创建所需的相关信号量，也就是相当于架好运输的管道。接着我们就可以通过sendNext方法来往信号量中发送值了，也就是往管道中进行灌水。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//组合信号
+- (void)combiningLatest{
+    RACSubject *letters = [RACSubject subject];
+    RACSubject *numbers = [RACSubject subject];
+
+
+    [[RACSignal
+     combineLatest:@[letters, numbers]
+     reduce:^(NSString *letter, NSString *number){
+         return [letter stringByAppendingString:number];
+     }]
+     subscribeNext:^(NSString * x) {
+         NSLog(@&amp;quot;%@&amp;quot;, x);
+     }];
+
+
+    //B1 C1 C2
+    [letters sendNext:@&amp;quot;A&amp;quot;];
+    [letters sendNext:@&amp;quot;B&amp;quot;];
+    [numbers sendNext:@&amp;quot;1&amp;quot;];
+    [letters sendNext:@&amp;quot;C&amp;quot;];
+    [numbers sendNext:@&amp;quot;2&amp;quot;];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面示例的运行输出结果如下：&lt;br /&gt;
+   &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/reactivelog2.png&#34; alt=&#34;log2&#34; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;信号的合并（merge）&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;信号合并就理解起来就比较简单了，merge信号量规则比较简单，就是把多个信号量，放入数组中通过merge函数来合并数组中的所有信号量为一个。类比一下，合并后，无论哪个水管中有水都会在merge产生的水管中流出来的。下方是merge信号量的代码：&lt;/p&gt;
+
+&lt;p&gt;(1) 创建三个自定义信号量, 用于merge&lt;br /&gt;
+   (2) 合并上面创建的3个信号量&lt;br /&gt;
+   (3) 往信号里灌入数据&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//合并信号
+- (void)merge {
+    RACSubject *letters = [RACSubject subject];
+    RACSubject *numbers = [RACSubject subject];
+    RACSubject *chinese = [RACSubject subject];
+
+
+    [[RACSignal
+     merge:@[letters, numbers, chinese]]
+     subscribeNext:^(id x) {
+        NSLog(@&amp;quot;merge:%@&amp;quot;, x);
+    }];
+
+
+    [letters sendNext:@&amp;quot;AAA&amp;quot;];
+    [numbers sendNext:@&amp;quot;666&amp;quot;];
+    [chinese 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面代码运行结果如下：&lt;br /&gt;
+  &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/reactivelog3.png&#34; alt=&#34;log3&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
         
         <item>
             <title>YYModel 简介与使用</title>
-            <link>http://blog.flywithme.top/2016/06/12/modelExt/</link>
+            <link>http://www.flywithme.top/2016/06/12/modelExt/</link>
             <pubDate>Sun, 12 Jun 2016 15:14:43 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/12/modelExt/</guid>
+            <guid>http://www.flywithme.top/2016/06/12/modelExt/</guid>
             <description>
 
 &lt;h5 id=&#34;1-简单的-json-与-model-的转换:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;1. 简单的 JSON 与 Model 的转换&lt;/h5&gt;
@@ -271,10 +472,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG
@@ -304,10 +505,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>UINavigationBar-使用总结</title>
-            <link>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
+            <link>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
             <pubDate>Tue, 03 May 2016 11:49:19 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
+            <guid>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
             <description>
 
 &lt;h5 id=&#34;简介:fd9faebe845f09d44f4a35833c132216&#34;&gt;简介&lt;/h5&gt;
@@ -717,10 +918,10 @@ self.navigationItem.titleView = segControl;
         
         <item>
             <title>React Native如何做跨平台设计</title>
-            <link>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</link>
+            <link>http://www.flywithme.top/2016/04/28/ReactNativeRD/</link>
             <pubDate>Thu, 28 Apr 2016 10:54:03 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</guid>
+            <guid>http://www.flywithme.top/2016/04/28/ReactNativeRD/</guid>
             <description>
 
 &lt;h5 id=&#34;facebook-开源:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;Facebook 开源&lt;/h5&gt;
@@ -1129,10 +1330,10 @@ render() {
         
         <item>
             <title>利用Multipeer Connectivity框架进行WiFi传输</title>
-            <link>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
+            <link>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
             <pubDate>Wed, 27 Apr 2016 16:47:13 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
+            <guid>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
             <description>
 
 &lt;h4 id=&#34;什么是multipeer-connectivity:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;什么是Multipeer Connectivity&lt;/h4&gt;
@@ -1337,10 +1538,10 @@ render() {
         
         <item>
             <title>MongoDB的Go语言驱动</title>
-            <link>http://blog.flywithme.top/2016/03/31/golang-Mgo/</link>
+            <link>http://www.flywithme.top/2016/03/31/golang-Mgo/</link>
             <pubDate>Thu, 31 Mar 2016 13:56:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/31/golang-Mgo/</guid>
+            <guid>http://www.flywithme.top/2016/03/31/golang-Mgo/</guid>
             <description>
 
 &lt;h5 id=&#34;mgo简介-https-godoc-org-labix-org-v2-mgo:156647709f766e3bb58c3e6b445a0770&#34;&gt;&lt;a href=&#34;https://godoc.org/labix.org/v2/mgo&#34;&gt;mgo简介&lt;/a&gt;&lt;/h5&gt;
@@ -1713,10 +1914,10 @@ func (c *Collection) Update(selector interface{}, change interface{}) error
         
         <item>
             <title>golang Web 框架 gin 简介</title>
-            <link>http://blog.flywithme.top/2016/03/29/golangGin</link>
+            <link>http://www.flywithme.top/2016/03/29/golangGin</link>
             <pubDate>Tue, 29 Mar 2016 19:04:26 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/29/golangGin</guid>
+            <guid>http://www.flywithme.top/2016/03/29/golangGin</guid>
             <description>&lt;p&gt;&lt;a href=&#34;https://gin-gonic.github.io/gin/&#34;&gt;GitHub&lt;/a&gt;：&lt;/p&gt;
 
 &lt;p&gt;对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了一个小 demo&lt;/p&gt;
@@ -1750,10 +1951,10 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
         
         <item>
             <title>iOS基础知识点梳理</title>
-            <link>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</link>
+            <link>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</link>
             <pubDate>Mon, 28 Mar 2016 14:07:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
+            <guid>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/image/blog/1418191330476751.jpg&#34; alt=&#34;banner&#34; /&gt;&lt;/p&gt;
@@ -1873,7 +2074,7 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
 &lt;li&gt;类目中的方法与原始类以及父类方法相比具有更高优先级,如果覆盖父类的方法,可能导致super消息的断裂。因此,最好不要覆盖原始类中的方法。&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -2055,7 +2256,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 &lt;h5 id=&#34;对谓词的认识:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对谓词的认识&lt;/h5&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;static-self-super关键字的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;static、self、super关键字的作用&lt;/h5&gt;
@@ -2813,7 +3014,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 
 &lt;li&gt;&lt;p&gt;当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://www.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;view和view之间传值方式:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;View和View之间传值方式&lt;/h5&gt;
@@ -2844,7 +3045,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 &lt;li&gt;&lt;p&gt;nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
+&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://www.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；&lt;/p&gt;&lt;/li&gt;
@@ -3011,10 +3212,10 @@ return image;
         
         <item>
             <title>深入理解RunLoop</title>
-            <link>http://blog.flywithme.top/2016/03/26/iOSRunloop/</link>
+            <link>http://www.flywithme.top/2016/03/26/iOSRunloop/</link>
             <pubDate>Sat, 26 Mar 2016 23:10:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/26/iOSRunloop/</guid>
+            <guid>http://www.flywithme.top/2016/03/26/iOSRunloop/</guid>
             <description>
 
 &lt;p&gt;RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。&lt;/p&gt;
@@ -3897,10 +4098,10 @@ NSURLSession    -&amp;gt;AFNetworking2, Alamofire
         
         <item>
             <title>Responder -- iOS用户响应者链完全剖析</title>
-            <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
+            <link>http://www.flywithme.top/2016/03/26/ResponderChain/</link>
             <pubDate>Sat, 26 Mar 2016 22:28:03 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
+            <guid>http://www.flywithme.top/2016/03/26/ResponderChain/</guid>
             <description>&lt;p&gt;这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -4089,10 +4290,10 @@ UIApplication再分发给AppDelegate，
         
         <item>
             <title>iOS下Category添加属性字段</title>
-            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
+            <link>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
             <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
+            <guid>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
             <description>
 
 &lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
@@ -4251,10 +4452,10 @@ static const void *tagKey = &amp;amp;tagKey;
         
         <item>
             <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
-            <link>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</link>
+            <link>http://www.flywithme.top/2016/03/24/loadAndinitialize/</link>
             <pubDate>Thu, 24 Mar 2016 19:20:35 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</guid>
+            <guid>http://www.flywithme.top/2016/03/24/loadAndinitialize/</guid>
             <description>&lt;p&gt;类的加载
 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如&lt;/p&gt;
 
@@ -4614,10 +4815,10 @@ NSLog(@&amp;ldquo;%@ %s&amp;rdquo;, array, &lt;strong&gt;FUNCTION&lt;/strong&gt;
         
         <item>
             <title>Objective-C&#43;Runtime 浅析</title>
-            <link>http://blog.flywithme.top/2016/03/24/OCRuntime/</link>
+            <link>http://www.flywithme.top/2016/03/24/OCRuntime/</link>
             <pubDate>Thu, 24 Mar 2016 10:58:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/24/OCRuntime/</guid>
+            <guid>http://www.flywithme.top/2016/03/24/OCRuntime/</guid>
             <description>
 
 &lt;p&gt;&lt;a href=&#34;http://wiki.sankuai.com/display/zhso/objective-c+Runtime&#34;&gt;From&lt;/a&gt;&lt;/p&gt;
@@ -5160,10 +5361,10 @@ struct objc_super {
         
         <item>
             <title>iOS中的谓词（NSPredicate）使用</title>
-            <link>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
+            <link>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
             <pubDate>Sun, 20 Mar 2016 17:40:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
+            <guid>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
             <description>
 
 &lt;p&gt;首先，我们需要知道何谓谓词，让我们看看官方的解释:&lt;/p&gt;
@@ -5739,201 +5940,6 @@ NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
  &amp;gt; 从上例中我们主要可以看出来%K和$VALUE的含义。
  &amp;gt; 那么至此NSPredicate就到到此介绍完毕.  
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>iOS JS call OC</title>
-            <link>http://blog.flywithme.top/2015/09/15/JScallOC/</link>
-            <pubDate>Tue, 15 Sep 2015 18:12:45 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2015/09/15/JScallOC/</guid>
-            <description>&lt;div id=&#34;article_content&#34; class=&#34;article_content&#34;&gt;
-&lt;p&gt;接着上节我们讲到的iOS调用js&lt;/p&gt;
-&lt;p&gt;下来我们使用js调用iOS&lt;/p&gt;
-&lt;p&gt;js调用iOS分两种情况&lt;/p&gt;
-&lt;p&gt;一，js里面直接调用方法&lt;/p&gt;
-&lt;p&gt;二，js里面通过对象调用方法&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;首先我们看第一种，直接调用方法。&lt;/p&gt;
-&lt;p&gt;其中用到了iOS的block&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;上代码&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_1_7755355&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_1_7755355&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    //网页加载完成调用此方法
-    
-    //iOS调用js
-    
-    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
-    JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;];
-  
-    //js调用iOS
-    //第一种情况
-    //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码
-    //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道
-    context[@&amp;quot;test1&amp;quot;] = ^() {
-        NSArray *args = [JSContext currentArguments];
-        for (id obj in args) {
-            NSLog(@&amp;quot;%@&amp;quot;,obj);
-        }
-    };
-    //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下）
-    //首先准备一下js代码，来调用js的函数test1 然后执行
-    //一个参数
-    NSString *jsFunctStr=@&amp;quot;test1(&amp;#39;参数1&amp;#39;)&amp;quot;;
-    [context evaluateScript:jsFunctStr];
-    
-    //二个参数
-    NSString *jsFunctStr1=@&amp;quot;test1(&amp;#39;参数a&amp;#39;,&amp;#39;参数b&amp;#39;)&amp;quot;;
-    [context evaluateScript:jsFunctStr1];
-    
-}&lt;/pre&gt;&lt;br&gt;
-以上代码中 给test1赋&amp;#20540;的block要是执行了那么结果就是对的，js调用了iOS
-&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;我们看结果&lt;/p&gt;
-&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
-&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725183355773?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。&lt;/p&gt;
-&lt;p&gt;此处稍微复杂一点我们需要使用到&lt;/p&gt;
-&lt;p style=&#34;margin-top:0px; margin-bottom:0px; font-size:13px; font-family:Menlo; color:rgb(112,61,170)&#34;&gt;
-JSExport&lt;/p&gt;
-&lt;p&gt;凡事添加了JSExport协议的协议，所规定的方法，变量等 就会对js开放，我们可以通过js调用到&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-如果js是一个参数或者没有参数的话 就比较简单，我们的方法名和js的方法名保持一致即可&lt;/p&gt;
-&lt;p&gt;比如： js方法为 &amp;nbsp;&lt;/p&gt;
-&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_2_3579444&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_2_3579444&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;testobject.TestOneParameter(&amp;#39;参数1&amp;#39;)&lt;/pre&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-那么 我们在oc中添加的代理方法就为
-&lt;p&gt;&lt;/p&gt;
-&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_3_864229&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_3_864229&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)TestOneParameter:(NSString *)message;&lt;/pre&gt;&lt;br&gt;
-&lt;p&gt;&lt;/p&gt;
-如果js是多个参数的话 &amp;nbsp;我们代理方法的所有变量前的名字连起来要和js的方法名字一样
-&lt;p&gt;比如： js方法为 &amp;nbsp;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_4_657268&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_4_657268&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;testobject.TestTowParameterSecondParameter(&amp;#39;参数A&amp;#39;,&amp;#39;参数B&amp;#39;)&lt;/pre&gt;他有两个参数 那么我们的代理方法 就是把js的方法名 TestTowParameterSecondParameter 任意拆分成两段作为代理方法名（此处我们拆分为 TestTowParameter 和&amp;nbsp;SecondParameter ） 那么我们的代理方法就是
-&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_5_6862257&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_5_6862257&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2;&lt;/pre&gt;我们看代理方法有两个变量别名
-&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;TestTowParameter 和&amp;nbsp;SecondParameter&amp;nbsp;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;他两个拼接起来就刚好是我们js的方法名&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;此处有点绕。我们直接看代码&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;首先创建一个类 继承NSObject 并且规定一个协议&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_6_592012&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_6_592012&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
-#import &amp;lt;JavaScriptCore/JavaScriptCore.h&amp;gt;
-
-//首先创建一个实现了JSExport协议的协议
-@protocol TestJSObjectProtocol &amp;lt;JSExport&amp;gt;
-
-//此处我们测试几种参数的情况
--(void)TestNOParameter;
--(void)TestOneParameter:(NSString *)message;
--(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2;
-
-@end
-
-//让我们创建的类实现上边的协议
-@interface TestJSObject : NSObject&amp;lt;TestJSObjectProtocol&amp;gt;
-
-@end
-&lt;/pre&gt;&lt;br&gt;
-类的实现
-&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_7_1813511&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_7_1813511&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;#import &amp;quot;TestJSObject.h&amp;quot;
-
-@implementation TestJSObject
-
-//一下方法都是只是打了个log 等会看log 以及参数能对上就说明js调用了此处的iOS 原生方法
--(void)TestNOParameter
-{
-    NSLog(@&amp;quot;this is ios TestNOParameter&amp;quot;);
-}
--(void)TestOneParameter:(NSString *)message
-{
-    NSLog(@&amp;quot;this is ios TestOneParameter=%@&amp;quot;,message);
-}
--(void)TestTowParameter:(NSString *)message1 SecondParameter:(NSString *)message2
-{
-   NSLog(@&amp;quot;this is ios TestTowParameter=%@  Second=%@&amp;quot;,message1,message2);
-}
-@end
-&lt;/pre&gt;&lt;br&gt;
-&lt;br&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;下面我们在weibview加载完成之后调用测试一下&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;p&gt;代码如下：&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;pre code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_8_5543264&#34;  code_snippet_id=&#34;1610385&#34; snippet_file_name=&#34;blog_20160315_8_5543264&#34; name=&#34;code&#34; class=&#34;objc&#34;&gt;-(void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    //网页加载完成调用此方法
-    
-    //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）
-    JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;];
-    
-    //第二种情况，js是通过对象调用的，我们假设js里面有一个对象 testobject 在调用方法
-    //首先创建我们新建类的对象，将他赋值给js的对象
-    
-    TestJSObject *testJO=[TestJSObject new];
-    context[@&amp;quot;testobject&amp;quot;]=testJO;
-    
-    //同样我们也用刚才的方式模拟一下js调用方法
-    NSString *jsStr1=@&amp;quot;testobject.TestNOParameter()&amp;quot;;
-    [context evaluateScript:jsStr1];
-    NSString *jsStr2=@&amp;quot;testobject.TestOneParameter(&amp;#39;参数1&amp;#39;)&amp;quot;;
-    [context evaluateScript:jsStr2];
-    NSString *jsStr3=@&amp;quot;testobject.TestTowParameterSecondParameter(&amp;#39;参数A&amp;#39;,&amp;#39;参数B&amp;#39;)&amp;quot;;
-    [context evaluateScript:jsStr3];
-    
-}&lt;/pre&gt;&lt;br&gt;
-&lt;br&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;结果如下图&lt;/p&gt;
-&lt;blockquote style=&#34;margin:0 0 0 40px; border:none; padding:0px&#34;&gt;
-&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150725190107988?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;好了 我们看到了结果 三个方法都调用了&amp;nbsp;&lt;/p&gt;
-&lt;p&gt;ok两种方式都完成了&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;/p&gt;
-
-
-&lt;br&gt;
-&lt;p&gt; 转载自:http://blog.csdn.net/lwjok2007/article/details/47058101&lt;br&gt;
-&lt;/p&gt;
-   
-&lt;/div&gt;
 </description>
         </item>
         
