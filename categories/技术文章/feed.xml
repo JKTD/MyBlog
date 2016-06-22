@@ -70,7 +70,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 
 &lt;p&gt;下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。&lt;/p&gt;
 
@@ -132,7 +132,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;上面代码输出结果如下：&lt;br /&gt;
-    &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogreactivelog1.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
+    &lt;img src=&#34;sources/blogreactivelog1.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;信号量的合并&lt;br /&gt;&lt;/li&gt;
@@ -171,7 +171,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;上面示例的运行输出结果如下：&lt;br /&gt;
-   &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/reactivelog2.png&#34; alt=&#34;log2&#34; /&gt;&lt;/p&gt;
+   &lt;img src=&#34;sources/reactivelog2.png&#34; alt=&#34;log2&#34; /&gt;&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;信号的合并（merge）&lt;/li&gt;
@@ -204,7 +204,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;上面代码运行结果如下：&lt;br /&gt;
-  &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/reactivelog3.png&#34; alt=&#34;log3&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;img src=&#34;sources/reactivelog3.png&#34; alt=&#34;log3&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 </description>
         </item>
@@ -534,14 +534,14 @@ self.navigationItem.title = @&amp;quot;UINavigationBar使用总结&amp;quot;;
 self.navigationController.navigationBar.barTintColor = [UIColor redColor];//iOS7 以上系统  
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationbackbartiniColor.png&#34; alt=&#34;navigation back bar tint Color&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;&lt;img src=&#34;sources/navigationbackbartiniColor.png&#34; alt=&#34;navigation back bar tint Color&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;设置导航栏的背景图片&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@&amp;quot;Background&amp;quot;] forBarMetrics:UIBarMetricsDefault];
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/uinavigationBarbackground.png&#34; alt=&#34;navigation Bar background&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;sources/uinavigationBarbackground.png&#34; alt=&#34;navigation Bar background&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;在这里得稍微说说UIBarMetrics这个枚举, 它主要是用来控制在不同状态下导航栏的显示。和&lt;code&gt;UIButton&lt;/code&gt;的&lt;/p&gt;
 
@@ -629,7 +629,7 @@ switch (buttonIndex) {
 &lt;/ul&gt;
 
 &lt;p&gt;恩，我们来看看运行效果。&lt;br /&gt;
-   &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/uinavigationBarbackground.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+   &lt;img src=&#34;sources/uinavigationBarbackground.png&#34; alt=&#34;naviagation&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;设置返回按钮
   从上面的效果图中我们可以看到返回按钮还是默认的蓝色按钮，下面我将会大家来介绍返回按钮的个性化。&lt;/p&gt;
@@ -641,7 +641,7 @@ switch (buttonIndex) {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;得到的效果图如下：&lt;br /&gt;
-&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationbartiniColor.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;img src=&#34;sources/navigationbartiniColor.png&#34; alt=&#34;naviagation&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;只设置返回按钮的图片&lt;/p&gt;
 
@@ -666,7 +666,7 @@ switch (buttonIndex) {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;得到的效果如下：&lt;br /&gt;
-&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationBarBackBtn.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;sources/navigationBarBackBtn.png&#34; alt=&#34;naviagation&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;这里需要注意的地方有三点：&lt;/p&gt;
@@ -691,7 +691,7 @@ switch (buttonIndex) {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;得到的效果如下：&lt;br /&gt;
-  &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationbarBtnTitle.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;img src=&#34;sources/navigationbarBtnTitle.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;自定义返回按钮&lt;br /&gt;
  如果上面几种方式还无法满足你的要求（比如，需要同时设置返回按钮文字和图片），就需要用到UIBarButtonItem的initWithCustomView方法。&lt;/p&gt;
@@ -715,7 +715,7 @@ switch (buttonIndex) {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;得到的效果图如下：&lt;br /&gt;
-   &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navigationBackBartBackImage.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+   &lt;img src=&#34;sources/navigationBackBartBackImage.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;设置&lt;code&gt;rightBarButtonItem&lt;/code&gt;基本上脱离不了上面的几种方式，大家可以参照上面返回按钮的设置方式。&lt;/p&gt;
@@ -741,7 +741,7 @@ switch (buttonIndex) {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;来看看效果图：&lt;br /&gt;
-   &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/navShadowLineHide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+   &lt;img src=&#34;sources/navShadowLineHide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;还有一种做法，一行代码就可以达到效果&lt;/p&gt;
 
@@ -797,7 +797,7 @@ self.navigationController.navigationBar.clipsToBounds = YES;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;依照惯例，看下效果图：&lt;br /&gt;
-     &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/anvShadowSet.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+     &lt;img src=&#34;sources/blog/anvShadowSet.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;当然还有其他的方式也可以做到，如&lt;code&gt;addSubview&lt;/code&gt;,&lt;code&gt;addSubLayer&lt;/code&gt;等。感兴趣的话可以参考下这个页面：&lt;a href=&#34;http://stackoverflow.com/questions/19101361/ios7-change-uinavigationbar-border-color&#34;&gt;iOS7 - Change UINavigationBar border color&lt;/a&gt;&lt;/p&gt;
@@ -839,7 +839,7 @@ else {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;然后，运行的效果图如下：&lt;br /&gt;
-    &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/addbtnOnNavBar.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+    &lt;img src=&#34;sources/addbtnOnNavBar.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;方法一用到了&lt;code&gt;leftItemsSupplementBackButton&lt;/code&gt; 这个属性，会显示系统默认的返回按钮，但是文字也是显示默认的Back文字，目前还没找到怎么修改这个文字，如果有谁知道，还请不吝赐教；所以我暂时还是建议大家用方法二。相应的还有 &lt;code&gt;rightBarButtonItems&lt;/code&gt; 这个属性，如果要在导航栏右侧展示多个按钮的话，可以设置这个属性。&lt;/p&gt;
@@ -856,7 +856,7 @@ self.navigationItem.titleView = segControl;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;代码很简单，就是设置 &lt;code&gt;titleView&lt;/code&gt; 这个属性，当然，你也可以把这个属性设置为你自定义的View.&lt;br /&gt;
-  &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/NavTitleView.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;img src=&#34;sources/NavTitleView.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;导航栏全局属性设置&lt;/p&gt;
 
@@ -874,12 +874,12 @@ self.navigationItem.titleView = segControl;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/ninjinkun/NJKWebViewProgress&#34;&gt;NJKWebViewProgress&lt;/a&gt; - 类似于Safiri加载网页时的进度显示&lt;br /&gt;
-&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/njgWebprogress.png&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
+&lt;img src=&#34;sources/njgWebprogress.png&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/forkingdog/FDFullscreenPopGesture&#34;&gt;FDFullscreenPopGesture&lt;/a&gt; 一个丝滑的全屏滑动返回手势&lt;br /&gt;
     原文介绍&lt;a href=&#34;http://blog.sunnyxx.com/2015/06/07/fullscreen-pop-gesture/&#34;&gt;链接&lt;/a&gt;&lt;br /&gt;
-    &lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blog/snapshot0.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+    &lt;img src=&#34;sources/snapshot0.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;&lt;h5&gt;&lt;code&gt;UINavigationItem&lt;/code&gt; 和 &lt;code&gt;UINavigationBar&lt;/code&gt; 关系分&lt;/h5&gt;&lt;/p&gt;

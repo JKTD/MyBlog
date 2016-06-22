@@ -245,7 +245,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 
 <p>下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。</p>
 
-<p><img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blogreactivelog.png" alt="reactivelog" /></p>
+<p><img src="http://blog.flywithme.top/sources/blogreactivelog.png" alt="reactivelog" /></p>
 
 <p>由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。</p>
 
@@ -307,7 +307,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 </code></pre>
 
 <p>上面代码输出结果如下：<br />
-    <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blogreactivelog1.png" alt="log1" /></p>
+    <img src="sources/blogreactivelog1.png" alt="log1" /></p>
 
 <ol>
 <li>信号量的合并<br /></li>
@@ -346,7 +346,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 </code></pre>
 
 <p>上面示例的运行输出结果如下：<br />
-   <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/reactivelog2.png" alt="log2" /></p>
+   <img src="sources/reactivelog2.png" alt="log2" /></p>
 
 <ol>
 <li>信号的合并（merge）</li>
@@ -379,7 +379,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 </code></pre>
 
 <p>上面代码运行结果如下：<br />
-  <img src="http://7xsdes.com1.z0.glb.clouddn.com/image/blog/reactivelog3.png" alt="log3" /></p></li>
+  <img src="sources/reactivelog3.png" alt="log3" /></p></li>
 </ol>
 
                       
