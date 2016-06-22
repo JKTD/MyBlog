@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>读书笔记 on JKCoder&#39;s Blog </title>
-        <link>http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
+        <link>http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
@@ -10,10 +10,10 @@
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG
@@ -23,7 +23,7 @@
 #endif
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://7xsdes.com1.z0.glb.clouddn.com/image/blogDlog.png&#34; alt=&#34;dog&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;sources/blogDlog.png&#34; alt=&#34;dog&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;参数解释：&lt;/p&gt;
 
@@ -43,10 +43,10 @@
         
         <item>
             <title>singnal 信号类型</title>
-            <link>http://blog.flywithme.top/2016/06/14/singnal/</link>
+            <link>http://www.flywithme.top/2016/06/14/singnal/</link>
             <pubDate>Sun, 15 May 2016 17:26:11 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/14/singnal/</guid>
+            <guid>http://www.flywithme.top/2016/06/14/singnal/</guid>
             <description>
 
 &lt;h5 id=&#34;简介:7fcd034282d2ab5b69e9cbb8faff7ce4&#34;&gt;简介&lt;/h5&gt;
@@ -435,10 +435,10 @@ Catch a signal –GVTALRM
         
         <item>
             <title>Objective-C&#43;Runtime 浅析</title>
-            <link>http://blog.flywithme.top/2016/03/24/OCRuntime/</link>
+            <link>http://www.flywithme.top/2016/03/24/OCRuntime/</link>
             <pubDate>Thu, 24 Mar 2016 10:58:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/24/OCRuntime/</guid>
+            <guid>http://www.flywithme.top/2016/03/24/OCRuntime/</guid>
             <description>
 
 &lt;p&gt;&lt;a href=&#34;http://wiki.sankuai.com/display/zhso/objective-c+Runtime&#34;&gt;From&lt;/a&gt;&lt;/p&gt;
@@ -791,7 +791,7 @@ struct objc_class {
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Objective-C&lt;/strong&gt; 中类和对象&lt;br /&gt;
 下面一幅图比较经典，描述了Objective-C中类和对象的关系&lt;br /&gt;
-&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/superclassRelation.png&#34; alt=&#34;superClass&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;img src=&#34;sources/superclassRelation.png&#34; alt=&#34;superClass&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;消息机制&lt;/strong&gt;&lt;/p&gt;
 
@@ -803,7 +803,7 @@ struct objc_class {
 
 &lt;p&gt;首先，编译器将代码[obj makeText];转化为objc_msgSend(obj, @selector (makeText));，在objc_msgSend函数中。首先通过obj的isa指针找到obj对应的class。在Class中先去cache中 通过SEL查找对应函数method（猜测cache中method列表是以SEL为key通过hash表来存储的，这样能提高函数查找速度），若 cache中未找到。再去methodList中查找，若methodlist中未找到，则去superClass中查找。若能找到，则将method加 入到cache中，以方便下次查找，并通过method中的函数指针跳转到对应的函数中去执行。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://7xqjzu.com1.z0.glb.clouddn.com/methodListGet.jpg&#34; alt=&#34;methodList&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;sources/methodListGet.jpg&#34; alt=&#34;methodList&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;objc_msgSend的定义：&lt;/p&gt;
 &lt;/blockquote&gt;
