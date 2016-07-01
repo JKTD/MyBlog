@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>思考感悟 on JKCoder&#39;s Blog </title>
-        <link>http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/</link>
+        <link>http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
@@ -10,10 +10,10 @@
         
         <item>
             <title>golang-gin 框架学习 一、 GET POST Method</title>
-            <link>http://www.flywithme.top/2016/06/30/Go-gin01/</link>
+            <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
             <pubDate>Thu, 30 Jun 2016 18:16:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/06/30/Go-gin01/</guid>
+            <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
             <description>
 
 &lt;h5 id=&#34;前言:2551b16abac86e66e05bae7b2b34a895&#34;&gt;前言&lt;/h5&gt;
@@ -122,10 +122,10 @@
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG

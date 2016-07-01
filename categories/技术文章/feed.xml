@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>技术文章 on JKCoder&#39;s Blog </title>
-        <link>http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
+        <link>http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
@@ -10,10 +10,10 @@
         
         <item>
             <title>golang-gin 框架学习 一、 GET POST Method</title>
-            <link>http://www.flywithme.top/2016/06/30/Go-gin01/</link>
+            <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
             <pubDate>Thu, 30 Jun 2016 18:16:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/06/30/Go-gin01/</guid>
+            <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
             <description>
 
 &lt;h5 id=&#34;前言:2551b16abac86e66e05bae7b2b34a895&#34;&gt;前言&lt;/h5&gt;
@@ -122,10 +122,10 @@
         
         <item>
             <title>ReactiveCocoa简单实用</title>
-            <link>http://www.flywithme.top/2016/05/15/ReactiveCocoa/</link>
+            <link>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</link>
             <pubDate>Tue, 14 Jun 2016 14:33:00 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
+            <guid>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
             <description>
 
 &lt;h5 id=&#34;一-引入-reactivecocoa:28e95232603870e31ddfa6e2560a7d74&#34;&gt;一 引入 ReactiveCocoa&lt;/h5&gt;
@@ -182,7 +182,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 
 &lt;p&gt;下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。&lt;/p&gt;
 
@@ -323,10 +323,10 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
         
         <item>
             <title>YYModel 简介与使用</title>
-            <link>http://www.flywithme.top/2016/06/12/modelExt/</link>
+            <link>http://blog.flywithme.top/2016/06/12/modelExt/</link>
             <pubDate>Sun, 12 Jun 2016 15:14:43 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/06/12/modelExt/</guid>
+            <guid>http://blog.flywithme.top/2016/06/12/modelExt/</guid>
             <description>
 
 &lt;h5 id=&#34;1-简单的-json-与-model-的转换:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;1. 简单的 JSON 与 Model 的转换&lt;/h5&gt;
@@ -584,10 +584,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG
@@ -617,10 +617,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>UINavigationBar-使用总结</title>
-            <link>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
+            <link>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
             <pubDate>Tue, 03 May 2016 11:49:19 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
+            <guid>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
             <description>
 
 &lt;h5 id=&#34;简介:fd9faebe845f09d44f4a35833c132216&#34;&gt;简介&lt;/h5&gt;
@@ -1030,10 +1030,10 @@ self.navigationItem.titleView = segControl;
         
         <item>
             <title>React Native如何做跨平台设计</title>
-            <link>http://www.flywithme.top/2016/04/28/ReactNativeRD/</link>
+            <link>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</link>
             <pubDate>Thu, 28 Apr 2016 10:54:03 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/04/28/ReactNativeRD/</guid>
+            <guid>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</guid>
             <description>
 
 &lt;h5 id=&#34;facebook-开源:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;Facebook 开源&lt;/h5&gt;
@@ -1442,10 +1442,10 @@ render() {
         
         <item>
             <title>利用Multipeer Connectivity框架进行WiFi传输</title>
-            <link>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
+            <link>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
             <pubDate>Wed, 27 Apr 2016 16:47:13 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
+            <guid>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
             <description>
 
 &lt;h4 id=&#34;什么是multipeer-connectivity:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;什么是Multipeer Connectivity&lt;/h4&gt;
@@ -1650,10 +1650,10 @@ render() {
         
         <item>
             <title>MongoDB的Go语言驱动</title>
-            <link>http://www.flywithme.top/2016/03/31/golang-Mgo/</link>
+            <link>http://blog.flywithme.top/2016/03/31/golang-Mgo/</link>
             <pubDate>Thu, 31 Mar 2016 13:56:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/03/31/golang-Mgo/</guid>
+            <guid>http://blog.flywithme.top/2016/03/31/golang-Mgo/</guid>
             <description>
 
 &lt;h5 id=&#34;mgo简介-https-godoc-org-labix-org-v2-mgo:156647709f766e3bb58c3e6b445a0770&#34;&gt;&lt;a href=&#34;https://godoc.org/labix.org/v2/mgo&#34;&gt;mgo简介&lt;/a&gt;&lt;/h5&gt;
@@ -2026,10 +2026,10 @@ func (c *Collection) Update(selector interface{}, change interface{}) error
         
         <item>
             <title>golang Web 框架 gin 简介</title>
-            <link>http://www.flywithme.top/2016/03/29/golangGin</link>
+            <link>http://blog.flywithme.top/2016/03/29/golangGin</link>
             <pubDate>Tue, 29 Mar 2016 19:04:26 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/03/29/golangGin</guid>
+            <guid>http://blog.flywithme.top/2016/03/29/golangGin</guid>
             <description>&lt;p&gt;&lt;a href=&#34;https://gin-gonic.github.io/gin/&#34;&gt;GitHub&lt;/a&gt;：&lt;/p&gt;
 
 &lt;p&gt;对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了一个小 demo&lt;/p&gt;
@@ -2063,10 +2063,10 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
         
         <item>
             <title>iOS基础知识点梳理</title>
-            <link>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</link>
+            <link>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</link>
             <pubDate>Mon, 28 Mar 2016 14:07:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
+            <guid>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;sources/basicknowledge/1418191330476751.jpg&#34; alt=&#34;banner&#34; /&gt;&lt;/p&gt;
@@ -2186,7 +2186,7 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
 &lt;li&gt;类目中的方法与原始类以及父类方法相比具有更高优先级,如果覆盖父类的方法,可能导致super消息的断裂。因此,最好不要覆盖原始类中的方法。&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -2368,7 +2368,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 &lt;h5 id=&#34;对谓词的认识:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对谓词的认识&lt;/h5&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;static-self-super关键字的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;static、self、super关键字的作用&lt;/h5&gt;
@@ -3126,7 +3126,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 
 &lt;li&gt;&lt;p&gt;当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://www.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;view和view之间传值方式:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;View和View之间传值方式&lt;/h5&gt;
@@ -3157,7 +3157,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 &lt;li&gt;&lt;p&gt;nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://www.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
+&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；&lt;/p&gt;&lt;/li&gt;
@@ -3324,10 +3324,10 @@ return image;
         
         <item>
             <title>深入理解RunLoop</title>
-            <link>http://www.flywithme.top/2016/03/26/iOSRunloop/</link>
+            <link>http://blog.flywithme.top/2016/03/26/iOSRunloop/</link>
             <pubDate>Sat, 26 Mar 2016 23:10:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/03/26/iOSRunloop/</guid>
+            <guid>http://blog.flywithme.top/2016/03/26/iOSRunloop/</guid>
             <description>
 
 &lt;p&gt;RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。&lt;/p&gt;
@@ -4210,10 +4210,10 @@ NSURLSession    -&amp;gt;AFNetworking2, Alamofire
         
         <item>
             <title>Responder -- iOS用户响应者链完全剖析</title>
-            <link>http://www.flywithme.top/2016/03/26/ResponderChain/</link>
+            <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
             <pubDate>Sat, 26 Mar 2016 22:28:03 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/03/26/ResponderChain/</guid>
+            <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
             <description>&lt;p&gt;这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -4402,10 +4402,10 @@ UIApplication再分发给AppDelegate，
         
         <item>
             <title>iOS下Category添加属性字段</title>
-            <link>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
+            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
             <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
+            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
             <description>
 
 &lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
@@ -4564,10 +4564,10 @@ static const void *tagKey = &amp;amp;tagKey;
         
         <item>
             <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
-            <link>http://www.flywithme.top/2016/03/24/loadAndinitialize/</link>
+            <link>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</link>
             <pubDate>Thu, 24 Mar 2016 19:20:35 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/03/24/loadAndinitialize/</guid>
+            <guid>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</guid>
             <description>&lt;p&gt;类的加载
 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如&lt;/p&gt;
 
@@ -4927,10 +4927,10 @@ NSLog(@&amp;ldquo;%@ %s&amp;rdquo;, array, &lt;strong&gt;FUNCTION&lt;/strong&gt;
         
         <item>
             <title>iOS中的谓词（NSPredicate）使用</title>
-            <link>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
+            <link>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
             <pubDate>Sun, 20 Mar 2016 17:40:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
+            <guid>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
             <description>
 
 &lt;p&gt;首先，我们需要知道何谓谓词，让我们看看官方的解释:&lt;/p&gt;
