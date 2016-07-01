@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>思考感悟 on JKCoder&#39;s Blog </title>
-        <link>http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/</link>
+        <link>http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
         <updated>Thu, 30 Jun 2016 18:16:12 CST</updated>
         
         <item>
-            <title>golang-gin 框架学习 一 GetMethod</title>
-            <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
+            <title>golang-gin 框架学习 一、 GET POST Method</title>
+            <link>http://www.flywithme.top/2016/06/30/Go-gin01/</link>
             <pubDate>Thu, 30 Jun 2016 18:16:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
+            <guid>http://www.flywithme.top/2016/06/30/Go-gin01/</guid>
             <description>
 
 &lt;h5 id=&#34;前言:2551b16abac86e66e05bae7b2b34a895&#34;&gt;前言&lt;/h5&gt;
 
-&lt;p&gt;一直想做学一些新的东西,后来接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过,后来了解了一些框&lt;br /&gt;
- 架的东西,所以就选了一个文档比较齐全的 Gin 来写我的第一个 webServer 项目.这只是一个 Demo ,写这个日志是为了记录自己的学习历程.激励下自己吧.&lt;/p&gt;
+&lt;p&gt;一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过.&lt;br /&gt;
+ 所以就选了一个文档比较齐全的 Gin 来写我的第一个 webServer 项目.这只是一个 Demo ,写这个日志是为了记录自己的学习历程.激励下自己吧.&lt;/p&gt;
 
 &lt;h6 id=&#34;gin-api:2551b16abac86e66e05bae7b2b34a895&#34;&gt;Gin API&lt;/h6&gt;
 
@@ -32,7 +32,7 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h6 id=&#34;get-请求:2551b16abac86e66e05bae7b2b34a895&#34;&gt;GET 请求&lt;/h6&gt;
+&lt;h6 id=&#34;get-method:2551b16abac86e66e05bae7b2b34a895&#34;&gt;GET Method&lt;/h6&gt;
 
 &lt;p&gt;这个最基本的网络请求在 gin 几行代码就可以搞定&lt;/p&gt;
 
@@ -57,15 +57,75 @@
 
 &lt;p&gt;client 使用方式如下图
   &lt;img src=&#34;sources/GoGin01/20160631-0.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;router.POST(&amp;quot;/form_post&amp;quot;, func(c *gin.Context) {
+        message := c.PostForm(&amp;quot;message&amp;quot;)
+        nick := c.DefaultPostForm(&amp;quot;nick&amp;quot;, &amp;quot;anonymous&amp;quot;)
+
+        c.JSON(200, gin.H{
+            &amp;quot;status&amp;quot;:  &amp;quot;posted&amp;quot;,
+            &amp;quot;message&amp;quot;: message,
+            &amp;quot;nick&amp;quot;:    nick,
+        })
+    })
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;post-method:2551b16abac86e66e05bae7b2b34a895&#34;&gt;POST Method&lt;/h6&gt;
+
+&lt;p&gt;一样只需要几行代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;router.POST(&amp;quot;/post&amp;quot;, func(c *gin.Context) {
+
+    id := c.Query(&amp;quot;postid&amp;quot;)
+    page := c.DefaultQuery(&amp;quot;page&amp;quot;, &amp;quot;0&amp;quot;)
+    name := c.PostForm(&amp;quot;name&amp;quot;)
+    message := c.PostForm(&amp;quot;message&amp;quot;)
+
+    fmt.Printf(&amp;quot;id: %s; page: %s; name: %s; message: %s&amp;quot;, id, page, name, message)
+
+    c.JSON(200, gin.H{
+        &amp;quot;status&amp;quot;:  &amp;quot;posted&amp;quot;,
+        &amp;quot;id&amp;quot;: id,
+        &amp;quot;page&amp;quot;:page,
+        &amp;quot;name&amp;quot;:name,
+        &amp;quot;message&amp;quot;:message,
+
+    })
+}) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;client 使用方式如下图
+ &lt;img src=&#34;sources/GoGin01/20160631-1.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type postForm1 struct {
+        UserId     string `form:&amp;quot;userid&amp;quot; binding:&amp;quot;required&amp;quot;`
+        Page string `form:&amp;quot;page&amp;quot; binding:&amp;quot;required&amp;quot;`
+    }
+
+    router.POST(&amp;quot;/post1&amp;quot;, func(c *gin.Context) {
+        var form postForm1
+        if c.Bind(&amp;amp;form) == nil{
+            c.JSON(200,gin.H{
+                &amp;quot;status&amp;quot;:200,
+                &amp;quot;id&amp;quot;:form.UserId,
+                &amp;quot;page&amp;quot;:form.Page,
+            })
+        }
+        fmt.Printf(&amp;quot;id: %s &amp;quot;, form.UserId)
+    }) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;client 使用方式如下图
+  &lt;img src=&#34;sources/GoGin01/20160631-2.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
 </description>
         </item>
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG
