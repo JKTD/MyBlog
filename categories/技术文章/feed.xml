@@ -2,18 +2,153 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>技术文章 on JKCoder&#39;s Blog </title>
-        <link>http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
+        <link>http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Thu, 30 Jun 2016 18:16:12 CST</updated>
+        <updated>Thu, 14 Jul 2016 11:40:29 CST</updated>
+        
+        <item>
+            <title>iOS 开发Debug工具壳</title>
+            <link>http://www.flywithme.top/2016/07/14/debugpanel/</link>
+            <pubDate>Thu, 14 Jul 2016 11:40:29 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/07/14/debugpanel/</guid>
+            <description>
+
+&lt;h5 id=&#34;初衷:bccb225b752499f845bd206d74979637&#34;&gt;初衷&lt;/h5&gt;
+
+&lt;p&gt;移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想做一个固定在状态栏上的的
+ Debug 功能控件,之前公司也有一个旧的类似控件,但是里面牵连业务非常多,而且扩展也不友好,所以我就想趁着有新项目需求的时候写一个顶部的控件壳子,
+ 而且可以很方便的扩展方法,当然,需要的测试方法依然需要开发者手动添加,这个控件并不侵入业务,以后如果有需要可以做一些设备基础功能的公用方法.
+ 暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法&lt;/p&gt;
+
+&lt;p&gt;效果如下图:
+  &lt;img src=&#34;http://www.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
+
+&lt;h6 id=&#34;使用方法:bccb225b752499f845bd206d74979637&#34;&gt;使用方法&lt;/h6&gt;
+
+&lt;p&gt;&lt;strong&gt;Podfile&lt;/strong&gt;&lt;br /&gt;
+   To integrate DebugPanel into your Xcode project using CocoaPods, specify it in your Podfile:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; source &#39;https://github.com/CocoaPods/Specs.git&#39;
+ platform :ios, &#39;7.0&#39;
+ target &#39;TargetName&#39; do
+ pod &#39;DebugPanel&#39;  , :git =&amp;gt;&#39;https://github.com/brasbug/DebugPanel.git&#39;
+ end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;then ,runthe following command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pod install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;参数说明:&lt;/strong&gt;&lt;br /&gt;
+   &lt;code&gt;MTADebugModel&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; /**
+  *  @author Jack, 16-07-14 12:07:12
+  *
+  *  title: 显示名称
+  *  selectorProperty: 调用的方法签名
+  *  etc: 额外参数
+  */
+  @property (nonatomic, strong) NSString *title;
+  @property (nonatomic, strong) NSDictionary *etc;
+  @property (nonatomic, strong) NSString *selectorProperty;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;MTADebugMethodBridge&lt;/code&gt;  使用者需要把MTADebugModel中命名的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//在方法调用的时候根据传入的参数生成相应的 selector 
+- (BOOL)handleSelectorProperty:(MTADebugModel *)modelProperty
+{
+    if (modelProperty &amp;amp;&amp;amp; modelProperty.title &amp;amp;&amp;amp; modelProperty.selectorProperty.length) {
+        SEL selector = [self selectorForMethod:modelProperty.selectorProperty];
+        if (!selector || ![self respondsToSelector:selector]) {
+            return NO;
+        }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored &amp;quot;-Warc-performSelector-leaks&amp;quot;
+        [self performSelector:selector withObject:modelProperty];
+        NSLog(@&amp;quot;%@&amp;quot;,modelProperty);
+#pragma clang diagnostic pop
+        return YES;
+    }
+    return NO;
+}
+//生成相应的方法
+- (SEL)selectorForMethod:(NSString *)method {
+    if ([method length] == 0) return nil;
+    NSString *objcMethod = [[@&amp;quot;debugapi_&amp;quot; stringByAppendingString:method] stringByAppendingString:@&amp;quot;:&amp;quot;];
+    return NSSelectorFromString(objcMethod);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Usage&lt;/strong&gt;&lt;br /&gt;
+  如果需要在&lt;code&gt;didFinishLaunchingWithOptions&lt;/code&gt;或者是 rootiew 中启动,一定要使用`&lt;code&gt;performSelector&lt;/code&gt;方法延迟调用启动 debug 按钮&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    [self performSelector:@selector(doJobsAfterFinishLaunching) withObject:nil afterDelay:0];
+    return YES;
+}
+
+- (void)doJobsAfterFinishLaunching
+{
+    NSMutableArray *arrlist = [NSMutableArray array];
+
+    MTADebugModel *item = [[MTADebugModel alloc]init];
+    item.title = @&amp;quot;一键线上&amp;quot;;
+    item.selectorProperty = @&amp;quot;changeOnlineServer&amp;quot;;
+    item.etc = @{@&amp;quot;host&amp;quot;:@&amp;quot;http://www.baidu.com&amp;quot;};
+    [arrlist addObject:item];
+
+    item = [[MTADebugModel alloc]init];
+    item.title = @&amp;quot;一键测试&amp;quot;;
+    item.selectorProperty = @&amp;quot;changeTestServer&amp;quot;;
+    item.etc = @{@&amp;quot;host&amp;quot;:@&amp;quot;http://www.sohu.com&amp;quot;};
+    [arrlist addObject:item];
+
+    item = [[MTADebugModel alloc]init];
+    item.title = @&amp;quot;调试面板&amp;quot;;
+    item.selectorProperty = @&amp;quot;showDebugPanel&amp;quot;;
+    //    item.etc = @{@&amp;quot;a&amp;quot;:@&amp;quot;b&amp;quot;};
+    [arrlist addObject:item];
+
+    item = [[MTADebugModel alloc]init];
+    item.title = @&amp;quot;打开 URL&amp;quot;;
+    item.selectorProperty = @&amp;quot;OpenSchemeURL&amp;quot;;
+    //    item.etc = @{@&amp;quot;c&amp;quot;:@&amp;quot;d&amp;quot;};
+    [arrlist addObject:item];
+
+    [[MTADebugpanel shareInstance]startDebugBar:YES methodModels:arrlist error:^(NSString *errMsg) {
+        NSLog(@&amp;quot;%@&amp;quot;,errMsg);
+    }];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;这一步很重要&lt;/strong&gt;&lt;br /&gt;
+   创建&lt;code&gt;MTADebugMethodBridge&lt;/code&gt;的 &lt;code&gt;category&lt;/code&gt; 实现你在 &lt;code&gt;MTADebugModel&lt;/code&gt; 中的&lt;code&gt;selectorProperty&lt;/code&gt; 参数方法,需要加上 &lt;code&gt;debugapi_&lt;/code&gt;的签名前缀&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)debugapi_changeOnlineServer:(MTADebugModel *)parameters{
+// TODO  Do Your Job
+}
+
+
+- (void)debugapi_OpenSchemeURL:(MTADebugModel *)parameters{
+    // TODO  Do Your Job
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>golang-gin 框架学习 一、 GET POST Method</title>
-            <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
+            <link>http://www.flywithme.top/2016/06/30/Go-gin01/</link>
             <pubDate>Thu, 30 Jun 2016 18:16:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
+            <guid>http://www.flywithme.top/2016/06/30/Go-gin01/</guid>
             <description>
 
 &lt;h5 id=&#34;前言:2551b16abac86e66e05bae7b2b34a895&#34;&gt;前言&lt;/h5&gt;
@@ -28,7 +163,7 @@
 
 &lt;pre&gt;&lt;code&gt;func main() {
     router := gin.Default()//初始化路由
-    router.Run(&amp;quot;:8080&amp;quot;) // listen and server on 0.0.0.0:8080
+    router.Run(&amp;quot;:8080&amp;quot;) // listen and GO on 0.0.0.0:8080
 }
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -122,10 +257,10 @@
         
         <item>
             <title>ReactiveCocoa简单实用</title>
-            <link>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</link>
+            <link>http://www.flywithme.top/2016/05/15/ReactiveCocoa/</link>
             <pubDate>Tue, 14 Jun 2016 14:33:00 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
+            <guid>http://www.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
             <description>
 
 &lt;h5 id=&#34;一-引入-reactivecocoa:28e95232603870e31ddfa6e2560a7d74&#34;&gt;一 引入 ReactiveCocoa&lt;/h5&gt;
@@ -182,7 +317,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 
 &lt;p&gt;下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。&lt;/p&gt;
 
@@ -323,10 +458,10 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
         
         <item>
             <title>YYModel 简介与使用</title>
-            <link>http://blog.flywithme.top/2016/06/12/modelExt/</link>
+            <link>http://www.flywithme.top/2016/06/12/modelExt/</link>
             <pubDate>Sun, 12 Jun 2016 15:14:43 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/12/modelExt/</guid>
+            <guid>http://www.flywithme.top/2016/06/12/modelExt/</guid>
             <description>
 
 &lt;h5 id=&#34;1-简单的-json-与-model-的转换:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;1. 简单的 JSON 与 Model 的转换&lt;/h5&gt;
@@ -584,10 +719,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG
@@ -617,10 +752,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>UINavigationBar-使用总结</title>
-            <link>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
+            <link>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
             <pubDate>Tue, 03 May 2016 11:49:19 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
+            <guid>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
             <description>
 
 &lt;h5 id=&#34;简介:fd9faebe845f09d44f4a35833c132216&#34;&gt;简介&lt;/h5&gt;
@@ -1030,10 +1165,10 @@ self.navigationItem.titleView = segControl;
         
         <item>
             <title>React Native如何做跨平台设计</title>
-            <link>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</link>
+            <link>http://www.flywithme.top/2016/04/28/ReactNativeRD/</link>
             <pubDate>Thu, 28 Apr 2016 10:54:03 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</guid>
+            <guid>http://www.flywithme.top/2016/04/28/ReactNativeRD/</guid>
             <description>
 
 &lt;h5 id=&#34;facebook-开源:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;Facebook 开源&lt;/h5&gt;
@@ -1442,10 +1577,10 @@ render() {
         
         <item>
             <title>利用Multipeer Connectivity框架进行WiFi传输</title>
-            <link>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
+            <link>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
             <pubDate>Wed, 27 Apr 2016 16:47:13 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
+            <guid>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
             <description>
 
 &lt;h4 id=&#34;什么是multipeer-connectivity:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;什么是Multipeer Connectivity&lt;/h4&gt;
@@ -1650,10 +1785,10 @@ render() {
         
         <item>
             <title>MongoDB的Go语言驱动</title>
-            <link>http://blog.flywithme.top/2016/03/31/golang-Mgo/</link>
+            <link>http://www.flywithme.top/2016/03/31/golang-Mgo/</link>
             <pubDate>Thu, 31 Mar 2016 13:56:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/31/golang-Mgo/</guid>
+            <guid>http://www.flywithme.top/2016/03/31/golang-Mgo/</guid>
             <description>
 
 &lt;h5 id=&#34;mgo简介-https-godoc-org-labix-org-v2-mgo:156647709f766e3bb58c3e6b445a0770&#34;&gt;&lt;a href=&#34;https://godoc.org/labix.org/v2/mgo&#34;&gt;mgo简介&lt;/a&gt;&lt;/h5&gt;
@@ -2026,10 +2161,10 @@ func (c *Collection) Update(selector interface{}, change interface{}) error
         
         <item>
             <title>golang Web 框架 gin 简介</title>
-            <link>http://blog.flywithme.top/2016/03/29/golangGin</link>
+            <link>http://www.flywithme.top/2016/03/29/golangGin</link>
             <pubDate>Tue, 29 Mar 2016 19:04:26 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/29/golangGin</guid>
+            <guid>http://www.flywithme.top/2016/03/29/golangGin</guid>
             <description>&lt;p&gt;&lt;a href=&#34;https://gin-gonic.github.io/gin/&#34;&gt;GitHub&lt;/a&gt;：&lt;/p&gt;
 
 &lt;p&gt;对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了一个小 demo&lt;/p&gt;
@@ -2063,10 +2198,10 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
         
         <item>
             <title>iOS基础知识点梳理</title>
-            <link>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</link>
+            <link>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</link>
             <pubDate>Mon, 28 Mar 2016 14:07:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
+            <guid>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;sources/basicknowledge/1418191330476751.jpg&#34; alt=&#34;banner&#34; /&gt;&lt;/p&gt;
@@ -2186,7 +2321,7 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
 &lt;li&gt;类目中的方法与原始类以及父类方法相比具有更高优先级,如果覆盖父类的方法,可能导致super消息的断裂。因此,最好不要覆盖原始类中的方法。&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -2368,7 +2503,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 &lt;h5 id=&#34;对谓词的认识:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对谓词的认识&lt;/h5&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;static-self-super关键字的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;static、self、super关键字的作用&lt;/h5&gt;
@@ -3126,7 +3261,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 
 &lt;li&gt;&lt;p&gt;当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://www.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;view和view之间传值方式:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;View和View之间传值方式&lt;/h5&gt;
@@ -3157,7 +3292,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 &lt;li&gt;&lt;p&gt;nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
+&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://www.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；&lt;/p&gt;&lt;/li&gt;
@@ -3324,10 +3459,10 @@ return image;
         
         <item>
             <title>深入理解RunLoop</title>
-            <link>http://blog.flywithme.top/2016/03/26/iOSRunloop/</link>
+            <link>http://www.flywithme.top/2016/03/26/iOSRunloop/</link>
             <pubDate>Sat, 26 Mar 2016 23:10:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/26/iOSRunloop/</guid>
+            <guid>http://www.flywithme.top/2016/03/26/iOSRunloop/</guid>
             <description>
 
 &lt;p&gt;RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。&lt;/p&gt;
@@ -4210,10 +4345,10 @@ NSURLSession    -&amp;gt;AFNetworking2, Alamofire
         
         <item>
             <title>Responder -- iOS用户响应者链完全剖析</title>
-            <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
+            <link>http://www.flywithme.top/2016/03/26/ResponderChain/</link>
             <pubDate>Sat, 26 Mar 2016 22:28:03 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
+            <guid>http://www.flywithme.top/2016/03/26/ResponderChain/</guid>
             <description>&lt;p&gt;这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -4402,10 +4537,10 @@ UIApplication再分发给AppDelegate，
         
         <item>
             <title>iOS下Category添加属性字段</title>
-            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
+            <link>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
             <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
+            <guid>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
             <description>
 
 &lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
@@ -4564,10 +4699,10 @@ static const void *tagKey = &amp;amp;tagKey;
         
         <item>
             <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
-            <link>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</link>
+            <link>http://www.flywithme.top/2016/03/24/loadAndinitialize/</link>
             <pubDate>Thu, 24 Mar 2016 19:20:35 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</guid>
+            <guid>http://www.flywithme.top/2016/03/24/loadAndinitialize/</guid>
             <description>&lt;p&gt;类的加载
 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如&lt;/p&gt;
 
@@ -4922,590 +5057,6 @@ NSLog(@&amp;ldquo;%@ %s&amp;rdquo;, array, &lt;strong&gt;FUNCTION&lt;/strong&gt;
 &lt;li&gt;&lt;p&gt;最后一个类别(Category)中的initialize方法会覆盖之前类别和类中的initialize方法。&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>iOS中的谓词（NSPredicate）使用</title>
-            <link>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
-            <pubDate>Sun, 20 Mar 2016 17:40:29 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
-            <description>
-
-&lt;p&gt;首先，我们需要知道何谓谓词，让我们看看官方的解释:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The NSPredicate class is used to define logical conditions used to constrain a search either for a fetch or for in-memory filtering.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;NSPredicate类是用来定义逻辑条件约束的获取或内存中的过滤搜索。
-可以使用谓词来表示逻辑条件，用于描述对象持久性存储在内存中的对象过滤。其实意思就是：&lt;em&gt;我是一个过滤器，不符合条件的都滚开。&lt;/em&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h5 id=&#34;一-nspredicate的基本语法:a9fb7bf5b3cacbe7197dc6d33825b468&#34;&gt;一、NSPredicate的基本语法&lt;/h5&gt;
-
-&lt;p&gt;我们使用一门语言，无论是外语还是计算机语言，总是从语法开始的，这样我们才能正确的把握逻辑。所以我们从语法开始说起。在这部分我们仅关心其语法的使用
- 只要我们使用谓词（NSPredicate）都需要为谓词定义谓词表达式,而这个表达式必须是一个返回BOOL的值。
- 谓词表达式由表达式、运算符和值构成。&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;比较运算符&lt;/strong&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;比较运算符如下&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;=、==：判断两个表达式是否相等，在谓词中=和==是相同的意思都是判断，而没有赋值这一说&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSNumber *testNumber = @123;
-NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;SELF = 123&amp;quot;];
-if ([predicate evaluateWithObject:testNumber]) {
-    NSLog(@&amp;quot;testString:%@&amp;quot;, testNumber);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我们可以看到输出的内容为:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2016-01-07 11:12:27.281 PredicteDemo[4130:80412] testString:123
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;blockquote&gt;
-&lt;p&gt;=，=&amp;gt;：判断左边表达式的值是否大于或等于右边表达式的值&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&amp;lt;=，=&amp;lt;：判断右边表达式的值是否小于或等于右边表达式的值&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;blockquote&gt;
-&lt;p&gt;：判断左边表达式的值是否大于右边表达式的值&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&amp;lt;：判断左边表达式的值是否小于右边表达式的值&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;!=、&amp;lt;&amp;gt;：判断两个表达式是否不相等&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;BETWEEN：BETWEEN表达式必须满足表达式 BETWEEN {下限，上限}的格式，要求该表达式必须大于或等于下限，并小于或等于上限&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSNumber *testNumber = @123;
-NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;SELF BETWEEN {100, 200}&amp;quot;];
-if ([predicate evaluateWithObject:testNumber]) {
-    NSLog(@&amp;quot;testString:%@&amp;quot;, testNumber);
-} else {
-    NSLog(@&amp;quot;不符合条件&amp;quot;);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出结果为：&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2016-01-07 11:20:39.921 PredicteDemo[4366:85408] testString:123
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;逻辑运算符&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;AND、&amp;amp;&amp;amp;：逻辑与，要求两个表达式的值都为YES时，结果才为YES。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSArray *testArray = @[@1, @2, @3, @4, @5, @6];
-NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;SELF &amp;gt; 2 &amp;amp;&amp;amp; SELF &amp;lt; 5&amp;quot;];
-NSArray *filterArray = [testArray filteredArrayUsingPredicate:predicate];
-NSLog(@&amp;quot;filterArray:%@&amp;quot;, filterArray);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出结果为:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;    2016-01-07 11:27:01.885 PredicteDemo[4531:89537] filterArray:(
-     3,
-     4
-    )
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;OR、||：逻辑或，要求其中一个表达式为YES时，结果就是YES&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;NOT、 !：逻辑非，对原有的表达式取反&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;字符串比较运算符&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;BEGINSWITH&lt;/strong&gt;：检查某个字符串是否以指定的字符串开头（如判断字符串是否以a开头：BEGINSWITH &amp;lsquo;a&amp;rsquo;）&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;ENDSWITH&lt;/strong&gt;：检查某个字符串是否以指定的字符串结尾&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;CONTAINS&lt;/strong&gt;：检查某个字符串是否包含指定的字符串&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;LIKE&lt;/strong&gt;：检查某个字符串是否匹配指定的字符串模板。其之后可以跟?代表一个字符和 ※ 代表任意多个字符两个通配符。比如&amp;rdquo;name LIKE &amp;lsquo;※ac※&amp;rdquo;，这表示name的值中包含ac则返回YES；&amp;rdquo;name LIKE &amp;lsquo;?ac※&amp;rsquo;&amp;ldquo;，表示name的第2、3个字符为ac时返回YES。(※ 指的*号)&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;MATCHES&lt;/strong&gt;：检查某个字符串是否匹配指定的正则表达式。虽然正则表达式的执行效率是最低的，但其功能是最强大的，也是我们最常用的。&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;注：字符串比较都是区分大小写和重音符号的。如：café和cafe是不一样的，Cafe和cafe也是不一样的。如果希望字符串比较运算不区分大小写和重音符号，请在这些运算符后使用[c]，[d]选项。其中[c]是不区分大小写，[d]是不区分重音符号，其写在字符串比较运算符之后，比如：name LIKE[cd] &amp;lsquo;cafe&amp;rsquo;，那么不论name是cafe、Cafe还是café上面的表达式都会返回YES。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;集合运算符&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;ANY、SOME：集合中任意一个元素满足条件，就返回YES。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;ALL：集合中所有元素都满足条件，才返回YES。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;NONE：集合中没有任何元素满足条件就返回YES。如:NONE person.age &amp;lt; 18，表示person集合中所有元素的age&amp;gt;=18时，才返回YES。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;IN：等价于SQL语句中的IN运算符，只有当左边表达式或值出现在右边的集合中才会返回YES。我们通过一个例子来看一下&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSArray *filterArray = @[@&amp;quot;ab&amp;quot;, @&amp;quot;abc&amp;quot;];
-NSArray *array = @[@&amp;quot;a&amp;quot;, @&amp;quot;ab&amp;quot;, @&amp;quot;abc&amp;quot;, @&amp;quot;abcd&amp;quot;];
-NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;NOT (SELF IN %@)&amp;quot;, filterArray];
-NSLog(@&amp;quot;%@&amp;quot;, [array filteredArrayUsingPredicate:predicate]);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;代码的作用是将array中和filterArray中相同的元素去除，输出为：&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2016-01-07 13:17:43.669 PredicteDemo[6701:136206] (
-    a,
-    abcd
-)
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;array[index]：返回array数组中index索引处的元素&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;array[FIRST]：返回array数组中第一个元素&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;array[LAST]：返回array数组中最后一个元素&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;array[SIZE]：返回array数组中元素的个数&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;直接量&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;FALSE、NO：代表逻辑假&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;TRUE、YES：代表逻辑真&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;NULL、NIL：代表空值&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;SELF：代表正在被判断的对象自身&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&amp;ldquo;string&amp;rdquo;或&amp;rsquo;string&amp;rsquo;：代表字符串&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;数组：和c中的写法相同，如：{&amp;lsquo;one&amp;rsquo;, &amp;lsquo;two&amp;rsquo;, &amp;lsquo;three&amp;rsquo;}。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;数值：包括证书、小数和科学计数法表示的形式&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;十六进制数：0x开头的数字&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;八进制：0o开头的数字&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;二进制：0b开头的数字&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;保留字&lt;/strong&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;下列单词都是保留字（不论大小写）&lt;/p&gt;
-
-&lt;p&gt;AND、OR、IN、NOT、ALL、ANY、SOME、NONE、LIKE、CASEINSENSITIVE、CI、MATCHES、CONTAINS、BEGINSWITH、ENDSWITH、BETWEEN、NULL、NIL、SELF、TRUE、YES、FALSE、NO、FIRST、LAST、SIZE、ANYKEY、SUBQUERY、CAST、TRUEPREDICATE、FALSEPREDICATE&lt;/p&gt;
-
-&lt;p&gt;注：虽然大小写都可以，但是更推荐使用大写来表示这些保留字&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h5 id=&#34;二-谓词的用法:a9fb7bf5b3cacbe7197dc6d33825b468&#34;&gt;二、谓词的用法&lt;/h5&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;定义谓词&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;一般我们使用下列方法定义一个谓词:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;   NSPredicate *predicate = [NSPredicate predicateWithFormat:&amp;lt;#(nonnull NSString *), ...#&amp;gt;];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;下面我们通过几个简单的例子来看看它该如何使用：
-    首先我们需要定义一个模型，因为示例中需要用到它&lt;/p&gt;
-
-&lt;p&gt;ZLPersonModel.h&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
-
-
-typedef NS_ENUM(NSInteger, ZLPersonSex) {
-    ZLPersonSexMale = 0,
-    ZLPersonSexFamale
-};
-
-
-@interface ZLPersonModel : NSObject
-/** NSString 姓名 */
-@property (nonatomic, copy) NSString *name;
-/** NSUInteger 年龄 */
-@property (nonatomic, assign, readonly) NSUInteger age;
-/** ZLPersonSex 性别 */
-@property (nonatomic, assign, readonly) ZLPersonSex sex;
-
-
-+ (instancetype)personWithName:(NSString *)name age:(NSUInteger)age sex:(ZLPersonSex)sex;
-
-
-@end  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;ZLPersonModel.m&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;@implementation ZLPersonModel
-
-
-- (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(ZLPersonSex)sex
-{
-    if (self = [super init]) {
-        _name = name;
-        _age = age;
-        _sex = sex;
-    }
-    return self;
-}
-
-
-+ (instancetype)personWithName:(NSString *)name age:(NSUInteger)age sex:(ZLPersonSex)sex
-{
-    return [[self alloc] initWithName:name age:age sex:sex];
-}
-
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@&amp;quot;[name = %@, age = %ld, sex = %ld]&amp;quot;, self.name, self.age, self.sex];
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;下面让我们进入正题&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;例一:(最简单的使用)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;ZLPersonModel *sunnyzl = [ZLPersonModel personWithName:@&amp;quot;sunnyzl&amp;quot; age:29 sex:ZLPersonSexMale];
-
-
-ZLPersonModel *jack = [ZLPersonModel personWithName:@&amp;quot;jack&amp;quot; age:22 sex:ZLPersonSexMale];
-    //  首先我们来看一些简单的使用
-    //  1.判断姓名是否是以s开头的
-NSPredicate *pred1 = [NSPredicate predicateWithFormat:@&amp;quot;name LIKE &#39;s*&#39;&amp;quot;];
-    //  输出为：sunnyzl:1, jack:0
-NSLog(@&amp;quot;sunnyzl:%d, jack:%d&amp;quot;, [pred1 evaluateWithObject:sunnyzl], [pred1 evaluateWithObject:jack]);
-
-
-    //  2.判断年龄是否大于25
-NSPredicate *pred2 = [NSPredicate predicateWithFormat:@&amp;quot;age &amp;gt; 25&amp;quot;];
-    //  输出为：sunnyzl的年龄是否大于25：1, jack的年龄是否大于25：0
-NSLog(@&amp;quot;sunnyzl的年龄是否大于25：%d, jack的年龄是否大于25：%d&amp;quot;, [pred2 evaluateWithObject:sunnyzl], [pred2 evaluateWithObject:jack]);  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;看到这里我们会发现evaluateWithObject:方法返回的是一个BOOL值，如果符合条件就返回YES，不符合就返回NO。而即使是最简单的使用也有一些大用处，比如以前我们写判断手机号码、邮编等等，像我就喜欢用John Engelhart大神的RegexKitLite，然而由于年代久远需要导入libicucore.dylib库（xcode7为libicucore.tbd）且由于是mrc又需要添加-fno-objc-arc，至此我们才能使用。然而使用谓词让我们可以用同样简洁的代码实现相同的功能&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;例二：(判断手机号是否正确）&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;- (BOOL)checkPhoneNumber:(NSString *)phoneNumber
-{
-    NSString *regex = @&amp;quot;^[1][3-8]\\d{9}$&amp;quot;;
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@&amp;quot;SELF MATCHES %@&amp;quot;, regex];
-    return [pred evaluateWithObject:phoneNumber];
-}    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;看到这里是不是感觉好爽，感觉以前所有的正则都可以这么匹配，但是谓词匹配正则时也是有缺点的，下面通过一个例子来看一下这个致命的缺点&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;例三：谓词匹配正则的缺点 本意：检测字符串中是否有特殊字符）&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;- (BOOL)checkSpecialCharacter:(NSString *)string
-{
-    NSString *regex = @&amp;quot;[`~!@#$^&amp;amp;*()=|{}&#39;:;&#39;,\\[\\].&amp;lt;&amp;gt;/?~！@#￥……&amp;amp;*（）——|{}【】‘；：”“&#39;。，、？]&amp;quot;;
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@&amp;quot;SELF MATCHES %@&amp;quot;, regex];
-    return [pred evaluateWithObject:string];
-}    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;我们想要的效果是字符串中有特殊字符时就返回YES，然而梦想是美好的，现实是残酷的&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;让我们看看这悲催的结局&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;NSString *testString = @&amp;quot;!&amp;quot;;
-NSLog(@&amp;quot;是否含有特殊字符：%d&amp;quot;, [self checkSpecialCharacter:testString]);
-//  当testString为一个特殊字符时，我们惊喜的发现输出为
-//  是否含有特殊字符：1       
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;看到这里我们心里猛然一喜，这tmd根本没问题嘛&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;让我们修改下testString的值&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;NSString *testString = @&amp;quot;!~&amp;quot;;
-NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
-//  我们会发现悲催的结局来了输出为
-//  是否含有特殊字符：0  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;再次修改 testString 的值&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;NSString *testString = @&amp;quot;abc!~d&amp;quot;;
-NSLog(@&amp;quot;%d&amp;quot;, [self checkSpecialCharacter:testString]);
-//  我们会发现输出为
-//  是否含有特殊字符：0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;这总与我们的想法事与愿违，看到这里我们会发现谓词对正则并不像我们使用NSRegularExpression时匹配的那么好，究其原因是为什么呢？我们用NSRegularExpression时会发现匹配到一个结果时就会存入数组，再从匹配到的位置继续向下匹配。
-然而NSPredicate并不会做这样的自动操作，我们最终发现在NSPredicate输入[&lt;code&gt;~!@#$^&amp;amp;*()=|{}&#39;:;&#39;,\[\].&amp;lt;&amp;gt;/?~！@#￥……&amp;amp;*（）——|{}【】‘；：”“&#39;。，、？]正则表达式时和写成^[&lt;/code&gt;~!@#$^&amp;amp;*()=|{}&amp;rsquo;:;&amp;lsquo;,[].&amp;lt;&amp;gt;/?~！@#￥……&amp;amp;*（）——|{}【】‘；：”“&amp;rsquo;。，、？]$的效果是一样的。所以通过这个例子我们总结出来，只有在正则表达式为^表达式$时才使用谓词，而不是所有情况都使用。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;当然上例中我们可以用一个投机取巧的方法实现（但是仅能用于匹配是否包含特殊符号，而无法像NSRegularExpression那样对这些特殊符号进行复杂操作）&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我们可以将- (BOOL)checkSpecialCharacter:(NSString *)string更改为：&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;- (BOOL)checkSpecialCharacter:(NSString *)string
-{
-    NSString *regex = @&amp;quot;.*[`~!@#$^&amp;amp;*()=|{}&#39;:;&#39;,\\[\\].&amp;lt;&amp;gt;/?~！@#￥……&amp;amp;*（）——|{}【】‘；：”“&#39;。，、？].*&amp;quot;;
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@&amp;quot;SELF MATCHES %@&amp;quot;, regex];
-    return [pred evaluateWithObject:string];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;文其实上述方法也只是匹配了一次，只不过我们将它的范围扩大了。那么我们是不是因为这一点就摒弃它了呢，答案是否定的。因为虽然NSPredicate有这么一点瑕疵，但是它总体带给我们的便利其实除了正则表达式匹配时的这个问题外是更多的&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;hr /&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;使用谓词过滤集合&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;此部分是我们需要掌握的重点，因为从这里我们就可以看到谓词的真正的强大之处
-其实谓词本身就代表了一个逻辑条件，计算谓词之后返回的结果永远为BOOL类型的值。而谓词最常用的功能就是对集合进行过滤。当程序使用谓词对集合元素进行过滤时，程序会自动遍历其元素，并根据集合元素来计算谓词的值，当这个集合中的元素计算谓词并返回YES时，这个元素才会被保留下来。请注意程序会自动遍历其元素，它会将自动遍历过之后返回为YES的值重新组合成一个集合返回。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;其实类似于我们使用tableView设置索引时使用的下段代码&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;- (NSArray&amp;lt;NSString *&amp;gt; *)sectionIndexTitlesForTableView:(UITableView *)tableView
-{
-    return [self.cityGroup valueForKey:@&amp;quot;title&amp;quot;];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;中的[self.cityGroup valueForKey:@&amp;ldquo;title&amp;rdquo;]。它的作用是遍历所有title并将得到的值组成新的数组。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;NSArray提供了如下方法使用谓词来过滤集合&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;(NSArray&lt;ObjectType&gt; *)filteredArrayUsingPredicate:(NSPredicate *)predicate:
-//使用指定的谓词过滤NSArray集合，返回符合条件的元素组成的新集合&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;NSMutableArray提供了如下方法使用谓词来过滤集合&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;(void)filterUsingPredicate:(NSPredicate *)predicate：&lt;br /&gt;
-//使用指定的谓词过滤NSMutableArray，剔除集合中不符合条件的元素&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;NSSet提供了如下方法使用谓词来过滤集合&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;(NSSet&lt;ObjectType&gt; *)filteredSetUsingPredicate:(NSPredicate *)predicate NS_AVAILABLE(10_5, 3_0)&lt;br /&gt;
-//：作用同NSArray中的方法&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;NSMutableSet提供了如下方法使用谓词来过滤集合&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;(void)filterUsingPredicate:(NSPredicate *)predicate NS_AVAILABLE(10_5, 3_0)&lt;br /&gt;
-：作用同NSMutableArray中的方法。&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;通过上面的描述可以看出，使用谓词过滤不可变集合和可变集合的区别是：过滤不可变集合时，会返回符合条件的集合元素组成的新集合；过滤可变集合时，没有返回值，会直接剔除不符合条件的集合元素&lt;/p&gt;
-
-&lt;p&gt;下面让我们来看几个例子：
-例一&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;NSMutableArray *arrayM = [@[@20, @40, @50, @30, @60, @70] mutableCopy];
-    //  过滤大于50的值
-    NSPredicate *pred1 = [NSPredicate predicateWithFormat:@&amp;quot;SELF &amp;gt; 50&amp;quot;];
-    [arrayM filterUsingPredicate:pred1];
-    NSLog(@&amp;quot;arrayM:%@&amp;quot;, arrayM);
-
-
-    NSArray *array = @[[ZLPersonModel personWithName:@&amp;quot;Jack&amp;quot; age:20 sex:ZLPersonSexMale],
-                       [ZLPersonModel personWithName:@&amp;quot;Rose&amp;quot; age:22 sex:ZLPersonSexFamale],
-                       [ZLPersonModel personWithName:@&amp;quot;Jackson&amp;quot; age:30 sex:ZLPersonSexMale],
-                       [ZLPersonModel personWithName:@&amp;quot;Johnson&amp;quot; age:35 sex:ZLPersonSexMale]];
-    //  要求取出包含‘son’的元素
-    NSPredicate *pred2 = [NSPredicate predicateWithFormat:@&amp;quot;name CONTAINS &#39;son&#39;&amp;quot;];
-    NSArray *newArray = [array filteredArrayUsingPredicate:pred2];
-    NSLog(@&amp;quot;%@&amp;quot;, newArray);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出为&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2016-01-07 16:50:09.510 PredicteDemo[13660:293822] arrayM:(
-    60,
-    70
-)
-2016-01-07 16:50:09.511 PredicteDemo[13660:293822] (
-    &amp;quot;[name = Jackson, age = 30, sex = 0]&amp;quot;,
-    &amp;quot;[name = Johnson, age = 35, sex = 0]&amp;quot;
-)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;从这个例子我们就可以看到NSPredicate有多么强大，如果让我们用其他的方法来实现又是一大堆if&amp;hellip;else。
-    让我们来回顾一下上面的从第二个数组中去除第一个数组中相同的元素&lt;/p&gt;
-
-&lt;p&gt;例二：&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;NSArray *filterArray = @[@&amp;quot;ab&amp;quot;, @&amp;quot;abc&amp;quot;];
-    NSArray *array = @[@&amp;quot;a&amp;quot;, @&amp;quot;ab&amp;quot;, @&amp;quot;abc&amp;quot;, @&amp;quot;abcd&amp;quot;];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;NOT (SELF IN %@)&amp;quot;, filterArray];
-    NSLog(@&amp;quot;%@&amp;quot;, [array filteredArrayUsingPredicate:predicate]);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出为:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2016-01-07 13:17:43.669 PredicteDemo[6701:136206] (
-    a,
-    abcd
-)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;如果我们不用NSPredicate的话，肯定又是各种if&amp;hellip;else，for循环等等。可以看出NSPredicate的出现为我们节省了大量的时间和精力。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;hr /&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;在为此中使用占位符参数&lt;/p&gt;
-
-&lt;p&gt;我们上面所有的例子中谓词总是固定的，然而我们在现实中处理变量时决定了谓词应该是可变的。下面我们来看看如果让谓词变化起来。
- 首先如果我们想在谓词表达式中使用变量，那么我们需要了解下列两种占位符&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;%K：用于动态传入属性名&lt;/li&gt;
-&lt;li&gt;%@：用于动态设置属性值&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;其实相当于变量名与变量值&lt;br /&gt;
-除此之外，还可以在谓词表达式中使用动态改变的属性值，就像环境变量一样&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;NSPredicate *pred = [NSPredicate predicateWithFormat:@&amp;quot;SELF CONTAINS $VALUE&amp;quot;];
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;上述表达式中，$VALUE是一个可以动态变化的值，它其实最后是在字典中的一个key，所以可以根据你的需要写不同的值，但是必须有$开头，随着程序改变$VALUE这个谓词表达式的比较条件就可以动态改变。
-       下面我们通过一个例子来看看这三个重要的占位符应该如何使用&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt; &amp;gt; 例一
-
-    NSArray *array = @[[ZLPersonModel personWithName:@&amp;quot;Jack&amp;quot; age:20 sex:ZLPersonSexMale],
-                         [ZLPersonModel personWithName:@&amp;quot;Rose&amp;quot; age:22 sex:ZLPersonSexFamale],
-                         [ZLPersonModel personWithName:@&amp;quot;Jackson&amp;quot; age:30 sex:ZLPersonSexMale],
-                         [ZLPersonModel personWithName:@&amp;quot;Johnson&amp;quot; age:35 sex:ZLPersonSexMale]];
-      //  定义一个property来存放属性名，定义一个value来存放值
-      NSString *property = @&amp;quot;name&amp;quot;;
-      NSString *value = @&amp;quot;Jack&amp;quot;;
-      //  该谓词的作用是如果元素中property属性含有值value时就取出放入新的数组内，这里是name包含Jack
-      NSPredicate *pred = [NSPredicate predicateWithFormat:@&amp;quot;%K CONTAINS %@&amp;quot;, property, value];
-      NSArray *newArray = [array filteredArrayUsingPredicate:pred];
-      NSLog(@&amp;quot;newArray:%@&amp;quot;, newArray);
-
-      //  创建谓词，属性名改为age，要求这个age包含$VALUE字符串
-      NSPredicate *predTemp = [NSPredicate predicateWithFormat:@&amp;quot;%K &amp;gt; $VALUE&amp;quot;, @&amp;quot;age&amp;quot;];
-      // 指定$VALUE的值为 25
-      NSPredicate *pred1 = [predTemp predicateWithSubstitutionVariables:@{@&amp;quot;VALUE&amp;quot; : @25}];
-      NSArray *newArray1 = [array filteredArrayUsingPredicate:pred1];
-      NSLog(@&amp;quot;newArray1:%@&amp;quot;, newArray1);
-
-      //  修改 $VALUE的值为32
-      NSPredicate *pred2 = [predTemp predicateWithSubstitutionVariables:@{@&amp;quot;VALUE&amp;quot; : @32}];
-      NSArray *newArray2 = [array filteredArrayUsingPredicate:pred2];
-      NSLog(@&amp;quot;newArray2:%@&amp;quot;, newArray2);
-
- &amp;gt; 输出为:
-
-    2016-01-07 17:28:02.062 PredicteDemo[14542:309494] newArray:(
-      &amp;quot;[name = Jack, age = 20, sex = 0]&amp;quot;,
-      &amp;quot;[name = Jackson, age = 30, sex = 0]&amp;quot;
-    )
-    2016-01-07 17:28:02.063 PredicteDemo[14542:309494] newArray1:(
-      &amp;quot;[name = Jackson, age = 30, sex = 0]&amp;quot;,
-      &amp;quot;[name = Johnson, age = 35, sex = 0]&amp;quot;
-    )
-    2016-01-07 17:28:02.063 PredicteDemo[14542:309494] newArray2:(
-      &amp;quot;[name = Johnson, age = 35, sex = 0]&amp;quot;
-    )    
-
-
- &amp;gt; 从上例中我们主要可以看出来%K和$VALUE的含义。
- &amp;gt; 那么至此NSPredicate就到到此介绍完毕.  
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         

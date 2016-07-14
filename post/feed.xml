@@ -2,18 +2,153 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on JKCoder&#39;s Blog </title>
-        <link>http://blog.flywithme.top/post/</link>
+        <link>http://www.flywithme.top/post/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Thu, 30 Jun 2016 18:16:12 CST</updated>
+        <updated>Thu, 14 Jul 2016 11:40:29 CST</updated>
+        
+        <item>
+            <title>iOS 开发Debug工具壳</title>
+            <link>http://www.flywithme.top/2016/07/14/debugpanel/</link>
+            <pubDate>Thu, 14 Jul 2016 11:40:29 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2016/07/14/debugpanel/</guid>
+            <description>
+
+&lt;h5 id=&#34;初衷:bccb225b752499f845bd206d74979637&#34;&gt;初衷&lt;/h5&gt;
+
+&lt;p&gt;移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想做一个固定在状态栏上的的
+ Debug 功能控件,之前公司也有一个旧的类似控件,但是里面牵连业务非常多,而且扩展也不友好,所以我就想趁着有新项目需求的时候写一个顶部的控件壳子,
+ 而且可以很方便的扩展方法,当然,需要的测试方法依然需要开发者手动添加,这个控件并不侵入业务,以后如果有需要可以做一些设备基础功能的公用方法.
+ 暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法&lt;/p&gt;
+
+&lt;p&gt;效果如下图:
+  &lt;img src=&#34;http://www.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
+
+&lt;h6 id=&#34;使用方法:bccb225b752499f845bd206d74979637&#34;&gt;使用方法&lt;/h6&gt;
+
+&lt;p&gt;&lt;strong&gt;Podfile&lt;/strong&gt;&lt;br /&gt;
+   To integrate DebugPanel into your Xcode project using CocoaPods, specify it in your Podfile:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; source &#39;https://github.com/CocoaPods/Specs.git&#39;
+ platform :ios, &#39;7.0&#39;
+ target &#39;TargetName&#39; do
+ pod &#39;DebugPanel&#39;  , :git =&amp;gt;&#39;https://github.com/brasbug/DebugPanel.git&#39;
+ end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;then ,runthe following command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pod install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;参数说明:&lt;/strong&gt;&lt;br /&gt;
+   &lt;code&gt;MTADebugModel&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; /**
+  *  @author Jack, 16-07-14 12:07:12
+  *
+  *  title: 显示名称
+  *  selectorProperty: 调用的方法签名
+  *  etc: 额外参数
+  */
+  @property (nonatomic, strong) NSString *title;
+  @property (nonatomic, strong) NSDictionary *etc;
+  @property (nonatomic, strong) NSString *selectorProperty;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;MTADebugMethodBridge&lt;/code&gt;  使用者需要把MTADebugModel中命名的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//在方法调用的时候根据传入的参数生成相应的 selector 
+- (BOOL)handleSelectorProperty:(MTADebugModel *)modelProperty
+{
+    if (modelProperty &amp;amp;&amp;amp; modelProperty.title &amp;amp;&amp;amp; modelProperty.selectorProperty.length) {
+        SEL selector = [self selectorForMethod:modelProperty.selectorProperty];
+        if (!selector || ![self respondsToSelector:selector]) {
+            return NO;
+        }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored &amp;quot;-Warc-performSelector-leaks&amp;quot;
+        [self performSelector:selector withObject:modelProperty];
+        NSLog(@&amp;quot;%@&amp;quot;,modelProperty);
+#pragma clang diagnostic pop
+        return YES;
+    }
+    return NO;
+}
+//生成相应的方法
+- (SEL)selectorForMethod:(NSString *)method {
+    if ([method length] == 0) return nil;
+    NSString *objcMethod = [[@&amp;quot;debugapi_&amp;quot; stringByAppendingString:method] stringByAppendingString:@&amp;quot;:&amp;quot;];
+    return NSSelectorFromString(objcMethod);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Usage&lt;/strong&gt;&lt;br /&gt;
+  如果需要在&lt;code&gt;didFinishLaunchingWithOptions&lt;/code&gt;或者是 rootiew 中启动,一定要使用`&lt;code&gt;performSelector&lt;/code&gt;方法延迟调用启动 debug 按钮&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    [self performSelector:@selector(doJobsAfterFinishLaunching) withObject:nil afterDelay:0];
+    return YES;
+}
+
+- (void)doJobsAfterFinishLaunching
+{
+    NSMutableArray *arrlist = [NSMutableArray array];
+
+    MTADebugModel *item = [[MTADebugModel alloc]init];
+    item.title = @&amp;quot;一键线上&amp;quot;;
+    item.selectorProperty = @&amp;quot;changeOnlineServer&amp;quot;;
+    item.etc = @{@&amp;quot;host&amp;quot;:@&amp;quot;http://www.baidu.com&amp;quot;};
+    [arrlist addObject:item];
+
+    item = [[MTADebugModel alloc]init];
+    item.title = @&amp;quot;一键测试&amp;quot;;
+    item.selectorProperty = @&amp;quot;changeTestServer&amp;quot;;
+    item.etc = @{@&amp;quot;host&amp;quot;:@&amp;quot;http://www.sohu.com&amp;quot;};
+    [arrlist addObject:item];
+
+    item = [[MTADebugModel alloc]init];
+    item.title = @&amp;quot;调试面板&amp;quot;;
+    item.selectorProperty = @&amp;quot;showDebugPanel&amp;quot;;
+    //    item.etc = @{@&amp;quot;a&amp;quot;:@&amp;quot;b&amp;quot;};
+    [arrlist addObject:item];
+
+    item = [[MTADebugModel alloc]init];
+    item.title = @&amp;quot;打开 URL&amp;quot;;
+    item.selectorProperty = @&amp;quot;OpenSchemeURL&amp;quot;;
+    //    item.etc = @{@&amp;quot;c&amp;quot;:@&amp;quot;d&amp;quot;};
+    [arrlist addObject:item];
+
+    [[MTADebugpanel shareInstance]startDebugBar:YES methodModels:arrlist error:^(NSString *errMsg) {
+        NSLog(@&amp;quot;%@&amp;quot;,errMsg);
+    }];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;这一步很重要&lt;/strong&gt;&lt;br /&gt;
+   创建&lt;code&gt;MTADebugMethodBridge&lt;/code&gt;的 &lt;code&gt;category&lt;/code&gt; 实现你在 &lt;code&gt;MTADebugModel&lt;/code&gt; 中的&lt;code&gt;selectorProperty&lt;/code&gt; 参数方法,需要加上 &lt;code&gt;debugapi_&lt;/code&gt;的签名前缀&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)debugapi_changeOnlineServer:(MTADebugModel *)parameters{
+// TODO  Do Your Job
+}
+
+
+- (void)debugapi_OpenSchemeURL:(MTADebugModel *)parameters{
+    // TODO  Do Your Job
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>golang-gin 框架学习 一、 GET POST Method</title>
-            <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
+            <link>http://www.flywithme.top/2016/06/30/Go-gin01/</link>
             <pubDate>Thu, 30 Jun 2016 18:16:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
+            <guid>http://www.flywithme.top/2016/06/30/Go-gin01/</guid>
             <description>
 
 &lt;h5 id=&#34;前言:2551b16abac86e66e05bae7b2b34a895&#34;&gt;前言&lt;/h5&gt;
@@ -28,7 +163,7 @@
 
 &lt;pre&gt;&lt;code&gt;func main() {
     router := gin.Default()//初始化路由
-    router.Run(&amp;quot;:8080&amp;quot;) // listen and server on 0.0.0.0:8080
+    router.Run(&amp;quot;:8080&amp;quot;) // listen and GO on 0.0.0.0:8080
 }
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -122,10 +257,10 @@
         
         <item>
             <title>ReactiveCocoa简单实用</title>
-            <link>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</link>
+            <link>http://www.flywithme.top/2016/05/15/ReactiveCocoa/</link>
             <pubDate>Tue, 14 Jun 2016 14:33:00 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
+            <guid>http://www.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
             <description>
 
 &lt;h5 id=&#34;一-引入-reactivecocoa:28e95232603870e31ddfa6e2560a7d74&#34;&gt;一 引入 ReactiveCocoa&lt;/h5&gt;
@@ -182,7 +317,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 
 &lt;p&gt;下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。&lt;/p&gt;
 
@@ -323,10 +458,10 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
         
         <item>
             <title>YYModel 简介与使用</title>
-            <link>http://blog.flywithme.top/2016/06/12/modelExt/</link>
+            <link>http://www.flywithme.top/2016/06/12/modelExt/</link>
             <pubDate>Sun, 12 Jun 2016 15:14:43 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/12/modelExt/</guid>
+            <guid>http://www.flywithme.top/2016/06/12/modelExt/</guid>
             <description>
 
 &lt;h5 id=&#34;1-简单的-json-与-model-的转换:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;1. 简单的 JSON 与 Model 的转换&lt;/h5&gt;
@@ -584,10 +719,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG
@@ -617,10 +752,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>singnal 信号类型</title>
-            <link>http://blog.flywithme.top/2016/06/14/singnal/</link>
+            <link>http://www.flywithme.top/2016/06/14/singnal/</link>
             <pubDate>Sun, 15 May 2016 17:26:11 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/14/singnal/</guid>
+            <guid>http://www.flywithme.top/2016/06/14/singnal/</guid>
             <description>
 
 &lt;h5 id=&#34;简介:7fcd034282d2ab5b69e9cbb8faff7ce4&#34;&gt;简介&lt;/h5&gt;
@@ -1009,10 +1144,10 @@ Catch a signal –GVTALRM
         
         <item>
             <title>UINavigationBar-使用总结</title>
-            <link>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
+            <link>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
             <pubDate>Tue, 03 May 2016 11:49:19 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
+            <guid>http://www.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
             <description>
 
 &lt;h5 id=&#34;简介:fd9faebe845f09d44f4a35833c132216&#34;&gt;简介&lt;/h5&gt;
@@ -1422,10 +1557,10 @@ self.navigationItem.titleView = segControl;
         
         <item>
             <title>React Native如何做跨平台设计</title>
-            <link>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</link>
+            <link>http://www.flywithme.top/2016/04/28/ReactNativeRD/</link>
             <pubDate>Thu, 28 Apr 2016 10:54:03 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</guid>
+            <guid>http://www.flywithme.top/2016/04/28/ReactNativeRD/</guid>
             <description>
 
 &lt;h5 id=&#34;facebook-开源:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;Facebook 开源&lt;/h5&gt;
@@ -1834,10 +1969,10 @@ render() {
         
         <item>
             <title>利用Multipeer Connectivity框架进行WiFi传输</title>
-            <link>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
+            <link>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
             <pubDate>Wed, 27 Apr 2016 16:47:13 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
+            <guid>http://www.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
             <description>
 
 &lt;h4 id=&#34;什么是multipeer-connectivity:27a3a0c64a12fac0d59bdc2baa3e0218&#34;&gt;什么是Multipeer Connectivity&lt;/h4&gt;
@@ -2042,10 +2177,10 @@ render() {
         
         <item>
             <title>MongoDB的Go语言驱动</title>
-            <link>http://blog.flywithme.top/2016/03/31/golang-Mgo/</link>
+            <link>http://www.flywithme.top/2016/03/31/golang-Mgo/</link>
             <pubDate>Thu, 31 Mar 2016 13:56:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/31/golang-Mgo/</guid>
+            <guid>http://www.flywithme.top/2016/03/31/golang-Mgo/</guid>
             <description>
 
 &lt;h5 id=&#34;mgo简介-https-godoc-org-labix-org-v2-mgo:156647709f766e3bb58c3e6b445a0770&#34;&gt;&lt;a href=&#34;https://godoc.org/labix.org/v2/mgo&#34;&gt;mgo简介&lt;/a&gt;&lt;/h5&gt;
@@ -2418,10 +2553,10 @@ func (c *Collection) Update(selector interface{}, change interface{}) error
         
         <item>
             <title>golang Web 框架 gin 简介</title>
-            <link>http://blog.flywithme.top/2016/03/29/golangGin</link>
+            <link>http://www.flywithme.top/2016/03/29/golangGin</link>
             <pubDate>Tue, 29 Mar 2016 19:04:26 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/29/golangGin</guid>
+            <guid>http://www.flywithme.top/2016/03/29/golangGin</guid>
             <description>&lt;p&gt;&lt;a href=&#34;https://gin-gonic.github.io/gin/&#34;&gt;GitHub&lt;/a&gt;：&lt;/p&gt;
 
 &lt;p&gt;对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了一个小 demo&lt;/p&gt;
@@ -2455,10 +2590,10 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
         
         <item>
             <title>iOS基础知识点梳理</title>
-            <link>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</link>
+            <link>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</link>
             <pubDate>Mon, 28 Mar 2016 14:07:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
+            <guid>http://www.flywithme.top/2016/03/28/basicknowledgepoint/</guid>
             <description>
 
 &lt;p&gt;&lt;img src=&#34;sources/basicknowledge/1418191330476751.jpg&#34; alt=&#34;banner&#34; /&gt;&lt;/p&gt;
@@ -2578,7 +2713,7 @@ so let&amp;rsquo;s Do it!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSCategoryProperty/&#34;&gt;查看这里&lt;/a&gt;)&lt;/li&gt;
 &lt;li&gt;类目中的方法与原始类以及父类方法相比具有更高优先级,如果覆盖父类的方法,可能导致super消息的断裂。因此,最好不要覆盖原始类中的方法。&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -2760,7 +2895,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 &lt;h5 id=&#34;对谓词的认识:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对谓词的认识&lt;/h5&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，&lt;a href=&#34;http://www.flywithme.top/2016/03/25/iOSNSPredicateUse&#34;&gt;请看谓词的具体使用&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;static-self-super关键字的作用:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;static、self、super关键字的作用&lt;/h5&gt;
@@ -3518,7 +3653,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 
 &lt;li&gt;&lt;p&gt;当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如需了解更多细节，&lt;a href=&#34;http://www.flywithme.top/2016/03/26/ResponderChain/&#34;&gt;请读这篇文章&lt;/a&gt;。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;view和view之间传值方式:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;View和View之间传值方式&lt;/h5&gt;
@@ -3549,7 +3684,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 &lt;li&gt;&lt;p&gt;nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://blog.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
+&lt;h5 id=&#34;对于run-loop的理解-详情-2016-03-26-iosrunloop:0c0e4bd28fa1ec6a440af5b2adca9cc7&#34;&gt;对于Run Loop的理解&lt;a href=&#34;http://www.flywithme.top/2016/03/26/iOSRunloop/&#34;&gt;详情&lt;/a&gt;&lt;/h5&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；&lt;/p&gt;&lt;/li&gt;
@@ -3716,10 +3851,10 @@ return image;
         
         <item>
             <title>深入理解RunLoop</title>
-            <link>http://blog.flywithme.top/2016/03/26/iOSRunloop/</link>
+            <link>http://www.flywithme.top/2016/03/26/iOSRunloop/</link>
             <pubDate>Sat, 26 Mar 2016 23:10:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/26/iOSRunloop/</guid>
+            <guid>http://www.flywithme.top/2016/03/26/iOSRunloop/</guid>
             <description>
 
 &lt;p&gt;RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。&lt;/p&gt;
@@ -4602,10 +4737,10 @@ NSURLSession    -&amp;gt;AFNetworking2, Alamofire
         
         <item>
             <title>Responder -- iOS用户响应者链完全剖析</title>
-            <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
+            <link>http://www.flywithme.top/2016/03/26/ResponderChain/</link>
             <pubDate>Sat, 26 Mar 2016 22:28:03 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
+            <guid>http://www.flywithme.top/2016/03/26/ResponderChain/</guid>
             <description>&lt;p&gt;这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -4794,10 +4929,10 @@ UIApplication再分发给AppDelegate，
         
         <item>
             <title>iOS下Category添加属性字段</title>
-            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
+            <link>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
             <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
+            <guid>http://www.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
             <description>
 
 &lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
@@ -4951,369 +5086,6 @@ static const void *tagKey = &amp;amp;tagKey;
 &lt;p&gt;到这里代码就添加完成了，Category就可以添加属性字段了。这里面用到了objective-c的Runtime。如果有不了解Runtime的小伙伴，可以参考以下网站：&lt;a href=&#34;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&#34;&gt;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&lt;/a&gt;。&lt;/p&gt;
 &lt;/blockquote&gt;&lt;/li&gt;
 &lt;/ol&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
-            <link>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</link>
-            <pubDate>Thu, 24 Mar 2016 19:20:35 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</guid>
-            <description>&lt;p&gt;类的加载
-在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Java&lt;/strong&gt;代码&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;public class MyClass{    
-    static{    
-        ……    
-    }    
-}           
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;在objc语言里，对应的机制是，2个类初始化方法，+(void)load和+(void)initialize。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;#import &amp;quot;Constants.h&amp;quot; 
-@implementation Constants    
-
-+ (void)initialize{    
-    NSLog(@&amp;quot;init constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;);    
-}    
-
-+ (void)load{    
-    NSLog(@&amp;quot;load constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;);    
-}    
-
-@end 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;两个方法有一些不同。&lt;br /&gt;
-load，是加载类的时候，这里是Constants类，就会调用。也就是说，iOS应用启动的时候，就会加载所有的类，就会调用这个方法&lt;br /&gt;
-这样有个缺点，当加载类需要很昂贵的资源，或者比较耗时的时候，可能造成不良的用户体验，或者系统的抖动。这时候，就要考虑initialize方法了。这个方法可看作类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。比如：
-[Constants alloc];&lt;/p&gt;
-
-&lt;p&gt;alloc将为Constants实例在堆上分配变量。这时调用一次initialize方法，而且仅调用一次，也就是说再次alloc操作的时候，不会再调用initialize方法了。&lt;/p&gt;
-
-&lt;p&gt;initialize 会在运行时仅被触发一次，如果没有向类发送消息的话，这个方法将不会被调用。这个方法的调用是线程安全的。父类会比子类先收到此消息。&lt;/p&gt;
-
-&lt;p&gt;如果希望在类及其Categorgy中执行不同的初始化的话可以使用+load&lt;br /&gt;
-+(void)load; 在Objective-C运行时载入类或者Category时被调用&lt;br /&gt;
-这个方法对动态库和静态库中的类或(Category)都有效.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-&lt;li&gt;在Mac OS X 10.5及之后的版本，初始化的顺序如下：&lt;br /&gt;
-
-&lt;ol&gt;
-&lt;li&gt;调用所有的Framework中的初始化方法&lt;/li&gt;
-&lt;li&gt;调用所有的+load方法&lt;/li&gt;
-&lt;li&gt;调用C++的静态初始化方及C/C++中的&lt;strong&gt;attribute&lt;/strong&gt;(constructor)函数&lt;/li&gt;
-&lt;li&gt;调用所有链接到目标文件的framework中的初始化方法&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;另外&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-&lt;li&gt;一个类的+load方法在其父类的+load方法后调用&lt;/li&gt;
-&lt;li&gt;一个Category的+load方法在被其扩展的类的自有+load方法后调用
-在+load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的+load方法可能尚未被调用。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;下面是一个load的顺序&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;    
-
-#define LOAD +(void)load{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define INITIALIZE +(void)initialize{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define DEF_CLASS(clsName) @interface clsName : NSObject \    
-@end \    
-@implementation clsName \    
-INITIALIZE \    
-LOAD \    
-@end    
-
-DEF_CLASS(C1)   //1    
-DEF_CLASS(C2)   //2    
-
-@interface C1 (Hello)    
-+ (void)hello;    
-@end    
-@implementation C1 (Hello)    
-INITIALIZE       //   
-LOAD            //3    
-+ (void)hello    
-{    
-    NSLog(@&amp;quot;Hello&amp;quot;);    
-}    
-+ (void)hi    
-{    
-    NSLog(@&amp;quot;hi&amp;quot;);    
-}    
-@end    
-
-@interface C2 (Hello)    
-@end    
-@implementation C2 (Hello)    
-+ (void)load    //4   
-{    
-    NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);    
-}    
-
-+ (void)initialize    //   
-{    
-    NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);    
-}    
-@end    
-int main (int argc, const char * argv[])    
-{    
-
-    @autoreleasepool {    
-        // insert code here...    
-        //        [[C1 alloc]init]; // 向C1发送消息    
-        //       [[C2 alloc]init]; // 向C2发送消息    
-    }    
-    return 0;    
-}    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;   2012-08-1400:47:07.859 www[654:903] +[C1 load]
-   2012-08-1400:47:07.862 www[654:903] +[C2 load]
-   2012-08-14 00:47:07.863 www[654:903] +[C1(Hello) load]
-   2012-08-14 00:47:07.863 www[654:903] +[C2(Hello) load]   
-  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;以上只执行了load方法。&lt;br /&gt;
-load和initialize的顺序:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;    
-
-#define LOAD +(void)load{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define INITIALIZE +(void)initialize{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define DEF_CLASS(clsName) @interface clsName : NSObject \    
-@end \    
-@implementation clsName \    
-INITIALIZE \    
-LOAD \    
-@end    
-
-DEF_CLASS(C1)   //1    
-DEF_CLASS(C2)   //2    
-
-@interface C1 (Hello)    
-+ (void)hello;    
-@end    
-@implementation C1 (Hello)    
-INITIALIZE       //4    
-LOAD            //3    
-+ (void)hello    
-{    
-    NSLog(@&amp;quot;Hello&amp;quot;);    
-}    
-+ (void)hi    
-{    
-    NSLog(@&amp;quot;hi&amp;quot;);    
-}    
-@end    
-
-@interface C2 (Hello)    
-@end    
-@implementation C2 (Hello)    
-+ (void)load    //5    
-{    
-    NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);//[C1 hello];//NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);    
-}    
-
-+ (void)initialize    //6    
-{    
-    NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);    
-}    
-@end    
-int main (int argc, const char * argv[])    
-{    
-
-    @autoreleasepool {    
-        // insert code here...    
-        [[C1 alloc]init]; // 向C1发送消息    
-        [[C2 alloc]init]; // 向C2发送消息    
-    }    
-    return 0;    
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;  2012-08-1400:55:26.769 www[741:903] +[C1 load]
-  2012-08-1400:55:26.772 www[741:903] +[C2 load]
-  2012-08-14 00:55:26.772 www[741:903] +[C1(Hello) load]
-  2012-08-14 00:55:26.773 www[741:903] +[C2(Hello) load]
-  2012-08-14 00:55:26.773 www[741:903] +[C1(Hello) initialize]
-  2012-08-14 00:55:26.774 www[741:903] +[C2(Hello) initialize]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;貌似类中的initialize没有执行。alloc]init某个类就调用每个类的initialize方法。
-假如只[[C2 alloc]init];就只执行C2类中的initialize方法 ，输出：&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;  2012-08-1400:55:26.769 www[741:903] +[C1 load]
-  2012-08-1400:55:26.772 www[741:903] +[C2 load]
-  2012-08-14 00:55:26.772 www[741:903] +[C1(Hello) load]
-  2012-08-14 00:55:26.773 www[741:903] +[C2(Hello) load]
-  2012-08-14 00:55:26.774 www[741:903] +[C2(Hello) initialize]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;再看下面代码：&lt;br /&gt;
-    #import &lt;Foundation/Foundation.h&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;#define LOAD +(void)load{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define INITIALIZE +(void)initialize{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define DEF_CLASS(clsName) @interface clsName : NSObject \    
-@end \    
-@implementation clsName \    
-INITIALIZE \    
-LOAD \    
-@end    
-
-DEF_CLASS(C1)   //1    
-DEF_CLASS(C2)   //2    
-
-@interface C1 (Hello)    
-+ (void)hello;    
-@end    
-@implementation C1 (Hello)    
-INITIALIZE       //4    
-LOAD            //3    
-+ (void)hello    
-{    
-    NSLog(@&amp;quot;Hello&amp;quot;);    
-}    
-+ (void)hi    
-{    
-    NSLog(@&amp;quot;hi&amp;quot;);    
-}    
-@end    
-
-@interface C2 (Hello)    
-@end    
-@implementation C2 (Hello)    
-+ (void)load    //5    
-{    
-    [C1 hello];//NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__); //这里做了修改，调用了C1的静态方法，导致执行了C1的+initialize   
-}    
-
-+ (void)initialize    //6    
-{    
-    NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);    
-}    
-@end    
-int main (int argc, const char * argv[])    
-{    
-
-    @autoreleasepool {    
-        // insert code here...    
-        //                [[C1 alloc]init]; // 向C1发送消息    
-        [[C2 alloc]init]; // 向C2发送消息    
-    }    
-    return 0;    
-}  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt; 2012-08-1423:31:28.834 www[14975:903] +[C1 load]
- 2012-08-1423:31:28.837 www[14975:903] +[C2 load]
- 2012-08-14 23:31:28.837 www[14975:903] +[C1(Hello) load]
- 2012-08-14 23:31:28.838 www[14975:903] +[C1(Hello) initialize]
- 2012-08-1423:31:28.838 www[14975:903] Hello
- 2012-08-14 23:31:28.839 www[14975:903] +[C2(Hello) initialize]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;问题：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;在倒数第二个代码中，为什么没有执行类中的initialize而是执行Category中的initialize方法？？（Category覆盖方法时优先级更高）&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;要点：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;initialize和load，我们并不需要在这两个方法的实现中使用super调用父类的方法。&lt;/li&gt;
-&lt;li&gt;load和initialize被调用一次是相对runtime而言 ，你可以当作普通类方法多次调用。&lt;/li&gt;
-&lt;li&gt;类加载到系统的时候就用调用load方法，类首次使用的时候调用initialize方法。&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;load不像普通方法一样遵从那套继承规则，当每个类没有实现 load方法，不管各级超类是否实现，系统都不会调用此类的load方法。initialize与其他方法一样，如果每个类没有实现initialize方法，而超类实现了，那么就会执行超类的这个方法，所以通常会：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;+(void)initialize{  
-      if(self == [XXXClass clasee])  
-      //todo  
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;加了这个检测后，只会在期望的那个类被加载的时候执行。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;initialize和load的方法必须写的精简。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;initialize中可以实现无法在编译期初始化的全局变量，load的方法中可以实现swizzling的逻辑。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;load的调用并不视为类的第一个方法完成，因为load中调用了当前类中的方法，就先去执行initialize方法了。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Runtime调用+(void)load时没有autorelease pool，&lt;/p&gt;
-
-&lt;p&gt;@interface MainClass : NSObject&lt;br /&gt;
-@end&lt;/p&gt;
-
-&lt;p&gt;@implementation MainClass&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;(void) load {&lt;br /&gt;
-NSArray *array = [NSArray array];&lt;br /&gt;
-NSLog(@&amp;ldquo;%@ %s&amp;rdquo;, array, &lt;strong&gt;FUNCTION&lt;/strong&gt;);&lt;br /&gt;
-}&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;@end&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;objc[84934]: Object 0x10a512930 of class __NSArrayI autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug 2012-09-28 18:07:39.042 ClassMethod[84934:403] ( ) +[MainClass load]
-  其原因是runtime调用+(void)load的时候，程序还没有建立其autorelease pool，所以那些会需要使用到autorelease pool的代码，都会出现异常。这一点是非常需要注意的，也就是说放在+(void)load中的对象都应该是alloc出来并且不能使用autorelease来释放。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;load方法调用的顺序：父类(Superclass)的方法优先于子类(Subclass)的方法，类中的方法优先于类别(Category)中的方法。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;所有类别(Category)中的load方法都会执行。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;最后一个类别(Category)中的initialize方法会覆盖之前类别和类中的initialize方法。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-&lt;/ul&gt;
 </description>
         </item>
         
