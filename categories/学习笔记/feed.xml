@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>学习笔记 on JKCoder&#39;s Blog </title>
-        <link>http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <link>http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
@@ -10,10 +10,10 @@
         
         <item>
             <title>iOS 开发Debug工具壳</title>
-            <link>http://blog.flywithme.top/2016/07/14/debugpanel/</link>
+            <link>http://www.flywithme.top/2016/07/14/debugpanel/</link>
             <pubDate>Thu, 14 Jul 2016 11:40:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/07/14/debugpanel/</guid>
+            <guid>http://www.flywithme.top/2016/07/14/debugpanel/</guid>
             <description>
 
 &lt;h5 id=&#34;初衷:bccb225b752499f845bd206d74979637&#34;&gt;初衷&lt;/h5&gt;
@@ -24,7 +24,7 @@
  暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法&lt;/p&gt;
 
 &lt;p&gt;效果如下图:
-  &lt;img src=&#34;http://blog.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
+  &lt;img src=&#34;http://www.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
 
 &lt;h6 id=&#34;使用方法:bccb225b752499f845bd206d74979637&#34;&gt;使用方法&lt;/h6&gt;
 
@@ -50,7 +50,7 @@
   *  @author Jack, 16-07-14 12:07:12
   *
   *  title: 显示名称
-  *  selectorProperty: 调用的方法签名
+  *  selectorProperty: 调用的方法名
   *  etc: 额外参数
   */
   @property (nonatomic, strong) NSString *title;
@@ -58,7 +58,7 @@
   @property (nonatomic, strong) NSString *selectorProperty;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;code&gt;MTADebugMethodBridge&lt;/code&gt;  使用者需要把MTADebugModel中命名的&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;MTADebugMethodBridge&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;//在方法调用的时候根据传入的参数生成相应的 selector 
 - (BOOL)handleSelectorProperty:(MTADebugModel *)modelProperty
@@ -88,7 +88,8 @@
 &lt;p&gt;&lt;strong&gt;Usage&lt;/strong&gt;&lt;br /&gt;
   如果需要在&lt;code&gt;didFinishLaunchingWithOptions&lt;/code&gt;或者是 rootiew 中启动,一定要使用`&lt;code&gt;performSelector&lt;/code&gt;方法延迟调用启动 debug 按钮&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+&lt;pre&gt;&lt;code&gt;//示例
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [self performSelector:@selector(doJobsAfterFinishLaunching) withObject:nil afterDelay:0];
     return YES;
@@ -131,7 +132,8 @@
 &lt;p&gt;&lt;strong&gt;这一步很重要&lt;/strong&gt;&lt;br /&gt;
    创建&lt;code&gt;MTADebugMethodBridge&lt;/code&gt;的 &lt;code&gt;category&lt;/code&gt; 实现你在 &lt;code&gt;MTADebugModel&lt;/code&gt; 中的&lt;code&gt;selectorProperty&lt;/code&gt; 参数方法,需要加上 &lt;code&gt;debugapi_&lt;/code&gt;的签名前缀&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;- (void)debugapi_changeOnlineServer:(MTADebugModel *)parameters{
+&lt;pre&gt;&lt;code&gt;//方法扩展示例
+- (void)debugapi_changeOnlineServer:(MTADebugModel *)parameters{
 // TODO  Do Your Job
 }
 
@@ -145,10 +147,10 @@
         
         <item>
             <title>golang-gin 框架学习 一、 GET POST Method</title>
-            <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
+            <link>http://www.flywithme.top/2016/06/30/Go-gin01/</link>
             <pubDate>Thu, 30 Jun 2016 18:16:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
+            <guid>http://www.flywithme.top/2016/06/30/Go-gin01/</guid>
             <description>
 
 &lt;h5 id=&#34;前言:2551b16abac86e66e05bae7b2b34a895&#34;&gt;前言&lt;/h5&gt;
@@ -257,10 +259,10 @@
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG
@@ -290,10 +292,10 @@
         
         <item>
             <title>singnal 信号类型</title>
-            <link>http://blog.flywithme.top/2016/06/14/singnal/</link>
+            <link>http://www.flywithme.top/2016/06/14/singnal/</link>
             <pubDate>Sun, 15 May 2016 17:26:11 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/14/singnal/</guid>
+            <guid>http://www.flywithme.top/2016/06/14/singnal/</guid>
             <description>
 
 &lt;h5 id=&#34;简介:7fcd034282d2ab5b69e9cbb8faff7ce4&#34;&gt;简介&lt;/h5&gt;
@@ -682,10 +684,10 @@ Catch a signal –GVTALRM
         
         <item>
             <title>Objective-C&#43;Runtime 浅析</title>
-            <link>http://blog.flywithme.top/2016/03/24/OCRuntime/</link>
+            <link>http://www.flywithme.top/2016/03/24/OCRuntime/</link>
             <pubDate>Thu, 24 Mar 2016 10:58:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/24/OCRuntime/</guid>
+            <guid>http://www.flywithme.top/2016/03/24/OCRuntime/</guid>
             <description>
 
 &lt;p&gt;&lt;a href=&#34;http://wiki.sankuai.com/display/zhso/objective-c+Runtime&#34;&gt;From&lt;/a&gt;&lt;/p&gt;
