@@ -6,7 +6,117 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Thu, 14 Jul 2016 11:40:29 CST</updated>
+        <updated>Tue, 15 Nov 2016 15:03:17 CST</updated>
+        
+        <item>
+            <title>swift3_01</title>
+            <link>http://blog.flywithme.top/2016/11/15/swift3_01/</link>
+            <pubDate>Tue, 15 Nov 2016 15:03:17 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2016/11/15/swift3_01/</guid>
+            <description>
+
+&lt;h5 id=&#34;01:e519f955e77288f0644b29e17ba1856e&#34;&gt;01&lt;/h5&gt;
+
+&lt;h6 id=&#34;第一章-swift简介:e519f955e77288f0644b29e17ba1856e&#34;&gt;第一章 swift简介&lt;/h6&gt;
+
+&lt;p&gt;Swift 是一种支持多编程范式和编译式的开源编程语言,苹果于2014年WWDC（苹果开发者大会）发布，用于开发 iOS，OS X 和 watchOS 应用程序。
+  Swift 结合了 C 和 Objective-C 的优点并且不受 C 兼容性的限制。
+  Swift 在 Mac OS 和 iOS 平台可以和 Object-C 使用相同的运行环境。
+  2015年6月8日，苹果于WWDC 2015上宣布，Swift将开放源代码，包括编译器和标准库。&lt;/p&gt;
+
+&lt;h6 id=&#34;第二章-基本类型:e519f955e77288f0644b29e17ba1856e&#34;&gt;第二章 基本类型&lt;/h6&gt;
+
+&lt;p&gt;&lt;strong&gt;常量 let&lt;/strong&gt;  不能被修改&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let maxNum = 1000
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;变量 var&lt;/strong&gt;  可以被修改&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  var index = 2
+  var x = 1, y = 2, z = 3 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;第三章-运算符:e519f955e77288f0644b29e17ba1856e&#34;&gt;第三章 运算符&lt;/h6&gt;
+
+&lt;h6 id=&#34;第四章-逻辑控制:e519f955e77288f0644b29e17ba1856e&#34;&gt;第四章 逻辑控制&lt;/h6&gt;
+
+&lt;h6 id=&#34;第五章-字符串:e519f955e77288f0644b29e17ba1856e&#34;&gt;第五章 字符串&lt;/h6&gt;
+
+&lt;h6 id=&#34;第六章-可选型:e519f955e77288f0644b29e17ba1856e&#34;&gt;第六章 可选型&lt;/h6&gt;
+
+&lt;h6 id=&#34;第七章-数组:e519f955e77288f0644b29e17ba1856e&#34;&gt;第七章 数组&lt;/h6&gt;
+
+&lt;h6 id=&#34;第八章-字典和集合:e519f955e77288f0644b29e17ba1856e&#34;&gt;第八章 字典和集合&lt;/h6&gt;
+
+&lt;h6 id=&#34;第九章-函数:e519f955e77288f0644b29e17ba1856e&#34;&gt;第九章 函数&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十章-闭包:e519f955e77288f0644b29e17ba1856e&#34;&gt;第十章 闭包&lt;/h6&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>swift3 学习大纲</title>
+            <link>http://blog.flywithme.top/2016/10/21/swift3Syllabus/</link>
+            <pubDate>Fri, 21 Oct 2016 10:14:47 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2016/10/21/swift3Syllabus/</guid>
+            <description>
+
+&lt;h5 id=&#34;前言:64452a5a2699742f49fd3859b644d4f1&#34;&gt;前言&lt;/h5&gt;
+
+&lt;p&gt;swift&lt;/p&gt;
+
+&lt;p&gt;章节目录如下&lt;/p&gt;
+
+&lt;h6 id=&#34;第一章-swift简介:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第一章 swift简介&lt;/h6&gt;
+
+&lt;h6 id=&#34;第二章-基本类型:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第二章 基本类型&lt;/h6&gt;
+
+&lt;h6 id=&#34;第三章-运算符:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第三章 运算符&lt;/h6&gt;
+
+&lt;h6 id=&#34;第四章-逻辑控制:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第四章 逻辑控制&lt;/h6&gt;
+
+&lt;h6 id=&#34;第五章-字符串:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第五章 字符串&lt;/h6&gt;
+
+&lt;h6 id=&#34;第六章-可选型:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第六章 可选型&lt;/h6&gt;
+
+&lt;h6 id=&#34;第七章-数组:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第七章 数组&lt;/h6&gt;
+
+&lt;h6 id=&#34;第八章-字典和集合:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第八章 字典和集合&lt;/h6&gt;
+
+&lt;h6 id=&#34;第九章-函数:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第九章 函数&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十章-闭包:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十章 闭包&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十一章-枚举:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十一章 枚举&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十二章-结构体:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十二章 结构体&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十三章-类:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十三章 类&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十四章-属性和方法:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十四章 属性和方法&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十五章-继承和构造函数:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十五章 继承和构造函数&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十六章-文档注释:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十六章 文档注释&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十七章-下标和运算符重载:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十七章 下标和运算符重载&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十八章-扩展和泛型:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十八章 扩展和泛型&lt;/h6&gt;
+
+&lt;h6 id=&#34;第十九章-协议:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十九章 协议&lt;/h6&gt;
+
+&lt;h6 id=&#34;第二十章-面向协议的编程:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第二十章 面向协议的编程&lt;/h6&gt;
+
+&lt;h6 id=&#34;第二十一章-错误处理:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第二十一章 错误处理&lt;/h6&gt;
+
+&lt;h6 id=&#34;第二十二章-内存管理:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第二十二章 内存管理&lt;/h6&gt;
+
+&lt;h6 id=&#34;第二十三章-类型检查和类型转换:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第二十三章 类型检查和类型转换&lt;/h6&gt;
+</description>
+        </item>
         
         <item>
             <title>iOS 开发Debug工具壳</title>
@@ -258,7 +368,7 @@
         </item>
         
         <item>
-            <title>ReactiveCocoa简单实用</title>
+            <title>ReactiveCocoa简单介绍</title>
             <link>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</link>
             <pubDate>Tue, 14 Jun 2016 14:33:00 CST</pubDate>
             <author>Brasbug</author>
@@ -4533,531 +4643,6 @@ UIWindow继而分发给UIApplication，
 UIApplication再分发给AppDelegate，
 于是我们在ViewController和appDelegate的touchBegan方法中都捕获到了这次事件。&lt;/p&gt;
 &lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>iOS下Category添加属性字段</title>
-            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
-            <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
-            <description>
-
-&lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
-
-&lt;p&gt;首先看下报错情况&lt;/p&gt;
-
-&lt;h5 id=&#34;category添加字段-常规方法:39c9c95c702d9dfb0e5afaac21bb60d2&#34;&gt;Category添加字段(常规方法)&lt;/h5&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;编写 Category 头文件, 以 UIImage 为例&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//
-//  UIImage+category.h
-//  
-//
-//  Created by Linf on 15-5-19.
-//  Copyright (c) 2015年 Linf. All rights reserved.
-//
-#import &amp;lt;UIKit/UIKit.h&amp;gt;
-
-
-@interface UIImage (category)
-
-
-// 在UIImage中新建一个tag属性
-@property (nonatomic, copy) NSString *tag;
-
-
-@end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;编写 Category 源文件&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//
-//  UIImage+category.m
-//  
-//
-//  Created by Linf on 15-5-19.
-//  Copyright (c) 2015年 Linf. All rights reserved.
-//
-
-
-#import &amp;quot;UIImage+category.h&amp;quot;
-
-
-@implementation UIImage (category)
-
-
-- (NSString *)tag {
-    return self.tag;
-}
-
-
-- (void)setTag:(NSString *)tag {
-    self.tag = [tag copy];
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;访问Category属性添加的 tag 属性&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UIImage *image = [UIImage imageNamed:@&amp;quot;&amp;quot;];
-[image setTag:@&amp;quot;100&amp;quot;];
-NSLog(@&amp;quot;tag:%@&amp;quot;, [image tag]);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;打印信息为:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2015-08-12 15:17:10.321 InformPub[16828:1373803] CUICatalog: Invalid asset name supplied: 
-2015-08-12 15:17:10.321 InformPub[16828:1373803] tag:(null)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;看到了没有，我们设置了tag值，完全没有用。那么有没有什么办法可以给Category添加属性字段呢？请看下面：&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h5 id=&#34;category添加字段-runtime方法:39c9c95c702d9dfb0e5afaac21bb60d2&#34;&gt;Category添加字段（Runtime方法）&lt;/h5&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;编写 Category 头文件, 以 UIImage 为例&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;   //
-   //  UIImage+category.h
-   //  
-   //
-   //  Created by Linf on 15-5-19.
-   //  Copyright (c) 2015年 Linf. All rights reserved.
-   //
-   #import &amp;lt;UIKit/UIKit.h&amp;gt;
-
-
-   @interface UIImage (category)
-
-
-   // 在UIImage中新建一个tag属性
-   @property (nonatomic, copy) NSString *tag;
-
-
-   @end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;编写 Category 源文件&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//
-//  UIImage+category.m
-//  
-//
-//  Created by Linf on 15-5-19.
-//  Copyright (c) 2015年 Linf. All rights reserved.
-//
-
-
-#import &amp;quot;UIImage+category.h&amp;quot;
-
-
-static const void *tagKey = &amp;amp;tagKey;
-
-
-@implementation UIImage (category)
-
-
-- (NSString *)tag {
-    return objc_getAssociatedObject(self, tagKey);
-}
-
-
-- (void)setTag:(NSString *)tag {
-    objc_setAssociatedObject(self, tagKey, tag, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;访问Category属性添加的 tag 属性&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; UIImage *image = [UIImage imageNamed:@&amp;quot;&amp;quot;];
- [image setTag:@&amp;quot;100&amp;quot;];
- NSLog(@&amp;quot;tag:%@&amp;quot;, [image tag]);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;打印信息为:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;  2015-08-12 14:57:58.777 InformPub[16741:1271788] tag:100
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;到这里代码就添加完成了，Category就可以添加属性字段了。这里面用到了objective-c的Runtime。如果有不了解Runtime的小伙伴，可以参考以下网站：&lt;a href=&#34;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&#34;&gt;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&lt;/a&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
-            <link>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</link>
-            <pubDate>Thu, 24 Mar 2016 19:20:35 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</guid>
-            <description>&lt;p&gt;类的加载
-在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Java&lt;/strong&gt;代码&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;public class MyClass{    
-    static{    
-        ……    
-    }    
-}           
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;在objc语言里，对应的机制是，2个类初始化方法，+(void)load和+(void)initialize。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;#import &amp;quot;Constants.h&amp;quot; 
-@implementation Constants    
-
-+ (void)initialize{    
-    NSLog(@&amp;quot;init constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;);    
-}    
-
-+ (void)load{    
-    NSLog(@&amp;quot;load constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;);    
-}    
-
-@end 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;两个方法有一些不同。&lt;br /&gt;
-load，是加载类的时候，这里是Constants类，就会调用。也就是说，iOS应用启动的时候，就会加载所有的类，就会调用这个方法&lt;br /&gt;
-这样有个缺点，当加载类需要很昂贵的资源，或者比较耗时的时候，可能造成不良的用户体验，或者系统的抖动。这时候，就要考虑initialize方法了。这个方法可看作类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。比如：
-[Constants alloc];&lt;/p&gt;
-
-&lt;p&gt;alloc将为Constants实例在堆上分配变量。这时调用一次initialize方法，而且仅调用一次，也就是说再次alloc操作的时候，不会再调用initialize方法了。&lt;/p&gt;
-
-&lt;p&gt;initialize 会在运行时仅被触发一次，如果没有向类发送消息的话，这个方法将不会被调用。这个方法的调用是线程安全的。父类会比子类先收到此消息。&lt;/p&gt;
-
-&lt;p&gt;如果希望在类及其Categorgy中执行不同的初始化的话可以使用+load&lt;br /&gt;
-+(void)load; 在Objective-C运行时载入类或者Category时被调用&lt;br /&gt;
-这个方法对动态库和静态库中的类或(Category)都有效.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-&lt;li&gt;在Mac OS X 10.5及之后的版本，初始化的顺序如下：&lt;br /&gt;
-
-&lt;ol&gt;
-&lt;li&gt;调用所有的Framework中的初始化方法&lt;/li&gt;
-&lt;li&gt;调用所有的+load方法&lt;/li&gt;
-&lt;li&gt;调用C++的静态初始化方及C/C++中的&lt;strong&gt;attribute&lt;/strong&gt;(constructor)函数&lt;/li&gt;
-&lt;li&gt;调用所有链接到目标文件的framework中的初始化方法&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;另外&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-&lt;li&gt;一个类的+load方法在其父类的+load方法后调用&lt;/li&gt;
-&lt;li&gt;一个Category的+load方法在被其扩展的类的自有+load方法后调用
-在+load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的+load方法可能尚未被调用。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;下面是一个load的顺序&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;    
-
-#define LOAD +(void)load{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define INITIALIZE +(void)initialize{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define DEF_CLASS(clsName) @interface clsName : NSObject \    
-@end \    
-@implementation clsName \    
-INITIALIZE \    
-LOAD \    
-@end    
-
-DEF_CLASS(C1)   //1    
-DEF_CLASS(C2)   //2    
-
-@interface C1 (Hello)    
-+ (void)hello;    
-@end    
-@implementation C1 (Hello)    
-INITIALIZE       //   
-LOAD            //3    
-+ (void)hello    
-{    
-    NSLog(@&amp;quot;Hello&amp;quot;);    
-}    
-+ (void)hi    
-{    
-    NSLog(@&amp;quot;hi&amp;quot;);    
-}    
-@end    
-
-@interface C2 (Hello)    
-@end    
-@implementation C2 (Hello)    
-+ (void)load    //4   
-{    
-    NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);    
-}    
-
-+ (void)initialize    //   
-{    
-    NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);    
-}    
-@end    
-int main (int argc, const char * argv[])    
-{    
-
-    @autoreleasepool {    
-        // insert code here...    
-        //        [[C1 alloc]init]; // 向C1发送消息    
-        //       [[C2 alloc]init]; // 向C2发送消息    
-    }    
-    return 0;    
-}    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;   2012-08-1400:47:07.859 www[654:903] +[C1 load]
-   2012-08-1400:47:07.862 www[654:903] +[C2 load]
-   2012-08-14 00:47:07.863 www[654:903] +[C1(Hello) load]
-   2012-08-14 00:47:07.863 www[654:903] +[C2(Hello) load]   
-  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;以上只执行了load方法。&lt;br /&gt;
-load和initialize的顺序:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;    
-
-#define LOAD +(void)load{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define INITIALIZE +(void)initialize{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define DEF_CLASS(clsName) @interface clsName : NSObject \    
-@end \    
-@implementation clsName \    
-INITIALIZE \    
-LOAD \    
-@end    
-
-DEF_CLASS(C1)   //1    
-DEF_CLASS(C2)   //2    
-
-@interface C1 (Hello)    
-+ (void)hello;    
-@end    
-@implementation C1 (Hello)    
-INITIALIZE       //4    
-LOAD            //3    
-+ (void)hello    
-{    
-    NSLog(@&amp;quot;Hello&amp;quot;);    
-}    
-+ (void)hi    
-{    
-    NSLog(@&amp;quot;hi&amp;quot;);    
-}    
-@end    
-
-@interface C2 (Hello)    
-@end    
-@implementation C2 (Hello)    
-+ (void)load    //5    
-{    
-    NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);//[C1 hello];//NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);    
-}    
-
-+ (void)initialize    //6    
-{    
-    NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);    
-}    
-@end    
-int main (int argc, const char * argv[])    
-{    
-
-    @autoreleasepool {    
-        // insert code here...    
-        [[C1 alloc]init]; // 向C1发送消息    
-        [[C2 alloc]init]; // 向C2发送消息    
-    }    
-    return 0;    
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;  2012-08-1400:55:26.769 www[741:903] +[C1 load]
-  2012-08-1400:55:26.772 www[741:903] +[C2 load]
-  2012-08-14 00:55:26.772 www[741:903] +[C1(Hello) load]
-  2012-08-14 00:55:26.773 www[741:903] +[C2(Hello) load]
-  2012-08-14 00:55:26.773 www[741:903] +[C1(Hello) initialize]
-  2012-08-14 00:55:26.774 www[741:903] +[C2(Hello) initialize]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;貌似类中的initialize没有执行。alloc]init某个类就调用每个类的initialize方法。
-假如只[[C2 alloc]init];就只执行C2类中的initialize方法 ，输出：&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;  2012-08-1400:55:26.769 www[741:903] +[C1 load]
-  2012-08-1400:55:26.772 www[741:903] +[C2 load]
-  2012-08-14 00:55:26.772 www[741:903] +[C1(Hello) load]
-  2012-08-14 00:55:26.773 www[741:903] +[C2(Hello) load]
-  2012-08-14 00:55:26.774 www[741:903] +[C2(Hello) initialize]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;再看下面代码：&lt;br /&gt;
-    #import &lt;Foundation/Foundation.h&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;#define LOAD +(void)load{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define INITIALIZE +(void)initialize{NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);}    
-#define DEF_CLASS(clsName) @interface clsName : NSObject \    
-@end \    
-@implementation clsName \    
-INITIALIZE \    
-LOAD \    
-@end    
-
-DEF_CLASS(C1)   //1    
-DEF_CLASS(C2)   //2    
-
-@interface C1 (Hello)    
-+ (void)hello;    
-@end    
-@implementation C1 (Hello)    
-INITIALIZE       //4    
-LOAD            //3    
-+ (void)hello    
-{    
-    NSLog(@&amp;quot;Hello&amp;quot;);    
-}    
-+ (void)hi    
-{    
-    NSLog(@&amp;quot;hi&amp;quot;);    
-}    
-@end    
-
-@interface C2 (Hello)    
-@end    
-@implementation C2 (Hello)    
-+ (void)load    //5    
-{    
-    [C1 hello];//NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__); //这里做了修改，调用了C1的静态方法，导致执行了C1的+initialize   
-}    
-
-+ (void)initialize    //6    
-{    
-    NSLog(@&amp;quot;%s&amp;quot;, __PRETTY_FUNCTION__);    
-}    
-@end    
-int main (int argc, const char * argv[])    
-{    
-
-    @autoreleasepool {    
-        // insert code here...    
-        //                [[C1 alloc]init]; // 向C1发送消息    
-        [[C2 alloc]init]; // 向C2发送消息    
-    }    
-    return 0;    
-}  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt; 2012-08-1423:31:28.834 www[14975:903] +[C1 load]
- 2012-08-1423:31:28.837 www[14975:903] +[C2 load]
- 2012-08-14 23:31:28.837 www[14975:903] +[C1(Hello) load]
- 2012-08-14 23:31:28.838 www[14975:903] +[C1(Hello) initialize]
- 2012-08-1423:31:28.838 www[14975:903] Hello
- 2012-08-14 23:31:28.839 www[14975:903] +[C2(Hello) initialize]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;问题：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;在倒数第二个代码中，为什么没有执行类中的initialize而是执行Category中的initialize方法？？（Category覆盖方法时优先级更高）&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;要点：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;initialize和load，我们并不需要在这两个方法的实现中使用super调用父类的方法。&lt;/li&gt;
-&lt;li&gt;load和initialize被调用一次是相对runtime而言 ，你可以当作普通类方法多次调用。&lt;/li&gt;
-&lt;li&gt;类加载到系统的时候就用调用load方法，类首次使用的时候调用initialize方法。&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;load不像普通方法一样遵从那套继承规则，当每个类没有实现 load方法，不管各级超类是否实现，系统都不会调用此类的load方法。initialize与其他方法一样，如果每个类没有实现initialize方法，而超类实现了，那么就会执行超类的这个方法，所以通常会：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;+(void)initialize{  
-      if(self == [XXXClass clasee])  
-      //todo  
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;加了这个检测后，只会在期望的那个类被加载的时候执行。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;initialize和load的方法必须写的精简。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;initialize中可以实现无法在编译期初始化的全局变量，load的方法中可以实现swizzling的逻辑。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;load的调用并不视为类的第一个方法完成，因为load中调用了当前类中的方法，就先去执行initialize方法了。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Runtime调用+(void)load时没有autorelease pool，&lt;/p&gt;
-
-&lt;p&gt;@interface MainClass : NSObject&lt;br /&gt;
-@end&lt;/p&gt;
-
-&lt;p&gt;@implementation MainClass&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;(void) load {&lt;br /&gt;
-NSArray *array = [NSArray array];&lt;br /&gt;
-NSLog(@&amp;ldquo;%@ %s&amp;rdquo;, array, &lt;strong&gt;FUNCTION&lt;/strong&gt;);&lt;br /&gt;
-}&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;@end&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;objc[84934]: Object 0x10a512930 of class __NSArrayI autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug 2012-09-28 18:07:39.042 ClassMethod[84934:403] ( ) +[MainClass load]
-  其原因是runtime调用+(void)load的时候，程序还没有建立其autorelease pool，所以那些会需要使用到autorelease pool的代码，都会出现异常。这一点是非常需要注意的，也就是说放在+(void)load中的对象都应该是alloc出来并且不能使用autorelease来释放。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;load方法调用的顺序：父类(Superclass)的方法优先于子类(Subclass)的方法，类中的方法优先于类别(Category)中的方法。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;所有类别(Category)中的load方法都会执行。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;最后一个类别(Category)中的initialize方法会覆盖之前类别和类中的initialize方法。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         </item>
