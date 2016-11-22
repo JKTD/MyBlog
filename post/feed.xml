@@ -6,117 +6,7 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Tue, 15 Nov 2016 15:03:17 CST</updated>
-        
-        <item>
-            <title>swift3_01</title>
-            <link>http://blog.flywithme.top/2016/11/15/swift3_01/</link>
-            <pubDate>Tue, 15 Nov 2016 15:03:17 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/11/15/swift3_01/</guid>
-            <description>
-
-&lt;h5 id=&#34;01:e519f955e77288f0644b29e17ba1856e&#34;&gt;01&lt;/h5&gt;
-
-&lt;h6 id=&#34;第一章-swift简介:e519f955e77288f0644b29e17ba1856e&#34;&gt;第一章 swift简介&lt;/h6&gt;
-
-&lt;p&gt;Swift 是一种支持多编程范式和编译式的开源编程语言,苹果于2014年WWDC（苹果开发者大会）发布，用于开发 iOS，OS X 和 watchOS 应用程序。
-  Swift 结合了 C 和 Objective-C 的优点并且不受 C 兼容性的限制。
-  Swift 在 Mac OS 和 iOS 平台可以和 Object-C 使用相同的运行环境。
-  2015年6月8日，苹果于WWDC 2015上宣布，Swift将开放源代码，包括编译器和标准库。&lt;/p&gt;
-
-&lt;h6 id=&#34;第二章-基本类型:e519f955e77288f0644b29e17ba1856e&#34;&gt;第二章 基本类型&lt;/h6&gt;
-
-&lt;p&gt;&lt;strong&gt;常量 let&lt;/strong&gt;  不能被修改&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let maxNum = 1000
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;变量 var&lt;/strong&gt;  可以被修改&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;  var index = 2
-  var x = 1, y = 2, z = 3 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h6 id=&#34;第三章-运算符:e519f955e77288f0644b29e17ba1856e&#34;&gt;第三章 运算符&lt;/h6&gt;
-
-&lt;h6 id=&#34;第四章-逻辑控制:e519f955e77288f0644b29e17ba1856e&#34;&gt;第四章 逻辑控制&lt;/h6&gt;
-
-&lt;h6 id=&#34;第五章-字符串:e519f955e77288f0644b29e17ba1856e&#34;&gt;第五章 字符串&lt;/h6&gt;
-
-&lt;h6 id=&#34;第六章-可选型:e519f955e77288f0644b29e17ba1856e&#34;&gt;第六章 可选型&lt;/h6&gt;
-
-&lt;h6 id=&#34;第七章-数组:e519f955e77288f0644b29e17ba1856e&#34;&gt;第七章 数组&lt;/h6&gt;
-
-&lt;h6 id=&#34;第八章-字典和集合:e519f955e77288f0644b29e17ba1856e&#34;&gt;第八章 字典和集合&lt;/h6&gt;
-
-&lt;h6 id=&#34;第九章-函数:e519f955e77288f0644b29e17ba1856e&#34;&gt;第九章 函数&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十章-闭包:e519f955e77288f0644b29e17ba1856e&#34;&gt;第十章 闭包&lt;/h6&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3 学习大纲</title>
-            <link>http://blog.flywithme.top/2016/10/21/swift3Syllabus/</link>
-            <pubDate>Fri, 21 Oct 2016 10:14:47 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/10/21/swift3Syllabus/</guid>
-            <description>
-
-&lt;h5 id=&#34;前言:64452a5a2699742f49fd3859b644d4f1&#34;&gt;前言&lt;/h5&gt;
-
-&lt;p&gt;swift&lt;/p&gt;
-
-&lt;p&gt;章节目录如下&lt;/p&gt;
-
-&lt;h6 id=&#34;第一章-swift简介:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第一章 swift简介&lt;/h6&gt;
-
-&lt;h6 id=&#34;第二章-基本类型:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第二章 基本类型&lt;/h6&gt;
-
-&lt;h6 id=&#34;第三章-运算符:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第三章 运算符&lt;/h6&gt;
-
-&lt;h6 id=&#34;第四章-逻辑控制:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第四章 逻辑控制&lt;/h6&gt;
-
-&lt;h6 id=&#34;第五章-字符串:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第五章 字符串&lt;/h6&gt;
-
-&lt;h6 id=&#34;第六章-可选型:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第六章 可选型&lt;/h6&gt;
-
-&lt;h6 id=&#34;第七章-数组:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第七章 数组&lt;/h6&gt;
-
-&lt;h6 id=&#34;第八章-字典和集合:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第八章 字典和集合&lt;/h6&gt;
-
-&lt;h6 id=&#34;第九章-函数:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第九章 函数&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十章-闭包:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十章 闭包&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十一章-枚举:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十一章 枚举&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十二章-结构体:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十二章 结构体&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十三章-类:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十三章 类&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十四章-属性和方法:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十四章 属性和方法&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十五章-继承和构造函数:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十五章 继承和构造函数&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十六章-文档注释:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十六章 文档注释&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十七章-下标和运算符重载:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十七章 下标和运算符重载&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十八章-扩展和泛型:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十八章 扩展和泛型&lt;/h6&gt;
-
-&lt;h6 id=&#34;第十九章-协议:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第十九章 协议&lt;/h6&gt;
-
-&lt;h6 id=&#34;第二十章-面向协议的编程:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第二十章 面向协议的编程&lt;/h6&gt;
-
-&lt;h6 id=&#34;第二十一章-错误处理:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第二十一章 错误处理&lt;/h6&gt;
-
-&lt;h6 id=&#34;第二十二章-内存管理:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第二十二章 内存管理&lt;/h6&gt;
-
-&lt;h6 id=&#34;第二十三章-类型检查和类型转换:64452a5a2699742f49fd3859b644d4f1&#34;&gt;第二十三章 类型检查和类型转换&lt;/h6&gt;
-</description>
-        </item>
+        <updated>Thu, 14 Jul 2016 11:40:29 CST</updated>
         
         <item>
             <title>iOS 开发Debug工具壳</title>
@@ -4844,6 +4734,360 @@ NSURLSession    -&amp;gt;AFNetworking2, Alamofire
 &lt;p&gt;ASDK 仿照 QuartzCore/UIKit 框架的模式，实现了一套类似的界面更新的机制：即在主线程的 RunLoop 中添加一个 Observer，监听了 kCFRunLoopBeforeWaiting 和 kCFRunLoopExit 事件，在收到回调时，遍历所有之前放入队列的待处理的任务，然后一一执行。
     具体的代码可以看这里：&lt;a href=&#34;https://github.com/facebook/AsyncDisplayKit/blob/master/AsyncDisplayKit%2FDetails%2FTransactions%2F_ASAsyncTransactionGroup.m__&#34;&gt;_ASAsyncTransactionGroup&lt;/a&gt;。&lt;/p&gt;
 &lt;/blockquote&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Responder -- iOS用户响应者链完全剖析</title>
+            <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
+            <pubDate>Sat, 26 Mar 2016 22:28:03 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
+            <description>&lt;p&gt;这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们先从UIButton谈起，UIButton大家使用的太多了，他特殊的地方就在于其内置的普通Default/高亮Highlighted/选择Selected/可用Enable的几个状态(UIControlState)。其次就是SDK内部已经为我们封装了以下用户事件:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/responderchain/UIControlEvents.jpg&#34; alt=&#34;controlEvent&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;最常用的莫过于Touch Up Inside这个事件了，他代表:  用户在按钮区域内按下，并且也在按钮区域内松开。&lt;/p&gt;
+
+&lt;p&gt;关键点:按下并且松开 才能触发此方法，也就是正确的操作 按下一次，松开一次只会触发一次此事件。与之不同的Touch Drag Inside等方法不需要松开这个过程，Up变为了Drag,其实大家都能理解，SDK在封装的时候原理跟UITouchEvent是一个道理，第一个单词Touch 代表按下(Began)第二个单词Up代表松开(Ended),Drag代表拖动(Moved)。TouchMoved方法在一次完整的触摸中会被触发很多次，所以Touch Drag Inside方法会在用户手松开之前一直被触发。&lt;/p&gt;
+
+&lt;p&gt;这些就是UIButton已封装的事件，而UIButton继承自UIControl。UIControl又继承自UIView。我们平时能用这些已封装的事件的控件都是UIControl的子类。那么父类UIView是没有内部事件的。&lt;/p&gt;
+
+&lt;p&gt;我们常常利用UIView来写自己的UITouchEvent。例如在一个View/ViewController中直接实现以下3个方法:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+
+}  
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+
+}  
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+
+}  
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们用的非常多，但是大家知道这4个方法是谁的实例方法吗？如果你一下就说出是UIView的，那么为什么我们在UIViewController中也可以用呢，他们不是继承关系。&lt;/p&gt;
+
+&lt;p&gt;注意这4个实例方法来自UIView与UIViewController的共同父类:UIResponder。它是我们今天的主角。&lt;/p&gt;
+
+&lt;p&gt;基本上我们所能看到的所有图形界面都是继承自UIResponder的，So，它究竟为何方神圣?&lt;/p&gt;
+
+&lt;p&gt;UIResponder所谓很多视图的父类，他掌管着用户的操作事件分发大权。如果没有他，我们的电容屏如何将用户的操作传递给我们的视图令其做出反应呢？&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;我们先看看iOS中的响应者链的概念:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;每一个应用有一个响应者链，我们的视图结构是一个N叉树(一个视图可以有多个子视图，一个子视图同一时刻只有一个父视图),而每一个继承UIResponder的对象都可以在这个N叉树中扮演一个节点。当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;例子:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我用SingleView模板创建了一个新的工程，它的主Window上只有一个UIViewController，其View之上有一个Button。这个项目中所有UIResponder的子类所构成的N叉树为这样的结构:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/responderchain/actionChain.jpg&#34; alt=&#34;buttonActionChain&#34; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;那么他看起来并不像N叉树，但是不代表者不是一颗N叉树，当我们项目复杂之后，这个View可不可以有多个UIButton节点？所以他就是一棵树。
+&amp;gt; 实际上我们要把这棵树写完整，应该还要算上UIButton的UILabel和UIImageView，因为他们也是UIReponder的子类。这里先不考虑了。
+&amp;gt; 我们对UIButton来讲，他此时若是叶节点，那么这时我们针对他所在的响应链来说，他在他之前的响应者就应该是我们controller的view(树中的叶节点比父节点永远更优先被分发事件,但是并不是说他就能在时间上先响应，我们下面讲为什么)。所以我们尝试在任意地方打印这个Button的nextReponder对象。nextResponder对象是UIReponder类的实例方法，它会返回任意对象在树中的上一个响应者实例:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSLog(@&amp;quot;%@&amp;quot;,_testButton.nextResponder);  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;控制台输出消息:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2013-09-21 03:40:25.989 响应链[614:60b] &amp;lt;UIView: 0x16555e10; frame = (0 0; 320 568); autoresize = RM+BM; layer = &amp;lt;CALayer: 0x16555e70&amp;gt;&amp;gt;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们可以根据这个UIView的尺寸来得知，他就是我们唯一的控制器中的那个UIView。
+ 接下来我们再打印下这个UIView的下一个响应者是谁:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;NSLog(@&amp;quot;%@&amp;quot;,_testButton.nextResponder.nextResponder);  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;输出:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2013-09-21 03:45:03.914响应链[621:60b] &amp;lt;RSViewController: 0x15da0e30&amp;gt;
+//依次看，接着加一个nextResponder:
+2013-09-21 03:50:49.428 响应链[669:60b] (null)
+为什么这里ViewController没有父亲呢？  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意这句代码我是写在ViewDidLoad中，而我们知道这个方法的生命周期比较早，所以我们换个地方写或者延迟一段时间再打印，两种方法都可以得到结果(由此可以推理出我们响应者树的构造过程是在ViewDidLoad周期中来完成的，这个函数会将当前实例的构成的响应者子树合并到我们整个根树中):&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2013-09-21 03:53:47.304 响应链[681:60b] &amp;lt;UIWindow: 0x14e24200; frame = (0 0; 320 568); gestureRecognizers = &amp;lt;NSArray: 0x14e242e0&amp;gt;; layer = &amp;lt;UIWindowLayer: 0x14e244a0&amp;gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;再继续往上追朔:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;double delayInSeconds = 2.0;  
+ dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));  
+ dispatch_after(popTime, dispatch_get_main_queue(), ^(void){  
+      NSLog(@&amp;quot;%@&amp;quot;,_testButton.nextResponder.nextResponder.nextResponder.nextResponder);  
+ }); 
+
+
+2013-09-21 03:56:22.043 响应链[690:60b] &amp;lt;UIApplication: 0x15659c00&amp;gt;
+//再加一个:
+2013-09-21 03:56:51.186 响应链[696:60b] &amp;lt;RSAppDelegate: 0x16663520&amp;gt;
+ //那么我们的appDelegate还有没有父节点?
+2013-09-21 03:57:22.588 响应链[706:60b] (null)
+//没有了，注意，一个从叶节点开始分发的事件，最多也就只能分发到我们的AppDelegate了！
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;这个树形结构在我们的项目中尤为重要，举个栗子，如果我们想在一个view中重写UITouchEvent的4个方法，并且不影响他的父视图也响应这些事件，就要注意你重写的方式了，
+&amp;gt; 比如我们在ViewController中重写touchBegan如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+    NSLog(@&amp;quot;ViewController接收到触摸事件&amp;quot;);  
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在appDelegate的中同样也写上这一段:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+    NSLog(@&amp;quot;appDelegate接收到触摸事件&amp;quot;);  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;那么究竟是谁被触发呢？&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2013-09-21 04:02:49.405 响应链[743:60b] ViewController接收到触摸事件
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这个很好理解，我刚刚也说了，viewController明显是appDelegate的子节点，他有事件分发的优先权。
+如果我们想两个地方都触发呢？这里super一下就可以了:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
+{  
+    [super touchesBegan:touches withEvent:event];  
+    NSLog(@&amp;quot;ViewController接收到触摸事件&amp;quot;);  
+}    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;输出:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2013-09-21 04:07:26.206 响应链[749:60b] appDelegate接收到触摸事件
+2013-09-21 04:07:26.208 响应链[749:60b] ViewController接收到触摸事件
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意看时间戳，appDelegate虽然优先级别不如ViewController，但是他响应的时间上面足足比ViewController早了0.002秒，我这里试了几次，都是相差0.002秒。
+那么我们分析一下这里的响应者链是怎样工作的:&lt;/p&gt;
+
+&lt;p&gt;用户手指触摸到了UIView上,由于我们没有重写UIView的UITouchEvent,所以他里面和super执行的一样的，将该事件继续分发到UIViewController；
+UIViewController的TouchBegan被我们重写了，如果我们不super，那么我们在这里写响应代码。事件到这里就不继续分发了。可想而知，UIViewController祖先节点:UIWindow，UIApplication，AppDelegate都无权被分发此事件。
+如果我们super了TouchBegan，那么此次触摸事件由
+ViewController分发给UIWindow,
+UIWindow继而分发给UIApplication，
+UIApplication再分发给AppDelegate，
+于是我们在ViewController和appDelegate的touchBegan方法中都捕获到了这次事件。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>iOS下Category添加属性字段</title>
+            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
+            <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
+            <description>
+
+&lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
+
+&lt;p&gt;首先看下报错情况&lt;/p&gt;
+
+&lt;h5 id=&#34;category添加字段-常规方法:39c9c95c702d9dfb0e5afaac21bb60d2&#34;&gt;Category添加字段(常规方法)&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;编写 Category 头文件, 以 UIImage 为例&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  UIImage+category.h
+//  
+//
+//  Created by Linf on 15-5-19.
+//  Copyright (c) 2015年 Linf. All rights reserved.
+//
+#import &amp;lt;UIKit/UIKit.h&amp;gt;
+
+
+@interface UIImage (category)
+
+
+// 在UIImage中新建一个tag属性
+@property (nonatomic, copy) NSString *tag;
+
+
+@end
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;编写 Category 源文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  UIImage+category.m
+//  
+//
+//  Created by Linf on 15-5-19.
+//  Copyright (c) 2015年 Linf. All rights reserved.
+//
+
+
+#import &amp;quot;UIImage+category.h&amp;quot;
+
+
+@implementation UIImage (category)
+
+
+- (NSString *)tag {
+    return self.tag;
+}
+
+
+- (void)setTag:(NSString *)tag {
+    self.tag = [tag copy];
+}
+@end
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;访问Category属性添加的 tag 属性&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;UIImage *image = [UIImage imageNamed:@&amp;quot;&amp;quot;];
+[image setTag:@&amp;quot;100&amp;quot;];
+NSLog(@&amp;quot;tag:%@&amp;quot;, [image tag]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;打印信息为:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;2015-08-12 15:17:10.321 InformPub[16828:1373803] CUICatalog: Invalid asset name supplied: 
+2015-08-12 15:17:10.321 InformPub[16828:1373803] tag:(null)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;看到了没有，我们设置了tag值，完全没有用。那么有没有什么办法可以给Category添加属性字段呢？请看下面：&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&#34;category添加字段-runtime方法:39c9c95c702d9dfb0e5afaac21bb60d2&#34;&gt;Category添加字段（Runtime方法）&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;编写 Category 头文件, 以 UIImage 为例&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   //
+   //  UIImage+category.h
+   //  
+   //
+   //  Created by Linf on 15-5-19.
+   //  Copyright (c) 2015年 Linf. All rights reserved.
+   //
+   #import &amp;lt;UIKit/UIKit.h&amp;gt;
+
+
+   @interface UIImage (category)
+
+
+   // 在UIImage中新建一个tag属性
+   @property (nonatomic, copy) NSString *tag;
+
+
+   @end
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;编写 Category 源文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  UIImage+category.m
+//  
+//
+//  Created by Linf on 15-5-19.
+//  Copyright (c) 2015年 Linf. All rights reserved.
+//
+
+
+#import &amp;quot;UIImage+category.h&amp;quot;
+
+
+static const void *tagKey = &amp;amp;tagKey;
+
+
+@implementation UIImage (category)
+
+
+- (NSString *)tag {
+    return objc_getAssociatedObject(self, tagKey);
+}
+
+
+- (void)setTag:(NSString *)tag {
+    objc_setAssociatedObject(self, tagKey, tag, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+@end
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;访问Category属性添加的 tag 属性&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; UIImage *image = [UIImage imageNamed:@&amp;quot;&amp;quot;];
+ [image setTag:@&amp;quot;100&amp;quot;];
+ NSLog(@&amp;quot;tag:%@&amp;quot;, [image tag]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;打印信息为:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;  2015-08-12 14:57:58.777 InformPub[16741:1271788] tag:100
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;到这里代码就添加完成了，Category就可以添加属性字段了。这里面用到了objective-c的Runtime。如果有不了解Runtime的小伙伴，可以参考以下网站：&lt;a href=&#34;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&#34;&gt;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&lt;/a&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ol&gt;
 </description>
         </item>
         
