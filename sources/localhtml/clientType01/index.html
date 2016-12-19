@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <meta name="format-detection"content="telephone=no">
+    <title>判断客户端类型1</title>
+</head>
+<body>
+<script type="text/javascript">
+    var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; 
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
+    if (isAndroid) {
+        alert('这是Android');
+    }
+    if (isiOS) {
+        alert('这是IOS');
+    }
+</script>
+</body>
+</html>
