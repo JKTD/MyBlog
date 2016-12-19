@@ -14,7 +14,61 @@
             <pubDate>Mon, 19 Dec 2016 14:30:21 CST</pubDate>
             <author>Brasbug</author>
             <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
-            <description></description>
+            <description>&lt;p&gt;使用JS判断客户端、浏览器、操作系统类型&lt;/p&gt;
+
+&lt;p&gt;通过判断浏览器的userAgent&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function is_weixn(){
+        var ua = navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i)==&amp;quot;micromessenger&amp;quot;) {
+            alert(&#39;在微信里打开&#39;);
+        } else {
+            alert(&#39;不在微信里打开&#39;);
+        }
+    }
+
+    is_weixn();
+
+
+
+    //判断各个平台
+    function detectOS() {
+        var sUserAgent = navigator.userAgent;
+        var isWin = (navigator.platform == &amp;quot;Win32&amp;quot;) || (navigator.platform == &amp;quot;Windows&amp;quot;);
+        var isMac = (navigator.platform == &amp;quot;Mac68K&amp;quot;) || (navigator.platform == &amp;quot;MacPPC&amp;quot;) || (navigator.platform == &amp;quot;Macintosh&amp;quot;) || (navigator.platform == &amp;quot;MacIntel&amp;quot;);
+        if (isMac) return &amp;quot;Mac&amp;quot;;
+        var isUnix = (navigator.platform == &amp;quot;X11&amp;quot;) &amp;amp;&amp;amp; !isWin &amp;amp;&amp;amp; !isMac;
+        if (isUnix) return &amp;quot;Unix&amp;quot;;
+        var isLinux = (String(navigator.platform).indexOf(&amp;quot;Linux&amp;quot;) &amp;gt; -1);
+        if (isLinux) return &amp;quot;Linux&amp;quot;;
+        if (isWin) {
+            var isWin2K = sUserAgent.indexOf(&amp;quot;Windows NT 5.0&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows 2000&amp;quot;) &amp;gt; -1;
+            if (isWin2K) return &amp;quot;Win2000&amp;quot;;
+            var isWinXP = sUserAgent.indexOf(&amp;quot;Windows NT 5.1&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows XP&amp;quot;) &amp;gt; -1;
+            if (isWinXP) return &amp;quot;WinXP&amp;quot;;
+            var isWin2003 = sUserAgent.indexOf(&amp;quot;Windows NT 5.2&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows 2003&amp;quot;) &amp;gt; -1;
+            if (isWin2003) return &amp;quot;Win2003&amp;quot;;
+            var isWinVista= sUserAgent.indexOf(&amp;quot;Windows NT 6.0&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows Vista&amp;quot;) &amp;gt; -1;
+            if (isWinVista) return &amp;quot;WinVista&amp;quot;;
+            var isWin7 = sUserAgent.indexOf(&amp;quot;Windows NT 6.1&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows 7&amp;quot;) &amp;gt; -1;
+            if (isWin7) return &amp;quot;Win7&amp;quot;;
+            var isWin10 = sUserAgent.indexOf(&amp;quot;Windows NT 10&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows 10&amp;quot;) &amp;gt; -1;
+            if (isWin10) return &amp;quot;Win10&amp;quot;;
+        }
+        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+            //alert(navigator.userAgent);
+//            alert(&#39;这是IOS&#39;);
+            return &amp;quot;iOS&amp;quot;
+        } else if (/(Android)/i.test(navigator.userAgent)) {
+            //alert(navigator.userAgent);
+            return &amp;quot;Android&amp;quot;;
+        }
+        return &amp;quot;other&amp;quot;;
+    }
+
+    alert(detectOS());
+&lt;/code&gt;&lt;/pre&gt;
+</description>
         </item>
         
         <item>

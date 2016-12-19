@@ -5,20 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
     <meta name="format-detection"content="telephone=no">
-    <title>判断客户端类型2</title>
+    <title>判断客户端类型</title>
 </head>
 <body>
 
 <script type="text/javascript">
-    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-        
-        alert('这是IOS');
-    } else if (/(Android)/i.test(navigator.userAgent)) {
-        
-        alert('这是Android');
-    } else {
-        alert('这是PC');
-    };
+
+
+
+
+
+
+
+
 
 
 
@@ -38,6 +37,15 @@
     
     function detectOS() {
         var sUserAgent = navigator.userAgent;
+        if (/(iPhone|iPad|iPod|iOS)/i.test(sUserAgent)) {
+            
+
+            return "iOS"
+        } else if (/(Android)/i.test(sUserAgent)) {
+            
+            return "Android";
+        }
+
         var isWin = (navigator.platform == "Win32") || (navigator.platform == "Windows");
         var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC") || (navigator.platform == "Macintosh") || (navigator.platform == "MacIntel");
         if (isMac) return "Mac";
@@ -46,7 +54,7 @@
         var isLinux = (String(navigator.platform).indexOf("Linux") > -1);
         if (isLinux) return "Linux";
         if (isWin) {
-            var isWin2K = sUserAgent.indexOf("Windows NT 5.0") > -1 ||sUserAgent.indexOf("Windows 2000") > -1;
+            var isWin2K = sUserAgent.indexOf("Windows NT 5.0") > -1 || sUserAgent.indexOf("Windows 2000") > -1;
             if (isWin2K) return "Win2000";
             var isWinXP = sUserAgent.indexOf("Windows NT 5.1") > -1 || sUserAgent.indexOf("Windows XP") > -1;
             if (isWinXP) return "WinXP";
@@ -56,7 +64,11 @@
             if (isWinVista) return "WinVista";
             var isWin7 = sUserAgent.indexOf("Windows NT 6.1") > -1 || sUserAgent.indexOf("Windows 7") > -1;
             if (isWin7) return "Win7";
+            var isWin10 = sUserAgent.indexOf("Windows NT 10") > -1 || sUserAgent.indexOf("Windows 10") > -1;
+            if (isWin10) return "Win10";
         }
+
+
         return "other";
     }
 
