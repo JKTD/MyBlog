@@ -14,9 +14,12 @@
             <pubDate>Mon, 19 Dec 2016 14:30:21 CST</pubDate>
             <author>Brasbug</author>
             <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
-            <description>&lt;p&gt;使用JS判断客户端、浏览器、操作系统类型&lt;/p&gt;
+            <description>&lt;p&gt;通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型&lt;/p&gt;
 
-&lt;p&gt;通过判断浏览器的userAgent&lt;/p&gt;
+&lt;p&gt;扫描二维码打开:
+  &lt;img src=&#34;http://blog.flywithme.top/sources/localHtml/clientType01.png&#34; width = &#34;200&#34; height = &#34;200&#34; alt=&#34;二维码&#34; align=center /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.flywithme.top/sources/localhtml/clientType01/index.html&#34; target=&#34;_blank&#34;&gt;测试链接:&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;function is_weixn(){
         var ua = navigator.userAgent.toLowerCase();

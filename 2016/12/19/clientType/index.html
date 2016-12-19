@@ -17,25 +17,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="使用JS判断客户端、浏览器、操作系统类型 通过判断浏览器的userAgent function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&quot;micromessenger&quot;) { alert(&#39;在微信里打开&#39;); } else { alert(">
+<meta name="description" content="通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型 扫描二维码打开: 测试链接: function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&quot;micromessenger&quot;) { alert(&#39;在微信里打开">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
 <meta itemprop="name" content="JS判断客户端类型 - JKCoder&#39;s Blog ">
-<meta itemprop="description" content="使用JS判断客户端、浏览器、操作系统类型 通过判断浏览器的userAgent function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&quot;micromessenger&quot;) { alert(&#39;在微信里打开&#39;); } else { alert(">
+<meta itemprop="description" content="通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型 扫描二维码打开: 测试链接: function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&quot;micromessenger&quot;) { alert(&#39;在微信里打开">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
 <meta property="og:title" content="JS判断客户端类型 - JKCoder&#39;s Blog " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://blog.flywithme.top/2016/12/19/clientType/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="使用JS判断客户端、浏览器、操作系统类型 通过判断浏览器的userAgent function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&quot;micromessenger&quot;) { alert(&#39;在微信里打开&#39;); } else { alert(">
+<meta property="og:description" content="通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型 扫描二维码打开: 测试链接: function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&quot;micromessenger&quot;) { alert(&#39;在微信里打开">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
 <meta name="twitter:title" content="JS判断客户端类型 - JKCoder&#39;s Blog ">
-<meta name="twitter:description" content="使用JS判断客户端、浏览器、操作系统类型 通过判断浏览器的userAgent function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&quot;micromessenger&quot;) { alert(&#39;在微信里打开&#39;); } else { alert(">
+<meta name="twitter:description" content="通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型 扫描二维码打开: 测试链接: function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&quot;micromessenger&quot;) { alert(&#39;在微信里打开">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
@@ -186,7 +186,7 @@
                   <h1 class="post-title">JS判断客户端类型</h1>
 
                   <p class="post-byline">
-                    by  · 2016年12月19日 · 279 Words ·
+                    by  · 2016年12月19日 · 304 Words ·
                     ~1min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-12-19-clientType.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -197,9 +197,12 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <p>使用JS判断客户端、浏览器、操作系统类型</p>
+                      <p>通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型</p>
 
-<p>通过判断浏览器的userAgent</p>
+<p>扫描二维码打开:
+  <img src="http://blog.flywithme.top/sources/localHtml/clientType01.png" width = "200" height = "200" alt="二维码" align=center /></p>
+
+<p><a href="http://blog.flywithme.top/sources/localhtml/clientType01/index.html" target="_blank">测试链接:</a></p>
 
 <pre><code>function is_weixn(){
         var ua = navigator.userAgent.toLowerCase();
