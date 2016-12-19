@@ -6,7 +6,16 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Thu, 14 Jul 2016 11:40:29 CST</updated>
+        <updated>Mon, 19 Dec 2016 14:30:21 CST</updated>
+        
+        <item>
+            <title>JS判断客户端类型</title>
+            <link>http://blog.flywithme.top/2016/12/19/clientType/</link>
+            <pubDate>Mon, 19 Dec 2016 14:30:21 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
+            <description></description>
+        </item>
         
         <item>
             <title>iOS 开发Debug工具壳</title>
@@ -4926,168 +4935,6 @@ UIApplication再分发给AppDelegate，
 于是我们在ViewController和appDelegate的touchBegan方法中都捕获到了这次事件。&lt;/p&gt;
 &lt;/blockquote&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>iOS下Category添加属性字段</title>
-            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
-            <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
-            <description>
-
-&lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
-
-&lt;p&gt;首先看下报错情况&lt;/p&gt;
-
-&lt;h5 id=&#34;category添加字段-常规方法:39c9c95c702d9dfb0e5afaac21bb60d2&#34;&gt;Category添加字段(常规方法)&lt;/h5&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;编写 Category 头文件, 以 UIImage 为例&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//
-//  UIImage+category.h
-//  
-//
-//  Created by Linf on 15-5-19.
-//  Copyright (c) 2015年 Linf. All rights reserved.
-//
-#import &amp;lt;UIKit/UIKit.h&amp;gt;
-
-
-@interface UIImage (category)
-
-
-// 在UIImage中新建一个tag属性
-@property (nonatomic, copy) NSString *tag;
-
-
-@end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;编写 Category 源文件&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//
-//  UIImage+category.m
-//  
-//
-//  Created by Linf on 15-5-19.
-//  Copyright (c) 2015年 Linf. All rights reserved.
-//
-
-
-#import &amp;quot;UIImage+category.h&amp;quot;
-
-
-@implementation UIImage (category)
-
-
-- (NSString *)tag {
-    return self.tag;
-}
-
-
-- (void)setTag:(NSString *)tag {
-    self.tag = [tag copy];
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;访问Category属性添加的 tag 属性&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UIImage *image = [UIImage imageNamed:@&amp;quot;&amp;quot;];
-[image setTag:@&amp;quot;100&amp;quot;];
-NSLog(@&amp;quot;tag:%@&amp;quot;, [image tag]);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;打印信息为:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2015-08-12 15:17:10.321 InformPub[16828:1373803] CUICatalog: Invalid asset name supplied: 
-2015-08-12 15:17:10.321 InformPub[16828:1373803] tag:(null)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;看到了没有，我们设置了tag值，完全没有用。那么有没有什么办法可以给Category添加属性字段呢？请看下面：&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h5 id=&#34;category添加字段-runtime方法:39c9c95c702d9dfb0e5afaac21bb60d2&#34;&gt;Category添加字段（Runtime方法）&lt;/h5&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;编写 Category 头文件, 以 UIImage 为例&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;   //
-   //  UIImage+category.h
-   //  
-   //
-   //  Created by Linf on 15-5-19.
-   //  Copyright (c) 2015年 Linf. All rights reserved.
-   //
-   #import &amp;lt;UIKit/UIKit.h&amp;gt;
-
-
-   @interface UIImage (category)
-
-
-   // 在UIImage中新建一个tag属性
-   @property (nonatomic, copy) NSString *tag;
-
-
-   @end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;编写 Category 源文件&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//
-//  UIImage+category.m
-//  
-//
-//  Created by Linf on 15-5-19.
-//  Copyright (c) 2015年 Linf. All rights reserved.
-//
-
-
-#import &amp;quot;UIImage+category.h&amp;quot;
-
-
-static const void *tagKey = &amp;amp;tagKey;
-
-
-@implementation UIImage (category)
-
-
-- (NSString *)tag {
-    return objc_getAssociatedObject(self, tagKey);
-}
-
-
-- (void)setTag:(NSString *)tag {
-    objc_setAssociatedObject(self, tagKey, tag, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;访问Category属性添加的 tag 属性&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; UIImage *image = [UIImage imageNamed:@&amp;quot;&amp;quot;];
- [image setTag:@&amp;quot;100&amp;quot;];
- NSLog(@&amp;quot;tag:%@&amp;quot;, [image tag]);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;打印信息为:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;  2015-08-12 14:57:58.777 InformPub[16741:1271788] tag:100
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;到这里代码就添加完成了，Category就可以添加属性字段了。这里面用到了objective-c的Runtime。如果有不了解Runtime的小伙伴，可以参考以下网站：&lt;a href=&#34;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&#34;&gt;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&lt;/a&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ol&gt;
 </description>
         </item>
         

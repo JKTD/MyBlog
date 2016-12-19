@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>iOS 开发Debug工具壳 - JKCoder&#39;s Blog </title>
+  <title>JS判断客户端类型 - JKCoder&#39;s Blog </title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="初衷 移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想">
+<meta name="description" content="">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="iOS 开发Debug工具壳 - JKCoder&#39;s Blog ">
-<meta itemprop="description" content="初衷 移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想">
+<meta itemprop="name" content="JS判断客户端类型 - JKCoder&#39;s Blog ">
+<meta itemprop="description" content="">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="iOS 开发Debug工具壳 - JKCoder&#39;s Blog " />
+<meta property="og:title" content="JS判断客户端类型 - JKCoder&#39;s Blog " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2016/07/14/debugpanel/" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/12/19/clientType/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="初衷 移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想">
+<meta property="og:description" content="">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="iOS 开发Debug工具壳 - JKCoder&#39;s Blog ">
-<meta name="twitter:description" content="初衷 移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想">
+<meta name="twitter:title" content="JS判断客户端类型 - JKCoder&#39;s Blog ">
+<meta name="twitter:description" content="">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2016/07/14/debugpanel/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2016/07/14/debugpanel/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/12/19/clientType/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/12/19/clientType/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">iOS 开发Debug工具壳</h1>
+                  <h1 class="post-title">JS判断客户端类型</h1>
 
                   <p class="post-byline">
-                    by  · 2016年07月14日 · 784 Words ·
-                    ~2min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-07-14-debugpanel.md"
+                    by  · 2016年12月19日 · 0 Words ·
+                    ~0min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-12-19-clientType.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -198,134 +198,6 @@
                     <div class="entry-inner">
                       
                       
-
-<h5 id="初衷:bccb225b752499f845bd206d74979637">初衷</h5>
-
-<p>移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想做一个固定在状态栏上的的
- Debug 功能控件,之前公司也有一个旧的类似控件,但是里面牵连业务非常多,而且扩展也不友好,所以我就想趁着有新项目需求的时候写一个顶部的控件壳子,
- 而且可以很方便的扩展方法,当然,需要的测试方法依然需要开发者手动添加,这个控件并不侵入业务,以后如果有需要可以做一些设备基础功能的公用方法.
- 暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法</p>
-
-<p>效果如下图:
-  <img src="http://blog.flywithme.top/sources/DebugPanel/01.gif" alt="01" /></p>
-
-<h6 id="使用方法:bccb225b752499f845bd206d74979637">使用方法</h6>
-
-<p><strong>Podfile</strong><br />
-   To integrate DebugPanel into your Xcode project using CocoaPods, specify it in your Podfile:</p>
-
-<pre><code> source 'https://github.com/CocoaPods/Specs.git'
- platform :ios, '7.0'
- target 'TargetName' do
- pod 'DebugPanel'  , :git =&gt;'https://github.com/brasbug/DebugPanel.git'
- end
-</code></pre>
-
-<p>then ,runthe following command:</p>
-
-<pre><code>pod install
-</code></pre>
-
-<p><strong>参数说明:</strong><br />
-   <code>MTADebugModel</code></p>
-
-<pre><code> /**
-  *  @author Jack, 16-07-14 12:07:12
-  *
-  *  title: 显示名称
-  *  selectorProperty: 调用的方法名
-  *  etc: 额外参数
-  */
-  @property (nonatomic, strong) NSString *title;
-  @property (nonatomic, strong) NSDictionary *etc;
-  @property (nonatomic, strong) NSString *selectorProperty;
-</code></pre>
-
-<p><code>MTADebugMethodBridge</code></p>
-
-<pre><code>//在方法调用的时候根据传入的参数生成相应的 selector 
-- (BOOL)handleSelectorProperty:(MTADebugModel *)modelProperty
-{
-    if (modelProperty &amp;&amp; modelProperty.title &amp;&amp; modelProperty.selectorProperty.length) {
-        SEL selector = [self selectorForMethod:modelProperty.selectorProperty];
-        if (!selector || ![self respondsToSelector:selector]) {
-            return NO;
-        }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored &quot;-Warc-performSelector-leaks&quot;
-        [self performSelector:selector withObject:modelProperty];
-        NSLog(@&quot;%@&quot;,modelProperty);
-#pragma clang diagnostic pop
-        return YES;
-    }
-    return NO;
-}
-//生成相应的方法
-- (SEL)selectorForMethod:(NSString *)method {
-    if ([method length] == 0) return nil;
-    NSString *objcMethod = [[@&quot;debugapi_&quot; stringByAppendingString:method] stringByAppendingString:@&quot;:&quot;];
-    return NSSelectorFromString(objcMethod);
-}
-</code></pre>
-
-<p><strong>Usage</strong><br />
-  如果需要在<code>didFinishLaunchingWithOptions</code>或者是 rootiew 中启动,一定要使用`<code>performSelector</code>方法延迟调用启动 debug 按钮</p>
-
-<pre><code>//示例
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [self performSelector:@selector(doJobsAfterFinishLaunching) withObject:nil afterDelay:0];
-    return YES;
-}
-
-- (void)doJobsAfterFinishLaunching
-{
-    NSMutableArray *arrlist = [NSMutableArray array];
-
-    MTADebugModel *item = [[MTADebugModel alloc]init];
-    item.title = @&quot;一键线上&quot;;
-    item.selectorProperty = @&quot;changeOnlineServer&quot;;
-    item.etc = @{@&quot;host&quot;:@&quot;http://www.baidu.com&quot;};
-    [arrlist addObject:item];
-
-    item = [[MTADebugModel alloc]init];
-    item.title = @&quot;一键测试&quot;;
-    item.selectorProperty = @&quot;changeTestServer&quot;;
-    item.etc = @{@&quot;host&quot;:@&quot;http://www.sohu.com&quot;};
-    [arrlist addObject:item];
-
-    item = [[MTADebugModel alloc]init];
-    item.title = @&quot;调试面板&quot;;
-    item.selectorProperty = @&quot;showDebugPanel&quot;;
-    //    item.etc = @{@&quot;a&quot;:@&quot;b&quot;};
-    [arrlist addObject:item];
-
-    item = [[MTADebugModel alloc]init];
-    item.title = @&quot;打开 URL&quot;;
-    item.selectorProperty = @&quot;OpenSchemeURL&quot;;
-    //    item.etc = @{@&quot;c&quot;:@&quot;d&quot;};
-    [arrlist addObject:item];
-
-    [[MTADebugpanel shareInstance]startDebugBar:YES methodModels:arrlist error:^(NSString *errMsg) {
-        NSLog(@&quot;%@&quot;,errMsg);
-    }];
-}
-</code></pre>
-
-<p><strong>这一步很重要</strong><br />
-   创建<code>MTADebugMethodBridge</code>的 <code>category</code> 实现你在 <code>MTADebugModel</code> 中的<code>selectorProperty</code> 参数方法,需要加上 <code>debugapi_</code>的签名前缀</p>
-
-<pre><code>//方法扩展示例
-- (void)debugapi_changeOnlineServer:(MTADebugModel *)parameters{
-// TODO  Do Your Job
-}
-
-
-- (void)debugapi_OpenSchemeURL:(MTADebugModel *)parameters{
-    // TODO  Do Your Job
-}
-</code></pre>
-
                       
                     </div>
                     <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
@@ -336,7 +208,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/07/14/debugpanel/">http://blog.flywithme.top/2016/07/14/debugpanel/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/12/19/clientType/">http://blog.flywithme.top/2016/12/19/clientType/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -389,7 +261,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/07/14/debugpanel/" data-title="iOS 开发Debug工具壳" data-url="http://blog.flywithme.top/2016/07/14/debugpanel/"></div>
+<div class="ds-thread" data-thread-key="/2016/12/19/clientType/" data-title="JS判断客户端类型" data-url="http://blog.flywithme.top/2016/12/19/clientType/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -444,20 +316,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2016/06/30/Go-gin01/" rel="next">
+        <a href="http://blog.flywithme.top/2016/07/14/debugpanel/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>golang-gin 框架学习 一、 GET POST Method</span>
+          <span>iOS 开发Debug工具壳</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2016/12/19/clientType/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>JS判断客户端类型</span>
-        </a>
         
       </li>
     </ul>

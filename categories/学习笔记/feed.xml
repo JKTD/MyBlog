@@ -6,7 +6,16 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Thu, 14 Jul 2016 11:40:29 CST</updated>
+        <updated>Mon, 19 Dec 2016 14:30:21 CST</updated>
+        
+        <item>
+            <title>JS判断客户端类型</title>
+            <link>http://blog.flywithme.top/2016/12/19/clientType/</link>
+            <pubDate>Mon, 19 Dec 2016 14:30:21 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
+            <description></description>
+        </item>
         
         <item>
             <title>iOS 开发Debug工具壳</title>
