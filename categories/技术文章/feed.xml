@@ -6,7 +6,35 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Mon, 19 Dec 2016 14:30:21 CST</updated>
+        <updated>Tue, 20 Dec 2016 11:41:34 CST</updated>
+        
+        <item>
+            <title>TableView 中 Cell的重用机制分析</title>
+            <link>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</link>
+            <pubDate>Tue, 20 Dec 2016 11:41:34 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
+            <description>&lt;p&gt;UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
+   这个方法到底是怎么实现的呢?
+   &lt;code&gt;[tableView dequeueReusableCellWithIdentifier:CellIdentifier]&lt;/code&gt;由于苹果并没有开源,所以我就对这个
+``的实现分析一下。
+   UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell,
+   对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;重用实现分析:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源  NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;
+   TableView 初始化之初,这两个数据都是空的。
+   通过&lt;code&gt;[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]&lt;/code&gt; 创建新的 cell,创建之后 数据会进入visiableCells 中
+   当屏幕上的Cell 够用之后,会有一个 Cell  使用 key CellIdentifier 存 reusableTableCels 中,&lt;br /&gt;
+   比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:
+   1. 用&lt;code&gt;[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]&lt;/code&gt;创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空
+   2. tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。
+   3. tableView向下滚动时,如果在顶部,数据不会有变化,如果在中间,上下都屏幕外都有数据。 因为reusableCells中有数据,当需要时会把之前加入的 cell1 返回&lt;code&gt;[tableView dequeueReusableCellWithIdentifier:CellIdentifier]&lt;/code&gt;,并移出 reusableCells,移入visiableCells,底部的 Cell6移入 reusableCells ,这样就完成了重用逻辑。&lt;/p&gt;
+
+&lt;p&gt;还有一些情况需要注意,并不是只有拖动的时候才会有以上逻辑,tableview 调用&lt;code&gt;reloadData&lt;/code&gt;的时候,&lt;code&gt;reloadRowsAtIndex&lt;/code&gt; 方法的时候也会,具体步骤,以后再分析。&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>JS判断客户端类型</title>
@@ -4600,168 +4628,6 @@ UIApplication再分发给AppDelegate，
 于是我们在ViewController和appDelegate的touchBegan方法中都捕获到了这次事件。&lt;/p&gt;
 &lt;/blockquote&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>iOS下Category添加属性字段</title>
-            <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
-            <pubDate>Fri, 25 Mar 2016 16:52:16 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
-            <description>
-
-&lt;p&gt;首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。&lt;/p&gt;
-
-&lt;p&gt;首先看下报错情况&lt;/p&gt;
-
-&lt;h5 id=&#34;category添加字段-常规方法:39c9c95c702d9dfb0e5afaac21bb60d2&#34;&gt;Category添加字段(常规方法)&lt;/h5&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;编写 Category 头文件, 以 UIImage 为例&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//
-//  UIImage+category.h
-//  
-//
-//  Created by Linf on 15-5-19.
-//  Copyright (c) 2015年 Linf. All rights reserved.
-//
-#import &amp;lt;UIKit/UIKit.h&amp;gt;
-
-
-@interface UIImage (category)
-
-
-// 在UIImage中新建一个tag属性
-@property (nonatomic, copy) NSString *tag;
-
-
-@end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;编写 Category 源文件&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//
-//  UIImage+category.m
-//  
-//
-//  Created by Linf on 15-5-19.
-//  Copyright (c) 2015年 Linf. All rights reserved.
-//
-
-
-#import &amp;quot;UIImage+category.h&amp;quot;
-
-
-@implementation UIImage (category)
-
-
-- (NSString *)tag {
-    return self.tag;
-}
-
-
-- (void)setTag:(NSString *)tag {
-    self.tag = [tag copy];
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;访问Category属性添加的 tag 属性&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UIImage *image = [UIImage imageNamed:@&amp;quot;&amp;quot;];
-[image setTag:@&amp;quot;100&amp;quot;];
-NSLog(@&amp;quot;tag:%@&amp;quot;, [image tag]);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;打印信息为:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2015-08-12 15:17:10.321 InformPub[16828:1373803] CUICatalog: Invalid asset name supplied: 
-2015-08-12 15:17:10.321 InformPub[16828:1373803] tag:(null)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;看到了没有，我们设置了tag值，完全没有用。那么有没有什么办法可以给Category添加属性字段呢？请看下面：&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h5 id=&#34;category添加字段-runtime方法:39c9c95c702d9dfb0e5afaac21bb60d2&#34;&gt;Category添加字段（Runtime方法）&lt;/h5&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;编写 Category 头文件, 以 UIImage 为例&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;   //
-   //  UIImage+category.h
-   //  
-   //
-   //  Created by Linf on 15-5-19.
-   //  Copyright (c) 2015年 Linf. All rights reserved.
-   //
-   #import &amp;lt;UIKit/UIKit.h&amp;gt;
-
-
-   @interface UIImage (category)
-
-
-   // 在UIImage中新建一个tag属性
-   @property (nonatomic, copy) NSString *tag;
-
-
-   @end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;编写 Category 源文件&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//
-//  UIImage+category.m
-//  
-//
-//  Created by Linf on 15-5-19.
-//  Copyright (c) 2015年 Linf. All rights reserved.
-//
-
-
-#import &amp;quot;UIImage+category.h&amp;quot;
-
-
-static const void *tagKey = &amp;amp;tagKey;
-
-
-@implementation UIImage (category)
-
-
-- (NSString *)tag {
-    return objc_getAssociatedObject(self, tagKey);
-}
-
-
-- (void)setTag:(NSString *)tag {
-    objc_setAssociatedObject(self, tagKey, tag, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;访问Category属性添加的 tag 属性&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; UIImage *image = [UIImage imageNamed:@&amp;quot;&amp;quot;];
- [image setTag:@&amp;quot;100&amp;quot;];
- NSLog(@&amp;quot;tag:%@&amp;quot;, [image tag]);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;打印信息为:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;  2015-08-12 14:57:58.777 InformPub[16741:1271788] tag:100
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;到这里代码就添加完成了，Category就可以添加属性字段了。这里面用到了objective-c的Runtime。如果有不了解Runtime的小伙伴，可以参考以下网站：&lt;a href=&#34;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&#34;&gt;http://southpeak.github.io/blog/2014/10/25/objective-c-runtime-yun-xing-shi-zhi-lei-yu-dui-xiang/&lt;/a&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ol&gt;
 </description>
         </item>
         

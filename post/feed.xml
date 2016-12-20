@@ -6,7 +6,35 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Mon, 19 Dec 2016 14:30:21 CST</updated>
+        <updated>Tue, 20 Dec 2016 11:41:34 CST</updated>
+        
+        <item>
+            <title>TableView 中 Cell的重用机制分析</title>
+            <link>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</link>
+            <pubDate>Tue, 20 Dec 2016 11:41:34 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
+            <description>&lt;p&gt;UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
+   这个方法到底是怎么实现的呢?
+   &lt;code&gt;[tableView dequeueReusableCellWithIdentifier:CellIdentifier]&lt;/code&gt;由于苹果并没有开源,所以我就对这个
+``的实现分析一下。
+   UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell,
+   对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;重用实现分析:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源  NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;
+   TableView 初始化之初,这两个数据都是空的。
+   通过&lt;code&gt;[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]&lt;/code&gt; 创建新的 cell,创建之后 数据会进入visiableCells 中
+   当屏幕上的Cell 够用之后,会有一个 Cell  使用 key CellIdentifier 存 reusableTableCels 中,&lt;br /&gt;
+   比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:
+   1. 用&lt;code&gt;[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]&lt;/code&gt;创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空
+   2. tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。
+   3. tableView向下滚动时,如果在顶部,数据不会有变化,如果在中间,上下都屏幕外都有数据。 因为reusableCells中有数据,当需要时会把之前加入的 cell1 返回&lt;code&gt;[tableView dequeueReusableCellWithIdentifier:CellIdentifier]&lt;/code&gt;,并移出 reusableCells,移入visiableCells,底部的 Cell6移入 reusableCells ,这样就完成了重用逻辑。&lt;/p&gt;
+
+&lt;p&gt;还有一些情况需要注意,并不是只有拖动的时候才会有以上逻辑,tableview 调用&lt;code&gt;reloadData&lt;/code&gt;的时候,&lt;code&gt;reloadRowsAtIndex&lt;/code&gt; 方法的时候也会,具体步骤,以后再分析。&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>JS判断客户端类型</title>
@@ -4800,198 +4828,6 @@ NSURLSession    -&amp;gt;AFNetworking2, Alamofire
 &lt;p&gt;ASDK 仿照 QuartzCore/UIKit 框架的模式，实现了一套类似的界面更新的机制：即在主线程的 RunLoop 中添加一个 Observer，监听了 kCFRunLoopBeforeWaiting 和 kCFRunLoopExit 事件，在收到回调时，遍历所有之前放入队列的待处理的任务，然后一一执行。
     具体的代码可以看这里：&lt;a href=&#34;https://github.com/facebook/AsyncDisplayKit/blob/master/AsyncDisplayKit%2FDetails%2FTransactions%2F_ASAsyncTransactionGroup.m__&#34;&gt;_ASAsyncTransactionGroup&lt;/a&gt;。&lt;/p&gt;
 &lt;/blockquote&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Responder -- iOS用户响应者链完全剖析</title>
-            <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
-            <pubDate>Sat, 26 Mar 2016 22:28:03 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
-            <description>&lt;p&gt;这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我们先从UIButton谈起，UIButton大家使用的太多了，他特殊的地方就在于其内置的普通Default/高亮Highlighted/选择Selected/可用Enable的几个状态(UIControlState)。其次就是SDK内部已经为我们封装了以下用户事件:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/responderchain/UIControlEvents.jpg&#34; alt=&#34;controlEvent&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;最常用的莫过于Touch Up Inside这个事件了，他代表:  用户在按钮区域内按下，并且也在按钮区域内松开。&lt;/p&gt;
-
-&lt;p&gt;关键点:按下并且松开 才能触发此方法，也就是正确的操作 按下一次，松开一次只会触发一次此事件。与之不同的Touch Drag Inside等方法不需要松开这个过程，Up变为了Drag,其实大家都能理解，SDK在封装的时候原理跟UITouchEvent是一个道理，第一个单词Touch 代表按下(Began)第二个单词Up代表松开(Ended),Drag代表拖动(Moved)。TouchMoved方法在一次完整的触摸中会被触发很多次，所以Touch Drag Inside方法会在用户手松开之前一直被触发。&lt;/p&gt;
-
-&lt;p&gt;这些就是UIButton已封装的事件，而UIButton继承自UIControl。UIControl又继承自UIView。我们平时能用这些已封装的事件的控件都是UIControl的子类。那么父类UIView是没有内部事件的。&lt;/p&gt;
-
-&lt;p&gt;我们常常利用UIView来写自己的UITouchEvent。例如在一个View/ViewController中直接实现以下3个方法:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
-{  
-
-}  
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event  
-{  
-
-}  
-
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event  
-{  
-
-}  
--(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event  
-{  
-
-}  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我们用的非常多，但是大家知道这4个方法是谁的实例方法吗？如果你一下就说出是UIView的，那么为什么我们在UIViewController中也可以用呢，他们不是继承关系。&lt;/p&gt;
-
-&lt;p&gt;注意这4个实例方法来自UIView与UIViewController的共同父类:UIResponder。它是我们今天的主角。&lt;/p&gt;
-
-&lt;p&gt;基本上我们所能看到的所有图形界面都是继承自UIResponder的，So，它究竟为何方神圣?&lt;/p&gt;
-
-&lt;p&gt;UIResponder所谓很多视图的父类，他掌管着用户的操作事件分发大权。如果没有他，我们的电容屏如何将用户的操作传递给我们的视图令其做出反应呢？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;我们先看看iOS中的响应者链的概念:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;每一个应用有一个响应者链，我们的视图结构是一个N叉树(一个视图可以有多个子视图，一个子视图同一时刻只有一个父视图),而每一个继承UIResponder的对象都可以在这个N叉树中扮演一个节点。当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;例子:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我用SingleView模板创建了一个新的工程，它的主Window上只有一个UIViewController，其View之上有一个Button。这个项目中所有UIResponder的子类所构成的N叉树为这样的结构:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/responderchain/actionChain.jpg&#34; alt=&#34;buttonActionChain&#34; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;那么他看起来并不像N叉树，但是不代表者不是一颗N叉树，当我们项目复杂之后，这个View可不可以有多个UIButton节点？所以他就是一棵树。
-&amp;gt; 实际上我们要把这棵树写完整，应该还要算上UIButton的UILabel和UIImageView，因为他们也是UIReponder的子类。这里先不考虑了。
-&amp;gt; 我们对UIButton来讲，他此时若是叶节点，那么这时我们针对他所在的响应链来说，他在他之前的响应者就应该是我们controller的view(树中的叶节点比父节点永远更优先被分发事件,但是并不是说他就能在时间上先响应，我们下面讲为什么)。所以我们尝试在任意地方打印这个Button的nextReponder对象。nextResponder对象是UIReponder类的实例方法，它会返回任意对象在树中的上一个响应者实例:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;NSLog(@&amp;quot;%@&amp;quot;,_testButton.nextResponder);  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;控制台输出消息:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2013-09-21 03:40:25.989 响应链[614:60b] &amp;lt;UIView: 0x16555e10; frame = (0 0; 320 568); autoresize = RM+BM; layer = &amp;lt;CALayer: 0x16555e70&amp;gt;&amp;gt;  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我们可以根据这个UIView的尺寸来得知，他就是我们唯一的控制器中的那个UIView。
- 接下来我们再打印下这个UIView的下一个响应者是谁:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;NSLog(@&amp;quot;%@&amp;quot;,_testButton.nextResponder.nextResponder);  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2013-09-21 03:45:03.914响应链[621:60b] &amp;lt;RSViewController: 0x15da0e30&amp;gt;
-//依次看，接着加一个nextResponder:
-2013-09-21 03:50:49.428 响应链[669:60b] (null)
-为什么这里ViewController没有父亲呢？  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;注意这句代码我是写在ViewDidLoad中，而我们知道这个方法的生命周期比较早，所以我们换个地方写或者延迟一段时间再打印，两种方法都可以得到结果(由此可以推理出我们响应者树的构造过程是在ViewDidLoad周期中来完成的，这个函数会将当前实例的构成的响应者子树合并到我们整个根树中):&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2013-09-21 03:53:47.304 响应链[681:60b] &amp;lt;UIWindow: 0x14e24200; frame = (0 0; 320 568); gestureRecognizers = &amp;lt;NSArray: 0x14e242e0&amp;gt;; layer = &amp;lt;UIWindowLayer: 0x14e244a0&amp;gt;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;再继续往上追朔:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;double delayInSeconds = 2.0;  
- dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));  
- dispatch_after(popTime, dispatch_get_main_queue(), ^(void){  
-      NSLog(@&amp;quot;%@&amp;quot;,_testButton.nextResponder.nextResponder.nextResponder.nextResponder);  
- }); 
-
-
-2013-09-21 03:56:22.043 响应链[690:60b] &amp;lt;UIApplication: 0x15659c00&amp;gt;
-//再加一个:
-2013-09-21 03:56:51.186 响应链[696:60b] &amp;lt;RSAppDelegate: 0x16663520&amp;gt;
- //那么我们的appDelegate还有没有父节点?
-2013-09-21 03:57:22.588 响应链[706:60b] (null)
-//没有了，注意，一个从叶节点开始分发的事件，最多也就只能分发到我们的AppDelegate了！
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;这个树形结构在我们的项目中尤为重要，举个栗子，如果我们想在一个view中重写UITouchEvent的4个方法，并且不影响他的父视图也响应这些事件，就要注意你重写的方式了，
-&amp;gt; 比如我们在ViewController中重写touchBegan如下:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
-{  
-    NSLog(@&amp;quot;ViewController接收到触摸事件&amp;quot;);  
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;在appDelegate的中同样也写上这一段:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
-{  
-    NSLog(@&amp;quot;appDelegate接收到触摸事件&amp;quot;);  
-}  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;那么究竟是谁被触发呢？&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2013-09-21 04:02:49.405 响应链[743:60b] ViewController接收到触摸事件
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;这个很好理解，我刚刚也说了，viewController明显是appDelegate的子节点，他有事件分发的优先权。
-如果我们想两个地方都触发呢？这里super一下就可以了:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event  
-{  
-    [super touchesBegan:touches withEvent:event];  
-    NSLog(@&amp;quot;ViewController接收到触摸事件&amp;quot;);  
-}    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;输出:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;2013-09-21 04:07:26.206 响应链[749:60b] appDelegate接收到触摸事件
-2013-09-21 04:07:26.208 响应链[749:60b] ViewController接收到触摸事件
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;注意看时间戳，appDelegate虽然优先级别不如ViewController，但是他响应的时间上面足足比ViewController早了0.002秒，我这里试了几次，都是相差0.002秒。
-那么我们分析一下这里的响应者链是怎样工作的:&lt;/p&gt;
-
-&lt;p&gt;用户手指触摸到了UIView上,由于我们没有重写UIView的UITouchEvent,所以他里面和super执行的一样的，将该事件继续分发到UIViewController；
-UIViewController的TouchBegan被我们重写了，如果我们不super，那么我们在这里写响应代码。事件到这里就不继续分发了。可想而知，UIViewController祖先节点:UIWindow，UIApplication，AppDelegate都无权被分发此事件。
-如果我们super了TouchBegan，那么此次触摸事件由
-ViewController分发给UIWindow,
-UIWindow继而分发给UIApplication，
-UIApplication再分发给AppDelegate，
-于是我们在ViewController和appDelegate的touchBegan方法中都捕获到了这次事件。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;
 </description>
         </item>
         

@@ -12,40 +12,38 @@
         }
     }
   </script>
-  <title>学习笔记 - JKCoder&#39;s Blog </title>
+  <title>TableView 中 Cell的重用机制分析 - JKCoder&#39;s Blog </title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-<meta name="description" content="学习笔记">
+<meta name="keywords" content="xxx,">
+<meta name="description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="学习笔记 - JKCoder&#39;s Blog ">
-<meta itemprop="description" content="学习笔记">
+<meta itemprop="name" content="TableView 中 Cell的重用机制分析 - JKCoder&#39;s Blog ">
+<meta itemprop="description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="学习笔记 - JKCoder&#39;s Blog " />
+<meta property="og:title" content="TableView 中 Cell的重用机制分析 - JKCoder&#39;s Blog " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/categories/E5ADA6E4B9A0E7AC94E8AEB0/" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="学习笔记">
+<meta property="og:description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="学习笔记 - JKCoder&#39;s Blog ">
-<meta name="twitter:description" content="学习笔记">
+<meta name="twitter:title" content="TableView 中 Cell的重用机制分析 - JKCoder&#39;s Blog ">
+<meta name="twitter:description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/categories/E5ADA6E4B9A0E7AC94E8AEB0/">
-  <link rel='shortlink' href="http://blog.flywithme.top/categories/E5ADA6E4B9A0E7AC94E8AEB0/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
- <link href="http://blog.flywithme.top//feed.xml" rel="alternate" type="application/rss+xml" title="JKCoder&#39;s Blog " />
-
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
 <link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
 <link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
@@ -65,8 +63,7 @@
 
 </head>
 
-<body class="archive category col-3cm full-width topbar-enabled chrome">
-
+<body class="single single-post single-format-standard col-3cm full-width topbar-enabled chrome">
 <div id="wrapper">
   <header id="header">
 
@@ -167,124 +164,141 @@
         <div class="main-inner group">
           <section class="content">
             <div class="page-title pad group">
-              <h1><i class="fa fa-folder-open"></i>Category: <span>学习笔记</span></h1>
+              <ul class="meta-single group">
+                
+                <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="category tag">学习笔记</a>
+                </li>
+                
+                <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                </li>
+                
+              </ul>
             </div>
+
             <div class="pad group">
+
+              <article
+                  class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
+                <div class="post-inner group">
+
+                  <h1 class="post-title">TableView 中 Cell的重用机制分析</h1>
+
+                  <p class="post-byline">
+                    by  · 2016年12月20日 · 869 Words ·
+                    ~2min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-12-20-dequeueReusableCell.md"
+                       target="_blank">Improve on <i class="fa fa-github"></i></a>
+                  </p>
+
+                  <div class="clear"></div>
+
+                  <div class="entry">
+                    <div class="entry-inner">
+                      
+                      <p>UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
+   这个方法到底是怎么实现的呢?
+   <code>[tableView dequeueReusableCellWithIdentifier:CellIdentifier]</code>由于苹果并没有开源,所以我就对这个
+``的实现分析一下。
+   UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell,
+   对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。</p>
+
+<p><strong>重用实现分析:</strong></p>
+
+<p>UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源  NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;
+   TableView 初始化之初,这两个数据都是空的。
+   通过<code>[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]</code> 创建新的 cell,创建之后 数据会进入visiableCells 中
+   当屏幕上的Cell 够用之后,会有一个 Cell  使用 key CellIdentifier 存 reusableTableCels 中,<br />
+   比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:
+   1. 用<code>[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]</code>创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空
+   2. tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。
+   3. tableView向下滚动时,如果在顶部,数据不会有变化,如果在中间,上下都屏幕外都有数据。 因为reusableCells中有数据,当需要时会把之前加入的 cell1 返回<code>[tableView dequeueReusableCellWithIdentifier:CellIdentifier]</code>,并移出 reusableCells,移入visiableCells,底部的 Cell6移入 reusableCells ,这样就完成了重用逻辑。</p>
+
+<p>还有一些情况需要注意,并不是只有拖动的时候才会有以上逻辑,tableview 调用<code>reloadData</code>的时候,<code>reloadRowsAtIndex</code> 方法的时候也会,具体步骤,以后再分析。</p>
+
+                      
+                    </div>
+                    <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+                        <div style="float:left;margin-top:0px;">
+                        <img src="http://blog.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
+                        <div style="text-align:center;">微信扫一扫</div>
+                        </div>
+                        <div>
+                            <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
+                            <br />微信关注：Crime_Sence (我在案发现场）
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/">http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</a>
+                            <br />
+                            文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  
+
+                </div>
+                
+              </article>
               
+
+              <div class="clear"></div>
+
+              <p class="post-tags">
+                <span>Tags:</span>
                 
-                
-                
+              </p>
+
+              <h4 class="heading">
+  <i class="fa fa-hand-o-right"></i>Related posts</h4>
+
+    <ul class="related-posts group">
+    
+    
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+    </ul>
+
+
+
+              <section id="comments" class="themeform">
+<div class="ds-thread" data-thread-key="/2016/12/20/dequeueReusableCell/" data-title="TableView 中 Cell的重用机制分析" data-url="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"brasbug"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</section>
+
+
               
-              <div class="post-list group">
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2016年12月20日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/" rel="bookmark" title="TableView 中 Cell的重用机制分析">TableView 中 Cell的重用机制分析</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2016年12月19日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2016/12/19/clientType/" rel="bookmark" title="JS判断客户端类型">JS判断客户端类型</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2016年07月14日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2016/07/14/debugpanel/" rel="bookmark" title="iOS 开发Debug工具壳">iOS 开发Debug工具壳</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2016年06月30日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2016/06/30/Go-gin01/" rel="bookmark" title="golang-gin 框架学习 一、 GET POST Method">golang-gin 框架学习 一、 GET POST Method</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2016年05月27日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2016/05/27/Dlog-Introduce/" rel="bookmark" title="iOS 自定义 Log 简介">iOS 自定义 Log 简介</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2016年05月15日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2016/06/14/singnal/" rel="bookmark" title="singnal 信号类型">singnal 信号类型</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2016年03月24日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2016/03/24/OCRuntime/" rel="bookmark" title="Objective-C&#43;Runtime 浅析">Objective-C&#43;Runtime 浅析</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-</div>
-
             </div>
+
+
           </section>
           <div class="sidebar s1">
   <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
@@ -318,6 +332,20 @@
     <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
 </div>
 
+    <ul class="post-nav group">
+      <li class="next">
+        
+        <a href="http://blog.flywithme.top/2016/12/19/clientType/" rel="next">
+          <i class="fa fa-chevron-right"></i>
+          <strong>Next post</strong>
+          <span>JS判断客户端类型</span>
+        </a>
+        
+      </li>
+      <li class="previous">
+        
+      </li>
+    </ul>
     <div id="search-2" class="widget widget_search"><h3>Search</h3>
       <form method="get" class="searchform themeform" action="https://www.google.com/search">
         <div>
@@ -326,6 +354,7 @@
       </form>
     </div>
   </div>
+  
 </div>
 
           <div class="sidebar s2">
