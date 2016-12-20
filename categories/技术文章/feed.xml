@@ -14,23 +14,30 @@
             <pubDate>Tue, 20 Dec 2016 11:41:34 CST</pubDate>
             <author>Brasbug</author>
             <guid>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
-            <description>&lt;p&gt;UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
-   这个方法到底是怎么实现的呢?
+            <description>&lt;blockquote&gt;
+&lt;p&gt;UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
+   这个方法到底是怎么实现的呢?&lt;br /&gt;
    &lt;code&gt;[tableView dequeueReusableCellWithIdentifier:CellIdentifier]&lt;/code&gt;由于苹果并没有开源,所以我就对这个
-``的实现分析一下。
+``的实现分析一下。&lt;br /&gt;
    UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell,
    对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;strong&gt;重用实现分析:&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源  NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;
-   TableView 初始化之初,这两个数据都是空的。
+&lt;p&gt;UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源  NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;&lt;br /&gt;
+   TableView 初始化之初,这两个数据都是空的。&lt;br /&gt;
    通过&lt;code&gt;[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]&lt;/code&gt; 创建新的 cell,创建之后 数据会进入visiableCells 中
    当屏幕上的Cell 够用之后,会有一个 Cell  使用 key CellIdentifier 存 reusableTableCels 中,&lt;br /&gt;
-   比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:
-   1. 用&lt;code&gt;[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]&lt;/code&gt;创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空
-   2. tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。
-   3. tableView向下滚动时,如果在顶部,数据不会有变化,如果在中间,上下都屏幕外都有数据。 因为reusableCells中有数据,当需要时会把之前加入的 cell1 返回&lt;code&gt;[tableView dequeueReusableCellWithIdentifier:CellIdentifier]&lt;/code&gt;,并移出 reusableCells,移入visiableCells,底部的 Cell6移入 reusableCells ,这样就完成了重用逻辑。&lt;/p&gt;
+   比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;用&lt;code&gt;[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]&lt;/code&gt;创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;tableView向下滚动时,如果在顶部,数据不会有变化,如果在中间,上下都屏幕外都有数据。 因为reusableCells中有数据,当需要时会把之前加入的 cell1 返回&lt;code&gt;[tableView dequeueReusableCellWithIdentifier:CellIdentifier]&lt;/code&gt;,并移出 reusableCells,移入visiableCells,底部的 Cell6移入 reusableCells ,这样就完成了重用逻辑。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;p&gt;还有一些情况需要注意,并不是只有拖动的时候才会有以上逻辑,tableview 调用&lt;code&gt;reloadData&lt;/code&gt;的时候,&lt;code&gt;reloadRowsAtIndex&lt;/code&gt; 方法的时候也会,具体步骤,以后再分析。&lt;/p&gt;
 </description>
