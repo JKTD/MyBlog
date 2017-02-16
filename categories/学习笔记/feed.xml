@@ -9,12 +9,263 @@
         <updated>Thu, 16 Feb 2017 16:11:36 CST</updated>
         
         <item>
-            <title>swift03</title>
+            <title>Swift 基础类型</title>
             <link>http://blog.flywithme.top/2017/02/16/swift03/</link>
             <pubDate>Thu, 16 Feb 2017 16:11:36 CST</pubDate>
             <author>Brasbug</author>
             <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
-            <description></description>
+            <description>&lt;ul&gt;
+&lt;li&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;br /&gt;
+&lt;code&gt;
+let a = 1
+&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;变量 &lt;strong&gt;var&lt;/strong&gt;
+&lt;code&gt;
+var b = 2
+&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;swift 是一个强类型语言:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   var x = 1
+   
+   x = &amp;quot;abc&amp;quot; //会报错(Cannot assign value of type &amp;quot;String&amp;quot; to type &amp;quot;int&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;显示声明变量&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let s:String = &amp;quot;abc&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一次声明多个变量,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var y, z, d:Double
+var x = 1, y = 2, z = 3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;常用数据类型: Int , Float ,Double , Boolean , String ,Tuple&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Int&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;```
+var aInt: Int = 20 //整型的存储空间是有限的,根据不同的计算机来定。有最大最小值
+Int.max
+Int.min
+
+var aUInt:UInt = 200  //无法存储负数,最大值是 Int 的两倍+1
+UInt.max
+UInt.min
+```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Int 的类型
+   !&lt;img src=&#34;sources/swift/Int类型.png&#34; alt=&#34;intType&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;小知识 如果是一个比较大的数值,可以使用下划线对数字进行分割&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let bigNum = 1_000_000_000_00232
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/swift/BA6D5746-A4AE-411F-905E-4761288DEE0F.png&#34; alt=&#34;C8A54525-8DE7-4EC3-8665-89146D67C0CF&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Float Double&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;浮点数 float Double 区别&lt;br /&gt;
+    &lt;img src=&#34;sources/swift/C1DB90FE-EE4F-4CC2-95F3-580D54437E75.png&#34; alt=&#34;C8A54525-8DE7-4EC3-8665-89146D67C0CF&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;//上面的数字加下划线 亦可以用在小数中。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var aFloat = 1_000_000.000_0001  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;不同数据类型之间不能直接做数据运算,不能自动做类型转换。必需要做显示类型转换,以防止运算出错。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let a:Int = 1
+let b:UInt = 2
+a + b //错误,运算歧义 
+a + Int(b) //正确
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;swift 是一个强制类型语言,把浮点数赋值给整型是肯定会报错的。除非对浮点数进行转换才行。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Boolean&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let aTrue:Bool = true
+let aFalse = false
+
+if aTrue{
+    print(&amp;quot;True&amp;quot;)
+}else if(1 == 1){
+    print(&amp;quot;1 == 1&amp;quot;)
+}
+else{
+    print(&amp;quot;False&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;if 判断语句 只能使用 Bool 类型判断,否则会报错&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Tuple&lt;/strong&gt; 元组就是将多个不同的值集合在一个数据中。可以有任意多个值,多个不同的数据类型&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var point = (1 , 1)
+var httpResponse = (401, &amp;quot;未授权&amp;quot;)
+
+// 显式指定元组类型
+var point2:(Int, Int, Int) = (2, 3, 4)
+
+var httpResponse2:(Int, String) = (200, &amp;quot;OK&amp;quot;)
+
+//取值
+httpResponse.0
+httpResponse.1
+
+//解包
+let (x, y) = httpResponse2
+print(x, y)
+
+//给分量加一个名字。
+let point3 = (x: 3, y :4)
+point3.x
+point3.y
+
+let point4:(x: Int, y: Int) =(2, 3)
+point4.x
+point4.y
+
+let point5 = (10,23)
+let (z, _) = point5 //若不需要解包某一个数据,可以用下划线_忽略一些值
+z
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;String&lt;/strong&gt;   使用双引号引起来的一段文本。&lt;/p&gt;
+
+&lt;p&gt;字符串基本用法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//声明一个字符串
+var str: String = &amp;quot;swift&amp;quot;
+let str1 = String(&amp;quot;abdd&amp;quot;)
+
+//空字符串
+var emptyStr = &amp;quot;&amp;quot;
+var emptystr1 = String()
+
+str.isEmpty //字符串判空
+
+let a = &amp;quot;abc&amp;quot;
+str + a 
+
+str += a
+
+str1 += a //错误 常量不能被改变
+
+//字符串插值  字符串插值是一种全新的构建字符串的方式，可以在其中包含常量、变量、字面量和表达式。您插入的字符串字面量的每一项都被包裹在以反斜线为前缀的圆括号中：
+let name  = &amp;quot;jack&amp;quot;
+let age = 20
+let s = &amp;quot;My name is \(name), age is \(age)&amp;quot;
+
+// \是转义字符  \t 是制表符  \n 是换行符
+let s2 = &amp;quot;\\&amp;quot; //输出转义字符
+print(s2)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;字符串遍历&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var str = &amp;quot;hello. swift&amp;quot;
+
+for c in str.characters{
+    print(c)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;字符&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let mark:Character = &amp;quot;!&amp;quot; //字符
+
+str + String(mark) //不改变 str 
+
+str.append(mark) //改变 str 值
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在 swift 中一个中文字符和表情符都可以是一个字符(其他语言中可能需要多个字符才能标识)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let dog:Character = &amp;quot;🐶&amp;quot;
+let chinessLetter :Character = &amp;quot;程&amp;quot;
+let coolguy: Character = &amp;quot;\u{1F60E}&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;字符串长度 :swift 更倾向于人类理解,而不是机器理解。  但是这会导致 swift 处理大批量字符串的时候速度比较慢&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var strLetters = &amp;quot;abcdef\u{1F60E}&amp;quot;
+strLetters.characters.count //长度计算 为7
+strLetters = &amp;quot;中国&amp;quot;
+strLetters.characters.count //长度计算 为2
+
+var cafe = &amp;quot;café&amp;quot;  //字符串长度是多少?
+
+cafe = &amp;quot;cafe\u{0301}&amp;quot; //字符串长度是多少?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如何索引获取字符串中的字符   //这个处理几个版本变化很大&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var str = &amp;quot;hello, swift&amp;quot; 
+let startIndex =  str.index(str.startIndex, offsetBy: 2) //距离起点字符偏移位置
+str[startIndex] //
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;字符串比较&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var varA   = &amp;quot;Hello, Swift!&amp;quot;
+var varB   = &amp;quot;Hello, World!&amp;quot;
+
+if varA == varB {
+   print( &amp;quot;\(varA) 与 \(varB) 是相等的&amp;quot; )
+} else {
+   print( &amp;quot;\(varA) 与 \(varB) 是不相等的&amp;quot; )
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;字符串 filter&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let str2 = &amp;quot;    a  b  c  d &amp;quot;
+let res = String(str2.characters.filter  { $0 != &amp;quot; &amp;quot; })
+res
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;字符串插入&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let c:Character = &amp;quot;1&amp;quot;
+str.insert(c, at: startIndex)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;字符串大小写转换&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var str = &amp;quot;hello, swift&amp;quot;
+let shouty = str.uppercased()
+let shoutx = str.lowercased()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;判断字母首尾是否为某特定字符&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;str.hasPrefix(&amp;quot;hello&amp;quot;)
+str.hasSuffix(&amp;quot;swift&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;强制类型转换  as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let s2 = NSString(format:&amp;quot;1/3 =  %.2f&amp;quot;, 1.0/3.0) as String
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;NSString&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let s3:NSString = &amp;quot;😄哈&amp;quot;
+s3.length
+s3.character(at: 1)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
         </item>
         
         <item>
