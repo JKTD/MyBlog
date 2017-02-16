@@ -6,7 +6,550 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Tue, 20 Dec 2016 11:41:34 CST</updated>
+        <updated>Thu, 16 Feb 2017 16:11:36 CST</updated>
+        
+        <item>
+            <title>swift03</title>
+            <link>http://blog.flywithme.top/2017/02/16/swift03/</link>
+            <pubDate>Thu, 16 Feb 2017 16:11:36 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
+            <description></description>
+        </item>
+        
+        <item>
+            <title>Swift 初见</title>
+            <link>http://blog.flywithme.top/2017/02/16/swift02/</link>
+            <pubDate>Thu, 16 Feb 2017 11:27:44 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/02/16/swift02/</guid>
+            <description>&lt;p&gt;首先我们来在屏幕上输出一个 &lt;code&gt;hello world&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;print(&amp;quot;hello world&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。&lt;/p&gt;
+
+&lt;p&gt;Xcode 提供了代码预览功能 &lt;strong&gt;Playground&lt;/strong&gt; . 使用它可以加快 swift的学习速度&lt;/p&gt;
+
+&lt;p&gt;初始化一个变量和常量
+    var  a = 2  //可变数据
+    a = 3
+    let b = 2 //不可变&lt;/p&gt;
+
+&lt;p&gt;if else 雨晶
+    if a == 2{
+        print(&amp;ldquo;true&amp;rdquo;)
+    } else{
+       print(&amp;ldquo;false&amp;rdquo;)
+    }&lt;/p&gt;
+
+&lt;p&gt;for in 遍历语句(此外还有 ,repeat..while ,for 循环3.0中已经被弃用)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for index in 0...100{
+   var c = Double(index)/20.0
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;while&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;while 1 == 1 {
+    a += 1
+    if a == 100{
+        break
+    }
+    print(&amp;quot;do something&amp;quot;,a)
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;repeat&amp;hellip; while&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;repeat
+{
+    a += 1
+    if a &amp;gt; 100{
+        break
+    }
+    print(&amp;quot;do something&amp;quot;,a)
+
+}while( 1 == 1 );
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;断言&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let age = -3 
+assert(age &amp;gt;= 0, &amp;quot;A person&#39;s age cannot be less than zero&amp;quot;) 
+// 因为 age &amp;lt; 0，所以断言会触发   
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面开始深入学习&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>关于 Swift</title>
+            <link>http://blog.flywithme.top/2017/02/09/swift01/</link>
+            <pubDate>Thu, 09 Feb 2017 10:12:48 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/02/09/swift01/</guid>
+            <description>&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。
+Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Swift 的开发从很久之前就开始了。为了给 Swift 打好基础，苹果公司改进了编译器，调试器和框架结构，让 Swift 使用自动引用计数（Automatic Reference Counting, ARC）来简化内存管理。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Objective-C 开发者对于 Swift 并不会感到陌生。它采用了 Objective-C 的命名参数以及动态对象模型，可以无缝对接到现有的 Cocoa 框架，并且可以兼容 Objective-C 代码。在此基础之上，Swift 还有许多新特性，支持面向过程编程和面向对象编程。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Swift 对于初学者来说也很简单。Swift是一门既满足工业标准又像脚本语言一样充满表现力和趣味的编程语言。Swift支持代码预览，这个革命性的特性可以允许程序员在不编译和运行应用程序的前提下运行 Swift 代码并实时查看结果。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用 Swift编写 iOS，watchOS,macOS,和 tvOS apps 是一个极佳的选择。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Swift 3.0 是自 Swift开源以来第一个大的版本更新。从语言角度不兼容之前的版本。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;部分摘自：&lt;a href=&#34;https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/index.html&#34;&gt;AppleLibrary&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go语言fmt包Printf方法详解t</title>
+            <link>http://blog.flywithme.top/2017/01/01/golangfmt/</link>
+            <pubDate>Sun, 01 Jan 2017 00:56:42 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/01/01/golangfmt/</guid>
+            <description>&lt;p&gt;Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;General&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;%v 以默认的方式打印变量的值&lt;/li&gt;
+&lt;li&gt;%T 打印变量的类型&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Integer&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;%+d 带符号的整型，fmt.Printf(&amp;ldquo;%+d&amp;rdquo;, 255)输出+255&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;%q 打印单引号&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;%o 不带零的八进制&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;%#o 带零的八进制&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;%x 小写的十六进制&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;%X 大写的十六进制&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;%#x 带0x的十六进制&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;%U 打印Unicode字符&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;%#U 打印带字符的Unicode&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;%b 打印整型的二进制&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Integer width&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;%5d 表示该整型最大长度是5，下面这段代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1)
+fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;输出结果如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;|    1|
+|1234567|
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;%-5d则相反，打印结果会自动左对齐&lt;/li&gt;
+&lt;li&gt;%05d会在数字前面补零。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Float&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;%f (=%.6f) 6位小数点&lt;/li&gt;
+&lt;li&gt;%e (=%.6e) 6位小数点（科学计数法）&lt;/li&gt;
+&lt;li&gt;%g 用最少的数字来表示&lt;/li&gt;
+&lt;li&gt;%.3g 最多3位数字来表示&lt;/li&gt;
+&lt;li&gt;%.3f 最多3位小数来表示&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;String&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;%s 正常输出字符串&lt;/li&gt;
+&lt;li&gt;%q 字符串带双引号，字符串中的引号带转义符&lt;/li&gt;
+&lt;li&gt;%#q 字符串带反引号，如果字符串内有反引号，就用双引号代替&lt;/li&gt;
+&lt;li&gt;%x 将字符串转换为小写的16进制格式&lt;/li&gt;
+&lt;li&gt;%X 将字符串转换为大写的16进制格式&lt;/li&gt;
+&lt;li&gt;% x 带空格的16进制格式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;String Width&lt;/strong&gt; (以5做例子）&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;%5s 最小宽度为5&lt;/li&gt;
+&lt;li&gt;%-5s 最小宽度为5（左对齐）&lt;/li&gt;
+&lt;li&gt;%.5s 最大宽度为5&lt;/li&gt;
+&lt;li&gt;%5.7s 最小宽度为5，最大宽度为7&lt;/li&gt;
+&lt;li&gt;%-5.7s 最小宽度为5，最大宽度为7（左对齐）&lt;/li&gt;
+&lt;li&gt;%5.3s 如果宽度大于3，则截断&lt;/li&gt;
+&lt;li&gt;%05s 如果宽度小于5，就会在字符串前面补零&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Struct&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;%v 正常打印。比如：{sam {12345 67890}}&lt;/li&gt;
+&lt;li&gt;%+v 带字段名称。比如：{name:sam phone:{mobile:12345 office:67890}&lt;/li&gt;
+&lt;li&gt;%#v 用Go的语法打印。比如main.People{name:”sam”, phone:main.Phone{mobile:”12345”, office:”67890”}}&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Boolean&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;%t 打印true或false&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Pointer&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;%p 带0x的指针&lt;/li&gt;
+&lt;li&gt;%#p 不带0x的指针&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>golang-Gin-Https</title>
+            <link>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</link>
+            <pubDate>Mon, 26 Dec 2016 14:29:14 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
+            <description>&lt;p&gt;关于https&lt;br /&gt;
+背景知识&lt;br /&gt;
+密码学的一些基本知识&lt;br /&gt;
+大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，key就以一串随机数数，更换了key之后，算法还可以继续使用。&lt;/p&gt;
+
+&lt;p&gt;基于key的加密算法又分为两类，对称加密和不对称加密，比如DES,AES那种的，通信双方一方用key加密之后，另一方用相同的key进行反向的运算就可以解密。&lt;/p&gt;
+
+&lt;p&gt;不对称加密比较著名的就是RSA,加密的时候有一个公钥和一个私钥，公钥是可以交给对方的，a给b发送信息，a用自己的私钥加密，b用a的公钥解密，反之，b给a发送信息，b用自己的私钥加密。&lt;/p&gt;
+
+&lt;p&gt;在通信之前，需要经过一些握手的过程，双方交换公钥，这个就是key exchange的过程，https最开始的阶段就包含了这个key exchange的过程，大概原理是这样，有些地方还要稍微复杂一些。&lt;/p&gt;
+
+&lt;p&gt;数字证书与CA&lt;br /&gt;
+数字证书相当于是服务器的一个“身份证”，用于唯一标识一个服务器。一般而言，数字证书从受信的权威证书授权机构 (Certification Authority，证书授权机构)买来的（免费的很少），浏览器里面一般就内置好了一些权威的CA，在使用https的时候，只要是这些CA签发的证书，浏览器都是可以认证的，要是在与服务器通信的时候，收到一个没有权威CA认证的证书，就会报出提醒不受信任证书的错误，就像登录12306一样，但是也可以选择接受。&lt;/p&gt;
+
+&lt;p&gt;在自己的一些项目中，通常是自己签发一个ca根证书，之后这个根证书签发一个server.crt，以及server.key给服务端，server.key是服务端的私钥，server.crt包含了服务端的公钥还有服务端的一些身份信息。在客户端和服务端通信的时候（特别是使用代码编写的客户端访问的时候），要指定ca根证书，作用就相当于是浏览器中内置的那些权威证书一样，用于进行服务端的身份检测。&lt;/p&gt;
+
+&lt;p&gt;证书的格式：&lt;/p&gt;
+
+&lt;p&gt;ca证书在为server.crt证书签名时候的大致流程参考这个(&lt;a href=&#34;http://www.tuicool.com/articles/aymYbmM)：&#34;&gt;http://www.tuicool.com/articles/aymYbmM)：&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;数字证书由两部分组成：&lt;/p&gt;
+
+&lt;p&gt;1、C：证书相关信息（对象名称+过期时间+证书发布者+证书签名算法….）&lt;/p&gt;
+
+&lt;p&gt;2、S：证书的数字签名 （由CA证书通过加密算法生成的）&lt;/p&gt;
+
+&lt;p&gt;其中的数字签名是通过公式S = F(Digest&amp;copy;)得到的。&lt;/p&gt;
+
+&lt;p&gt;Digest为摘要函数，也就是 md5、sha-1或sha256等单向散列算法，用于将无限输入值转换为一个有限长度的“浓缩”输出值。比如我们常用md5值来验证下载的大文件是否完整。大文件的内容就是一个无限输入。大文件被放在网站上用于下载时，网站会对大文件做一次md5计算，得出一个128bit的值作为大文件的摘要一同放在网站上。用户在下载文件后，对下载后的文件再进行一次本地的md5计算，用得出的值与网站上的md5值进行比较，如果一致，则大 文件下载完好，否则下载过程大文件内容有损坏或源文件被篡改。这里还有一个小技巧常常在机器之间copy或者下载压缩文件的时候也可以用md5sum的命令来进行检验，看看文件是否完整。&lt;/p&gt;
+
+&lt;p&gt;F为签名函数。CA自己的私钥是唯一标识CA签名的，因此CA用于生成数字证书的签名函数一定要以自己的私钥作为一个输入参数。在RSA加密系统中，发送端的解密函数就是一个以私钥作为参数的函数，因此常常被用作签名函数使用。因此CA用私钥解密函数作为F，以CA证书中的私钥进行加密，生成最后的数字签名，正如最后一部分实践时候给出的证书生成过程，生成server.crt的时候需要ca.crt（包含根证书的信息）和ca.key（根证书的私钥）都加入进去。&lt;/p&gt;
+
+&lt;p&gt;接收端接收服务端数字证书后，如何验证数字证书上携带的签名是这个CA的签名呢？当然接收端首先需要指定对应的CA，接收端会运用下面算法对数字证书的签名进行校验：
+F&amp;rsquo;(S) ?= Digest&amp;copy;&lt;/p&gt;
+
+&lt;p&gt;接收端进行两个计算，并将计算结果进行比对：&lt;/p&gt;
+
+&lt;p&gt;1、首先通过Digest&amp;copy;，接收端计算出证书内容（除签名之外）的摘要，C的内容都是明文可以看到到的。&lt;/p&gt;
+
+&lt;p&gt;2、数字证书携带的签名是CA通过CA密钥加密摘要后的结果，因此接收端通过一个解密函数F&amp;rsquo;对S进行“解密”。就像最开始介绍的那样，在RSA系统中，接收端使用CA公钥（包含在ca.crt中）对S进行“解密”，这恰是CA用私钥对S进行“加密”的逆过程。&lt;/p&gt;
+
+&lt;p&gt;将上述两个运算的结果进行比较，如果一致，说明签名的确属于该CA，该证书有效，否则要么证书不是该CA的，要么就是中途被人篡改了。&lt;/p&gt;
+
+&lt;p&gt;对于self-signed(自签发)证书来说，接收端并没有你这个self-CA的数字证书，也就是没有CA公钥，也就没有办法对数字证书的签名进行验证。因此如果要编写一个可以对self-signed证书进行校验的接收端程序的话，首先我们要做的就是建立一个属于自己的CA，用该CA签发我们的server端证书，之后给客户端发送信息的话，需要对这个根证书进行指定，之后按上面的方式进行验证。&lt;/p&gt;
+
+&lt;p&gt;可以使用openssl x509 -text -in client.crt -noout 查看某个证书文件所包含的具体信息。&lt;/p&gt;
+
+&lt;p&gt;HTTPS基本过程概述&lt;/p&gt;
+
+&lt;p&gt;https协议是在http协议的基础上组成的secure的协议。主要功能包含一下两个方面:&lt;/p&gt;
+
+&lt;p&gt;1 通信双方的身份认证&lt;/p&gt;
+
+&lt;p&gt;2 通信双方的通信过程加密&lt;/p&gt;
+
+&lt;p&gt;下面通过详细分析https的通信过程来解释这两个功能。&lt;/p&gt;
+
+&lt;p&gt;具体参考这两个文章：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.fenesky.com/blog/2014/07/19/how-https-works.html&#34;&gt;http://www.fenesky.com/blog/2014/07/19/how-https-works.html&lt;/a&gt;
+&lt;a href=&#34;http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html&#34;&gt;http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;1、client 发送 sayhello给server端，说明client所支持的加密套件，还有一个随机数1。
+2、server 发送 sayhello给client端，端把server.crt发送给客户端,server.crt采用还有一个随机数2。
+3、client端生成preMaster key 这个是随机数3，之后三个随机数结合在一起生成MasterSecret,之后生成session secret，使用指定的ca进行身份认证，就像之前介绍的那样，都正常的话，就切换到加密模式。
+4、client端使用server.crt中的公钥对preMasterSecret进行加密，如果要进行双向认证的话，client端会把client.crt一并发送过去，server端接受到数据，解密之后，也有了三个随机数，采用同样的方式，三个随机数生成通信所使用的session secret。具体session secret的结构可以参考前面列出的两个博客。server端完成相关工作之后，会发一个ChangeCipherSpec给client，通知client说明自己已经切换到相关的加解密模式，之后发一段加密信息给client看是否正常。
+5、client端解密正常，之后就可以按照之前的协议，使用session secret进行加密的通信了。&lt;/p&gt;
+
+&lt;p&gt;整体看下，开始的时候建立握手的过程就是身份认证的过程，之后认证完毕之后，就是加密通信的过程了，https的两个主要做用就实现了。&lt;/p&gt;
+
+&lt;p&gt;相关实践&lt;/p&gt;
+
+&lt;p&gt;比较典型的证书生成的过程：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;openssl genrsa -out ca.key 2048
+
+#这里可以使用 -subj 不用进行交互 当然还可以添加更多的信息
+openssl req -x509 -new -nodes -key ca.key -subj &amp;quot;/CN=zju.com&amp;quot; -days 5000 -out ca.crt
+
+openssl genrsa -out server.key 2048
+
+#这里的/cn可以是必须添加的 是服务端的域名 或者是etc/hosts中的ip别名
+openssl req -new -key server.key -subj &amp;quot;/CN=server&amp;quot; -out server.csr
+
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 5000
+注意生成client端证书的时候，注意要多添加一个字段，golang的server端认证程序会对这个字段进行认证：
+
+openssl genrsa -out client.key 2048
+
+openssl req -new -key client.key -subj &amp;quot;/CN=client&amp;quot; -out client.csr
+
+echo extendedKeyUsage=clientAuth &amp;gt; extfile.cnf
+
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile extfile.cnf -out client.crt -days 5000 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;https客户端和服务端单向校验&lt;/p&gt;
+
+&lt;p&gt;这部分参考了这个（&lt;a href=&#34;http://www.tuicool.com/articles/aymYbmM&#34;&gt;http://www.tuicool.com/articles/aymYbmM&lt;/a&gt;
+），里面代码部分讲得比较细致。&lt;/p&gt;
+
+&lt;p&gt;服务端采用证书，客户端采用普通方式访问：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//server端代码
+package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+    &amp;quot;net/http&amp;quot;
+    &amp;quot;os&amp;quot;
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w,
+        &amp;quot;Hi, This is an example of https service in golang!&amp;quot;)
+}
+
+func main() {
+    http.HandleFunc(&amp;quot;/&amp;quot;, handler)
+    //http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil)
+    _, err := os.Open(&amp;quot;cert_server/server.crt&amp;quot;)
+    if err != nil {
+        panic(err)
+    }
+    http.ListenAndServeTLS(&amp;quot;:8081&amp;quot;, &amp;quot;cert_server/server.crt&amp;quot;,
+        &amp;quot;cert_server/server.key&amp;quot;, nil)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;client端直接发请求，什么都不加，会报如下错误：&lt;/p&gt;
+
+&lt;p&gt;2015/07/11 18:13:50 http: TLS handshake error from 10.183.47.203:58042: remote error: bad certificate
+使用浏览器直接访问的话，之后点击信赖证书，这个时候就可以正常get到消息&lt;/p&gt;
+
+&lt;p&gt;或者使用curl -k https:// 来经行访问，相当于忽略了第一步的身份验证的工作。
+要是不加-k的话 使用curl -v 参数打印出来详细的信息，会看到如下的错误：&lt;/p&gt;
+
+&lt;p&gt;curl: (60) SSL certificate problem: Invalid certificate chain
+说明是认证没有通过，因为客户端这面并没有提供可以信赖的根证书来对服务端发过来的证书进行验，/CN使用的直接是ip地址，就会报下面的错误：&lt;/p&gt;
+
+&lt;p&gt;Get &lt;a href=&#34;https://10.183.47.206:8081:&#34;&gt;https://10.183.47.206:8081:&lt;/a&gt; x509: cannot validate certificate for 10.183.47.206 because it doesn&amp;rsquo;t contain any IP SANs
+最好是生成证书的时候使用域名，或者是在/etc/hosts中加上对应的映射。&lt;/p&gt;
+
+&lt;p&gt;可以发送请求的客户端的代码如下，注意导入根证书的方式:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+    //&amp;quot;io&amp;quot;
+    //&amp;quot;log&amp;quot;
+    &amp;quot;crypto/tls&amp;quot;
+    &amp;quot;crypto/x509&amp;quot;
+    //&amp;quot;encoding/json&amp;quot;
+    &amp;quot;fmt&amp;quot;
+    &amp;quot;io/ioutil&amp;quot;
+    &amp;quot;net/http&amp;quot;
+    //&amp;quot;strings&amp;quot;
+)
+
+func main() {
+    //x509.Certificate.
+    pool := x509.NewCertPool()
+    //caCertPath := &amp;quot;etcdcerts/ca.crt&amp;quot;
+    caCertPath := &amp;quot;certs/cert_server/ca.crt&amp;quot;
+
+    caCrt, err := ioutil.ReadFile(caCertPath)
+    if err != nil {
+        fmt.Println(&amp;quot;ReadFile err:&amp;quot;, err)
+        return
+    }
+    pool.AppendCertsFromPEM(caCrt)
+    //pool.AddCert(caCrt)
+
+    tr := &amp;amp;http.Transport{
+        TLSClientConfig:    &amp;amp;tls.Config{RootCAs: pool},
+        DisableCompression: true,
+    }
+    client := &amp;amp;http.Client{Transport: tr}
+
+    resp, err := client.Get(&amp;quot;https://server:8081&amp;quot;)
+
+    if err != nil {
+        panic(err)
+    }
+
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println(string(body))
+    fmt.Println(resp.Status)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用curl命令的话，就加上&amp;ndash;cacrt ca.crt证书，这样就相当于添加了可信赖的证书，身份认证的操作就可以成功了。&lt;/p&gt;
+
+&lt;p&gt;比如生成服务端证书的时候/CN写的是server 那client发送的时候也发送给&lt;a href=&#34;https://server:8081就好，不过在本地的/etc/hosts中要加上对应的映射。&#34;&gt;https://server:8081就好，不过在本地的/etc/hosts中要加上对应的映射。&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;客户端和服务端的双向校验：&lt;/p&gt;
+
+&lt;p&gt;按照之前的方式，客户端生成证书，根证书就按之前的那个：
+    openssl genrsa -out client.key 2048&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;openssl req -new -key client.key -subj &amp;quot;/CN=client&amp;quot; -out client.csr
+
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 5000
+server端代码进行改进，添加受信任的根证书。
+
+// gohttps/6-dual-verify-certs/server.go
+package main
+
+import (
+    &amp;quot;crypto/tls&amp;quot;
+    &amp;quot;crypto/x509&amp;quot;
+    &amp;quot;fmt&amp;quot;
+    &amp;quot;io/ioutil&amp;quot;
+    &amp;quot;net/http&amp;quot;
+)
+
+type myhandler struct {
+}
+
+func (h *myhandler) ServeHTTP(w http.ResponseWriter,
+    r *http.Request) {
+    fmt.Fprintf(w,
+        &amp;quot;Hi, This is an example of http service in golang!\n&amp;quot;)
+}
+
+func main() {
+    pool := x509.NewCertPool()
+    caCertPath := &amp;quot;cert_server/ca.crt&amp;quot;
+
+    caCrt, err := ioutil.ReadFile(caCertPath)
+    if err != nil {
+        fmt.Println(&amp;quot;ReadFile err:&amp;quot;, err)
+        return
+    }
+    pool.AppendCertsFromPEM(caCrt)
+
+    s := &amp;amp;http.Server{
+        Addr:    &amp;quot;:8081&amp;quot;,
+        Handler: &amp;amp;myhandler{},
+        TLSConfig: &amp;amp;tls.Config{
+            ClientCAs:  pool,
+            ClientAuth: tls.RequireAndVerifyClientCert,
+        },
+    }
+
+    err = s.ListenAndServeTLS(&amp;quot;cert_server/server.crt&amp;quot;, &amp;quot;cert_server/server.key&amp;quot;)
+    if err != nil {
+        fmt.Println(&amp;quot;ListenAndServeTLS err:&amp;quot;, err)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;客户端代码改进，发送的时候把指定client端的client.crt以及client.key&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// gohttps/6-dual-verify-certs/client.go
+
+package main
+
+import (
+    &amp;quot;crypto/tls&amp;quot;
+    &amp;quot;crypto/x509&amp;quot;
+    &amp;quot;fmt&amp;quot;
+    &amp;quot;io/ioutil&amp;quot;
+    &amp;quot;net/http&amp;quot;
+)
+
+func main() {
+    pool := x509.NewCertPool()
+    caCertPath := &amp;quot;certs/cert_server/ca.crt&amp;quot;
+
+    caCrt, err := ioutil.ReadFile(caCertPath)
+    if err != nil {
+        fmt.Println(&amp;quot;ReadFile err:&amp;quot;, err)
+        return
+    }
+    pool.AppendCertsFromPEM(caCrt)
+
+    cliCrt, err := tls.LoadX509KeyPair(&amp;quot;certs/cert_server/client.crt&amp;quot;, &amp;quot;certs/cert_server/client.key&amp;quot;)
+    if err != nil {
+        fmt.Println(&amp;quot;Loadx509keypair err:&amp;quot;, err)
+        return
+    }
+
+    tr := &amp;amp;http.Transport{
+        TLSClientConfig: &amp;amp;tls.Config{
+            RootCAs:      pool,
+            Certificates: []tls.Certificate{cliCrt},
+        },
+    }
+    client := &amp;amp;http.Client{Transport: tr}
+    resp, err := client.Get(&amp;quot;https://server:8081&amp;quot;)
+    if err != nil {
+        fmt.Println(&amp;quot;Get error:&amp;quot;, err)
+        return
+    }
+    defer resp.Body.Close()
+    body, err := ioutil.ReadAll(resp.Body)
+    fmt.Println(string(body))
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但实际上，这样是不行的，server端会报这样的错误：&lt;/p&gt;
+
+&lt;p&gt;client&amp;rsquo;s certificate&amp;rsquo;s extended key usage doesn&amp;rsquo;t permit it to be used for client authentication
+因为client的证书生成方式有一点不一样，向开始介绍的那样，goalng对于client端的认证要多一个参数，生成证书的时候，要加上一个单独的认证信息：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;openssl genrsa -out client.key 2048
+
+openssl req -new -key client.key -subj &amp;quot;/CN=client&amp;quot; -out client.csr
+
+echo extendedKeyUsage=clientAuth &amp;gt; extfile.cnf
+
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile extfile.cnf -out client.crt -days 5000 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就是多添加一个认证文件的信息，之后使用新的证书就可以实现双向认证了，这样只有那些持有被认证过的证书的客户端才能向服务端发送请求。&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>TableView 中 Cell的重用机制分析</title>
