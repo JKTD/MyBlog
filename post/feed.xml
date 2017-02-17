@@ -1,12 +1,196 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Posts on JKCoder&#39;s Blog </title>
+        <title>Posts on Flywithme </title>
         <link>http://blog.flywithme.top/post/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Thu, 16 Feb 2017 16:11:36 CST</updated>
+        <updated>Fri, 17 Feb 2017 17:34:01 CST</updated>
+        
+        <item>
+            <title>逻辑控制</title>
+            <link>http://blog.flywithme.top/2017/02/17/swift05/</link>
+            <pubDate>Fri, 17 Feb 2017 17:34:01 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/02/17/swift05/</guid>
+            <description>&lt;p&gt;控制流的三种基本结构:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;顺序结构&lt;/strong&gt;:  顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行&lt;br /&gt;
+ &lt;strong&gt;循环结构&lt;/strong&gt;   循环语句使用同一个语句组根据一定的条件执行若干次&lt;br /&gt;
+ &lt;strong&gt;选择结构&lt;/strong&gt;:  分支语句根据一定的条件决定执行那一部分语句序列
+顺序结构不再多说&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;循环结构&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for _ in 0...100{
+    print(&amp;quot;遍历循环&amp;quot;) 
+}
+
+
+//这种方式在 swift3 中被废弃,不能在使用
+//for var i = 1; i &amp;lt; 100 ; i++{
+//    print(&amp;quot;遍历循环中&amp;quot;)
+//}
+
+
+var a = 0.0
+while a &amp;lt; 50 {
+    a += 0.5
+    sin(a)   
+}
+
+
+//至少执行一次
+repeat{
+    a += 0.5
+    sin(a)
+}while a &amp;lt; 100
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;控制转移: break 跳出本层循环体,提前结束循环 。   continue 结束当前循环体,进行下一次循环&lt;/p&gt;
+
+&lt;p&gt;while true {
+    a += 0.5
+    if a == 5.5{
+        continue
+    }
+    sin(a)
+    if a &amp;gt; 50{
+        break
+    }
+}&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Swift 基础运算符</title>
+            <link>http://blog.flywithme.top/2017/02/17/swift04/</link>
+            <pubDate>Fri, 17 Feb 2017 11:00:55 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/02/17/swift04/</guid>
+            <description>&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;赋值运算符&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;=&lt;/strong&gt;  这里是没有返回值的。返回值可能是Void，此时不等于nil，即赋值成功；或等于nil，即赋值失败&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a = 3  
+a = 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;数学运算符  &lt;code&gt;+ - * / +=  -= %&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a = 201
+var b  = 4
+a + b
+a * b
+a - b
+a / b
+a % b
+a += 1
++a
+-a
+a += 2
+a -= 3
+a *= 2
+a /= 2
+a %= 2    
+
+
+var u = 2.5.truncatingRemainder(dividingBy: 1.2) //小数求余
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;逻辑运算符  &lt;code&gt;! &amp;amp;&amp;amp; ||&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var isTrue:Bool = true , isFalse:Bool = false
+!isTrue
+isTrue &amp;amp;&amp;amp; isFalse
+isTrue || isFalse
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;比较运算符   &lt;code&gt;== != &amp;gt; &amp;gt;= &amp;lt; &amp;lt;=&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let money = 100
+let price = 20
+if money &amp;gt;= price{
+    print(&amp;quot;buy&amp;quot;)
+}
+
+
+let capacity = 30 //背包容量
+let volume = 40 //购买物体积
+
+
+if money &amp;gt;= price &amp;amp;&amp;amp; capacity &amp;gt;= volume{
+    print(&amp;quot;buy it&amp;quot;)
+}
+
+
+if money &amp;lt; price || capacity &amp;lt; volume{
+    print(&amp;quot;can not buy it&amp;quot;)
+}
+
+
+if  !(money &amp;gt;= price &amp;amp;&amp;amp; capacity &amp;gt;= volume){
+     print(&amp;quot;can not buy it&amp;quot;)
+}
+
+
+//登陆
+var isUserNameOK = false
+var isPasswordOk = false
+
+
+var isPhoneNumOk = true
+var isPhoneCodeOk = false
+
+
+if isUserNameOK &amp;amp;&amp;amp; isPasswordOk || isPhoneNumOk &amp;amp;&amp;amp; isPasswordOk{
+    print(&amp;quot;登陆成功&amp;quot;)
+}else{
+    print(&amp;quot;登陆失败&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;三目运算符   bool?answer1:answer2&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var battery = 19
+var batteryColor:UIColor
+batteryColor =  battery &amp;lt;= 20 ? UIColor.red:UIColor.green
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;区间运算符  闭区间运算符 &lt;code&gt;[a, b] a...b&lt;/code&gt; , 前闭后开区间运算符 &lt;code&gt;[) a..&amp;lt;b&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for index in 1...10{
+    index
+}
+
+
+for index in 1..&amp;lt;10{
+        index
+}
+
+
+let arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]
+for str in arr{
+    print(str)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
         
         <item>
             <title>Swift 基础类型</title>
@@ -16,21 +200,26 @@
             <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;br /&gt;
-&lt;code&gt;
+```
 let a = 1
-&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;变量 &lt;strong&gt;var&lt;/strong&gt;
-&lt;code&gt;
-var b = 2
-&lt;/code&gt;&lt;/li&gt;
+let b:Int
+b = 1&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;swift 是一个强类型语言:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;   var x = 1
-   
-   x = &amp;quot;abc&amp;quot; //会报错(Cannot assign value of type &amp;quot;String&amp;quot; to type &amp;quot;int&amp;quot;)
+&lt;pre&gt;&lt;code&gt;- 变量 **var**
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;var b = 2&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    
+ swift 是一个强类型语言:
+ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;var x = 1&lt;/p&gt;
+
+&lt;p&gt;x = &amp;ldquo;abc&amp;rdquo; //会报错(Cannot assign value of type &amp;ldquo;String&amp;rdquo; to type &amp;ldquo;int&amp;rdquo;)
+   ```&lt;/p&gt;
 
 &lt;p&gt;显示声明变量&lt;/p&gt;
 
@@ -264,6 +453,9 @@ str.hasSuffix(&amp;quot;swift&amp;quot;)
 &lt;pre&gt;&lt;code&gt;let s3:NSString = &amp;quot;😄哈&amp;quot;
 s3.length
 s3.character(at: 1)
+let s4 = &amp;quot;    hello world    &amp;quot; as NSString
+
+s4.trimmingCharacters(in: .whitespaces) //去除空格
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
@@ -2036,831 +2228,6 @@ Catch a signal – SIGVTALRM
 Catch a signal – SIGALRM 
 Catch a signal –GVTALRM 
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>UINavigationBar-使用总结</title>
-            <link>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
-            <pubDate>Tue, 03 May 2016 11:49:19 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
-            <description>
-
-&lt;h5 id=&#34;简介:fd9faebe845f09d44f4a35833c132216&#34;&gt;简介&lt;/h5&gt;
-
-&lt;p&gt;&lt;code&gt;UINavigationBar&lt;/code&gt;是用于实现管理层级关系内容的组件，直接继承自&lt;code&gt;UIView&lt;/code&gt;。通常用在&lt;code&gt;UINavgationController&lt;/code&gt;类中，用于管理和显示&lt;code&gt;UINavgationController&lt;/code&gt;的&lt;code&gt;subViewController&lt;/code&gt; , 同时&lt;code&gt;UINavgationBar&lt;/code&gt;也可以单独使用，添加至任何的&lt;code&gt;UIView&lt;/code&gt;中。&lt;code&gt;UINavigationBar&lt;/code&gt;比较重要的属性为，左侧按钮，中间的标题，以及右侧按钮。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; NS_CLASS_AVAILABLE_IOS(2_0) @interface UINavigationBar : UIView &amp;lt;NSCoding, UIBarPositioning&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h6 id=&#34;在导航控制器中的简单使用:fd9faebe845f09d44f4a35833c132216&#34;&gt;在导航控制器中的简单使用&lt;/h6&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;获取导航条&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UINavigationBar *navBar = self.navigationController.navigationBar;
-//设置导航栏 title
-self.navigationItem.title = @&amp;quot;UINavigationBar使用总结&amp;quot;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置导航栏背景色&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//通过barTintColor来设置背景色
-self.navigationController.navigationBar.barTintColor = [UIColor redColor];//iOS7 以上系统  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/navigationbar/navigationbackbartiniColor.png&#34; alt=&#34;navigation back bar tint Color&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置导航栏的背景图片&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@&amp;quot;Background&amp;quot;] forBarMetrics:UIBarMetricsDefault];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/navigationbar/uinavigationBarbackground.png&#34; alt=&#34;navigation Bar background&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;在这里得稍微说说UIBarMetrics这个枚举, 它主要是用来控制在不同状态下导航栏的显示。和&lt;code&gt;UIButton&lt;/code&gt;的&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (void)setBackgroundImage:(nullable UIImage *)image forState:(UIControlState)state
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;这个方法有点类似。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;typedef NS_ENUM(NSInteger, UIBarMetrics) {
-    UIBarMetricsDefault,
-    UIBarMetricsCompact,
-    UIBarMetricsDefaultPrompt = 101, // Applicable only in bars with the prompt property, such as UINavigationBar and UISearchBar
-    UIBarMetricsCompactPrompt,
-    UIBarMetricsLandscapePhone NS_ENUM_DEPRECATED_IOS(5_0, 8_0, &amp;quot;Use UIBarMetricsCompact instead&amp;quot;) = UIBarMetricsCompact,
-    UIBarMetricsLandscapePhonePrompt NS_ENUM_DEPRECATED_IOS(7_0, 8_0, &amp;quot;Use UIBarMetricsCompactPrompt&amp;quot;) = UIBarMetricsCompactPrompt,
-};
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置导航栏样式&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[navBar setBarStyle:UIBarStyleDefault];  
-   分别有如下几种样式：  
-typedef NS_ENUM(NSInteger, UIBarStyle) {  
-    UIBarStyleDefault          = 0,  
-    UIBarStyleBlack            = 1,  
-    UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack  
-    UIBarStyleBlackTranslucent = 2, // Deprecated. Use UIBarStyleBlack and set the translucent property to YES
-};    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;注意:&lt;/strong&gt;我们发现，在后面两个标记为Deprecated，我们知道使用后面两种将不被提倡。
-            从枚举中，我们也可以看出：UIBarStyleBlack=1和UIBarStyleBlackOpaque=1表示为一样的。
-            后来，发现增加了一个方法：[navBar setTranslucent:YES];用来指示是否透明。
-            所以，我们使用UIBarStyleDefault和UIBarStyleBlack来定义UINavigationBar样式，并且用setTranslucent:方法来设置透明与否。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//使用方式
-switch (buttonIndex) {
-   case 0: // &amp;quot;Default&amp;quot;
-       self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-       // Bars are translucent by default.
-       self.navigationController.navigationBar.translucent = YES;
-       // Reset the bar&#39;s tint color to the system default.
-       self.navigationController.navigationBar.tintColor = nil;
-       self.navigationController.navigationBar.barTintColor = nil;//iOS7 以上系统
-
-
-       break;
-   case 1: // &amp;quot;Black Opaque&amp;quot;
-       self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-       self.navigationController.navigationBar.translucent = NO;
-       self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-       break;
-   case 2: // &amp;quot;Black Translucent&amp;quot;
-       self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-       self.navigationController.navigationBar.translucent = YES;
-       self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-       self.navigationController.navigationBar.barTintColor = [UIColor redColor];
-       break;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;更改顶部状态栏的颜色
-   修改完导航栏的颜色之后,顶部状态栏可能因为导航栏的颜色相近而现实不清楚,所以有时候需要修改状态栏的颜色
-   状态栏的颜色修改:系统给我们提供了&lt;code&gt;UIStatusBarStyleDefault&lt;/code&gt;和&lt;code&gt;UIStatusBarStyleLightContent&lt;/code&gt;两种样式供我们选择。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;   UIStatusBarStyleDefault，系统的默认样式，黑色内容，用于浅色的背景（如白色）
-   UIStatusBarStyleLightContent 白色内容，用于深色的背景（如红色）
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;下面来看看具体怎么实现，主流的实现方式是分两步：&lt;br /&gt;
-   &lt;strong&gt;a.&lt;/strong&gt; 在工程的Info.plist文件中添加一行&lt;code&gt;UIViewControllerBasedStatusBarAppearance&lt;/code&gt;，选择Boolean类型，并设置为YES，Xcode会自动把名称变为&lt;code&gt;View controller-based status bar appearance&lt;/code&gt;。&lt;br /&gt;
-   &lt;strong&gt;b.&lt;/strong&gt; 在你的ViewController中添加下面的方法&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;-(UIStatusBarStyle)preferredStatusBarStyle{
-  return UIStatusBarStyleLightContent;
-}   
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;另外，&lt;strong&gt;特别需要注意的是&lt;/strong&gt;，如果你的ViewController是通过navigationController push进来的，还需要加下面一句代码才能生效：
-   &lt;code&gt;self.navigationController.navigationBar.barStyle = UIBarStyleBlack;&lt;/code&gt;
-   具体，可参考&lt;a href=&#34;http://stackoverflow.com/questions/19108513/uistatusbarstyle-preferredstatusbarstyle-does-not-work-on-ios-7&#34;&gt;UIStatusBarStyle PreferredStatusBarStyle does not work on iOS 7&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;恩，我们来看看运行效果。&lt;br /&gt;
-   &lt;img src=&#34;sources/navigationbar/uinavigationBarbackground.png&#34; alt=&#34;naviagation&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置返回按钮
-  从上面的效果图中我们可以看到返回按钮还是默认的蓝色按钮，下面我将会大家来介绍返回按钮的个性化。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;设置返回按钮的颜色 只需要设置tintColor属性即可&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;得到的效果图如下：&lt;br /&gt;
-&lt;img src=&#34;sources/navigationbar/navigationbartiniColor.png&#34; alt=&#34;naviagation&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;只设置返回按钮的图片&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (void)goToBack {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-
-- (void)setBackButtonWithImage {
-    UIImage *leftButtonIcon = [[UIImage imageNamed:@&amp;quot;LeftButton_back_Icon&amp;quot;]
-                               imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:leftButtonIcon
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self
-                                                                  action:@selector(goToBack)];
-    self.navigationItem.leftBarButtonItem = leftButton;
-
-
-    //修复navigationController侧滑关闭失效的问题
-    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;得到的效果如下：&lt;br /&gt;
-&lt;img src=&#34;sources/navigationbar/navigationBarBackBtn.png&#34; alt=&#34;naviagation&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;这里需要注意的地方有三点：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;需要自己实现返回按钮的事件。&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;特别的解释下&lt;code&gt;UIImage&lt;/code&gt;的&lt;code&gt;imageWithRenderingMode:&lt;/code&gt;方法，参数&lt;code&gt;UIImageRenderingModeAlwaysOriginal&lt;/code&gt; 表示总是用原图渲染，如果不这么设置，返回按钮将会显示&lt;code&gt;tintColor&lt;/code&gt;的颜色(默认为蓝色)。&lt;code&gt;UITabbarItem&lt;/code&gt;也存在同样地问题。&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;我们自己设置返回按钮，会导致系统的侧滑关闭效果失效。添加上面代码中最后一句代码即可修复(&lt;code&gt;self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;&lt;/code&gt;)。&lt;br /&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;仅设置返回按钮的文字&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (void)setBackButtonTitle {
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]
-            initWithTitle:NSLocalizedString(@&amp;quot;取消&amp;quot;, nil)  
-            style:UIBarButtonItemStylePlain  
-            target:self action:@selector(goToBack)];
-    leftButton.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = leftButton;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;得到的效果如下：&lt;br /&gt;
-  &lt;img src=&#34;sources/navigationbar/navigationbarBtnTitle.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;自定义返回按钮&lt;br /&gt;
- 如果上面几种方式还无法满足你的要求（比如，需要同时设置返回按钮文字和图片），就需要用到UIBarButtonItem的initWithCustomView方法。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (void)setCustomLeftButton {
-    UIView* leftButtonView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 60, 40)];
-    UIButton* leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    leftButton.backgroundColor = [UIColor clearColor];
-    leftButton.frame = leftButtonView.frame;
-    [leftButton setImage:[UIImage imageNamed:@&amp;quot;LeftButton_back_Icon&amp;quot;] forState:UIControlStateNormal];
-    [leftButton setTitle:@&amp;quot;返回&amp;quot; forState:UIControlStateNormal];
-    leftButton.tintColor = [UIColor redColor];
-    leftButton.autoresizesSubviews = YES;
-    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    leftButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
-    [leftButton addTarget:self action:@selector(goToBack) forControlEvents:UIControlEventTouchUpInside];
-    [leftButtonView addSubview:leftButton];
-    UIBarButtonItem* leftBarButton = [[UIBarButtonItem alloc] initWithCustomView:leftButtonView];
-    self.navigationItem.leftBarButtonItem = leftBarButton;
-}  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;得到的效果图如下：&lt;br /&gt;
-   &lt;img src=&#34;sources/navigationbar/navigationBackBartBackImage.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;设置&lt;code&gt;rightBarButtonItem&lt;/code&gt;基本上脱离不了上面的几种方式，大家可以参照上面返回按钮的设置方式。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;隐藏导航栏底部的线条&lt;br /&gt;
-  有时候遇到一些特殊的要求，需要隐藏导航栏底部的线条。
-  两行代码就可以做到。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;设置导航栏的背景图（&lt;code&gt;setBackgroundImage&lt;/code&gt;方法）&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置导航栏的shadowImage (&lt;code&gt;setShadowImage&lt;/code&gt;方法)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UINavigationBar *navigationBar = self.navigationController.navigationBar;
-//设置透明的背景图，便于识别底部线条有没有被隐藏
-[navigationBar setBackgroundImage:[[UIImage alloc] init]
-                       forBarPosition:UIBarPositionAny
-                           barMetrics:UIBarMetricsDefault];
-//此处使底部线条失效
-[navigationBar setShadowImage:[UIImage new]];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;来看看效果图：&lt;br /&gt;
-   &lt;img src=&#34;sources/navigationbar/navShadowLineHide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;还有一种做法，一行代码就可以达到效果&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//方法二：
-self.navigationController.navigationBar.clipsToBounds = YES;  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;想要知道更详细的内容可以参考这个页面：&lt;a href=&#34;http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line&#34;&gt;How to hide iOS7 UINavigationBar 1px bottom line&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置导航条底部线条的颜色&lt;br /&gt;
-   有了上面的基础，设置导航栏线条的颜色就变得很简单了。&lt;br /&gt;
-   首先，我做了个UIImage的分类：通过颜色转成UIImage；&lt;br /&gt;
-   然后，用上面的方案来设置导航栏底部线条。&lt;/p&gt;
-
-&lt;p&gt;颜色转图片的代码：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@implementation UIImage (ColorImage)
-
-
-+ (UIImage *)imageWithColor:(UIColor *)color
-{
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
-
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-
-
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-
-    return image;
-}
-
-
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;设置导航栏底部线条颜色的代码：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UINavigationBar *navigationBar = self.navigationController.navigationBar;
-[navigationBar setBackgroundImage:[[UIImage alloc] init]
-                        forBarPosition:UIBarPositionAny
-                            barMetrics:UIBarMetricsDefault];
-//此处使底部线条颜色为红色
-[navigationBar setShadowImage:[UIImage imageWithColor:[UIColor redColor]]]; 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;依照惯例，看下效果图：&lt;br /&gt;
-     &lt;img src=&#34;sources/navigationbar/anvShadowSet.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;当然还有其他的方式也可以做到，如&lt;code&gt;addSubview&lt;/code&gt;,&lt;code&gt;addSubLayer&lt;/code&gt;等。感兴趣的话可以参考下这个页面：&lt;a href=&#34;http://stackoverflow.com/questions/19101361/ios7-change-uinavigationbar-border-color&#34;&gt;iOS7 - Change UINavigationBar border color&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;在导航栏上添加多个按钮&lt;br /&gt;
-  以微信打开网页时的效果为例，效果图如下，有两个按钮：返回和关闭。&lt;br /&gt;
-    &lt;img src=&#34;sources/navigationbar/dianpschreenshot.png&#34; alt=&#34;center&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
-
-&lt;p&gt;有下面两种方式可供选择，但是最终还是要用到&lt;code&gt;leftBarButtonItems&lt;/code&gt;这个方法。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#define UserMethod1 0
-
-
-UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:@&amp;quot;关闭&amp;quot; style:UIBarButtonItemStylePlain target:self action:@selector(closeAction)];
-if (UserMethod1) {
-    //方法一:
-    self.navigationItem.leftBarButtonItems = @[closeItem];
-    //要求显示默认的返回按钮，但是文字会显示默认的Back，暂时还不知道这个文字怎么改
-    self.navigationItem.leftItemsSupplementBackButton = YES;
-}
-else {
-    //方法二
-    UIButton* leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    leftButton.backgroundColor = [UIColor clearColor];
-    leftButton.frame = CGRectMake(0, 0, 45, 40);
-    [leftButton setImage:[UIImage imageNamed:@&amp;quot;LeftButton_back_Icon&amp;quot;] forState:UIControlStateNormal];
-    [leftButton setTitle:@&amp;quot;返回&amp;quot; forState:UIControlStateNormal];
-    leftButton.tintColor = [UIColor whiteColor];
-    leftButton.autoresizesSubviews = YES;
-    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    leftButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
-    [leftButton addTarget:self action:@selector(goToBack) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
-
-
-    self.navigationItem.leftBarButtonItems = @[backItem,closeItem];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后，运行的效果图如下：&lt;br /&gt;
-    &lt;img src=&#34;sources/navigationbar/addbtnOnNavBar.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;方法一用到了&lt;code&gt;leftItemsSupplementBackButton&lt;/code&gt; 这个属性，会显示系统默认的返回按钮，但是文字也是显示默认的Back文字，目前还没找到怎么修改这个文字，如果有谁知道，还请不吝赐教；所以我暂时还是建议大家用方法二。相应的还有 &lt;code&gt;rightBarButtonItems&lt;/code&gt; 这个属性，如果要在导航栏右侧展示多个按钮的话，可以设置这个属性。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;在导航栏上添加分段控件&lt;/p&gt;
-
-&lt;p&gt;这次，以QQ为例，代码如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UISegmentedControl *segControl = [[UISegmentedControl alloc] initWithItems:@[@&amp;quot;消息&amp;quot;,@&amp;quot;电话&amp;quot;]];
-segControl.tintColor = [UIColor colorWithRed:0.07 green:0.72 blue:0.96 alpha:1];
-[segControl setSelectedSegmentIndex:0];
-self.navigationItem.titleView = segControl;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;代码很简单，就是设置 &lt;code&gt;titleView&lt;/code&gt; 这个属性，当然，你也可以把这个属性设置为你自定义的View.&lt;br /&gt;
-  &lt;img src=&#34;sources/navigationbar/NavTitleView.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;导航栏全局属性设置&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//全局设置导航栏主题
-- (void)setNavigationControllerAppearance {
-    [UINavigationBar appearance].barStyle  = UIBarStyleBlack;
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithWhite:0.1 alpha:0.5]];
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;全局设置导航栏的好处有两个：一是不用对每个 &lt;code&gt;NavigationBar&lt;/code&gt; 进行设置；二是方便做主题管理，切换主题，只需要更改全局设置即可。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;与导航栏相关的一些开源组件&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/ninjinkun/NJKWebViewProgress&#34;&gt;NJKWebViewProgress&lt;/a&gt; - 类似于Safiri加载网页时的进度显示&lt;br /&gt;
-&lt;img src=&#34;sources/navigationbar/njgWebprogress.png&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/forkingdog/FDFullscreenPopGesture&#34;&gt;FDFullscreenPopGesture&lt;/a&gt; 一个丝滑的全屏滑动返回手势&lt;br /&gt;
-    原文介绍&lt;a href=&#34;http://blog.sunnyxx.com/2015/06/07/fullscreen-pop-gesture/&#34;&gt;链接&lt;/a&gt;&lt;br /&gt;
-    &lt;img src=&#34;sources/navigationbar/snapshot0.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;h5&gt;&lt;code&gt;UINavigationItem&lt;/code&gt; 和 &lt;code&gt;UINavigationBar&lt;/code&gt; 关系分&lt;/h5&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;关系分析 &lt;code&gt;UIBarItem&lt;/code&gt; -&amp;gt; &lt;code&gt;UIBarButtonItem&lt;/code&gt; -&amp;gt; &lt;code&gt;UINavigationItem&lt;/code&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;UIBarItem&lt;/code&gt;: 类是一个可以放置在Bar之上的所有小控件类的抽象类。继承了该基类所有子类在外观上类似于一个Button，它们都有一个标题，图片，动作以及目标，这点可以从其子类的初始化方法处看到。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;UIBarButtonItem&lt;/code&gt;: 专门用来放在 &lt;code&gt;UIToolbar&lt;/code&gt; 或者 &lt;code&gt;UINavigationBar&lt;/code&gt; 的特殊 &lt;code&gt;button&lt;/code&gt;. 基本行为跟 &lt;code&gt;button&lt;/code&gt; 是一样的。另外从IOS5开始的 &lt;code&gt;Customizing Appearance&lt;/code&gt; 增加了一系列的方法调整显示。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;UINavigationItem: NSObject&lt;/code&gt;: 包含了当前页面导航栏上需要显示的全部信息 &lt;code&gt;title,prompt,titleView,leftBarButtonItem,rightBarButtonItem,backBarButonItem&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;UINavigationBar :UIView&lt;/code&gt; :  NavigaitonBar 就是导航栏，位于屏幕的上方，管理整个NavigationController的navigationItem，即类似navigationcontroller一样提供了一个栈来管理item。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;UINavigtionController :UIViewController&lt;/code&gt;: 包含：viewcontrollers、navigationbar、toolbar&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;navigationbar：UIView&lt;/code&gt;: 包含：items(UINavigationItem)&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;viewController&lt;/code&gt;:  包含navigationitem，toolItem.  这两个属性控制了当前页面当前页面的navigationbar，toolbar的外观。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;关系综述&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;navigationcontroller&lt;/code&gt; 直接控制 &lt;code&gt;viewcontrollers&lt;/code&gt;，然后包含的 &lt;code&gt;navigationbar&lt;/code&gt; 形成整个nv的导航栏，bar并包含整个&lt;code&gt;navigationItem&lt;/code&gt; 的栈,管理整个nv的  navigationitem（ NSArray *items 属性）。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;navigationItem&lt;/code&gt; 包含了bar视图的全部元素（如&lt;code&gt;title,tileview,backBarButtonItem&lt;/code&gt;等），受当前&lt;code&gt;viewcontroller&lt;/code&gt;管理，即bar形成整个nv的导航视图，然后每个nv页面的导航栏元素由所在页面的 &lt;code&gt;navigationItem&lt;/code&gt; 管理。即设置当前页面的左右barbutton，用 &lt;code&gt;self.navigationItem.leftBarButtonItem&lt;/code&gt; 等。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/brasbug/UINavigationBar.git&#34;&gt;Code Demo&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>React Native如何做跨平台设计</title>
-            <link>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</link>
-            <pubDate>Thu, 28 Apr 2016 10:54:03 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</guid>
-            <description>
-
-&lt;h5 id=&#34;facebook-开源:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;Facebook 开源&lt;/h5&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Facebook 在它的F8开发者大会上开源了它的F8大会App，甚至还配上了教程，我组织了一个翻译小队对这个教程进行了翻译。虽然比百万哥晚了几天，但总算还是完成了，欢迎大家Review。项目地址：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/brasbug/Building-the-F8-2016-App-CN/&#34;&gt;https://github.com/brasbug/Building-the-F8-2016-App-CN/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;本文出自教程第二篇，介绍React Native在设计跨平台应用时的一些原则和技巧。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;React Native 的一大优势是：可以只用一种语法编写分别运行在 iOS 和 Android 平台上的程序，且可重用部分应用逻辑。&lt;/p&gt;
-
-&lt;p&gt;然而，与“一次编写，到处运行”的理念不同的是，React Native 的哲学是“一次学习，到处编写”。如此一来，即使用 React Native 编写不同平台的程序，也可以尽可能贴合每个平台的特性。&lt;/p&gt;
-
-&lt;p&gt;从 UI 的角度来看，每个平台都有自己独特的视觉风格、UI 范例甚或是技术层面的功能，那我们设计出一个统一的 UI 基础组件，然后再按照各平台特性进行调整岂不乐乎？&lt;/p&gt;
-
-&lt;h6 id=&#34;准备工作:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;准备工作&lt;/h6&gt;
-
-&lt;p&gt;在后续的所有教程中，我们会仔细解读 App 的源代码，请克隆一份源代码到本地可访问的路径，然后根据配置说明在本地运行 App。在本章的教程中，你只需要阅读相关源代码。源代码地址：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/brasbug/f8app&#34;&gt;https://github.com/brasbug/f8app&lt;/a&gt;&lt;/p&gt;
-
-&lt;h6 id=&#34;react-native-思维模式:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;React Native 思维模式&lt;/h6&gt;
-
-&lt;p&gt;在你写任何 React 代码之前，请认真思考这个至关重要的问题：&lt;strong&gt;如何才能尽可能多地重用代码?&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;React Native 的理念是针对每个平台分而治之，代码重用的做法看起来与之相违背，好像我们就应该为每个平台定制其专属的视觉组件一样，但实际上我们仍需努力让每个平台上的代码尽可能多地统一。&lt;/p&gt;
-
-&lt;p&gt;构建一套 React Native 应用视觉组件的关键点在于如何最好地实现平台抽象。开发人员和设计师可以列出应用中需要重用的组件，例如按钮、容器、列表行，头部等等，只有在必要的时候才单独为每个平台设计特定的组件。&lt;/p&gt;
-
-&lt;p&gt;当然，有一些组件相对于其它组件而言更为复杂，我们先一起来看看 F8 应用中不同的组件有什么区别。&lt;/p&gt;
-
-&lt;h6 id=&#34;小组件:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;小组件&lt;/h6&gt;
-
-&lt;p&gt;请看 F8 应用的示例图：
-&lt;img src=&#34;sources/reactnative/reactnativeiOSAndroid.png&#34; alt=&#34;react native iOSAndroid.png&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;在 iOS 版本中，我们用 iOS 系统中很常见的圆角边框风格来切分 Tab 控制；在 Android 版本中，我们用下划线的风格来标示这个组件。而这两个控制组件的功能其实完全相同。&lt;/p&gt;
-
-&lt;p&gt;所以，即使两者样式稍有不同，但是实现的功能相同，所以我们可以用同一套代码抽象此处的逻辑，从而可以尽可能多地重用代码。&lt;/p&gt;
-
-&lt;p&gt;我们针对像这样的小组件做了很多跨平台重用逻辑代码的案例，比如一个简单的文本按钮，在每个平台上我们都会设计不同的 hover 和 active 状态的样式，但是除开这些视觉上的细微的差异外，逻辑功能完全相同。所以我们总结了一个抽象 React Native 视觉组件的最佳实践方法：设计一套相同的逻辑代码，然后在控制语句中编写其余需要差异化的部分。&lt;/p&gt;
-
-&lt;p&gt;以下是这个组件的示例代码（来自 &lt;F8SegmentedControl&gt;）：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Segment extends React.Component {
-  props: {
-    value: string;
-    isSelected: boolean;
-    selectionColor: string;
-    onPress: () =&amp;gt; void;
-  };
-
-  render() {
-    var selectedButtonStyle;
-    if (this.props.isSelected) {
-      selectedButtonStyle = { borderColor: this.props.selectionColor };
-    }
-    var deselectedLabelStyle;
-    if (!this.props.isSelected &amp;amp;&amp;amp; Platform.OS === &#39;android&#39;) {
-      deselectedLabelStyle = styles.deselectedLabel;
-    }
-    var title = this.props.value &amp;amp;&amp;amp; this.props.value.toUpperCase();
-
-    var accessibilityTraits = [&#39;button&#39;];
-    if (this.props.isSelected) {
-      accessibilityTraits.push(&#39;selected&#39;);
-    }
-
-    return (
-      &amp;lt;TouchableOpacity
-        accessibilityTraits={accessibilityTraits}
-        activeOpacity={0.8}
-        onPress={this.props.onPress}
-        style={[styles.button, selectedButtonStyle]}&amp;gt;
-        &amp;lt;Text style={[styles.label, deselectedLabelStyle]}&amp;gt;
-          {title}
-        &amp;lt;/Text&amp;gt;
-      &amp;lt;/TouchableOpacity&amp;gt;
-    );
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在这段代码中，我们为每一种平台分别应用了不同的样式（用到了 React Native 的 &lt;strong&gt;Platform 模块&lt;/strong&gt;）。各平台中的 Tab 按钮都应用了相同的通用样式，同时也根据各平台特性定制了独占样式（同样出自 &lt;F8SegmentedControl&gt;）：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var styles = StyleSheet.create({
-  container: {
-    flexDirection: &#39;row&#39;,
-    backgroundColor: &#39;transparent&#39;,
-    ios: {
-      paddingBottom: 6,
-      justifyContent: &#39;center&#39;,
-      alignItems: &#39;center&#39;,
-    },
-    android: {
-      paddingLeft: 60,
-    },
-  },
-  button: {
-    borderColor: &#39;transparent&#39;,
-    alignItems: &#39;center&#39;,
-    justifyContent: &#39;center&#39;,
-    backgroundColor: &#39;transparent&#39;,
-    ios: {
-      height: HEIGHT,
-      paddingHorizontal: 20,
-      borderRadius: HEIGHT / 2,
-      borderWidth: 1,
-    },
-    android: {
-      paddingBottom: 6,
-      paddingHorizontal: 10,
-      borderBottomWidth: 3,
-      marginRight: 10,
-    },
-  },
-  label: {
-    letterSpacing: 1,
-    fontSize: 12,
-    color: &#39;white&#39;,
-  },
-  deselectedLabel: {
-    color: &#39;rgba(255, 255, 255, 0.7)&#39;,
-  },
-});    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在这段代码中我们使用了一个改编自 &lt;strong&gt;React Native StyleSheet API&lt;/strong&gt; 的函数 F8StyleSheet，它可以针对各平台分别进行样式转换操作：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;export function create(styles: Object): {[name: string]: number} {
-  const platformStyles = {};
-  Object.keys(styles).forEach((name) =&amp;gt; {
-    let {ios, android, ...style} = {...styles[name]};
-    if (ios &amp;amp;&amp;amp; Platform.OS === &#39;ios&#39;) {
-      style = {...style, ...ios};
-    }
-    if (android &amp;amp;&amp;amp; Platform.OS === &#39;android&#39;) {
-      style = {...style, ...android};
-    }
-    platformStyles[name] = style;
-  });
-  return StyleSheet.create(platformStyles);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在这个 F8StyleSheet 函数中我们解析了前面示例代码中的 styles 对象，如果我们发现了匹配当前平台的 ios 或 android键值，就会应用相应的样式，如果都没有，则应用默认样式。以此看来，减少代码重复的另一种做法是：尽可能多地重用通用样式代码。&lt;/p&gt;
-
-&lt;p&gt;现在，我们已经可以在我们的App中重用这个组件了，它也可以根据不同的平台自动匹配相应的样式。&lt;/p&gt;
-
-&lt;h6 id=&#34;分离复杂差异:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;分离复杂差异&lt;/h6&gt;
-
-&lt;p&gt;如果一个组件在各平台上的差异不仅仅是样式的不同，也存在大量的逻辑代码差异，那我们就需要换一种方式了。正如下图所示，iOS 和 Android 平台中最高阶的菜单导航组件就有非常大的差异：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/reactnative/reactnativeiOSAndroid02.png&#34; alt=&#34;react native02&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;正如你所见，在 iOS 版本中我们在屏幕底部放了一个固定的 Tab，而在 Android 版本中，我们却实现了一种可划出的侧边栏。这两种组件其实是本质上的不同，况且一般来说，在 Android 应用中，这种侧边栏通常还会包含更多的菜单选项，例如：退出登录。&lt;/p&gt;
-
-&lt;p&gt;你当然可以将这两种菜单模式写到一个组件中去，但是这个组件会变得异常臃肿，所有的差异不得不通过大量的分支语句来实现，你一定会在不久的将来对这段代码感到陌生难懂。&lt;/p&gt;
-
-&lt;p&gt;其实，我们可以用 React Native 内建的平台特定的扩展来解决这个问题。我们可以创建两个独立的应用，在下面的示例中我们会创建两个组件，分别命名为：&lt;code&gt;F8TabsView.ios.js&lt;/code&gt; 和 &lt;code&gt;F8TabsView.android.js&lt;/code&gt;。React Native 会自动检测当前平台并根据扩展命名加载相应的组件。&lt;/p&gt;
-
-&lt;h6 id=&#34;内建ui组件:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;内建UI组件&lt;/h6&gt;
-
-&lt;p&gt;在每一个 FBTabsView 组件中，我们也可以重用一些内建的 React Native UI 组件，Android 版本使用的是&lt;code&gt;DrawerLayoutAndroid&lt;/code&gt;（很显然，只在 Android 中可用）：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;render(){
- return(
-   &amp;lt;DrawerLayoutAndroid
-     ref=&amp;quot;drawer&amp;quot;
-     drawerWidth={300}
-     drawerPosition={DrawerLayoutAndroid.positions.Left}
-     renderNavigationView={this.renderNavigationView}&amp;gt;
-     &amp;lt;View style={style.content} key={this.props.activeTab}&amp;gt;
-     {this.renderContent()}
-     &amp;lt;View&amp;gt;
-     &amp;lt;/DrawerLayoutAndroid&amp;gt;
- );
-}     
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在第8行代码中，我们在当前的类中显式地为 drawer 组件指定了 renderNavigationView() 函数。这个函数会返回 drawer 中渲染出来的内容。在这个示例中，我们渲染的是一个包含在自定义 MenuItem 组件(点击查看 &lt;code&gt;MenuItem.js&lt;/code&gt;)中的 &lt;code&gt;View&lt;/code&gt; 组件：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;renderNavigationView() {
-...
- return (
-      &amp;lt;View style={styles.drawer}&amp;gt;
-        &amp;lt;Image
-          style={styles.header}
-          source={require(&#39;./img/drawer-header.png&#39;)}&amp;gt;
-          {accountItem}
-        &amp;lt;/Image&amp;gt;
-        &amp;lt;MenuItem
-          title=&amp;quot;Schedule&amp;quot;
-          selected={this.props.tab === &#39;schedule&#39;}
-          onPress={this.onTabSelect.bind(this, &#39;schedule&#39;)}
-          icon={scheduleIcon}
-          selectedIcon={scheduleIconSelected}
-        /&amp;gt;
-        {myF8Item}
-        &amp;lt;MenuItem
-          title=&amp;quot;Maps&amp;quot;
-          selected={this.props.tab === &#39;map&#39;}
-          onPress={this.onTabSelect.bind(this, &#39;map&#39;)}
-          icon={require(&#39;./maps/img/maps-icon.png&#39;)}
-          selectedIcon={require(&#39;./maps/img/maps-icon-active.png&#39;)}
-        /&amp;gt;
-        &amp;lt;MenuItem
-          title=&amp;quot;Notifications&amp;quot;
-          selected={this.props.tab === &#39;notifications&#39;}
-          onPress={this.onTabSelect.bind(this, &#39;notifications&#39;)}
-          badge={this.props.notificationsBadge}
-          icon={require(&#39;./notifications/img/notifications-icon.png&#39;)}
-          selectedIcon={require(&#39;./notifications/img/notifications-icon-active.png&#39;)}
-        /&amp;gt;
-        &amp;lt;MenuItem
-          title=&amp;quot;Info&amp;quot;
-          selected={this.props.tab === &#39;info&#39;}
-          onPress={this.onTabSelect.bind(this, &#39;info&#39;)}
-          icon={require(&#39;./info/img/info-icon.png&#39;)}
-          selectedIcon={require(&#39;./info/img/info-icon-active.png&#39;)}
-        /&amp;gt;
-        {loginItem}
-      &amp;lt;/View&amp;gt;
- );
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;相比之下，iOS 版本直接在 render() 函数中使用了一个不同的内建组件，&lt;code&gt;TabBarIOS&lt;/code&gt;：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;render() {
-    var scheduleIcon = this.props.day === 1
-      ? require(&#39;./schedule/img/schedule-icon-1.png&#39;)
-      : require(&#39;./schedule/img/schedule-icon-2.png&#39;);
-    var scheduleIconSelected = this.props.day === 1
-      ? require(&#39;./schedule/img/schedule-icon-1-active.png&#39;)
-      : require(&#39;./schedule/img/schedule-icon-2-active.png&#39;);
-    return (
-      &amp;lt;TabBarIOS tintColor={F8Colors.darkText}&amp;gt;
-        &amp;lt;TabBarItemIOS
-          title=&amp;quot;Schedule&amp;quot;
-          selected={this.props.tab === &#39;schedule&#39;}
-          onPress={this.onTabSelect.bind(this, &#39;schedule&#39;)}
-          icon={scheduleIcon}
-          selectedIcon={scheduleIconSelected}&amp;gt;
-          &amp;lt;GeneralScheduleView
-            navigator={this.props.navigator}
-            onDayChange={this.handleDayChange}
-          /&amp;gt;
-        &amp;lt;/TabBarItemIOS&amp;gt;
-        &amp;lt;TabBarItemIOS
-          title=&amp;quot;My F8&amp;quot;
-          selected={this.props.tab === &#39;my-schedule&#39;}
-          onPress={this.onTabSelect.bind(this, &#39;my-schedule&#39;)}
-          icon={require(&#39;./schedule/img/my-schedule-icon.png&#39;)}
-          selectedIcon={require(&#39;./schedule/img/my-schedule-icon-active.png&#39;)}&amp;gt;
-          &amp;lt;MyScheduleView
-            navigator={this.props.navigator}
-            onJumpToSchedule={() =&amp;gt; this.props.onTabSelect(&#39;schedule&#39;)}
-          /&amp;gt;
-        &amp;lt;/TabBarItemIOS&amp;gt;
-        &amp;lt;TabBarItemIOS
-          title=&amp;quot;Maps&amp;quot;
-          selected={this.props.tab === &#39;map&#39;}
-          onPress={this.onTabSelect.bind(this, &#39;map&#39;)}
-          icon={require(&#39;./maps/img/maps-icon.png&#39;)}
-          selectedIcon={require(&#39;./maps/img/maps-icon-active.png&#39;)}&amp;gt;
-          &amp;lt;F8MapView /&amp;gt;
-        &amp;lt;/TabBarItemIOS&amp;gt;
-        &amp;lt;TabBarItemIOS
-          title=&amp;quot;Notifications&amp;quot;
-          selected={this.props.tab === &#39;notifications&#39;}
-          onPress={this.onTabSelect.bind(this, &#39;notifications&#39;)}
-          badge={this.props.notificationsBadge || null}
-          icon={require(&#39;./notifications/img/notifications-icon.png&#39;)}
-          selectedIcon={require(&#39;./notifications/img/notifications-icon-active.png&#39;)}&amp;gt;
-          &amp;lt;F8NotificationsView navigator={this.props.navigator} /&amp;gt;
-        &amp;lt;/TabBarItemIOS&amp;gt;
-        &amp;lt;TabBarItemIOS
-          title=&amp;quot;Info&amp;quot;
-          selected={this.props.tab === &#39;info&#39;}
-          onPress={this.onTabSelect.bind(this, &#39;info&#39;)}
-          icon={require(&#39;./info/img/info-icon.png&#39;)}
-          selectedIcon={require(&#39;./info/img/info-icon-active.png&#39;)}&amp;gt;
-          &amp;lt;F8InfoView navigator={this.props.navigator} /&amp;gt;
-        &amp;lt;/TabBarItemIOS&amp;gt;
-      &amp;lt;/TabBarIOS&amp;gt;
-    );
-  }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;显而易见，尽管 iOS 菜单接受了相同的数据，但是它的结构略有不同。我们并没有用一个独立的函数创建菜单元素，而是将这些元素作为父级菜单的子元素插入进来，正如 &lt;code&gt;TabBarItemIOS&lt;/code&gt; 组件这样。 这里的 &lt;code&gt;TabBarItem&lt;/code&gt; 与 &lt;code&gt;Android&lt;/code&gt; 中 的 &lt;code&gt;MenuItem&lt;/code&gt; 本质上是相同的，唯一的区别是在 &lt;code&gt;Android&lt;/code&gt; 组件中我们会定义一个独立的主&lt;strong&gt;View 组件&lt;/strong&gt;：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;View 
-  style={styles.content} 
-  key={this.props.activeTab}&amp;gt;
-  {this.renderContent()}
-&amp;lt;/View&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后当一个 tab 改变时改变这个组件（通过 &lt;code&gt;renderContent()&lt;/code&gt; 函数），而 iOS 组件则会有多个分离的 View 组件，例如：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;GeneralScheduleView
-  navigator={this.props.navigator}
-  onDayChange={this.handleDayChange}
-/&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;这是 TabBarItem 的一部分，可以点击使它们可见。&lt;/p&gt;
-
-&lt;h6 id=&#34;设计迭代周期:b9c82b73251bbe881a94ee3406d810b1&#34;&gt;设计迭代周期&lt;/h6&gt;
-
-&lt;p&gt;当你构建任何应用，无论是在移动平台还是 web 环境下，调整适配的 UI 元素是非常痛苦的。如果工程师和设计师共同协作，会使整个过程慢下来。&lt;/p&gt;
-
-&lt;p&gt;React Native 包含了一个&lt;strong&gt;实时重载&lt;/strong&gt;的 debug 功能，可以当 JavaScript 改变时触发刷新应用。这可以在极大程度上减少设计迭代过程，一旦改变了组件样式并保存后，你会立即看到更新的样式。&lt;/p&gt;
-
-&lt;p&gt;但是如果组件在不同条件下看起来不同怎么办呢？举个例子，一个按钮组件可能有一个默认样式，也分别包含按下、执行任务中、执行任务完成时的样式。&lt;/p&gt;
-
-&lt;p&gt;为了避免每次都与应用交互，我们内建了一个用于 debug 视觉效果的 Playgroud 组件：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Playground extends React.Component {
-  constructor() {
-    super();
-    const content = [];
-    const define = (name: string, render: Function) =&amp;gt; {
-      content.push(&amp;lt;Example key={name} render={render} /&amp;gt;);
-    };
-    // var Module = require(&#39;F8PageControl&#39;);
-    var Module = require(&#39;F8Header&#39;);
-    // var Module = require(&#39;./tabs/schedule/AddToScheduleButton&#39;);
-    // var Module = require(&#39;./rating/Header&#39;);
-    Module.__cards__(define);
-    this.state = {content};
-  }
-
-  render() {
-    return (
-      &amp;lt;View style={{backgroundColor: &#39;#336699&#39;, flex: 1,}}&amp;gt;
-        {this.state.content}
-      &amp;lt;/View&amp;gt;
-    );
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;其实我们只是创建了一个可交换加载的空视图，将其与一些示例定义整合到其中一个 UI 组件中，正如下面这段&lt;code&gt;AddToScheduleButton.js&lt;/code&gt; 所示：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;module.exports = AddToScheduleButton;
-module.exports.__cards__ = (define) =&amp;gt; {
-  let f;
-  setInterval(() =&amp;gt; f &amp;amp;&amp;amp; f(), 1000);
-
-  define(&#39;Inactive&#39;, (state = true, update) =&amp;gt;
-    &amp;lt;AddToScheduleButton isAdded={state} onPress={() =&amp;gt; update(!state)} /&amp;gt;);
-
-  define(&#39;Active&#39;, (state = false, update) =&amp;gt;
-    &amp;lt;AddToScheduleButton isAdded={state} onPress={() =&amp;gt; update(!state)} /&amp;gt;);
-
-  define(&#39;Animated&#39;, (state = false, update) =&amp;gt; {
-    f = () =&amp;gt; update(!state);
-    return &amp;lt;AddToScheduleButton isAdded={state} /&amp;gt;;
-  });
-};
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;我们可以将这个应用转化为一个 UI 预览工具：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/reactnative/reactnativeiOSAndroid3.gif&#34; alt=&#34;react native03&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;在这个示例中为这个按钮定义了按下和抬起两种状态，第三个按钮在这两者的状态之间不断循环，以此来预览过渡的动画效果。&lt;/p&gt;
-
-&lt;p&gt;现在，我们可以跟设计师一起快速调整基础组件的视觉样式了。&lt;/p&gt;
-
-&lt;p&gt;如果想用这个功能，&lt;code&gt;&amp;lt;Playground&amp;gt;&lt;/code&gt;组件必须在任何 React Native 应用中都可用，我们需要在 setup() 函数中交换一些代码来加载 &lt;Playground&gt; 组件：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;/* from js/setup.js */
-render() {  
-  ...
-  return (
-    &amp;lt;Provider store={this.state.store}&amp;gt;
-      &amp;lt;F8App /&amp;gt;
-    &amp;lt;/Provider&amp;gt;
-  );
-}
-
-变为
-
-/* in js/setup.js */
-render() {
-  ...
-  return (
-    &amp;lt;Provider store={this.state.store}&amp;gt;
-      &amp;lt;Playground /&amp;gt;
-    &amp;lt;/Provider&amp;gt;
-  );
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;当然，你也可以修改 &lt;Playground&gt; 组件，使其能够改变引入的其它组件。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&amp;amp;mid=2651112134&amp;amp;idx=1&amp;amp;sn=c26ceb682e361ae33bc1eb5348e5e7bb&amp;amp;scene=1&amp;amp;srcid=0427SeJXKKZSAvVR2M52qOsw&amp;amp;key=b28b03434249256ba8ea0cb4d56d79d314519c90f31a529f8d632996958f4eaca1cbdad191c223497b256c6ceea8391c&amp;amp;ascene=0&amp;amp;uin=MTg5NzM2MjkyMA%3D%3D&amp;amp;devicetype=iMac+MacBookPro11%2C5+OSX+OSX+10.11.4+build(15E65&#34;&gt;转载 From&lt;/a&gt;&amp;amp;version=11020201&amp;amp;pass_ticket=Nu5nSZlfui6B7G7DcB%2F6TCakJdlOAf3o9ND1eoSVkm2wZBUGQjsZFgKkrsou%2Bk4%2B)&lt;/p&gt;
 </description>
         </item>
         

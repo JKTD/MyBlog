@@ -1,12 +1,196 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>学习笔记 on JKCoder&#39;s Blog </title>
+        <title>学习笔记 on Flywithme </title>
         <link>http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Thu, 16 Feb 2017 16:11:36 CST</updated>
+        <updated>Fri, 17 Feb 2017 17:34:01 CST</updated>
+        
+        <item>
+            <title>逻辑控制</title>
+            <link>http://blog.flywithme.top/2017/02/17/swift05/</link>
+            <pubDate>Fri, 17 Feb 2017 17:34:01 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/02/17/swift05/</guid>
+            <description>&lt;p&gt;控制流的三种基本结构:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;顺序结构&lt;/strong&gt;:  顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行&lt;br /&gt;
+ &lt;strong&gt;循环结构&lt;/strong&gt;   循环语句使用同一个语句组根据一定的条件执行若干次&lt;br /&gt;
+ &lt;strong&gt;选择结构&lt;/strong&gt;:  分支语句根据一定的条件决定执行那一部分语句序列
+顺序结构不再多说&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;循环结构&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for _ in 0...100{
+    print(&amp;quot;遍历循环&amp;quot;) 
+}
+
+
+//这种方式在 swift3 中被废弃,不能在使用
+//for var i = 1; i &amp;lt; 100 ; i++{
+//    print(&amp;quot;遍历循环中&amp;quot;)
+//}
+
+
+var a = 0.0
+while a &amp;lt; 50 {
+    a += 0.5
+    sin(a)   
+}
+
+
+//至少执行一次
+repeat{
+    a += 0.5
+    sin(a)
+}while a &amp;lt; 100
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;控制转移: break 跳出本层循环体,提前结束循环 。   continue 结束当前循环体,进行下一次循环&lt;/p&gt;
+
+&lt;p&gt;while true {
+    a += 0.5
+    if a == 5.5{
+        continue
+    }
+    sin(a)
+    if a &amp;gt; 50{
+        break
+    }
+}&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Swift 基础运算符</title>
+            <link>http://blog.flywithme.top/2017/02/17/swift04/</link>
+            <pubDate>Fri, 17 Feb 2017 11:00:55 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/02/17/swift04/</guid>
+            <description>&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;赋值运算符&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;=&lt;/strong&gt;  这里是没有返回值的。返回值可能是Void，此时不等于nil，即赋值成功；或等于nil，即赋值失败&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a = 3  
+a = 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;数学运算符  &lt;code&gt;+ - * / +=  -= %&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var a = 201
+var b  = 4
+a + b
+a * b
+a - b
+a / b
+a % b
+a += 1
++a
+-a
+a += 2
+a -= 3
+a *= 2
+a /= 2
+a %= 2    
+
+
+var u = 2.5.truncatingRemainder(dividingBy: 1.2) //小数求余
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;逻辑运算符  &lt;code&gt;! &amp;amp;&amp;amp; ||&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var isTrue:Bool = true , isFalse:Bool = false
+!isTrue
+isTrue &amp;amp;&amp;amp; isFalse
+isTrue || isFalse
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;比较运算符   &lt;code&gt;== != &amp;gt; &amp;gt;= &amp;lt; &amp;lt;=&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let money = 100
+let price = 20
+if money &amp;gt;= price{
+    print(&amp;quot;buy&amp;quot;)
+}
+
+
+let capacity = 30 //背包容量
+let volume = 40 //购买物体积
+
+
+if money &amp;gt;= price &amp;amp;&amp;amp; capacity &amp;gt;= volume{
+    print(&amp;quot;buy it&amp;quot;)
+}
+
+
+if money &amp;lt; price || capacity &amp;lt; volume{
+    print(&amp;quot;can not buy it&amp;quot;)
+}
+
+
+if  !(money &amp;gt;= price &amp;amp;&amp;amp; capacity &amp;gt;= volume){
+     print(&amp;quot;can not buy it&amp;quot;)
+}
+
+
+//登陆
+var isUserNameOK = false
+var isPasswordOk = false
+
+
+var isPhoneNumOk = true
+var isPhoneCodeOk = false
+
+
+if isUserNameOK &amp;amp;&amp;amp; isPasswordOk || isPhoneNumOk &amp;amp;&amp;amp; isPasswordOk{
+    print(&amp;quot;登陆成功&amp;quot;)
+}else{
+    print(&amp;quot;登陆失败&amp;quot;)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;三目运算符   bool?answer1:answer2&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var battery = 19
+var batteryColor:UIColor
+batteryColor =  battery &amp;lt;= 20 ? UIColor.red:UIColor.green
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;区间运算符  闭区间运算符 &lt;code&gt;[a, b] a...b&lt;/code&gt; , 前闭后开区间运算符 &lt;code&gt;[) a..&amp;lt;b&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for index in 1...10{
+    index
+}
+
+
+for index in 1..&amp;lt;10{
+        index
+}
+
+
+let arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]
+for str in arr{
+    print(str)
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
         
         <item>
             <title>Swift 基础类型</title>
@@ -16,21 +200,26 @@
             <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;br /&gt;
-&lt;code&gt;
+```
 let a = 1
-&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;变量 &lt;strong&gt;var&lt;/strong&gt;
-&lt;code&gt;
-var b = 2
-&lt;/code&gt;&lt;/li&gt;
+let b:Int
+b = 1&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;swift 是一个强类型语言:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;   var x = 1
-   
-   x = &amp;quot;abc&amp;quot; //会报错(Cannot assign value of type &amp;quot;String&amp;quot; to type &amp;quot;int&amp;quot;)
+&lt;pre&gt;&lt;code&gt;- 变量 **var**
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;var b = 2&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    
+ swift 是一个强类型语言:
+ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;var x = 1&lt;/p&gt;
+
+&lt;p&gt;x = &amp;ldquo;abc&amp;rdquo; //会报错(Cannot assign value of type &amp;ldquo;String&amp;rdquo; to type &amp;ldquo;int&amp;rdquo;)
+   ```&lt;/p&gt;
 
 &lt;p&gt;显示声明变量&lt;/p&gt;
 
@@ -264,6 +453,9 @@ str.hasSuffix(&amp;quot;swift&amp;quot;)
 &lt;pre&gt;&lt;code&gt;let s3:NSString = &amp;quot;😄哈&amp;quot;
 s3.length
 s3.character(at: 1)
+let s4 = &amp;quot;    hello world    &amp;quot; as NSString
+
+s4.trimmingCharacters(in: .whitespaces) //去除空格
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
