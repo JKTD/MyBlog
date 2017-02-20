@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on flywithme.top</title>
-        <link>http://www.flywithme.top/post/</link>
+        <link>http://blog.flywithme.top/post/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
@@ -10,10 +10,10 @@
         
         <item>
             <title>逻辑控制</title>
-            <link>http://www.flywithme.top/2017/02/17/swift05/</link>
+            <link>http://blog.flywithme.top/2017/02/17/swift05/</link>
             <pubDate>Fri, 17 Feb 2017 17:34:01 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/17/swift05/</guid>
+            <guid>http://blog.flywithme.top/2017/02/17/swift05/</guid>
             <description>&lt;p&gt;控制流的三种基本结构:&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -242,10 +242,10 @@ buyComputer(money: 9000, price: 6000, brand: &amp;quot;Sony&amp;quot;)
         
         <item>
             <title>Swift 基础运算符</title>
-            <link>http://www.flywithme.top/2017/02/17/swift04/</link>
+            <link>http://blog.flywithme.top/2017/02/17/swift04/</link>
             <pubDate>Fri, 17 Feb 2017 11:00:55 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/17/swift04/</guid>
+            <guid>http://blog.flywithme.top/2017/02/17/swift04/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;赋值运算符&lt;/p&gt;
 
@@ -365,10 +365,10 @@ for str in arr{
         
         <item>
             <title>Swift 基础类型</title>
-            <link>http://www.flywithme.top/2017/02/16/swift03/</link>
+            <link>http://blog.flywithme.top/2017/02/16/swift03/</link>
             <pubDate>Thu, 16 Feb 2017 16:11:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/16/swift03/</guid>
+            <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;br /&gt;
 ```
@@ -633,10 +633,10 @@ s4.trimmingCharacters(in: .whitespaces) //去除空格
         
         <item>
             <title>Swift 初见</title>
-            <link>http://www.flywithme.top/2017/02/16/swift02/</link>
+            <link>http://blog.flywithme.top/2017/02/16/swift02/</link>
             <pubDate>Thu, 16 Feb 2017 11:27:44 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/16/swift02/</guid>
+            <guid>http://blog.flywithme.top/2017/02/16/swift02/</guid>
             <description>&lt;p&gt;首先我们来在屏幕上输出一个 &lt;code&gt;hello world&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;print(&amp;quot;hello world&amp;quot;)
@@ -703,10 +703,10 @@ assert(age &amp;gt;= 0, &amp;quot;A person&#39;s age cannot be less than zero&am
         
         <item>
             <title>关于 Swift</title>
-            <link>http://www.flywithme.top/2017/02/09/swift01/</link>
+            <link>http://blog.flywithme.top/2017/02/09/swift01/</link>
             <pubDate>Thu, 09 Feb 2017 10:12:48 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/09/swift01/</guid>
+            <guid>http://blog.flywithme.top/2017/02/09/swift01/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。
 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。&lt;/p&gt;&lt;/li&gt;
@@ -728,10 +728,10 @@ Swift 使用安全的编程模式并添加了很多新特性，这将使编程�
         
         <item>
             <title>Go语言fmt包Printf方法详解t</title>
-            <link>http://www.flywithme.top/2017/01/01/golangfmt/</link>
+            <link>http://blog.flywithme.top/2017/01/01/golangfmt/</link>
             <pubDate>Sun, 01 Jan 2017 00:56:42 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/01/01/golangfmt/</guid>
+            <guid>http://blog.flywithme.top/2017/01/01/golangfmt/</guid>
             <description>&lt;p&gt;Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;General&lt;/strong&gt;&lt;/p&gt;
@@ -842,10 +842,10 @@ fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)
         
         <item>
             <title>golang-Gin-Https</title>
-            <link>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</link>
+            <link>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</link>
             <pubDate>Mon, 26 Dec 2016 14:29:14 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
+            <guid>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
             <description>&lt;p&gt;关于https&lt;br /&gt;
 背景知识&lt;br /&gt;
 密码学的一些基本知识&lt;br /&gt;
@@ -1167,10 +1167,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>TableView 中 Cell的重用机制分析</title>
-            <link>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</link>
+            <link>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</link>
             <pubDate>Tue, 20 Dec 2016 11:41:34 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
+            <guid>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
    这个方法到底是怎么实现的呢?&lt;br /&gt;
@@ -1202,14 +1202,14 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>JS判断客户端类型</title>
-            <link>http://www.flywithme.top/2016/12/19/clientType/</link>
+            <link>http://blog.flywithme.top/2016/12/19/clientType/</link>
             <pubDate>Mon, 19 Dec 2016 14:30:21 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/12/19/clientType/</guid>
+            <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
             <description>&lt;p&gt;通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型&lt;/p&gt;
 
 &lt;p&gt;扫描二维码打开:
-  &lt;img src=&#34;http://www.flywithme.top/sources/localHtml/clientType01.png&#34; width = &#34;200&#34; height = &#34;200&#34; alt=&#34;二维码&#34; align=center /&gt;&lt;/p&gt;
+  &lt;img src=&#34;http://blog.flywithme.top/sources/localHtml/clientType01.png&#34; width = &#34;200&#34; height = &#34;200&#34; alt=&#34;二维码&#34; align=center /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://blog.flywithme.top/sources/localhtml/clientType01/index.html&#34; target=&#34;_blank&#34;&gt;测试链接:&lt;/a&gt;&lt;/p&gt;
 
@@ -1268,10 +1268,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>iOS 开发Debug工具壳</title>
-            <link>http://www.flywithme.top/2016/07/14/debugpanel/</link>
+            <link>http://blog.flywithme.top/2016/07/14/debugpanel/</link>
             <pubDate>Thu, 14 Jul 2016 11:40:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/07/14/debugpanel/</guid>
+            <guid>http://blog.flywithme.top/2016/07/14/debugpanel/</guid>
             <description>
 
 &lt;h5 id=&#34;初衷:bccb225b752499f845bd206d74979637&#34;&gt;初衷&lt;/h5&gt;
@@ -1282,7 +1282,7 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
  暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法&lt;/p&gt;
 
 &lt;p&gt;效果如下图:
-  &lt;img src=&#34;http://www.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
+  &lt;img src=&#34;http://blog.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
 
 &lt;h6 id=&#34;使用方法:bccb225b752499f845bd206d74979637&#34;&gt;使用方法&lt;/h6&gt;
 
@@ -1405,10 +1405,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>golang-gin 框架学习 一、 GET POST Method</title>
-            <link>http://www.flywithme.top/2016/06/30/Go-gin01/</link>
+            <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
             <pubDate>Thu, 30 Jun 2016 18:16:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/06/30/Go-gin01/</guid>
+            <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
             <description>
 
 &lt;h5 id=&#34;前言:2551b16abac86e66e05bae7b2b34a895&#34;&gt;前言&lt;/h5&gt;
@@ -1517,10 +1517,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>ReactiveCocoa简单介绍</title>
-            <link>http://www.flywithme.top/2016/05/15/ReactiveCocoa/</link>
+            <link>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</link>
             <pubDate>Tue, 14 Jun 2016 14:33:00 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
+            <guid>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
             <description>
 
 &lt;h5 id=&#34;一-引入-reactivecocoa:28e95232603870e31ddfa6e2560a7d74&#34;&gt;一 引入 ReactiveCocoa&lt;/h5&gt;
@@ -1577,7 +1577,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 
 &lt;p&gt;下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。&lt;/p&gt;
 
@@ -1718,10 +1718,10 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
         
         <item>
             <title>YYModel 简介与使用</title>
-            <link>http://www.flywithme.top/2016/06/12/modelExt/</link>
+            <link>http://blog.flywithme.top/2016/06/12/modelExt/</link>
             <pubDate>Sun, 12 Jun 2016 15:14:43 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/06/12/modelExt/</guid>
+            <guid>http://blog.flywithme.top/2016/06/12/modelExt/</guid>
             <description>
 
 &lt;h5 id=&#34;1-简单的-json-与-model-的转换:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;1. 简单的 JSON 与 Model 的转换&lt;/h5&gt;
@@ -1979,10 +1979,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG
@@ -2012,10 +2012,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>singnal 信号类型</title>
-            <link>http://www.flywithme.top/2016/06/14/singnal/</link>
+            <link>http://blog.flywithme.top/2016/06/14/singnal/</link>
             <pubDate>Sun, 15 May 2016 17:26:11 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/06/14/singnal/</guid>
+            <guid>http://blog.flywithme.top/2016/06/14/singnal/</guid>
             <description>
 
 &lt;h5 id=&#34;简介:7fcd034282d2ab5b69e9cbb8faff7ce4&#34;&gt;简介&lt;/h5&gt;
