@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title> on JKCoder&#39;s Blog</title>
+        <title> on flywithme.top</title>
         <link>http://blog.flywithme.top/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
@@ -141,6 +141,49 @@ case (let x, let y):
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;p&gt;&lt;strong&gt;where&lt;/strong&gt;  限定匹配条件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;switch point {
+case (0,0) :
+    print(&amp;quot;原点&amp;quot;)
+
+case (let x,0):
+    print(&amp;quot;x 轴 \(x)&amp;quot;)
+case (0,let y):
+    print(&amp;quot;y 轴  \(y)&amp;quot;)
+case (let x, let y) where x == y :
+    print(&amp;quot;x = \(x), y = \(y)&amp;quot;)
+case  let(x, y ) where x == -y :
+    print(&amp;quot;x = \(x), y = \(y)&amp;quot;)
+case (let x, let y):
+    print(&amp;quot;x = \(x), y = \(y)&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;if case&lt;/strong&gt;  简化 switch&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let age = 19 
+if case 18...20 = age {
+    print(&amp;quot;青年&amp;quot;)
+}
+
+// 对 case 增加一个限定条件
+if case 18...30 = age, age &amp;gt;= 19 {
+    print(&amp;quot;青年&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;for case where&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for case let index in 1...100 where index % 7 == 0{
+    print(index)
+}
+
+for  index in 1...100 where index % 7 == 0{
+    print(index)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;strong&gt;控制转移&lt;/strong&gt;   &lt;code&gt;break&lt;/code&gt; 跳出本层循环体,提前结束循环 。   &lt;code&gt;continue&lt;/code&gt; 结束当前循环体,进行下一次循环   &lt;code&gt;fallthrough&lt;/code&gt; 执行完当前case 之后 进入下一个 case&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;while true {
@@ -166,7 +209,33 @@ default:
     print(&amp;quot;C&amp;quot;)
 }
 
+//给 for 循环加一个名字,可以使用 break 结束这个循环。 谨慎使用。
+findanswer:for x in 1...300{
+    for y in 1...300{
+        print(x, y)
+        if x == 4,y == 5 {
+            break findanswer
+        }
+
+    }
+}
 ```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;guard&lt;/strong&gt; 关键字守护  &lt;code&gt;guard  bool condition  else&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func buyComputer(money:Int, price:Int, brand:String){
+    guard money &amp;gt; price else {
+        print(&amp;quot;钱不够&amp;quot;)
+        return
+    }
+
+    guard brand == &amp;quot;Apple&amp;quot; else {
+        print(&amp;quot;不是苹果电脑&amp;quot;)
+        return
+    }
+}
+buyComputer(money: 9000, price: 6000, brand: &amp;quot;Sony&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
