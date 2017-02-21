@@ -2,18 +2,188 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>学习笔记 on flywithme.top</title>
-        <link>http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <link>http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Fri, 17 Feb 2017 17:34:01 CST</updated>
+        <updated>Mon, 20 Feb 2017 15:22:44 CST</updated>
+        
+        <item>
+            <title>可选型 Optionals</title>
+            <link>http://www.flywithme.top/2017/02/20/swift06/</link>
+            <pubDate>Mon, 20 Feb 2017 15:22:44 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2017/02/20/swift06/</guid>
+            <description>&lt;p&gt;画重点!
+Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候
+是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。&lt;/p&gt;
+
+&lt;p&gt;可选型不是表示 可以表示任意类型,而是可以表示一个指定数据类型 和 nil类型,&lt;/p&gt;
+
+&lt;p&gt;错误代码示范&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var name: String = &amp;quot;loveway&amp;quot;
+name = nil //报错 error: Nil cannot be assigned to type &#39;String&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Optionals的声明&lt;/strong&gt; &lt;code&gt;var optionalInteger: Int? , var optionalInteger: Optional&amp;lt;Int&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var name: String? = &amp;quot;loveway&amp;quot;
+print(name!)
+name = nil
+print(name as Any)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;可选型的解包&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot;
+print(name!)
+name = nil
+print(name as Any )
+name = &amp;quot;sam&amp;quot;
+//var string = &amp;quot;my name is &amp;quot; + name  //error 因为 ```name```是一个未解包的数据,不能直接使用。
+var string = &amp;quot;my name is &amp;quot; + name!  //强制解包
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;后面加一个 叹号 &lt;code&gt;!&lt;/code&gt; 可以强制解包 但是 name 有可能出现为 nil 的情况,这是有风险的。可能
+        会造成 app 崩溃。所以在使用之前需要对 &lt;code&gt;name&lt;/code&gt; 进行判空&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot;
+var age : Optional&amp;lt;Int&amp;gt; = 24
+
+if name != nil {
+    var string = &amp;quot;my name is &amp;quot; + name!
+}else{
+     &amp;quot;name is nil&amp;quot;
+}
+
+//或者
+if let unwrapName = name{ //自动解包 name 数据到 unwrapName
+    var string = &amp;quot;my name is &amp;quot; + unwrapName
+}else{
+          &amp;quot;name is nil&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;两个数据都解包成功之后才会进入判断方法中。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;if let unwrapName = name,let unwrapAge = age{
+    var string = &amp;quot;my name is &amp;quot; + unwrapName + &amp;quot;age is \(unwrapAge)&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;添加限制条件&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;if let unwrapName = name,let unwrapAge = age , unwrapAge &amp;gt; 20{
+    var string = &amp;quot;my name is &amp;quot; + unwrapName + &amp;quot;age is \(unwrapAge)&amp;quot;
+}
+
+if let name = name,let age = age , age &amp;gt; 20{
+    var string = &amp;quot;my name is &amp;quot; + name + &amp;quot;age is \(age)&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Optional Chaining&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var errorMsg:String? = nil
+print(errorMsg as Any)
+errorMsg = &amp;quot;404&amp;quot;
+//重点 尝试解包 ```?```
+errorMsg?.uppercased() //尝试解包,如果成功就调用方法,如果失败,就停止 
+
+//如果确认 ```errorMsg```有值,可以使用,否则很容易出错。 
+errorMsg!.uppercased() //强制解包,如果 ```errorMsg``` 是 nil 则会报错,这样写会不安全。
+
+var temp = errorMsg?.uppercased() //temp 依然是一个可选型
+
+var msg = errorMsg == nil ? &amp;quot;No error&amp;quot; : errorMsg!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Optional在元组中的使用&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var error :(errorCode: Int , errorMsg:String?) = (404, &amp;quot;Not found&amp;quot;)
+error.errorMsg = nil
+
+var error1 :(errorCode: Int , errorMsg:String)? = nil
+error1 = nil
+
+var error2 :(errorCode: Int , errorMsg:String?)? = nil
+error2?.errorMsg = nil
+error2 = nil
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Optional 的应用&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var ageInput:String = &amp;quot;ads&amp;quot;
+var age = Int(ageInput) //返回的 age 类型是可选型。
+if let age = Int(ageInput), age &amp;gt; 18{ //这里的 age 的类似又是什么呢? 
+    print(&amp;quot;成年了&amp;quot;)
+}
+
+
+var str = &amp;quot;hello world&amp;quot;
+var range =  str.range(of: &amp;quot;ll&amp;quot;)
+range?.lowerBound
+range?.upperBound
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;隐式可选型&lt;/strong&gt;  隐式可选型在使用的时候可以不进行解包直接使用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var errorMsg:String! = nil
+errorMsg = &amp;quot;Not found&amp;quot;
+&amp;quot;messge &amp;quot; + errorMsg  //使用的时候必须保证 errorMsg 不为空,要不然程序会报错。
+
+
+
+
+class Student{
+    let name:String
+    var age:Int
+    var stdId:Int
+    unowned var aClass:Class //避免循环引用
+    init(name:String,age:Int,stdId:Int,aClass:Class){
+        self.name = name
+        self.age = age
+        self.stdId = stdId
+        self.aClass = aClass
+    }
+}
+
+class Class{
+    var className:String = &amp;quot;&amp;quot;
+    var classNum:Int = 0
+    var monitor:Student! //若不设置成可选型，则在下面初始化的时候回造成死循环
+
+    init(className:String, classNum:Int, monitorName:String) {
+        self.className = className;
+        self.classNum = classNum;
+        self.monitor = Student(name: monitorName, age: 18, stdId: 20, aClass: self)
+    }
+    func showInfo(){
+        print(&amp;quot;this is \(classNum)&amp;quot;)
+        print(&amp;quot;monitor is \(monitor.name)&amp;quot;)
+    }
+}
+
+let class001 = Class(className: &amp;quot;0101&amp;quot;, classNum: 1001, monitorName: &amp;quot;jack&amp;quot;)
+class001.monitor
+class001.showInfo()
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>逻辑控制</title>
-            <link>http://blog.flywithme.top/2017/02/17/swift05/</link>
+            <link>http://www.flywithme.top/2017/02/17/swift05/</link>
             <pubDate>Fri, 17 Feb 2017 17:34:01 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/17/swift05/</guid>
+            <guid>http://www.flywithme.top/2017/02/17/swift05/</guid>
             <description>&lt;p&gt;控制流的三种基本结构:&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -242,10 +412,10 @@ buyComputer(money: 9000, price: 6000, brand: &amp;quot;Sony&amp;quot;)
         
         <item>
             <title>Swift 基础运算符</title>
-            <link>http://blog.flywithme.top/2017/02/17/swift04/</link>
+            <link>http://www.flywithme.top/2017/02/17/swift04/</link>
             <pubDate>Fri, 17 Feb 2017 11:00:55 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/17/swift04/</guid>
+            <guid>http://www.flywithme.top/2017/02/17/swift04/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;赋值运算符&lt;/p&gt;
 
@@ -365,10 +535,10 @@ for str in arr{
         
         <item>
             <title>Swift 基础类型</title>
-            <link>http://blog.flywithme.top/2017/02/16/swift03/</link>
+            <link>http://www.flywithme.top/2017/02/16/swift03/</link>
             <pubDate>Thu, 16 Feb 2017 16:11:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
+            <guid>http://www.flywithme.top/2017/02/16/swift03/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;br /&gt;
 ```
@@ -633,10 +803,10 @@ s4.trimmingCharacters(in: .whitespaces) //去除空格
         
         <item>
             <title>Swift 初见</title>
-            <link>http://blog.flywithme.top/2017/02/16/swift02/</link>
+            <link>http://www.flywithme.top/2017/02/16/swift02/</link>
             <pubDate>Thu, 16 Feb 2017 11:27:44 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/16/swift02/</guid>
+            <guid>http://www.flywithme.top/2017/02/16/swift02/</guid>
             <description>&lt;p&gt;首先我们来在屏幕上输出一个 &lt;code&gt;hello world&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;print(&amp;quot;hello world&amp;quot;)
@@ -703,10 +873,10 @@ assert(age &amp;gt;= 0, &amp;quot;A person&#39;s age cannot be less than zero&am
         
         <item>
             <title>关于 Swift</title>
-            <link>http://blog.flywithme.top/2017/02/09/swift01/</link>
+            <link>http://www.flywithme.top/2017/02/09/swift01/</link>
             <pubDate>Thu, 09 Feb 2017 10:12:48 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/09/swift01/</guid>
+            <guid>http://www.flywithme.top/2017/02/09/swift01/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。
 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。&lt;/p&gt;&lt;/li&gt;
@@ -728,10 +898,10 @@ Swift 使用安全的编程模式并添加了很多新特性，这将使编程�
         
         <item>
             <title>Go语言fmt包Printf方法详解t</title>
-            <link>http://blog.flywithme.top/2017/01/01/golangfmt/</link>
+            <link>http://www.flywithme.top/2017/01/01/golangfmt/</link>
             <pubDate>Sun, 01 Jan 2017 00:56:42 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/01/01/golangfmt/</guid>
+            <guid>http://www.flywithme.top/2017/01/01/golangfmt/</guid>
             <description>&lt;p&gt;Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;General&lt;/strong&gt;&lt;/p&gt;
@@ -842,10 +1012,10 @@ fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)
         
         <item>
             <title>golang-Gin-Https</title>
-            <link>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</link>
+            <link>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</link>
             <pubDate>Mon, 26 Dec 2016 14:29:14 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
+            <guid>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
             <description>&lt;p&gt;关于https&lt;br /&gt;
 背景知识&lt;br /&gt;
 密码学的一些基本知识&lt;br /&gt;
@@ -1167,10 +1337,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>TableView 中 Cell的重用机制分析</title>
-            <link>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</link>
+            <link>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</link>
             <pubDate>Tue, 20 Dec 2016 11:41:34 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
+            <guid>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
    这个方法到底是怎么实现的呢?&lt;br /&gt;
@@ -1202,14 +1372,14 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>JS判断客户端类型</title>
-            <link>http://blog.flywithme.top/2016/12/19/clientType/</link>
+            <link>http://www.flywithme.top/2016/12/19/clientType/</link>
             <pubDate>Mon, 19 Dec 2016 14:30:21 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
+            <guid>http://www.flywithme.top/2016/12/19/clientType/</guid>
             <description>&lt;p&gt;通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型&lt;/p&gt;
 
 &lt;p&gt;扫描二维码打开:
-  &lt;img src=&#34;http://blog.flywithme.top/sources/localHtml/clientType01.png&#34; width = &#34;200&#34; height = &#34;200&#34; alt=&#34;二维码&#34; align=center /&gt;&lt;/p&gt;
+  &lt;img src=&#34;http://www.flywithme.top/sources/localHtml/clientType01.png&#34; width = &#34;200&#34; height = &#34;200&#34; alt=&#34;二维码&#34; align=center /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://blog.flywithme.top/sources/localhtml/clientType01/index.html&#34; target=&#34;_blank&#34;&gt;测试链接:&lt;/a&gt;&lt;/p&gt;
 
@@ -1268,10 +1438,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>iOS 开发Debug工具壳</title>
-            <link>http://blog.flywithme.top/2016/07/14/debugpanel/</link>
+            <link>http://www.flywithme.top/2016/07/14/debugpanel/</link>
             <pubDate>Thu, 14 Jul 2016 11:40:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/07/14/debugpanel/</guid>
+            <guid>http://www.flywithme.top/2016/07/14/debugpanel/</guid>
             <description>
 
 &lt;h5 id=&#34;初衷:bccb225b752499f845bd206d74979637&#34;&gt;初衷&lt;/h5&gt;
@@ -1282,7 +1452,7 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
  暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法&lt;/p&gt;
 
 &lt;p&gt;效果如下图:
-  &lt;img src=&#34;http://blog.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
+  &lt;img src=&#34;http://www.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
 
 &lt;h6 id=&#34;使用方法:bccb225b752499f845bd206d74979637&#34;&gt;使用方法&lt;/h6&gt;
 
@@ -1405,10 +1575,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>golang-gin 框架学习 一、 GET POST Method</title>
-            <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
+            <link>http://www.flywithme.top/2016/06/30/Go-gin01/</link>
             <pubDate>Thu, 30 Jun 2016 18:16:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
+            <guid>http://www.flywithme.top/2016/06/30/Go-gin01/</guid>
             <description>
 
 &lt;h5 id=&#34;前言:2551b16abac86e66e05bae7b2b34a895&#34;&gt;前言&lt;/h5&gt;
@@ -1517,10 +1687,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG
@@ -1550,10 +1720,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>singnal 信号类型</title>
-            <link>http://blog.flywithme.top/2016/06/14/singnal/</link>
+            <link>http://www.flywithme.top/2016/06/14/singnal/</link>
             <pubDate>Sun, 15 May 2016 17:26:11 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/14/singnal/</guid>
+            <guid>http://www.flywithme.top/2016/06/14/singnal/</guid>
             <description>
 
 &lt;h5 id=&#34;简介:7fcd034282d2ab5b69e9cbb8faff7ce4&#34;&gt;简介&lt;/h5&gt;
@@ -1942,10 +2112,10 @@ Catch a signal –GVTALRM
         
         <item>
             <title>Objective-C&#43;Runtime 浅析</title>
-            <link>http://blog.flywithme.top/2016/03/24/OCRuntime/</link>
+            <link>http://www.flywithme.top/2016/03/24/OCRuntime/</link>
             <pubDate>Thu, 24 Mar 2016 10:58:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/03/24/OCRuntime/</guid>
+            <guid>http://www.flywithme.top/2016/03/24/OCRuntime/</guid>
             <description>
 
 &lt;p&gt;&lt;a href=&#34;http://wiki.sankuai.com/display/zhso/objective-c+Runtime&#34;&gt;From&lt;/a&gt;&lt;/p&gt;

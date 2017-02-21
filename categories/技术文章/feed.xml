@@ -2,18 +2,188 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>技术文章 on flywithme.top</title>
-        <link>http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
+        <link>http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Fri, 17 Feb 2017 17:34:01 CST</updated>
+        <updated>Mon, 20 Feb 2017 15:22:44 CST</updated>
+        
+        <item>
+            <title>可选型 Optionals</title>
+            <link>http://www.flywithme.top/2017/02/20/swift06/</link>
+            <pubDate>Mon, 20 Feb 2017 15:22:44 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2017/02/20/swift06/</guid>
+            <description>&lt;p&gt;画重点!
+Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候
+是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。&lt;/p&gt;
+
+&lt;p&gt;可选型不是表示 可以表示任意类型,而是可以表示一个指定数据类型 和 nil类型,&lt;/p&gt;
+
+&lt;p&gt;错误代码示范&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var name: String = &amp;quot;loveway&amp;quot;
+name = nil //报错 error: Nil cannot be assigned to type &#39;String&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Optionals的声明&lt;/strong&gt; &lt;code&gt;var optionalInteger: Int? , var optionalInteger: Optional&amp;lt;Int&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var name: String? = &amp;quot;loveway&amp;quot;
+print(name!)
+name = nil
+print(name as Any)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;可选型的解包&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot;
+print(name!)
+name = nil
+print(name as Any )
+name = &amp;quot;sam&amp;quot;
+//var string = &amp;quot;my name is &amp;quot; + name  //error 因为 ```name```是一个未解包的数据,不能直接使用。
+var string = &amp;quot;my name is &amp;quot; + name!  //强制解包
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;后面加一个 叹号 &lt;code&gt;!&lt;/code&gt; 可以强制解包 但是 name 有可能出现为 nil 的情况,这是有风险的。可能
+        会造成 app 崩溃。所以在使用之前需要对 &lt;code&gt;name&lt;/code&gt; 进行判空&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot;
+var age : Optional&amp;lt;Int&amp;gt; = 24
+
+if name != nil {
+    var string = &amp;quot;my name is &amp;quot; + name!
+}else{
+     &amp;quot;name is nil&amp;quot;
+}
+
+//或者
+if let unwrapName = name{ //自动解包 name 数据到 unwrapName
+    var string = &amp;quot;my name is &amp;quot; + unwrapName
+}else{
+          &amp;quot;name is nil&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;两个数据都解包成功之后才会进入判断方法中。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;if let unwrapName = name,let unwrapAge = age{
+    var string = &amp;quot;my name is &amp;quot; + unwrapName + &amp;quot;age is \(unwrapAge)&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;添加限制条件&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;if let unwrapName = name,let unwrapAge = age , unwrapAge &amp;gt; 20{
+    var string = &amp;quot;my name is &amp;quot; + unwrapName + &amp;quot;age is \(unwrapAge)&amp;quot;
+}
+
+if let name = name,let age = age , age &amp;gt; 20{
+    var string = &amp;quot;my name is &amp;quot; + name + &amp;quot;age is \(age)&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Optional Chaining&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var errorMsg:String? = nil
+print(errorMsg as Any)
+errorMsg = &amp;quot;404&amp;quot;
+//重点 尝试解包 ```?```
+errorMsg?.uppercased() //尝试解包,如果成功就调用方法,如果失败,就停止 
+
+//如果确认 ```errorMsg```有值,可以使用,否则很容易出错。 
+errorMsg!.uppercased() //强制解包,如果 ```errorMsg``` 是 nil 则会报错,这样写会不安全。
+
+var temp = errorMsg?.uppercased() //temp 依然是一个可选型
+
+var msg = errorMsg == nil ? &amp;quot;No error&amp;quot; : errorMsg!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Optional在元组中的使用&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var error :(errorCode: Int , errorMsg:String?) = (404, &amp;quot;Not found&amp;quot;)
+error.errorMsg = nil
+
+var error1 :(errorCode: Int , errorMsg:String)? = nil
+error1 = nil
+
+var error2 :(errorCode: Int , errorMsg:String?)? = nil
+error2?.errorMsg = nil
+error2 = nil
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Optional 的应用&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var ageInput:String = &amp;quot;ads&amp;quot;
+var age = Int(ageInput) //返回的 age 类型是可选型。
+if let age = Int(ageInput), age &amp;gt; 18{ //这里的 age 的类似又是什么呢? 
+    print(&amp;quot;成年了&amp;quot;)
+}
+
+
+var str = &amp;quot;hello world&amp;quot;
+var range =  str.range(of: &amp;quot;ll&amp;quot;)
+range?.lowerBound
+range?.upperBound
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;隐式可选型&lt;/strong&gt;  隐式可选型在使用的时候可以不进行解包直接使用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var errorMsg:String! = nil
+errorMsg = &amp;quot;Not found&amp;quot;
+&amp;quot;messge &amp;quot; + errorMsg  //使用的时候必须保证 errorMsg 不为空,要不然程序会报错。
+
+
+
+
+class Student{
+    let name:String
+    var age:Int
+    var stdId:Int
+    unowned var aClass:Class //避免循环引用
+    init(name:String,age:Int,stdId:Int,aClass:Class){
+        self.name = name
+        self.age = age
+        self.stdId = stdId
+        self.aClass = aClass
+    }
+}
+
+class Class{
+    var className:String = &amp;quot;&amp;quot;
+    var classNum:Int = 0
+    var monitor:Student! //若不设置成可选型，则在下面初始化的时候回造成死循环
+
+    init(className:String, classNum:Int, monitorName:String) {
+        self.className = className;
+        self.classNum = classNum;
+        self.monitor = Student(name: monitorName, age: 18, stdId: 20, aClass: self)
+    }
+    func showInfo(){
+        print(&amp;quot;this is \(classNum)&amp;quot;)
+        print(&amp;quot;monitor is \(monitor.name)&amp;quot;)
+    }
+}
+
+let class001 = Class(className: &amp;quot;0101&amp;quot;, classNum: 1001, monitorName: &amp;quot;jack&amp;quot;)
+class001.monitor
+class001.showInfo()
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>逻辑控制</title>
-            <link>http://blog.flywithme.top/2017/02/17/swift05/</link>
+            <link>http://www.flywithme.top/2017/02/17/swift05/</link>
             <pubDate>Fri, 17 Feb 2017 17:34:01 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/17/swift05/</guid>
+            <guid>http://www.flywithme.top/2017/02/17/swift05/</guid>
             <description>&lt;p&gt;控制流的三种基本结构:&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -242,10 +412,10 @@ buyComputer(money: 9000, price: 6000, brand: &amp;quot;Sony&amp;quot;)
         
         <item>
             <title>Swift 基础运算符</title>
-            <link>http://blog.flywithme.top/2017/02/17/swift04/</link>
+            <link>http://www.flywithme.top/2017/02/17/swift04/</link>
             <pubDate>Fri, 17 Feb 2017 11:00:55 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/17/swift04/</guid>
+            <guid>http://www.flywithme.top/2017/02/17/swift04/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;赋值运算符&lt;/p&gt;
 
@@ -365,10 +535,10 @@ for str in arr{
         
         <item>
             <title>Swift 基础类型</title>
-            <link>http://blog.flywithme.top/2017/02/16/swift03/</link>
+            <link>http://www.flywithme.top/2017/02/16/swift03/</link>
             <pubDate>Thu, 16 Feb 2017 16:11:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
+            <guid>http://www.flywithme.top/2017/02/16/swift03/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;br /&gt;
 ```
@@ -633,10 +803,10 @@ s4.trimmingCharacters(in: .whitespaces) //去除空格
         
         <item>
             <title>Swift 初见</title>
-            <link>http://blog.flywithme.top/2017/02/16/swift02/</link>
+            <link>http://www.flywithme.top/2017/02/16/swift02/</link>
             <pubDate>Thu, 16 Feb 2017 11:27:44 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/16/swift02/</guid>
+            <guid>http://www.flywithme.top/2017/02/16/swift02/</guid>
             <description>&lt;p&gt;首先我们来在屏幕上输出一个 &lt;code&gt;hello world&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;print(&amp;quot;hello world&amp;quot;)
@@ -703,10 +873,10 @@ assert(age &amp;gt;= 0, &amp;quot;A person&#39;s age cannot be less than zero&am
         
         <item>
             <title>关于 Swift</title>
-            <link>http://blog.flywithme.top/2017/02/09/swift01/</link>
+            <link>http://www.flywithme.top/2017/02/09/swift01/</link>
             <pubDate>Thu, 09 Feb 2017 10:12:48 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/09/swift01/</guid>
+            <guid>http://www.flywithme.top/2017/02/09/swift01/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。
 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。&lt;/p&gt;&lt;/li&gt;
@@ -728,10 +898,10 @@ Swift 使用安全的编程模式并添加了很多新特性，这将使编程�
         
         <item>
             <title>Go语言fmt包Printf方法详解t</title>
-            <link>http://blog.flywithme.top/2017/01/01/golangfmt/</link>
+            <link>http://www.flywithme.top/2017/01/01/golangfmt/</link>
             <pubDate>Sun, 01 Jan 2017 00:56:42 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/01/01/golangfmt/</guid>
+            <guid>http://www.flywithme.top/2017/01/01/golangfmt/</guid>
             <description>&lt;p&gt;Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;General&lt;/strong&gt;&lt;/p&gt;
@@ -842,10 +1012,10 @@ fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)
         
         <item>
             <title>golang-Gin-Https</title>
-            <link>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</link>
+            <link>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</link>
             <pubDate>Mon, 26 Dec 2016 14:29:14 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
+            <guid>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
             <description>&lt;p&gt;关于https&lt;br /&gt;
 背景知识&lt;br /&gt;
 密码学的一些基本知识&lt;br /&gt;
@@ -1167,10 +1337,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>TableView 中 Cell的重用机制分析</title>
-            <link>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</link>
+            <link>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</link>
             <pubDate>Tue, 20 Dec 2016 11:41:34 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
+            <guid>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
    这个方法到底是怎么实现的呢?&lt;br /&gt;
@@ -1202,14 +1372,14 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>JS判断客户端类型</title>
-            <link>http://blog.flywithme.top/2016/12/19/clientType/</link>
+            <link>http://www.flywithme.top/2016/12/19/clientType/</link>
             <pubDate>Mon, 19 Dec 2016 14:30:21 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
+            <guid>http://www.flywithme.top/2016/12/19/clientType/</guid>
             <description>&lt;p&gt;通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型&lt;/p&gt;
 
 &lt;p&gt;扫描二维码打开:
-  &lt;img src=&#34;http://blog.flywithme.top/sources/localHtml/clientType01.png&#34; width = &#34;200&#34; height = &#34;200&#34; alt=&#34;二维码&#34; align=center /&gt;&lt;/p&gt;
+  &lt;img src=&#34;http://www.flywithme.top/sources/localHtml/clientType01.png&#34; width = &#34;200&#34; height = &#34;200&#34; alt=&#34;二维码&#34; align=center /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://blog.flywithme.top/sources/localhtml/clientType01/index.html&#34; target=&#34;_blank&#34;&gt;测试链接:&lt;/a&gt;&lt;/p&gt;
 
@@ -1268,10 +1438,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>iOS 开发Debug工具壳</title>
-            <link>http://blog.flywithme.top/2016/07/14/debugpanel/</link>
+            <link>http://www.flywithme.top/2016/07/14/debugpanel/</link>
             <pubDate>Thu, 14 Jul 2016 11:40:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/07/14/debugpanel/</guid>
+            <guid>http://www.flywithme.top/2016/07/14/debugpanel/</guid>
             <description>
 
 &lt;h5 id=&#34;初衷:bccb225b752499f845bd206d74979637&#34;&gt;初衷&lt;/h5&gt;
@@ -1282,7 +1452,7 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
  暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法&lt;/p&gt;
 
 &lt;p&gt;效果如下图:
-  &lt;img src=&#34;http://blog.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
+  &lt;img src=&#34;http://www.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
 
 &lt;h6 id=&#34;使用方法:bccb225b752499f845bd206d74979637&#34;&gt;使用方法&lt;/h6&gt;
 
@@ -1405,10 +1575,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>golang-gin 框架学习 一、 GET POST Method</title>
-            <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
+            <link>http://www.flywithme.top/2016/06/30/Go-gin01/</link>
             <pubDate>Thu, 30 Jun 2016 18:16:12 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
+            <guid>http://www.flywithme.top/2016/06/30/Go-gin01/</guid>
             <description>
 
 &lt;h5 id=&#34;前言:2551b16abac86e66e05bae7b2b34a895&#34;&gt;前言&lt;/h5&gt;
@@ -1517,10 +1687,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>ReactiveCocoa简单介绍</title>
-            <link>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</link>
+            <link>http://www.flywithme.top/2016/05/15/ReactiveCocoa/</link>
             <pubDate>Tue, 14 Jun 2016 14:33:00 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
+            <guid>http://www.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
             <description>
 
 &lt;h5 id=&#34;一-引入-reactivecocoa:28e95232603870e31ddfa6e2560a7d74&#34;&gt;一 引入 ReactiveCocoa&lt;/h5&gt;
@@ -1577,7 +1747,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 
 &lt;p&gt;下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。&lt;/p&gt;
 
@@ -1718,10 +1888,10 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
         
         <item>
             <title>YYModel 简介与使用</title>
-            <link>http://blog.flywithme.top/2016/06/12/modelExt/</link>
+            <link>http://www.flywithme.top/2016/06/12/modelExt/</link>
             <pubDate>Sun, 12 Jun 2016 15:14:43 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/12/modelExt/</guid>
+            <guid>http://www.flywithme.top/2016/06/12/modelExt/</guid>
             <description>
 
 &lt;h5 id=&#34;1-简单的-json-与-model-的转换:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;1. 简单的 JSON 与 Model 的转换&lt;/h5&gt;
@@ -1979,10 +2149,10 @@ NSDictionary *json = [user yy_modelToJSONObject];
         
         <item>
             <title>iOS 自定义 Log 简介</title>
-            <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
+            <link>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</link>
             <pubDate>Fri, 27 May 2016 10:46:06 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+            <guid>http://www.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
             <description>&lt;p&gt;我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;#ifdef DEBUG
@@ -2007,419 +2177,6 @@ NSDictionary *json = [user yy_modelToJSONObject];
 &lt;/ol&gt;
 
 &lt;p&gt;有了以上这几个宏，特别是有了&lt;strong&gt;VA_ARGS&lt;/strong&gt;，调试信息的输出就变得灵活多了。&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>UINavigationBar-使用总结</title>
-            <link>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
-            <pubDate>Tue, 03 May 2016 11:49:19 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
-            <description>
-
-&lt;h5 id=&#34;简介:fd9faebe845f09d44f4a35833c132216&#34;&gt;简介&lt;/h5&gt;
-
-&lt;p&gt;&lt;code&gt;UINavigationBar&lt;/code&gt;是用于实现管理层级关系内容的组件，直接继承自&lt;code&gt;UIView&lt;/code&gt;。通常用在&lt;code&gt;UINavgationController&lt;/code&gt;类中，用于管理和显示&lt;code&gt;UINavgationController&lt;/code&gt;的&lt;code&gt;subViewController&lt;/code&gt; , 同时&lt;code&gt;UINavgationBar&lt;/code&gt;也可以单独使用，添加至任何的&lt;code&gt;UIView&lt;/code&gt;中。&lt;code&gt;UINavigationBar&lt;/code&gt;比较重要的属性为，左侧按钮，中间的标题，以及右侧按钮。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; NS_CLASS_AVAILABLE_IOS(2_0) @interface UINavigationBar : UIView &amp;lt;NSCoding, UIBarPositioning&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h6 id=&#34;在导航控制器中的简单使用:fd9faebe845f09d44f4a35833c132216&#34;&gt;在导航控制器中的简单使用&lt;/h6&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;获取导航条&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UINavigationBar *navBar = self.navigationController.navigationBar;
-//设置导航栏 title
-self.navigationItem.title = @&amp;quot;UINavigationBar使用总结&amp;quot;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置导航栏背景色&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//通过barTintColor来设置背景色
-self.navigationController.navigationBar.barTintColor = [UIColor redColor];//iOS7 以上系统  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/navigationbar/navigationbackbartiniColor.png&#34; alt=&#34;navigation back bar tint Color&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置导航栏的背景图片&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@&amp;quot;Background&amp;quot;] forBarMetrics:UIBarMetricsDefault];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/navigationbar/uinavigationBarbackground.png&#34; alt=&#34;navigation Bar background&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;在这里得稍微说说UIBarMetrics这个枚举, 它主要是用来控制在不同状态下导航栏的显示。和&lt;code&gt;UIButton&lt;/code&gt;的&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (void)setBackgroundImage:(nullable UIImage *)image forState:(UIControlState)state
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;这个方法有点类似。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;typedef NS_ENUM(NSInteger, UIBarMetrics) {
-    UIBarMetricsDefault,
-    UIBarMetricsCompact,
-    UIBarMetricsDefaultPrompt = 101, // Applicable only in bars with the prompt property, such as UINavigationBar and UISearchBar
-    UIBarMetricsCompactPrompt,
-    UIBarMetricsLandscapePhone NS_ENUM_DEPRECATED_IOS(5_0, 8_0, &amp;quot;Use UIBarMetricsCompact instead&amp;quot;) = UIBarMetricsCompact,
-    UIBarMetricsLandscapePhonePrompt NS_ENUM_DEPRECATED_IOS(7_0, 8_0, &amp;quot;Use UIBarMetricsCompactPrompt&amp;quot;) = UIBarMetricsCompactPrompt,
-};
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置导航栏样式&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[navBar setBarStyle:UIBarStyleDefault];  
-   分别有如下几种样式：  
-typedef NS_ENUM(NSInteger, UIBarStyle) {  
-    UIBarStyleDefault          = 0,  
-    UIBarStyleBlack            = 1,  
-    UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack  
-    UIBarStyleBlackTranslucent = 2, // Deprecated. Use UIBarStyleBlack and set the translucent property to YES
-};    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;注意:&lt;/strong&gt;我们发现，在后面两个标记为Deprecated，我们知道使用后面两种将不被提倡。
-            从枚举中，我们也可以看出：UIBarStyleBlack=1和UIBarStyleBlackOpaque=1表示为一样的。
-            后来，发现增加了一个方法：[navBar setTranslucent:YES];用来指示是否透明。
-            所以，我们使用UIBarStyleDefault和UIBarStyleBlack来定义UINavigationBar样式，并且用setTranslucent:方法来设置透明与否。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//使用方式
-switch (buttonIndex) {
-   case 0: // &amp;quot;Default&amp;quot;
-       self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-       // Bars are translucent by default.
-       self.navigationController.navigationBar.translucent = YES;
-       // Reset the bar&#39;s tint color to the system default.
-       self.navigationController.navigationBar.tintColor = nil;
-       self.navigationController.navigationBar.barTintColor = nil;//iOS7 以上系统
-
-
-       break;
-   case 1: // &amp;quot;Black Opaque&amp;quot;
-       self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-       self.navigationController.navigationBar.translucent = NO;
-       self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-       break;
-   case 2: // &amp;quot;Black Translucent&amp;quot;
-       self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-       self.navigationController.navigationBar.translucent = YES;
-       self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-       self.navigationController.navigationBar.barTintColor = [UIColor redColor];
-       break;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;更改顶部状态栏的颜色
-   修改完导航栏的颜色之后,顶部状态栏可能因为导航栏的颜色相近而现实不清楚,所以有时候需要修改状态栏的颜色
-   状态栏的颜色修改:系统给我们提供了&lt;code&gt;UIStatusBarStyleDefault&lt;/code&gt;和&lt;code&gt;UIStatusBarStyleLightContent&lt;/code&gt;两种样式供我们选择。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;   UIStatusBarStyleDefault，系统的默认样式，黑色内容，用于浅色的背景（如白色）
-   UIStatusBarStyleLightContent 白色内容，用于深色的背景（如红色）
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;下面来看看具体怎么实现，主流的实现方式是分两步：&lt;br /&gt;
-   &lt;strong&gt;a.&lt;/strong&gt; 在工程的Info.plist文件中添加一行&lt;code&gt;UIViewControllerBasedStatusBarAppearance&lt;/code&gt;，选择Boolean类型，并设置为YES，Xcode会自动把名称变为&lt;code&gt;View controller-based status bar appearance&lt;/code&gt;。&lt;br /&gt;
-   &lt;strong&gt;b.&lt;/strong&gt; 在你的ViewController中添加下面的方法&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;-(UIStatusBarStyle)preferredStatusBarStyle{
-  return UIStatusBarStyleLightContent;
-}   
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;另外，&lt;strong&gt;特别需要注意的是&lt;/strong&gt;，如果你的ViewController是通过navigationController push进来的，还需要加下面一句代码才能生效：
-   &lt;code&gt;self.navigationController.navigationBar.barStyle = UIBarStyleBlack;&lt;/code&gt;
-   具体，可参考&lt;a href=&#34;http://stackoverflow.com/questions/19108513/uistatusbarstyle-preferredstatusbarstyle-does-not-work-on-ios-7&#34;&gt;UIStatusBarStyle PreferredStatusBarStyle does not work on iOS 7&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;恩，我们来看看运行效果。&lt;br /&gt;
-   &lt;img src=&#34;sources/navigationbar/uinavigationBarbackground.png&#34; alt=&#34;naviagation&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置返回按钮
-  从上面的效果图中我们可以看到返回按钮还是默认的蓝色按钮，下面我将会大家来介绍返回按钮的个性化。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;设置返回按钮的颜色 只需要设置tintColor属性即可&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;得到的效果图如下：&lt;br /&gt;
-&lt;img src=&#34;sources/navigationbar/navigationbartiniColor.png&#34; alt=&#34;naviagation&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;只设置返回按钮的图片&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (void)goToBack {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-
-- (void)setBackButtonWithImage {
-    UIImage *leftButtonIcon = [[UIImage imageNamed:@&amp;quot;LeftButton_back_Icon&amp;quot;]
-                               imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:leftButtonIcon
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self
-                                                                  action:@selector(goToBack)];
-    self.navigationItem.leftBarButtonItem = leftButton;
-
-
-    //修复navigationController侧滑关闭失效的问题
-    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;得到的效果如下：&lt;br /&gt;
-&lt;img src=&#34;sources/navigationbar/navigationBarBackBtn.png&#34; alt=&#34;naviagation&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;这里需要注意的地方有三点：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;需要自己实现返回按钮的事件。&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;特别的解释下&lt;code&gt;UIImage&lt;/code&gt;的&lt;code&gt;imageWithRenderingMode:&lt;/code&gt;方法，参数&lt;code&gt;UIImageRenderingModeAlwaysOriginal&lt;/code&gt; 表示总是用原图渲染，如果不这么设置，返回按钮将会显示&lt;code&gt;tintColor&lt;/code&gt;的颜色(默认为蓝色)。&lt;code&gt;UITabbarItem&lt;/code&gt;也存在同样地问题。&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;我们自己设置返回按钮，会导致系统的侧滑关闭效果失效。添加上面代码中最后一句代码即可修复(&lt;code&gt;self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;&lt;/code&gt;)。&lt;br /&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;仅设置返回按钮的文字&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (void)setBackButtonTitle {
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]
-            initWithTitle:NSLocalizedString(@&amp;quot;取消&amp;quot;, nil)  
-            style:UIBarButtonItemStylePlain  
-            target:self action:@selector(goToBack)];
-    leftButton.tintColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = leftButton;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;得到的效果如下：&lt;br /&gt;
-  &lt;img src=&#34;sources/navigationbar/navigationbarBtnTitle.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;自定义返回按钮&lt;br /&gt;
- 如果上面几种方式还无法满足你的要求（比如，需要同时设置返回按钮文字和图片），就需要用到UIBarButtonItem的initWithCustomView方法。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (void)setCustomLeftButton {
-    UIView* leftButtonView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 60, 40)];
-    UIButton* leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    leftButton.backgroundColor = [UIColor clearColor];
-    leftButton.frame = leftButtonView.frame;
-    [leftButton setImage:[UIImage imageNamed:@&amp;quot;LeftButton_back_Icon&amp;quot;] forState:UIControlStateNormal];
-    [leftButton setTitle:@&amp;quot;返回&amp;quot; forState:UIControlStateNormal];
-    leftButton.tintColor = [UIColor redColor];
-    leftButton.autoresizesSubviews = YES;
-    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    leftButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
-    [leftButton addTarget:self action:@selector(goToBack) forControlEvents:UIControlEventTouchUpInside];
-    [leftButtonView addSubview:leftButton];
-    UIBarButtonItem* leftBarButton = [[UIBarButtonItem alloc] initWithCustomView:leftButtonView];
-    self.navigationItem.leftBarButtonItem = leftBarButton;
-}  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;得到的效果图如下：&lt;br /&gt;
-   &lt;img src=&#34;sources/navigationbar/navigationBackBartBackImage.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;设置&lt;code&gt;rightBarButtonItem&lt;/code&gt;基本上脱离不了上面的几种方式，大家可以参照上面返回按钮的设置方式。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;隐藏导航栏底部的线条&lt;br /&gt;
-  有时候遇到一些特殊的要求，需要隐藏导航栏底部的线条。
-  两行代码就可以做到。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;设置导航栏的背景图（&lt;code&gt;setBackgroundImage&lt;/code&gt;方法）&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置导航栏的shadowImage (&lt;code&gt;setShadowImage&lt;/code&gt;方法)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UINavigationBar *navigationBar = self.navigationController.navigationBar;
-//设置透明的背景图，便于识别底部线条有没有被隐藏
-[navigationBar setBackgroundImage:[[UIImage alloc] init]
-                       forBarPosition:UIBarPositionAny
-                           barMetrics:UIBarMetricsDefault];
-//此处使底部线条失效
-[navigationBar setShadowImage:[UIImage new]];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;来看看效果图：&lt;br /&gt;
-   &lt;img src=&#34;sources/navigationbar/navShadowLineHide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;还有一种做法，一行代码就可以达到效果&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//方法二：
-self.navigationController.navigationBar.clipsToBounds = YES;  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;想要知道更详细的内容可以参考这个页面：&lt;a href=&#34;http://stackoverflow.com/questions/19226965/how-to-hide-ios7-uinavigationbar-1px-bottom-line&#34;&gt;How to hide iOS7 UINavigationBar 1px bottom line&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;设置导航条底部线条的颜色&lt;br /&gt;
-   有了上面的基础，设置导航栏线条的颜色就变得很简单了。&lt;br /&gt;
-   首先，我做了个UIImage的分类：通过颜色转成UIImage；&lt;br /&gt;
-   然后，用上面的方案来设置导航栏底部线条。&lt;/p&gt;
-
-&lt;p&gt;颜色转图片的代码：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@implementation UIImage (ColorImage)
-
-
-+ (UIImage *)imageWithColor:(UIColor *)color
-{
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
-
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-
-
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-
-    return image;
-}
-
-
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;设置导航栏底部线条颜色的代码：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UINavigationBar *navigationBar = self.navigationController.navigationBar;
-[navigationBar setBackgroundImage:[[UIImage alloc] init]
-                        forBarPosition:UIBarPositionAny
-                            barMetrics:UIBarMetricsDefault];
-//此处使底部线条颜色为红色
-[navigationBar setShadowImage:[UIImage imageWithColor:[UIColor redColor]]]; 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;依照惯例，看下效果图：&lt;br /&gt;
-     &lt;img src=&#34;sources/navigationbar/anvShadowSet.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;当然还有其他的方式也可以做到，如&lt;code&gt;addSubview&lt;/code&gt;,&lt;code&gt;addSubLayer&lt;/code&gt;等。感兴趣的话可以参考下这个页面：&lt;a href=&#34;http://stackoverflow.com/questions/19101361/ios7-change-uinavigationbar-border-color&#34;&gt;iOS7 - Change UINavigationBar border color&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;在导航栏上添加多个按钮&lt;br /&gt;
-  以微信打开网页时的效果为例，效果图如下，有两个按钮：返回和关闭。&lt;br /&gt;
-    &lt;img src=&#34;sources/navigationbar/dianpschreenshot.png&#34; alt=&#34;center&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
-
-&lt;p&gt;有下面两种方式可供选择，但是最终还是要用到&lt;code&gt;leftBarButtonItems&lt;/code&gt;这个方法。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#define UserMethod1 0
-
-
-UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:@&amp;quot;关闭&amp;quot; style:UIBarButtonItemStylePlain target:self action:@selector(closeAction)];
-if (UserMethod1) {
-    //方法一:
-    self.navigationItem.leftBarButtonItems = @[closeItem];
-    //要求显示默认的返回按钮，但是文字会显示默认的Back，暂时还不知道这个文字怎么改
-    self.navigationItem.leftItemsSupplementBackButton = YES;
-}
-else {
-    //方法二
-    UIButton* leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    leftButton.backgroundColor = [UIColor clearColor];
-    leftButton.frame = CGRectMake(0, 0, 45, 40);
-    [leftButton setImage:[UIImage imageNamed:@&amp;quot;LeftButton_back_Icon&amp;quot;] forState:UIControlStateNormal];
-    [leftButton setTitle:@&amp;quot;返回&amp;quot; forState:UIControlStateNormal];
-    leftButton.tintColor = [UIColor whiteColor];
-    leftButton.autoresizesSubviews = YES;
-    leftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    leftButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
-    [leftButton addTarget:self action:@selector(goToBack) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
-
-
-    self.navigationItem.leftBarButtonItems = @[backItem,closeItem];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后，运行的效果图如下：&lt;br /&gt;
-    &lt;img src=&#34;sources/navigationbar/addbtnOnNavBar.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;方法一用到了&lt;code&gt;leftItemsSupplementBackButton&lt;/code&gt; 这个属性，会显示系统默认的返回按钮，但是文字也是显示默认的Back文字，目前还没找到怎么修改这个文字，如果有谁知道，还请不吝赐教；所以我暂时还是建议大家用方法二。相应的还有 &lt;code&gt;rightBarButtonItems&lt;/code&gt; 这个属性，如果要在导航栏右侧展示多个按钮的话，可以设置这个属性。&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;在导航栏上添加分段控件&lt;/p&gt;
-
-&lt;p&gt;这次，以QQ为例，代码如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UISegmentedControl *segControl = [[UISegmentedControl alloc] initWithItems:@[@&amp;quot;消息&amp;quot;,@&amp;quot;电话&amp;quot;]];
-segControl.tintColor = [UIColor colorWithRed:0.07 green:0.72 blue:0.96 alpha:1];
-[segControl setSelectedSegmentIndex:0];
-self.navigationItem.titleView = segControl;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;代码很简单，就是设置 &lt;code&gt;titleView&lt;/code&gt; 这个属性，当然，你也可以把这个属性设置为你自定义的View.&lt;br /&gt;
-  &lt;img src=&#34;sources/navigationbar/NavTitleView.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;导航栏全局属性设置&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//全局设置导航栏主题
-- (void)setNavigationControllerAppearance {
-    [UINavigationBar appearance].barStyle  = UIBarStyleBlack;
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithWhite:0.1 alpha:0.5]];
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;全局设置导航栏的好处有两个：一是不用对每个 &lt;code&gt;NavigationBar&lt;/code&gt; 进行设置；二是方便做主题管理，切换主题，只需要更改全局设置即可。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;与导航栏相关的一些开源组件&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/ninjinkun/NJKWebViewProgress&#34;&gt;NJKWebViewProgress&lt;/a&gt; - 类似于Safiri加载网页时的进度显示&lt;br /&gt;
-&lt;img src=&#34;sources/navigationbar/njgWebprogress.png&#34; alt=&#34;&#34; /&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/forkingdog/FDFullscreenPopGesture&#34;&gt;FDFullscreenPopGesture&lt;/a&gt; 一个丝滑的全屏滑动返回手势&lt;br /&gt;
-    原文介绍&lt;a href=&#34;http://blog.sunnyxx.com/2015/06/07/fullscreen-pop-gesture/&#34;&gt;链接&lt;/a&gt;&lt;br /&gt;
-    &lt;img src=&#34;sources/navigationbar/snapshot0.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;h5&gt;&lt;code&gt;UINavigationItem&lt;/code&gt; 和 &lt;code&gt;UINavigationBar&lt;/code&gt; 关系分&lt;/h5&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;关系分析 &lt;code&gt;UIBarItem&lt;/code&gt; -&amp;gt; &lt;code&gt;UIBarButtonItem&lt;/code&gt; -&amp;gt; &lt;code&gt;UINavigationItem&lt;/code&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;UIBarItem&lt;/code&gt;: 类是一个可以放置在Bar之上的所有小控件类的抽象类。继承了该基类所有子类在外观上类似于一个Button，它们都有一个标题，图片，动作以及目标，这点可以从其子类的初始化方法处看到。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;UIBarButtonItem&lt;/code&gt;: 专门用来放在 &lt;code&gt;UIToolbar&lt;/code&gt; 或者 &lt;code&gt;UINavigationBar&lt;/code&gt; 的特殊 &lt;code&gt;button&lt;/code&gt;. 基本行为跟 &lt;code&gt;button&lt;/code&gt; 是一样的。另外从IOS5开始的 &lt;code&gt;Customizing Appearance&lt;/code&gt; 增加了一系列的方法调整显示。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;UINavigationItem: NSObject&lt;/code&gt;: 包含了当前页面导航栏上需要显示的全部信息 &lt;code&gt;title,prompt,titleView,leftBarButtonItem,rightBarButtonItem,backBarButonItem&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;UINavigationBar :UIView&lt;/code&gt; :  NavigaitonBar 就是导航栏，位于屏幕的上方，管理整个NavigationController的navigationItem，即类似navigationcontroller一样提供了一个栈来管理item。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;UINavigtionController :UIViewController&lt;/code&gt;: 包含：viewcontrollers、navigationbar、toolbar&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;navigationbar：UIView&lt;/code&gt;: 包含：items(UINavigationItem)&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;viewController&lt;/code&gt;:  包含navigationitem，toolItem.  这两个属性控制了当前页面当前页面的navigationbar，toolbar的外观。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;关系综述&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;navigationcontroller&lt;/code&gt; 直接控制 &lt;code&gt;viewcontrollers&lt;/code&gt;，然后包含的 &lt;code&gt;navigationbar&lt;/code&gt; 形成整个nv的导航栏，bar并包含整个&lt;code&gt;navigationItem&lt;/code&gt; 的栈,管理整个nv的  navigationitem（ NSArray *items 属性）。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;navigationItem&lt;/code&gt; 包含了bar视图的全部元素（如&lt;code&gt;title,tileview,backBarButtonItem&lt;/code&gt;等），受当前&lt;code&gt;viewcontroller&lt;/code&gt;管理，即bar形成整个nv的导航视图，然后每个nv页面的导航栏元素由所在页面的 &lt;code&gt;navigationItem&lt;/code&gt; 管理。即设置当前页面的左右barbutton，用 &lt;code&gt;self.navigationItem.leftBarButtonItem&lt;/code&gt; 等。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/brasbug/UINavigationBar.git&#34;&gt;Code Demo&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
