@@ -2,18 +2,206 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on Fly With Me</title>
-        <link>http://blog.flywithme.top/post/</link>
+        <link>http://www.flywithme.top/post/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Wed, 22 Feb 2017 14:12:36 CST</updated>
+        <updated>Wed, 22 Feb 2017 16:15:18 CST</updated>
         
         <item>
-            <title>字典</title>
-            <link>http://blog.flywithme.top/2017/02/22/swift08/</link>
+            <title>swift3-10 小节</title>
+            <link>http://www.flywithme.top/2017/02/22/swift10/</link>
+            <pubDate>Wed, 22 Feb 2017 16:15:18 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2017/02/22/swift10/</guid>
+            <description>&lt;p&gt;&lt;strong&gt;选择合适的数据结构&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;数组: 有序
+   集合: 无序,唯一性,集合特有的操作,快速查找
+   字典: 键值数据对&lt;/p&gt;
+
+&lt;p&gt;数组: 最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组&lt;br /&gt;
+   集合: 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用集合,获取共同喜好,共同兴趣等。
+         快速查找这个是集合的一大优势,数组的查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)),例如一个100万的数据,如果是数组查找的话,最坏的情况是
+         查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。
+   字典: 这个就不说了,使用的很广泛。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;回顾&lt;/strong&gt; &lt;code&gt;for in&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for index in 1...10{
+    print(index)
+}
+
+for c in &amp;quot;hello&amp;quot;.characters{
+    print(c)
+}
+
+var arr = [&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;]
+for str in arr{
+    print(str)
+}
+
+for (index ,str) in arr.enumerated(){
+    print(index, str)
+}
+
+var dic = [1:&amp;quot;a&amp;quot; , 2:&amp;quot;b&amp;quot;]
+for key in dic{
+    print(key)
+}
+for value in dic.values{
+    print(value)
+}
+
+for (key, value) in dic{
+    print(key,value)
+}
+
+var setA = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] as Set
+for str in setA{
+    print(str)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;还有很多没有涉及到的方法。这些方法需要我们在开发的过程中,慢慢学习了。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Swift3-09 集合</title>
+            <link>http://www.flywithme.top/2017/02/22/swift09/</link>
+            <pubDate>Wed, 22 Feb 2017 15:18:43 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2017/02/22/swift09/</guid>
+            <description>&lt;blockquote&gt;
+&lt;p&gt;将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集&lt;br /&gt;
+   为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。
+   &lt;strong&gt;集合中的每一个元素都是唯一的&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;基本方法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//集合的初始化
+var arr = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //如果不显式的声明,则默认是数组
+var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;]  //必须显式声明才行
+
+var emptySet1:Set&amp;lt;String&amp;gt; = []
+var emptySet2 = Set&amp;lt;Int&amp;gt;()
+
+var setB = Set([&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;c&amp;quot;]) //将一个数组转换成集合 
+
+
+setA.count
+setA.isEmpty
+setA.first //随机的取出一个元素
+
+setA.contains(&amp;quot;a&amp;quot;) //判断是否有这个元素
+//遍历    
+for str in setA{
+    print(str)
+}
+
+var str = setA.joined(separator: &amp;quot;d&amp;quot;)
+
+//比较
+setA == setB
+setA.elementsEqual(setB)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;集合的操作&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;]  
+//插入
+setA.insert(&amp;quot;D&amp;quot;) //返回一个元组
+//更新
+setA.update(with: &amp;quot;A&amp;quot;) //若已存在元素,则返回改元素,若没有,则返回nil
+//删除
+setA.remove(&amp;quot;a&amp;quot;) //返回一个 bool 若是 true 则表示删除成功,返回 false 则表示之前没有这个元素
+setA.removeAll() 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;并集: &lt;code&gt;union&lt;/code&gt; (不改变调用者的集合), &lt;code&gt;formUnion&lt;/code&gt;  (改变调用者的集合)  两个集合中的所有元素集合&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;]
+var setB = Set([&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;]) //将一根数组转换成集合
+
+var setC =  setA.union(setB)  //setC 有 setA和 setB 所有元素,但是setA 不变
+setA.union([&amp;quot;a&amp;quot;])
+
+setA
+setA.formUnion(setB) //setA 被改变
+setA
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;交集: &lt;code&gt;intersect&lt;/code&gt;(不改变调用者的集合),  &lt;code&gt;formIntersection&lt;/code&gt; (改变调用者的集合) 两个集合的公共部分&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;setA.intersection(setB)
+setA
+
+setA.formIntersection(setB)
+setA
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;补集(差集): 做减法  &lt;code&gt;subtracting&lt;/code&gt; (不改变调用者的集合) &lt;code&gt;subtract&lt;/code&gt; (改变调用者的集合)   调用者不包含在被调用者中的部分&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;setA.subtracting(setB)  //setA 独有的,而 setB 没有的元素 不改变 setA 值
+setA
+
+setA.subtract(setB) //setA 独有的,而 setB 没有的元素 改变 setA 值
+setA
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;去重: &lt;code&gt;symmetricDifference&lt;/code&gt;(不改变调用者的集合), &lt;code&gt;formSymmetricDifference&lt;/code&gt; (改变调用者的集合),   去除两个集合中相同的部分。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;setA.symmetricDifference(setB)
+setA
+setA.formSymmetricDifference(setB)
+setA
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;子集: &lt;code&gt;isSbuset&lt;/code&gt; 子集, &lt;code&gt;isStrictSubset&lt;/code&gt; 真子集  判断是否是另外一个集合的子集&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;setA.isSubset(of: setB)
+setA.isStrictSubset(of: setB)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;超集: &lt;code&gt;isSuperset&lt;/code&gt;超集 ,  &lt;code&gt;isStrictSuperset&lt;/code&gt; 真超集&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;setA.isSuperset(of: setB)
+setA.isStrictSuperset(of: setB)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;相离:  &lt;code&gt;isDisjoint&lt;/code&gt; 没有重叠的元素&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;setA.isDisjoint(with: setB)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Swift3-08 字典</title>
+            <link>http://www.flywithme.top/2017/02/22/swift08/</link>
             <pubDate>Wed, 22 Feb 2017 14:12:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/22/swift08/</guid>
+            <guid>http://www.flywithme.top/2017/02/22/swift08/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;字典是存储 键-值 数据对的无序数据集合&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -89,11 +277,11 @@ var str =  dic.updateValue(&amp;quot;value&amp;quot;, forKey: &amp;quot;key&amp;
         </item>
         
         <item>
-            <title>数组</title>
-            <link>http://blog.flywithme.top/2017/02/21/swift07/</link>
+            <title>Swift3-07 数组</title>
+            <link>http://www.flywithme.top/2017/02/21/swift07/</link>
             <pubDate>Tue, 21 Feb 2017 15:38:45 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/21/swift07/</guid>
+            <guid>http://www.flywithme.top/2017/02/21/swift07/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: &lt;code&gt;Array Dictionary set&lt;/code&gt;
 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。&lt;/p&gt;
@@ -225,11 +413,11 @@ var arr002:NSArray = [1, 2, &amp;quot;hello&#39;&amp;quot;]
         </item>
         
         <item>
-            <title>可选型 Optionals</title>
-            <link>http://blog.flywithme.top/2017/02/20/swift06/</link>
+            <title>Swift3-06 可选型 Optionals</title>
+            <link>http://www.flywithme.top/2017/02/20/swift06/</link>
             <pubDate>Mon, 20 Feb 2017 15:22:44 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/20/swift06/</guid>
+            <guid>http://www.flywithme.top/2017/02/20/swift06/</guid>
             <description>&lt;p&gt;画重点!
 Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候
 是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。&lt;/p&gt;
@@ -395,11 +583,11 @@ class001.showInfo()
         </item>
         
         <item>
-            <title>逻辑控制</title>
-            <link>http://blog.flywithme.top/2017/02/17/swift05/</link>
+            <title>Swift3-05 逻辑控制</title>
+            <link>http://www.flywithme.top/2017/02/17/swift05/</link>
             <pubDate>Fri, 17 Feb 2017 17:34:01 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/17/swift05/</guid>
+            <guid>http://www.flywithme.top/2017/02/17/swift05/</guid>
             <description>&lt;p&gt;控制流的三种基本结构:&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -627,11 +815,11 @@ buyComputer(money: 9000, price: 6000, brand: &amp;quot;Sony&amp;quot;)
         </item>
         
         <item>
-            <title>Swift 基础运算符</title>
-            <link>http://blog.flywithme.top/2017/02/17/swift04/</link>
+            <title>Swift3-04 基础运算符</title>
+            <link>http://www.flywithme.top/2017/02/17/swift04/</link>
             <pubDate>Fri, 17 Feb 2017 11:00:55 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/17/swift04/</guid>
+            <guid>http://www.flywithme.top/2017/02/17/swift04/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;赋值运算符&lt;/p&gt;
 
@@ -750,11 +938,11 @@ for str in arr{
         </item>
         
         <item>
-            <title>Swift 基础类型</title>
-            <link>http://blog.flywithme.top/2017/02/16/swift03/</link>
+            <title>Swift3-03 基础类型</title>
+            <link>http://www.flywithme.top/2017/02/16/swift03/</link>
             <pubDate>Thu, 16 Feb 2017 16:11:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
+            <guid>http://www.flywithme.top/2017/02/16/swift03/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;br /&gt;
 ```
@@ -1018,11 +1206,11 @@ s4.trimmingCharacters(in: .whitespaces) //去除空格
         </item>
         
         <item>
-            <title>Swift 初见</title>
-            <link>http://blog.flywithme.top/2017/02/16/swift02/</link>
+            <title>Swift3-02 初见</title>
+            <link>http://www.flywithme.top/2017/02/16/swift02/</link>
             <pubDate>Thu, 16 Feb 2017 11:27:44 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/16/swift02/</guid>
+            <guid>http://www.flywithme.top/2017/02/16/swift02/</guid>
             <description>&lt;p&gt;首先我们来在屏幕上输出一个 &lt;code&gt;hello world&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;print(&amp;quot;hello world&amp;quot;)
@@ -1088,11 +1276,11 @@ assert(age &amp;gt;= 0, &amp;quot;A person&#39;s age cannot be less than zero&am
         </item>
         
         <item>
-            <title>关于 Swift</title>
-            <link>http://blog.flywithme.top/2017/02/09/swift01/</link>
+            <title>关于 Swift3-01</title>
+            <link>http://www.flywithme.top/2017/02/09/swift01/</link>
             <pubDate>Thu, 09 Feb 2017 10:12:48 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/09/swift01/</guid>
+            <guid>http://www.flywithme.top/2017/02/09/swift01/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。
 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。&lt;/p&gt;&lt;/li&gt;
@@ -1114,10 +1302,10 @@ Swift 使用安全的编程模式并添加了很多新特性，这将使编程�
         
         <item>
             <title>Go语言fmt包Printf方法详解t</title>
-            <link>http://blog.flywithme.top/2017/01/01/golangfmt/</link>
+            <link>http://www.flywithme.top/2017/01/01/golangfmt/</link>
             <pubDate>Sun, 01 Jan 2017 00:56:42 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/01/01/golangfmt/</guid>
+            <guid>http://www.flywithme.top/2017/01/01/golangfmt/</guid>
             <description>&lt;p&gt;Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;General&lt;/strong&gt;&lt;/p&gt;
@@ -1228,10 +1416,10 @@ fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)
         
         <item>
             <title>golang-Gin-Https</title>
-            <link>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</link>
+            <link>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</link>
             <pubDate>Mon, 26 Dec 2016 14:29:14 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
+            <guid>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
             <description>&lt;p&gt;关于https&lt;br /&gt;
 背景知识&lt;br /&gt;
 密码学的一些基本知识&lt;br /&gt;
@@ -1553,10 +1741,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>TableView 中 Cell的重用机制分析</title>
-            <link>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</link>
+            <link>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</link>
             <pubDate>Tue, 20 Dec 2016 11:41:34 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
+            <guid>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
    这个方法到底是怎么实现的呢?&lt;br /&gt;
@@ -1588,14 +1776,14 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>JS判断客户端类型</title>
-            <link>http://blog.flywithme.top/2016/12/19/clientType/</link>
+            <link>http://www.flywithme.top/2016/12/19/clientType/</link>
             <pubDate>Mon, 19 Dec 2016 14:30:21 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
+            <guid>http://www.flywithme.top/2016/12/19/clientType/</guid>
             <description>&lt;p&gt;通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型&lt;/p&gt;
 
 &lt;p&gt;扫描二维码打开:
-  &lt;img src=&#34;http://blog.flywithme.top/sources/localHtml/clientType01.png&#34; width = &#34;200&#34; height = &#34;200&#34; alt=&#34;二维码&#34; align=center /&gt;&lt;/p&gt;
+  &lt;img src=&#34;http://www.flywithme.top/sources/localHtml/clientType01.png&#34; width = &#34;200&#34; height = &#34;200&#34; alt=&#34;二维码&#34; align=center /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://blog.flywithme.top/sources/localhtml/clientType01/index.html&#34; target=&#34;_blank&#34;&gt;测试链接:&lt;/a&gt;&lt;/p&gt;
 
@@ -1654,10 +1842,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>iOS 开发Debug工具壳</title>
-            <link>http://blog.flywithme.top/2016/07/14/debugpanel/</link>
+            <link>http://www.flywithme.top/2016/07/14/debugpanel/</link>
             <pubDate>Thu, 14 Jul 2016 11:40:29 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/07/14/debugpanel/</guid>
+            <guid>http://www.flywithme.top/2016/07/14/debugpanel/</guid>
             <description>
 
 &lt;h5 id=&#34;初衷:bccb225b752499f845bd206d74979637&#34;&gt;初衷&lt;/h5&gt;
@@ -1668,7 +1856,7 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
  暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法&lt;/p&gt;
 
 &lt;p&gt;效果如下图:
-  &lt;img src=&#34;http://blog.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
+  &lt;img src=&#34;http://www.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
 
 &lt;h6 id=&#34;使用方法:bccb225b752499f845bd206d74979637&#34;&gt;使用方法&lt;/h6&gt;
 
@@ -1786,319 +1974,6 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
     // TODO  Do Your Job
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>golang-gin 框架学习 一、 GET POST Method</title>
-            <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
-            <pubDate>Thu, 30 Jun 2016 18:16:12 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
-            <description>
-
-&lt;h5 id=&#34;前言:2551b16abac86e66e05bae7b2b34a895&#34;&gt;前言&lt;/h5&gt;
-
-&lt;p&gt;一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过.&lt;br /&gt;
- 所以就选了一个文档比较齐全的 Gin 来写我的第一个 webServer 项目.这只是一个 Demo ,写这个日志是为了记录自己的学习历程.激励下自己吧.&lt;/p&gt;
-
-&lt;h6 id=&#34;gin-api:2551b16abac86e66e05bae7b2b34a895&#34;&gt;Gin API&lt;/h6&gt;
-
-&lt;p&gt;搭建Web 服务器少不了要写 api 首先从最简单的 GET POST 开始.&lt;br /&gt;
- 首先要初始化一个路由&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func main() {
-    router := gin.Default()//初始化路由
-    router.Run(&amp;quot;:8080&amp;quot;) // listen and GO on 0.0.0.0:8080
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h6 id=&#34;get-method:2551b16abac86e66e05bae7b2b34a895&#34;&gt;GET Method&lt;/h6&gt;
-
-&lt;p&gt;这个最基本的网络请求在 gin 几行代码就可以搞定&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;router.GET(&amp;quot;/user/:name/:action&amp;quot;, func(c *gin.Context) {
-        name := c.Param(&amp;quot;name&amp;quot;)
-        action := c.Param(&amp;quot;action&amp;quot;)
-        message := name + &amp;quot; is &amp;quot; + action
-        c.String(http.StatusOK, message)
-})
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;client 使用方式如下图
- &lt;img src=&#34;sources/GoGin01/20160630-0.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;router.GET(&amp;quot;/welcome&amp;quot;, func(c *gin.Context) {
-        firstname := c.DefaultQuery(&amp;quot;firstname&amp;quot;, &amp;quot;Guest&amp;quot;)
-        lastname := c.Query(&amp;quot;lastname&amp;quot;) // shortcut for c.Request.URL.Query().Get(&amp;quot;lastname&amp;quot;)
-
-        c.String(http.StatusOK, &amp;quot;Hello %s %s&amp;quot;, firstname, lastname)
-    })
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;client 使用方式如下图
-  &lt;img src=&#34;sources/GoGin01/20160631-0.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;router.POST(&amp;quot;/form_post&amp;quot;, func(c *gin.Context) {
-        message := c.PostForm(&amp;quot;message&amp;quot;)
-        nick := c.DefaultPostForm(&amp;quot;nick&amp;quot;, &amp;quot;anonymous&amp;quot;)
-
-        c.JSON(200, gin.H{
-            &amp;quot;status&amp;quot;:  &amp;quot;posted&amp;quot;,
-            &amp;quot;message&amp;quot;: message,
-            &amp;quot;nick&amp;quot;:    nick,
-        })
-    })
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h6 id=&#34;post-method:2551b16abac86e66e05bae7b2b34a895&#34;&gt;POST Method&lt;/h6&gt;
-
-&lt;p&gt;一样只需要几行代码&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;router.POST(&amp;quot;/post&amp;quot;, func(c *gin.Context) {
-
-    id := c.Query(&amp;quot;postid&amp;quot;)
-    page := c.DefaultQuery(&amp;quot;page&amp;quot;, &amp;quot;0&amp;quot;)
-    name := c.PostForm(&amp;quot;name&amp;quot;)
-    message := c.PostForm(&amp;quot;message&amp;quot;)
-
-    fmt.Printf(&amp;quot;id: %s; page: %s; name: %s; message: %s&amp;quot;, id, page, name, message)
-
-    c.JSON(200, gin.H{
-        &amp;quot;status&amp;quot;:  &amp;quot;posted&amp;quot;,
-        &amp;quot;id&amp;quot;: id,
-        &amp;quot;page&amp;quot;:page,
-        &amp;quot;name&amp;quot;:name,
-        &amp;quot;message&amp;quot;:message,
-
-    })
-}) 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;client 使用方式如下图
- &lt;img src=&#34;sources/GoGin01/20160631-1.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;type postForm1 struct {
-        UserId     string `form:&amp;quot;userid&amp;quot; binding:&amp;quot;required&amp;quot;`
-        Page string `form:&amp;quot;page&amp;quot; binding:&amp;quot;required&amp;quot;`
-    }
-
-    router.POST(&amp;quot;/post1&amp;quot;, func(c *gin.Context) {
-        var form postForm1
-        if c.Bind(&amp;amp;form) == nil{
-            c.JSON(200,gin.H{
-                &amp;quot;status&amp;quot;:200,
-                &amp;quot;id&amp;quot;:form.UserId,
-                &amp;quot;page&amp;quot;:form.Page,
-            })
-        }
-        fmt.Printf(&amp;quot;id: %s &amp;quot;, form.UserId)
-    }) 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;client 使用方式如下图
-  &lt;img src=&#34;sources/GoGin01/20160631-2.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>ReactiveCocoa简单介绍</title>
-            <link>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</link>
-            <pubDate>Tue, 14 Jun 2016 14:33:00 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
-            <description>
-
-&lt;h5 id=&#34;一-引入-reactivecocoa:28e95232603870e31ddfa6e2560a7d74&#34;&gt;一 引入 ReactiveCocoa&lt;/h5&gt;
-
-&lt;p&gt;使用 pod 引入 选择自己需要的版本&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;pod &#39;ReactiveCocoa&#39; 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h6 id=&#34;二-使用-reactivecocoa:28e95232603870e31ddfa6e2560a7d74&#34;&gt;二 使用 ReactiveCocoa&lt;/h6&gt;
-
-&lt;p&gt;下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;引入相应的头文件,在工程中引入下方的头文件（建议在Pch文件中引入）就可以使用我们的ReactiveCocoa框架了&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#import &amp;lt;ReactiveCocoa/ReactiveCocoa.h&amp;gt;
-#import &amp;lt;ReactiveCocoa/RACEXTScope.h&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Sequence和Map&lt;br /&gt;
-Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组，我们可以暂且把Sequence看做绑定信号量的数组吧。在OC中的NSArray可以通过rac_sequence方法转换成ReactiveCocoa中的Sequence，然后就可以调用处理信号的一些方法了。&lt;br /&gt;
-参考以下实例代码：&lt;br /&gt;
-   a. 把NSArray通过rac_sequence方法生成RAC中的Sequence&lt;br /&gt;
-   b. 获取该Sequence对象的信号量&lt;br /&gt;
-   c. 调用Signal的Map方法，使每个元素的首字母大写&lt;br /&gt;
-   d. 通过subscribNext方法对其进行遍历输出   　　　&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//uppercaseString use map
-- (void)uppercaseString {
-
-
-    RACSequence *sequence = [@[@&amp;quot;you&amp;quot;, @&amp;quot;are&amp;quot;, @&amp;quot;beautiful&amp;quot;] rac_sequence];
-
-
-    RACSignal *signal =  sequence.signal;
-
-
-    RACSignal *capitalizedSignal = [signal map:^id(NSString * value) {
-                               return [value capitalizedString];
-                            }];
-
-
-    [signal subscribeNext:^(NSString * x) {
-        NSLog(@&amp;quot;signal --- %@&amp;quot;, x);
-    }];
-
-
-    [capitalizedSignal subscribeNext:^(NSString * x) {
-        NSLog(@&amp;quot;capitalizedSignal --- %@&amp;quot;, x);
-    }];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/reactivecocoa/blogreactivelog.png&#34; alt=&#34;reactivelog&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (void)uppercaseString {
-
-
-    [[[@[@&amp;quot;you&amp;quot;, @&amp;quot;are&amp;quot;, @&amp;quot;beautiful&amp;quot;] rac_sequence].signal
-     map:^id(NSString * value) {
-        return [value capitalizedString];
-    }] subscribeNext:^(id x) {
-        NSLog(@&amp;quot;capitalizedSignal --- %@&amp;quot;, x);
-    }];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ol&gt;
-&lt;li&gt;信号量开关(Switch)&lt;br /&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;上面把信号量比喻成水管，那么Switch就是水龙头呢。通过Switch我们可以控制那个信号量起作用，并且可以在信号量之间进行切换。也可以这么理解，把Switch看成另一段水管，Switch对接那个水管，就流那个水管的水，这样比喻应该更为贴切一些。下方是一个关于Switch的一个小实例。&lt;/p&gt;
-
-&lt;p&gt;(1) 首先创建3个自定义信号量（3个水管），前两个水管是用来接通不同的水源的(google, baidu), 而最后一个信号量是用来对接不同水源水管的水管（signalOfSignal）。signalOfSignal接baidu水管上，他就流baidu水源的水，接google水管上就流google水源的水。&lt;br /&gt;
-   (2) 把signalOfSignal信号量通过switchToLatest方法加工成开关信号量。&lt;br /&gt;
-   (3) 紧接着是对通过开关数据进行处理。&lt;br /&gt;
-   (4) 开关对接baidu信号量，然后baidu和google信号量同时往水管里灌入数据，那么起作用的是baidu信号量。&lt;br /&gt;
-   (5) 开关对接google信号量，google和baidu信号量发送数据，则google信号量输出到signalOfSignal中&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//信号开关Switch
-- (void)signalSwitch {
-    //创建3个自定义信号
-    RACSubject *google = [RACSubject subject];
-    RACSubject *baidu = [RACSubject subject];
-    RACSubject *signalOfSignal = [RACSubject subject];
-
-
-    //获取开关信号
-    RACSignal *switchSignal = [signalOfSignal switchToLatest];
-
-
-    //对通过开关的信号量进行操作
-    [[switchSignal  map:^id(NSString * value) {
-        return [@&amp;quot;https//www.&amp;quot; stringByAppendingFormat:@&amp;quot;%@&amp;quot;, value];
-    }] subscribeNext:^(NSString * x) {
-        NSLog(@&amp;quot;%@&amp;quot;, x);
-    }];
-
-
-    //通过开关打开baidu
-    [signalOfSignal sendNext:baidu];
-    [baidu sendNext:@&amp;quot;baidu.com&amp;quot;];
-    [google sendNext:@&amp;quot;google.com&amp;quot;];
-
-
-    //通过开关打开google
-    [signalOfSignal sendNext:google];
-    [baidu sendNext:@&amp;quot;baidu.com/&amp;quot;];
-    [google sendNext:@&amp;quot;google.com/&amp;quot;];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;上面代码输出结果如下：&lt;br /&gt;
-    &lt;img src=&#34;sources/reactivecocoa/blogreactivelog1.png&#34; alt=&#34;log1&#34; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;信号量的合并&lt;br /&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;信号量的合并说白了就是把两个水管中的水合成一个水管中的水。但这个合并有个限制，当两个水管中都有水的时候才合并。如果一个水管中有水，另一个水管中没有水，那么有水的水管会等到无水的水管中来水了，在与这个水管中的水按规则进行合并。下面这个实例就是把两个信号量进行合并。&lt;/p&gt;
-
-&lt;p&gt;(1) 首先创建两个自定义的信号量letters和numbers&lt;br /&gt;
-   (2) 吧两个信号量通过combineLatest函数进行合并，combineLatest说明要合并信号量中最后发送的值&lt;br /&gt;
-   (3) reduce块中是合并规则：把numbers中的值拼接到letters信号量中的值后边。&lt;br /&gt;
-   (4) 经过上面的步骤就是创建所需的相关信号量，也就是相当于架好运输的管道。接着我们就可以通过sendNext方法来往信号量中发送值了，也就是往管道中进行灌水。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//组合信号
-- (void)combiningLatest{
-    RACSubject *letters = [RACSubject subject];
-    RACSubject *numbers = [RACSubject subject];
-
-
-    [[RACSignal
-     combineLatest:@[letters, numbers]
-     reduce:^(NSString *letter, NSString *number){
-         return [letter stringByAppendingString:number];
-     }]
-     subscribeNext:^(NSString * x) {
-         NSLog(@&amp;quot;%@&amp;quot;, x);
-     }];
-
-
-    //B1 C1 C2
-    [letters sendNext:@&amp;quot;A&amp;quot;];
-    [letters sendNext:@&amp;quot;B&amp;quot;];
-    [numbers sendNext:@&amp;quot;1&amp;quot;];
-    [letters sendNext:@&amp;quot;C&amp;quot;];
-    [numbers sendNext:@&amp;quot;2&amp;quot;];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;上面示例的运行输出结果如下：&lt;br /&gt;
-   &lt;img src=&#34;sources/reactivecocoa/reactivelog2.png&#34; alt=&#34;log2&#34; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;信号的合并（merge）&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;信号合并就理解起来就比较简单了，merge信号量规则比较简单，就是把多个信号量，放入数组中通过merge函数来合并数组中的所有信号量为一个。类比一下，合并后，无论哪个水管中有水都会在merge产生的水管中流出来的。下方是merge信号量的代码：&lt;/p&gt;
-
-&lt;p&gt;(1) 创建三个自定义信号量, 用于merge&lt;br /&gt;
-   (2) 合并上面创建的3个信号量&lt;br /&gt;
-   (3) 往信号里灌入数据&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//合并信号
-- (void)merge {
-    RACSubject *letters = [RACSubject subject];
-    RACSubject *numbers = [RACSubject subject];
-    RACSubject *chinese = [RACSubject subject];
-
-
-    [[RACSignal
-     merge:@[letters, numbers, chinese]]
-     subscribeNext:^(id x) {
-        NSLog(@&amp;quot;merge:%@&amp;quot;, x);
-    }];
-
-
-    [letters sendNext:@&amp;quot;AAA&amp;quot;];
-    [numbers sendNext:@&amp;quot;666&amp;quot;];
-    [chinese 
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;上面代码运行结果如下：&lt;br /&gt;
-  &lt;img src=&#34;sources/reactivecocoa/reactivelog3.png&#34; alt=&#34;log3&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
 </description>
         </item>
         

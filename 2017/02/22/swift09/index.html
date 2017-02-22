@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>TableView 中 Cell的重用机制分析 - Fly With Me</title>
+  <title>Swift3-09 集合 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="keywords" content="xxx,">
-<meta name="description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta name="keywords" content="swift,学习,">
+<meta name="description" content="将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="TableView 中 Cell的重用机制分析 - Fly With Me">
-<meta itemprop="description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta itemprop="name" content="Swift3-09 集合 - Fly With Me">
+<meta itemprop="description" content="将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做">
 <meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="TableView 中 Cell的重用机制分析 - Fly With Me" />
+<meta property="og:title" content="Swift3-09 集合 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.flywithme.top/2016/12/20/dequeueReusableCell/" />
+<meta property="og:url" content="http://www.flywithme.top/2017/02/22/swift09/" />
 <meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta property="og:description" content="将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="TableView 中 Cell的重用机制分析 - Fly With Me">
-<meta name="twitter:description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta name="twitter:title" content="Swift3-09 集合 - Fly With Me">
+<meta name="twitter:description" content="将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://www.flywithme.top/2016/12/20/dequeueReusableCell/">
-  <link rel='shortlink' href="http://www.flywithme.top/2016/12/20/dequeueReusableCell/"/>
+  <link rel="canonical" href="http://www.flywithme.top/2017/02/22/swift09/">
+  <link rel='shortlink' href="http://www.flywithme.top/2017/02/22/swift09/"/>
   <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">TableView 中 Cell的重用机制分析</h1>
+                  <h1 class="post-title">Swift3-09 集合</h1>
 
                   <p class="post-byline">
-                    by  · 2001211年12月20日 · 866 Words ·
+                    by  · 220023年02月22日 · 651 Words ·
                     ~2min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-12-20-dequeueReusableCell.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-02-22-swift09.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -198,31 +198,121 @@
                     <div class="entry-inner">
                       
                       <blockquote>
-<p>UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
-   这个方法到底是怎么实现的呢?<br />
-   <code>[tableView dequeueReusableCellWithIdentifier:CellIdentifier]</code>由于苹果并没有开源,所以我就对这个
-``的实现分析一下。<br />
-   UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell,
-   对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。</p>
+<p>将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集<br />
+   为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。
+   <strong>集合中的每一个元素都是唯一的</strong>。</p>
 </blockquote>
 
-<p><strong>重用实现分析:</strong></p>
+<p><strong>基本方法</strong></p>
 
-<p>UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源  NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;<br />
-   TableView 初始化之初,这两个数据都是空的。<br />
-   通过<code>[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]</code> 创建新的 cell,创建之后 数据会进入visiableCells 中
-   当屏幕上的Cell 够用之后,会有一个 Cell  使用 key CellIdentifier 存 reusableTableCels 中,<br />
-   比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:</p>
+<pre><code>//集合的初始化
+var arr = [&quot;x&quot;,&quot;y&quot;] //如果不显式的声明,则默认是数组
+var setA:Set = [&quot;x&quot;,&quot;y&quot;]  //必须显式声明才行
 
-<ol>
-<li><p>用<code>[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]</code>创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空</p></li>
+var emptySet1:Set&lt;String&gt; = []
+var emptySet2 = Set&lt;Int&gt;()
 
-<li><p>tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。</p></li>
+var setB = Set([&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;c&quot;]) //将一个数组转换成集合 
 
-<li><p>tableView向下滚动时,如果在顶部,数据不会有变化,如果在中间,上下都屏幕外都有数据。 因为reusableCells中有数据,当需要时会把之前加入的 cell1 返回<code>[tableView dequeueReusableCellWithIdentifier:CellIdentifier]</code>,并移出 reusableCells,移入visiableCells,底部的 Cell6移入 reusableCells ,这样就完成了重用逻辑。</p></li>
-</ol>
 
-<p>还有一些情况需要注意,并不是只有拖动的时候才会有以上逻辑,tableview 调用<code>reloadData</code>的时候,<code>reloadRowsAtIndex</code> 方法的时候也会,具体步骤,以后再分析。</p>
+setA.count
+setA.isEmpty
+setA.first //随机的取出一个元素
+
+setA.contains(&quot;a&quot;) //判断是否有这个元素
+//遍历    
+for str in setA{
+    print(str)
+}
+
+var str = setA.joined(separator: &quot;d&quot;)
+
+//比较
+setA == setB
+setA.elementsEqual(setB)
+</code></pre>
+
+<p><strong>集合的操作</strong></p>
+
+<pre><code>var setA:Set = [&quot;x&quot;,&quot;y&quot;]  
+//插入
+setA.insert(&quot;D&quot;) //返回一个元组
+//更新
+setA.update(with: &quot;A&quot;) //若已存在元素,则返回改元素,若没有,则返回nil
+//删除
+setA.remove(&quot;a&quot;) //返回一个 bool 若是 true 则表示删除成功,返回 false 则表示之前没有这个元素
+setA.removeAll() 
+</code></pre>
+
+<blockquote>
+<p>并集: <code>union</code> (不改变调用者的集合), <code>formUnion</code>  (改变调用者的集合)  两个集合中的所有元素集合</p>
+</blockquote>
+
+<pre><code>var setA:Set = [&quot;x&quot;,&quot;y&quot;]
+var setB = Set([&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]) //将一根数组转换成集合
+
+var setC =  setA.union(setB)  //setC 有 setA和 setB 所有元素,但是setA 不变
+setA.union([&quot;a&quot;])
+
+setA
+setA.formUnion(setB) //setA 被改变
+setA
+</code></pre>
+
+<blockquote>
+<p>交集: <code>intersect</code>(不改变调用者的集合),  <code>formIntersection</code> (改变调用者的集合) 两个集合的公共部分</p>
+</blockquote>
+
+<pre><code>setA.intersection(setB)
+setA
+
+setA.formIntersection(setB)
+setA
+</code></pre>
+
+<blockquote>
+<p>补集(差集): 做减法  <code>subtracting</code> (不改变调用者的集合) <code>subtract</code> (改变调用者的集合)   调用者不包含在被调用者中的部分</p>
+</blockquote>
+
+<pre><code>setA.subtracting(setB)  //setA 独有的,而 setB 没有的元素 不改变 setA 值
+setA
+
+setA.subtract(setB) //setA 独有的,而 setB 没有的元素 改变 setA 值
+setA
+</code></pre>
+
+<blockquote>
+<p>去重: <code>symmetricDifference</code>(不改变调用者的集合), <code>formSymmetricDifference</code> (改变调用者的集合),   去除两个集合中相同的部分。</p>
+</blockquote>
+
+<pre><code>setA.symmetricDifference(setB)
+setA
+setA.formSymmetricDifference(setB)
+setA
+</code></pre>
+
+<blockquote>
+<p>子集: <code>isSbuset</code> 子集, <code>isStrictSubset</code> 真子集  判断是否是另外一个集合的子集</p>
+</blockquote>
+
+<pre><code>setA.isSubset(of: setB)
+setA.isStrictSubset(of: setB)
+</code></pre>
+
+<blockquote>
+<p>超集: <code>isSuperset</code>超集 ,  <code>isStrictSuperset</code> 真超集</p>
+</blockquote>
+
+<pre><code>setA.isSuperset(of: setB)
+setA.isStrictSuperset(of: setB)
+</code></pre>
+
+<blockquote>
+<p>相离:  <code>isDisjoint</code> 没有重叠的元素</p>
+</blockquote>
+
+<pre><code>setA.isDisjoint(with: setB)
+</code></pre>
 
                       
                     </div>
@@ -234,7 +324,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/12/20/dequeueReusableCell/">http://www.flywithme.top/2016/12/20/dequeueReusableCell/</a>
+                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2017/02/22/swift09/">http://www.flywithme.top/2017/02/22/swift09/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -287,7 +377,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/12/20/dequeueReusableCell/" data-title="TableView 中 Cell的重用机制分析" data-url="http://www.flywithme.top/2016/12/20/dequeueReusableCell/"></div>
+<div class="ds-thread" data-thread-key="/2017/02/22/swift09/" data-title="Swift3-09 集合" data-url="http://www.flywithme.top/2017/02/22/swift09/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -342,19 +432,19 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://www.flywithme.top/2016/12/19/clientType/" rel="next">
+        <a href="http://www.flywithme.top/2017/02/22/swift08/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>JS判断客户端类型</span>
+          <span>Swift3-08 字典</span>
         </a>
         
       </li>
       <li class="previous">
         
-        <a href="http://www.flywithme.top/2016/12/26/golang-Gin-Https/" rel="prev">
+        <a href="http://www.flywithme.top/2017/02/22/swift10/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
-          <span>golang-Gin-Https</span>
+          <span>swift3-10 小节</span>
         </a>
         
       </li>

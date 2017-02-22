@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>TableView 中 Cell的重用机制分析 - Fly With Me</title>
+  <title>swift3-10 小节 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta name="description" content="选择合适的数据结构 数组: 有序 集合: 无序,唯一性,集合特有的操作,快速查找 字典: 键值数据对 数组: 最大的特定就是有序,如果我们操作的元素是有序的">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="TableView 中 Cell的重用机制分析 - Fly With Me">
-<meta itemprop="description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta itemprop="name" content="swift3-10 小节 - Fly With Me">
+<meta itemprop="description" content="选择合适的数据结构 数组: 有序 集合: 无序,唯一性,集合特有的操作,快速查找 字典: 键值数据对 数组: 最大的特定就是有序,如果我们操作的元素是有序的">
 <meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="TableView 中 Cell的重用机制分析 - Fly With Me" />
+<meta property="og:title" content="swift3-10 小节 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.flywithme.top/2016/12/20/dequeueReusableCell/" />
+<meta property="og:url" content="http://www.flywithme.top/2017/02/22/swift10/" />
 <meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta property="og:description" content="选择合适的数据结构 数组: 有序 集合: 无序,唯一性,集合特有的操作,快速查找 字典: 键值数据对 数组: 最大的特定就是有序,如果我们操作的元素是有序的">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="TableView 中 Cell的重用机制分析 - Fly With Me">
-<meta name="twitter:description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta name="twitter:title" content="swift3-10 小节 - Fly With Me">
+<meta name="twitter:description" content="选择合适的数据结构 数组: 有序 集合: 无序,唯一性,集合特有的操作,快速查找 字典: 键值数据对 数组: 最大的特定就是有序,如果我们操作的元素是有序的">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://www.flywithme.top/2016/12/20/dequeueReusableCell/">
-  <link rel='shortlink' href="http://www.flywithme.top/2016/12/20/dequeueReusableCell/"/>
+  <link rel="canonical" href="http://www.flywithme.top/2017/02/22/swift10/">
+  <link rel='shortlink' href="http://www.flywithme.top/2017/02/22/swift10/"/>
   <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">TableView 中 Cell的重用机制分析</h1>
+                  <h1 class="post-title">swift3-10 小节</h1>
 
                   <p class="post-byline">
-                    by  · 2001211年12月20日 · 866 Words ·
-                    ~2min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-12-20-dequeueReusableCell.md"
+                    by  · 220024年02月22日 · 355 Words ·
+                    ~1min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-02-22-swift10.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -197,32 +197,60 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <blockquote>
-<p>UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
-   这个方法到底是怎么实现的呢?<br />
-   <code>[tableView dequeueReusableCellWithIdentifier:CellIdentifier]</code>由于苹果并没有开源,所以我就对这个
-``的实现分析一下。<br />
-   UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell,
-   对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。</p>
+                      <p><strong>选择合适的数据结构</strong></p>
+
+<blockquote>
+<p>数组: 有序
+   集合: 无序,唯一性,集合特有的操作,快速查找
+   字典: 键值数据对</p>
+
+<p>数组: 最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组<br />
+   集合: 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用集合,获取共同喜好,共同兴趣等。
+         快速查找这个是集合的一大优势,数组的查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)),例如一个100万的数据,如果是数组查找的话,最坏的情况是
+         查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。
+   字典: 这个就不说了,使用的很广泛。</p>
 </blockquote>
 
-<p><strong>重用实现分析:</strong></p>
+<p><strong>回顾</strong> <code>for in</code></p>
 
-<p>UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源  NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;<br />
-   TableView 初始化之初,这两个数据都是空的。<br />
-   通过<code>[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]</code> 创建新的 cell,创建之后 数据会进入visiableCells 中
-   当屏幕上的Cell 够用之后,会有一个 Cell  使用 key CellIdentifier 存 reusableTableCels 中,<br />
-   比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:</p>
+<pre><code>for index in 1...10{
+    print(index)
+}
 
-<ol>
-<li><p>用<code>[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]</code>创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空</p></li>
+for c in &quot;hello&quot;.characters{
+    print(c)
+}
 
-<li><p>tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。</p></li>
+var arr = [&quot;a&quot;, &quot;b&quot;,&quot;c&quot;]
+for str in arr{
+    print(str)
+}
 
-<li><p>tableView向下滚动时,如果在顶部,数据不会有变化,如果在中间,上下都屏幕外都有数据。 因为reusableCells中有数据,当需要时会把之前加入的 cell1 返回<code>[tableView dequeueReusableCellWithIdentifier:CellIdentifier]</code>,并移出 reusableCells,移入visiableCells,底部的 Cell6移入 reusableCells ,这样就完成了重用逻辑。</p></li>
-</ol>
+for (index ,str) in arr.enumerated(){
+    print(index, str)
+}
 
-<p>还有一些情况需要注意,并不是只有拖动的时候才会有以上逻辑,tableview 调用<code>reloadData</code>的时候,<code>reloadRowsAtIndex</code> 方法的时候也会,具体步骤,以后再分析。</p>
+var dic = [1:&quot;a&quot; , 2:&quot;b&quot;]
+for key in dic{
+    print(key)
+}
+for value in dic.values{
+    print(value)
+}
+
+for (key, value) in dic{
+    print(key,value)
+}
+
+var setA = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;] as Set
+for str in setA{
+    print(str)
+}
+</code></pre>
+
+<blockquote>
+<p>还有很多没有涉及到的方法。这些方法需要我们在开发的过程中,慢慢学习了。</p>
+</blockquote>
 
                       
                     </div>
@@ -234,7 +262,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/12/20/dequeueReusableCell/">http://www.flywithme.top/2016/12/20/dequeueReusableCell/</a>
+                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2017/02/22/swift10/">http://www.flywithme.top/2017/02/22/swift10/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -287,7 +315,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/12/20/dequeueReusableCell/" data-title="TableView 中 Cell的重用机制分析" data-url="http://www.flywithme.top/2016/12/20/dequeueReusableCell/"></div>
+<div class="ds-thread" data-thread-key="/2017/02/22/swift10/" data-title="swift3-10 小节" data-url="http://www.flywithme.top/2017/02/22/swift10/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -342,20 +370,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://www.flywithme.top/2016/12/19/clientType/" rel="next">
+        <a href="http://www.flywithme.top/2017/02/22/swift09/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>JS判断客户端类型</span>
+          <span>Swift3-09 集合</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://www.flywithme.top/2016/12/26/golang-Gin-Https/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>golang-Gin-Https</span>
-        </a>
         
       </li>
     </ul>
