@@ -186,7 +186,7 @@
                   <h1 class="post-title">数组</h1>
 
                   <p class="post-byline">
-                    by  · 210023年02月21日 · 710 Words ·
+                    by  · 210023年02月21日 · 712 Words ·
                     ~2min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-02-21-swift07.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -316,12 +316,13 @@ var arr002:NSArray = [1, 2, &quot;hello'&quot;]
 
 <p><strong>遗留问题</strong></p>
 
-<pre><code>var arr000 = [1, 2, 3, 4]
-var arr001 = [&quot;a&quot;]
-var arr002 = [1,2,2,&quot;a&quot;,arr000] as Any
+<pre><code> var arr000 = [1, 2, 3, 4]
+ var arr001 = [&quot;a&quot;]
+ var arr002 = [[1],[2],[3],[&quot;a&quot;],arr000] as [Any]
 
-//如何在 arr002 中获取第五个元素,然后解包这个元素。
-var arr = arr002[4]  //对 arr的解包,如何顺利进行。
+ //如何在 arr002 中获取第五个元素,然后解包这个元素。
+ var arr = arr002[4]   //对 arr的解包,如何顺利进行。
+ //arr[0]  //error
 </code></pre>
 
                       
@@ -450,6 +451,12 @@ var duoshuoQuery = {short_name:"brasbug"};
         
       </li>
       <li class="previous">
+        
+        <a href="http://blog.flywithme.top/2017/02/22/swift08/" rel="prev">
+          <i class="fa fa-chevron-left"></i>
+          <strong>Previous Post</strong>
+          <span>字典</span>
+        </a>
         
       </li>
     </ul>

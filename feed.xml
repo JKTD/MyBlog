@@ -6,7 +6,87 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Tue, 21 Feb 2017 15:38:45 CST</updated>
+        <updated>Wed, 22 Feb 2017 14:12:36 CST</updated>
+        
+        <item>
+            <title>字典</title>
+            <link>http://blog.flywithme.top/2017/02/22/swift08/</link>
+            <pubDate>Wed, 22 Feb 2017 14:12:36 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/02/22/swift08/</guid>
+            <description>&lt;blockquote&gt;
+&lt;p&gt;字典是存储 键-值 数据对的无序数据集合&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;基本方法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;]
+    dic[&amp;quot;key&amp;quot;]
+var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型
+    value = dic[&amp;quot;daaaa&amp;quot;]
+
+    dict.isEmpty
+    dict.count  
+
+if let value = dic[&amp;quot;key&amp;quot;]{
+    print(value)
+ }    
+
+var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2]
+    dict[&amp;quot;1&amp;quot;]
+
+
+
+var dict01:[Int:Int] = [1:1,2:2]
+    dict01[1]
+
+var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;]
+    dict02[1]    
+
+//遍历   
+for (key, value) in dict{
+        print(key,value)
+}   
+
+//比较
+var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;]
+dic[&amp;quot;key&amp;quot;]
+var dic2 = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;]
+dic2[&amp;quot;key&amp;quot;]dict == dict01
+dic == dic2  //true  如果 元素类型不同,比较会抛错
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;增删改查&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;]
+//查
+dic[&amp;quot;key&amp;quot;]
+
+//修改
+dic[&amp;quot;key&amp;quot;]= &amp;quot;a&amp;quot;
+//增加
+dic[&amp;quot;c&amp;quot;] = &amp;quot;c&amp;quot; //若之前没有响应的 Key 则会添加
+dic.updateValue(&amp;quot;d&amp;quot;, forKey: &amp;quot;d&amp;quot;)
+
+//删除    
+dic.removeValue(forKey: &amp;quot;key&amp;quot;)
+if let key = dic.removeValue(forKey: &amp;quot;key&amp;quot;){
+    print(&amp;quot;删除成功&amp;quot;)
+}
+
+//删除所有
+dic.removeAll()
+
+
+var str =  dic.updateValue(&amp;quot;value&amp;quot;, forKey: &amp;quot;key&amp;quot;) //返回值是原始值 str 的值是 &amp;quot;a&amp;quot;
+
+//问题
+ if  dic.updateValue(&amp;quot;jack01&amp;quot;, forKey: &amp;quot;nick&amp;quot;) == dic[&amp;quot;nick&amp;quot;] {
+        print(&amp;quot;新旧昵称一样&amp;quot;)  //会不会打印出来?
+ }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>数组</title>
@@ -133,12 +213,13 @@ var arr002:NSArray = [1, 2, &amp;quot;hello&#39;&amp;quot;]
 
 &lt;p&gt;&lt;strong&gt;遗留问题&lt;/strong&gt;&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;var arr000 = [1, 2, 3, 4]
-var arr001 = [&amp;quot;a&amp;quot;]
-var arr002 = [1,2,2,&amp;quot;a&amp;quot;,arr000] as Any
+&lt;pre&gt;&lt;code&gt; var arr000 = [1, 2, 3, 4]
+ var arr001 = [&amp;quot;a&amp;quot;]
+ var arr002 = [[1],[2],[3],[&amp;quot;a&amp;quot;],arr000] as [Any]
 
-//如何在 arr002 中获取第五个元素,然后解包这个元素。
-var arr = arr002[4]  //对 arr的解包,如何顺利进行。
+ //如何在 arr002 中获取第五个元素,然后解包这个元素。
+ var arr = arr002[4]   //对 arr的解包,如何顺利进行。
+ //arr[0]  //error
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
@@ -2018,267 +2099,6 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 &lt;p&gt;上面代码运行结果如下：&lt;br /&gt;
   &lt;img src=&#34;sources/reactivecocoa/reactivelog3.png&#34; alt=&#34;log3&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>YYModel 简介与使用</title>
-            <link>http://blog.flywithme.top/2016/06/12/modelExt/</link>
-            <pubDate>Sun, 12 Jun 2016 15:14:43 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/06/12/modelExt/</guid>
-            <description>
-
-&lt;h5 id=&#34;1-简单的-json-与-model-的转换:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;1. 简单的 JSON 与 Model 的转换&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;// JSON:
-{
-    &amp;quot;uid&amp;quot;:123456,
-    &amp;quot;name&amp;quot;:&amp;quot;Harry&amp;quot;,
-    &amp;quot;created&amp;quot;:&amp;quot;1965-07-31T00:00:00+0000&amp;quot;
-}
-
-// Model:
-@interface User : NSObject
-@property UInt64 uid;
-@property NSString *name;
-@property NSDate *created;
-@end
-@implementation User
-@end
-
-// 从 JSON 转为 Model:
-User *user = [User yy_modelWithJSON:json];
-
-//从 Model 转为 JSON:
-NSDictionary *json = [user yy_modelToJSONObject];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;如果 Model 属性的类型和 JSON 中的类型不一样，YYModel 会自动进行如下转换:&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;table&gt;
-       &lt;thead&gt;
-         &lt;tr&gt;
-           &lt;th width=&#34;35%&#34;&gt;JSON/Dictionary&lt;/th&gt;
-           &lt;th&gt;Model&lt;/th&gt;
-         &lt;/tr&gt;
-       &lt;/thead&gt;
-       &lt;tbody&gt;
-         &lt;tr&gt;
-           &lt;td&gt;NSString&lt;/td&gt;
-           &lt;td&gt;NSURL,SEL,Class&lt;/td&gt;
-         &lt;/tr&gt;
-         &lt;tr&gt;
-           &lt;td&gt;NSString&lt;/td&gt;
-           &lt;td&gt;
-   NSDate parsed with these formats:          &lt;br/&gt;
-   yyyy-MM-dd          &lt;br/&gt;
-   yyyy-MM-dd HH:mm:ss          &lt;br/&gt;
-   yyyy-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ss          &lt;br/&gt;
-   yyyy-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ssZ          &lt;br/&gt;
-   EEE MMM dd HH:mm:ss Z yyyy        &lt;/td&gt;
-         &lt;/tr&gt;
-         &lt;tr&gt;
-           &lt;td&gt;NSDate&lt;/td&gt;
-           &lt;td&gt;NSString (formatted with ISO8601)&amp;quot;YYYY-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ssZ&amp;quot;        &lt;/td&gt;
-         &lt;/tr&gt;
-         &lt;tr&gt;
-           &lt;td&gt;NSString/NSNumber&lt;/td&gt;
-           &lt;td&gt;C number (BOOL,int,float,NSUInteger,UInt64,&amp;hellip;)NaN and Inf will be ignored        &lt;/td&gt;
-         &lt;/tr&gt;
-         &lt;tr&gt;
-           &lt;td&gt;NSNumber&lt;/td&gt;
-           &lt;td&gt;NSString (NSNumber.stringValue)&lt;/td&gt;
-         &lt;/tr&gt;
-         &lt;tr&gt;
-           &lt;td&gt;NSValue&lt;/td&gt;
-           &lt;td&gt;struct (CGRect,CGSize,&amp;hellip;)&lt;/td&gt;
-         &lt;/tr&gt;
-         &lt;tr&gt;
-           &lt;td&gt;NSNull&lt;/td&gt;
-           &lt;td&gt;nil,0&lt;/td&gt;
-         &lt;/tr&gt;
-         &lt;tr&gt;
-           &lt;td&gt;&amp;quot;null&amp;quot;,&amp;quot;nil&amp;quot;,&amp;quot;no&amp;quot;,&amp;quot;false&amp;quot;,&amp;hellip;&lt;/td&gt;
-           &lt;td&gt;nil,0&lt;/td&gt;
-         &lt;/tr&gt;
-         &lt;tr&gt;
-           &lt;td&gt;&amp;quot;YES&amp;quot;,&amp;quot;yes&amp;quot;,&amp;quot;true&amp;quot;,&amp;hellip;&lt;/td&gt;
-           &lt;td&gt;@(YES)&lt;/td&gt;
-         &lt;/tr&gt;
-       &lt;/tbody&gt;
-     &lt;/table&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;如果自动转换不能完成，则相应属性会被忽略。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h6 id=&#34;2-将-model-的属性匹配到指定的-json-nsdictionary-键值:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;2. 将 Model 的属性匹配到指定的 JSON/NSDictionary 键值：&lt;/h6&gt;
-
-&lt;pre&gt;&lt;code&gt;// JSON:
-{
-    &amp;quot;n&amp;quot;:&amp;quot;Harry Pottery&amp;quot;,
-    &amp;quot;p&amp;quot;: 256,
-    &amp;quot;ext&amp;quot; : {
-        &amp;quot;desc&amp;quot; : &amp;quot;A book written by J.K.Rowing.&amp;quot;
-    }
-}
-
-// Model:
-@interface Book : NSObject
-@property NSString *name;
-@property NSInteger page;
-@property NSString *desc;
-@end
-@implementation Book
-+ (NSDictionary *)modelCustomPropertyMapper {
-    return @{@&amp;quot;name&amp;quot; : @&amp;quot;n&amp;quot;,
-    @&amp;quot;page&amp;quot; : @&amp;quot;p&amp;quot;,
-    @&amp;quot;desc&amp;quot; : @&amp;quot;ext.desc&amp;quot;};
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;通过实现 协议中的 modelCustomPropertyMapper，可以将 Model 属性的名字对应到 JSON/NSDictionary 相应的字段。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h6 id=&#34;3-model-属性关联到其他-model:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;3. Model 属性关联到其他 Model&lt;/h6&gt;
-
-&lt;pre&gt;&lt;code&gt;// JSON:
-{
-    &amp;quot;author&amp;quot;:{
-        &amp;quot;name&amp;quot;:&amp;quot;J.K.Rowling&amp;quot;,
-        &amp;quot;birthday&amp;quot;:&amp;quot;1965-07-31T00:00:00+0000&amp;quot;
-    },
-    &amp;quot;name&amp;quot;:&amp;quot;Harry Potter&amp;quot;,
-    &amp;quot;pages&amp;quot;:256
-}
-
-// Model:
-@interface Author : NSObject
-@property NSString *name;
-@property NSDate *birthday;
-@end
-@implementation Author
-@end
-
-@interface Book : NSObject
-@property NSString *name;
-@property NSUInteger pages;
-@property Author *author;
-@end
-@implementation Book
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;默认什么都不用做，YYModel 就可以自动转换。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h6 id=&#34;4-model-属性是容器类型:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;4. Model 属性是容器类型&lt;/h6&gt;
-
-&lt;pre&gt;&lt;code&gt;@class Shadow, Border, Attachment;
-
-@interface Attributes
-@property NSString *name;
-@property NSArray *shadows;
-@property NSSet *borders;
-@property NSMutableDictionary *attachments;
-@end
-
-@implementation Attributes
-+ (NSDictionary *)modelContainerPropertyGenericClass {
-    return @{@&amp;quot;shadows&amp;quot; : [Shadow class],
-             @&amp;quot;borders&amp;quot; : Border.class,
-             @&amp;quot;attachments&amp;quot; : @&amp;quot;Attachment&amp;quot; };
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;通过实现 协议中的 modelContainerPropertyGenericClass，返回 Model 属性容器中需要存放的对象类型，YYModel 会自动进行处理。对象类型可以是 Class 或者 Class name。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h6 id=&#34;5-黑名单白名单:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;5. 黑名单白名单&lt;/h6&gt;
-
-&lt;pre&gt;&lt;code&gt;@interface User
-@property NSString *name;
-@property NSUInteger age;
-@end
-
-@implementation Attributes
-+ (NSArray *)modelPropertyBlacklist {
-    return @{@&amp;quot;test1&amp;quot;, @&amp;quot;test2&amp;quot;};
-}
-+ (NSArray *)modelPropertyWhitelist {
-    return @{@&amp;quot;name&amp;quot;};
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;如果一个 Model 需要忽略某些属性，则可以通过实现 协议中的 modelPropertyBlacklist 来返回属性名列表，YYModel 会在处理过程中忽略这些属性。&lt;/p&gt;
-
-&lt;p&gt;如果一个 Model 只需要处理某些特性的属性，则可以通过实现 协议中的 modelPropertyWhitelist 来返回属性名列表，YYModel 在处理中只会处理列表内的属性。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h6 id=&#34;6-数据校验与额外的处理:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;6. 数据校验与额外的处理&lt;/h6&gt;
-
-&lt;pre&gt;&lt;code&gt;@interface User
-@property NSString *name;
-@property NSDate *createdAt;
-@end
-
-@implementation User
-- (BOOL))modelCustomTransformFromDictionary:(NSDictionary *)dic {
-    NSNumber *timestamp = dic[@&amp;quot;timestamp&amp;quot;];
-    if (![timestamp isKindOfClass:[NSNumber class]]) return NO;
-    _createdAt = [NSDate dateWithTimeIntervalSince1970:timestamp.floatValue];
-    return YES;
-}
-
-- (BOOL)modelCustomTransformToDictionary:(NSMutableDictionary *)dic {
-    if (!_createdAt) return NO;
-    dic[@&amp;quot;timestamp&amp;quot;] = @(n.timeIntervalSince1970);
-    return YES;
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;果一个 Model 需要校验数据有效性，可以通过实现 协议中的 modelCustomTransformFromDictionary 或 modelCustomTransformToDictionary 方法来完成。如果数据校验失败，则可以返回 NO，YYModel 会忽略这个 Model。&lt;/p&gt;
-
-&lt;p&gt;在上面两个方法中，也可以对 Model/JSON 进行额外的处理，以转换 YYModel 不支持的类型。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h6 id=&#34;6-coding-copying-hash-equal:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;6.Coding/Copying/hash/equal&lt;/h6&gt;
-
-&lt;pre&gt;&lt;code&gt;@interface YYShadow :NSObject &amp;lt;NSCoding, NSCopying&amp;gt;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, assign) CGSize size;
-@end
-
-@implementation YYShadow
-- (void)encodeWithCoder:(NSCoder *)aCoder { [self yy_modelEncodeWithCoder:aCoder]; }
-- (id)initWithCoder:(NSCoder *)aDecoder { return [self yy_modelInitWithCoder:aDecoder]; }
-- (id)copyWithZone:(NSZone *)zone { return [self yy_modelCopy]; }
-- (NSUInteger)hash { return [self yy_modelHash]; }
-- (BOOL)isEqual:(id)object { return [self yy_modelIsEqual:object]; }
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;在一个对象的实现中，调用 YYModel 对应的方法，即可实现 NSCoding/NSCopying/hash/equal 协议。YYModel 会自动处理所有有效的 property。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h6 id=&#34;最后:8ec36dbf2f8e0e1414f1b45b0a0ff0ff&#34;&gt;最后&lt;/h6&gt;
-
-&lt;p&gt;YYModel 的设计目标是高性能和高容错性，虽然功能并不如 Mantle 等项目丰富，但是性能却是远远高于它们。上面所有的方法内部都经过仔细检查，能确保每个属性类型的正确性，避免了可能的崩溃问题。&lt;/p&gt;
-
-&lt;p&gt;from:YYModel作者&lt;/p&gt;
 </description>
         </item>
         
