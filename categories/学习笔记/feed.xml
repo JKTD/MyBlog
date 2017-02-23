@@ -16,16 +16,25 @@
             <guid>http://www.flywithme.top/2017/02/22/swift10/</guid>
             <description>&lt;p&gt;&lt;strong&gt;选择合适的数据结构&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;数组: 有序
-   集合: 无序,唯一性,集合特有的操作,快速查找
-   字典: 键值数据对&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;数组&lt;/strong&gt;:&lt;/p&gt;
 
-&lt;p&gt;数组: 最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组&lt;br /&gt;
-   集合: 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用集合,获取共同喜好,共同兴趣等。
-         快速查找这个是集合的一大优势,数组的查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)),例如一个100万的数据,如果是数组查找的话,最坏的情况是
-         查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。
-   字典: 这个就不说了,使用的很广泛。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;集合&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;无序,唯一性,集合特有的操作,快速查找 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用
+          集合,获取共同喜好,共同兴趣等。快速查找这个是集合的一大优势,数组查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)),
+          例如一个100万的数据,如果是数组查找的话,最坏的情况是
+             查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;字典&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;键值数据对,这个就不说了,使用的很广泛。&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;strong&gt;回顾&lt;/strong&gt; &lt;code&gt;for in&lt;/code&gt;&lt;/p&gt;

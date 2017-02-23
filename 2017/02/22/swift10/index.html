@@ -17,25 +17,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="选择合适的数据结构 数组: 有序 集合: 无序,唯一性,集合特有的操作,快速查找 字典: 键值数据对 数组: 最大的特定就是有序,如果我们操作的元素是有序的">
+<meta name="description" content="选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
 <meta itemprop="name" content="swift3-10 数据集合小节 - Fly With Me">
-<meta itemprop="description" content="选择合适的数据结构 数组: 有序 集合: 无序,唯一性,集合特有的操作,快速查找 字典: 键值数据对 数组: 最大的特定就是有序,如果我们操作的元素是有序的">
+<meta itemprop="description" content="选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,">
 <meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
 
 <meta property="og:title" content="swift3-10 数据集合小节 - Fly With Me" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.flywithme.top/2017/02/22/swift10/" />
 <meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="选择合适的数据结构 数组: 有序 集合: 无序,唯一性,集合特有的操作,快速查找 字典: 键值数据对 数组: 最大的特定就是有序,如果我们操作的元素是有序的">
+<meta property="og:description" content="选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
 <meta name="twitter:title" content="swift3-10 数据集合小节 - Fly With Me">
-<meta name="twitter:description" content="选择合适的数据结构 数组: 有序 集合: 无序,唯一性,集合特有的操作,快速查找 字典: 键值数据对 数组: 最大的特定就是有序,如果我们操作的元素是有序的">
+<meta name="twitter:description" content="选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
 
@@ -186,7 +186,7 @@
                   <h1 class="post-title">swift3-10 数据集合小节</h1>
 
                   <p class="post-byline">
-                    by  · 2017年02月22日 · 355 Words ·
+                    by  · 2017年02月22日 · 347 Words ·
                     ~1min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-02-22-swift10.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -199,16 +199,25 @@
                       
                       <p><strong>选择合适的数据结构</strong></p>
 
-<blockquote>
-<p>数组: 有序
-   集合: 无序,唯一性,集合特有的操作,快速查找
-   字典: 键值数据对</p>
+<p><strong>数组</strong>:</p>
 
-<p>数组: 最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组<br />
-   集合: 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用集合,获取共同喜好,共同兴趣等。
-         快速查找这个是集合的一大优势,数组的查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)),例如一个100万的数据,如果是数组查找的话,最坏的情况是
-         查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。
-   字典: 这个就不说了,使用的很广泛。</p>
+<blockquote>
+<p>有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组</p>
+</blockquote>
+
+<p><strong>集合</strong>:</p>
+
+<blockquote>
+<p>无序,唯一性,集合特有的操作,快速查找 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用
+          集合,获取共同喜好,共同兴趣等。快速查找这个是集合的一大优势,数组查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)),
+          例如一个100万的数据,如果是数组查找的话,最坏的情况是
+             查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。</p>
+</blockquote>
+
+<p><strong>字典</strong>:</p>
+
+<blockquote>
+<p>键值数据对,这个就不说了,使用的很广泛。</p>
 </blockquote>
 
 <p><strong>回顾</strong> <code>for in</code></p>
