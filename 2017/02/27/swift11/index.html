@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>Swift3-03 基础类型 - Fly With Me</title>
+  <title>swift3-11 函数 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="keywords" content="swift,学习,">
-<meta name="description" content="常量 let let a = 1 let b:Int b = 1 变量 var var b = 2 swift 是一个强类型语言: var x = 1 x = &quot;abc&quot; //会报错(Cannot assign value of type &quot;String&quot; to type &quot;int&quot;) 显示声明变量 let s:String = &quot;abc&quot; 一次声明">
+<meta name="keywords" content="xxx,">
+<meta name="description" content="函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Swift3-03 基础类型 - Fly With Me">
-<meta itemprop="description" content="常量 let let a = 1 let b:Int b = 1 变量 var var b = 2 swift 是一个强类型语言: var x = 1 x = &quot;abc&quot; //会报错(Cannot assign value of type &quot;String&quot; to type &quot;int&quot;) 显示声明变量 let s:String = &quot;abc&quot; 一次声明">
+<meta itemprop="name" content="swift3-11 函数 - Fly With Me">
+<meta itemprop="description" content="函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过">
 <meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="Swift3-03 基础类型 - Fly With Me" />
+<meta property="og:title" content="swift3-11 函数 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.flywithme.top/2017/02/16/swift03/" />
+<meta property="og:url" content="http://www.flywithme.top/2017/02/27/swift11/" />
 <meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="常量 let let a = 1 let b:Int b = 1 变量 var var b = 2 swift 是一个强类型语言: var x = 1 x = &quot;abc&quot; //会报错(Cannot assign value of type &quot;String&quot; to type &quot;int&quot;) 显示声明变量 let s:String = &quot;abc&quot; 一次声明">
+<meta property="og:description" content="函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="Swift3-03 基础类型 - Fly With Me">
-<meta name="twitter:description" content="常量 let let a = 1 let b:Int b = 1 变量 var var b = 2 swift 是一个强类型语言: var x = 1 x = &quot;abc&quot; //会报错(Cannot assign value of type &quot;String&quot; to type &quot;int&quot;) 显示声明变量 let s:String = &quot;abc&quot; 一次声明">
+<meta name="twitter:title" content="swift3-11 函数 - Fly With Me">
+<meta name="twitter:description" content="函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://www.flywithme.top/2017/02/16/swift03/">
-  <link rel='shortlink' href="http://www.flywithme.top/2017/02/16/swift03/"/>
+  <link rel="canonical" href="http://www.flywithme.top/2017/02/27/swift11/">
+  <link rel='shortlink' href="http://www.flywithme.top/2017/02/27/swift11/"/>
   <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">Swift3-03 基础类型</h1>
+                  <h1 class="post-title">swift3-11 函数</h1>
 
                   <p class="post-byline">
-                    by  · 2017年02月16日 · 1259 Words ·
+                    by  · 2017年02月27日 · 1096 Words ·
                     ~3min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-02-16-swift03.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-02-27-swift11.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -197,260 +197,274 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <ul>
-<li><p>常量 <strong>let</strong></p>
+                      <p><strong>函数定义</strong></p>
 
-<pre><code>let a = 1
-let b:Int
-b = 1
-</code></pre></li>
+<blockquote>
+<p>Swift 定义函数使用关键字 func。
+  定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。
+  每个函数都有一个函数名来描述它的功能。通过函数名以及对应类型的参数值来调用这个函数。函数的参数传递的顺序必须与参数列表相同。
+  函数的实参传递的顺序必须与形参列表相同，-&gt; 后定义函数的返回值类型。</p>
+</blockquote>
 
-<li><p>变量 <strong>var</strong></p>
+<p>示例:</p>
 
-<pre><code>var b = 2
-</code></pre></li>
-</ul>
-
-<p>swift 是一个强类型语言:</p>
-
-<pre><code>var x = 1
-
-x = &quot;abc&quot; //会报错(Cannot assign value of type &quot;String&quot; to type &quot;int&quot;)
-</code></pre>
-
-<p>显示声明变量</p>
-
-<pre><code>let s:String = &quot;abc&quot;
-</code></pre>
-
-<p>一次声明多个变量,</p>
-
-<pre><code>var y, z, d:Double
-var x = 1, y = 2, z = 3
-</code></pre>
-
-<ul>
-<li>常用数据类型: Int , Float ,Double , Boolean , String ,Tuple</li>
-</ul>
-
-<p><strong>Int</strong></p>
-
-<pre><code>var aInt: Int = 20 //整型的存储空间是有限的,根据不同的计算机来定。有最大最小值
-Int.max
-Int.min
-
-var aUInt:UInt = 200  //无法存储负数,最大值是 Int 的两倍+1
-UInt.max
-UInt.min
-</code></pre>
-
-<p>Int 的类型<br />
-   !<img src="sources/swift/Int类型.png" alt="intType" /></p>
-
-<p>小知识 如果是一个比较大的数值,可以使用下划线对数字进行分割</p>
-
-<pre><code>let bigNum = 1_000_000_000_00232
-</code></pre>
-
-<p><img src="sources/swift/BA6D5746-A4AE-411F-905E-4761288DEE0F.png" alt="C8A54525-8DE7-4EC3-8665-89146D67C0CF" /></p>
-
-<p><strong>Float Double</strong></p>
-
-<p>浮点数 float Double 区别<br />
-    <img src="sources/swift/C1DB90FE-EE4F-4CC2-95F3-580D54437E75.png" alt="C8A54525-8DE7-4EC3-8665-89146D67C0CF" /></p>
-
-<p>//上面的数字加下划线 亦可以用在小数中。</p>
-
-<pre><code>var aFloat = 1_000_000.000_0001  
-</code></pre>
-
-<ul>
-<li><p>不同数据类型之间不能直接做数据运算,不能自动做类型转换。必需要做显示类型转换,以防止运算出错。</p>
-
-<pre><code>let a:Int = 1
-let b:UInt = 2
-a + b //错误,运算歧义 
-a + Int(b) //正确
-</code></pre></li>
-</ul>
-
-<p>swift 是一个强制类型语言,把浮点数赋值给整型是肯定会报错的。除非对浮点数进行转换才行。</p>
-
-<p><strong>Boolean</strong></p>
-
-<pre><code>let aTrue:Bool = true
-let aFalse = false
-
-if aTrue{
-    print(&quot;True&quot;)
-}else if(1 == 1){
-    print(&quot;1 == 1&quot;)
+<pre><code>func hello(name:String)-&gt; String{
+    return &quot;Hello &quot; + name
 }
-else{
-    print(&quot;False&quot;)
+
+hello(name: &quot;Jack&quot;)    
+
+
+func hello1(name:String?)-&gt; String{
+    return &quot;Hello &quot; + (name != nil  ? name! : &quot;guess&quot;)
+}
+
+hello1(name: &quot;Jack&quot;)
+
+
+func printHello(){
+    print(&quot;hello&quot;)
+}
+printHello()
+
+func printHello1() -&gt; Void{  //Void 是一个类型
+    print(&quot;hello&quot;)
+}
+printHello1()
+
+func printHello2() -&gt; (){
+    print(&quot;hello&quot;)
+}
+printHello2()    
+</code></pre>
+
+<p><strong>使用元组作为返回值</strong>  函数返回值的类型可以是字符串,整型,浮点型等,元组与数组类似,不同的是,元组中的元素可以是任意类型,使用的是括号,你可以使用元组类型让多个值作为一个复合值从函数中返回。</p>
+
+<pre><code>func findMaxAndMin(numbers:[Int]) -&gt; (max:Int, min:Int)?{ //如果你不确定返回的元组一定不为nil，那么你可以返回一个可选的元组类型。
+    guard !numbers.isEmpty else {
+        return (Int.max,Int.min)
+    }
+    var minValue = numbers[0]
+    var maxValue = numbers[0]
+    for num in numbers{
+        minValue = minValue &lt; num ? minValue : num
+        maxValue =  maxValue &gt; num ? maxValue : num
+    }
+    return (maxValue ,minValue)
+}
+var numbers = [1,23,34,2,2,31,23,23,34,45,454545,4,54,5,45,45,45]
+var result =  findMaxAndMin(numbers: numbers)
+print(result?.max ?? 0,result?.min ?? 0)  
+if let result =  findMaxAndMin(numbers: numbers) {
+    print( result.max,result.min)
 }
 </code></pre>
 
-<p>if 判断语句 只能使用 Bool 类型判断,否则会报错</p>
+<p><strong>函数的内部参数和外部参数</strong></p>
 
-<p><strong>Tuple</strong> 元组就是将多个不同的值集合在一个数据中。可以有任意多个值,多个不同的数据类型</p>
-
-<pre><code>var point = (1 , 1)
-var httpResponse = (401, &quot;未授权&quot;)
-
-// 显式指定元组类型
-var point2:(Int, Int, Int) = (2, 3, 4)
-
-var httpResponse2:(Int, String) = (200, &quot;OK&quot;)
-
-//取值
-httpResponse.0
-httpResponse.1
-
-//解包
-let (x, y) = httpResponse2
-print(x, y)
-
-//给分量加一个名字。
-let point3 = (x: 3, y :4)
-point3.x
-point3.y
-
-let point4:(x: Int, y: Int) =(2, 3)
-point4.x
-point4.y
-
-let point5 = (10,23)
-let (z, _) = point5 //若不需要解包某一个数据,可以用下划线_忽略一些值
-z
-</code></pre>
-
-<p><strong>String</strong>   使用双引号引起来的一段文本。</p>
-
-<p>字符串基本用法</p>
-
-<pre><code>//声明一个字符串
-var str: String = &quot;swift&quot;
-let str1 = String(&quot;abdd&quot;)
-
-//空字符串
-var emptyStr = &quot;&quot;
-var emptystr1 = String()
-
-str.isEmpty //字符串判空
-
-let a = &quot;abc&quot;
-str + a 
-
-str += a
-
-str1 += a //错误 常量不能被改变
-
-//字符串插值  字符串插值是一种全新的构建字符串的方式，可以在其中包含常量、变量、字面量和表达式。您插入的字符串字面量的每一项都被包裹在以反斜线为前缀的圆括号中：
-let name  = &quot;jack&quot;
-let age = 20
-let s = &quot;My name is \(name), age is \(age)&quot;
-
-// \是转义字符  \t 是制表符  \n 是换行符
-let s2 = &quot;\\&quot; //输出转义字符
-print(s2)
-</code></pre>
-
-<p>字符串遍历</p>
-
-<pre><code>var str = &quot;hello. swift&quot;
-
-for c in str.characters{
-    print(c)
+<pre><code>func sayHelloTo(name:String, msg:String)-&gt; String{
+    return &quot;\(msg), \(name)&quot;
 }
-</code></pre>
+sayHelloTo(name: &quot;a&quot;, msg: &quot;b&quot;)  //sayHelloTo(&quot;a&quot;, msg: &quot;b&quot;) 这种方式已被废弃
 
-<p>字符</p>
-
-<pre><code>let mark:Character = &quot;!&quot; //字符
-
-str + String(mark) //不改变 str 
-
-str.append(mark) //改变 str 值
-</code></pre>
-
-<p>在 swift 中一个中文字符和表情符都可以是一个字符(其他语言中可能需要多个字符才能标识)</p>
-
-<pre><code>let dog:Character = &quot;🐶&quot;
-let chinessLetter :Character = &quot;程&quot;
-let coolguy: Character = &quot;\u{1F60E}&quot;
-</code></pre>
-
-<p>字符串长度 :swift 更倾向于人类理解,而不是机器理解。  但是这会导致 swift 处理大批量字符串的时候速度比较慢</p>
-
-<pre><code>var strLetters = &quot;abcdef\u{1F60E}&quot;
-strLetters.characters.count //长度计算 为7
-strLetters = &quot;中国&quot;
-strLetters.characters.count //长度计算 为2
-
-var cafe = &quot;café&quot;  //字符串长度是多少?
-
-cafe = &quot;cafe\u{0301}&quot; //字符串长度是多少?
-</code></pre>
-
-<p>如何索引获取字符串中的字符   //这个处理几个版本变化很大</p>
-
-<pre><code>var str = &quot;hello, swift&quot; 
-let startIndex =  str.index(str.startIndex, offsetBy: 2) //距离起点字符偏移位置
-str[startIndex] //
-</code></pre>
-
-<p>字符串比较</p>
-
-<pre><code>var varA   = &quot;Hello, Swift!&quot;
-var varB   = &quot;Hello, World!&quot;
-
-if varA == varB {
-   print( &quot;\(varA) 与 \(varB) 是相等的&quot; )
-} else {
-   print( &quot;\(varA) 与 \(varB) 是不相等的&quot; )
+//内部参数和外部参数
+func sayHelloTo(name:String, withMessage msg:String)-&gt; String{
+    return &quot;\(msg), \(name)&quot;
 }
+sayHelloTo(name: &quot;a&quot;, withMessage: &quot;b&quot;)
+
+//修改外部参数名
+func sayHello(to name:String, withMessage msg:String)-&gt; String{
+    return &quot;\(msg), \(name)&quot;
+}
+sayHello(to : &quot;a&quot;, withMessage: &quot;b&quot;)
+
+//隐藏调用参数
+func mutiply(_ num1:Int, _ num2:Int) -&gt; Int{
+    return num1*num2
+}
+mutiply(2,  4) 
 </code></pre>
 
-<p>字符串 filter</p>
+<p><strong>默认参数值</strong></p>
 
-<pre><code>let str2 = &quot;    a  b  c  d &quot;
-let res = String(str2.characters.filter  { $0 != &quot; &quot; })
-res
+<pre><code>func sayHello(to name:String, withMessage msg:String = &quot;hello&quot;)-&gt; String{
+    return &quot;\(msg), \(name)&quot;
+}
+sayHello(to : &quot;a&quot;, withMessage: &quot;b&quot;)
+sayHello(to: &quot;jack&quot;) //可以省略后面的一个参数
+
+
+func sayHello(to name:String, withMessage msg:String = &quot;hello&quot;, punctuation:String = &quot;!&quot;)-&gt; String{
+    return &quot;\(msg), \(name) \(punctuation)&quot;
+}
+sayHello(to : &quot;a&quot;, withMessage: &quot;b&quot;)
+sayHello(to: &quot;jack&quot;)
+sayHello(to: &quot;Jack&quot;, withMessage: &quot;Hello&quot;)
 </code></pre>
 
-<p>字符串插入</p>
+<p><strong>可变参数值</strong> 一个函数至多只可以有一个变长的参数</p>
 
-<pre><code>let c:Character = &quot;1&quot;
-str.insert(c, at: startIndex)
+<pre><code>//常用的变长参数函数
+print(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)
+//求平均值
+func mean(numbers:Double ...) -&gt;Double{
+    var sum : Double = 0
+    for num in numbers{
+        sum += num
+    }
+    return sum / Double(numbers.count)
+}
+mean(numbers: 1,2,3,4,5,5.0,23,434)
 </code></pre>
 
-<p>字符串大小写转换</p>
+<p><strong>常量参数,变量参数和 inout 参数</strong> 默认的函数参数都是常量。</p>
 
-<pre><code>var str = &quot;hello, swift&quot;
-let shouty = str.uppercased()
-let shoutx = str.lowercased()
+<pre><code>func toBinary(num:Int)-&gt;String{ //直接声明称 var 类型参数已被废弃。
+    var num = num  
+    var res = &quot;&quot;
+    repeat{
+        res = String(num%2) + res
+        num /= 2
+    }while num != 0
+    return res
+}
+toBinary(num: 1000)
+
+//inout 
+func toBinary( num:inout Int)-&gt;String{
+    var res = &quot;&quot;
+    repeat{
+        res = String(num%2) + res
+        num /= 2
+    }while num != 0
+    return res
+}
+var num = 100
+toBinary(num: &amp;num) //传入指针
+print(num) 
+
+//交换两个字符串
+func swapTwoString(str1:inout String, str2:inout String){
+    let tstr = str1
+    str1 = str2
+    str2 = tstr
+}
+
+var str1 = &quot;a&quot;
+var str2 = &quot;b&quot;
+swapTwoString(str1: &amp;str1, str2:&amp;str2)
+str1
+str2
 </code></pre>
 
-<p>判断字母首尾是否为某特定字符</p>
+<p><strong>函数型变量</strong></p>
 
-<pre><code>str.hasPrefix(&quot;hello&quot;)
-str.hasSuffix(&quot;swift&quot;)
+<pre><code>func add(a:Int, b:Int) -&gt; Int{
+    return a + b
+}
+
+let add01 = add
+add01(3,4)
+let add02:(Int, Int) -&gt; Int = add
+add02(4,5)
+
+
+var arr:[Int] = []
+for _ in 0...100{
+    arr.append(Int(arc4random()%1000))
+}
+
+arr.sort { (a, b) -&gt; Bool in
+    return a &lt; b
+}
+arr
+
+func descending (a:Int ,b:Int) -&gt;Bool{
+    return a &gt; b
+}
+arr.sorted(by: descending)
 </code></pre>
 
-<p>强制类型转换  as</p>
+<p><strong>函数变成初步</strong></p>
 
-<pre><code>let s2 = NSString(format:&quot;1/3 =  %.2f&quot;, 1.0/3.0) as String
+<pre><code>func changeScores( scors: [Int], by method:(Int)-&gt; Int) -&gt; [Int]{
+    var arr = scors
+    for (index , score) in scors.enumerated(){
+        arr[index] = method(score)
+    }
+    return arr
+}
+func changeScore01 (score : Int) -&gt; Int{
+    return score + 3
+}
+
+func changeScore02 (score : Int) -&gt; Int{
+    return Int(Double(score)/150.0*100.0)
+}
+
+var arr:[Int] = []
+for _ in 0..&lt;10{
+    arr.append(Int(arc4random())%150)
+}
+arr
+changeScores(scors: arr, by: changeScore01)
+changeScores(scors: arr, by: changeScore02)
+//map 
+arr.map(changeScore01)
+func isPassOrFail(score:Int)-&gt;String{
+    return score &lt; 60 ? &quot;Fail&quot;: &quot;Pass&quot;
+}
+arr.map(isPassOrFail)
+
+//filter 过滤
+func fail (score:Int)-&gt; Bool{
+    return score &lt; 60
+}
+arr.filter(fail)
+
+//reduce 聚合
+func add(a:Int, b:Int)-&gt; Int{
+    return a + b
+}
+arr.reduce(0, add)
+
+arr.reduce(0, +)
+
+//Swift中,运算符号 本质上就是一个函数 
+public func +(lhs: Int, rhs: Int) -&gt; Int
+public func *(lhs: Int, rhs: Int) -&gt; Int
+public func -(lhs: Int, rhs: Int) -&gt; Int
+public func /(lhs: Int, rhs: Int) -&gt; Int
+public func %(lhs: Int, rhs: Int) -&gt; Int
+
+
+func concatenate(str:String , num:Int) -&gt; String{
+    return &quot;\(str)\(num) &quot;
+}
+arr.reduce(&quot;&quot;, concatenate)
 </code></pre>
 
-<p><strong>NSString</strong></p>
+<p><strong>返回函数类型和函数嵌套</strong></p>
 
-<pre><code>let s3:NSString = &quot;😄哈&quot;
-s3.length
-s3.character(at: 1)
-let s4 = &quot;    hello world    &quot; as NSString
+<pre><code>//邮递费用
+func tilerMailfeeByWight( weight : Int) -&gt; Int{
+    return 1*weight
+}
+func tiler2MailfeeByWight( weight : Int) -&gt; Int{
+    return 3*weight
+}
+//超过10单位，则按三倍计算
+func feeBytUnitPrice (price :Int , wight:Int) -&gt; Int{
 
-s4.trimmingCharacters(in: .whitespaces) //去除空格
+    func chooseMailFeeCalationByWeight(weight: Int) -&gt; (Int) -&gt; Int{
+        return weight &lt;= 10 ? tilerMailfeeByWight : tiler2MailfeeByWight
+    }
+
+    let mailFeefuc = chooseMailFeeCalationByWeight(weight: wight)
+    return mailFeefuc(wight) + price*wight //邮递费用+商品费用
+}
+feeBytUnitPrice(price: 2, wight: 11)
 </code></pre>
 
                       
@@ -463,7 +477,7 @@ s4.trimmingCharacters(in: .whitespaces) //去除空格
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2017/02/16/swift03/">http://www.flywithme.top/2017/02/16/swift03/</a>
+                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2017/02/27/swift11/">http://www.flywithme.top/2017/02/27/swift11/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -516,7 +530,7 @@ s4.trimmingCharacters(in: .whitespaces) //去除空格
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2017/02/16/swift03/" data-title="Swift3-03 基础类型" data-url="http://www.flywithme.top/2017/02/16/swift03/"></div>
+<div class="ds-thread" data-thread-key="/2017/02/27/swift11/" data-title="swift3-11 函数" data-url="http://www.flywithme.top/2017/02/27/swift11/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -571,20 +585,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://www.flywithme.top/2017/02/16/swift02/" rel="next">
+        <a href="http://www.flywithme.top/2017/02/22/swift10/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Swift3-02 初见</span>
+          <span>swift3-10 数据集合小节</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://www.flywithme.top/2017/02/17/swift04/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>Swift3-04 基础运算符</span>
-        </a>
         
       </li>
     </ul>

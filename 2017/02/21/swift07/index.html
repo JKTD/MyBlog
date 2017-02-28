@@ -186,7 +186,7 @@
                   <h1 class="post-title">Swift3-07 数组</h1>
 
                   <p class="post-byline">
-                    by  · 2017年02月21日 · 712 Words ·
+                    by  · 2017年02月21日 · 725 Words ·
                     ~2min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-02-21-swift07.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -323,6 +323,12 @@ var arr002:NSArray = [1, 2, &quot;hello'&quot;]
  //如何在 arr002 中获取第五个元素,然后解包这个元素。
  var arr = arr002[4]   //对 arr的解包,如何顺利进行。
  //arr[0]  //error
+</code></pre>
+
+<p>//问题解决</p>
+
+<pre><code>var arr0001 = arr1[5] as! Array&lt;String&gt;
+arr0001[1] 
 </code></pre>
 
                       

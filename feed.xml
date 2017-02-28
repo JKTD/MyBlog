@@ -6,7 +6,285 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Wed, 22 Feb 2017 16:15:18 CST</updated>
+        <updated>Mon, 27 Feb 2017 13:41:21 CST</updated>
+        
+        <item>
+            <title>swift3-11 函数</title>
+            <link>http://www.flywithme.top/2017/02/27/swift11/</link>
+            <pubDate>Mon, 27 Feb 2017 13:41:21 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2017/02/27/swift11/</guid>
+            <description>&lt;p&gt;&lt;strong&gt;函数定义&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Swift 定义函数使用关键字 func。
+  定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。
+  每个函数都有一个函数名来描述它的功能。通过函数名以及对应类型的参数值来调用这个函数。函数的参数传递的顺序必须与参数列表相同。
+  函数的实参传递的顺序必须与形参列表相同，-&amp;gt; 后定义函数的返回值类型。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;示例:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func hello(name:String)-&amp;gt; String{
+    return &amp;quot;Hello &amp;quot; + name
+}
+
+hello(name: &amp;quot;Jack&amp;quot;)    
+
+
+func hello1(name:String?)-&amp;gt; String{
+    return &amp;quot;Hello &amp;quot; + (name != nil  ? name! : &amp;quot;guess&amp;quot;)
+}
+
+hello1(name: &amp;quot;Jack&amp;quot;)
+
+
+func printHello(){
+    print(&amp;quot;hello&amp;quot;)
+}
+printHello()
+
+func printHello1() -&amp;gt; Void{  //Void 是一个类型
+    print(&amp;quot;hello&amp;quot;)
+}
+printHello1()
+
+func printHello2() -&amp;gt; (){
+    print(&amp;quot;hello&amp;quot;)
+}
+printHello2()    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;使用元组作为返回值&lt;/strong&gt;  函数返回值的类型可以是字符串,整型,浮点型等,元组与数组类似,不同的是,元组中的元素可以是任意类型,使用的是括号,你可以使用元组类型让多个值作为一个复合值从函数中返回。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func findMaxAndMin(numbers:[Int]) -&amp;gt; (max:Int, min:Int)?{ //如果你不确定返回的元组一定不为nil，那么你可以返回一个可选的元组类型。
+    guard !numbers.isEmpty else {
+        return (Int.max,Int.min)
+    }
+    var minValue = numbers[0]
+    var maxValue = numbers[0]
+    for num in numbers{
+        minValue = minValue &amp;lt; num ? minValue : num
+        maxValue =  maxValue &amp;gt; num ? maxValue : num
+    }
+    return (maxValue ,minValue)
+}
+var numbers = [1,23,34,2,2,31,23,23,34,45,454545,4,54,5,45,45,45]
+var result =  findMaxAndMin(numbers: numbers)
+print(result?.max ?? 0,result?.min ?? 0)  
+if let result =  findMaxAndMin(numbers: numbers) {
+    print( result.max,result.min)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;函数的内部参数和外部参数&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func sayHelloTo(name:String, msg:String)-&amp;gt; String{
+    return &amp;quot;\(msg), \(name)&amp;quot;
+}
+sayHelloTo(name: &amp;quot;a&amp;quot;, msg: &amp;quot;b&amp;quot;)  //sayHelloTo(&amp;quot;a&amp;quot;, msg: &amp;quot;b&amp;quot;) 这种方式已被废弃
+
+//内部参数和外部参数
+func sayHelloTo(name:String, withMessage msg:String)-&amp;gt; String{
+    return &amp;quot;\(msg), \(name)&amp;quot;
+}
+sayHelloTo(name: &amp;quot;a&amp;quot;, withMessage: &amp;quot;b&amp;quot;)
+
+//修改外部参数名
+func sayHello(to name:String, withMessage msg:String)-&amp;gt; String{
+    return &amp;quot;\(msg), \(name)&amp;quot;
+}
+sayHello(to : &amp;quot;a&amp;quot;, withMessage: &amp;quot;b&amp;quot;)
+
+//隐藏调用参数
+func mutiply(_ num1:Int, _ num2:Int) -&amp;gt; Int{
+    return num1*num2
+}
+mutiply(2,  4) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;默认参数值&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func sayHello(to name:String, withMessage msg:String = &amp;quot;hello&amp;quot;)-&amp;gt; String{
+    return &amp;quot;\(msg), \(name)&amp;quot;
+}
+sayHello(to : &amp;quot;a&amp;quot;, withMessage: &amp;quot;b&amp;quot;)
+sayHello(to: &amp;quot;jack&amp;quot;) //可以省略后面的一个参数
+
+
+func sayHello(to name:String, withMessage msg:String = &amp;quot;hello&amp;quot;, punctuation:String = &amp;quot;!&amp;quot;)-&amp;gt; String{
+    return &amp;quot;\(msg), \(name) \(punctuation)&amp;quot;
+}
+sayHello(to : &amp;quot;a&amp;quot;, withMessage: &amp;quot;b&amp;quot;)
+sayHello(to: &amp;quot;jack&amp;quot;)
+sayHello(to: &amp;quot;Jack&amp;quot;, withMessage: &amp;quot;Hello&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;可变参数值&lt;/strong&gt; 一个函数至多只可以有一个变长的参数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//常用的变长参数函数
+print(&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;)
+//求平均值
+func mean(numbers:Double ...) -&amp;gt;Double{
+    var sum : Double = 0
+    for num in numbers{
+        sum += num
+    }
+    return sum / Double(numbers.count)
+}
+mean(numbers: 1,2,3,4,5,5.0,23,434)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;常量参数,变量参数和 inout 参数&lt;/strong&gt; 默认的函数参数都是常量。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func toBinary(num:Int)-&amp;gt;String{ //直接声明称 var 类型参数已被废弃。
+    var num = num  
+    var res = &amp;quot;&amp;quot;
+    repeat{
+        res = String(num%2) + res
+        num /= 2
+    }while num != 0
+    return res
+}
+toBinary(num: 1000)
+
+//inout 
+func toBinary( num:inout Int)-&amp;gt;String{
+    var res = &amp;quot;&amp;quot;
+    repeat{
+        res = String(num%2) + res
+        num /= 2
+    }while num != 0
+    return res
+}
+var num = 100
+toBinary(num: &amp;amp;num) //传入指针
+print(num) 
+
+//交换两个字符串
+func swapTwoString(str1:inout String, str2:inout String){
+    let tstr = str1
+    str1 = str2
+    str2 = tstr
+}
+
+var str1 = &amp;quot;a&amp;quot;
+var str2 = &amp;quot;b&amp;quot;
+swapTwoString(str1: &amp;amp;str1, str2:&amp;amp;str2)
+str1
+str2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;函数型变量&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func add(a:Int, b:Int) -&amp;gt; Int{
+    return a + b
+}
+
+let add01 = add
+add01(3,4)
+let add02:(Int, Int) -&amp;gt; Int = add
+add02(4,5)
+
+
+var arr:[Int] = []
+for _ in 0...100{
+    arr.append(Int(arc4random()%1000))
+}
+
+arr.sort { (a, b) -&amp;gt; Bool in
+    return a &amp;lt; b
+}
+arr
+
+func descending (a:Int ,b:Int) -&amp;gt;Bool{
+    return a &amp;gt; b
+}
+arr.sorted(by: descending)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;函数变成初步&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func changeScores( scors: [Int], by method:(Int)-&amp;gt; Int) -&amp;gt; [Int]{
+    var arr = scors
+    for (index , score) in scors.enumerated(){
+        arr[index] = method(score)
+    }
+    return arr
+}
+func changeScore01 (score : Int) -&amp;gt; Int{
+    return score + 3
+}
+
+func changeScore02 (score : Int) -&amp;gt; Int{
+    return Int(Double(score)/150.0*100.0)
+}
+
+var arr:[Int] = []
+for _ in 0..&amp;lt;10{
+    arr.append(Int(arc4random())%150)
+}
+arr
+changeScores(scors: arr, by: changeScore01)
+changeScores(scors: arr, by: changeScore02)
+//map 
+arr.map(changeScore01)
+func isPassOrFail(score:Int)-&amp;gt;String{
+    return score &amp;lt; 60 ? &amp;quot;Fail&amp;quot;: &amp;quot;Pass&amp;quot;
+}
+arr.map(isPassOrFail)
+
+//filter 过滤
+func fail (score:Int)-&amp;gt; Bool{
+    return score &amp;lt; 60
+}
+arr.filter(fail)
+
+//reduce 聚合
+func add(a:Int, b:Int)-&amp;gt; Int{
+    return a + b
+}
+arr.reduce(0, add)
+
+arr.reduce(0, +)
+
+//Swift中,运算符号 本质上就是一个函数 
+public func +(lhs: Int, rhs: Int) -&amp;gt; Int
+public func *(lhs: Int, rhs: Int) -&amp;gt; Int
+public func -(lhs: Int, rhs: Int) -&amp;gt; Int
+public func /(lhs: Int, rhs: Int) -&amp;gt; Int
+public func %(lhs: Int, rhs: Int) -&amp;gt; Int
+
+
+func concatenate(str:String , num:Int) -&amp;gt; String{
+    return &amp;quot;\(str)\(num) &amp;quot;
+}
+arr.reduce(&amp;quot;&amp;quot;, concatenate)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;返回函数类型和函数嵌套&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//邮递费用
+func tilerMailfeeByWight( weight : Int) -&amp;gt; Int{
+    return 1*weight
+}
+func tiler2MailfeeByWight( weight : Int) -&amp;gt; Int{
+    return 3*weight
+}
+//超过10单位，则按三倍计算
+func feeBytUnitPrice (price :Int , wight:Int) -&amp;gt; Int{
+
+    func chooseMailFeeCalationByWeight(weight: Int) -&amp;gt; (Int) -&amp;gt; Int{
+        return weight &amp;lt;= 10 ? tilerMailfeeByWight : tiler2MailfeeByWight
+    }
+
+    let mailFeefuc = chooseMailFeeCalationByWeight(weight: wight)
+    return mailFeefuc(wight) + price*wight //邮递费用+商品费用
+}
+feeBytUnitPrice(price: 2, wight: 11)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>swift3-10 数据集合小节</title>
@@ -417,6 +695,12 @@ var arr002:NSArray = [1, 2, &amp;quot;hello&#39;&amp;quot;]
  //如何在 arr002 中获取第五个元素,然后解包这个元素。
  var arr = arr002[4]   //对 arr的解包,如何顺利进行。
  //arr[0]  //error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;//问题解决&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var arr0001 = arr1[5] as! Array&amp;lt;String&amp;gt;
+arr0001[1] 
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
@@ -953,27 +1237,25 @@ for str in arr{
             <author>Brasbug</author>
             <guid>http://www.flywithme.top/2017/02/16/swift03/</guid>
             <description>&lt;ul&gt;
-&lt;li&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;br /&gt;
-```
-let a = 1
+&lt;li&gt;&lt;p&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let a = 1
 let b:Int
-b = 1&lt;/li&gt;
+b = 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;变量 &lt;strong&gt;var&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var b = 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;pre&gt;&lt;code&gt;- 变量 **var**
+&lt;p&gt;swift 是一个强类型语言:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var x = 1
+
+x = &amp;quot;abc&amp;quot; //会报错(Cannot assign value of type &amp;quot;String&amp;quot; to type &amp;quot;int&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;var b = 2&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    
- swift 是一个强类型语言:
- 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;var x = 1&lt;/p&gt;
-
-&lt;p&gt;x = &amp;ldquo;abc&amp;rdquo; //会报错(Cannot assign value of type &amp;ldquo;String&amp;rdquo; to type &amp;ldquo;int&amp;rdquo;)
-   ```&lt;/p&gt;
 
 &lt;p&gt;显示声明变量&lt;/p&gt;
 
@@ -992,18 +1274,16 @@ var x = 1, y = 2, z = 3
 
 &lt;p&gt;&lt;strong&gt;Int&lt;/strong&gt;&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;```
-var aInt: Int = 20 //整型的存储空间是有限的,根据不同的计算机来定。有最大最小值
+&lt;pre&gt;&lt;code&gt;var aInt: Int = 20 //整型的存储空间是有限的,根据不同的计算机来定。有最大最小值
 Int.max
 Int.min
 
 var aUInt:UInt = 200  //无法存储负数,最大值是 Int 的两倍+1
 UInt.max
 UInt.min
-```
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Int 的类型
+&lt;p&gt;Int 的类型&lt;br /&gt;
    !&lt;img src=&#34;sources/swift/Int类型.png&#34; alt=&#34;intType&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;小知识 如果是一个比较大的数值,可以使用下划线对数字进行分割&lt;/p&gt;
@@ -1229,17 +1509,21 @@ s4.trimmingCharacters(in: .whitespaces) //去除空格
 
 &lt;p&gt;Xcode 提供了代码预览功能 &lt;strong&gt;Playground&lt;/strong&gt; . 使用它可以加快 swift的学习速度&lt;/p&gt;
 
-&lt;p&gt;初始化一个变量和常量
-    var  a = 2  //可变数据
-    a = 3
-    let b = 2 //不可变&lt;/p&gt;
+&lt;p&gt;初始化一个变量和常量&lt;/p&gt;
 
-&lt;p&gt;if else 雨晶
-    if a == 2{
-        print(&amp;ldquo;true&amp;rdquo;)
-    } else{
-       print(&amp;ldquo;false&amp;rdquo;)
-    }&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;var  a = 2  //可变数据
+a = 3
+let b = 2 //不可变
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;if else&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; if a == 2{
+     print(&amp;quot;true&amp;quot;)
+ } else{
+     print(&amp;quot;false&amp;quot;)
+    }
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;for in 遍历语句(此外还有 ,repeat..while ,for 循环3.0中已经被弃用)&lt;/p&gt;
 
@@ -1277,7 +1561,7 @@ s4.trimmingCharacters(in: .whitespaces) //去除空格
 
 &lt;pre&gt;&lt;code&gt;let age = -3 
 assert(age &amp;gt;= 0, &amp;quot;A person&#39;s age cannot be less than zero&amp;quot;) 
-// 因为 age &amp;lt; 0，所以断言会触发   
+// 因为 age &amp;lt; 0，所以断言会触发  
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;下面开始深入学习&lt;/p&gt;
@@ -1845,143 +2129,6 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
     }
 
     alert(detectOS());
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>iOS 开发Debug工具壳</title>
-            <link>http://www.flywithme.top/2016/07/14/debugpanel/</link>
-            <pubDate>Thu, 14 Jul 2016 11:40:29 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/07/14/debugpanel/</guid>
-            <description>
-
-&lt;h5 id=&#34;初衷:bccb225b752499f845bd206d74979637&#34;&gt;初衷&lt;/h5&gt;
-
-&lt;p&gt;移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想做一个固定在状态栏上的的
- Debug 功能控件,之前公司也有一个旧的类似控件,但是里面牵连业务非常多,而且扩展也不友好,所以我就想趁着有新项目需求的时候写一个顶部的控件壳子,
- 而且可以很方便的扩展方法,当然,需要的测试方法依然需要开发者手动添加,这个控件并不侵入业务,以后如果有需要可以做一些设备基础功能的公用方法.
- 暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法&lt;/p&gt;
-
-&lt;p&gt;效果如下图:
-  &lt;img src=&#34;http://www.flywithme.top/sources/DebugPanel/01.gif&#34; alt=&#34;01&#34; /&gt;&lt;/p&gt;
-
-&lt;h6 id=&#34;使用方法:bccb225b752499f845bd206d74979637&#34;&gt;使用方法&lt;/h6&gt;
-
-&lt;p&gt;&lt;strong&gt;Podfile&lt;/strong&gt;&lt;br /&gt;
-   To integrate DebugPanel into your Xcode project using CocoaPods, specify it in your Podfile:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; source &#39;https://github.com/CocoaPods/Specs.git&#39;
- platform :ios, &#39;7.0&#39;
- target &#39;TargetName&#39; do
- pod &#39;DebugPanel&#39;  , :git =&amp;gt;&#39;https://github.com/brasbug/DebugPanel.git&#39;
- end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;then ,runthe following command:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;pod install
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;参数说明:&lt;/strong&gt;&lt;br /&gt;
-   &lt;code&gt;MTADebugModel&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; /**
-  *  @author Jack, 16-07-14 12:07:12
-  *
-  *  title: 显示名称
-  *  selectorProperty: 调用的方法名
-  *  etc: 额外参数
-  */
-  @property (nonatomic, strong) NSString *title;
-  @property (nonatomic, strong) NSDictionary *etc;
-  @property (nonatomic, strong) NSString *selectorProperty;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;MTADebugMethodBridge&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//在方法调用的时候根据传入的参数生成相应的 selector 
-- (BOOL)handleSelectorProperty:(MTADebugModel *)modelProperty
-{
-    if (modelProperty &amp;amp;&amp;amp; modelProperty.title &amp;amp;&amp;amp; modelProperty.selectorProperty.length) {
-        SEL selector = [self selectorForMethod:modelProperty.selectorProperty];
-        if (!selector || ![self respondsToSelector:selector]) {
-            return NO;
-        }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored &amp;quot;-Warc-performSelector-leaks&amp;quot;
-        [self performSelector:selector withObject:modelProperty];
-        NSLog(@&amp;quot;%@&amp;quot;,modelProperty);
-#pragma clang diagnostic pop
-        return YES;
-    }
-    return NO;
-}
-//生成相应的方法
-- (SEL)selectorForMethod:(NSString *)method {
-    if ([method length] == 0) return nil;
-    NSString *objcMethod = [[@&amp;quot;debugapi_&amp;quot; stringByAppendingString:method] stringByAppendingString:@&amp;quot;:&amp;quot;];
-    return NSSelectorFromString(objcMethod);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Usage&lt;/strong&gt;&lt;br /&gt;
-  如果需要在&lt;code&gt;didFinishLaunchingWithOptions&lt;/code&gt;或者是 rootiew 中启动,一定要使用`&lt;code&gt;performSelector&lt;/code&gt;方法延迟调用启动 debug 按钮&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//示例
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [self performSelector:@selector(doJobsAfterFinishLaunching) withObject:nil afterDelay:0];
-    return YES;
-}
-
-- (void)doJobsAfterFinishLaunching
-{
-    NSMutableArray *arrlist = [NSMutableArray array];
-
-    MTADebugModel *item = [[MTADebugModel alloc]init];
-    item.title = @&amp;quot;一键线上&amp;quot;;
-    item.selectorProperty = @&amp;quot;changeOnlineServer&amp;quot;;
-    item.etc = @{@&amp;quot;host&amp;quot;:@&amp;quot;http://www.baidu.com&amp;quot;};
-    [arrlist addObject:item];
-
-    item = [[MTADebugModel alloc]init];
-    item.title = @&amp;quot;一键测试&amp;quot;;
-    item.selectorProperty = @&amp;quot;changeTestServer&amp;quot;;
-    item.etc = @{@&amp;quot;host&amp;quot;:@&amp;quot;http://www.sohu.com&amp;quot;};
-    [arrlist addObject:item];
-
-    item = [[MTADebugModel alloc]init];
-    item.title = @&amp;quot;调试面板&amp;quot;;
-    item.selectorProperty = @&amp;quot;showDebugPanel&amp;quot;;
-    //    item.etc = @{@&amp;quot;a&amp;quot;:@&amp;quot;b&amp;quot;};
-    [arrlist addObject:item];
-
-    item = [[MTADebugModel alloc]init];
-    item.title = @&amp;quot;打开 URL&amp;quot;;
-    item.selectorProperty = @&amp;quot;OpenSchemeURL&amp;quot;;
-    //    item.etc = @{@&amp;quot;c&amp;quot;:@&amp;quot;d&amp;quot;};
-    [arrlist addObject:item];
-
-    [[MTADebugpanel shareInstance]startDebugBar:YES methodModels:arrlist error:^(NSString *errMsg) {
-        NSLog(@&amp;quot;%@&amp;quot;,errMsg);
-    }];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;这一步很重要&lt;/strong&gt;&lt;br /&gt;
-   创建&lt;code&gt;MTADebugMethodBridge&lt;/code&gt;的 &lt;code&gt;category&lt;/code&gt; 实现你在 &lt;code&gt;MTADebugModel&lt;/code&gt; 中的&lt;code&gt;selectorProperty&lt;/code&gt; 参数方法,需要加上 &lt;code&gt;debugapi_&lt;/code&gt;的签名前缀&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//方法扩展示例
-- (void)debugapi_changeOnlineServer:(MTADebugModel *)parameters{
-// TODO  Do Your Job
-}
-
-
-- (void)debugapi_OpenSchemeURL:(MTADebugModel *)parameters{
-    // TODO  Do Your Job
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
