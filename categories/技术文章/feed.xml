@@ -2,18 +2,153 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>技术文章 on Fly With Me</title>
-        <link>http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
+        <link>http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Mon, 27 Feb 2017 13:41:21 CST</updated>
+        <updated>Tue, 28 Feb 2017 17:43:27 CST</updated>
+        
+        <item>
+            <title>swift3-12 闭包</title>
+            <link>http://www.flywithme.top/2017/02/28/swift12/</link>
+            <pubDate>Tue, 28 Feb 2017 17:43:27 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2017/02/28/swift12/</guid>
+            <description>&lt;p&gt;&lt;strong&gt;闭包&lt;/strong&gt;
+  闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。
+   Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编程语言中的匿名函数比较相似。
+   全局函数和嵌套函数其实就是特殊的闭包。&lt;/p&gt;
+
+&lt;p&gt;闭包的形式有&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;全局函数&lt;/strong&gt;:    有名字但不能捕获任何值&lt;br /&gt;
+   &lt;strong&gt;嵌套函数&lt;/strong&gt;:    有名字,可以捕获封闭函数内的值&lt;br /&gt;
+   &lt;strong&gt;闭包表达式&lt;/strong&gt;:  无名闭包,使用轻量级语法,可以根据上下文环境捕获值。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;示例:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;let clousuer = { print(&amp;quot;Swift 闭包实例。&amp;quot;) }
+clousuer()
+
+
+//加法
+let sum = {(val1:Int, val2:Int)-&amp;gt; Int in
+        return val1 + val2
+}
+let result = sum(20,2)
+
+//排序
+var arr:[Int] = []
+for _ in 0...100{
+    arr.append(Int(arc4random()%1000))
+}
+arr.sorted(by: {(a: Int, b:Int) -&amp;gt; Bool in
+
+    return a &amp;gt; b
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;闭包的简化&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//简化: 根据现场情况,选择适合当前情况的写法。
+arr.sort(by:{a, b in return a &amp;gt; b}) //因为只能是 Int 类型的,可以省去声明
+arr
+arr.sort(by:{a, b in  a &amp;lt; b})  //省去 Return
+arr
+arr.sort(by: {$0&amp;gt;$1}) //$0, $1(从0开始，表示第i个参数...) 省去参数,直接使用简化参数名
+arr
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;运算符函数&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;arr.sort(by: &amp;lt;) //可以这样写的原因是 Swift中,&amp;gt; &amp;lt; = + - 等,本身就是函数
+arr
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;尾随闭包&lt;/strong&gt;  Trailing closure syntax   尾随闭包是一个书写在函数括号之后的闭包表达式，函数支持将其作为最后一个参数调用&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//把闭包写在()外边
+arr.sorted(){a, b in
+    return a &amp;gt; b
+}
+//由于么有参数需要传入,()也可以省略
+arr.sorted{a, b in
+    return a &amp;gt; b
+}
+arr.sorted{$0 &amp;gt; $1}
+
+
+//实现一个小动画
+import UIKit
+import XCPlayground
+
+let showView = UIView(frame:CGRect(x:0,  y:0, width:300, height:300))
+let rectAngle = UIView(frame:CGRect(x:0,  y:0, width:50, height:50))
+rectAngle.center = showView.center
+showView.backgroundColor = UIColor .white
+rectAngle.backgroundColor = UIColor.red
+showView.addSubview(rectAngle)
+XCPlaygroundPage.currentPage.liveView = showView
+UIView.animate(withDuration: 4.0, animations: {
+    rectAngle.backgroundColor = UIColor.orange
+    rectAngle.frame = CGRect(x:0,  y:0, width:300, height:300)
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;内容捕获&lt;/strong&gt;   闭包可以在其定义的上下文中捕获常量或变量&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var arr:[Int] = []
+for _ in 0...100{
+    arr.append(Int(arc4random()%1000))
+}
+
+var num = 300
+arr.sorted{
+    a, b in abs(a - num) &amp;lt; abs(b - num)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;闭包是引用类型&lt;/strong&gt;  无论您将函数/闭包赋值给一个常量还是变量，实际上都是将常量/变量的值设置为对应函数/闭包的引用&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func makeIncrementor(forIncrement amount: Int) -&amp;gt; () -&amp;gt; Int {
+    var runningTotal = 0
+    func incrementor() -&amp;gt; Int {
+        runningTotal += amount
+        return runningTotal
+    }
+    return incrementor
+}
+
+let incrementByTen = makeIncrementor(forIncrement: 10)
+
+// 返回的值为10
+incrementByTen()
+
+// 返回的值为20
+incrementByTen()
+
+// 返回的值为30
+incrementByTen()
+
+// 返回的值为40
+incrementByTen()
+
+let alsoIncrementByTen = incrementByTen
+
+// 返回的值也为50
+print(alsoIncrementByTen())
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>swift3-11 函数</title>
-            <link>http://blog.flywithme.top/2017/02/27/swift11/</link>
+            <link>http://www.flywithme.top/2017/02/27/swift11/</link>
             <pubDate>Mon, 27 Feb 2017 13:41:21 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/27/swift11/</guid>
+            <guid>http://www.flywithme.top/2017/02/27/swift11/</guid>
             <description>&lt;p&gt;&lt;strong&gt;函数定义&lt;/strong&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -273,7 +408,7 @@ func tiler2MailfeeByWight( weight : Int) -&amp;gt; Int{
 }
 //超过10单位，则按三倍计算
 func feeBytUnitPrice (price :Int , wight:Int) -&amp;gt; Int{
-
+    py
     func chooseMailFeeCalationByWeight(weight: Int) -&amp;gt; (Int) -&amp;gt; Int{
         return weight &amp;lt;= 10 ? tilerMailfeeByWight : tiler2MailfeeByWight
     }
@@ -288,10 +423,10 @@ feeBytUnitPrice(price: 2, wight: 11)
         
         <item>
             <title>swift3-10 数据集合小节</title>
-            <link>http://blog.flywithme.top/2017/02/22/swift10/</link>
+            <link>http://www.flywithme.top/2017/02/22/swift10/</link>
             <pubDate>Wed, 22 Feb 2017 16:15:18 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/22/swift10/</guid>
+            <guid>http://www.flywithme.top/2017/02/22/swift10/</guid>
             <description>&lt;p&gt;&lt;strong&gt;选择合适的数据结构&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;数组&lt;/strong&gt;:&lt;/p&gt;
@@ -360,10 +495,10 @@ for str in setA{
         
         <item>
             <title>Swift3-09 集合</title>
-            <link>http://blog.flywithme.top/2017/02/22/swift09/</link>
+            <link>http://www.flywithme.top/2017/02/22/swift09/</link>
             <pubDate>Wed, 22 Feb 2017 15:18:43 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/22/swift09/</guid>
+            <guid>http://www.flywithme.top/2017/02/22/swift09/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集&lt;br /&gt;
    为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。
@@ -485,10 +620,10 @@ setA.isStrictSuperset(of: setB)
         
         <item>
             <title>Swift3-08 字典</title>
-            <link>http://blog.flywithme.top/2017/02/22/swift08/</link>
+            <link>http://www.flywithme.top/2017/02/22/swift08/</link>
             <pubDate>Wed, 22 Feb 2017 14:12:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/22/swift08/</guid>
+            <guid>http://www.flywithme.top/2017/02/22/swift08/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;字典是存储 键-值 数据对的无序数据集合&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -565,10 +700,10 @@ var str =  dic.updateValue(&amp;quot;value&amp;quot;, forKey: &amp;quot;key&amp;
         
         <item>
             <title>Swift3-07 数组</title>
-            <link>http://blog.flywithme.top/2017/02/21/swift07/</link>
+            <link>http://www.flywithme.top/2017/02/21/swift07/</link>
             <pubDate>Tue, 21 Feb 2017 15:38:45 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/21/swift07/</guid>
+            <guid>http://www.flywithme.top/2017/02/21/swift07/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: &lt;code&gt;Array Dictionary set&lt;/code&gt;
 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。&lt;/p&gt;
@@ -707,10 +842,10 @@ arr0001[1]
         
         <item>
             <title>Swift3-06 可选型 Optionals</title>
-            <link>http://blog.flywithme.top/2017/02/20/swift06/</link>
+            <link>http://www.flywithme.top/2017/02/20/swift06/</link>
             <pubDate>Mon, 20 Feb 2017 15:22:44 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/20/swift06/</guid>
+            <guid>http://www.flywithme.top/2017/02/20/swift06/</guid>
             <description>&lt;p&gt;画重点!
 Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候
 是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。&lt;/p&gt;
@@ -877,10 +1012,10 @@ class001.showInfo()
         
         <item>
             <title>Swift3-05 逻辑控制</title>
-            <link>http://blog.flywithme.top/2017/02/17/swift05/</link>
+            <link>http://www.flywithme.top/2017/02/17/swift05/</link>
             <pubDate>Fri, 17 Feb 2017 17:34:01 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/17/swift05/</guid>
+            <guid>http://www.flywithme.top/2017/02/17/swift05/</guid>
             <description>&lt;p&gt;控制流的三种基本结构:&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -1109,10 +1244,10 @@ buyComputer(money: 9000, price: 6000, brand: &amp;quot;Sony&amp;quot;)
         
         <item>
             <title>Swift3-04 基础运算符</title>
-            <link>http://blog.flywithme.top/2017/02/17/swift04/</link>
+            <link>http://www.flywithme.top/2017/02/17/swift04/</link>
             <pubDate>Fri, 17 Feb 2017 11:00:55 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/17/swift04/</guid>
+            <guid>http://www.flywithme.top/2017/02/17/swift04/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;赋值运算符&lt;/p&gt;
 
@@ -1232,10 +1367,10 @@ for str in arr{
         
         <item>
             <title>Swift3-03 基础类型</title>
-            <link>http://blog.flywithme.top/2017/02/16/swift03/</link>
+            <link>http://www.flywithme.top/2017/02/16/swift03/</link>
             <pubDate>Thu, 16 Feb 2017 16:11:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
+            <guid>http://www.flywithme.top/2017/02/16/swift03/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;/p&gt;
 
@@ -1496,10 +1631,10 @@ s4.trimmingCharacters(in: .whitespaces) //去除空格
         
         <item>
             <title>Swift3-02 初见</title>
-            <link>http://blog.flywithme.top/2017/02/16/swift02/</link>
+            <link>http://www.flywithme.top/2017/02/16/swift02/</link>
             <pubDate>Thu, 16 Feb 2017 11:27:44 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/16/swift02/</guid>
+            <guid>http://www.flywithme.top/2017/02/16/swift02/</guid>
             <description>&lt;p&gt;首先我们来在屏幕上输出一个 &lt;code&gt;hello world&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;print(&amp;quot;hello world&amp;quot;)
@@ -1570,10 +1705,10 @@ assert(age &amp;gt;= 0, &amp;quot;A person&#39;s age cannot be less than zero&am
         
         <item>
             <title>关于 Swift3-01</title>
-            <link>http://blog.flywithme.top/2017/02/09/swift01/</link>
+            <link>http://www.flywithme.top/2017/02/09/swift01/</link>
             <pubDate>Thu, 09 Feb 2017 10:12:48 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/09/swift01/</guid>
+            <guid>http://www.flywithme.top/2017/02/09/swift01/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。
 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。&lt;/p&gt;&lt;/li&gt;
@@ -1595,10 +1730,10 @@ Swift 使用安全的编程模式并添加了很多新特性，这将使编程�
         
         <item>
             <title>Go语言fmt包Printf方法详解t</title>
-            <link>http://blog.flywithme.top/2017/01/01/golangfmt/</link>
+            <link>http://www.flywithme.top/2017/01/01/golangfmt/</link>
             <pubDate>Sun, 01 Jan 2017 00:56:42 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/01/01/golangfmt/</guid>
+            <guid>http://www.flywithme.top/2017/01/01/golangfmt/</guid>
             <description>&lt;p&gt;Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;General&lt;/strong&gt;&lt;/p&gt;
@@ -1709,10 +1844,10 @@ fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)
         
         <item>
             <title>golang-Gin-Https</title>
-            <link>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</link>
+            <link>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</link>
             <pubDate>Mon, 26 Dec 2016 14:29:14 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
+            <guid>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
             <description>&lt;p&gt;关于https&lt;br /&gt;
 背景知识&lt;br /&gt;
 密码学的一些基本知识&lt;br /&gt;
@@ -2034,10 +2169,10 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
         
         <item>
             <title>TableView 中 Cell的重用机制分析</title>
-            <link>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</link>
+            <link>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</link>
             <pubDate>Tue, 20 Dec 2016 11:41:34 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
+            <guid>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
    这个方法到底是怎么实现的呢?&lt;br /&gt;
@@ -2064,72 +2199,6 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
 &lt;/ol&gt;
 
 &lt;p&gt;还有一些情况需要注意,并不是只有拖动的时候才会有以上逻辑,tableview 调用&lt;code&gt;reloadData&lt;/code&gt;的时候,&lt;code&gt;reloadRowsAtIndex&lt;/code&gt; 方法的时候也会,具体步骤,以后再分析。&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>JS判断客户端类型</title>
-            <link>http://blog.flywithme.top/2016/12/19/clientType/</link>
-            <pubDate>Mon, 19 Dec 2016 14:30:21 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
-            <description>&lt;p&gt;通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型&lt;/p&gt;
-
-&lt;p&gt;扫描二维码打开:
-  &lt;img src=&#34;http://blog.flywithme.top/sources/localHtml/clientType01.png&#34; width = &#34;200&#34; height = &#34;200&#34; alt=&#34;二维码&#34; align=center /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://blog.flywithme.top/sources/localhtml/clientType01/index.html&#34; target=&#34;_blank&#34;&gt;测试链接:&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;function is_weixn(){
-        var ua = navigator.userAgent.toLowerCase();
-        if(ua.match(/MicroMessenger/i)==&amp;quot;micromessenger&amp;quot;) {
-            alert(&#39;在微信里打开&#39;);
-        } else {
-            alert(&#39;不在微信里打开&#39;);
-        }
-    }
-
-    is_weixn();
-
-
-
-    //判断各个平台
-    function detectOS() {
-        var sUserAgent = navigator.userAgent;
-        var isWin = (navigator.platform == &amp;quot;Win32&amp;quot;) || (navigator.platform == &amp;quot;Windows&amp;quot;);
-        var isMac = (navigator.platform == &amp;quot;Mac68K&amp;quot;) || (navigator.platform == &amp;quot;MacPPC&amp;quot;) || (navigator.platform == &amp;quot;Macintosh&amp;quot;) || (navigator.platform == &amp;quot;MacIntel&amp;quot;);
-        if (isMac) return &amp;quot;Mac&amp;quot;;
-        var isUnix = (navigator.platform == &amp;quot;X11&amp;quot;) &amp;amp;&amp;amp; !isWin &amp;amp;&amp;amp; !isMac;
-        if (isUnix) return &amp;quot;Unix&amp;quot;;
-        var isLinux = (String(navigator.platform).indexOf(&amp;quot;Linux&amp;quot;) &amp;gt; -1);
-        if (isLinux) return &amp;quot;Linux&amp;quot;;
-        if (isWin) {
-            var isWin2K = sUserAgent.indexOf(&amp;quot;Windows NT 5.0&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows 2000&amp;quot;) &amp;gt; -1;
-            if (isWin2K) return &amp;quot;Win2000&amp;quot;;
-            var isWinXP = sUserAgent.indexOf(&amp;quot;Windows NT 5.1&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows XP&amp;quot;) &amp;gt; -1;
-            if (isWinXP) return &amp;quot;WinXP&amp;quot;;
-            var isWin2003 = sUserAgent.indexOf(&amp;quot;Windows NT 5.2&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows 2003&amp;quot;) &amp;gt; -1;
-            if (isWin2003) return &amp;quot;Win2003&amp;quot;;
-            var isWinVista= sUserAgent.indexOf(&amp;quot;Windows NT 6.0&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows Vista&amp;quot;) &amp;gt; -1;
-            if (isWinVista) return &amp;quot;WinVista&amp;quot;;
-            var isWin7 = sUserAgent.indexOf(&amp;quot;Windows NT 6.1&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows 7&amp;quot;) &amp;gt; -1;
-            if (isWin7) return &amp;quot;Win7&amp;quot;;
-            var isWin10 = sUserAgent.indexOf(&amp;quot;Windows NT 10&amp;quot;) &amp;gt; -1 || sUserAgent.indexOf(&amp;quot;Windows 10&amp;quot;) &amp;gt; -1;
-            if (isWin10) return &amp;quot;Win10&amp;quot;;
-        }
-        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-            //alert(navigator.userAgent);
-//            alert(&#39;这是IOS&#39;);
-            return &amp;quot;iOS&amp;quot;
-        } else if (/(Android)/i.test(navigator.userAgent)) {
-            //alert(navigator.userAgent);
-            return &amp;quot;Android&amp;quot;;
-        }
-        return &amp;quot;other&amp;quot;;
-    }
-
-    alert(detectOS());
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         
