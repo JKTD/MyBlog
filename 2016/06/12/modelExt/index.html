@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-  <base href="http://www.flywithme.top//">
+  <base href="http://blog.flywithme.top//">
   <script>
     document._writeOriginal = document.write;
     document.write = function(str) {
@@ -24,12 +24,12 @@
 
 <meta itemprop="name" content="YYModel 简介与使用 - Fly With Me">
 <meta itemprop="description" content="1. 简单的 JSON 与 Model 的转换 // JSON: { &quot;uid&quot;:123456, &quot;name&quot;:&quot;Harry&quot;, &quot;created&quot;:&quot;1965-07-31T00:00:00&#43;0000&quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject]; 如果 Model 属性的类型和 JSON 中">
-<meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
+<meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
 <meta property="og:title" content="YYModel 简介与使用 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.flywithme.top/2016/06/12/modelExt/" />
-<meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/06/12/modelExt/" />
+<meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
 <meta property="og:description" content="1. 简单的 JSON 与 Model 的转换 // JSON: { &quot;uid&quot;:123456, &quot;name&quot;:&quot;Harry&quot;, &quot;created&quot;:&quot;1965-07-31T00:00:00&#43;0000&quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject]; 如果 Model 属性的类型和 JSON 中">
 
 <meta name="twitter:card" content="summary">
@@ -37,21 +37,21 @@
 <meta name="twitter:title" content="YYModel 简介与使用 - Fly With Me">
 <meta name="twitter:description" content="1. 简单的 JSON 与 Model 的转换 // JSON: { &quot;uid&quot;:123456, &quot;name&quot;:&quot;Harry&quot;, &quot;created&quot;:&quot;1965-07-31T00:00:00&#43;0000&quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject]; 如果 Model 属性的类型和 JSON 中">
 <meta name="twitter:creator" content="@brasbug">
-<meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
+<meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://www.flywithme.top/2016/06/12/modelExt/">
-  <link rel='shortlink' href="http://www.flywithme.top/2016/06/12/modelExt/"/>
-  <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/06/12/modelExt/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/06/12/modelExt/"/>
+  <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
-<link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="human-style-css2" href="http://www.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="responsive-css" href="http://www.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="font-awesome-css" href="http://www.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
-<link rel="stylesheet" href="http://www.flywithme.top/public/highlight/styles/github.css">
-<script src="http://www.flywithme.top/public/highlight/highlight.pack.js"></script>
+<link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="font-awesome-css" href="http://blog.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="http://blog.flywithme.top/public/highlight/styles/github.css">
+<script src="http://blog.flywithme.top/public/highlight/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<link rel="stylesheet" id="human-style-css3" href="http://www.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css3" href="http://blog.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
 <link rel="stylesheet" href="public/font/hack/css/hack.min.css">
 
 <script type="text/javascript" src="assets/js/jquery-2.1.1.min.js"></script>
@@ -71,37 +71,37 @@
     <div class="nav-toggle"><i class="fa fa-bars"></i></div>
     <div class="nav-text"></div>
     <div class="nav-wrap container">
-      <a rel="nofollow" href="http://www.flywithme.top//" class="nav-cs-icon">
-        <img width="40" height="40" src="http://www.flywithme.top/public/coderjk.jpg" alt="brasbug" title="Home">
+      <a rel="nofollow" href="http://blog.flywithme.top//" class="nav-cs-icon">
+        <img width="40" height="40" src="http://blog.flywithme.top/public/coderjk.jpg" alt="brasbug" title="Home">
       </a>
       <ul id="menu-default-menu" class="nav container-inner group">
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/">首页</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
         </li>
         
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/post/">归档</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/post/">归档</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/about/">关于我</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/about/">关于我</a>
         </li>
         
         
@@ -140,8 +140,8 @@
 
         <div class="group pad">
           <h1 class="site-title">
-            <a rel="nofollow" href="http://www.flywithme.top//" rel="home">
-              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="brasbug" src="http://www.flywithme.top/public/coderjk.jpg"></img>
+            <a rel="nofollow" href="http://blog.flywithme.top//" rel="home">
+              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="brasbug" src="http://blog.flywithme.top/public/coderjk.jpg"></img>
               Fly With Me
             </a>
           </h1>
@@ -167,7 +167,7 @@
               <ul class="meta-single group">
                 
                 <li class="category">
-                  <a href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                  <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
                 </li>
                 
               </ul>
@@ -195,7 +195,7 @@
                       
                       
 
-<h5 id="1-简单的-json-与-model-的转换:8ec36dbf2f8e0e1414f1b45b0a0ff0ff">1. 简单的 JSON 与 Model 的转换</h5>
+<h5 id="1-简单的-json-与-model-的转换">1. 简单的 JSON 与 Model 的转换</h5>
 
 <pre><code>// JSON:
 {
@@ -281,7 +281,7 @@ NSDictionary *json = [user yy_modelToJSONObject];
 <p>如果自动转换不能完成，则相应属性会被忽略。</p>
 </blockquote>
 
-<h6 id="2-将-model-的属性匹配到指定的-json-nsdictionary-键值:8ec36dbf2f8e0e1414f1b45b0a0ff0ff">2. 将 Model 的属性匹配到指定的 JSON/NSDictionary 键值：</h6>
+<h6 id="2-将-model-的属性匹配到指定的-json-nsdictionary-键值">2. 将 Model 的属性匹配到指定的 JSON/NSDictionary 键值：</h6>
 
 <pre><code>// JSON:
 {
@@ -311,7 +311,7 @@ NSDictionary *json = [user yy_modelToJSONObject];
 <p>通过实现 协议中的 modelCustomPropertyMapper，可以将 Model 属性的名字对应到 JSON/NSDictionary 相应的字段。</p>
 </blockquote>
 
-<h6 id="3-model-属性关联到其他-model:8ec36dbf2f8e0e1414f1b45b0a0ff0ff">3. Model 属性关联到其他 Model</h6>
+<h6 id="3-model-属性关联到其他-model">3. Model 属性关联到其他 Model</h6>
 
 <pre><code>// JSON:
 {
@@ -344,7 +344,7 @@ NSDictionary *json = [user yy_modelToJSONObject];
 <p>默认什么都不用做，YYModel 就可以自动转换。</p>
 </blockquote>
 
-<h6 id="4-model-属性是容器类型:8ec36dbf2f8e0e1414f1b45b0a0ff0ff">4. Model 属性是容器类型</h6>
+<h6 id="4-model-属性是容器类型">4. Model 属性是容器类型</h6>
 
 <pre><code>@class Shadow, Border, Attachment;
 
@@ -368,7 +368,7 @@ NSDictionary *json = [user yy_modelToJSONObject];
 <p>通过实现 协议中的 modelContainerPropertyGenericClass，返回 Model 属性容器中需要存放的对象类型，YYModel 会自动进行处理。对象类型可以是 Class 或者 Class name。</p>
 </blockquote>
 
-<h6 id="5-黑名单白名单:8ec36dbf2f8e0e1414f1b45b0a0ff0ff">5. 黑名单白名单</h6>
+<h6 id="5-黑名单白名单">5. 黑名单白名单</h6>
 
 <pre><code>@interface User
 @property NSString *name;
@@ -391,7 +391,7 @@ NSDictionary *json = [user yy_modelToJSONObject];
 <p>如果一个 Model 只需要处理某些特性的属性，则可以通过实现 协议中的 modelPropertyWhitelist 来返回属性名列表，YYModel 在处理中只会处理列表内的属性。</p>
 </blockquote>
 
-<h6 id="6-数据校验与额外的处理:8ec36dbf2f8e0e1414f1b45b0a0ff0ff">6. 数据校验与额外的处理</h6>
+<h6 id="6-数据校验与额外的处理">6. 数据校验与额外的处理</h6>
 
 <pre><code>@interface User
 @property NSString *name;
@@ -420,7 +420,7 @@ NSDictionary *json = [user yy_modelToJSONObject];
 <p>在上面两个方法中，也可以对 Model/JSON 进行额外的处理，以转换 YYModel 不支持的类型。</p>
 </blockquote>
 
-<h6 id="6-coding-copying-hash-equal:8ec36dbf2f8e0e1414f1b45b0a0ff0ff">6.Coding/Copying/hash/equal</h6>
+<h6 id="6-coding-copying-hash-equal">6.Coding/Copying/hash/equal</h6>
 
 <pre><code>@interface YYShadow :NSObject &lt;NSCoding, NSCopying&gt;
 @property (nonatomic, copy) NSString *name;
@@ -440,7 +440,7 @@ NSDictionary *json = [user yy_modelToJSONObject];
 <p>在一个对象的实现中，调用 YYModel 对应的方法，即可实现 NSCoding/NSCopying/hash/equal 协议。YYModel 会自动处理所有有效的 property。</p>
 </blockquote>
 
-<h6 id="最后:8ec36dbf2f8e0e1414f1b45b0a0ff0ff">最后</h6>
+<h6 id="最后">最后</h6>
 
 <p>YYModel 的设计目标是高性能和高容错性，虽然功能并不如 Mantle 等项目丰富，但是性能却是远远高于它们。上面所有的方法内部都经过仔细检查，能确保每个属性类型的正确性，避免了可能的崩溃问题。</p>
 
@@ -450,13 +450,13 @@ NSDictionary *json = [user yy_modelToJSONObject];
                     </div>
                     <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
                         <div style="float:left;margin-top:0px;">
-                        <img src="http://www.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
+                        <img src="http://blog.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
                         <div style="text-align:center;">微信扫一扫</div>
                         </div>
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/06/12/modelExt/">http://www.flywithme.top/2016/06/12/modelExt/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/06/12/modelExt/">http://blog.flywithme.top/2016/06/12/modelExt/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -509,7 +509,7 @@ NSDictionary *json = [user yy_modelToJSONObject];
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/06/12/modelExt/" data-title="YYModel 简介与使用" data-url="http://www.flywithme.top/2016/06/12/modelExt/"></div>
+<div class="ds-thread" data-thread-key="/2016/06/12/modelExt/" data-title="YYModel 简介与使用" data-url="http://blog.flywithme.top/2016/06/12/modelExt/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -557,14 +557,14 @@ var duoshuoQuery = {short_name:"brasbug"};
 
     </div>
     <div class="widget qrcode">
-    <img src="http://www.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
+    <img src="http://blog.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
     <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
 </div>
 
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://www.flywithme.top/2016/05/27/Dlog-Introduce/" rel="next">
+        <a href="http://blog.flywithme.top/2016/05/27/Dlog-Introduce/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
           <span>iOS 自定义 Log 简介</span>
@@ -573,7 +573,7 @@ var duoshuoQuery = {short_name:"brasbug"};
       </li>
       <li class="previous">
         
-        <a href="http://www.flywithme.top/2016/05/15/ReactiveCocoa/" rel="prev">
+        <a href="http://blog.flywithme.top/2016/05/15/ReactiveCocoa/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
           <span>ReactiveCocoa简单介绍</span>
@@ -602,19 +602,19 @@ var duoshuoQuery = {short_name:"brasbug"};
       <ul>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
           </li>
         
       </ul>
@@ -634,23 +634,23 @@ var duoshuoQuery = {short_name:"brasbug"};
     <div class="nav-wrap">
       <ul id="menu-default-menu-1" class="nav container group">
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/">首页</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
         </li>
         
       </ul>

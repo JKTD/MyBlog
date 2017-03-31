@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-  <base href="http://www.flywithme.top//">
+  <base href="http://blog.flywithme.top//">
   <script>
     document._writeOriginal = document.write;
     document.write = function(str) {
@@ -24,12 +24,12 @@
 
 <meta itemprop="name" content="深入理解RunLoop - Fly With Me">
 <meta itemprop="description" content="RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释">
-<meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
+<meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
 <meta property="og:title" content="深入理解RunLoop - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.flywithme.top/2016/03/26/iOSRunloop/" />
-<meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/03/26/iOSRunloop/" />
+<meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
 <meta property="og:description" content="RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释">
 
 <meta name="twitter:card" content="summary">
@@ -37,21 +37,21 @@
 <meta name="twitter:title" content="深入理解RunLoop - Fly With Me">
 <meta name="twitter:description" content="RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释">
 <meta name="twitter:creator" content="@brasbug">
-<meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
+<meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://www.flywithme.top/2016/03/26/iOSRunloop/">
-  <link rel='shortlink' href="http://www.flywithme.top/2016/03/26/iOSRunloop/"/>
-  <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/03/26/iOSRunloop/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/26/iOSRunloop/"/>
+  <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
-<link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="human-style-css2" href="http://www.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="responsive-css" href="http://www.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="font-awesome-css" href="http://www.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
-<link rel="stylesheet" href="http://www.flywithme.top/public/highlight/styles/github.css">
-<script src="http://www.flywithme.top/public/highlight/highlight.pack.js"></script>
+<link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="font-awesome-css" href="http://blog.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="http://blog.flywithme.top/public/highlight/styles/github.css">
+<script src="http://blog.flywithme.top/public/highlight/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<link rel="stylesheet" id="human-style-css3" href="http://www.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css3" href="http://blog.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
 <link rel="stylesheet" href="public/font/hack/css/hack.min.css">
 
 <script type="text/javascript" src="assets/js/jquery-2.1.1.min.js"></script>
@@ -71,37 +71,37 @@
     <div class="nav-toggle"><i class="fa fa-bars"></i></div>
     <div class="nav-text"></div>
     <div class="nav-wrap container">
-      <a rel="nofollow" href="http://www.flywithme.top//" class="nav-cs-icon">
-        <img width="40" height="40" src="http://www.flywithme.top/public/coderjk.jpg" alt="brasbug" title="Home">
+      <a rel="nofollow" href="http://blog.flywithme.top//" class="nav-cs-icon">
+        <img width="40" height="40" src="http://blog.flywithme.top/public/coderjk.jpg" alt="brasbug" title="Home">
       </a>
       <ul id="menu-default-menu" class="nav container-inner group">
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/">首页</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
         </li>
         
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/post/">归档</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/post/">归档</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/about/">关于我</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/about/">关于我</a>
         </li>
         
         
@@ -140,8 +140,8 @@
 
         <div class="group pad">
           <h1 class="site-title">
-            <a rel="nofollow" href="http://www.flywithme.top//" rel="home">
-              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="brasbug" src="http://www.flywithme.top/public/coderjk.jpg"></img>
+            <a rel="nofollow" href="http://blog.flywithme.top//" rel="home">
+              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="brasbug" src="http://blog.flywithme.top/public/coderjk.jpg"></img>
               Fly With Me
             </a>
           </h1>
@@ -167,7 +167,7 @@
               <ul class="meta-single group">
                 
                 <li class="category">
-                  <a href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                  <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
                 </li>
                 
               </ul>
@@ -182,7 +182,7 @@
                   <h1 class="post-title">深入理解RunLoop</h1>
 
                   <p class="post-byline">
-                    by  · 2016年03月26日 · 10258 Words ·
+                    by  · 2016年03月26日 · 10257 Words ·
                     ~21min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-26-iOSRunloop.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -199,7 +199,7 @@
 
 <hr />
 
-<h5 id="runloop-的概念:b5f2a4287d83d87d9bfd2cd8c8e7b0af">RunLoop 的概念</h5>
+<h5 id="runloop-的概念">RunLoop 的概念</h5>
 
 <blockquote>
 <p>一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：</p>
@@ -228,7 +228,7 @@ NSRunLoop 是基于 CFRunLoopRef 的封装，提供了面向对象的 API，但�
 <p>(Update: Swift 开源后，苹果又维护了一个跨平台的 CoreFoundation 版本：<a href="https://github.com/apple/swift-corelibs-foundation/">https://github.com/apple/swift-corelibs-foundation/</a>，这个版本的源码可能和现有 iOS 系统中的实现略不一样，但更容易编译，而且已经适配了 Linux/Windows。)</p>
 </blockquote>
 
-<h5 id="runloop-与线程的关系:b5f2a4287d83d87d9bfd2cd8c8e7b0af">RunLoop 与线程的关系</h5>
+<h5 id="runloop-与线程的关系">RunLoop 与线程的关系</h5>
 
 <blockquote>
 <p>首先，iOS 开发中能遇到两个线程对象: pthread_t 和 NSThread。过去苹果有份文档标明了 NSThread 只是 pthread_t 的封装，但那份文档已经失效了，现在它们也有可能都是直接包装自最底层的 mach thread。苹果并没有提供这两个对象相互转换的接口，但不管怎么样，可以肯定的是 pthread_t 和 NSThread 是一一对应的。比如，你可以通过 pthread_main_thread_np() 或 [NSThread mainThread] 来获取主线程；也可以通过 pthread_self() 或 [NSThread currentThread] 来获取当前线程。CFRunLoop 是基于 pthread 来管理的。</p>
@@ -280,7 +280,7 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 <p>从上面的代码可以看出，线程和 RunLoop 之间是一一对应的，其关系是保存在一个全局的 Dictionary 里。线程刚创建时并没有 RunLoop，如果你不主动获取，那它一直都不会有。RunLoop 的创建是发生在第一次获取时，RunLoop 的销毁是发生在线程结束时。你只能在一个线程的内部获取其 RunLoop（主线程除外）</p>
 </blockquote>
 
-<h5 id="runloop-对外的接口:b5f2a4287d83d87d9bfd2cd8c8e7b0af">RunLoop 对外的接口</h5>
+<h5 id="runloop-对外的接口">RunLoop 对外的接口</h5>
 
 <blockquote>
 <p>在 CoreFoundation 里面关于 RunLoop 有5个类:</p>
@@ -331,7 +331,7 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 <p>上面的 Source/Timer/Observer 被统称为 mode item，一个 item 可以被同时加入多个 mode。但一个 item 被重复加入同一个 mode 时是不会有效果的。如果一个 mode 中一个 item 都没有，则 RunLoop 会直接退出，不进入循环。</p>
 </blockquote>
 
-<h5 id="runloop-的-mode:b5f2a4287d83d87d9bfd2cd8c8e7b0af">RunLoop 的 Mode</h5>
+<h5 id="runloop-的-mode">RunLoop 的 Mode</h5>
 
 <blockquote>
 <p>CFRunLoopMode 和 CFRunLoop 的结构大致如下：</p>
@@ -389,7 +389,7 @@ CFRunLoopRemoveTimer(CFRunLoopRef rl, CFRunLoopTimerRef timer, CFStringRef mode)
 <p>同时苹果还提供了一个操作 Common 标记的字符串：kCFRunLoopCommonModes (NSRunLoopCommonModes)，你可以用这个字符串来操作 Common Items，或标记一个 Mode 为 &ldquo;Common&rdquo;。使用时注意区分这个字符串和其他 mode name。</p>
 </blockquote>
 
-<h5 id="runloop-的内部逻辑:b5f2a4287d83d87d9bfd2cd8c8e7b0af">RunLoop 的内部逻辑</h5>
+<h5 id="runloop-的内部逻辑">RunLoop 的内部逻辑</h5>
 
 <blockquote>
 <p>根据苹果在<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html#//apple_ref/doc/uid/10000057i-CH16-SW23">文档</a>里的说明，RunLoop 内部的逻辑大致如下:</p>
@@ -517,7 +517,7 @@ int CFRunLoopRunSpecific(runloop, modeName, seconds, stopAfterHandle) {
 <p>可以看到，实际上 RunLoop 就是这样一个函数，其内部是一个 do-while 循环。当你调用 CFRunLoopRun() 时，线程就会一直停留在这个循环里；直到超时或被手动停止，该函数才会返回。</p>
 </blockquote>
 
-<h5 id="runloop-的底层实现:b5f2a4287d83d87d9bfd2cd8c8e7b0af">RunLoop 的底层实现</h5>
+<h5 id="runloop-的底层实现">RunLoop 的底层实现</h5>
 
 <blockquote>
 <p>从上面代码可以看到，RunLoop 的核心是基于 mach port 的，其进入休眠时调用的函数是 mach_msg()。为了解释这个逻辑，下面稍微介绍一下 OSX/iOS 的系统架构。</p>
@@ -587,7 +587,7 @@ typedef struct {
 <p><img src="sources/runloop/blogRunLoop_5.png" alt="runloop5" /></p>
 
 <blockquote>
-<p>这些概念可以参考维基百科: <a href="http://en.wikipedia.org/wiki/System_call">System_call</a>、<a href="http://en.wikipedia.org/wiki/Trap_(computing">Trap_(computing)</a>)。</p>
+<p>这些概念可以参考维基百科: <a href="http://en.wikipedia.org/wiki/System_call">System_call</a>、<a href="http://en.wikipedia.org/wiki/Trap_(computing)">Trap_(computing)</a>。</p>
 
 <p>RunLoop 的核心就是一个 mach_msg() (见上面代码的第7步)，RunLoop 调用这个函数去接收消息，如果没有别人发送 port 消息过来，内核会将线程置于等待状态。例如你在模拟器里跑起一个 iOS 的 App，然后在 App 静止时点击暂停，你会看到主线程调用栈是停留在 mach_msg_trap() 这个地方。</p>
 
@@ -596,7 +596,7 @@ typedef struct {
 <p>关于Mach的历史可以看看这篇很有趣的文章：<a href="http://www.programmer.com.cn/8121/">Mac OS X 背后的故事（三）Mach 之父 Avie Tevanian。</a></p>
 </blockquote>
 
-<h5 id="苹果用-runloop-实现的功能:b5f2a4287d83d87d9bfd2cd8c8e7b0af">苹果用 RunLoop 实现的功能</h5>
+<h5 id="苹果用-runloop-实现的功能">苹果用 RunLoop 实现的功能</h5>
 
 <blockquote>
 <p>首先我们可以看一下 App 启动后 RunLoop 的状态</p>
@@ -814,7 +814,8 @@ CFRunLoop {
 <li>UITrackingRunLoopMode: 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响。</li>
 <li>UIInitializationRunLoopMode: 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用。</li>
 <li>GSEventReceiveRunLoopMode: 接受系统事件的内部 Mode，通常用不到。</li>
-<li>kCFRunLoopCommonModes: 这是一个占位的 Mode，没有实际作用。</li>
+<li>kCFRunLoopCommonModes: 这是一个占位的 Mode，没有实际作用。
+<br /></li>
 </ol>
 
 <blockquote>
@@ -895,7 +896,8 @@ CFRunLoop {
 </blockquote>
 
 <ul>
-<li>手势识别</li>
+<li>手势识别
+<br /></li>
 </ul>
 
 <blockquote>
@@ -907,7 +909,8 @@ CFRunLoop {
 </blockquote>
 
 <ul>
-<li>界面更新</li>
+<li>界面更新
+<br /></li>
 </ul>
 
 <blockquote>
@@ -1000,7 +1003,7 @@ NSURLSession    -&gt;AFNetworking2, Alamofire
 
 <p>NSURLConnectionLoader 中的 RunLoop 通过一些基于 mach port 的 Source 接收来自底层 CFSocket 的通知。当收到通知后，其会在合适的时机向 CFMultiplexerSource 等 Source0 发送通知，同时唤醒 Delegate 线程的 RunLoop 来让其处理这些通知。CFMultiplexerSource 会在 Delegate 线程的 RunLoop 对 Delegate 执行实际的回调。</p>
 
-<h5 id="runloop-的实际应用举例:b5f2a4287d83d87d9bfd2cd8c8e7b0af">RunLoop 的实际应用举例</h5>
+<h5 id="runloop-的实际应用举例">RunLoop 的实际应用举例</h5>
 
 <ul>
 <li>AFNetworking</li>
@@ -1051,7 +1054,8 @@ NSURLSession    -&gt;AFNetworking2, Alamofire
 </blockquote>
 
 <ul>
-<li>AsyncDisplayKit</li>
+<li>AsyncDisplayKit
+<br /></li>
 </ul>
 
 <blockquote>
@@ -1075,13 +1079,13 @@ NSURLSession    -&gt;AFNetworking2, Alamofire
                     </div>
                     <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
                         <div style="float:left;margin-top:0px;">
-                        <img src="http://www.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
+                        <img src="http://blog.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
                         <div style="text-align:center;">微信扫一扫</div>
                         </div>
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/03/26/iOSRunloop/">http://www.flywithme.top/2016/03/26/iOSRunloop/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/26/iOSRunloop/">http://blog.flywithme.top/2016/03/26/iOSRunloop/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -1134,7 +1138,7 @@ NSURLSession    -&gt;AFNetworking2, Alamofire
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/03/26/iOSRunloop/" data-title="深入理解RunLoop" data-url="http://www.flywithme.top/2016/03/26/iOSRunloop/"></div>
+<div class="ds-thread" data-thread-key="/2016/03/26/iOSRunloop/" data-title="深入理解RunLoop" data-url="http://blog.flywithme.top/2016/03/26/iOSRunloop/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -1182,14 +1186,14 @@ var duoshuoQuery = {short_name:"brasbug"};
 
     </div>
     <div class="widget qrcode">
-    <img src="http://www.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
+    <img src="http://blog.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
     <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
 </div>
 
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://www.flywithme.top/2016/03/26/ResponderChain/" rel="next">
+        <a href="http://blog.flywithme.top/2016/03/26/ResponderChain/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
           <span>Responder -- iOS用户响应者链完全剖析</span>
@@ -1198,7 +1202,7 @@ var duoshuoQuery = {short_name:"brasbug"};
       </li>
       <li class="previous">
         
-        <a href="http://www.flywithme.top/2016/03/28/basicknowledgepoint/" rel="prev">
+        <a href="http://blog.flywithme.top/2016/03/28/basicknowledgepoint/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
           <span>iOS 基础内容</span>
@@ -1227,19 +1231,19 @@ var duoshuoQuery = {short_name:"brasbug"};
       <ul>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
           </li>
         
       </ul>
@@ -1259,23 +1263,23 @@ var duoshuoQuery = {short_name:"brasbug"};
     <div class="nav-wrap">
       <ul id="menu-default-menu-1" class="nav container group">
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/">首页</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
         </li>
         
       </ul>

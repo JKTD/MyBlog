@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-  <base href="http://www.flywithme.top//">
+  <base href="http://blog.flywithme.top//">
   <script>
     document._writeOriginal = document.write;
     document.write = function(str) {
@@ -24,12 +24,12 @@
 
 <meta itemprop="name" content="iOS中的谓词（NSPredicate）使用 - Fly With Me">
 <meta itemprop="description" content="首先，我们需要知道何谓谓词，让我们看看官方的解释: The NSPredicate class is used to define logical conditions used to constrain a search either for a fetch or for in-memory filtering. NSPredicate类是用来定义逻辑条件约束">
-<meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
+<meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
 <meta property="og:title" content="iOS中的谓词（NSPredicate）使用 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/" />
-<meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
+<meta property="og:url" content="http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/" />
+<meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
 <meta property="og:description" content="首先，我们需要知道何谓谓词，让我们看看官方的解释: The NSPredicate class is used to define logical conditions used to constrain a search either for a fetch or for in-memory filtering. NSPredicate类是用来定义逻辑条件约束">
 
 <meta name="twitter:card" content="summary">
@@ -37,21 +37,21 @@
 <meta name="twitter:title" content="iOS中的谓词（NSPredicate）使用 - Fly With Me">
 <meta name="twitter:description" content="首先，我们需要知道何谓谓词，让我们看看官方的解释: The NSPredicate class is used to define logical conditions used to constrain a search either for a fetch or for in-memory filtering. NSPredicate类是用来定义逻辑条件约束">
 <meta name="twitter:creator" content="@brasbug">
-<meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
+<meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/">
-  <link rel='shortlink' href="http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/"/>
-  <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/"/>
+  <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
-<link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="human-style-css2" href="http://www.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="responsive-css" href="http://www.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="font-awesome-css" href="http://www.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
-<link rel="stylesheet" href="http://www.flywithme.top/public/highlight/styles/github.css">
-<script src="http://www.flywithme.top/public/highlight/highlight.pack.js"></script>
+<link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="font-awesome-css" href="http://blog.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="http://blog.flywithme.top/public/highlight/styles/github.css">
+<script src="http://blog.flywithme.top/public/highlight/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<link rel="stylesheet" id="human-style-css3" href="http://www.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css3" href="http://blog.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
 <link rel="stylesheet" href="public/font/hack/css/hack.min.css">
 
 <script type="text/javascript" src="assets/js/jquery-2.1.1.min.js"></script>
@@ -71,37 +71,37 @@
     <div class="nav-toggle"><i class="fa fa-bars"></i></div>
     <div class="nav-text"></div>
     <div class="nav-wrap container">
-      <a rel="nofollow" href="http://www.flywithme.top//" class="nav-cs-icon">
-        <img width="40" height="40" src="http://www.flywithme.top/public/coderjk.jpg" alt="brasbug" title="Home">
+      <a rel="nofollow" href="http://blog.flywithme.top//" class="nav-cs-icon">
+        <img width="40" height="40" src="http://blog.flywithme.top/public/coderjk.jpg" alt="brasbug" title="Home">
       </a>
       <ul id="menu-default-menu" class="nav container-inner group">
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/">首页</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
         </li>
         
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/post/">归档</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/post/">归档</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/about/">关于我</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/about/">关于我</a>
         </li>
         
         
@@ -140,8 +140,8 @@
 
         <div class="group pad">
           <h1 class="site-title">
-            <a rel="nofollow" href="http://www.flywithme.top//" rel="home">
-              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="brasbug" src="http://www.flywithme.top/public/coderjk.jpg"></img>
+            <a rel="nofollow" href="http://blog.flywithme.top//" rel="home">
+              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="brasbug" src="http://blog.flywithme.top/public/coderjk.jpg"></img>
               Fly With Me
             </a>
           </h1>
@@ -167,7 +167,7 @@
               <ul class="meta-single group">
                 
                 <li class="category">
-                  <a href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                  <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
                 </li>
                 
               </ul>
@@ -206,7 +206,7 @@
 
 <hr />
 
-<h5 id="一-nspredicate的基本语法:a9fb7bf5b3cacbe7197dc6d33825b468">一、NSPredicate的基本语法</h5>
+<h5 id="一-nspredicate的基本语法">一、NSPredicate的基本语法</h5>
 
 <p>我们使用一门语言，无论是外语还是计算机语言，总是从语法开始的，这样我们才能正确的把握逻辑。所以我们从语法开始说起。在这部分我们仅关心其语法的使用
  只要我们使用谓词（NSPredicate）都需要为谓词定义谓词表达式,而这个表达式必须是一个返回BOOL的值。
@@ -386,7 +386,7 @@ NSLog(@&quot;%@&quot;, [array filteredArrayUsingPredicate:predicate]);
 </blockquote></li>
 </ol>
 
-<h5 id="二-谓词的用法:a9fb7bf5b3cacbe7197dc6d33825b468">二、谓词的用法</h5>
+<h5 id="二-谓词的用法">二、谓词的用法</h5>
 
 <ol>
 <li><p>定义谓词</p>
@@ -407,12 +407,10 @@ NSLog(@&quot;%@&quot;, [array filteredArrayUsingPredicate:predicate]);
 
 <pre><code>#import &lt;Foundation/Foundation.h&gt;
 
-
 typedef NS_ENUM(NSInteger, ZLPersonSex) {
     ZLPersonSexMale = 0,
     ZLPersonSexFamale
 };
-
 
 @interface ZLPersonModel : NSObject
 /** NSString 姓名 */
@@ -422,9 +420,7 @@ typedef NS_ENUM(NSInteger, ZLPersonSex) {
 /** ZLPersonSex 性别 */
 @property (nonatomic, assign, readonly) ZLPersonSex sex;
 
-
 + (instancetype)personWithName:(NSString *)name age:(NSUInteger)age sex:(ZLPersonSex)sex;
-
 
 @end  
 </code></pre>
@@ -434,7 +430,6 @@ typedef NS_ENUM(NSInteger, ZLPersonSex) {
 </blockquote>
 
 <pre><code>@implementation ZLPersonModel
-
 
 - (instancetype)initWithName:(NSString *)name age:(NSUInteger)age sex:(ZLPersonSex)sex
 {
@@ -446,12 +441,10 @@ typedef NS_ENUM(NSInteger, ZLPersonSex) {
     return self;
 }
 
-
 + (instancetype)personWithName:(NSString *)name age:(NSUInteger)age sex:(ZLPersonSex)sex
 {
     return [[self alloc] initWithName:name age:age sex:sex];
 }
-
 
 - (NSString *)description
 {
@@ -461,7 +454,8 @@ typedef NS_ENUM(NSInteger, ZLPersonSex) {
 </code></pre>
 
 <ul>
-<li>下面让我们进入正题<br /></li>
+<li>下面让我们进入正题<br />
+<br /></li>
 </ul>
 
 <blockquote>
@@ -470,14 +464,12 @@ typedef NS_ENUM(NSInteger, ZLPersonSex) {
 
 <pre><code>ZLPersonModel *sunnyzl = [ZLPersonModel personWithName:@&quot;sunnyzl&quot; age:29 sex:ZLPersonSexMale];
 
-
 ZLPersonModel *jack = [ZLPersonModel personWithName:@&quot;jack&quot; age:22 sex:ZLPersonSexMale];
     //  首先我们来看一些简单的使用
     //  1.判断姓名是否是以s开头的
 NSPredicate *pred1 = [NSPredicate predicateWithFormat:@&quot;name LIKE 's*'&quot;];
     //  输出为：sunnyzl:1, jack:0
 NSLog(@&quot;sunnyzl:%d, jack:%d&quot;, [pred1 evaluateWithObject:sunnyzl], [pred1 evaluateWithObject:jack]);
-
 
     //  2.判断年龄是否大于25
 NSPredicate *pred2 = [NSPredicate predicateWithFormat:@&quot;age &gt; 25&quot;];
@@ -486,7 +478,8 @@ NSLog(@&quot;sunnyzl的年龄是否大于25：%d, jack的年龄是否大于25：
 </code></pre>
 
 <ul>
-<li>看到这里我们会发现evaluateWithObject:方法返回的是一个BOOL值，如果符合条件就返回YES，不符合就返回NO。而即使是最简单的使用也有一些大用处，比如以前我们写判断手机号码、邮编等等，像我就喜欢用John Engelhart大神的RegexKitLite，然而由于年代久远需要导入libicucore.dylib库（xcode7为libicucore.tbd）且由于是mrc又需要添加-fno-objc-arc，至此我们才能使用。然而使用谓词让我们可以用同样简洁的代码实现相同的功能</li>
+<li>看到这里我们会发现evaluateWithObject:方法返回的是一个BOOL值，如果符合条件就返回YES，不符合就返回NO。而即使是最简单的使用也有一些大用处，比如以前我们写判断手机号码、邮编等等，像我就喜欢用John Engelhart大神的RegexKitLite，然而由于年代久远需要导入libicucore.dylib库（xcode7为libicucore.tbd）且由于是mrc又需要添加-fno-objc-arc，至此我们才能使用。然而使用谓词让我们可以用同样简洁的代码实现相同的功能
+<br /></li>
 </ul>
 
 <blockquote>
@@ -502,7 +495,8 @@ NSLog(@&quot;sunnyzl的年龄是否大于25：%d, jack的年龄是否大于25：
 </code></pre>
 
 <ul>
-<li>看到这里是不是感觉好爽，感觉以前所有的正则都可以这么匹配，但是谓词匹配正则时也是有缺点的，下面通过一个例子来看一下这个致命的缺点</li>
+<li>看到这里是不是感觉好爽，感觉以前所有的正则都可以这么匹配，但是谓词匹配正则时也是有缺点的，下面通过一个例子来看一下这个致命的缺点
+<br /></li>
 </ul>
 
 <blockquote>
@@ -518,7 +512,8 @@ NSLog(@&quot;sunnyzl的年龄是否大于25：%d, jack的年龄是否大于25：
 </code></pre>
 
 <ul>
-<li>我们想要的效果是字符串中有特殊字符时就返回YES，然而梦想是美好的，现实是残酷的</li>
+<li>我们想要的效果是字符串中有特殊字符时就返回YES，然而梦想是美好的，现实是残酷的
+<br /></li>
 </ul>
 
 <blockquote>
@@ -532,7 +527,8 @@ NSLog(@&quot;是否含有特殊字符：%d&quot;, [self checkSpecialCharacter:te
 </code></pre>
 
 <ul>
-<li>看到这里我们心里猛然一喜，这tmd根本没问题嘛</li>
+<li>看到这里我们心里猛然一喜，这tmd根本没问题嘛
+<br /></li>
 </ul>
 
 <blockquote>
@@ -584,7 +580,8 @@ NSLog(@&quot;%d&quot;, [self checkSpecialCharacter:testString]);
 
 <ul>
 <li>此部分是我们需要掌握的重点，因为从这里我们就可以看到谓词的真正的强大之处
-其实谓词本身就代表了一个逻辑条件，计算谓词之后返回的结果永远为BOOL类型的值。而谓词最常用的功能就是对集合进行过滤。当程序使用谓词对集合元素进行过滤时，程序会自动遍历其元素，并根据集合元素来计算谓词的值，当这个集合中的元素计算谓词并返回YES时，这个元素才会被保留下来。请注意程序会自动遍历其元素，它会将自动遍历过之后返回为YES的值重新组合成一个集合返回。</li>
+其实谓词本身就代表了一个逻辑条件，计算谓词之后返回的结果永远为BOOL类型的值。而谓词最常用的功能就是对集合进行过滤。当程序使用谓词对集合元素进行过滤时，程序会自动遍历其元素，并根据集合元素来计算谓词的值，当这个集合中的元素计算谓词并返回YES时，这个元素才会被保留下来。请注意程序会自动遍历其元素，它会将自动遍历过之后返回为YES的值重新组合成一个集合返回。
+<br /></li>
 </ul>
 
 <blockquote>
@@ -606,28 +603,33 @@ NSLog(@&quot;%d&quot;, [self checkSpecialCharacter:testString]);
 
 <ul>
 <li>(NSArray<ObjectType> *)filteredArrayUsingPredicate:(NSPredicate *)predicate:
-//使用指定的谓词过滤NSArray集合，返回符合条件的元素组成的新集合</li>
+//使用指定的谓词过滤NSArray集合，返回符合条件的元素组成的新集合
+<br />
+<br /></li>
 </ul></li>
 
 <li><p>NSMutableArray提供了如下方法使用谓词来过滤集合</p>
 
 <ul>
 <li>(void)filterUsingPredicate:(NSPredicate *)predicate：<br />
-//使用指定的谓词过滤NSMutableArray，剔除集合中不符合条件的元素</li>
+//使用指定的谓词过滤NSMutableArray，剔除集合中不符合条件的元素
+<br /></li>
 </ul></li>
 
 <li><p>NSSet提供了如下方法使用谓词来过滤集合</p>
 
 <ul>
 <li>(NSSet<ObjectType> *)filteredSetUsingPredicate:(NSPredicate *)predicate NS_AVAILABLE(10_5, 3_0)<br />
-//：作用同NSArray中的方法</li>
+//：作用同NSArray中的方法
+<br /></li>
 </ul></li>
 
 <li><p>NSMutableSet提供了如下方法使用谓词来过滤集合</p>
 
 <ul>
 <li>(void)filterUsingPredicate:(NSPredicate *)predicate NS_AVAILABLE(10_5, 3_0)<br />
-：作用同NSMutableArray中的方法。</li>
+：作用同NSMutableArray中的方法。
+<br /></li>
 </ul></li>
 </ul>
 
@@ -643,7 +645,6 @@ NSLog(@&quot;%d&quot;, [self checkSpecialCharacter:testString]);
     NSPredicate *pred1 = [NSPredicate predicateWithFormat:@&quot;SELF &gt; 50&quot;];
     [arrayM filterUsingPredicate:pred1];
     NSLog(@&quot;arrayM:%@&quot;, arrayM);
-
 
     NSArray *array = @[[ZLPersonModel personWithName:@&quot;Jack&quot; age:20 sex:ZLPersonSexMale],
                        [ZLPersonModel personWithName:@&quot;Rose&quot; age:22 sex:ZLPersonSexFamale],
@@ -707,7 +708,8 @@ NSLog(@&quot;%d&quot;, [self checkSpecialCharacter:testString]);
 
 <ul>
 <li>%K：用于动态传入属性名</li>
-<li>%@：用于动态设置属性值</li>
+<li>%@：用于动态设置属性值
+<br /></li>
 </ul>
 
 <blockquote>
@@ -773,13 +775,13 @@ NSLog(@&quot;%d&quot;, [self checkSpecialCharacter:testString]);
                     </div>
                     <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
                         <div style="float:left;margin-top:0px;">
-                        <img src="http://www.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
+                        <img src="http://blog.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
                         <div style="text-align:center;">微信扫一扫</div>
                         </div>
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/">http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/">http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -832,7 +834,7 @@ NSLog(@&quot;%d&quot;, [self checkSpecialCharacter:testString]);
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/03/20/iOSNSPredicateUse/" data-title="iOS中的谓词（NSPredicate）使用" data-url="http://www.flywithme.top/2016/03/20/iOSNSPredicateUse/"></div>
+<div class="ds-thread" data-thread-key="/2016/03/20/iOSNSPredicateUse/" data-title="iOS中的谓词（NSPredicate）使用" data-url="http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -880,14 +882,14 @@ var duoshuoQuery = {short_name:"brasbug"};
 
     </div>
     <div class="widget qrcode">
-    <img src="http://www.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
+    <img src="http://blog.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
     <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
 </div>
 
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://www.flywithme.top/2015/09/15/JScallOC/" rel="next">
+        <a href="http://blog.flywithme.top/2015/09/15/JScallOC/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
           <span>iOS JS call OC</span>
@@ -896,7 +898,7 @@ var duoshuoQuery = {short_name:"brasbug"};
       </li>
       <li class="previous">
         
-        <a href="http://www.flywithme.top/2016/03/24/OCRuntime/" rel="prev">
+        <a href="http://blog.flywithme.top/2016/03/24/OCRuntime/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
           <span>Objective-C&#43;Runtime 浅析</span>
@@ -925,19 +927,19 @@ var duoshuoQuery = {short_name:"brasbug"};
       <ul>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
           </li>
         
       </ul>
@@ -957,23 +959,23 @@ var duoshuoQuery = {short_name:"brasbug"};
     <div class="nav-wrap">
       <ul id="menu-default-menu-1" class="nav container group">
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/">首页</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
         </li>
         
       </ul>

@@ -1,19 +1,607 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title> on Fly With Me</title>
-        <link>http://www.flywithme.top/</link>
+        <title>Fly With Me on Fly With Me</title>
+        <link>http://blog.flywithme.top/feed/index.xml</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Tue, 28 Feb 2017 17:43:27 CST</updated>
+        <updated>Thu, 30 Mar 2017 16:53:45 CST</updated>
+        
+        <item>
+            <title>swift3-16 属性</title>
+            <link>http://blog.flywithme.top/2017/03/30/swift16/</link>
+            <pubDate>Thu, 30 Mar 2017 16:53:45 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/03/30/swift16/</guid>
+            <description>&lt;p&gt;Swift 属性将值跟特定的类、结构或枚举关联&lt;/p&gt;
+
+&lt;p&gt;属性可分为存储属性和计算属性:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;存储属性&lt;/th&gt;
+&lt;th&gt;计算属性&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;存储常量或变量作为实例的一部分&lt;/td&gt;
+&lt;td&gt;计算（而不是存储）一个值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;用于类和结构体&lt;/td&gt;
+&lt;td&gt;用于类、结构体和枚举&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;存储属性&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;可以在定义存储属性的时候指定默认值&lt;/li&gt;
+&lt;li&gt;在构造过程中设置或修改存储值属性的值，身子修改常量存储属性的值
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;延迟存储属性&lt;/strong&gt; lazy property&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;延迟对象的创建&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;当属性的值依赖于其他未知类&lt;/p&gt;
+
+&lt;p&gt;class CloseRange{
+    var start: Int
+    var end:Int
+    var width:Int{
+        return end - start + 1
+    }
+    lazy var sum: Int = {
+        var res = 0
+        for i in self.start&amp;hellip;self.end{
+            res += 1
+        }
+        return res
+    }()
+    var sum1: Int {
+        var res = 0
+        for i in start&amp;hellip;end{
+            res += 1
+        }
+        return res
+    }
+    init?(start:Int, end:Int){
+        if start &amp;gt; end{
+            return nil
+        }
+        self.start = start
+        self.end = end
+    }
+}
+var range = CloseRange(start: 0, end: 10)!
+range.sum
+range.sum1
+range.start = 1
+range.sum  //不变
+range.sum1 //每次都重新计算&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;计算属性&lt;/strong&gt; 除存储属性外，类、结构体和枚举可以定义计算属性，计算属性不直接存储值，而是提供一个 getter 来获取值，
+一个可选的 setter 来间接设置其他属性或变量的值&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class sample {
+    var no1 = 0.0, no2 = 0.0
+    var length = 300.0, breadth = 150.0        
+    var middle: (Double, Double) {
+        get{
+            return (length / 2, breadth / 2)
+        }
+        set(axis){
+            no1 = axis.0 - (length / 2)
+            no2 = axis.1 - (breadth / 2)
+        }
+    }
+}
+var result = sample()
+print(result.middle)
+result.middle = (0.0, 10.0)
+print(result.no1)
+print(result.no2)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;只读计算属性&lt;/strong&gt; 只有 getter 没有 setter 的计算属性就是只读计算属性。只读计算属性总是返回一个值，可以通过点(.)运算符访问，但不能设置新的值&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class film {
+    var head = &amp;quot;&amp;quot;
+    var duration = 0.0
+    var metaInfo: [String:String] {
+        return [
+            &amp;quot;head&amp;quot;: self.head,
+            &amp;quot;duration&amp;quot;:&amp;quot;\(self.duration)&amp;quot;
+        ]
+    }
+}
+var movie = film()
+movie.head = &amp;quot;肖申克救赎&amp;quot;
+movie.duration = 3.09
+
+print(movie.metaInfo[&amp;quot;head&amp;quot;]!)
+print(movie.metaInfo[&amp;quot;duration&amp;quot;]!)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;属性观察器&lt;/strong&gt;  属性观察器监控和响应属性值的变化，每次属性被设置值的时候都会调用属性观察器，甚至新的值和现在的值相同的时候也不例外&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Samplepgm {
+    var counter: Int = 0{
+        willSet(newTotal){
+            print(&amp;quot;计数器: \(newTotal)&amp;quot;)
+        }
+        didSet{
+            if counter &amp;gt; oldValue {
+                print(&amp;quot;新增数 \(counter - oldValue)&amp;quot;)
+            }
+        }
+    }
+}
+let NewCounter = Samplepgm()
+NewCounter.counter = 100
+NewCounter.counter = 800
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;willSet在设置新的值之前调用&lt;/li&gt;
+&lt;li&gt;didSet在新的值被设置之后立即调用&lt;/li&gt;
+&lt;li&gt;willSet和didSet观察器在属性初始化过程中不会被调用&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;全局变量和局部变量&lt;/strong&gt;  计算属性和属性观察器所描述的模式也可以用于全局变量和局部变量&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;局部变量&lt;/th&gt;
+&lt;th&gt;全局变量&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;在函数、方法或闭包内部定义的变量。&lt;/td&gt;
+&lt;td&gt;函数、方法、闭包或任何类型之外定义的变量。&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;用于存储和检索值。  用于存储和检索值。&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;存储属性用于获取和设置值。&lt;/td&gt;
+&lt;td&gt;存储属性用于获取和设置值。&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;也用于计算属性。&lt;/td&gt;
+&lt;td&gt;也用于计算属性。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;**类型属性 类型方法 ** 类型属性是作为类型定义的一部分写在类型最外层的花括号（{}）内。使用关键字 static 来定义值类型的类型属性，关键字 class 来为类定义类型属性.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Player{
+    var name:String
+    var score = 0
+    static var heighestScore = 0
+    init(name:String) {
+        self.name = name
+    }
+    func play() {
+        let score = arc4random()%100
+        print(&amp;quot;\(name) played and got \(score) score&amp;quot;)
+        self.score += Int(score)
+        Player.heighestScore = Player.heighestScore &amp;gt; self.score ? Player.heighestScore:self.score
+        print(&amp;quot;Highest Score is \(Player.heighestScore)&amp;quot;)
+    }
+
+     static func heightScore(){
+        print(&amp;quot;Highest Score is == \(Player.heighestScore)&amp;quot;)
+     }
+}
+var play1 = Player.init(name: &amp;quot;Player1&amp;quot;)
+var play2 = Player.init(name: &amp;quot;Player2&amp;quot;)
+
+play1.play()
+play2.play()
+Player.heighestScore
+Player.heightScore()
+
+
+play1.play()
+play2.play()
+Player.heighestScore
+
+play1.play()
+play2.play()
+Player.heighestScore
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;访问控制&lt;/strong&gt; public internal private&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class UI{
+    private var fontColor: UIColor!
+    var backGroundColor: UIColor!
+    var themeMode:Theme = .DayMode{
+        didSet{
+            self.changetheme(themeModel: themeMode)
+        }
+
+    }
+
+    private func changetheme(themeModel:Theme) {
+        switch themeModel {
+        case .DayMode:
+            fontColor = UIColor.black
+            backGroundColor = UIColor.orange
+        case .NightMode:
+            fontColor = UIColor.gray
+            backGroundColor = UIColor.lightGray
+        }
+    }
+
+    init(){
+        self.themeMode = .DayMode
+        self.changetheme(themeModel: self.themeMode)
+    }
+
+    init(themeMode:Theme) {
+        self.themeMode = themeMode
+        self.changetheme(themeModel: themeMode)
+    }
+}
+
+let ui = UI()
+ui.themeMode
+ui.backGroundColor
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>swift3-15 类</title>
+            <link>http://blog.flywithme.top/2017/03/29/swift15/</link>
+            <pubDate>Wed, 29 Mar 2017 14:18:03 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/03/29/swift15/</guid>
+            <description>&lt;p&gt;&lt;strong&gt;类&lt;/strong&gt;：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。
+    与其他编程语言不同的是,Swift 并不要求你为自定义的类去创建独立的接口和实现文件，
+    你要做的是在一个单一文件中定义一个类，系统会自动生产面向其他代码的外部接口。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//示例：
+class Person{
+    var firstName:String = &amp;quot;&amp;quot;
+    var lastName:String = &amp;quot;&amp;quot;
+}
+
+class Person1{
+    var firstName:String
+    var lastName:String
+    init(firstName:String, lastName:String) {
+        self.firstName = firstName
+        self.lastName = lastName
+    }
+}
+let person1 = Person1.init(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;类和结构体的对比&lt;/strong&gt;&lt;br /&gt;
+ 共同点：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;定义属性用于存储值&lt;/li&gt;
+&lt;li&gt;定义方法用于提供功能&lt;/li&gt;
+&lt;li&gt;定义附属脚本用于访问值&lt;/li&gt;
+&lt;li&gt;定义构造器用于生成初始化值&lt;/li&gt;
+&lt;li&gt;通过扩展以增加默认实现的功能&lt;/li&gt;
+&lt;li&gt;符合协议以对某类提供标准功能
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;比结构体多了如下功能&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;允许一个类继承另一个类的特征&lt;/li&gt;
+&lt;li&gt;类型转换允许在运行时检查和解释一个类的实例类型&lt;/li&gt;
+&lt;li&gt;结构器允许一个实例释放任何其所分配的资源&lt;/li&gt;
+&lt;li&gt;引用计数允许对一个类多次引用
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;区别：引用类型和值类型&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//示例：
+class Person{
+   var firstName:String = &amp;quot;&amp;quot;
+   var lastName:String = &amp;quot;&amp;quot;
+}
+
+let person1 = Person(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)
+let person2 = person1
+person2.firstName = &amp;quot;abc&amp;quot;
+person1.firstName  // &amp;quot;abc&amp;quot;  person1 和 person2 是引用关系 指向同一个内存空间
+let person3 = Person(firstName: &amp;quot;abc&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)
+
+struct Location{
+    var latitude:Double
+    var longitude:Double
+}
+
+var aLocation = Location.init(latitude: 2.0, longitude: 3.0)
+var blocation = aLocation
+blocation.latitude = 1.0
+aLocation.latitude    // 2.0  aLocation 和 bloaction 是值类型关系，赋值是拷贝，产生一个新的副本
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;恒等运算符&lt;/strong&gt;  因为类是引用类型，有可能有多个常量和变量在后台同时引用某一个类实例.
+          为了能够判定两个常量或者变量是否引用同一个类实例，Swift 内建了两个恒等运算符：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;===&lt;/code&gt;: 如果两个常量或者变量引用同一个类实例则返回 true&lt;br /&gt;
+      &lt;code&gt;!==&lt;/code&gt;: 如果两个常量或者变量引用不同一个类实例则返回 true&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt; person1 === person2   //true
+ person1 === person3   //false
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>swift3-14 结构体</title>
+            <link>http://blog.flywithme.top/2017/03/23/swift3-14/</link>
+            <pubDate>Thu, 23 Mar 2017 16:54:15 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/03/23/swift3-14/</guid>
+            <description>&lt;p&gt;Swift 结构体是构建代码所用的一种通用且灵活的构造体。我们可以为结构体定义属性（常量、变量）和添加方法，从而扩展结构体的功能.&lt;br /&gt;
+与 C 和 Objective-C 不同的是:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;结构体不需要包含实现文件和接口&lt;/li&gt;
+&lt;li&gt;结构体允许我们创建一个单一文件,且系统会自动生成面向其他代码的外部接口
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;结构体总是通过被复制的方式在代码中传递，因此它的值是不可修改的.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct MarkStruct{
+   var mark1: Int
+   var mark2: Int
+   var mark3: Int
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;结构体应用&lt;/strong&gt;  需要注意的以下几点:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;结构体的主要目的是用来封装少了相关简单数据&lt;/li&gt;
+&lt;li&gt;有理由预计一个结构体实例在赋值和传递时,封装的数据将会被拷贝而不是被引用&lt;/li&gt;
+&lt;li&gt;任何在结构体中存储的值类型属性,也将会被拷贝,而不是被引用。&lt;/li&gt;
+&lt;li&gt;结构体不需要去继承另一个已存在类型的属性或者行为。&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;总的来说就是:结构体实例是通过值传递,而不是通过引用传递。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct Location{
+    var latitude:Double
+    var longitude:Double
+}
+let aLocation = Location(latitude: 12.0,longitude: 212.0)
+var bLoaction = Location.init(latitude: 1.2, longitude: 1.3)
+struct Place{
+    var location:Location
+    var name:String
+}
+
+var aPlace = Place.init(location: bLoaction, name: &amp;quot;苹果总部&amp;quot;)
+bLoaction.latitude = 37.3230
+bLoaction.longitude = -122.0332
+print(aPlace)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;构造函数&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct Location{
+    var latitude : Double
+    var longitude: Double
+
+    init?(coordinateString:  String) {
+         guard
+            let commIndex = coordinateString.range(of: &amp;quot;,&amp;quot;),
+            let first = Double(coordinateString.substring(to: commIndex.lowerBound)),
+            let second = Double(coordinateString.substring(from: commIndex.upperBound))
+            else {
+                return nil
+        }
+
+        self.latitude = first
+        self.longitude = second
+    }
+    init(latitude:Double, longitude:Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+
+    }
+    func printLocation() {
+        print(&amp;quot;The Location is \(self.latitude), \(self.longitude)&amp;quot;)
+    }
+    func isNoth() -&amp;gt; Bool {
+         self.printLocation()
+         return self.latitude &amp;gt; 0
+    }
+}
+let location = Location(coordinateString: &amp;quot;21,23&amp;quot;)
+location?.latitude
+location?.longitude
+let location2 = Location(latitude: 25.222,longitude: 122.23222)
+location2.isNoth()
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>swift3-13 枚举</title>
+            <link>http://blog.flywithme.top/2017/03/21/swift13/</link>
+            <pubDate>Tue, 21 Mar 2017 15:30:52 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/03/21/swift13/</guid>
+            <description>&lt;p&gt;枚举简单的说也是一种数据类型，只不过是这种数据类型只包含自定义的特定数据，它是一组有共同特性的数据的集合。
+Swift 的枚举类似于 Objective C 和 C 的结构&lt;/p&gt;
+
+&lt;p&gt;枚举的功能为&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;它声明在类中,可以通过实例化类来访问它的值.&lt;br /&gt;
+  枚举也可以定义构造函数来提供一个初始成员值,可以在原始的实现基础上扩展它功能。&lt;br /&gt;
+  可以遵守协议来提供标准的功能。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 定义枚举
+enum DaysofaWeek {
+    case Sunday
+    case Monday
+    case TUESDAY
+    case WEDNESDAY
+    case THURSDAY
+    case FRIDAY
+    case Saturday
+}
+var weekDay = DaysofaWeek.THURSDAY
+weekDay = .THURSDAY
+switch weekDay
+{
+case .Sunday:
+    print(&amp;quot;星期天&amp;quot;)
+case .Monday:
+    print(&amp;quot;星期一&amp;quot;)
+case .TUESDAY:
+    print(&amp;quot;星期二&amp;quot;)
+case .WEDNESDAY:
+    print(&amp;quot;星期三&amp;quot;)
+case .THURSDAY:
+    print(&amp;quot;星期四&amp;quot;)
+case .FRIDAY:
+    print(&amp;quot;星期五&amp;quot;)
+case .Saturday:
+    print(&amp;quot;星期六&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;相关值与原始值的区别&lt;/strong&gt;&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;相关值&lt;/th&gt;
+&lt;th&gt;原始值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;不同数据类型&lt;/td&gt;
+&lt;td&gt;相同数据类型&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;值的创建基于常量或变量&lt;/td&gt;
+&lt;td&gt;预先填充的值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;相关值是当你在创建一个枚举成员的心常量或变量时才会被设置,并且每次当你这么做的时候,它的值都不同&lt;/td&gt;
+&lt;td&gt;原始值试着是相同的&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;原始值&lt;/strong&gt; Raw value  原始值可以是字符串，字符，或者任何整型值或浮点型值。每个原始值在它的枚举声明中必须是唯一的.在原始值为整数的枚举时，不需要显式的为每一个成员赋值，Swift会自动为你赋值。&lt;/p&gt;
+
+&lt;p&gt;例如，当使用整数作为原始值时，隐式赋值的值依次递增1。如果第一个值没有被赋初值，将会被自动置为0&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;enum Month: Int {
+    case January = 1, February, March, April, May, June, July, August, September, October, November, December
+}
+
+let yearMonth = Month.May.rawValue
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;相关值&lt;/strong&gt; Associate Value 以下实例中我们定义一个名为 Student 的枚举类型，它可以是 Name 的一个相关值（Int，Int，Int，Int），或者是 Mark 的一个字符串类型（String）相关值。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;enum Student{
+    case Name(String)
+    case Mark(Int,Int,Int)
+}
+var studDetails = Student.Name(&amp;quot;Runoob&amp;quot;)
+var studMarks = Student.Mark(98,97,95)
+switch studMarks {
+case .Name(let studName):
+    print(&amp;quot;学生的名字是: \(studName)。&amp;quot;)
+case .Mark(let Mark1, let Mark2, let Mark3):
+    print(&amp;quot;学生的成绩是: \(Mark1),\(Mark2),\(Mark3)。&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;可选型的实质就是枚举&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//public enum Optional&amp;lt;Wrapped&amp;gt;
+var website: Optional&amp;lt;String&amp;gt; = Optional.some(&amp;quot;www.dianping.com&amp;quot;)
+website = .none   
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;枚举递归&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;indirect enum ArithmeticExpression{
+indirect enum ArithmeticExpression{
+    case Number(Int)
+    case Addition(ArithmeticExpression, ArithmeticExpression)
+    case Multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+
+let five = ArithmeticExpression.Number(5)
+let two = ArithmeticExpression.Number(2)
+let sum = ArithmeticExpression.Addition(five, two)
+let product = ArithmeticExpression.Multiplication(sum, two)
+
+func evaluate(expression:ArithmeticExpression) -&amp;gt; Int{
+    switch expression {
+    case let .Number(value):
+        return value
+    case let .Addition(left,right):
+        return evaluate(expression: left) + evaluate(expression: right)
+    case let .Multiplication(left,right):
+        return evaluate(expression: left)*evaluate(expression: right)
+    }
+} 
+evaluate(expression: product)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>swift3-12 闭包</title>
-            <link>http://www.flywithme.top/2017/02/28/swift12/</link>
+            <link>http://blog.flywithme.top/2017/02/28/swift12/</link>
             <pubDate>Tue, 28 Feb 2017 17:43:27 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/28/swift12/</guid>
+            <guid>http://blog.flywithme.top/2017/02/28/swift12/</guid>
             <description>&lt;p&gt;&lt;strong&gt;闭包&lt;/strong&gt;
   闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。
    Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编程语言中的匿名函数比较相似。
@@ -137,7 +725,7 @@ incrementByTen()
 
 let alsoIncrementByTen = incrementByTen
 
-// 返回的值也为50
+// 返回的值为50
 print(alsoIncrementByTen())
 &lt;/code&gt;&lt;/pre&gt;
 </description>
@@ -145,10 +733,10 @@ print(alsoIncrementByTen())
         
         <item>
             <title>swift3-11 函数</title>
-            <link>http://www.flywithme.top/2017/02/27/swift11/</link>
+            <link>http://blog.flywithme.top/2017/02/27/swift11/</link>
             <pubDate>Mon, 27 Feb 2017 13:41:21 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/27/swift11/</guid>
+            <guid>http://blog.flywithme.top/2017/02/27/swift11/</guid>
             <description>&lt;p&gt;&lt;strong&gt;函数定义&lt;/strong&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -423,10 +1011,10 @@ feeBytUnitPrice(price: 2, wight: 11)
         
         <item>
             <title>swift3-10 数据集合小节</title>
-            <link>http://www.flywithme.top/2017/02/22/swift10/</link>
+            <link>http://blog.flywithme.top/2017/02/22/swift10/</link>
             <pubDate>Wed, 22 Feb 2017 16:15:18 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/22/swift10/</guid>
+            <guid>http://blog.flywithme.top/2017/02/22/swift10/</guid>
             <description>&lt;p&gt;&lt;strong&gt;选择合适的数据结构&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;数组&lt;/strong&gt;:&lt;/p&gt;
@@ -495,10 +1083,10 @@ for str in setA{
         
         <item>
             <title>Swift3-09 集合</title>
-            <link>http://www.flywithme.top/2017/02/22/swift09/</link>
+            <link>http://blog.flywithme.top/2017/02/22/swift09/</link>
             <pubDate>Wed, 22 Feb 2017 15:18:43 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/22/swift09/</guid>
+            <guid>http://blog.flywithme.top/2017/02/22/swift09/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集&lt;br /&gt;
    为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。
@@ -620,10 +1208,10 @@ setA.isStrictSuperset(of: setB)
         
         <item>
             <title>Swift3-08 字典</title>
-            <link>http://www.flywithme.top/2017/02/22/swift08/</link>
+            <link>http://blog.flywithme.top/2017/02/22/swift08/</link>
             <pubDate>Wed, 22 Feb 2017 14:12:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/22/swift08/</guid>
+            <guid>http://blog.flywithme.top/2017/02/22/swift08/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;字典是存储 键-值 数据对的无序数据集合&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -700,10 +1288,10 @@ var str =  dic.updateValue(&amp;quot;value&amp;quot;, forKey: &amp;quot;key&amp;
         
         <item>
             <title>Swift3-07 数组</title>
-            <link>http://www.flywithme.top/2017/02/21/swift07/</link>
+            <link>http://blog.flywithme.top/2017/02/21/swift07/</link>
             <pubDate>Tue, 21 Feb 2017 15:38:45 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/21/swift07/</guid>
+            <guid>http://blog.flywithme.top/2017/02/21/swift07/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: &lt;code&gt;Array Dictionary set&lt;/code&gt;
 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。&lt;/p&gt;
@@ -842,10 +1430,10 @@ arr0001[1]
         
         <item>
             <title>Swift3-06 可选型 Optionals</title>
-            <link>http://www.flywithme.top/2017/02/20/swift06/</link>
+            <link>http://blog.flywithme.top/2017/02/20/swift06/</link>
             <pubDate>Mon, 20 Feb 2017 15:22:44 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/20/swift06/</guid>
+            <guid>http://blog.flywithme.top/2017/02/20/swift06/</guid>
             <description>&lt;p&gt;画重点!
 Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候
 是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。&lt;/p&gt;
@@ -1012,10 +1600,10 @@ class001.showInfo()
         
         <item>
             <title>Swift3-05 逻辑控制</title>
-            <link>http://www.flywithme.top/2017/02/17/swift05/</link>
+            <link>http://blog.flywithme.top/2017/02/17/swift05/</link>
             <pubDate>Fri, 17 Feb 2017 17:34:01 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/17/swift05/</guid>
+            <guid>http://blog.flywithme.top/2017/02/17/swift05/</guid>
             <description>&lt;p&gt;控制流的三种基本结构:&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -1031,44 +1619,38 @@ class001.showInfo()
 &lt;pre&gt;&lt;code&gt;for _ in 0...100{
     print(&amp;quot;遍历循环&amp;quot;) 
 }
-
-
+    
 //这种方式在 swift3 中被废弃,不能在使用
 //for var i = 1; i &amp;lt; 100 ; i++{
 //    print(&amp;quot;遍历循环中&amp;quot;)
 //}
-
-
+    
+    
 var a = 0.0
 while a &amp;lt; 50 {
     a += 0.5
     sin(a)   
 }
-
-
+    
 //至少执行一次
 repeat{
     a += 0.5
     sin(a)
 }while a &amp;lt; 100
-
-
+    
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;选择结构&lt;/strong&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;if true {
-
-
+        
 }else if(1 == 1){
-
-
+        
 }else{
-
-
+        
 }
-
-
+    
+    
 switch index {
 case 0:
     break
@@ -1078,8 +1660,7 @@ case 2:
     break
 default: break
 }
-
-
+    
 //swift 提供的基础数据类型都可以用作 switch 的判断
 var str = &amp;quot;a&amp;quot;
 switch str {
@@ -1089,8 +1670,7 @@ case &amp;quot;b&amp;quot;:
     print(&amp;quot;B&amp;quot;)
 default:
     break
-
-
+    
 }
 
 
@@ -1107,11 +1687,9 @@ default:
      break
 }
 
-
 //元组    
 let point = (5, 2)
-
-
+    
 switch point {
 case (0,0):
     print(&amp;quot;原点&amp;quot;)
@@ -1126,8 +1704,7 @@ case (-10...10,2...5): //元组中,同样可以使用区间
 default:
     print(&amp;quot;没找到&amp;quot;)
 }
-
-
+    
 //解包
 let point1 = (5, 2)
 switch point1 {
@@ -1244,10 +1821,10 @@ buyComputer(money: 9000, price: 6000, brand: &amp;quot;Sony&amp;quot;)
         
         <item>
             <title>Swift3-04 基础运算符</title>
-            <link>http://www.flywithme.top/2017/02/17/swift04/</link>
+            <link>http://blog.flywithme.top/2017/02/17/swift04/</link>
             <pubDate>Fri, 17 Feb 2017 11:00:55 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/17/swift04/</guid>
+            <guid>http://blog.flywithme.top/2017/02/17/swift04/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;赋值运算符&lt;/p&gt;
 
@@ -1274,11 +1851,9 @@ a -= 3
 a *= 2
 a /= 2
 a %= 2    
-
-
+    
 var u = 2.5.truncatingRemainder(dividingBy: 1.2) //小数求余
-
-
+    
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;逻辑运算符  &lt;code&gt;! &amp;amp;&amp;amp; ||&lt;/code&gt;&lt;/p&gt;
@@ -1296,43 +1871,35 @@ let price = 20
 if money &amp;gt;= price{
     print(&amp;quot;buy&amp;quot;)
 }
-
-
+    
 let capacity = 30 //背包容量
 let volume = 40 //购买物体积
-
-
+    
 if money &amp;gt;= price &amp;amp;&amp;amp; capacity &amp;gt;= volume{
     print(&amp;quot;buy it&amp;quot;)
 }
-
-
+    
 if money &amp;lt; price || capacity &amp;lt; volume{
     print(&amp;quot;can not buy it&amp;quot;)
 }
-
-
+    
 if  !(money &amp;gt;= price &amp;amp;&amp;amp; capacity &amp;gt;= volume){
      print(&amp;quot;can not buy it&amp;quot;)
 }
-
-
+    
 //登陆
 var isUserNameOK = false
 var isPasswordOk = false
-
-
+    
 var isPhoneNumOk = true
 var isPhoneCodeOk = false
-
-
+    
 if isUserNameOK &amp;amp;&amp;amp; isPasswordOk || isPhoneNumOk &amp;amp;&amp;amp; isPasswordOk{
     print(&amp;quot;登陆成功&amp;quot;)
 }else{
     print(&amp;quot;登陆失败&amp;quot;)
 }
-
-
+    
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;三目运算符   bool?answer1:answer2&lt;/p&gt;
@@ -1347,19 +1914,16 @@ batteryColor =  battery &amp;lt;= 20 ? UIColor.red:UIColor.green
 &lt;pre&gt;&lt;code&gt;for index in 1...10{
     index
 }
-
-
+    
 for index in 1..&amp;lt;10{
         index
 }
-
-
+        
 let arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]
 for str in arr{
     print(str)
 }
-
-
+    
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
@@ -1367,10 +1931,10 @@ for str in arr{
         
         <item>
             <title>Swift3-03 基础类型</title>
-            <link>http://www.flywithme.top/2017/02/16/swift03/</link>
+            <link>http://blog.flywithme.top/2017/02/16/swift03/</link>
             <pubDate>Thu, 16 Feb 2017 16:11:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/16/swift03/</guid>
+            <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;/p&gt;
 
@@ -1631,10 +2195,10 @@ s4.trimmingCharacters(in: .whitespaces) //去除空格
         
         <item>
             <title>Swift3-02 初见</title>
-            <link>http://www.flywithme.top/2017/02/16/swift02/</link>
+            <link>http://blog.flywithme.top/2017/02/16/swift02/</link>
             <pubDate>Thu, 16 Feb 2017 11:27:44 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/16/swift02/</guid>
+            <guid>http://blog.flywithme.top/2017/02/16/swift02/</guid>
             <description>&lt;p&gt;首先我们来在屏幕上输出一个 &lt;code&gt;hello world&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;print(&amp;quot;hello world&amp;quot;)
@@ -1700,505 +2264,6 @@ assert(age &amp;gt;= 0, &amp;quot;A person&#39;s age cannot be less than zero&am
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;下面开始深入学习&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>关于 Swift3-01</title>
-            <link>http://www.flywithme.top/2017/02/09/swift01/</link>
-            <pubDate>Thu, 09 Feb 2017 10:12:48 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/02/09/swift01/</guid>
-            <description>&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。
-Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Swift 的开发从很久之前就开始了。为了给 Swift 打好基础，苹果公司改进了编译器，调试器和框架结构，让 Swift 使用自动引用计数（Automatic Reference Counting, ARC）来简化内存管理。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Objective-C 开发者对于 Swift 并不会感到陌生。它采用了 Objective-C 的命名参数以及动态对象模型，可以无缝对接到现有的 Cocoa 框架，并且可以兼容 Objective-C 代码。在此基础之上，Swift 还有许多新特性，支持面向过程编程和面向对象编程。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Swift 对于初学者来说也很简单。Swift是一门既满足工业标准又像脚本语言一样充满表现力和趣味的编程语言。Swift支持代码预览，这个革命性的特性可以允许程序员在不编译和运行应用程序的前提下运行 Swift 代码并实时查看结果。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;使用 Swift编写 iOS，watchOS,macOS,和 tvOS apps 是一个极佳的选择。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Swift 3.0 是自 Swift开源以来第一个大的版本更新。从语言角度不兼容之前的版本。&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;部分摘自：&lt;a href=&#34;https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/index.html&#34;&gt;AppleLibrary&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go语言fmt包Printf方法详解t</title>
-            <link>http://www.flywithme.top/2017/01/01/golangfmt/</link>
-            <pubDate>Sun, 01 Jan 2017 00:56:42 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/01/01/golangfmt/</guid>
-            <description>&lt;p&gt;Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;General&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;%v 以默认的方式打印变量的值&lt;/li&gt;
-&lt;li&gt;%T 打印变量的类型&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Integer&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;%+d 带符号的整型，fmt.Printf(&amp;ldquo;%+d&amp;rdquo;, 255)输出+255&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;%q 打印单引号&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;%o 不带零的八进制&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;%#o 带零的八进制&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;%x 小写的十六进制&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;%X 大写的十六进制&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;%#x 带0x的十六进制&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;%U 打印Unicode字符&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;%#U 打印带字符的Unicode&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;%b 打印整型的二进制&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Integer width&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;%5d 表示该整型最大长度是5，下面这段代码&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1)
-fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;输出结果如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;|    1|
-|1234567|
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;%-5d则相反，打印结果会自动左对齐&lt;/li&gt;
-&lt;li&gt;%05d会在数字前面补零。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Float&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;%f (=%.6f) 6位小数点&lt;/li&gt;
-&lt;li&gt;%e (=%.6e) 6位小数点（科学计数法）&lt;/li&gt;
-&lt;li&gt;%g 用最少的数字来表示&lt;/li&gt;
-&lt;li&gt;%.3g 最多3位数字来表示&lt;/li&gt;
-&lt;li&gt;%.3f 最多3位小数来表示&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;String&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;%s 正常输出字符串&lt;/li&gt;
-&lt;li&gt;%q 字符串带双引号，字符串中的引号带转义符&lt;/li&gt;
-&lt;li&gt;%#q 字符串带反引号，如果字符串内有反引号，就用双引号代替&lt;/li&gt;
-&lt;li&gt;%x 将字符串转换为小写的16进制格式&lt;/li&gt;
-&lt;li&gt;%X 将字符串转换为大写的16进制格式&lt;/li&gt;
-&lt;li&gt;% x 带空格的16进制格式&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;String Width&lt;/strong&gt; (以5做例子）&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;%5s 最小宽度为5&lt;/li&gt;
-&lt;li&gt;%-5s 最小宽度为5（左对齐）&lt;/li&gt;
-&lt;li&gt;%.5s 最大宽度为5&lt;/li&gt;
-&lt;li&gt;%5.7s 最小宽度为5，最大宽度为7&lt;/li&gt;
-&lt;li&gt;%-5.7s 最小宽度为5，最大宽度为7（左对齐）&lt;/li&gt;
-&lt;li&gt;%5.3s 如果宽度大于3，则截断&lt;/li&gt;
-&lt;li&gt;%05s 如果宽度小于5，就会在字符串前面补零&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Struct&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;%v 正常打印。比如：{sam {12345 67890}}&lt;/li&gt;
-&lt;li&gt;%+v 带字段名称。比如：{name:sam phone:{mobile:12345 office:67890}&lt;/li&gt;
-&lt;li&gt;%#v 用Go的语法打印。比如main.People{name:”sam”, phone:main.Phone{mobile:”12345”, office:”67890”}}&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Boolean&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;%t 打印true或false&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Pointer&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;%p 带0x的指针&lt;/li&gt;
-&lt;li&gt;%#p 不带0x的指针&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>golang-Gin-Https</title>
-            <link>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</link>
-            <pubDate>Mon, 26 Dec 2016 14:29:14 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
-            <description>&lt;p&gt;关于https&lt;br /&gt;
-背景知识&lt;br /&gt;
-密码学的一些基本知识&lt;br /&gt;
-大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，key就以一串随机数数，更换了key之后，算法还可以继续使用。&lt;/p&gt;
-
-&lt;p&gt;基于key的加密算法又分为两类，对称加密和不对称加密，比如DES,AES那种的，通信双方一方用key加密之后，另一方用相同的key进行反向的运算就可以解密。&lt;/p&gt;
-
-&lt;p&gt;不对称加密比较著名的就是RSA,加密的时候有一个公钥和一个私钥，公钥是可以交给对方的，a给b发送信息，a用自己的私钥加密，b用a的公钥解密，反之，b给a发送信息，b用自己的私钥加密。&lt;/p&gt;
-
-&lt;p&gt;在通信之前，需要经过一些握手的过程，双方交换公钥，这个就是key exchange的过程，https最开始的阶段就包含了这个key exchange的过程，大概原理是这样，有些地方还要稍微复杂一些。&lt;/p&gt;
-
-&lt;p&gt;数字证书与CA&lt;br /&gt;
-数字证书相当于是服务器的一个“身份证”，用于唯一标识一个服务器。一般而言，数字证书从受信的权威证书授权机构 (Certification Authority，证书授权机构)买来的（免费的很少），浏览器里面一般就内置好了一些权威的CA，在使用https的时候，只要是这些CA签发的证书，浏览器都是可以认证的，要是在与服务器通信的时候，收到一个没有权威CA认证的证书，就会报出提醒不受信任证书的错误，就像登录12306一样，但是也可以选择接受。&lt;/p&gt;
-
-&lt;p&gt;在自己的一些项目中，通常是自己签发一个ca根证书，之后这个根证书签发一个server.crt，以及server.key给服务端，server.key是服务端的私钥，server.crt包含了服务端的公钥还有服务端的一些身份信息。在客户端和服务端通信的时候（特别是使用代码编写的客户端访问的时候），要指定ca根证书，作用就相当于是浏览器中内置的那些权威证书一样，用于进行服务端的身份检测。&lt;/p&gt;
-
-&lt;p&gt;证书的格式：&lt;/p&gt;
-
-&lt;p&gt;ca证书在为server.crt证书签名时候的大致流程参考这个(&lt;a href=&#34;http://www.tuicool.com/articles/aymYbmM)：&#34;&gt;http://www.tuicool.com/articles/aymYbmM)：&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;数字证书由两部分组成：&lt;/p&gt;
-
-&lt;p&gt;1、C：证书相关信息（对象名称+过期时间+证书发布者+证书签名算法….）&lt;/p&gt;
-
-&lt;p&gt;2、S：证书的数字签名 （由CA证书通过加密算法生成的）&lt;/p&gt;
-
-&lt;p&gt;其中的数字签名是通过公式S = F(Digest&amp;copy;)得到的。&lt;/p&gt;
-
-&lt;p&gt;Digest为摘要函数，也就是 md5、sha-1或sha256等单向散列算法，用于将无限输入值转换为一个有限长度的“浓缩”输出值。比如我们常用md5值来验证下载的大文件是否完整。大文件的内容就是一个无限输入。大文件被放在网站上用于下载时，网站会对大文件做一次md5计算，得出一个128bit的值作为大文件的摘要一同放在网站上。用户在下载文件后，对下载后的文件再进行一次本地的md5计算，用得出的值与网站上的md5值进行比较，如果一致，则大 文件下载完好，否则下载过程大文件内容有损坏或源文件被篡改。这里还有一个小技巧常常在机器之间copy或者下载压缩文件的时候也可以用md5sum的命令来进行检验，看看文件是否完整。&lt;/p&gt;
-
-&lt;p&gt;F为签名函数。CA自己的私钥是唯一标识CA签名的，因此CA用于生成数字证书的签名函数一定要以自己的私钥作为一个输入参数。在RSA加密系统中，发送端的解密函数就是一个以私钥作为参数的函数，因此常常被用作签名函数使用。因此CA用私钥解密函数作为F，以CA证书中的私钥进行加密，生成最后的数字签名，正如最后一部分实践时候给出的证书生成过程，生成server.crt的时候需要ca.crt（包含根证书的信息）和ca.key（根证书的私钥）都加入进去。&lt;/p&gt;
-
-&lt;p&gt;接收端接收服务端数字证书后，如何验证数字证书上携带的签名是这个CA的签名呢？当然接收端首先需要指定对应的CA，接收端会运用下面算法对数字证书的签名进行校验：
-F&amp;rsquo;(S) ?= Digest&amp;copy;&lt;/p&gt;
-
-&lt;p&gt;接收端进行两个计算，并将计算结果进行比对：&lt;/p&gt;
-
-&lt;p&gt;1、首先通过Digest&amp;copy;，接收端计算出证书内容（除签名之外）的摘要，C的内容都是明文可以看到到的。&lt;/p&gt;
-
-&lt;p&gt;2、数字证书携带的签名是CA通过CA密钥加密摘要后的结果，因此接收端通过一个解密函数F&amp;rsquo;对S进行“解密”。就像最开始介绍的那样，在RSA系统中，接收端使用CA公钥（包含在ca.crt中）对S进行“解密”，这恰是CA用私钥对S进行“加密”的逆过程。&lt;/p&gt;
-
-&lt;p&gt;将上述两个运算的结果进行比较，如果一致，说明签名的确属于该CA，该证书有效，否则要么证书不是该CA的，要么就是中途被人篡改了。&lt;/p&gt;
-
-&lt;p&gt;对于self-signed(自签发)证书来说，接收端并没有你这个self-CA的数字证书，也就是没有CA公钥，也就没有办法对数字证书的签名进行验证。因此如果要编写一个可以对self-signed证书进行校验的接收端程序的话，首先我们要做的就是建立一个属于自己的CA，用该CA签发我们的server端证书，之后给客户端发送信息的话，需要对这个根证书进行指定，之后按上面的方式进行验证。&lt;/p&gt;
-
-&lt;p&gt;可以使用openssl x509 -text -in client.crt -noout 查看某个证书文件所包含的具体信息。&lt;/p&gt;
-
-&lt;p&gt;HTTPS基本过程概述&lt;/p&gt;
-
-&lt;p&gt;https协议是在http协议的基础上组成的secure的协议。主要功能包含一下两个方面:&lt;/p&gt;
-
-&lt;p&gt;1 通信双方的身份认证&lt;/p&gt;
-
-&lt;p&gt;2 通信双方的通信过程加密&lt;/p&gt;
-
-&lt;p&gt;下面通过详细分析https的通信过程来解释这两个功能。&lt;/p&gt;
-
-&lt;p&gt;具体参考这两个文章：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://www.fenesky.com/blog/2014/07/19/how-https-works.html&#34;&gt;http://www.fenesky.com/blog/2014/07/19/how-https-works.html&lt;/a&gt;
-&lt;a href=&#34;http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html&#34;&gt;http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;1、client 发送 sayhello给server端，说明client所支持的加密套件，还有一个随机数1。
-2、server 发送 sayhello给client端，端把server.crt发送给客户端,server.crt采用还有一个随机数2。
-3、client端生成preMaster key 这个是随机数3，之后三个随机数结合在一起生成MasterSecret,之后生成session secret，使用指定的ca进行身份认证，就像之前介绍的那样，都正常的话，就切换到加密模式。
-4、client端使用server.crt中的公钥对preMasterSecret进行加密，如果要进行双向认证的话，client端会把client.crt一并发送过去，server端接受到数据，解密之后，也有了三个随机数，采用同样的方式，三个随机数生成通信所使用的session secret。具体session secret的结构可以参考前面列出的两个博客。server端完成相关工作之后，会发一个ChangeCipherSpec给client，通知client说明自己已经切换到相关的加解密模式，之后发一段加密信息给client看是否正常。
-5、client端解密正常，之后就可以按照之前的协议，使用session secret进行加密的通信了。&lt;/p&gt;
-
-&lt;p&gt;整体看下，开始的时候建立握手的过程就是身份认证的过程，之后认证完毕之后，就是加密通信的过程了，https的两个主要做用就实现了。&lt;/p&gt;
-
-&lt;p&gt;相关实践&lt;/p&gt;
-
-&lt;p&gt;比较典型的证书生成的过程：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;openssl genrsa -out ca.key 2048
-
-#这里可以使用 -subj 不用进行交互 当然还可以添加更多的信息
-openssl req -x509 -new -nodes -key ca.key -subj &amp;quot;/CN=zju.com&amp;quot; -days 5000 -out ca.crt
-
-openssl genrsa -out server.key 2048
-
-#这里的/cn可以是必须添加的 是服务端的域名 或者是etc/hosts中的ip别名
-openssl req -new -key server.key -subj &amp;quot;/CN=server&amp;quot; -out server.csr
-
-openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 5000
-注意生成client端证书的时候，注意要多添加一个字段，golang的server端认证程序会对这个字段进行认证：
-
-openssl genrsa -out client.key 2048
-
-openssl req -new -key client.key -subj &amp;quot;/CN=client&amp;quot; -out client.csr
-
-echo extendedKeyUsage=clientAuth &amp;gt; extfile.cnf
-
-openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile extfile.cnf -out client.crt -days 5000 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;https客户端和服务端单向校验&lt;/p&gt;
-
-&lt;p&gt;这部分参考了这个（&lt;a href=&#34;http://www.tuicool.com/articles/aymYbmM&#34;&gt;http://www.tuicool.com/articles/aymYbmM&lt;/a&gt;
-），里面代码部分讲得比较细致。&lt;/p&gt;
-
-&lt;p&gt;服务端采用证书，客户端采用普通方式访问：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//server端代码
-package main
-
-import (
-    &amp;quot;fmt&amp;quot;
-    &amp;quot;net/http&amp;quot;
-    &amp;quot;os&amp;quot;
-)
-
-func handler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w,
-        &amp;quot;Hi, This is an example of https service in golang!&amp;quot;)
-}
-
-func main() {
-    http.HandleFunc(&amp;quot;/&amp;quot;, handler)
-    //http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil)
-    _, err := os.Open(&amp;quot;cert_server/server.crt&amp;quot;)
-    if err != nil {
-        panic(err)
-    }
-    http.ListenAndServeTLS(&amp;quot;:8081&amp;quot;, &amp;quot;cert_server/server.crt&amp;quot;,
-        &amp;quot;cert_server/server.key&amp;quot;, nil)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;client端直接发请求，什么都不加，会报如下错误：&lt;/p&gt;
-
-&lt;p&gt;2015/07/11 18:13:50 http: TLS handshake error from 10.183.47.203:58042: remote error: bad certificate
-使用浏览器直接访问的话，之后点击信赖证书，这个时候就可以正常get到消息&lt;/p&gt;
-
-&lt;p&gt;或者使用curl -k https:// 来经行访问，相当于忽略了第一步的身份验证的工作。
-要是不加-k的话 使用curl -v 参数打印出来详细的信息，会看到如下的错误：&lt;/p&gt;
-
-&lt;p&gt;curl: (60) SSL certificate problem: Invalid certificate chain
-说明是认证没有通过，因为客户端这面并没有提供可以信赖的根证书来对服务端发过来的证书进行验，/CN使用的直接是ip地址，就会报下面的错误：&lt;/p&gt;
-
-&lt;p&gt;Get &lt;a href=&#34;https://10.183.47.206:8081:&#34;&gt;https://10.183.47.206:8081:&lt;/a&gt; x509: cannot validate certificate for 10.183.47.206 because it doesn&amp;rsquo;t contain any IP SANs
-最好是生成证书的时候使用域名，或者是在/etc/hosts中加上对应的映射。&lt;/p&gt;
-
-&lt;p&gt;可以发送请求的客户端的代码如下，注意导入根证书的方式:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-    //&amp;quot;io&amp;quot;
-    //&amp;quot;log&amp;quot;
-    &amp;quot;crypto/tls&amp;quot;
-    &amp;quot;crypto/x509&amp;quot;
-    //&amp;quot;encoding/json&amp;quot;
-    &amp;quot;fmt&amp;quot;
-    &amp;quot;io/ioutil&amp;quot;
-    &amp;quot;net/http&amp;quot;
-    //&amp;quot;strings&amp;quot;
-)
-
-func main() {
-    //x509.Certificate.
-    pool := x509.NewCertPool()
-    //caCertPath := &amp;quot;etcdcerts/ca.crt&amp;quot;
-    caCertPath := &amp;quot;certs/cert_server/ca.crt&amp;quot;
-
-    caCrt, err := ioutil.ReadFile(caCertPath)
-    if err != nil {
-        fmt.Println(&amp;quot;ReadFile err:&amp;quot;, err)
-        return
-    }
-    pool.AppendCertsFromPEM(caCrt)
-    //pool.AddCert(caCrt)
-
-    tr := &amp;amp;http.Transport{
-        TLSClientConfig:    &amp;amp;tls.Config{RootCAs: pool},
-        DisableCompression: true,
-    }
-    client := &amp;amp;http.Client{Transport: tr}
-
-    resp, err := client.Get(&amp;quot;https://server:8081&amp;quot;)
-
-    if err != nil {
-        panic(err)
-    }
-
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println(string(body))
-    fmt.Println(resp.Status)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;使用curl命令的话，就加上&amp;ndash;cacrt ca.crt证书，这样就相当于添加了可信赖的证书，身份认证的操作就可以成功了。&lt;/p&gt;
-
-&lt;p&gt;比如生成服务端证书的时候/CN写的是server 那client发送的时候也发送给&lt;a href=&#34;https://server:8081就好，不过在本地的/etc/hosts中要加上对应的映射。&#34;&gt;https://server:8081就好，不过在本地的/etc/hosts中要加上对应的映射。&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;客户端和服务端的双向校验：&lt;/p&gt;
-
-&lt;p&gt;按照之前的方式，客户端生成证书，根证书就按之前的那个：
-    openssl genrsa -out client.key 2048&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;openssl req -new -key client.key -subj &amp;quot;/CN=client&amp;quot; -out client.csr
-
-openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 5000
-server端代码进行改进，添加受信任的根证书。
-
-// gohttps/6-dual-verify-certs/server.go
-package main
-
-import (
-    &amp;quot;crypto/tls&amp;quot;
-    &amp;quot;crypto/x509&amp;quot;
-    &amp;quot;fmt&amp;quot;
-    &amp;quot;io/ioutil&amp;quot;
-    &amp;quot;net/http&amp;quot;
-)
-
-type myhandler struct {
-}
-
-func (h *myhandler) ServeHTTP(w http.ResponseWriter,
-    r *http.Request) {
-    fmt.Fprintf(w,
-        &amp;quot;Hi, This is an example of http service in golang!\n&amp;quot;)
-}
-
-func main() {
-    pool := x509.NewCertPool()
-    caCertPath := &amp;quot;cert_server/ca.crt&amp;quot;
-
-    caCrt, err := ioutil.ReadFile(caCertPath)
-    if err != nil {
-        fmt.Println(&amp;quot;ReadFile err:&amp;quot;, err)
-        return
-    }
-    pool.AppendCertsFromPEM(caCrt)
-
-    s := &amp;amp;http.Server{
-        Addr:    &amp;quot;:8081&amp;quot;,
-        Handler: &amp;amp;myhandler{},
-        TLSConfig: &amp;amp;tls.Config{
-            ClientCAs:  pool,
-            ClientAuth: tls.RequireAndVerifyClientCert,
-        },
-    }
-
-    err = s.ListenAndServeTLS(&amp;quot;cert_server/server.crt&amp;quot;, &amp;quot;cert_server/server.key&amp;quot;)
-    if err != nil {
-        fmt.Println(&amp;quot;ListenAndServeTLS err:&amp;quot;, err)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;客户端代码改进，发送的时候把指定client端的client.crt以及client.key&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// gohttps/6-dual-verify-certs/client.go
-
-package main
-
-import (
-    &amp;quot;crypto/tls&amp;quot;
-    &amp;quot;crypto/x509&amp;quot;
-    &amp;quot;fmt&amp;quot;
-    &amp;quot;io/ioutil&amp;quot;
-    &amp;quot;net/http&amp;quot;
-)
-
-func main() {
-    pool := x509.NewCertPool()
-    caCertPath := &amp;quot;certs/cert_server/ca.crt&amp;quot;
-
-    caCrt, err := ioutil.ReadFile(caCertPath)
-    if err != nil {
-        fmt.Println(&amp;quot;ReadFile err:&amp;quot;, err)
-        return
-    }
-    pool.AppendCertsFromPEM(caCrt)
-
-    cliCrt, err := tls.LoadX509KeyPair(&amp;quot;certs/cert_server/client.crt&amp;quot;, &amp;quot;certs/cert_server/client.key&amp;quot;)
-    if err != nil {
-        fmt.Println(&amp;quot;Loadx509keypair err:&amp;quot;, err)
-        return
-    }
-
-    tr := &amp;amp;http.Transport{
-        TLSClientConfig: &amp;amp;tls.Config{
-            RootCAs:      pool,
-            Certificates: []tls.Certificate{cliCrt},
-        },
-    }
-    client := &amp;amp;http.Client{Transport: tr}
-    resp, err := client.Get(&amp;quot;https://server:8081&amp;quot;)
-    if err != nil {
-        fmt.Println(&amp;quot;Get error:&amp;quot;, err)
-        return
-    }
-    defer resp.Body.Close()
-    body, err := ioutil.ReadAll(resp.Body)
-    fmt.Println(string(body))
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;但实际上，这样是不行的，server端会报这样的错误：&lt;/p&gt;
-
-&lt;p&gt;client&amp;rsquo;s certificate&amp;rsquo;s extended key usage doesn&amp;rsquo;t permit it to be used for client authentication
-因为client的证书生成方式有一点不一样，向开始介绍的那样，goalng对于client端的认证要多一个参数，生成证书的时候，要加上一个单独的认证信息：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;openssl genrsa -out client.key 2048
-
-openssl req -new -key client.key -subj &amp;quot;/CN=client&amp;quot; -out client.csr
-
-echo extendedKeyUsage=clientAuth &amp;gt; extfile.cnf
-
-openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile extfile.cnf -out client.crt -days 5000 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;就是多添加一个认证文件的信息，之后使用新的证书就可以实现双向认证了，这样只有那些持有被认证过的证书的客户端才能向服务端发送请求。&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>TableView 中 Cell的重用机制分析</title>
-            <link>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</link>
-            <pubDate>Tue, 20 Dec 2016 11:41:34 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
-            <description>&lt;blockquote&gt;
-&lt;p&gt;UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的
-   这个方法到底是怎么实现的呢?&lt;br /&gt;
-   &lt;code&gt;[tableView dequeueReusableCellWithIdentifier:CellIdentifier]&lt;/code&gt;由于苹果并没有开源,所以我就对这个
-``的实现分析一下。&lt;br /&gt;
-   UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell,
-   对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;strong&gt;重用实现分析:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源  NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;&lt;br /&gt;
-   TableView 初始化之初,这两个数据都是空的。&lt;br /&gt;
-   通过&lt;code&gt;[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]&lt;/code&gt; 创建新的 cell,创建之后 数据会进入visiableCells 中
-   当屏幕上的Cell 够用之后,会有一个 Cell  使用 key CellIdentifier 存 reusableTableCels 中,&lt;br /&gt;
-   比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;用&lt;code&gt;[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]&lt;/code&gt;创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;tableView向下滚动时,如果在顶部,数据不会有变化,如果在中间,上下都屏幕外都有数据。 因为reusableCells中有数据,当需要时会把之前加入的 cell1 返回&lt;code&gt;[tableView dequeueReusableCellWithIdentifier:CellIdentifier]&lt;/code&gt;,并移出 reusableCells,移入visiableCells,底部的 Cell6移入 reusableCells ,这样就完成了重用逻辑。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;还有一些情况需要注意,并不是只有拖动的时候才会有以上逻辑,tableview 调用&lt;code&gt;reloadData&lt;/code&gt;的时候,&lt;code&gt;reloadRowsAtIndex&lt;/code&gt; 方法的时候也会,具体步骤,以后再分析。&lt;/p&gt;
 </description>
         </item>
         
