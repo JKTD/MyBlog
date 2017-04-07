@@ -9,6 +9,86 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>swift3-18 继承</title>
+            <link>http://blog.flywithme.top/2017/04/01/swift18/</link>
+            <pubDate>Sat, 01 Apr 2017 22:29:17 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/04/01/swift18/</guid>
+            <description>&lt;p&gt;&lt;strong&gt;继承&lt;/strong&gt;：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)，
+我们也可以为类中继承来的属性添加属性观察器&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;基类&lt;/strong&gt; 没有继承其它类的类，称之为基类（Base Class）&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;子类&lt;/strong&gt; 子类指的是在一个已有类的基础上创建一个新的类。为了指明某个类的超类，将超类名写在子类名的后面，用冒号(:)分隔,语法格式如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class baseClass{
+    var baseName:String
+    init(name:String) {
+        self.baseName = name
+    }
+}
+class sonClass:baseClass{
+}
+sonClass.init(name: &amp;quot;a&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;重写（Overriding）&lt;/strong&gt; 子类可以通过继承来的实例方法，类方法，实例属性，或下标脚本来实现自己的定制功能，我们把这种行为叫重写（overriding）。我们可以使用 override 关键字来实现重&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class baseClass{
+    var baseName:String
+    init(name:String) {
+        self.baseName = name
+    }
+}
+class sonClass:baseClass{
+    override init(name: String) {
+        super.init(name: name.appending(&amp;quot;b&amp;quot;))
+    }
+}
+var son =  sonClass.init(name: &amp;quot;a&amp;quot;)
+son.baseName
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>swift3-17 单例</title>
+            <link>http://blog.flywithme.top/2017/03/31/swift17/</link>
+            <pubDate>Fri, 31 Mar 2017 19:47:41 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/03/31/swift17/</guid>
+            <description>&lt;p&gt;&lt;strong&gt;单例写法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Manager{
+    public var score = 0
+    public static let defaultManager = Manager.init()
+
+    private init(){
+
+    }
+    public func addScore(){
+        score += 10
+    }
+}
+
+
+
+
+let manager = Manager.defaultManager
+
+manager.addScore()
+manager.score
+
+manager.addScore()
+manager.score
+let manager2 = Manager.defaultManager
+manager2.addScore()
+manager2.score
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
             <title>swift3-16 属性</title>
             <link>http://blog.flywithme.top/2017/03/30/swift16/</link>
             <pubDate>Thu, 30 Mar 2017 16:53:45 CST</pubDate>
@@ -1926,344 +2006,6 @@ for str in arr{
     
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Swift3-03 基础类型</title>
-            <link>http://blog.flywithme.top/2017/02/16/swift03/</link>
-            <pubDate>Thu, 16 Feb 2017 16:11:36 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
-            <description>&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;常量 &lt;strong&gt;let&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let a = 1
-let b:Int
-b = 1
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;变量 &lt;strong&gt;var&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var b = 2
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;swift 是一个强类型语言:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var x = 1
-
-x = &amp;quot;abc&amp;quot; //会报错(Cannot assign value of type &amp;quot;String&amp;quot; to type &amp;quot;int&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;显示声明变量&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let s:String = &amp;quot;abc&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;一次声明多个变量,&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var y, z, d:Double
-var x = 1, y = 2, z = 3
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;常用数据类型: Int , Float ,Double , Boolean , String ,Tuple&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Int&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var aInt: Int = 20 //整型的存储空间是有限的,根据不同的计算机来定。有最大最小值
-Int.max
-Int.min
-
-var aUInt:UInt = 200  //无法存储负数,最大值是 Int 的两倍+1
-UInt.max
-UInt.min
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Int 的类型&lt;br /&gt;
-   !&lt;img src=&#34;sources/swift/Int类型.png&#34; alt=&#34;intType&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;小知识 如果是一个比较大的数值,可以使用下划线对数字进行分割&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let bigNum = 1_000_000_000_00232
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/swift/BA6D5746-A4AE-411F-905E-4761288DEE0F.png&#34; alt=&#34;C8A54525-8DE7-4EC3-8665-89146D67C0CF&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Float Double&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;浮点数 float Double 区别&lt;br /&gt;
-    &lt;img src=&#34;sources/swift/C1DB90FE-EE4F-4CC2-95F3-580D54437E75.png&#34; alt=&#34;C8A54525-8DE7-4EC3-8665-89146D67C0CF&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;//上面的数字加下划线 亦可以用在小数中。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var aFloat = 1_000_000.000_0001  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;不同数据类型之间不能直接做数据运算,不能自动做类型转换。必需要做显示类型转换,以防止运算出错。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let a:Int = 1
-let b:UInt = 2
-a + b //错误,运算歧义 
-a + Int(b) //正确
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;swift 是一个强制类型语言,把浮点数赋值给整型是肯定会报错的。除非对浮点数进行转换才行。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Boolean&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let aTrue:Bool = true
-let aFalse = false
-
-if aTrue{
-    print(&amp;quot;True&amp;quot;)
-}else if(1 == 1){
-    print(&amp;quot;1 == 1&amp;quot;)
-}
-else{
-    print(&amp;quot;False&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;if 判断语句 只能使用 Bool 类型判断,否则会报错&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Tuple&lt;/strong&gt; 元组就是将多个不同的值集合在一个数据中。可以有任意多个值,多个不同的数据类型&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var point = (1 , 1)
-var httpResponse = (401, &amp;quot;未授权&amp;quot;)
-
-// 显式指定元组类型
-var point2:(Int, Int, Int) = (2, 3, 4)
-
-var httpResponse2:(Int, String) = (200, &amp;quot;OK&amp;quot;)
-
-//取值
-httpResponse.0
-httpResponse.1
-
-//解包
-let (x, y) = httpResponse2
-print(x, y)
-
-//给分量加一个名字。
-let point3 = (x: 3, y :4)
-point3.x
-point3.y
-
-let point4:(x: Int, y: Int) =(2, 3)
-point4.x
-point4.y
-
-let point5 = (10,23)
-let (z, _) = point5 //若不需要解包某一个数据,可以用下划线_忽略一些值
-z
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;String&lt;/strong&gt;   使用双引号引起来的一段文本。&lt;/p&gt;
-
-&lt;p&gt;字符串基本用法&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//声明一个字符串
-var str: String = &amp;quot;swift&amp;quot;
-let str1 = String(&amp;quot;abdd&amp;quot;)
-
-//空字符串
-var emptyStr = &amp;quot;&amp;quot;
-var emptystr1 = String()
-
-str.isEmpty //字符串判空
-
-let a = &amp;quot;abc&amp;quot;
-str + a 
-
-str += a
-
-str1 += a //错误 常量不能被改变
-
-//字符串插值  字符串插值是一种全新的构建字符串的方式，可以在其中包含常量、变量、字面量和表达式。您插入的字符串字面量的每一项都被包裹在以反斜线为前缀的圆括号中：
-let name  = &amp;quot;jack&amp;quot;
-let age = 20
-let s = &amp;quot;My name is \(name), age is \(age)&amp;quot;
-
-// \是转义字符  \t 是制表符  \n 是换行符
-let s2 = &amp;quot;\\&amp;quot; //输出转义字符
-print(s2)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;字符串遍历&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var str = &amp;quot;hello. swift&amp;quot;
-
-for c in str.characters{
-    print(c)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;字符&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let mark:Character = &amp;quot;!&amp;quot; //字符
-
-str + String(mark) //不改变 str 
-
-str.append(mark) //改变 str 值
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在 swift 中一个中文字符和表情符都可以是一个字符(其他语言中可能需要多个字符才能标识)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let dog:Character = &amp;quot;🐶&amp;quot;
-let chinessLetter :Character = &amp;quot;程&amp;quot;
-let coolguy: Character = &amp;quot;\u{1F60E}&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;字符串长度 :swift 更倾向于人类理解,而不是机器理解。  但是这会导致 swift 处理大批量字符串的时候速度比较慢&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var strLetters = &amp;quot;abcdef\u{1F60E}&amp;quot;
-strLetters.characters.count //长度计算 为7
-strLetters = &amp;quot;中国&amp;quot;
-strLetters.characters.count //长度计算 为2
-
-var cafe = &amp;quot;café&amp;quot;  //字符串长度是多少?
-
-cafe = &amp;quot;cafe\u{0301}&amp;quot; //字符串长度是多少?
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如何索引获取字符串中的字符   //这个处理几个版本变化很大&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var str = &amp;quot;hello, swift&amp;quot; 
-let startIndex =  str.index(str.startIndex, offsetBy: 2) //距离起点字符偏移位置
-str[startIndex] //
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;字符串比较&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var varA   = &amp;quot;Hello, Swift!&amp;quot;
-var varB   = &amp;quot;Hello, World!&amp;quot;
-
-if varA == varB {
-   print( &amp;quot;\(varA) 与 \(varB) 是相等的&amp;quot; )
-} else {
-   print( &amp;quot;\(varA) 与 \(varB) 是不相等的&amp;quot; )
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;字符串 filter&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let str2 = &amp;quot;    a  b  c  d &amp;quot;
-let res = String(str2.characters.filter  { $0 != &amp;quot; &amp;quot; })
-res
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;字符串插入&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let c:Character = &amp;quot;1&amp;quot;
-str.insert(c, at: startIndex)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;字符串大小写转换&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var str = &amp;quot;hello, swift&amp;quot;
-let shouty = str.uppercased()
-let shoutx = str.lowercased()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;判断字母首尾是否为某特定字符&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;str.hasPrefix(&amp;quot;hello&amp;quot;)
-str.hasSuffix(&amp;quot;swift&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;强制类型转换  as&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let s2 = NSString(format:&amp;quot;1/3 =  %.2f&amp;quot;, 1.0/3.0) as String
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;NSString&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let s3:NSString = &amp;quot;😄哈&amp;quot;
-s3.length
-s3.character(at: 1)
-let s4 = &amp;quot;    hello world    &amp;quot; as NSString
-
-s4.trimmingCharacters(in: .whitespaces) //去除空格
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Swift3-02 初见</title>
-            <link>http://blog.flywithme.top/2017/02/16/swift02/</link>
-            <pubDate>Thu, 16 Feb 2017 11:27:44 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/16/swift02/</guid>
-            <description>&lt;p&gt;首先我们来在屏幕上输出一个 &lt;code&gt;hello world&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;print(&amp;quot;hello world&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。&lt;/p&gt;
-
-&lt;p&gt;Xcode 提供了代码预览功能 &lt;strong&gt;Playground&lt;/strong&gt; . 使用它可以加快 swift的学习速度&lt;/p&gt;
-
-&lt;p&gt;初始化一个变量和常量&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var  a = 2  //可变数据
-a = 3
-let b = 2 //不可变
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;if else&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; if a == 2{
-     print(&amp;quot;true&amp;quot;)
- } else{
-     print(&amp;quot;false&amp;quot;)
-    }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;for in 遍历语句(此外还有 ,repeat..while ,for 循环3.0中已经被弃用)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;for index in 0...100{
-   var c = Double(index)/20.0
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;while&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;while 1 == 1 {
-    a += 1
-    if a == 100{
-        break
-    }
-    print(&amp;quot;do something&amp;quot;,a)
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;repeat&amp;hellip; while&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;repeat
-{
-    a += 1
-    if a &amp;gt; 100{
-        break
-    }
-    print(&amp;quot;do something&amp;quot;,a)
-
-}while( 1 == 1 );
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;断言&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let age = -3 
-assert(age &amp;gt;= 0, &amp;quot;A person&#39;s age cannot be less than zero&amp;quot;) 
-// 因为 age &amp;lt; 0，所以断言会触发  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;下面开始深入学习&lt;/p&gt;
 </description>
         </item>
         
