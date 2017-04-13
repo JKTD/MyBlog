@@ -186,7 +186,7 @@
                   <h1 class="post-title">swift3-18 继承</h1>
 
                   <p class="post-byline">
-                    by  · 2017年04月01日 · 296 Words ·
+                    by  · 2017年04月01日 · 340 Words ·
                     ~1min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-04-01-swift18.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -224,12 +224,27 @@ sonClass.init(name: &quot;a&quot;)
     }
 }
 class sonClass:baseClass{
+    var levelStr:String
     override init(name: String) {
-        super.init(name: name.appending(&quot;b&quot;))
+        self.levelStr = name.appending(&quot;b&quot;)
+        super.init(name: name)
     }
 }
+
 var son =  sonClass.init(name: &quot;a&quot;)
 son.baseName
+son.levelStr
+</code></pre>
+
+<p>// <strong>防止重写</strong>   使用 final 关键字防止它们被重写</p>
+
+<pre><code> //final 关键字
+ final class grandSon:sonClass{
+     final var grand:String = &quot;&quot;
+     override init(name: String) {
+         super.init(name: name)
+     }
+ }
 </code></pre>
 
                       

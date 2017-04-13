@@ -41,12 +41,27 @@ sonClass.init(name: &amp;quot;a&amp;quot;)
     }
 }
 class sonClass:baseClass{
+    var levelStr:String
     override init(name: String) {
-        super.init(name: name.appending(&amp;quot;b&amp;quot;))
+        self.levelStr = name.appending(&amp;quot;b&amp;quot;)
+        super.init(name: name)
     }
 }
+
 var son =  sonClass.init(name: &amp;quot;a&amp;quot;)
 son.baseName
+son.levelStr
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;// &lt;strong&gt;防止重写&lt;/strong&gt;   使用 final 关键字防止它们被重写&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; //final 关键字
+ final class grandSon:sonClass{
+     final var grand:String = &amp;quot;&amp;quot;
+     override init(name: String) {
+         super.init(name: name)
+     }
+ }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
