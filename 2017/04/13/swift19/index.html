@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>swift3-18 继承 - Fly With Me</title>
+  <title>swift3-19 多态性 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来">
+<meta name="description" content="多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="swift3-18 继承 - Fly With Me">
-<meta itemprop="description" content="继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来">
+<meta itemprop="name" content="swift3-19 多态性 - Fly With Me">
+<meta itemprop="description" content="多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="swift3-18 继承 - Fly With Me" />
+<meta property="og:title" content="swift3-19 多态性 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2017/04/01/swift18/" />
+<meta property="og:url" content="http://blog.flywithme.top/2017/04/13/swift19/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来">
+<meta property="og:description" content="多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="swift3-18 继承 - Fly With Me">
-<meta name="twitter:description" content="继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来">
+<meta name="twitter:title" content="swift3-19 多态性 - Fly With Me">
+<meta name="twitter:description" content="多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2017/04/01/swift18/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2017/04/01/swift18/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2017/04/13/swift19/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2017/04/13/swift19/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">swift3-18 继承</h1>
+                  <h1 class="post-title">swift3-19 多态性</h1>
 
                   <p class="post-byline">
-                    by  · 2017年04月01日 · 340 Words ·
+                    by  · 2017年04月13日 · 214 Words ·
                     ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-04-01-swift18.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-04-13-swift19.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -197,54 +197,68 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <p><strong>继承</strong>：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)，
-我们也可以为类中继承来的属性添加属性观察器</p>
+                      <p><strong>多态性</strong> 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为</p>
 
-<p><strong>基类</strong> 没有继承其它类的类，称之为基类（Base Class）</p>
+<ul>
+<li>使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引用调用相同方法而产生不同的行为。</li>
+<li>多态的条件：a,必须存在继承关系，b,子类对父类的方法进行重写</li>
+</ul>
 
-<p><strong>子类</strong> 子类指的是在一个已有类的基础上创建一个新的类。为了指明某个类的超类，将超类名写在子类名的后面，用冒号(:)分隔,语法格式如下</p>
-
-<pre><code>class baseClass{
-    var baseName:String
-    init(name:String) {
-        self.baseName = name
-    }
-}
-class sonClass:baseClass{
-}
-sonClass.init(name: &quot;a&quot;)
-</code></pre>
-
-<p><strong>重写（Overriding）</strong> 子类可以通过继承来的实例方法，类方法，实例属性，或下标脚本来实现自己的定制功能，我们把这种行为叫重写（overriding）。我们可以使用 override 关键字来实现重</p>
+<p>示例：</p>
 
 <pre><code>class baseClass{
-    var baseName:String
-    init(name:String) {
-        self.baseName = name
+    var name:String
+    var age:Int
+    init() {
+        self.name = &quot;&quot;
+        self.age = 0
+    }
+    init(name:String,age:Int) {
+        self.age = age
+        self.name = name
+    }
+    func testFunc() {
+        print(&quot;baseClass&quot;)
     }
 }
-class sonClass:baseClass{
-    var levelStr:String
-    override init(name: String) {
-        self.levelStr = name.appending(&quot;b&quot;)
-        super.init(name: name)
+
+class sonClass1:baseClass{
+    var str1:String = &quot;str1&quot;
+    //重载
+    override func testFunc() {
+        print(&quot;sonClass1&quot;)
     }
 }
 
-var son =  sonClass.init(name: &quot;a&quot;)
-son.baseName
-son.levelStr
-</code></pre>
+class sonClass2:baseClass{
+    var str1:String = &quot;str1&quot;
+    override func testFunc() {
+        print(&quot;sonClass2&quot;)
+    }
+}
 
-<p>// <strong>防止重写</strong>   使用 final 关键字防止它们被重写</p>
 
-<pre><code> //final 关键字
- final class grandSon:sonClass{
-     final var grand:String = &quot;&quot;
-     override init(name: String) {
-         super.init(name: name)
-     }
- }
+final class grandSon1:sonClass1{
+    var strGrand:String = &quot;strGrand&quot;
+}
+final class grandSon01:sonClass1{
+    var strGrand:String = &quot;strGrand&quot;
+}
+
+final class grandSon02:sonClass2{
+    var strGrand:String = &quot;strGrand&quot;
+}
+
+func printBasicInfo(base:baseClass){
+    print(&quot;name is \(base.name)&quot;)
+}
+
+var grandson1 = grandSon01.init(name: &quot;a&quot;, age: 10)
+var grandson2 = grandSon02.init(name: &quot;b&quot;, age: 7)
+printBasicInfo(base: grandson1)
+printBasicInfo(base: grandson2)
+grandson1.testFunc()
+grandson2.testFunc()
 </code></pre>
 
                       
@@ -257,7 +271,7 @@ son.levelStr
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/04/01/swift18/">http://blog.flywithme.top/2017/04/01/swift18/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/04/13/swift19/">http://blog.flywithme.top/2017/04/13/swift19/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -310,7 +324,7 @@ son.levelStr
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2017/04/01/swift18/" data-title="swift3-18 继承" data-url="http://blog.flywithme.top/2017/04/01/swift18/"></div>
+<div class="ds-thread" data-thread-key="/2017/04/13/swift19/" data-title="swift3-19 多态性" data-url="http://blog.flywithme.top/2017/04/13/swift19/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -365,20 +379,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2017/03/31/swift17/" rel="next">
+        <a href="http://blog.flywithme.top/2017/04/01/swift18/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>swift3-17 单例</span>
+          <span>swift3-18 继承</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2017/04/13/swift19/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>swift3-19 多态性</span>
-        </a>
         
       </li>
     </ul>
