@@ -9,6 +9,26 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>swift3-21 析构过程</title>
+            <link>http://blog.flywithme.top/2017/04/13/swift21/</link>
+            <pubDate>Thu, 13 Apr 2017 17:19:53 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/04/13/swift21/</guid>
+            <description>&lt;p&gt;在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;析构过程原理&lt;/strong&gt; Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的
+ 时候可能就需要额外的清理了。比如打开另一个文件写入数据，就需要在实例被释放前关闭该文件。&lt;/p&gt;
+
+&lt;p&gt;语法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;deinit{
+   //执行析构过程
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
             <title>swift3-20 构造过程</title>
             <link>http://blog.flywithme.top/2017/04/13/swift20/</link>
             <pubDate>Thu, 13 Apr 2017 16:24:52 CST</pubDate>
@@ -1710,176 +1730,6 @@ var arr002:NSArray = [1, 2, &amp;quot;hello&#39;&amp;quot;]
 
 &lt;pre&gt;&lt;code&gt;var arr0001 = arr1[5] as! Array&amp;lt;String&amp;gt;
 arr0001[1] 
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Swift3-06 可选型 Optionals</title>
-            <link>http://blog.flywithme.top/2017/02/20/swift06/</link>
-            <pubDate>Mon, 20 Feb 2017 15:22:44 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/20/swift06/</guid>
-            <description>&lt;p&gt;画重点!
-Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候
-是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。&lt;/p&gt;
-
-&lt;p&gt;可选型不是表示 可以表示任意类型,而是可以表示一个指定数据类型 和 nil类型,&lt;/p&gt;
-
-&lt;p&gt;错误代码示范&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var name: String = &amp;quot;loveway&amp;quot;
-name = nil //报错 error: Nil cannot be assigned to type &#39;String&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Optionals的声明&lt;/strong&gt; &lt;code&gt;var optionalInteger: Int? , var optionalInteger: Optional&amp;lt;Int&amp;gt;&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var name: String? = &amp;quot;loveway&amp;quot;
-print(name!)
-name = nil
-print(name as Any)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;可选型的解包&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot;
-print(name!)
-name = nil
-print(name as Any )
-name = &amp;quot;sam&amp;quot;
-//var string = &amp;quot;my name is &amp;quot; + name  //error 因为 ```name```是一个未解包的数据,不能直接使用。
-var string = &amp;quot;my name is &amp;quot; + name!  //强制解包
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;后面加一个 叹号 &lt;code&gt;!&lt;/code&gt; 可以强制解包 但是 name 有可能出现为 nil 的情况,这是有风险的。可能
-        会造成 app 崩溃。所以在使用之前需要对 &lt;code&gt;name&lt;/code&gt; 进行判空&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot;
-var age : Optional&amp;lt;Int&amp;gt; = 24
-
-if name != nil {
-    var string = &amp;quot;my name is &amp;quot; + name!
-}else{
-     &amp;quot;name is nil&amp;quot;
-}
-
-//或者
-if let unwrapName = name{ //自动解包 name 数据到 unwrapName
-    var string = &amp;quot;my name is &amp;quot; + unwrapName
-}else{
-          &amp;quot;name is nil&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;两个数据都解包成功之后才会进入判断方法中。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;if let unwrapName = name,let unwrapAge = age{
-    var string = &amp;quot;my name is &amp;quot; + unwrapName + &amp;quot;age is \(unwrapAge)&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;添加限制条件&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;if let unwrapName = name,let unwrapAge = age , unwrapAge &amp;gt; 20{
-    var string = &amp;quot;my name is &amp;quot; + unwrapName + &amp;quot;age is \(unwrapAge)&amp;quot;
-}
-
-if let name = name,let age = age , age &amp;gt; 20{
-    var string = &amp;quot;my name is &amp;quot; + name + &amp;quot;age is \(age)&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Optional Chaining&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var errorMsg:String? = nil
-print(errorMsg as Any)
-errorMsg = &amp;quot;404&amp;quot;
-//重点 尝试解包 ```?```
-errorMsg?.uppercased() //尝试解包,如果成功就调用方法,如果失败,就停止 
-
-//如果确认 ```errorMsg```有值,可以使用,否则很容易出错。 
-errorMsg!.uppercased() //强制解包,如果 ```errorMsg``` 是 nil 则会报错,这样写会不安全。
-
-var temp = errorMsg?.uppercased() //temp 依然是一个可选型
-
-var msg = errorMsg == nil ? &amp;quot;No error&amp;quot; : errorMsg!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Optional在元组中的使用&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var error :(errorCode: Int , errorMsg:String?) = (404, &amp;quot;Not found&amp;quot;)
-error.errorMsg = nil
-
-var error1 :(errorCode: Int , errorMsg:String)? = nil
-error1 = nil
-
-var error2 :(errorCode: Int , errorMsg:String?)? = nil
-error2?.errorMsg = nil
-error2 = nil
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Optional 的应用&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var ageInput:String = &amp;quot;ads&amp;quot;
-var age = Int(ageInput) //返回的 age 类型是可选型。
-if let age = Int(ageInput), age &amp;gt; 18{ //这里的 age 的类似又是什么呢? 
-    print(&amp;quot;成年了&amp;quot;)
-}
-
-
-var str = &amp;quot;hello world&amp;quot;
-var range =  str.range(of: &amp;quot;ll&amp;quot;)
-range?.lowerBound
-range?.upperBound
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;隐式可选型&lt;/strong&gt;  隐式可选型在使用的时候可以不进行解包直接使用。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var errorMsg:String! = nil
-errorMsg = &amp;quot;Not found&amp;quot;
-&amp;quot;messge &amp;quot; + errorMsg  //使用的时候必须保证 errorMsg 不为空,要不然程序会报错。
-
-
-
-
-class Student{
-    let name:String
-    var age:Int
-    var stdId:Int
-    unowned var aClass:Class //避免循环引用
-    init(name:String,age:Int,stdId:Int,aClass:Class){
-        self.name = name
-        self.age = age
-        self.stdId = stdId
-        self.aClass = aClass
-    }
-}
-
-class Class{
-    var className:String = &amp;quot;&amp;quot;
-    var classNum:Int = 0
-    var monitor:Student! //若不设置成可选型，则在下面初始化的时候回造成死循环
-
-    init(className:String, classNum:Int, monitorName:String) {
-        self.className = className;
-        self.classNum = classNum;
-        self.monitor = Student(name: monitorName, age: 18, stdId: 20, aClass: self)
-    }
-    func showInfo(){
-        print(&amp;quot;this is \(classNum)&amp;quot;)
-        print(&amp;quot;monitor is \(monitor.name)&amp;quot;)
-    }
-}
-
-let class001 = Class(className: &amp;quot;0101&amp;quot;, classNum: 1001, monitorName: &amp;quot;jack&amp;quot;)
-class001.monitor
-class001.showInfo()
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
