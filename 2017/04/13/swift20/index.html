@@ -186,8 +186,8 @@
                   <h1 class="post-title">swift3-20 构造过程</h1>
 
                   <p class="post-byline">
-                    by  · 2017年04月13日 · 388 Words ·
-                    ~1min reading time |
+                    by  · 2017年04月13日 · 669 Words ·
+                    ~2min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-04-13-swift20.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
@@ -306,6 +306,106 @@ let son = sonClass1.init(name: &quot;a&quot;, age: 2, str1: &quot;str&quot;)
     var name = &quot;&quot;
     var age = 0
 }
+</code></pre>
+
+<p><strong>required 构造函数</strong></p>
+
+<p>必须被子类实现的构造函数</p>
+
+<pre><code>class baseClass{
+    var name:String
+    var age:Int
+    var level:String?
+    init() {
+        self.name = &quot;&quot;
+        self.age = 0
+    }
+    //子类必须实现
+    required init(name:String,age:Int) {
+        self.age = age
+        self.name = name
+    }
+    func testFunc() {
+        print(&quot;baseClass&quot;)
+    }
+}
+
+class sonClass1:baseClass{
+    var str1:String
+
+    init(name:String, age:Int, str1:String){
+        //构造初值
+        self.str1 = str1
+        super.init(name: name, age: age)
+        //进一步完善
+        self.agefomat(age: age)
+
+    }
+    private final func agefomat(age:Int){
+        if age &lt;= 0 {
+            self.age = 1
+        }
+    }
+    //子类实现父类的required
+    required convenience init(name: String, age: Int) {
+        self.init(name: name, age: age, str1: &quot;&quot;)
+    }
+    //重载
+    override func testFunc() {
+        print(&quot;sonClass1&quot;)
+    }
+}
+let son = sonClass1.init(name: &quot;a&quot;, age: 2, str1: &quot;str&quot;)
+son.name
+son.age
+son.level
+</code></pre>
+
+<p><strong>构造函数的继承</strong></p>
+
+<pre><code>class baseClass{
+    var name:String
+    var age:Int
+    var level:String?
+    init() {
+        self.name = &quot;&quot;
+        self.age = 0
+    }
+    init(name:String,age:Int) {
+        self.age = age
+        self.name = name
+    }
+    func testFunc() {
+        print(&quot;baseClass&quot;)
+    }
+}
+
+class sonClass1:baseClass{
+    var str1:String
+
+    init(name:String, age:Int, str1:String){
+        //构造初值
+        self.str1 = str1
+        super.init(name: name, age: age)
+        //进一步完善
+        self.agefomat(age: age)
+
+    }
+    final func agefomat(age:Int){
+        if age &lt;= 0 {
+            self.age = 1
+        }
+    }
+   //构造函数的继承
+    override convenience init(name: String, age: Int) {
+        self.init(name: name, age: age, str1: &quot;&quot;)
+    }
+    //重载
+    override func testFunc() {
+        print(&quot;sonClass1&quot;)
+    }
+}
+let son = sonClass1.init(name: &quot;a&quot;, age: 2, str1: &quot;str&quot;)    
 </code></pre>
 
                       
