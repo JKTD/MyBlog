@@ -186,7 +186,7 @@
                   <h1 class="post-title">swift3-21 析构过程</h1>
 
                   <p class="post-byline">
-                    by  · 2017年04月13日 · 125 Words ·
+                    by  · 2017年04月13日 · 210 Words ·
                     ~1min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-04-13-swift21.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -202,11 +202,29 @@
 <p><strong>析构过程原理</strong> Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的
  时候可能就需要额外的清理了。比如打开另一个文件写入数据，就需要在实例被释放前关闭该文件。</p>
 
-<p>语法</p>
+<p><strong>语法</strong>：在类的定义中，每个类最多只有一个析构函数，析构函数不带任何参数，不带括号</p>
 
 <pre><code>deinit{
    //执行析构过程
 }
+</code></pre>
+
+<p>示例：<code>deinit</code>的调用时机</p>
+
+<pre><code>var counter = 0;  
+class BaseClass {
+    init() {
+        counter += 1;
+    }
+    deinit {
+        counter -= 1;
+    }
+}
+
+var show: BaseClass? = BaseClass()
+print(counter) // 1
+show = nil  
+print(counter) // 0
 </code></pre>
 
                       
@@ -335,6 +353,12 @@ var duoshuoQuery = {short_name:"brasbug"};
         
       </li>
       <li class="previous">
+        
+        <a href="http://blog.flywithme.top/2017/04/17/swift22/" rel="prev">
+          <i class="fa fa-chevron-left"></i>
+          <strong>Previous Post</strong>
+          <span>swift3-22</span>
+        </a>
         
       </li>
     </ul>
