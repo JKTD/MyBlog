@@ -9,6 +9,38 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>大文件分片上传解决方案</title>
+            <link>http://blog.flywithme.top/2017/08/03/bigFileUpload/</link>
+            <pubDate>Thu, 03 Aug 2017 13:44:56 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/08/03/bigFileUpload/</guid>
+            <description>&lt;p&gt;需求背景：上传视频的功能。云服务对上传文件大小有限制。每片需小于6M所以需要对大的视频文件，分片之后再上传。&lt;/p&gt;
+
+&lt;p&gt;技术方案:
+    1. 获取视频文件的md5值，计算视频文件的分片模型（不要把视频数据流读取出来，以免造成内存溢出）。
+    2. 多线程异步上传，创建上传的管理池，保持池子里有5（看具体环境和需求）个以内的上传task。每当池子内有一个task完成之后，就创建一个新的 task传输下一片视频分片文件。
+    3. 在全部分片上传完之后，美团云会对视频分片进行合并。合并之后会比对md5值，若一致，则表示上传成功，不一致则表示上传失败。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/bigFileUpload/bigfile001.jpg&#34; alt=&#34;bigfile001&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式&lt;br /&gt;
+   模型组里可以保存每一个分片的md5值，用于分片的上传状态。&lt;br /&gt;
+   管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>swift3-22</title>
+            <link>http://blog.flywithme.top/2017/04/17/swift22/</link>
+            <pubDate>Mon, 17 Apr 2017 10:48:35 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/04/17/swift22/</guid>
+            <description></description>
+        </item>
+        
+        <item>
             <title>swift3-21 析构过程</title>
             <link>http://blog.flywithme.top/2017/04/13/swift21/</link>
             <pubDate>Thu, 13 Apr 2017 17:19:53 CST</pubDate>
@@ -19,11 +51,29 @@
 &lt;p&gt;&lt;strong&gt;析构过程原理&lt;/strong&gt; Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的
  时候可能就需要额外的清理了。比如打开另一个文件写入数据，就需要在实例被释放前关闭该文件。&lt;/p&gt;
 
-&lt;p&gt;语法&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;语法&lt;/strong&gt;：在类的定义中，每个类最多只有一个析构函数，析构函数不带任何参数，不带括号&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;deinit{
    //执行析构过程
 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;示例：&lt;code&gt;deinit&lt;/code&gt;的调用时机&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var counter = 0;  
+class BaseClass {
+    init() {
+        counter += 1;
+    }
+    deinit {
+        counter -= 1;
+    }
+}
+
+var show: BaseClass? = BaseClass()
+print(counter) // 1
+show = nil  
+print(counter) // 0
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
@@ -143,6 +193,106 @@ let son = sonClass1.init(name: &amp;quot;a&amp;quot;, age: 2, str1: &amp;quot;st
     var name = &amp;quot;&amp;quot;
     var age = 0
 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;required 构造函数&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;必须被子类实现的构造函数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class baseClass{
+    var name:String
+    var age:Int
+    var level:String?
+    init() {
+        self.name = &amp;quot;&amp;quot;
+        self.age = 0
+    }
+    //子类必须实现
+    required init(name:String,age:Int) {
+        self.age = age
+        self.name = name
+    }
+    func testFunc() {
+        print(&amp;quot;baseClass&amp;quot;)
+    }
+}
+
+class sonClass1:baseClass{
+    var str1:String
+
+    init(name:String, age:Int, str1:String){
+        //构造初值
+        self.str1 = str1
+        super.init(name: name, age: age)
+        //进一步完善
+        self.agefomat(age: age)
+
+    }
+    private final func agefomat(age:Int){
+        if age &amp;lt;= 0 {
+            self.age = 1
+        }
+    }
+    //子类实现父类的required
+    required convenience init(name: String, age: Int) {
+        self.init(name: name, age: age, str1: &amp;quot;&amp;quot;)
+    }
+    //重载
+    override func testFunc() {
+        print(&amp;quot;sonClass1&amp;quot;)
+    }
+}
+let son = sonClass1.init(name: &amp;quot;a&amp;quot;, age: 2, str1: &amp;quot;str&amp;quot;)
+son.name
+son.age
+son.level
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;构造函数的继承&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class baseClass{
+    var name:String
+    var age:Int
+    var level:String?
+    init() {
+        self.name = &amp;quot;&amp;quot;
+        self.age = 0
+    }
+    init(name:String,age:Int) {
+        self.age = age
+        self.name = name
+    }
+    func testFunc() {
+        print(&amp;quot;baseClass&amp;quot;)
+    }
+}
+
+class sonClass1:baseClass{
+    var str1:String
+
+    init(name:String, age:Int, str1:String){
+        //构造初值
+        self.str1 = str1
+        super.init(name: name, age: age)
+        //进一步完善
+        self.agefomat(age: age)
+
+    }
+    final func agefomat(age:Int){
+        if age &amp;lt;= 0 {
+            self.age = 1
+        }
+    }
+   //构造函数的继承
+    override convenience init(name: String, age: Int) {
+        self.init(name: name, age: age, str1: &amp;quot;&amp;quot;)
+    }
+    //重载
+    override func testFunc() {
+        print(&amp;quot;sonClass1&amp;quot;)
+    }
+}
+let son = sonClass1.init(name: &amp;quot;a&amp;quot;, age: 2, str1: &amp;quot;str&amp;quot;)    
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
@@ -1508,228 +1658,6 @@ setA.isStrictSuperset(of: setB)
 &lt;/blockquote&gt;
 
 &lt;pre&gt;&lt;code&gt;setA.isDisjoint(with: setB)
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Swift3-08 字典</title>
-            <link>http://blog.flywithme.top/2017/02/22/swift08/</link>
-            <pubDate>Wed, 22 Feb 2017 14:12:36 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/22/swift08/</guid>
-            <description>&lt;blockquote&gt;
-&lt;p&gt;字典是存储 键-值 数据对的无序数据集合&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;strong&gt;基本方法&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;]
-    dic[&amp;quot;key&amp;quot;]
-var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型
-    value = dic[&amp;quot;daaaa&amp;quot;]
-
-    dict.isEmpty
-    dict.count  
-
-if let value = dic[&amp;quot;key&amp;quot;]{
-    print(value)
- }    
-
-var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2]
-    dict[&amp;quot;1&amp;quot;]
-
-
-
-var dict01:[Int:Int] = [1:1,2:2]
-    dict01[1]
-
-var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;]
-    dict02[1]    
-
-//遍历   
-for (key, value) in dict{
-        print(key,value)
-}   
-
-//比较
-var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;]
-dic[&amp;quot;key&amp;quot;]
-var dic2 = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;]
-dic2[&amp;quot;key&amp;quot;]dict == dict01
-dic == dic2  //true  如果 元素类型不同,比较会抛错
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;增删改查&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;]
-//查
-dic[&amp;quot;key&amp;quot;]
-
-//修改
-dic[&amp;quot;key&amp;quot;]= &amp;quot;a&amp;quot;
-//增加
-dic[&amp;quot;c&amp;quot;] = &amp;quot;c&amp;quot; //若之前没有响应的 Key 则会添加
-dic.updateValue(&amp;quot;d&amp;quot;, forKey: &amp;quot;d&amp;quot;)
-
-//删除    
-dic.removeValue(forKey: &amp;quot;key&amp;quot;)
-if let key = dic.removeValue(forKey: &amp;quot;key&amp;quot;){
-    print(&amp;quot;删除成功&amp;quot;)
-}
-
-//删除所有
-dic.removeAll()
-
-
-var str =  dic.updateValue(&amp;quot;value&amp;quot;, forKey: &amp;quot;key&amp;quot;) //返回值是原始值 str 的值是 &amp;quot;a&amp;quot;
-
-//问题
- if  dic.updateValue(&amp;quot;jack01&amp;quot;, forKey: &amp;quot;nick&amp;quot;) == dic[&amp;quot;nick&amp;quot;] {
-        print(&amp;quot;新旧昵称一样&amp;quot;)  //会不会打印出来?
- }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Swift3-07 数组</title>
-            <link>http://blog.flywithme.top/2017/02/21/swift07/</link>
-            <pubDate>Tue, 21 Feb 2017 15:38:45 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/21/swift07/</guid>
-            <description>&lt;blockquote&gt;
-&lt;p&gt;数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: &lt;code&gt;Array Dictionary set&lt;/code&gt;
-数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;strong&gt;初始化方式&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var numbers = [0,1,2,3] 
-var num:[Int] = [0,1,2] //只能是 Int 类型
-var arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] //只能是 字符串
-var arr1:[Any] = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1,num,arr] //里面的元素可以为任意类型
-
-var arr0: Array&amp;lt;String&amp;gt; = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]
-var arr01 = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1] as [Any]
-
-//空数组的声明方式
-var emptyArr1:[Int] = []
-var emptyArr2:Array&amp;lt;Int&amp;gt; = []
-var emptyArr3 = [Int]()
-
-//重复数组初始化
-var allzZeros = [String](repeatElement(&amp;quot;a&amp;quot;, count: 4))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;基本方法&lt;/strong&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;数组的基本查询 属性方法 &lt;code&gt;count ,isEmpty, first, last, max, min, [], contains, index, for in enumerated, compare&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;var arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;]
-
-arr.count //判断数组长度
-arr.isEmpty //判空
-
-arr[1]     //索引数组中第二个元素
-
-//取值
-arr.first
-arr.last
-var fistElement =  arr.first  // 返回的是一个可选型。
-
-//最大最小
-arr.max()
-arr.min()
-
-//区间
-arr[0...2]
-arr[0..&amp;lt;2]
-
-//判断是否包含
-arr.contains(&amp;quot;c&amp;quot;)
-
-//获取位置
-arr.index(of: &amp;quot;b&amp;quot;)
-arr.index(of: &amp;quot;add23&amp;quot;)
-
-//遍历
-for str in arr{
-    print(str)
-}
-
-for (index, str ) in arr.enumerated(){
-    print(index, str)
-}
-
-//数组比较
-var arr1 = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;]
-arr == arr1  //数组比较。。 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;数组的&lt;strong&gt;增删改&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;var arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;]
-
-//增加元素
-arr.append(&amp;quot;d&amp;quot;)
-arr += [&amp;quot;a&amp;quot;]  // 后面必须跟同数据类型的数组
-arr.insert(&amp;quot;x&amp;quot;, at: 2)  //在某一个位置添加,注意越界问题
-
-//删除元素
-arr.removeFirst(2) //删除数组首2个元素
-arr.removeLast(3) //删除数组尾部3个元素
-arr.remove(at: 2)  //删除第二个元素
-arr.removeSubrange(0...1)
-arr.removeSubrange(0..&amp;lt;2)
-//arr.removeAll()
-
-//修改元素  
-arr[0] = &amp;quot;hello&amp;quot; 修改第一个元素 为 &amp;quot;hello&amp;quot;
-arr[0...2] = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] //修改区间中的元素为新元素 
-arr[0...2] = [&amp;quot;a&amp;quot;] //修改区间中的元素为新元素 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;二维数组&lt;/strong&gt;  其实就是一维数组中的元素都是一维数组。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var arr:[Array&amp;lt;String&amp;gt;] = [[&amp;quot;a&amp;quot;],[&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;]] //元素必须都是 String
-var arrtemp = arr[0]  
-var str = arr[0][0]  
-var arr01:[Array&amp;lt;Any&amp;gt;] = [[&amp;quot;a&amp;quot;],[&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;],[1,2,3]] //任意元素,使用时需要谨慎。经常会有各种解包问题
-var int = arr01[2][1] as! Int
-
-arr.append([&amp;quot;d&amp;quot;,&amp;quot;e&amp;quot;]) //在二维数组的尾部添加新的数组元素
-arr[0].append(&amp;quot;b&amp;quot;) //给二维数组的第一个数组元素 添加一个String
-
-arr += [[&amp;quot;b&amp;quot;,&amp;quot;d&amp;quot;]]   //+的也需要是二维数组
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;NSArray&lt;/strong&gt; NSArray 和 Array 的区别就是 NSArray 是一个类,而 Array 是一个结构&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var arr000 = [1, 2, 3, 4] as NSArray
-var arr001:NSArray = [&amp;quot;a&amp;quot;]
-var arr002:NSArray = [1, 2, &amp;quot;hello&#39;&amp;quot;]  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;遗留问题&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; var arr000 = [1, 2, 3, 4]
- var arr001 = [&amp;quot;a&amp;quot;]
- var arr002 = [[1],[2],[3],[&amp;quot;a&amp;quot;],arr000] as [Any]
-
- //如何在 arr002 中获取第五个元素,然后解包这个元素。
- var arr = arr002[4]   //对 arr的解包,如何顺利进行。
- //arr[0]  //error
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;//问题解决&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var arr0001 = arr1[5] as! Array&amp;lt;String&amp;gt;
-arr0001[1] 
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
