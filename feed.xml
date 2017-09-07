@@ -14,14 +14,22 @@
             <pubDate>Thu, 03 Aug 2017 13:44:56 CST</pubDate>
             <author>Brasbug</author>
             <guid>http://blog.flywithme.top/2017/08/03/bigFileUpload/</guid>
-            <description>&lt;p&gt;需求背景：上传视频的功能。云服务对上传文件大小有限制。每片需小于6M所以需要对大的视频文件，分片之后再上传。&lt;/p&gt;
+            <description>&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数&lt;/p&gt;&lt;/li&gt;
 
-&lt;p&gt;技术方案:
-    1. 获取视频文件的md5值，计算视频文件的分片模型（不要把视频数据流读取出来，以免造成内存溢出）。
-    2. 多线程异步上传，创建上传的管理池，保持池子里有5（看具体环境和需求）个以内的上传task。每当池子内有一个task完成之后，就创建一个新的 task传输下一片视频分片文件。
-    3. 在全部分片上传完之后，美团云会对视频分片进行合并。合并之后会比对md5值，若一致，则表示上传成功，不一致则表示上传失败。&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;md5: 获取文件的md5值&lt;/p&gt;&lt;/li&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/bigFileUpload/bigfile001.jpg&#34; alt=&#34;bigfile001&#34; /&gt;&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;文件管理工具：文件路径， 分析文件内容，生成数据。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;上传任务池中会保持小于等于3个的请求任务
+ 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。
+ 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中
+ 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/bigFileUpload/bigfile001.png&#34; alt=&#34;bigfile001&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式&lt;br /&gt;

@@ -17,25 +17,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="需求背景：上传视频的功能。云服务对上传文件大小有限制。每片需小于6M所以需要对大的视频文件，分片之后再上传。 技术方案: 1. 获取视频文件的md5">
+<meta name="description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
 <meta itemprop="name" content="大文件分片上传解决方案 - Fly With Me">
-<meta itemprop="description" content="需求背景：上传视频的功能。云服务对上传文件大小有限制。每片需小于6M所以需要对大的视频文件，分片之后再上传。 技术方案: 1. 获取视频文件的md5">
+<meta itemprop="description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
 <meta property="og:title" content="大文件分片上传解决方案 - Fly With Me" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://blog.flywithme.top/2017/08/03/bigFileUpload/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="需求背景：上传视频的功能。云服务对上传文件大小有限制。每片需小于6M所以需要对大的视频文件，分片之后再上传。 技术方案: 1. 获取视频文件的md5">
+<meta property="og:description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
 <meta name="twitter:title" content="大文件分片上传解决方案 - Fly With Me">
-<meta name="twitter:description" content="需求背景：上传视频的功能。云服务对上传文件大小有限制。每片需小于6M所以需要对大的视频文件，分片之后再上传。 技术方案: 1. 获取视频文件的md5">
+<meta name="twitter:description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
@@ -186,7 +186,7 @@
                   <h1 class="post-title">大文件分片上传解决方案</h1>
 
                   <p class="post-byline">
-                    by  · 2017年08月03日 · 356 Words ·
+                    by  · 2017年08月03日 · 320 Words ·
                     ~1min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-08-03-bigFileUpload.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -197,14 +197,22 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <p>需求背景：上传视频的功能。云服务对上传文件大小有限制。每片需小于6M所以需要对大的视频文件，分片之后再上传。</p>
+                      <ul>
+<li><p>分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数</p></li>
 
-<p>技术方案:
-    1. 获取视频文件的md5值，计算视频文件的分片模型（不要把视频数据流读取出来，以免造成内存溢出）。
-    2. 多线程异步上传，创建上传的管理池，保持池子里有5（看具体环境和需求）个以内的上传task。每当池子内有一个task完成之后，就创建一个新的 task传输下一片视频分片文件。
-    3. 在全部分片上传完之后，美团云会对视频分片进行合并。合并之后会比对md5值，若一致，则表示上传成功，不一致则表示上传失败。</p>
+<li><p>md5: 获取文件的md5值</p></li>
 
-<p><img src="http://blog.flywithme.top/sources/bigFileUpload/bigfile001.jpg" alt="bigfile001" /></p>
+<li><p>文件管理工具：文件路径， 分析文件内容，生成数据。</p></li>
+</ul>
+
+<blockquote>
+<p>上传任务池中会保持小于等于3个的请求任务
+ 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。
+ 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中
+ 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)</p>
+</blockquote>
+
+<p><img src="http://blog.flywithme.top/sources/bigFileUpload/bigfile001.png" alt="bigfile001" /></p>
 
 <blockquote>
 <p>文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式<br />
