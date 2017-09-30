@@ -6,7 +6,152 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Thu, 03 Aug 2017 13:44:56 CST</updated>
+        <updated>Sat, 30 Sep 2017 14:58:00 CST</updated>
+        
+        <item>
+            <title>iOS11 ScrollView 页面下移问题</title>
+            <link>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt</link>
+            <pubDate>Sat, 30 Sep 2017 14:58:00 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt</guid>
+            <description>&lt;nav&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#一-ios-11下app中tableview内容下移20pt或下移64pt的原因分析&#34;&gt;一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#二-adjustcontentinset属性的计算方式&#34;&gt;二、 adjustContentInset属性的计算方式&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#三-什么情况下的tableview会发生上述问题&#34;&gt;三、什么情况下的tableView会发生上述问题&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#四-这个问题的解决方法有哪些&#34;&gt;四、这个问题的解决方法有哪些？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#五-遇到的另外一个与安全区域无关的tableview内容下移的问题&#34;&gt;五、遇到的另外一个与安全区域无关的tableView内容下移的问题&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;p&gt;&lt;strong&gt;scorllView contentOffset变动问题&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h6 id=&#34;一-ios-11下app中tableview内容下移20pt或下移64pt的原因分析&#34;&gt;一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析&lt;/h6&gt;
+
+&lt;p&gt;问题如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/scrollview/92.png&#34; alt=&#34;sss&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;1. 原因分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;原因是iOS 11中&lt;code&gt;UIViweController&lt;/code&gt;的&lt;code&gt;automaticallyAdjustsScrollViewInsets&lt;/code&gt;属性被废弃了，所以当&lt;code&gt;scrollView&lt;/code&gt;超出安全区域时系统自动调整了&lt;code&gt;SafeAreaInsets&lt;/code&gt;值，进而影响&lt;code&gt;adjustedContentInset&lt;/code&gt;值，&lt;br /&gt;
+在iOS 11中决定tableView的内容与边缘距离的是&lt;code&gt;adjustedContentInset&lt;/code&gt;属性，而不是&lt;code&gt;contentInset&lt;/code&gt;。&lt;code&gt;adjustedContentInset&lt;/code&gt;的计算方式见本文第二部分内容。因为系统对&lt;code&gt;adjustedContentInset&lt;/code&gt;值进行了调整，所以导致&lt;code&gt;tableView&lt;/code&gt;的内容到边缘的距离发生了变化，导致&lt;code&gt;tableView&lt;/code&gt;下移了20pt（statusbar高度）或64pt（navigationbar高度）。&lt;/p&gt;
+
+&lt;p&gt;如果你的APP中使用的是自定义的navigationbar，隐藏掉系统的navigationbar，并且tableView的frame为(0,0,SCREEN_WIDTH, SCREEN_HEIGHT)开始，那么系统会自动调整SafeAreaInsets值为(20,0,0,0)，如果使用了系统的navigationbar，那么SafeAreaInsets值为(64,0,0,0)，如果也使用了系统的tabbar，那么SafeAreaInsets值为(64,0,49,0)。关于什么情况下会发生内容下移的问题，本文第三部分有介绍。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2. 安全区域的概念&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/scrollview/32.png&#34; alt=&#34;sssa&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。
+安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用&lt;code&gt;additionalSafeAreaInsets&lt;/code&gt;去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;safeAreaInsets&lt;/code&gt;属性反映了一个view距离该view的安全区域的边距。对于一个Controller的根视图而言，&lt;code&gt;SafeAreaInsets&lt;/code&gt;值包括了被&lt;code&gt;statusbar&lt;/code&gt;和其他可视的bars覆盖的区域和其他通过&lt;code&gt;additionalSafeAreaInsets&lt;/code&gt;自定义的insets值。对于view层次中得其他view，SafeAreaInsets值反映了view被覆盖的部分。如果一个view全部在它父视图的安全区域内，则SafeAreaInsets值为(0,0,0,0)。&lt;/p&gt;
+
+&lt;h6 id=&#34;二-adjustcontentinset属性的计算方式&#34;&gt;二、 adjustContentInset属性的计算方式&lt;/h6&gt;
+
+&lt;p&gt;首先看scrollView在iOS11新增的两个属性：adjustContentInset 和 contentInsetAdjustmentBehavior。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/* Configure the behavior of adjustedContentInset.
+Default is UIScrollViewContentInsetAdjustmentAutomatic.
+*/
+@property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior
+adjustContentInset表示contentView.frame.origin偏移了scrollview.frame.origin多少；是系统计算得来的，计算方式由contentInsetAdjustmentBehavior决定。有以下几种计算方式：
+
+UIScrollViewContentInsetAdjustmentAutomatic：如果scrollview在一个automaticallyAdjustsScrollViewInsets = YES的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top &amp;amp; bottom上 adjustedContentInset = safeAreaInset + contentInset不管是否滚动。其他情况下与UIScrollViewContentInsetAdjustmentScrollableAxes相同
+
+UIScrollViewContentInsetAdjustmentScrollableAxes: 在可滚动方向上adjustedContentInset = safeAreaInset + contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset + contentInset
+
+UIScrollViewContentInsetAdjustmentNever: adjustedContentInset = contentInset
+
+UIScrollViewContentInsetAdjustmentAlways: adjustedContentInset = safeAreaInset + contentInset
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当&lt;code&gt;contentInsetAdjustmentBehavior&lt;/code&gt;设置为&lt;code&gt;UIScrollViewContentInsetAdjustmentNever&lt;/code&gt;的时候，&lt;code&gt;adjustContentInset&lt;/code&gt;值不受&lt;code&gt;SafeAreaInset&lt;/code&gt;值的影响。&lt;/p&gt;
+
+&lt;h6 id=&#34;三-什么情况下的tableview会发生上述问题&#34;&gt;三、什么情况下的tableView会发生上述问题&lt;/h6&gt;
+
+&lt;p&gt;如果设置了automaticallyAdjustsScrollViewInsets = YES，那么不会发生问题，一直都是由系统来调整内容的偏移量。&lt;/p&gt;
+
+&lt;p&gt;接下来排查下自己的项目中哪些页面会发生以上问题。&lt;/p&gt;
+
+&lt;p&gt;当tableView的frame超出安全区域范围时，系统会自动调整内容的位置，SafeAreaInsets值会不为0，于是影响tableView的adjustContentInset值，于是影响tableView的内容展示，导致tableView的content下移了SafeAreaInsets的距离。SafeAreaInsets值为0时，是正常的情况。&lt;/p&gt;
+
+&lt;p&gt;需要了解每个页面的结构，看tableView是否被系统的statusbar或navigationbar覆盖，如果被覆盖的话，则会发生下移。也可以通过tableview.safeAreaInsets的值来确认是因为安全区域的问题导致的内容下移。&lt;/p&gt;
+
+&lt;p&gt;如下代码片段，可以看出系统对tableView向下调整了20pt的距离，因为tableView超出了安全区域范围，被statusbar覆盖。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;tableview.contentInset: {64, 0, 60, 0}
+tableview.safeAreaInsets: {20, 0, 0, 0}
+tableview.adjustedContentInset: {84, 0, 60, 0}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;四-这个问题的解决方法有哪些&#34;&gt;四、这个问题的解决方法有哪些？&lt;/h6&gt;
+
+&lt;ol&gt;
+&lt;li&gt;重新设置tableView的contentInset值，来抵消掉SafeAreaInset值，因为内容下移偏移量 = contentInset + SafeAreaInset；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;如果之前自己设置了contentInset值为(64,0,0,0),现在系统又设置了SafeAreaInsets值为(64,0,0,0)，那么tableView内容下移了64pt，这种情况下，可以设置contentInset值为(0,0,0,0)，也就是遵从系统的设置了。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;设置tableView的contentInsetAdjustmentBehavior属性&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;如果不需要系统为你设置边缘距离，可以做以下设置：&lt;/p&gt;
+
+&lt;p&gt;//如果iOS的系统是11.0，会有这样一个宏定义“#define __IPHONE_11_0  110000”；如果系统版本低于11.0则没有这个宏定义&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#ifdef __IPHONE_11_0   
+if ([tableView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)]) {
+    tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+}
+#endif
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;contentInsetAdjustmentBehavior&lt;/code&gt;属性也是用来取代&lt;code&gt;automaticallyAdjustsScrollViewInsets&lt;/code&gt;属性的，推荐使用这种方式。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;通过设置iOS 11新增的属性addtionalSafeAreaInset；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;iOS 11之前，大家是通过将Controller的&lt;code&gt;automaticallyAdjustsScrollViewInsets&lt;/code&gt;属性设置为NO，来禁止系统对tableView调整contentInsets的。如果还是想从Controller级别解决问题，
+那么可以通过设置Controller的additionalSafeAreaInsets属性，如果SafeAreaInset值为(20,0,0,0)，那么设置additionalSafeAreaInsets属性值为(-20,0,0,0)，则SafeAreaInsets不会对adjustedContentInset值产生影响，
+tableView内容不会显示异常。这里需要注意的是addtionalSafeAreaInset是Controller的属性，要知道SafeAreaInset的值是由哪个Controller引起的，可能是由自己的Controller调整的，可能是navigationController调整的。是由哪个Controller调整的，则设置哪个Controller的addtionalSafeAreaInset值来抵消掉SafeAreaInset值。&lt;/p&gt;
+
+&lt;h6 id=&#34;五-遇到的另外一个与安全区域无关的tableview内容下移的问题&#34;&gt;五、遇到的另外一个与安全区域无关的tableView内容下移的问题&lt;/h6&gt;
+
+&lt;p&gt;我的作品页面的tableView下移了约40pt，这里是否跟安全区域有关呢？&lt;/p&gt;
+
+&lt;p&gt;查了下页面结构，tableView的父视图的frame在navigationbar的bottom之下，tableView在父视图的安全区域内，打印出来tableView的SafeAreaInset值也是(0，0，0，0);所以不是安全区域导致的内容下移。&lt;/p&gt;
+
+&lt;p&gt;经过查看代码，发现tableView的style:UITableViewStyleGrouped类型，默认tableView开头和结尾是有间距的，不需要这个间距的话，可以通过实现heightForHeaderInSection方法（返回一个较小值：0.1）和viewForHeaderInSection（返回一个view）来去除头部的留白，底部同理。&lt;/p&gt;
+
+&lt;p&gt;iOS 11上发生tableView顶部有留白，原因是代码中只实现了heightForHeaderInSection方法，而没有实现viewForHeaderInSection方法。那样写是不规范的，只实现高度，而没有实现view，但代码这样写在iOS 11之前是没有问题的，iOS 11之后应该是由于开启了估算行高机制引起了bug。添加上viewForHeaderInSection方法后，问题就解决了。或者添加以下代码关闭估算行高，问题也得到解决。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;self.tableView.estimatedRowHeight = 0;
+self.tableView.estimatedSectionHeaderHeight = 0;
+self.tableView.estimatedSectionFooterHeight = 0;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>大文件分片上传解决方案</title>
@@ -1542,131 +1687,6 @@ for str in setA{
 &lt;blockquote&gt;
 &lt;p&gt;还有很多没有涉及到的方法。这些方法需要我们在开发的过程中,慢慢学习了。&lt;/p&gt;
 &lt;/blockquote&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Swift3-09 集合</title>
-            <link>http://blog.flywithme.top/2017/02/22/swift09/</link>
-            <pubDate>Wed, 22 Feb 2017 15:18:43 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/22/swift09/</guid>
-            <description>&lt;blockquote&gt;
-&lt;p&gt;将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集&lt;br /&gt;
-   为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。
-   &lt;strong&gt;集合中的每一个元素都是唯一的&lt;/strong&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;strong&gt;基本方法&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//集合的初始化
-var arr = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //如果不显式的声明,则默认是数组
-var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;]  //必须显式声明才行
-
-var emptySet1:Set&amp;lt;String&amp;gt; = []
-var emptySet2 = Set&amp;lt;Int&amp;gt;()
-
-var setB = Set([&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;c&amp;quot;]) //将一个数组转换成集合 
-
-
-setA.count
-setA.isEmpty
-setA.first //随机的取出一个元素
-
-setA.contains(&amp;quot;a&amp;quot;) //判断是否有这个元素
-//遍历    
-for str in setA{
-    print(str)
-}
-
-var str = setA.joined(separator: &amp;quot;d&amp;quot;)
-
-//比较
-setA == setB
-setA.elementsEqual(setB)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;集合的操作&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;]  
-//插入
-setA.insert(&amp;quot;D&amp;quot;) //返回一个元组
-//更新
-setA.update(with: &amp;quot;A&amp;quot;) //若已存在元素,则返回改元素,若没有,则返回nil
-//删除
-setA.remove(&amp;quot;a&amp;quot;) //返回一个 bool 若是 true 则表示删除成功,返回 false 则表示之前没有这个元素
-setA.removeAll() 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;并集: &lt;code&gt;union&lt;/code&gt; (不改变调用者的集合), &lt;code&gt;formUnion&lt;/code&gt;  (改变调用者的集合)  两个集合中的所有元素集合&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;]
-var setB = Set([&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;]) //将一根数组转换成集合
-
-var setC =  setA.union(setB)  //setC 有 setA和 setB 所有元素,但是setA 不变
-setA.union([&amp;quot;a&amp;quot;])
-
-setA
-setA.formUnion(setB) //setA 被改变
-setA
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;交集: &lt;code&gt;intersect&lt;/code&gt;(不改变调用者的集合),  &lt;code&gt;formIntersection&lt;/code&gt; (改变调用者的集合) 两个集合的公共部分&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;setA.intersection(setB)
-setA
-
-setA.formIntersection(setB)
-setA
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;补集(差集): 做减法  &lt;code&gt;subtracting&lt;/code&gt; (不改变调用者的集合) &lt;code&gt;subtract&lt;/code&gt; (改变调用者的集合)   调用者不包含在被调用者中的部分&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;setA.subtracting(setB)  //setA 独有的,而 setB 没有的元素 不改变 setA 值
-setA
-
-setA.subtract(setB) //setA 独有的,而 setB 没有的元素 改变 setA 值
-setA
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;去重: &lt;code&gt;symmetricDifference&lt;/code&gt;(不改变调用者的集合), &lt;code&gt;formSymmetricDifference&lt;/code&gt; (改变调用者的集合),   去除两个集合中相同的部分。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;setA.symmetricDifference(setB)
-setA
-setA.formSymmetricDifference(setB)
-setA
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;子集: &lt;code&gt;isSbuset&lt;/code&gt; 子集, &lt;code&gt;isStrictSubset&lt;/code&gt; 真子集  判断是否是另外一个集合的子集&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;setA.isSubset(of: setB)
-setA.isStrictSubset(of: setB)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;超集: &lt;code&gt;isSuperset&lt;/code&gt;超集 ,  &lt;code&gt;isStrictSuperset&lt;/code&gt; 真超集&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;setA.isSuperset(of: setB)
-setA.isStrictSuperset(of: setB)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;相离:  &lt;code&gt;isDisjoint&lt;/code&gt; 没有重叠的元素&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;setA.isDisjoint(with: setB)
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         

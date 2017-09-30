@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>大文件分片上传解决方案 - Fly With Me</title>
+  <title>iOS11 ScrollView 页面下移问题 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
+<meta name="description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="大文件分片上传解决方案 - Fly With Me">
-<meta itemprop="description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
+<meta itemprop="name" content="iOS11 ScrollView 页面下移问题 - Fly With Me">
+<meta itemprop="description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="大文件分片上传解决方案 - Fly With Me" />
+<meta property="og:title" content="iOS11 ScrollView 页面下移问题 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2017/08/03/bigFileUpload/" />
+<meta property="og:url" content="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
+<meta property="og:description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="大文件分片上传解决方案 - Fly With Me">
-<meta name="twitter:description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
+<meta name="twitter:title" content="iOS11 ScrollView 页面下移问题 - Fly With Me">
+<meta name="twitter:description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2017/08/03/bigFileUpload/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2017/08/03/bigFileUpload/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt">
+  <link rel='shortlink' href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">大文件分片上传解决方案</h1>
+                  <h1 class="post-title">iOS11 ScrollView 页面下移问题</h1>
 
                   <p class="post-byline">
-                    by  · 2017年08月03日 · 320 Words ·
-                    ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-08-03-bigFileUpload.md"
+                    by  · 2017年09月30日 · 4254 Words ·
+                    ~9min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-09-30-iOS11ScrollView20pt.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -197,28 +197,142 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <ul>
-<li><p>分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数</p></li>
-
-<li><p>md5: 获取文件的md5值</p></li>
-
-<li><p>文件管理工具：文件路径， 分析文件内容，生成数据。</p></li>
+                      <nav>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#一-ios-11下app中tableview内容下移20pt或下移64pt的原因分析">一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析</a></li>
+<li><a href="#二-adjustcontentinset属性的计算方式">二、 adjustContentInset属性的计算方式</a></li>
+<li><a href="#三-什么情况下的tableview会发生上述问题">三、什么情况下的tableView会发生上述问题</a></li>
+<li><a href="#四-这个问题的解决方法有哪些">四、这个问题的解决方法有哪些？</a></li>
+<li><a href="#五-遇到的另外一个与安全区域无关的tableview内容下移的问题">五、遇到的另外一个与安全区域无关的tableView内容下移的问题</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
 </ul>
+</nav>
 
-<blockquote>
-<p>上传任务池中会保持小于等于3个的请求任务
- 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。
- 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中
- 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)</p>
-</blockquote>
+<p><strong>scorllView contentOffset变动问题</strong></p>
 
-<p><img src="http://blog.flywithme.top/sources/bigFileUpload/bigfile001.png" alt="bigfile001" /></p>
+<h6 id="一-ios-11下app中tableview内容下移20pt或下移64pt的原因分析">一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析</h6>
 
-<blockquote>
-<p>文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式<br />
-   模型组里可以保存每一个分片的md5值，用于分片的上传状态。<br />
-   管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。</p>
-</blockquote>
+<p>问题如下图所示：</p>
+
+<p><img src="http://blog.flywithme.top/sources/scrollview/92.png" alt="sss" /></p>
+
+<p><strong>1. 原因分析</strong></p>
+
+<p>原因是iOS 11中<code>UIViweController</code>的<code>automaticallyAdjustsScrollViewInsets</code>属性被废弃了，所以当<code>scrollView</code>超出安全区域时系统自动调整了<code>SafeAreaInsets</code>值，进而影响<code>adjustedContentInset</code>值，<br />
+在iOS 11中决定tableView的内容与边缘距离的是<code>adjustedContentInset</code>属性，而不是<code>contentInset</code>。<code>adjustedContentInset</code>的计算方式见本文第二部分内容。因为系统对<code>adjustedContentInset</code>值进行了调整，所以导致<code>tableView</code>的内容到边缘的距离发生了变化，导致<code>tableView</code>下移了20pt（statusbar高度）或64pt（navigationbar高度）。</p>
+
+<p>如果你的APP中使用的是自定义的navigationbar，隐藏掉系统的navigationbar，并且tableView的frame为(0,0,SCREEN_WIDTH, SCREEN_HEIGHT)开始，那么系统会自动调整SafeAreaInsets值为(20,0,0,0)，如果使用了系统的navigationbar，那么SafeAreaInsets值为(64,0,0,0)，如果也使用了系统的tabbar，那么SafeAreaInsets值为(64,0,49,0)。关于什么情况下会发生内容下移的问题，本文第三部分有介绍。</p>
+
+<p><strong>2. 安全区域的概念</strong></p>
+
+<p>系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：</p>
+
+<p><img src="http://blog.flywithme.top/sources/scrollview/32.png" alt="sssa" /></p>
+
+<p>安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。
+安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用<code>additionalSafeAreaInsets</code>去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。</p>
+
+<p><code>safeAreaInsets</code>属性反映了一个view距离该view的安全区域的边距。对于一个Controller的根视图而言，<code>SafeAreaInsets</code>值包括了被<code>statusbar</code>和其他可视的bars覆盖的区域和其他通过<code>additionalSafeAreaInsets</code>自定义的insets值。对于view层次中得其他view，SafeAreaInsets值反映了view被覆盖的部分。如果一个view全部在它父视图的安全区域内，则SafeAreaInsets值为(0,0,0,0)。</p>
+
+<h6 id="二-adjustcontentinset属性的计算方式">二、 adjustContentInset属性的计算方式</h6>
+
+<p>首先看scrollView在iOS11新增的两个属性：adjustContentInset 和 contentInsetAdjustmentBehavior。</p>
+
+<pre><code>/* Configure the behavior of adjustedContentInset.
+Default is UIScrollViewContentInsetAdjustmentAutomatic.
+*/
+@property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior
+adjustContentInset表示contentView.frame.origin偏移了scrollview.frame.origin多少；是系统计算得来的，计算方式由contentInsetAdjustmentBehavior决定。有以下几种计算方式：
+
+UIScrollViewContentInsetAdjustmentAutomatic：如果scrollview在一个automaticallyAdjustsScrollViewInsets = YES的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top &amp; bottom上 adjustedContentInset = safeAreaInset + contentInset不管是否滚动。其他情况下与UIScrollViewContentInsetAdjustmentScrollableAxes相同
+
+UIScrollViewContentInsetAdjustmentScrollableAxes: 在可滚动方向上adjustedContentInset = safeAreaInset + contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset + contentInset
+
+UIScrollViewContentInsetAdjustmentNever: adjustedContentInset = contentInset
+
+UIScrollViewContentInsetAdjustmentAlways: adjustedContentInset = safeAreaInset + contentInset
+</code></pre>
+
+<p>当<code>contentInsetAdjustmentBehavior</code>设置为<code>UIScrollViewContentInsetAdjustmentNever</code>的时候，<code>adjustContentInset</code>值不受<code>SafeAreaInset</code>值的影响。</p>
+
+<h6 id="三-什么情况下的tableview会发生上述问题">三、什么情况下的tableView会发生上述问题</h6>
+
+<p>如果设置了automaticallyAdjustsScrollViewInsets = YES，那么不会发生问题，一直都是由系统来调整内容的偏移量。</p>
+
+<p>接下来排查下自己的项目中哪些页面会发生以上问题。</p>
+
+<p>当tableView的frame超出安全区域范围时，系统会自动调整内容的位置，SafeAreaInsets值会不为0，于是影响tableView的adjustContentInset值，于是影响tableView的内容展示，导致tableView的content下移了SafeAreaInsets的距离。SafeAreaInsets值为0时，是正常的情况。</p>
+
+<p>需要了解每个页面的结构，看tableView是否被系统的statusbar或navigationbar覆盖，如果被覆盖的话，则会发生下移。也可以通过tableview.safeAreaInsets的值来确认是因为安全区域的问题导致的内容下移。</p>
+
+<p>如下代码片段，可以看出系统对tableView向下调整了20pt的距离，因为tableView超出了安全区域范围，被statusbar覆盖。</p>
+
+<pre><code>tableview.contentInset: {64, 0, 60, 0}
+tableview.safeAreaInsets: {20, 0, 0, 0}
+tableview.adjustedContentInset: {84, 0, 60, 0}
+</code></pre>
+
+<h6 id="四-这个问题的解决方法有哪些">四、这个问题的解决方法有哪些？</h6>
+
+<ol>
+<li>重新设置tableView的contentInset值，来抵消掉SafeAreaInset值，因为内容下移偏移量 = contentInset + SafeAreaInset；</li>
+</ol>
+
+<p>如果之前自己设置了contentInset值为(64,0,0,0),现在系统又设置了SafeAreaInsets值为(64,0,0,0)，那么tableView内容下移了64pt，这种情况下，可以设置contentInset值为(0,0,0,0)，也就是遵从系统的设置了。</p>
+
+<ol>
+<li>设置tableView的contentInsetAdjustmentBehavior属性</li>
+</ol>
+
+<p>如果不需要系统为你设置边缘距离，可以做以下设置：</p>
+
+<p>//如果iOS的系统是11.0，会有这样一个宏定义“#define __IPHONE_11_0  110000”；如果系统版本低于11.0则没有这个宏定义</p>
+
+<pre><code>#ifdef __IPHONE_11_0   
+if ([tableView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)]) {
+    tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+}
+#endif
+</code></pre>
+
+<p><code>contentInsetAdjustmentBehavior</code>属性也是用来取代<code>automaticallyAdjustsScrollViewInsets</code>属性的，推荐使用这种方式。</p>
+
+<ol>
+<li>通过设置iOS 11新增的属性addtionalSafeAreaInset；</li>
+</ol>
+
+<p>iOS 11之前，大家是通过将Controller的<code>automaticallyAdjustsScrollViewInsets</code>属性设置为NO，来禁止系统对tableView调整contentInsets的。如果还是想从Controller级别解决问题，
+那么可以通过设置Controller的additionalSafeAreaInsets属性，如果SafeAreaInset值为(20,0,0,0)，那么设置additionalSafeAreaInsets属性值为(-20,0,0,0)，则SafeAreaInsets不会对adjustedContentInset值产生影响，
+tableView内容不会显示异常。这里需要注意的是addtionalSafeAreaInset是Controller的属性，要知道SafeAreaInset的值是由哪个Controller引起的，可能是由自己的Controller调整的，可能是navigationController调整的。是由哪个Controller调整的，则设置哪个Controller的addtionalSafeAreaInset值来抵消掉SafeAreaInset值。</p>
+
+<h6 id="五-遇到的另外一个与安全区域无关的tableview内容下移的问题">五、遇到的另外一个与安全区域无关的tableView内容下移的问题</h6>
+
+<p>我的作品页面的tableView下移了约40pt，这里是否跟安全区域有关呢？</p>
+
+<p>查了下页面结构，tableView的父视图的frame在navigationbar的bottom之下，tableView在父视图的安全区域内，打印出来tableView的SafeAreaInset值也是(0，0，0，0);所以不是安全区域导致的内容下移。</p>
+
+<p>经过查看代码，发现tableView的style:UITableViewStyleGrouped类型，默认tableView开头和结尾是有间距的，不需要这个间距的话，可以通过实现heightForHeaderInSection方法（返回一个较小值：0.1）和viewForHeaderInSection（返回一个view）来去除头部的留白，底部同理。</p>
+
+<p>iOS 11上发生tableView顶部有留白，原因是代码中只实现了heightForHeaderInSection方法，而没有实现viewForHeaderInSection方法。那样写是不规范的，只实现高度，而没有实现view，但代码这样写在iOS 11之前是没有问题的，iOS 11之后应该是由于开启了估算行高机制引起了bug。添加上viewForHeaderInSection方法后，问题就解决了。或者添加以下代码关闭估算行高，问题也得到解决。</p>
+
+<pre><code>self.tableView.estimatedRowHeight = 0;
+self.tableView.estimatedSectionHeaderHeight = 0;
+self.tableView.estimatedSectionFooterHeight = 0;
+</code></pre>
 
                       
                     </div>
@@ -230,7 +344,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/08/03/bigFileUpload/">http://blog.flywithme.top/2017/08/03/bigFileUpload/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt">http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -283,7 +397,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2017/08/03/bigFileUpload/" data-title="大文件分片上传解决方案" data-url="http://blog.flywithme.top/2017/08/03/bigFileUpload/"></div>
+<div class="ds-thread" data-thread-key="/2017-09-30-iOS11ScrollView20pt" data-title="iOS11 ScrollView 页面下移问题" data-url="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -338,20 +452,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2017/04/17/swift22/" rel="next">
+        <a href="http://blog.flywithme.top/2017/08/03/bigFileUpload/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>swift3-22</span>
+          <span>大文件分片上传解决方案</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>iOS11 ScrollView 页面下移问题</span>
-        </a>
         
       </li>
     </ul>
