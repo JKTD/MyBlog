@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>大文件分片上传解决方案 - Fly With Me</title>
+  <title>使用gin框架实现一个基于Mysql数据库的用户系统 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
+<meta name="description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="大文件分片上传解决方案 - Fly With Me">
-<meta itemprop="description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
+<meta itemprop="name" content="使用gin框架实现一个基于Mysql数据库的用户系统 - Fly With Me">
+<meta itemprop="description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="大文件分片上传解决方案 - Fly With Me" />
+<meta property="og:title" content="使用gin框架实现一个基于Mysql数据库的用户系统 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2017/08/03/bigFileUpload/" />
+<meta property="og:url" content="http://blog.flywithme.top/2017/11/05/gin-mysql/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
+<meta property="og:description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="大文件分片上传解决方案 - Fly With Me">
-<meta name="twitter:description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
+<meta name="twitter:title" content="使用gin框架实现一个基于Mysql数据库的用户系统 - Fly With Me">
+<meta name="twitter:description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2017/08/03/bigFileUpload/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2017/08/03/bigFileUpload/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2017/11/05/gin-mysql/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2017/11/05/gin-mysql/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">大文件分片上传解决方案</h1>
+                  <h1 class="post-title">使用gin框架实现一个基于Mysql数据库的用户系统</h1>
 
                   <p class="post-byline">
-                    by  · 2017年08月03日 · 320 Words ·
+                    by  · 2017年11月05日 · 57 Words ·
                     ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-08-03-bigFileUpload.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-11-05-gin-mysql.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -198,27 +198,8 @@
                     <div class="entry-inner">
                       
                       <ul>
-<li><p>分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数</p></li>
-
-<li><p>md5: 获取文件的md5值</p></li>
-
-<li><p>文件管理工具：文件路径， 分析文件内容，生成数据。</p></li>
+<li>项目地址：<a href="https://github.com/flywithbug/darkside">https://github.com/flywithbug/darkside</a> 欢迎fork。 TODO 更新更多内容</li>
 </ul>
-
-<blockquote>
-<p>上传任务池中会保持小于等于3个的请求任务
- 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。
- 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中
- 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)</p>
-</blockquote>
-
-<p><img src="http://blog.flywithme.top/sources/bigFileUpload/bigfile001.png" alt="bigfile001" /></p>
-
-<blockquote>
-<p>文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式<br />
-   模型组里可以保存每一个分片的md5值，用于分片的上传状态。<br />
-   管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。</p>
-</blockquote>
 
                       
                     </div>
@@ -230,7 +211,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/08/03/bigFileUpload/">http://blog.flywithme.top/2017/08/03/bigFileUpload/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/11/05/gin-mysql/">http://blog.flywithme.top/2017/11/05/gin-mysql/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -283,7 +264,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2017/08/03/bigFileUpload/" data-title="大文件分片上传解决方案" data-url="http://blog.flywithme.top/2017/08/03/bigFileUpload/"></div>
+<div class="ds-thread" data-thread-key="/2017/11/05/gin-mysql/" data-title="使用gin框架实现一个基于Mysql数据库的用户系统" data-url="http://blog.flywithme.top/2017/11/05/gin-mysql/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -338,20 +319,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2017/04/17/swift22/" rel="next">
+        <a href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>swift3-22</span>
+          <span>iOS11 ScrollView 页面下移问题</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>iOS11 ScrollView 页面下移问题</span>
-        </a>
         
       </li>
     </ul>
