@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-  <base href="http://blog.flywithme.top//">
+  <base href="http://www.flywithme.top//">
   <script>
     document._writeOriginal = document.write;
     document.write = function(str) {
@@ -24,12 +24,12 @@
 
 <meta itemprop="name" content="iOS11 ScrollView 页面下移问题 - Fly With Me">
 <meta itemprop="description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、">
-<meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
+<meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
 
 <meta property="og:title" content="iOS11 ScrollView 页面下移问题 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt" />
-<meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
+<meta property="og:url" content="http://www.flywithme.top/2017-09-30-iOS11ScrollView20pt" />
+<meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
 <meta property="og:description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、">
 
 <meta name="twitter:card" content="summary">
@@ -37,21 +37,21 @@
 <meta name="twitter:title" content="iOS11 ScrollView 页面下移问题 - Fly With Me">
 <meta name="twitter:description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、">
 <meta name="twitter:creator" content="@brasbug">
-<meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
+<meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt">
-  <link rel='shortlink' href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt"/>
-  <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
+  <link rel="canonical" href="http://www.flywithme.top/2017-09-30-iOS11ScrollView20pt">
+  <link rel='shortlink' href="http://www.flywithme.top/2017-09-30-iOS11ScrollView20pt"/>
+  <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
   
-<link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="font-awesome-css" href="http://blog.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
-<link rel="stylesheet" href="http://blog.flywithme.top/public/highlight/styles/github.css">
-<script src="http://blog.flywithme.top/public/highlight/highlight.pack.js"></script>
+<link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css2" href="http://www.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="responsive-css" href="http://www.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="font-awesome-css" href="http://www.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="http://www.flywithme.top/public/highlight/styles/github.css">
+<script src="http://www.flywithme.top/public/highlight/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<link rel="stylesheet" id="human-style-css3" href="http://blog.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
+<link rel="stylesheet" id="human-style-css3" href="http://www.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
 <link rel="stylesheet" href="public/font/hack/css/hack.min.css">
 
 <script type="text/javascript" src="assets/js/jquery-2.1.1.min.js"></script>
@@ -71,37 +71,37 @@
     <div class="nav-toggle"><i class="fa fa-bars"></i></div>
     <div class="nav-text"></div>
     <div class="nav-wrap container">
-      <a rel="nofollow" href="http://blog.flywithme.top//" class="nav-cs-icon">
-        <img width="40" height="40" src="http://blog.flywithme.top/public/coderjk.jpg" alt="brasbug" title="Home">
+      <a rel="nofollow" href="http://www.flywithme.top//" class="nav-cs-icon">
+        <img width="40" height="40" src="http://www.flywithme.top/public/coderjk.jpg" alt="brasbug" title="Home">
       </a>
       <ul id="menu-default-menu" class="nav container-inner group">
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
+          <a rel="nofollow" href="http://www.flywithme.top/">首页</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
         </li>
         
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/post/">归档</a>
+          <a rel="nofollow" href="http://www.flywithme.top/post/">归档</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/about/">关于我</a>
+          <a rel="nofollow" href="http://www.flywithme.top/about/">关于我</a>
         </li>
         
         
@@ -140,8 +140,8 @@
 
         <div class="group pad">
           <h1 class="site-title">
-            <a rel="nofollow" href="http://blog.flywithme.top//" rel="home">
-              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="brasbug" src="http://blog.flywithme.top/public/coderjk.jpg"></img>
+            <a rel="nofollow" href="http://www.flywithme.top//" rel="home">
+              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="brasbug" src="http://www.flywithme.top/public/coderjk.jpg"></img>
               Fly With Me
             </a>
           </h1>
@@ -167,11 +167,11 @@
               <ul class="meta-single group">
                 
                 <li class="category">
-                  <a href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="category tag">学习笔记</a>
+                  <a href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="category tag">学习笔记</a>
                 </li>
                 
                 <li class="category">
-                  <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                  <a href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
                 </li>
                 
               </ul>
@@ -228,7 +228,7 @@
 
 <p>问题如下图所示：</p>
 
-<p><img src="http://blog.flywithme.top/sources/scrollview/92.png" alt="sss" /></p>
+<p><img src="http://www.flywithme.top/sources/scrollview/92.png" alt="sss" /></p>
 
 <p><strong>1. 原因分析</strong></p>
 
@@ -241,7 +241,7 @@
 
 <p>系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：</p>
 
-<p><img src="http://blog.flywithme.top/sources/scrollview/32.png" alt="sssa" /></p>
+<p><img src="http://www.flywithme.top/sources/scrollview/32.png" alt="sssa" /></p>
 
 <p>安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。
 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用<code>additionalSafeAreaInsets</code>去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。</p>
@@ -338,13 +338,13 @@ self.tableView.estimatedSectionFooterHeight = 0;
                     </div>
                     <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
                         <div style="float:left;margin-top:0px;">
-                        <img src="http://blog.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
+                        <img src="http://www.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
                         <div style="text-align:center;">微信扫一扫</div>
                         </div>
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt">http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt</a>
+                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2017-09-30-iOS11ScrollView20pt">http://www.flywithme.top/2017-09-30-iOS11ScrollView20pt</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -397,7 +397,7 @@ self.tableView.estimatedSectionFooterHeight = 0;
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2017-09-30-iOS11ScrollView20pt" data-title="iOS11 ScrollView 页面下移问题" data-url="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt"></div>
+<div class="ds-thread" data-thread-key="/2017-09-30-iOS11ScrollView20pt" data-title="iOS11 ScrollView 页面下移问题" data-url="http://www.flywithme.top/2017-09-30-iOS11ScrollView20pt"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -445,14 +445,14 @@ var duoshuoQuery = {short_name:"brasbug"};
 
     </div>
     <div class="widget qrcode">
-    <img src="http://blog.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
+    <img src="http://www.flywithme.top/public/qrcode.jpg" alt="qrcode" width="172px" height="172px"/>
     <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
 </div>
 
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2017/08/03/bigFileUpload/" rel="next">
+        <a href="http://www.flywithme.top/2017/08/03/bigFileUpload/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
           <span>大文件分片上传解决方案</span>
@@ -461,7 +461,7 @@ var duoshuoQuery = {short_name:"brasbug"};
       </li>
       <li class="previous">
         
-        <a href="http://blog.flywithme.top/2017/11/05/gin-mysql/" rel="prev">
+        <a href="http://www.flywithme.top/2017/11/05/gin-mysql/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
           <span>使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分</span>
@@ -490,19 +490,19 @@ var duoshuoQuery = {short_name:"brasbug"};
       <ul>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+            <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+            <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
           </li>
         
           <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+            <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
           </li>
         
       </ul>
@@ -522,23 +522,23 @@ var duoshuoQuery = {short_name:"brasbug"};
     <div class="nav-wrap">
       <ul id="menu-default-menu-1" class="nav container group">
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
+          <a rel="nofollow" href="http://www.flywithme.top/">首页</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
         </li>
         
         <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          <a rel="nofollow" href="http://www.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
         </li>
         
       </ul>
