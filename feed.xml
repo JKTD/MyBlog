@@ -6,10 +6,306 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sun, 05 Nov 2017 20:17:21 CST</updated>
+        <updated>Mon, 13 Nov 2017 11:40:09 CST</updated>
         
         <item>
-            <title>使用gin框架实现一个基于Mysql数据库的用户系统</title>
+            <title>ubuntu ssh免密登陆</title>
+            <link>http://blog.flywithme.top/2017/11/13/sshnopass/</link>
+            <pubDate>Mon, 13 Nov 2017 11:40:09 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/11/13/sshnopass/</guid>
+            <description>
+
+&lt;h3 id=&#34;前置条件&#34;&gt;前置条件：&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;一台主流的Linux服务器，如CentOS,Ubuntu,Fedora,redhat等&lt;/li&gt;
+&lt;li&gt;一台能连上以上服务器的客户机，我用的mac，系统是osx&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;预备动作&#34;&gt;预备动作：&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;打开终端 Terminal&lt;/li&gt;
+&lt;li&gt;生成ca证书私钥与公钥
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;执行&#34;&gt;执行：&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;执行代码    ssh-copy-id -i (id_rsa路径) name@ip -p
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/ubuntu/001.png&#34; alt=&#34;001.png&#34; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;提示错误 需要登录服务器修改文件权限
+&lt;img src=&#34;sources/ubuntu/002.png&#34; alt=&#34;002.png&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;再次执行图1 内容
+&lt;img src=&#34;sources/ubuntu/003.png&#34; alt=&#34;003.png&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;这样的结果即可免密登陆
+&lt;img src=&#34;sources/ubuntu/004.png&#34; alt=&#34;004.png&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>web01-配置Mysql</title>
+            <link>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</link>
+            <pubDate>Sat, 11 Nov 2017 19:57:02 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</guid>
+            <description>&lt;p&gt;安装Mysql 创建userInfo表&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;CREATE TABLE `userinfo` (
+  `uid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(16) DEFAULT &#39;&#39;,
+  `departname` varchar(20) DEFAULT &#39;&#39;,
+  `password` varchar(32) DEFAULT &#39;&#39;,
+  `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;,
+  `userid` varchar(32) DEFAULT &#39;&#39;,
+  `phone` varchar(13) DEFAULT &#39;&#39;,
+  `phoneprefix` varchar(6) DEFAULT &#39;&#39;,
+  `createtime` int(10) unsigned NOT NULL,
+  `updatetime` int(10) unsigned NOT NULL,
+  `state` tinyint(1) DEFAULT &#39;-1&#39;,
+  `authtoken` char(32) DEFAULT &#39;&#39;,
+  `mail` varchar(40) DEFAULT &#39;&#39;,
+  `oldpassword` varchar(100) DEFAULT &#39;&#39;,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000039 DEFAULT CHARSET=utf8;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;db 控制器&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//所有的db操作全部使用同一个db实例
+var db *sql.DB
+var err error
+
+func DBConf()*sql.DB  {
+    if db == nil {
+        InitMysql()
+    }
+    return db
+}
+
+func InitMysql()  {
+    db, err = sql.Open(config.TomlConf().Mysql().DBtype, config.TomlConf().Mysql().Url)
+    db.SetMaxIdleConns(200)
+    db.SetMaxOpenConns(100)
+    checkErr(err)
+}
+
+
+func checkErr(err error) {
+    if err != nil {
+        panic(err)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;userModel&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type UserInfoModel struct {
+    Uid         int64       `json:&amp;quot;uid,omitempty&amp;quot; form:&amp;quot;uid,omitempty&amp;quot;`
+    UserName    string      `json:&amp;quot;username,omitempty&amp;quot; form:&amp;quot;username,omitempty&amp;quot;`
+    Password    string      `json:&amp;quot;password,omitempty&amp;quot; form:&amp;quot;password,omitempty&amp;quot;`
+    CreateTime  int64       `json:&amp;quot;createtime,omitempty&amp;quot; form:&amp;quot;createtime,omitempty&amp;quot;`
+    UpdateTime  int64       `json:&amp;quot;updatetime,omitempty&amp;quot; form:&amp;quot;updatetime,omitempty&amp;quot;`
+    Sex         int         `json:&amp;quot;sex,omitempty&amp;quot; form:&amp;quot;sex,omitempty&amp;quot;`     //0默认未设置 1男，2女
+    UserId      string      `json:&amp;quot;userid,omitempty&amp;quot; form:&amp;quot;userid,omitempty&amp;quot;`
+    DepartName  string      `json:&amp;quot;departname,omitempty&amp;quot; form:&amp;quot;departname,omitempty&amp;quot;`
+    Phone       string      `json:&amp;quot;phone,omitempty&amp;quot; form:&amp;quot;phone,omitempty&amp;quot;`
+    PhonePrefix     string      `json:&amp;quot;phoneprefix,omitempty&amp;quot; form:&amp;quot;phoneprefix,omitempty&amp;quot;`
+    Mail        string      `json:&amp;quot;mail,omitempty&amp;quot; form:&amp;quot;mail,omitempty&amp;quot;`
+    OldPassword     string      `json:&amp;quot;oldpassword,omitempty&amp;quot; form:&amp;quot;oldpassword,omitempty&amp;quot;`
+    Authtoken   string      `json:&amp;quot;authtoken,omitempty&amp;quot; form:&amp;quot;authtoken,omitempty&amp;quot;`
+    State       int         `json:&amp;quot;state,omitempty&amp;quot; form:&amp;quot;state,omitempty&amp;quot;`
+}
+
+//初始化一个uer
+func NewUser() UserInfoModel {
+    return UserInfoModel{}
+}
+
+func (user *UserInfoModel)ToString()(desc string)  {
+    desc = &amp;quot;name:&amp;quot;+user.UserName
+    return desc
+}
+
+//插入到数据库
+func (user *UserInfoModel)InsertUser()(error){
+    if CheckUserNameValid(user.UserName) == false{
+        err := errors.New(&amp;quot;username already exists&amp;quot;)
+        return err
+    }
+
+    if CheckPhoneValid(user.Phone) == false{
+        err := errors.New(&amp;quot;phone number already exists&amp;quot;)
+        return err
+    }
+
+    db := db.DBConf()
+    stmt, err := db.Prepare(&amp;quot;INSERT userinfo SET username=?,departname=?,createtime=?,updatetime=?,password=?,sex=?,mail=?,phone=?,phoneprefix=?&amp;quot;)
+    checkErr(err)
+    _, err = stmt.Exec(user.UserName, user.DepartName,user.CreateTime,user.UpdateTime,user.Password,user.Sex,user.Mail,user.Phone,user.PhonePrefix)
+    checkErr(err)
+    return err
+}
+
+//更新用户信息到数据库
+func (user *UserInfoModel)UpdateIntoDB()(error)  {
+    if user.Uid == 0 {
+        log.Error(&amp;quot;update faild，Pri key Uid not found&amp;quot;)
+        return errors.New(&amp;quot;update faild，Pri key Uid not found&amp;quot;)
+    }
+    db := db.DBConf()
+    stmt, err := db.Prepare(&amp;quot;UPDATE userinfo set username=?,departname=?,createtime=?,password=?,sex=? where uid=?&amp;quot;)
+    checkErr(err)
+    _, err = stmt.Exec(user.UserName, user.DepartName,user.CreateTime,user.Password,user.Sex, user.Uid)
+    checkErr(err)
+    return err
+}
+
+//判断次用户名有没有被注册
+func CheckUserNameValid(name string)(bool)  {
+    db := db.DBConf()
+    err := db.QueryRow(&amp;quot;SELECT  username FROM userinfo WHERE username=?&amp;quot;, name).Scan(&amp;amp;name)
+    if err != nil {
+        return true
+    }
+    log.Warn(&amp;quot;username already exist&amp;quot;,name)
+    return false
+}
+
+//判断手机号是否被注册
+func CheckPhoneValid(phone string)(bool)  {
+    db := db.DBConf()
+    err := db.QueryRow(&amp;quot;SELECT  username FROM userinfo WHERE phone=?&amp;quot;, phone).Scan(&amp;amp;phone)
+    if err != nil {
+        return true
+    }
+    log.Warn(&amp;quot;phone number already exists&amp;quot;,phone)
+    return false
+}
+//判断email是否被注册
+func CheckEmailValid(mail string)(bool)  {
+    db := db.DBConf()
+    err := db.QueryRow(&amp;quot;SELECT  username FROM userinfo WHERE mail=?&amp;quot;, mail).Scan(&amp;amp;mail)
+    if err != nil {
+        return true
+    }
+    log.Warn(&amp;quot;mail already exists&amp;quot;,mail)
+    return false
+}
+
+//判断userid是否已存在
+func CheckUserIdValid(userId string)(bool)  {
+    db := db.DBConf()
+    err := db.QueryRow(&amp;quot;SELECT  username FROM userinfo WHERE userid=?&amp;quot;, userId).Scan(&amp;amp;userId)
+    if err != nil {
+        return true
+    }
+    log.Warn(&amp;quot;CheckUserIdValid：userid already exists&amp;quot;,userId)
+    return false
+}
+//通过uid查找用户
+func FindUserFromDB(uid int64)(UserInfoModel,error)  {
+    var user UserInfoModel
+    db := db.DBConf()
+    err := db.QueryRow(&amp;quot;SELECT uid, username, departname, password, sex, userid, phone, phoneprefix, createtime, updatetime, state, authtoken, mail, oldpassword FROM userinfo WHERE uid=?&amp;quot;, uid).
+        Scan(&amp;amp;user.Uid,
+         &amp;amp;user.UserName, &amp;amp;user.DepartName, &amp;amp;user.Password, &amp;amp;user.Sex, &amp;amp;user.UserId, &amp;amp;user.Phone, &amp;amp;user.PhonePrefix,
+        &amp;amp;user.CreateTime, &amp;amp;user.UpdateTime,&amp;amp;user.State,&amp;amp;user.Authtoken,&amp;amp;user.Mail,&amp;amp;user.OldPassword)
+    checkErr(err)
+    return user,err
+}
+
+//通过用户名查找用户
+func FindUserFromDBByName(name string)(UserInfoModel,error)  {
+    var user UserInfoModel
+    db := db.DBConf()
+    err := db.QueryRow(&amp;quot;SELECT uid, username, departname, password, sex, userid, phone, phoneprefix, createtime, updatetime, state, authtoken, mail, oldpassword FROM userinfo WHERE username=?&amp;quot;, name).
+        Scan(&amp;amp;user.Uid,
+        &amp;amp;user.UserName, &amp;amp;user.DepartName, &amp;amp;user.Password, &amp;amp;user.Sex, &amp;amp;user.UserId, &amp;amp;user.Phone, &amp;amp;user.PhonePrefix,
+        &amp;amp;user.CreateTime, &amp;amp;user.UpdateTime,&amp;amp;user.State,&amp;amp;user.Authtoken,&amp;amp;user.Mail,&amp;amp;user.OldPassword)
+    user.Password = &amp;quot;&amp;quot;
+    user.OldPassword = &amp;quot;&amp;quot;
+    checkErr(err)
+    return user,err
+}
+
+//通过用户名和密码查找用户
+func CheckUserNameAndPass(name string,pass string)(UserInfoModel,error)  {
+    var user UserInfoModel
+    db := db.DBConf()
+    err := db.QueryRow(&amp;quot;SELECT uid, username, departname, password, sex, userid, phone, phoneprefix, createtime, updatetime, state, authtoken, mail, oldpassword FROM userinfo WHERE username=?&amp;quot;, name).
+        Scan(&amp;amp;user.Uid,
+        &amp;amp;user.UserName, &amp;amp;user.DepartName, &amp;amp;user.Password, &amp;amp;user.Sex, &amp;amp;user.UserId, &amp;amp;user.Phone, &amp;amp;user.PhonePrefix,
+        &amp;amp;user.CreateTime, &amp;amp;user.UpdateTime,&amp;amp;user.State,&amp;amp;user.Authtoken,&amp;amp;user.Mail,&amp;amp;user.OldPassword)
+
+    if user.Password != pass {
+        err = errors.New(&amp;quot;password not right&amp;quot;)
+        user = NewUser()
+    }
+    user.Password = &amp;quot;&amp;quot;
+    user.OldPassword = &amp;quot;&amp;quot;
+    checkErr(err)
+    return user,err
+}
+
+//通过uid删除用户
+func DeleteUserFromDB(uid int64)(error)  {
+    db := db.DBConf()
+    stmt, err := db.Prepare(&amp;quot;delete from userinfo where uid=?&amp;quot;)
+    if err != nil{
+        return err
+    }
+    fmt.Println(uid)
+    _,err = stmt.Exec(uid)
+    return err
+}
+
+//错误日志
+func checkErr(err error) {
+    if err != nil {
+        log.Warn(err.Error())
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>imagemagic</title>
+            <link>http://blog.flywithme.top/2017/11/10/imagemagic/</link>
+            <pubDate>Fri, 10 Nov 2017 12:11:33 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/11/10/imagemagic/</guid>
+            <description>&lt;p&gt;首先：brew install ImageMagick&lt;/p&gt;
+
+&lt;p&gt;熟悉ImageMagick命令：&lt;/p&gt;
+
+&lt;p&gt;resize当前目录下的图片到100x100f分辨率&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;convert 1024x1024.png -resize 100x100 icon02.png
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;填充某像&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;convert 1024x1024.png -region 1024x224+0+800 -fill &amp;quot;rgb(255,166,48)&amp;quot; -colorize 100% new.png  
+
+convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&amp;quot; -colorize 100%   -region 1024x224+650+800 -fill &amp;quot;rgb(233,159,250)&amp;quot; -colorize 100%  new.png  
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分</title>
             <link>http://blog.flywithme.top/2017/11/05/gin-mysql/</link>
             <pubDate>Sun, 05 Nov 2017 20:17:21 CST</pubDate>
             <author>Brasbug</author>
@@ -17,6 +313,15 @@
             <description>&lt;ul&gt;
 &lt;li&gt;项目地址：&lt;a href=&#34;https://github.com/flywithbug/darkside&#34;&gt;https://github.com/flywithbug/darkside&lt;/a&gt; 欢迎fork。 TODO 更新更多内容&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;填坑1- struct to jso 时，空值忽略，或者特定值忽略问题&lt;br /&gt;
+&lt;a href=&#34;http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/&#34;&gt;http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Golang中，如果指定一个field序列化成JSON的变量名字为-，则序列化的时候自动忽略这个field。这种用法，
+才是和上面JsonIgnore的用法的作用是一样的。&lt;/p&gt;
+
+&lt;p&gt;而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。&lt;br /&gt;
+这里需要注意的是关于emtpty的定义：&lt;/p&gt;
 </description>
         </item>
         
@@ -1072,560 +1377,6 @@ location?.latitude
 location?.longitude
 let location2 = Location(latitude: 25.222,longitude: 122.23222)
 location2.isNoth()
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3-13 枚举</title>
-            <link>http://blog.flywithme.top/2017/03/21/swift13/</link>
-            <pubDate>Tue, 21 Mar 2017 15:30:52 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/03/21/swift13/</guid>
-            <description>&lt;p&gt;枚举简单的说也是一种数据类型，只不过是这种数据类型只包含自定义的特定数据，它是一组有共同特性的数据的集合。
-Swift 的枚举类似于 Objective C 和 C 的结构&lt;/p&gt;
-
-&lt;p&gt;枚举的功能为&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;它声明在类中,可以通过实例化类来访问它的值.&lt;br /&gt;
-  枚举也可以定义构造函数来提供一个初始成员值,可以在原始的实现基础上扩展它功能。&lt;br /&gt;
-  可以遵守协议来提供标准的功能。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// 定义枚举
-enum DaysofaWeek {
-    case Sunday
-    case Monday
-    case TUESDAY
-    case WEDNESDAY
-    case THURSDAY
-    case FRIDAY
-    case Saturday
-}
-var weekDay = DaysofaWeek.THURSDAY
-weekDay = .THURSDAY
-switch weekDay
-{
-case .Sunday:
-    print(&amp;quot;星期天&amp;quot;)
-case .Monday:
-    print(&amp;quot;星期一&amp;quot;)
-case .TUESDAY:
-    print(&amp;quot;星期二&amp;quot;)
-case .WEDNESDAY:
-    print(&amp;quot;星期三&amp;quot;)
-case .THURSDAY:
-    print(&amp;quot;星期四&amp;quot;)
-case .FRIDAY:
-    print(&amp;quot;星期五&amp;quot;)
-case .Saturday:
-    print(&amp;quot;星期六&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;相关值与原始值的区别&lt;/strong&gt;&lt;/p&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;相关值&lt;/th&gt;
-&lt;th&gt;原始值&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;不同数据类型&lt;/td&gt;
-&lt;td&gt;相同数据类型&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;值的创建基于常量或变量&lt;/td&gt;
-&lt;td&gt;预先填充的值&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;相关值是当你在创建一个枚举成员的心常量或变量时才会被设置,并且每次当你这么做的时候,它的值都不同&lt;/td&gt;
-&lt;td&gt;原始值试着是相同的&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;&lt;strong&gt;原始值&lt;/strong&gt; Raw value  原始值可以是字符串，字符，或者任何整型值或浮点型值。每个原始值在它的枚举声明中必须是唯一的.在原始值为整数的枚举时，不需要显式的为每一个成员赋值，Swift会自动为你赋值。&lt;/p&gt;
-
-&lt;p&gt;例如，当使用整数作为原始值时，隐式赋值的值依次递增1。如果第一个值没有被赋初值，将会被自动置为0&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;enum Month: Int {
-    case January = 1, February, March, April, May, June, July, August, September, October, November, December
-}
-
-let yearMonth = Month.May.rawValue
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;相关值&lt;/strong&gt; Associate Value 以下实例中我们定义一个名为 Student 的枚举类型，它可以是 Name 的一个相关值（Int，Int，Int，Int），或者是 Mark 的一个字符串类型（String）相关值。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;enum Student{
-    case Name(String)
-    case Mark(Int,Int,Int)
-}
-var studDetails = Student.Name(&amp;quot;Runoob&amp;quot;)
-var studMarks = Student.Mark(98,97,95)
-switch studMarks {
-case .Name(let studName):
-    print(&amp;quot;学生的名字是: \(studName)。&amp;quot;)
-case .Mark(let Mark1, let Mark2, let Mark3):
-    print(&amp;quot;学生的成绩是: \(Mark1),\(Mark2),\(Mark3)。&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;可选型的实质就是枚举&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//public enum Optional&amp;lt;Wrapped&amp;gt;
-var website: Optional&amp;lt;String&amp;gt; = Optional.some(&amp;quot;www.dianping.com&amp;quot;)
-website = .none   
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;枚举递归&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;indirect enum ArithmeticExpression{
-indirect enum ArithmeticExpression{
-    case Number(Int)
-    case Addition(ArithmeticExpression, ArithmeticExpression)
-    case Multiplication(ArithmeticExpression, ArithmeticExpression)
-}
-
-let five = ArithmeticExpression.Number(5)
-let two = ArithmeticExpression.Number(2)
-let sum = ArithmeticExpression.Addition(five, two)
-let product = ArithmeticExpression.Multiplication(sum, two)
-
-func evaluate(expression:ArithmeticExpression) -&amp;gt; Int{
-    switch expression {
-    case let .Number(value):
-        return value
-    case let .Addition(left,right):
-        return evaluate(expression: left) + evaluate(expression: right)
-    case let .Multiplication(left,right):
-        return evaluate(expression: left)*evaluate(expression: right)
-    }
-} 
-evaluate(expression: product)
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3-12 闭包</title>
-            <link>http://blog.flywithme.top/2017/02/28/swift12/</link>
-            <pubDate>Tue, 28 Feb 2017 17:43:27 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/28/swift12/</guid>
-            <description>&lt;p&gt;&lt;strong&gt;闭包&lt;/strong&gt;
-  闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。
-   Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编程语言中的匿名函数比较相似。
-   全局函数和嵌套函数其实就是特殊的闭包。&lt;/p&gt;
-
-&lt;p&gt;闭包的形式有&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;全局函数&lt;/strong&gt;:    有名字但不能捕获任何值&lt;br /&gt;
-   &lt;strong&gt;嵌套函数&lt;/strong&gt;:    有名字,可以捕获封闭函数内的值&lt;br /&gt;
-   &lt;strong&gt;闭包表达式&lt;/strong&gt;:  无名闭包,使用轻量级语法,可以根据上下文环境捕获值。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;strong&gt;示例:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;let clousuer = { print(&amp;quot;Swift 闭包实例。&amp;quot;) }
-clousuer()
-
-
-//加法
-let sum = {(val1:Int, val2:Int)-&amp;gt; Int in
-        return val1 + val2
-}
-let result = sum(20,2)
-
-//排序
-var arr:[Int] = []
-for _ in 0...100{
-    arr.append(Int(arc4random()%1000))
-}
-arr.sorted(by: {(a: Int, b:Int) -&amp;gt; Bool in
-
-    return a &amp;gt; b
-})
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;闭包的简化&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//简化: 根据现场情况,选择适合当前情况的写法。
-arr.sort(by:{a, b in return a &amp;gt; b}) //因为只能是 Int 类型的,可以省去声明
-arr
-arr.sort(by:{a, b in  a &amp;lt; b})  //省去 Return
-arr
-arr.sort(by: {$0&amp;gt;$1}) //$0, $1(从0开始，表示第i个参数...) 省去参数,直接使用简化参数名
-arr
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;运算符函数&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;arr.sort(by: &amp;lt;) //可以这样写的原因是 Swift中,&amp;gt; &amp;lt; = + - 等,本身就是函数
-arr
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;尾随闭包&lt;/strong&gt;  Trailing closure syntax   尾随闭包是一个书写在函数括号之后的闭包表达式，函数支持将其作为最后一个参数调用&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//把闭包写在()外边
-arr.sorted(){a, b in
-    return a &amp;gt; b
-}
-//由于么有参数需要传入,()也可以省略
-arr.sorted{a, b in
-    return a &amp;gt; b
-}
-arr.sorted{$0 &amp;gt; $1}
-
-
-//实现一个小动画
-import UIKit
-import XCPlayground
-
-let showView = UIView(frame:CGRect(x:0,  y:0, width:300, height:300))
-let rectAngle = UIView(frame:CGRect(x:0,  y:0, width:50, height:50))
-rectAngle.center = showView.center
-showView.backgroundColor = UIColor .white
-rectAngle.backgroundColor = UIColor.red
-showView.addSubview(rectAngle)
-XCPlaygroundPage.currentPage.liveView = showView
-UIView.animate(withDuration: 4.0, animations: {
-    rectAngle.backgroundColor = UIColor.orange
-    rectAngle.frame = CGRect(x:0,  y:0, width:300, height:300)
-})
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;内容捕获&lt;/strong&gt;   闭包可以在其定义的上下文中捕获常量或变量&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var arr:[Int] = []
-for _ in 0...100{
-    arr.append(Int(arc4random()%1000))
-}
-
-var num = 300
-arr.sorted{
-    a, b in abs(a - num) &amp;lt; abs(b - num)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;闭包是引用类型&lt;/strong&gt;  无论您将函数/闭包赋值给一个常量还是变量，实际上都是将常量/变量的值设置为对应函数/闭包的引用&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func makeIncrementor(forIncrement amount: Int) -&amp;gt; () -&amp;gt; Int {
-    var runningTotal = 0
-    func incrementor() -&amp;gt; Int {
-        runningTotal += amount
-        return runningTotal
-    }
-    return incrementor
-}
-
-let incrementByTen = makeIncrementor(forIncrement: 10)
-
-// 返回的值为10
-incrementByTen()
-
-// 返回的值为20
-incrementByTen()
-
-// 返回的值为30
-incrementByTen()
-
-// 返回的值为40
-incrementByTen()
-
-let alsoIncrementByTen = incrementByTen
-
-// 返回的值为50
-print(alsoIncrementByTen())
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3-11 函数</title>
-            <link>http://blog.flywithme.top/2017/02/27/swift11/</link>
-            <pubDate>Mon, 27 Feb 2017 13:41:21 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/02/27/swift11/</guid>
-            <description>&lt;p&gt;&lt;strong&gt;函数定义&lt;/strong&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Swift 定义函数使用关键字 func。
-  定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。
-  每个函数都有一个函数名来描述它的功能。通过函数名以及对应类型的参数值来调用这个函数。函数的参数传递的顺序必须与参数列表相同。
-  函数的实参传递的顺序必须与形参列表相同，-&amp;gt; 后定义函数的返回值类型。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;示例:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func hello(name:String)-&amp;gt; String{
-    return &amp;quot;Hello &amp;quot; + name
-}
-
-hello(name: &amp;quot;Jack&amp;quot;)    
-
-
-func hello1(name:String?)-&amp;gt; String{
-    return &amp;quot;Hello &amp;quot; + (name != nil  ? name! : &amp;quot;guess&amp;quot;)
-}
-
-hello1(name: &amp;quot;Jack&amp;quot;)
-
-
-func printHello(){
-    print(&amp;quot;hello&amp;quot;)
-}
-printHello()
-
-func printHello1() -&amp;gt; Void{  //Void 是一个类型
-    print(&amp;quot;hello&amp;quot;)
-}
-printHello1()
-
-func printHello2() -&amp;gt; (){
-    print(&amp;quot;hello&amp;quot;)
-}
-printHello2()    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;使用元组作为返回值&lt;/strong&gt;  函数返回值的类型可以是字符串,整型,浮点型等,元组与数组类似,不同的是,元组中的元素可以是任意类型,使用的是括号,你可以使用元组类型让多个值作为一个复合值从函数中返回。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func findMaxAndMin(numbers:[Int]) -&amp;gt; (max:Int, min:Int)?{ //如果你不确定返回的元组一定不为nil，那么你可以返回一个可选的元组类型。
-    guard !numbers.isEmpty else {
-        return (Int.max,Int.min)
-    }
-    var minValue = numbers[0]
-    var maxValue = numbers[0]
-    for num in numbers{
-        minValue = minValue &amp;lt; num ? minValue : num
-        maxValue =  maxValue &amp;gt; num ? maxValue : num
-    }
-    return (maxValue ,minValue)
-}
-var numbers = [1,23,34,2,2,31,23,23,34,45,454545,4,54,5,45,45,45]
-var result =  findMaxAndMin(numbers: numbers)
-print(result?.max ?? 0,result?.min ?? 0)  
-if let result =  findMaxAndMin(numbers: numbers) {
-    print( result.max,result.min)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;函数的内部参数和外部参数&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func sayHelloTo(name:String, msg:String)-&amp;gt; String{
-    return &amp;quot;\(msg), \(name)&amp;quot;
-}
-sayHelloTo(name: &amp;quot;a&amp;quot;, msg: &amp;quot;b&amp;quot;)  //sayHelloTo(&amp;quot;a&amp;quot;, msg: &amp;quot;b&amp;quot;) 这种方式已被废弃
-
-//内部参数和外部参数
-func sayHelloTo(name:String, withMessage msg:String)-&amp;gt; String{
-    return &amp;quot;\(msg), \(name)&amp;quot;
-}
-sayHelloTo(name: &amp;quot;a&amp;quot;, withMessage: &amp;quot;b&amp;quot;)
-
-//修改外部参数名
-func sayHello(to name:String, withMessage msg:String)-&amp;gt; String{
-    return &amp;quot;\(msg), \(name)&amp;quot;
-}
-sayHello(to : &amp;quot;a&amp;quot;, withMessage: &amp;quot;b&amp;quot;)
-
-//隐藏调用参数
-func mutiply(_ num1:Int, _ num2:Int) -&amp;gt; Int{
-    return num1*num2
-}
-mutiply(2,  4) 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;默认参数值&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func sayHello(to name:String, withMessage msg:String = &amp;quot;hello&amp;quot;)-&amp;gt; String{
-    return &amp;quot;\(msg), \(name)&amp;quot;
-}
-sayHello(to : &amp;quot;a&amp;quot;, withMessage: &amp;quot;b&amp;quot;)
-sayHello(to: &amp;quot;jack&amp;quot;) //可以省略后面的一个参数
-
-
-func sayHello(to name:String, withMessage msg:String = &amp;quot;hello&amp;quot;, punctuation:String = &amp;quot;!&amp;quot;)-&amp;gt; String{
-    return &amp;quot;\(msg), \(name) \(punctuation)&amp;quot;
-}
-sayHello(to : &amp;quot;a&amp;quot;, withMessage: &amp;quot;b&amp;quot;)
-sayHello(to: &amp;quot;jack&amp;quot;)
-sayHello(to: &amp;quot;Jack&amp;quot;, withMessage: &amp;quot;Hello&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;可变参数值&lt;/strong&gt; 一个函数至多只可以有一个变长的参数&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//常用的变长参数函数
-print(&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;)
-//求平均值
-func mean(numbers:Double ...) -&amp;gt;Double{
-    var sum : Double = 0
-    for num in numbers{
-        sum += num
-    }
-    return sum / Double(numbers.count)
-}
-mean(numbers: 1,2,3,4,5,5.0,23,434)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;常量参数,变量参数和 inout 参数&lt;/strong&gt; 默认的函数参数都是常量。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func toBinary(num:Int)-&amp;gt;String{ //直接声明称 var 类型参数已被废弃。
-    var num = num  
-    var res = &amp;quot;&amp;quot;
-    repeat{
-        res = String(num%2) + res
-        num /= 2
-    }while num != 0
-    return res
-}
-toBinary(num: 1000)
-
-//inout 
-func toBinary( num:inout Int)-&amp;gt;String{
-    var res = &amp;quot;&amp;quot;
-    repeat{
-        res = String(num%2) + res
-        num /= 2
-    }while num != 0
-    return res
-}
-var num = 100
-toBinary(num: &amp;amp;num) //传入指针
-print(num) 
-
-//交换两个字符串
-func swapTwoString(str1:inout String, str2:inout String){
-    let tstr = str1
-    str1 = str2
-    str2 = tstr
-}
-
-var str1 = &amp;quot;a&amp;quot;
-var str2 = &amp;quot;b&amp;quot;
-swapTwoString(str1: &amp;amp;str1, str2:&amp;amp;str2)
-str1
-str2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;函数型变量&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func add(a:Int, b:Int) -&amp;gt; Int{
-    return a + b
-}
-
-let add01 = add
-add01(3,4)
-let add02:(Int, Int) -&amp;gt; Int = add
-add02(4,5)
-
-
-var arr:[Int] = []
-for _ in 0...100{
-    arr.append(Int(arc4random()%1000))
-}
-
-arr.sort { (a, b) -&amp;gt; Bool in
-    return a &amp;lt; b
-}
-arr
-
-func descending (a:Int ,b:Int) -&amp;gt;Bool{
-    return a &amp;gt; b
-}
-arr.sorted(by: descending)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;函数变成初步&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func changeScores( scors: [Int], by method:(Int)-&amp;gt; Int) -&amp;gt; [Int]{
-    var arr = scors
-    for (index , score) in scors.enumerated(){
-        arr[index] = method(score)
-    }
-    return arr
-}
-func changeScore01 (score : Int) -&amp;gt; Int{
-    return score + 3
-}
-
-func changeScore02 (score : Int) -&amp;gt; Int{
-    return Int(Double(score)/150.0*100.0)
-}
-
-var arr:[Int] = []
-for _ in 0..&amp;lt;10{
-    arr.append(Int(arc4random())%150)
-}
-arr
-changeScores(scors: arr, by: changeScore01)
-changeScores(scors: arr, by: changeScore02)
-//map 
-arr.map(changeScore01)
-func isPassOrFail(score:Int)-&amp;gt;String{
-    return score &amp;lt; 60 ? &amp;quot;Fail&amp;quot;: &amp;quot;Pass&amp;quot;
-}
-arr.map(isPassOrFail)
-
-//filter 过滤
-func fail (score:Int)-&amp;gt; Bool{
-    return score &amp;lt; 60
-}
-arr.filter(fail)
-
-//reduce 聚合
-func add(a:Int, b:Int)-&amp;gt; Int{
-    return a + b
-}
-arr.reduce(0, add)
-
-arr.reduce(0, +)
-
-//Swift中,运算符号 本质上就是一个函数 
-public func +(lhs: Int, rhs: Int) -&amp;gt; Int
-public func *(lhs: Int, rhs: Int) -&amp;gt; Int
-public func -(lhs: Int, rhs: Int) -&amp;gt; Int
-public func /(lhs: Int, rhs: Int) -&amp;gt; Int
-public func %(lhs: Int, rhs: Int) -&amp;gt; Int
-
-
-func concatenate(str:String , num:Int) -&amp;gt; String{
-    return &amp;quot;\(str)\(num) &amp;quot;
-}
-arr.reduce(&amp;quot;&amp;quot;, concatenate)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;返回函数类型和函数嵌套&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//邮递费用
-func tilerMailfeeByWight( weight : Int) -&amp;gt; Int{
-    return 1*weight
-}
-func tiler2MailfeeByWight( weight : Int) -&amp;gt; Int{
-    return 3*weight
-}
-//超过10单位，则按三倍计算
-func feeBytUnitPrice (price :Int , wight:Int) -&amp;gt; Int{
-    py
-    func chooseMailFeeCalationByWeight(weight: Int) -&amp;gt; (Int) -&amp;gt; Int{
-        return weight &amp;lt;= 10 ? tilerMailfeeByWight : tiler2MailfeeByWight
-    }
-
-    let mailFeefuc = chooseMailFeeCalationByWeight(weight: wight)
-    return mailFeefuc(wight) + price*wight //邮递费用+商品费用
-}
-feeBytUnitPrice(price: 2, wight: 11)
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>

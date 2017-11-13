@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Me</title>
+  <title>web01-配置Mysql - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to jso 时，空值忽略">
+<meta name="description" content="安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Me">
-<meta itemprop="description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to jso 时，空值忽略">
+<meta itemprop="name" content="web01-配置Mysql - Fly With Me">
+<meta itemprop="description" content="安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Me" />
+<meta property="og:title" content="web01-配置Mysql - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2017/11/05/gin-mysql/" />
+<meta property="og:url" content="http://blog.flywithme.top/2017/11/11/gin-mysql-Web/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to jso 时，空值忽略">
+<meta property="og:description" content="安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Me">
-<meta name="twitter:description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to jso 时，空值忽略">
+<meta name="twitter:title" content="web01-配置Mysql - Fly With Me">
+<meta name="twitter:description" content="安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2017/11/05/gin-mysql/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2017/11/05/gin-mysql/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2017/11/11/gin-mysql-Web/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2017/11/11/gin-mysql-Web/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分</h1>
+                  <h1 class="post-title">web01-配置Mysql</h1>
 
                   <p class="post-byline">
-                    by  · 2017年11月05日 · 229 Words ·
-                    ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-11-05-gin-mysql.md"
+                    by  · 2017年11月11日 · 864 Words ·
+                    ~2min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-11-11-gin-mysql-Web.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -197,18 +197,224 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <ul>
-<li>项目地址：<a href="https://github.com/flywithbug/darkside">https://github.com/flywithbug/darkside</a> 欢迎fork。 TODO 更新更多内容</li>
-</ul>
+                      <p>安装Mysql 创建userInfo表</p>
 
-<p>填坑1- struct to jso 时，空值忽略，或者特定值忽略问题<br />
-<a href="http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/">http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/</a></p>
+<pre><code>CREATE TABLE `userinfo` (
+  `uid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(16) DEFAULT '',
+  `departname` varchar(20) DEFAULT '',
+  `password` varchar(32) DEFAULT '',
+  `sex` tinyint(1) unsigned zerofill DEFAULT '0',
+  `userid` varchar(32) DEFAULT '',
+  `phone` varchar(13) DEFAULT '',
+  `phoneprefix` varchar(6) DEFAULT '',
+  `createtime` int(10) unsigned NOT NULL,
+  `updatetime` int(10) unsigned NOT NULL,
+  `state` tinyint(1) DEFAULT '-1',
+  `authtoken` char(32) DEFAULT '',
+  `mail` varchar(40) DEFAULT '',
+  `oldpassword` varchar(100) DEFAULT '',
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000039 DEFAULT CHARSET=utf8;
+</code></pre>
 
-<p>Golang中，如果指定一个field序列化成JSON的变量名字为-，则序列化的时候自动忽略这个field。这种用法，
-才是和上面JsonIgnore的用法的作用是一样的。</p>
+<p>db 控制器</p>
 
-<p>而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。<br />
-这里需要注意的是关于emtpty的定义：</p>
+<pre><code>//所有的db操作全部使用同一个db实例
+var db *sql.DB
+var err error
+
+func DBConf()*sql.DB  {
+    if db == nil {
+        InitMysql()
+    }
+    return db
+}
+
+func InitMysql()  {
+    db, err = sql.Open(config.TomlConf().Mysql().DBtype, config.TomlConf().Mysql().Url)
+    db.SetMaxIdleConns(200)
+    db.SetMaxOpenConns(100)
+    checkErr(err)
+}
+
+
+func checkErr(err error) {
+    if err != nil {
+        panic(err)
+    }
+}
+</code></pre>
+
+<p>userModel</p>
+
+<pre><code>type UserInfoModel struct {
+    Uid         int64       `json:&quot;uid,omitempty&quot; form:&quot;uid,omitempty&quot;`
+    UserName    string      `json:&quot;username,omitempty&quot; form:&quot;username,omitempty&quot;`
+    Password    string      `json:&quot;password,omitempty&quot; form:&quot;password,omitempty&quot;`
+    CreateTime  int64       `json:&quot;createtime,omitempty&quot; form:&quot;createtime,omitempty&quot;`
+    UpdateTime  int64       `json:&quot;updatetime,omitempty&quot; form:&quot;updatetime,omitempty&quot;`
+    Sex         int         `json:&quot;sex,omitempty&quot; form:&quot;sex,omitempty&quot;`     //0默认未设置 1男，2女
+    UserId      string      `json:&quot;userid,omitempty&quot; form:&quot;userid,omitempty&quot;`
+    DepartName  string      `json:&quot;departname,omitempty&quot; form:&quot;departname,omitempty&quot;`
+    Phone       string      `json:&quot;phone,omitempty&quot; form:&quot;phone,omitempty&quot;`
+    PhonePrefix     string      `json:&quot;phoneprefix,omitempty&quot; form:&quot;phoneprefix,omitempty&quot;`
+    Mail        string      `json:&quot;mail,omitempty&quot; form:&quot;mail,omitempty&quot;`
+    OldPassword     string      `json:&quot;oldpassword,omitempty&quot; form:&quot;oldpassword,omitempty&quot;`
+    Authtoken   string      `json:&quot;authtoken,omitempty&quot; form:&quot;authtoken,omitempty&quot;`
+    State       int         `json:&quot;state,omitempty&quot; form:&quot;state,omitempty&quot;`
+}
+
+//初始化一个uer
+func NewUser() UserInfoModel {
+    return UserInfoModel{}
+}
+
+func (user *UserInfoModel)ToString()(desc string)  {
+    desc = &quot;name:&quot;+user.UserName
+    return desc
+}
+
+//插入到数据库
+func (user *UserInfoModel)InsertUser()(error){
+    if CheckUserNameValid(user.UserName) == false{
+        err := errors.New(&quot;username already exists&quot;)
+        return err
+    }
+
+    if CheckPhoneValid(user.Phone) == false{
+        err := errors.New(&quot;phone number already exists&quot;)
+        return err
+    }
+
+    db := db.DBConf()
+    stmt, err := db.Prepare(&quot;INSERT userinfo SET username=?,departname=?,createtime=?,updatetime=?,password=?,sex=?,mail=?,phone=?,phoneprefix=?&quot;)
+    checkErr(err)
+    _, err = stmt.Exec(user.UserName, user.DepartName,user.CreateTime,user.UpdateTime,user.Password,user.Sex,user.Mail,user.Phone,user.PhonePrefix)
+    checkErr(err)
+    return err
+}
+
+//更新用户信息到数据库
+func (user *UserInfoModel)UpdateIntoDB()(error)  {
+    if user.Uid == 0 {
+        log.Error(&quot;update faild，Pri key Uid not found&quot;)
+        return errors.New(&quot;update faild，Pri key Uid not found&quot;)
+    }
+    db := db.DBConf()
+    stmt, err := db.Prepare(&quot;UPDATE userinfo set username=?,departname=?,createtime=?,password=?,sex=? where uid=?&quot;)
+    checkErr(err)
+    _, err = stmt.Exec(user.UserName, user.DepartName,user.CreateTime,user.Password,user.Sex, user.Uid)
+    checkErr(err)
+    return err
+}
+
+//判断次用户名有没有被注册
+func CheckUserNameValid(name string)(bool)  {
+    db := db.DBConf()
+    err := db.QueryRow(&quot;SELECT  username FROM userinfo WHERE username=?&quot;, name).Scan(&amp;name)
+    if err != nil {
+        return true
+    }
+    log.Warn(&quot;username already exist&quot;,name)
+    return false
+}
+
+//判断手机号是否被注册
+func CheckPhoneValid(phone string)(bool)  {
+    db := db.DBConf()
+    err := db.QueryRow(&quot;SELECT  username FROM userinfo WHERE phone=?&quot;, phone).Scan(&amp;phone)
+    if err != nil {
+        return true
+    }
+    log.Warn(&quot;phone number already exists&quot;,phone)
+    return false
+}
+//判断email是否被注册
+func CheckEmailValid(mail string)(bool)  {
+    db := db.DBConf()
+    err := db.QueryRow(&quot;SELECT  username FROM userinfo WHERE mail=?&quot;, mail).Scan(&amp;mail)
+    if err != nil {
+        return true
+    }
+    log.Warn(&quot;mail already exists&quot;,mail)
+    return false
+}
+
+//判断userid是否已存在
+func CheckUserIdValid(userId string)(bool)  {
+    db := db.DBConf()
+    err := db.QueryRow(&quot;SELECT  username FROM userinfo WHERE userid=?&quot;, userId).Scan(&amp;userId)
+    if err != nil {
+        return true
+    }
+    log.Warn(&quot;CheckUserIdValid：userid already exists&quot;,userId)
+    return false
+}
+//通过uid查找用户
+func FindUserFromDB(uid int64)(UserInfoModel,error)  {
+    var user UserInfoModel
+    db := db.DBConf()
+    err := db.QueryRow(&quot;SELECT uid, username, departname, password, sex, userid, phone, phoneprefix, createtime, updatetime, state, authtoken, mail, oldpassword FROM userinfo WHERE uid=?&quot;, uid).
+        Scan(&amp;user.Uid,
+         &amp;user.UserName, &amp;user.DepartName, &amp;user.Password, &amp;user.Sex, &amp;user.UserId, &amp;user.Phone, &amp;user.PhonePrefix,
+        &amp;user.CreateTime, &amp;user.UpdateTime,&amp;user.State,&amp;user.Authtoken,&amp;user.Mail,&amp;user.OldPassword)
+    checkErr(err)
+    return user,err
+}
+
+//通过用户名查找用户
+func FindUserFromDBByName(name string)(UserInfoModel,error)  {
+    var user UserInfoModel
+    db := db.DBConf()
+    err := db.QueryRow(&quot;SELECT uid, username, departname, password, sex, userid, phone, phoneprefix, createtime, updatetime, state, authtoken, mail, oldpassword FROM userinfo WHERE username=?&quot;, name).
+        Scan(&amp;user.Uid,
+        &amp;user.UserName, &amp;user.DepartName, &amp;user.Password, &amp;user.Sex, &amp;user.UserId, &amp;user.Phone, &amp;user.PhonePrefix,
+        &amp;user.CreateTime, &amp;user.UpdateTime,&amp;user.State,&amp;user.Authtoken,&amp;user.Mail,&amp;user.OldPassword)
+    user.Password = &quot;&quot;
+    user.OldPassword = &quot;&quot;
+    checkErr(err)
+    return user,err
+}
+
+//通过用户名和密码查找用户
+func CheckUserNameAndPass(name string,pass string)(UserInfoModel,error)  {
+    var user UserInfoModel
+    db := db.DBConf()
+    err := db.QueryRow(&quot;SELECT uid, username, departname, password, sex, userid, phone, phoneprefix, createtime, updatetime, state, authtoken, mail, oldpassword FROM userinfo WHERE username=?&quot;, name).
+        Scan(&amp;user.Uid,
+        &amp;user.UserName, &amp;user.DepartName, &amp;user.Password, &amp;user.Sex, &amp;user.UserId, &amp;user.Phone, &amp;user.PhonePrefix,
+        &amp;user.CreateTime, &amp;user.UpdateTime,&amp;user.State,&amp;user.Authtoken,&amp;user.Mail,&amp;user.OldPassword)
+
+    if user.Password != pass {
+        err = errors.New(&quot;password not right&quot;)
+        user = NewUser()
+    }
+    user.Password = &quot;&quot;
+    user.OldPassword = &quot;&quot;
+    checkErr(err)
+    return user,err
+}
+
+//通过uid删除用户
+func DeleteUserFromDB(uid int64)(error)  {
+    db := db.DBConf()
+    stmt, err := db.Prepare(&quot;delete from userinfo where uid=?&quot;)
+    if err != nil{
+        return err
+    }
+    fmt.Println(uid)
+    _,err = stmt.Exec(uid)
+    return err
+}
+
+//错误日志
+func checkErr(err error) {
+    if err != nil {
+        log.Warn(err.Error())
+    }
+}
+</code></pre>
 
                       
                     </div>
@@ -220,7 +426,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/11/05/gin-mysql/">http://blog.flywithme.top/2017/11/05/gin-mysql/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/11/11/gin-mysql-Web/">http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -273,7 +479,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2017/11/05/gin-mysql/" data-title="使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分" data-url="http://blog.flywithme.top/2017/11/05/gin-mysql/"></div>
+<div class="ds-thread" data-thread-key="/2017/11/11/gin-mysql-Web/" data-title="web01-配置Mysql" data-url="http://blog.flywithme.top/2017/11/11/gin-mysql-Web/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -328,19 +534,19 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt" rel="next">
+        <a href="http://blog.flywithme.top/2017/11/10/imagemagic/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>iOS11 ScrollView 页面下移问题</span>
+          <span>imagemagic</span>
         </a>
         
       </li>
       <li class="previous">
         
-        <a href="http://blog.flywithme.top/2017/11/10/imagemagic/" rel="prev">
+        <a href="http://blog.flywithme.top/2017/11/13/sshnopass/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
-          <span>imagemagic</span>
+          <span>ubuntu ssh免密登陆</span>
         </a>
         
       </li>
