@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>Swift3-05 逻辑控制 - Fly With Me</title>
+  <title>golang web Send Email - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="keywords" content="swift,学习,">
-<meta name="description" content="控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组">
+<meta name="keywords" content="xxx,">
+<meta name="description" content="//注意邮件格式，以免被当垃圾邮件">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Swift3-05 逻辑控制 - Fly With Me">
-<meta itemprop="description" content="控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组">
+<meta itemprop="name" content="golang web Send Email - Fly With Me">
+<meta itemprop="description" content="//注意邮件格式，以免被当垃圾邮件">
 <meta itemprop="image" content="http://www.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="Swift3-05 逻辑控制 - Fly With Me" />
+<meta property="og:title" content="golang web Send Email - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.flywithme.top/2017/02/17/swift05/" />
+<meta property="og:url" content="http://www.flywithme.top/2017/11/13/mail/" />
 <meta property="og:image" content="http://www.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组">
+<meta property="og:description" content="//注意邮件格式，以免被当垃圾邮件">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="Swift3-05 逻辑控制 - Fly With Me">
-<meta name="twitter:description" content="控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组">
+<meta name="twitter:title" content="golang web Send Email - Fly With Me">
+<meta name="twitter:description" content="//注意邮件格式，以免被当垃圾邮件">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://www.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://www.flywithme.top/2017/02/17/swift05/">
-  <link rel='shortlink' href="http://www.flywithme.top/2017/02/17/swift05/"/>
+  <link rel="canonical" href="http://www.flywithme.top/2017/11/13/mail/">
+  <link rel='shortlink' href="http://www.flywithme.top/2017/11/13/mail/"/>
   <link rel="shortcut icon" href="http://www.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://www.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">Swift3-05 逻辑控制</h1>
+                  <h1 class="post-title">golang web Send Email</h1>
 
                   <p class="post-byline">
-                    by  · 2017年02月17日 · 986 Words ·
-                    ~2min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-02-17-swift05.md"
+                    by  · 2017年11月13日 · 17 Words ·
+                    ~1min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-11-13-mail.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -197,218 +197,7 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <p>控制流的三种基本结构:</p>
-
-<blockquote>
-<p><strong>顺序结构</strong>:  顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行<br />
- <strong>循环结构</strong>   循环语句使用同一个语句组根据一定的条件执行若干次<br />
- <strong>选择结构</strong>:  分支语句根据一定的条件决定执行那一部分语句序列
-顺序结构不再多说</p>
-</blockquote>
-
-<ul>
-<li><p><strong>循环结构</strong></p>
-
-<pre><code>for _ in 0...100{
-    print(&quot;遍历循环&quot;) 
-}
-    
-//这种方式在 swift3 中被废弃,不能在使用
-//for var i = 1; i &lt; 100 ; i++{
-//    print(&quot;遍历循环中&quot;)
-//}
-    
-    
-var a = 0.0
-while a &lt; 50 {
-    a += 0.5
-    sin(a)   
-}
-    
-//至少执行一次
-repeat{
-    a += 0.5
-    sin(a)
-}while a &lt; 100
-    
-</code></pre></li>
-
-<li><p><strong>选择结构</strong></p>
-
-<pre><code>if true {
-        
-}else if(1 == 1){
-        
-}else{
-        
-}
-    
-    
-switch index {
-case 0:
-    break
-case 1:
-    break
-case 2:
-    break
-default: break
-}
-    
-//swift 提供的基础数据类型都可以用作 switch 的判断
-var str = &quot;a&quot;
-switch str {
-case &quot;a&quot;,&quot;A&quot;:
-    print(&quot;A&quot;)
-case &quot;b&quot;:
-    print(&quot;B&quot;)
-default:
-    break
-    
-}
-
-
-//区间
-let age = 19
-switch age {
-case 0..&lt;18:
-    print(&quot;未成年&quot;)
-case 18..&lt;30:
-    print(&quot;青年&quot;)
-case 30..&lt;60:
-    print(&quot;壮年&quot;)
-default:
-     break
-}
-
-//元组    
-let point = (5, 2)
-    
-switch point {
-case (0,0):
-    print(&quot;原点&quot;)
-case (0,1):
-    print(&quot;1&quot;)
-case (0,2):
-    print(&quot;2&quot;)
-case (_,2): //可以忽略某一个维度的值
-    print(&quot;_ 2&quot;)
-case (-10...10,2...5): //元组中,同样可以使用区间
-    print(&quot;_ 2&quot;)
-default:
-    print(&quot;没找到&quot;)
-}
-    
-//解包
-let point1 = (5, 2)
-switch point1 {
-case (0,0):
-    print(&quot;原点&quot;)
-case (let x,0):
-    print(&quot;x 轴 \(x)&quot;)
-case (0,let y):
-    print(&quot;y 轴  \(y)&quot;)
-case (let x, let y):
-    print(&quot;x = \(x), y = \(y)&quot;)
-}
-</code></pre></li>
-</ul>
-
-<p><strong>where</strong>  限定匹配条件</p>
-
-<pre><code>switch point {
-case (0,0) :
-    print(&quot;原点&quot;)
-
-case (let x,0):
-    print(&quot;x 轴 \(x)&quot;)
-case (0,let y):
-    print(&quot;y 轴  \(y)&quot;)
-case (let x, let y) where x == y :
-    print(&quot;x = \(x), y = \(y)&quot;)
-case  let(x, y ) where x == -y :
-    print(&quot;x = \(x), y = \(y)&quot;)
-case (let x, let y):
-    print(&quot;x = \(x), y = \(y)&quot;)
-}
-</code></pre>
-
-<p><strong>if case</strong>  简化 switch</p>
-
-<pre><code>let age = 19 
-if case 18...20 = age {
-    print(&quot;青年&quot;)
-}
-
-// 对 case 增加一个限定条件
-if case 18...30 = age, age &gt;= 19 {
-    print(&quot;青年&quot;)
-}
-</code></pre>
-
-<p><strong>for case where</strong></p>
-
-<pre><code>for case let index in 1...100 where index % 7 == 0{
-    print(index)
-}
-
-for  index in 1...100 where index % 7 == 0{
-    print(index)
-}
-</code></pre>
-
-<p><strong>控制转移</strong>   <code>break</code> 跳出本层循环体,提前结束循环 。   <code>continue</code> 结束当前循环体,进行下一次循环   <code>fallthrough</code> 执行完当前case 之后 进入下一个 case</p>
-
-<pre><code>while true {
-    a += 0.5
-    if a == 5.5{
-        continue
-    }
-    sin(a)
-    if a &gt; 50{
-        break
-    }
-}
-
-var str = &quot;a&quot;
-switch str {
-case &quot;a&quot;,&quot;A&quot;:
-    print(&quot;A&quot;)
-    fallthrough //执行完之后 ,跳入下一个 case 语句
-case &quot;b&quot;:
-    print(&quot;B&quot;)
-    fallthrough //执行完之后 ,跳入下一个 case 语句
-default:
-    print(&quot;C&quot;)
-}
-
-//给 for 循环加一个名字,可以使用 break 结束这个循环。 谨慎使用。
-findanswer:for x in 1...300{
-    for y in 1...300{
-        print(x, y)
-        if x == 4,y == 5 {
-            break findanswer
-        }
-
-    }
-}
-```
-</code></pre>
-
-<p><strong>guard</strong> 关键字守护  <code>guard  bool condition  else</code></p>
-
-<pre><code>func buyComputer(money:Int, price:Int, brand:String){
-    guard money &gt; price else {
-        print(&quot;钱不够&quot;)
-        return
-    }
-
-    guard brand == &quot;Apple&quot; else {
-        print(&quot;不是苹果电脑&quot;)
-        return
-    }
-}
-buyComputer(money: 9000, price: 6000, brand: &quot;Sony&quot;)
-</code></pre>
+                      <p>//注意邮件格式，以免被当垃圾邮件</p>
 
                       
                     </div>
@@ -420,7 +209,7 @@ buyComputer(money: 9000, price: 6000, brand: &quot;Sony&quot;)
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2017/02/17/swift05/">http://www.flywithme.top/2017/02/17/swift05/</a>
+                            <br />本文出处：<a target="_blank" href="http://www.flywithme.top/2017/11/13/mail/">http://www.flywithme.top/2017/11/13/mail/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -473,7 +262,7 @@ buyComputer(money: 9000, price: 6000, brand: &quot;Sony&quot;)
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2017/02/17/swift05/" data-title="Swift3-05 逻辑控制" data-url="http://www.flywithme.top/2017/02/17/swift05/"></div>
+<div class="ds-thread" data-thread-key="/2017/11/13/mail/" data-title="golang web Send Email" data-url="http://www.flywithme.top/2017/11/13/mail/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -528,19 +317,19 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://www.flywithme.top/2017/02/17/swift04/" rel="next">
+        <a href="http://www.flywithme.top/2017/11/13/sshnopass/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Swift3-04 基础运算符</span>
+          <span>ubuntu ssh免密登陆</span>
         </a>
         
       </li>
       <li class="previous">
         
-        <a href="http://www.flywithme.top/2017/02/20/swift06/" rel="prev">
+        <a href="http://www.flywithme.top/2017/11/15/PlistBuddy/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
-          <span>Swift3-06 可选型 Optionals</span>
+          <span>PlistBuddy</span>
         </a>
         
       </li>

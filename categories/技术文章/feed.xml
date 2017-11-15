@@ -2,18 +2,93 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>技术文章 on Fly With Me</title>
-        <link>http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/feed/index.xml</link>
+        <link>http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/feed/index.xml</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>PlistBuddy</title>
+            <link>http://www.flywithme.top/2017/11/15/PlistBuddy/</link>
+            <pubDate>Wed, 15 Nov 2017 19:06:14 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2017/11/15/PlistBuddy/</guid>
+            <description>&lt;p&gt;&lt;a href=&#34;https://github.com/flywithbug/Shell_Demo&#34;&gt;demo地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;图片内容处理文件 (merchant-icon-generator.sh)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#获取参数 文件源
+SRC_FILE=&amp;quot;$1&amp;quot; 
+#版本号
+shortVersion=&amp;quot;$2&amp;quot;
+#标签number
+bundlerNum=&amp;quot;$3&amp;quot;
+
+#转换      文件         绘制    坐标           填充       颜色          透明度             填充      坐标          填充      颜色           透明度            生成目标图片
+convert &amp;quot;$SRC_FILE&amp;quot; -region 1024x244+0+780 -fill &amp;quot;rgb(0,159,250)&amp;quot; -colorize 100%   -region 1024x244+650+780 -fill &amp;quot;rgb(102,230,32)&amp;quot; -colorize 100%  target-new.png  
+
+#转换       文件         重置坐标  地图坐标西南角  写入 白色字体，文字尺寸     绘制文字   offset    内容                    
+convert target-new.png -gravity southwest -fill white -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$shortVersion&#39;&amp;quot;  -gravity southeast -fill white -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$bundlerNum&#39;&amp;quot; target-new.png
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;命令&lt;br /&gt;
+&lt;img src=&#34;sources/shell/01.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;原图&lt;br /&gt;
+&lt;img src=&#34;sources/shell/1024-origin.png&#34; width = &#34;20%&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;目标图&lt;br /&gt;
+&lt;img src=&#34;sources/shell/target-new.png&#34; width = &#34;20%&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Plist处理文件（merchant_plist_generator.sh）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+appInfoPlistPath=&amp;quot;Jovi/Jovi/Info-AdHoc.plist&amp;quot;
+bundleShortVersion=$(/usr/libexec/PlistBuddy -c &amp;quot;print CFBundleShortVersionString&amp;quot; ${appInfoPlistPath})
+bundleVersion=$(/usr/libexec/PlistBuddy -c &amp;quot;print CFBundleVersion&amp;quot; ${appInfoPlistPath})
+
+# url=&amp;quot;$1&amp;quot;
+# if [ &amp;quot;$1&amp;quot;  = &amp;quot;&amp;quot; ]
+# then 
+#   url=&amp;quot;http://app.dp:8080/view/Merchant/job/dpmerchant_adhocMCI/lastBuild/buildNumber&amp;quot;
+# fi
+result=&amp;quot;23232&amp;quot;
+while [ &amp;quot;$result&amp;quot; == &amp;quot;&amp;quot; ]
+do 
+    result=$(curl -s &amp;quot;$url&amp;quot;)
+done
+
+newBundleVersion=&amp;quot;&amp;quot;$bundleShortVersion&amp;quot;.&amp;quot;$result&amp;quot;&amp;quot;
+/usr/libexec/PlistBuddy -c &amp;quot;Set CFBundleVersion ${newBundleVersion}&amp;quot;  ${appInfoPlistPath}
+
+sh merchant-icon-generator.sh &amp;quot;1024-origin.png&amp;quot; &amp;quot;$bundleShortVersion&amp;quot; &amp;quot;$result&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/shell/02.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/shell/03.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>golang web Send Email</title>
+            <link>http://www.flywithme.top/2017/11/13/mail/</link>
+            <pubDate>Mon, 13 Nov 2017 17:20:15 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://www.flywithme.top/2017/11/13/mail/</guid>
+            <description>&lt;p&gt;//注意邮件格式，以免被当垃圾邮件&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
             <title>ubuntu ssh免密登陆</title>
-            <link>http://blog.flywithme.top/2017/11/13/sshnopass/</link>
+            <link>http://www.flywithme.top/2017/11/13/sshnopass/</link>
             <pubDate>Mon, 13 Nov 2017 11:40:09 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/13/sshnopass/</guid>
+            <guid>http://www.flywithme.top/2017/11/13/sshnopass/</guid>
             <description>
 
 &lt;h3 id=&#34;前置条件&#34;&gt;前置条件：&lt;/h3&gt;
@@ -55,10 +130,10 @@
         
         <item>
             <title>web01-配置Mysql</title>
-            <link>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</link>
+            <link>http://www.flywithme.top/2017/11/11/gin-mysql-Web/</link>
             <pubDate>Sat, 11 Nov 2017 19:57:02 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</guid>
+            <guid>http://www.flywithme.top/2017/11/11/gin-mysql-Web/</guid>
             <description>&lt;p&gt;安装Mysql 创建userInfo表&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;CREATE TABLE `userinfo` (
@@ -282,10 +357,10 @@ func checkErr(err error) {
         
         <item>
             <title>imagemagic</title>
-            <link>http://blog.flywithme.top/2017/11/10/imagemagic/</link>
+            <link>http://www.flywithme.top/2017/11/10/imagemagic/</link>
             <pubDate>Fri, 10 Nov 2017 12:11:33 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/10/imagemagic/</guid>
+            <guid>http://www.flywithme.top/2017/11/10/imagemagic/</guid>
             <description>&lt;p&gt;首先：brew install ImageMagick&lt;/p&gt;
 
 &lt;p&gt;熟悉ImageMagick命令：&lt;/p&gt;
@@ -308,10 +383,10 @@ convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&am
         
         <item>
             <title>使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分</title>
-            <link>http://blog.flywithme.top/2017/11/05/gin-mysql/</link>
+            <link>http://www.flywithme.top/2017/11/05/gin-mysql/</link>
             <pubDate>Sun, 05 Nov 2017 20:17:21 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/05/gin-mysql/</guid>
+            <guid>http://www.flywithme.top/2017/11/05/gin-mysql/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;项目地址：&lt;a href=&#34;https://github.com/flywithbug/darkside&#34;&gt;https://github.com/flywithbug/darkside&lt;/a&gt; 欢迎fork。 TODO 更新更多内容&lt;/li&gt;
 &lt;/ul&gt;
@@ -330,10 +405,10 @@ convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&am
         
         <item>
             <title>iOS11 ScrollView 页面下移问题</title>
-            <link>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt</link>
+            <link>http://www.flywithme.top/2017-09-30-iOS11ScrollView20pt</link>
             <pubDate>Sat, 30 Sep 2017 14:58:00 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt</guid>
+            <guid>http://www.flywithme.top/2017-09-30-iOS11ScrollView20pt</guid>
             <description>&lt;nav&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -365,7 +440,7 @@ convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&am
 
 &lt;p&gt;问题如下图所示：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/scrollview/92.png&#34; alt=&#34;sss&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/scrollview/92.png&#34; alt=&#34;sss&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;1. 原因分析&lt;/strong&gt;&lt;/p&gt;
 
@@ -378,7 +453,7 @@ convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&am
 
 &lt;p&gt;系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/scrollview/32.png&#34; alt=&#34;sssa&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/scrollview/32.png&#34; alt=&#34;sssa&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。
 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用&lt;code&gt;additionalSafeAreaInsets&lt;/code&gt;去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。&lt;/p&gt;
@@ -475,10 +550,10 @@ self.tableView.estimatedSectionFooterHeight = 0;
         
         <item>
             <title>大文件分片上传解决方案</title>
-            <link>http://blog.flywithme.top/2017/08/03/bigFileUpload/</link>
+            <link>http://www.flywithme.top/2017/08/03/bigFileUpload/</link>
             <pubDate>Thu, 03 Aug 2017 13:44:56 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/08/03/bigFileUpload/</guid>
+            <guid>http://www.flywithme.top/2017/08/03/bigFileUpload/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数&lt;/p&gt;&lt;/li&gt;
 
@@ -494,7 +569,7 @@ self.tableView.estimatedSectionFooterHeight = 0;
  等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/bigFileUpload/bigfile001.png&#34; alt=&#34;bigfile001&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/bigFileUpload/bigfile001.png&#34; alt=&#34;bigfile001&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式&lt;br /&gt;
@@ -506,19 +581,19 @@ self.tableView.estimatedSectionFooterHeight = 0;
         
         <item>
             <title>swift3-22</title>
-            <link>http://blog.flywithme.top/2017/04/17/swift22/</link>
+            <link>http://www.flywithme.top/2017/04/17/swift22/</link>
             <pubDate>Mon, 17 Apr 2017 10:48:35 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/04/17/swift22/</guid>
+            <guid>http://www.flywithme.top/2017/04/17/swift22/</guid>
             <description></description>
         </item>
         
         <item>
             <title>swift3-21 析构过程</title>
-            <link>http://blog.flywithme.top/2017/04/13/swift21/</link>
+            <link>http://www.flywithme.top/2017/04/13/swift21/</link>
             <pubDate>Thu, 13 Apr 2017 17:19:53 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/04/13/swift21/</guid>
+            <guid>http://www.flywithme.top/2017/04/13/swift21/</guid>
             <description>&lt;p&gt;在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;析构过程原理&lt;/strong&gt; Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的
@@ -553,10 +628,10 @@ print(counter) // 0
         
         <item>
             <title>swift3-20 构造过程</title>
-            <link>http://blog.flywithme.top/2017/04/13/swift20/</link>
+            <link>http://www.flywithme.top/2017/04/13/swift20/</link>
             <pubDate>Thu, 13 Apr 2017 16:24:52 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/04/13/swift20/</guid>
+            <guid>http://www.flywithme.top/2017/04/13/swift20/</guid>
             <description>&lt;p&gt;构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务&lt;br /&gt;
  swift的构造函数使用的是init()方法。 这个方法没有返回值。主要任务是保证新实例在第一次使用之前完成正确的初始化。&lt;/p&gt;
 
@@ -772,10 +847,10 @@ let son = sonClass1.init(name: &amp;quot;a&amp;quot;, age: 2, str1: &amp;quot;st
         
         <item>
             <title>swift3-19 多态性</title>
-            <link>http://blog.flywithme.top/2017/04/13/swift19/</link>
+            <link>http://www.flywithme.top/2017/04/13/swift19/</link>
             <pubDate>Thu, 13 Apr 2017 12:00:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/04/13/swift19/</guid>
+            <guid>http://www.flywithme.top/2017/04/13/swift19/</guid>
             <description>&lt;p&gt;&lt;strong&gt;多态性&lt;/strong&gt; 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为&lt;/p&gt;
 
 &lt;ul&gt;
@@ -844,10 +919,10 @@ grandson2.testFunc()
         
         <item>
             <title>swift3-18 继承</title>
-            <link>http://blog.flywithme.top/2017/04/01/swift18/</link>
+            <link>http://www.flywithme.top/2017/04/01/swift18/</link>
             <pubDate>Sat, 01 Apr 2017 22:29:17 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/04/01/swift18/</guid>
+            <guid>http://www.flywithme.top/2017/04/01/swift18/</guid>
             <description>&lt;p&gt;&lt;strong&gt;继承&lt;/strong&gt;：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)，
 我们也可以为类中继承来的属性添加属性观察器&lt;/p&gt;
 
@@ -902,10 +977,10 @@ son.levelStr
         
         <item>
             <title>swift3-17 单例</title>
-            <link>http://blog.flywithme.top/2017/03/31/swift17/</link>
+            <link>http://www.flywithme.top/2017/03/31/swift17/</link>
             <pubDate>Fri, 31 Mar 2017 19:47:41 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/03/31/swift17/</guid>
+            <guid>http://www.flywithme.top/2017/03/31/swift17/</guid>
             <description>&lt;p&gt;&lt;strong&gt;单例写法&lt;/strong&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;public class Manager{
@@ -939,10 +1014,10 @@ manager2.score
         
         <item>
             <title>swift3-16 属性</title>
-            <link>http://blog.flywithme.top/2017/03/30/swift16/</link>
+            <link>http://www.flywithme.top/2017/03/30/swift16/</link>
             <pubDate>Thu, 30 Mar 2017 16:53:45 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/03/30/swift16/</guid>
+            <guid>http://www.flywithme.top/2017/03/30/swift16/</guid>
             <description>&lt;p&gt;Swift 属性将值跟特定的类、结构或枚举关联&lt;/p&gt;
 
 &lt;p&gt;属性可分为存储属性和计算属性:&lt;/p&gt;
@@ -1197,189 +1272,6 @@ Player.heighestScore
 let ui = UI()
 ui.themeMode
 ui.backGroundColor
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3-15 类</title>
-            <link>http://blog.flywithme.top/2017/03/29/swift15/</link>
-            <pubDate>Wed, 29 Mar 2017 14:18:03 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/03/29/swift15/</guid>
-            <description>&lt;p&gt;&lt;strong&gt;类&lt;/strong&gt;：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。
-    与其他编程语言不同的是,Swift 并不要求你为自定义的类去创建独立的接口和实现文件，
-    你要做的是在一个单一文件中定义一个类，系统会自动生产面向其他代码的外部接口。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//示例：
-class Person{
-    var firstName:String = &amp;quot;&amp;quot;
-    var lastName:String = &amp;quot;&amp;quot;
-}
-
-class Person1{
-    var firstName:String
-    var lastName:String
-    init(firstName:String, lastName:String) {
-        self.firstName = firstName
-        self.lastName = lastName
-    }
-}
-let person1 = Person1.init(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;类和结构体的对比&lt;/strong&gt;&lt;br /&gt;
- 共同点：&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;定义属性用于存储值&lt;/li&gt;
-&lt;li&gt;定义方法用于提供功能&lt;/li&gt;
-&lt;li&gt;定义附属脚本用于访问值&lt;/li&gt;
-&lt;li&gt;定义构造器用于生成初始化值&lt;/li&gt;
-&lt;li&gt;通过扩展以增加默认实现的功能&lt;/li&gt;
-&lt;li&gt;符合协议以对某类提供标准功能
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;比结构体多了如下功能&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;允许一个类继承另一个类的特征&lt;/li&gt;
-&lt;li&gt;类型转换允许在运行时检查和解释一个类的实例类型&lt;/li&gt;
-&lt;li&gt;结构器允许一个实例释放任何其所分配的资源&lt;/li&gt;
-&lt;li&gt;引用计数允许对一个类多次引用
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;区别：引用类型和值类型&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//示例：
-class Person{
-   var firstName:String = &amp;quot;&amp;quot;
-   var lastName:String = &amp;quot;&amp;quot;
-}
-
-let person1 = Person(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)
-let person2 = person1
-person2.firstName = &amp;quot;abc&amp;quot;
-person1.firstName  // &amp;quot;abc&amp;quot;  person1 和 person2 是引用关系 指向同一个内存空间
-let person3 = Person(firstName: &amp;quot;abc&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)
-
-struct Location{
-    var latitude:Double
-    var longitude:Double
-}
-
-var aLocation = Location.init(latitude: 2.0, longitude: 3.0)
-var blocation = aLocation
-blocation.latitude = 1.0
-aLocation.latitude    // 2.0  aLocation 和 bloaction 是值类型关系，赋值是拷贝，产生一个新的副本
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;恒等运算符&lt;/strong&gt;  因为类是引用类型，有可能有多个常量和变量在后台同时引用某一个类实例.
-          为了能够判定两个常量或者变量是否引用同一个类实例，Swift 内建了两个恒等运算符：&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;===&lt;/code&gt;: 如果两个常量或者变量引用同一个类实例则返回 true&lt;br /&gt;
-      &lt;code&gt;!==&lt;/code&gt;: 如果两个常量或者变量引用不同一个类实例则返回 true&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt; person1 === person2   //true
- person1 === person3   //false
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3-14 结构体</title>
-            <link>http://blog.flywithme.top/2017/03/23/swift3-14/</link>
-            <pubDate>Thu, 23 Mar 2017 16:54:15 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/03/23/swift3-14/</guid>
-            <description>&lt;p&gt;Swift 结构体是构建代码所用的一种通用且灵活的构造体。我们可以为结构体定义属性（常量、变量）和添加方法，从而扩展结构体的功能.&lt;br /&gt;
-与 C 和 Objective-C 不同的是:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;结构体不需要包含实现文件和接口&lt;/li&gt;
-&lt;li&gt;结构体允许我们创建一个单一文件,且系统会自动生成面向其他代码的外部接口
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;结构体总是通过被复制的方式在代码中传递，因此它的值是不可修改的.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;struct MarkStruct{
-   var mark1: Int
-   var mark2: Int
-   var mark3: Int
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;结构体应用&lt;/strong&gt;  需要注意的以下几点:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;结构体的主要目的是用来封装少了相关简单数据&lt;/li&gt;
-&lt;li&gt;有理由预计一个结构体实例在赋值和传递时,封装的数据将会被拷贝而不是被引用&lt;/li&gt;
-&lt;li&gt;任何在结构体中存储的值类型属性,也将会被拷贝,而不是被引用。&lt;/li&gt;
-&lt;li&gt;结构体不需要去继承另一个已存在类型的属性或者行为。&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;总的来说就是:结构体实例是通过值传递,而不是通过引用传递。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;struct Location{
-    var latitude:Double
-    var longitude:Double
-}
-let aLocation = Location(latitude: 12.0,longitude: 212.0)
-var bLoaction = Location.init(latitude: 1.2, longitude: 1.3)
-struct Place{
-    var location:Location
-    var name:String
-}
-
-var aPlace = Place.init(location: bLoaction, name: &amp;quot;苹果总部&amp;quot;)
-bLoaction.latitude = 37.3230
-bLoaction.longitude = -122.0332
-print(aPlace)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;构造函数&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;struct Location{
-    var latitude : Double
-    var longitude: Double
-
-    init?(coordinateString:  String) {
-         guard
-            let commIndex = coordinateString.range(of: &amp;quot;,&amp;quot;),
-            let first = Double(coordinateString.substring(to: commIndex.lowerBound)),
-            let second = Double(coordinateString.substring(from: commIndex.upperBound))
-            else {
-                return nil
-        }
-
-        self.latitude = first
-        self.longitude = second
-    }
-    init(latitude:Double, longitude:Double) {
-        self.latitude = latitude
-        self.longitude = longitude
-
-    }
-    func printLocation() {
-        print(&amp;quot;The Location is \(self.latitude), \(self.longitude)&amp;quot;)
-    }
-    func isNoth() -&amp;gt; Bool {
-         self.printLocation()
-         return self.latitude &amp;gt; 0
-    }
-}
-let location = Location(coordinateString: &amp;quot;21,23&amp;quot;)
-location?.latitude
-location?.longitude
-let location2 = Location(latitude: 25.222,longitude: 122.23222)
-location2.isNoth()
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
