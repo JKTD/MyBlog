@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Categories on Fly With Me</title>
-        <link>http://www.flywithme.top/categories/feed/index.xml</link>
+        <link>http://blog.flywithme.top/categories/feed/index.xml</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
@@ -10,19 +10,19 @@
         
         <item>
             <title>学习笔记</title>
-            <link>http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+            <link>http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
             <pubDate>Wed, 15 Nov 2017 19:06:14 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+            <guid>http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
             <description></description>
         </item>
         
         <item>
             <title>技术文章</title>
-            <link>http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
+            <link>http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</link>
             <pubDate>Wed, 15 Nov 2017 19:06:14 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</guid>
+            <guid>http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</guid>
             <description></description>
         </item>
         

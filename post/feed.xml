@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on Fly With Me</title>
-        <link>http://www.flywithme.top/post/feed/index.xml</link>
+        <link>http://blog.flywithme.top/post/feed/index.xml</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
         <updated>Wed, 15 Nov 2017 19:06:14 CST</updated>
         
         <item>
-            <title>PlistBuddy</title>
-            <link>http://www.flywithme.top/2017/11/15/PlistBuddy/</link>
+            <title>Shell 小记，imageMagick 和 PlistBuddy合体生成图标</title>
+            <link>http://blog.flywithme.top/2017/11/15/PlistBuddy/</link>
             <pubDate>Wed, 15 Nov 2017 19:06:14 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/11/15/PlistBuddy/</guid>
+            <guid>http://blog.flywithme.top/2017/11/15/PlistBuddy/</guid>
             <description>&lt;p&gt;&lt;a href=&#34;https://github.com/flywithbug/Shell_Demo&#34;&gt;demo地址&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;图片内容处理文件 (merchant-icon-generator.sh)&lt;/p&gt;
@@ -75,20 +75,20 @@ sh merchant-icon-generator.sh &amp;quot;1024-origin.png&amp;quot; &amp;quot;$bun
         
         <item>
             <title>golang web Send Email</title>
-            <link>http://www.flywithme.top/2017/11/13/mail/</link>
+            <link>http://blog.flywithme.top/2017/11/13/mail/</link>
             <pubDate>Mon, 13 Nov 2017 17:20:15 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/11/13/mail/</guid>
+            <guid>http://blog.flywithme.top/2017/11/13/mail/</guid>
             <description>&lt;p&gt;//注意邮件格式，以免被当垃圾邮件&lt;/p&gt;
 </description>
         </item>
         
         <item>
             <title>ubuntu ssh免密登陆</title>
-            <link>http://www.flywithme.top/2017/11/13/sshnopass/</link>
+            <link>http://blog.flywithme.top/2017/11/13/sshnopass/</link>
             <pubDate>Mon, 13 Nov 2017 11:40:09 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/11/13/sshnopass/</guid>
+            <guid>http://blog.flywithme.top/2017/11/13/sshnopass/</guid>
             <description>
 
 &lt;h3 id=&#34;前置条件&#34;&gt;前置条件：&lt;/h3&gt;
@@ -130,10 +130,10 @@ sh merchant-icon-generator.sh &amp;quot;1024-origin.png&amp;quot; &amp;quot;$bun
         
         <item>
             <title>web01-配置Mysql</title>
-            <link>http://www.flywithme.top/2017/11/11/gin-mysql-Web/</link>
+            <link>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</link>
             <pubDate>Sat, 11 Nov 2017 19:57:02 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/11/11/gin-mysql-Web/</guid>
+            <guid>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</guid>
             <description>&lt;p&gt;安装Mysql 创建userInfo表&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;CREATE TABLE `userinfo` (
@@ -357,10 +357,10 @@ func checkErr(err error) {
         
         <item>
             <title>imagemagic</title>
-            <link>http://www.flywithme.top/2017/11/10/imagemagic/</link>
+            <link>http://blog.flywithme.top/2017/11/10/imagemagic/</link>
             <pubDate>Fri, 10 Nov 2017 12:11:33 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/11/10/imagemagic/</guid>
+            <guid>http://blog.flywithme.top/2017/11/10/imagemagic/</guid>
             <description>&lt;p&gt;首先：brew install ImageMagick&lt;/p&gt;
 
 &lt;p&gt;熟悉ImageMagick命令：&lt;/p&gt;
@@ -383,10 +383,10 @@ convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&am
         
         <item>
             <title>使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分</title>
-            <link>http://www.flywithme.top/2017/11/05/gin-mysql/</link>
+            <link>http://blog.flywithme.top/2017/11/05/gin-mysql/</link>
             <pubDate>Sun, 05 Nov 2017 20:17:21 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/11/05/gin-mysql/</guid>
+            <guid>http://blog.flywithme.top/2017/11/05/gin-mysql/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;项目地址：&lt;a href=&#34;https://github.com/flywithbug/darkside&#34;&gt;https://github.com/flywithbug/darkside&lt;/a&gt; 欢迎fork。 TODO 更新更多内容&lt;/li&gt;
 &lt;/ul&gt;
@@ -405,10 +405,10 @@ convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&am
         
         <item>
             <title>iOS11 ScrollView 页面下移问题</title>
-            <link>http://www.flywithme.top/2017-09-30-iOS11ScrollView20pt</link>
+            <link>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt</link>
             <pubDate>Sat, 30 Sep 2017 14:58:00 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017-09-30-iOS11ScrollView20pt</guid>
+            <guid>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt</guid>
             <description>&lt;nav&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -440,7 +440,7 @@ convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&am
 
 &lt;p&gt;问题如下图所示：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/scrollview/92.png&#34; alt=&#34;sss&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/scrollview/92.png&#34; alt=&#34;sss&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;1. 原因分析&lt;/strong&gt;&lt;/p&gt;
 
@@ -453,7 +453,7 @@ convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&am
 
 &lt;p&gt;系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/scrollview/32.png&#34; alt=&#34;sssa&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/scrollview/32.png&#34; alt=&#34;sssa&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。
 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用&lt;code&gt;additionalSafeAreaInsets&lt;/code&gt;去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。&lt;/p&gt;
@@ -550,10 +550,10 @@ self.tableView.estimatedSectionFooterHeight = 0;
         
         <item>
             <title>大文件分片上传解决方案</title>
-            <link>http://www.flywithme.top/2017/08/03/bigFileUpload/</link>
+            <link>http://blog.flywithme.top/2017/08/03/bigFileUpload/</link>
             <pubDate>Thu, 03 Aug 2017 13:44:56 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/08/03/bigFileUpload/</guid>
+            <guid>http://blog.flywithme.top/2017/08/03/bigFileUpload/</guid>
             <description>&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数&lt;/p&gt;&lt;/li&gt;
 
@@ -569,7 +569,7 @@ self.tableView.estimatedSectionFooterHeight = 0;
  等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.flywithme.top/sources/bigFileUpload/bigfile001.png&#34; alt=&#34;bigfile001&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/bigFileUpload/bigfile001.png&#34; alt=&#34;bigfile001&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式&lt;br /&gt;
@@ -581,19 +581,19 @@ self.tableView.estimatedSectionFooterHeight = 0;
         
         <item>
             <title>swift3-22</title>
-            <link>http://www.flywithme.top/2017/04/17/swift22/</link>
+            <link>http://blog.flywithme.top/2017/04/17/swift22/</link>
             <pubDate>Mon, 17 Apr 2017 10:48:35 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/04/17/swift22/</guid>
+            <guid>http://blog.flywithme.top/2017/04/17/swift22/</guid>
             <description></description>
         </item>
         
         <item>
             <title>swift3-21 析构过程</title>
-            <link>http://www.flywithme.top/2017/04/13/swift21/</link>
+            <link>http://blog.flywithme.top/2017/04/13/swift21/</link>
             <pubDate>Thu, 13 Apr 2017 17:19:53 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/04/13/swift21/</guid>
+            <guid>http://blog.flywithme.top/2017/04/13/swift21/</guid>
             <description>&lt;p&gt;在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;析构过程原理&lt;/strong&gt; Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的
@@ -628,10 +628,10 @@ print(counter) // 0
         
         <item>
             <title>swift3-20 构造过程</title>
-            <link>http://www.flywithme.top/2017/04/13/swift20/</link>
+            <link>http://blog.flywithme.top/2017/04/13/swift20/</link>
             <pubDate>Thu, 13 Apr 2017 16:24:52 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/04/13/swift20/</guid>
+            <guid>http://blog.flywithme.top/2017/04/13/swift20/</guid>
             <description>&lt;p&gt;构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务&lt;br /&gt;
  swift的构造函数使用的是init()方法。 这个方法没有返回值。主要任务是保证新实例在第一次使用之前完成正确的初始化。&lt;/p&gt;
 
@@ -847,10 +847,10 @@ let son = sonClass1.init(name: &amp;quot;a&amp;quot;, age: 2, str1: &amp;quot;st
         
         <item>
             <title>swift3-19 多态性</title>
-            <link>http://www.flywithme.top/2017/04/13/swift19/</link>
+            <link>http://blog.flywithme.top/2017/04/13/swift19/</link>
             <pubDate>Thu, 13 Apr 2017 12:00:36 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/04/13/swift19/</guid>
+            <guid>http://blog.flywithme.top/2017/04/13/swift19/</guid>
             <description>&lt;p&gt;&lt;strong&gt;多态性&lt;/strong&gt; 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为&lt;/p&gt;
 
 &lt;ul&gt;
@@ -919,10 +919,10 @@ grandson2.testFunc()
         
         <item>
             <title>swift3-18 继承</title>
-            <link>http://www.flywithme.top/2017/04/01/swift18/</link>
+            <link>http://blog.flywithme.top/2017/04/01/swift18/</link>
             <pubDate>Sat, 01 Apr 2017 22:29:17 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/04/01/swift18/</guid>
+            <guid>http://blog.flywithme.top/2017/04/01/swift18/</guid>
             <description>&lt;p&gt;&lt;strong&gt;继承&lt;/strong&gt;：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)，
 我们也可以为类中继承来的属性添加属性观察器&lt;/p&gt;
 
@@ -977,10 +977,10 @@ son.levelStr
         
         <item>
             <title>swift3-17 单例</title>
-            <link>http://www.flywithme.top/2017/03/31/swift17/</link>
+            <link>http://blog.flywithme.top/2017/03/31/swift17/</link>
             <pubDate>Fri, 31 Mar 2017 19:47:41 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/03/31/swift17/</guid>
+            <guid>http://blog.flywithme.top/2017/03/31/swift17/</guid>
             <description>&lt;p&gt;&lt;strong&gt;单例写法&lt;/strong&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;public class Manager{
@@ -1014,10 +1014,10 @@ manager2.score
         
         <item>
             <title>swift3-16 属性</title>
-            <link>http://www.flywithme.top/2017/03/30/swift16/</link>
+            <link>http://blog.flywithme.top/2017/03/30/swift16/</link>
             <pubDate>Thu, 30 Mar 2017 16:53:45 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://www.flywithme.top/2017/03/30/swift16/</guid>
+            <guid>http://blog.flywithme.top/2017/03/30/swift16/</guid>
             <description>&lt;p&gt;Swift 属性将值跟特定的类、结构或枚举关联&lt;/p&gt;
 
 &lt;p&gt;属性可分为存储属性和计算属性:&lt;/p&gt;
