@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>无线真机调试-Xcode9 -iOS - Fly With Me</title>
+  <title>Jenkins-打包之远程构建 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连">
+<meta name="description" content="在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="无线真机调试-Xcode9 -iOS - Fly With Me">
-<meta itemprop="description" content="首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连">
+<meta itemprop="name" content="Jenkins-打包之远程构建 - Fly With Me">
+<meta itemprop="description" content="在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="无线真机调试-Xcode9 -iOS - Fly With Me" />
+<meta property="og:title" content="Jenkins-打包之远程构建 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2017/11/16/wirelessdebug/" />
+<meta property="og:url" content="http://blog.flywithme.top/2017/11/16/Jenkins/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连">
+<meta property="og:description" content="在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="无线真机调试-Xcode9 -iOS - Fly With Me">
-<meta name="twitter:description" content="首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连">
+<meta name="twitter:title" content="Jenkins-打包之远程构建 - Fly With Me">
+<meta name="twitter:description" content="在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2017/11/16/wirelessdebug/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2017/11/16/wirelessdebug/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2017/11/16/Jenkins/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2017/11/16/Jenkins/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">无线真机调试-Xcode9 -iOS</h1>
+                  <h1 class="post-title">Jenkins-打包之远程构建</h1>
 
                   <p class="post-byline">
-                    by  · 2017年11月16日 · 271 Words ·
+                    by  · 2017年11月16日 · 342 Words ·
                     ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-11-16-wirelessdebug.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-11-16-Jenkins.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -197,28 +197,35 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <ul>
-<li>首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统</li>
-<li>其次你的手机必须和电脑处于同一个无线局域网中</li>
+                      <p>在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。
+但是如果人工去构建打包又会显得不够fashion。每次有新的代码合入测完分支，就自动打一个包给测试人员，会更高效一些。</p>
 
-<li><p>首次安装连接需要先连接数据线至同一个局域网的Mac上</p></li>
+<p>Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦</p>
 
-<li><p>打开-&gt;windows里的Device and Simulators选项，勾选 Connect Via network</p></li>
-</ul>
+<p><img src="sources/jenkins/01.png" width = "100%" /></p>
 
-<p>假设你的开发证书和描述文件都是齐全完整的，开始编译，会自动提示。真机调试选择刚才连接到 机器名字</p>
+<p>上图所示的配置 <strong>触发远程构建</strong>，是使用身份令牌的形式完成的：<a href="http://host/job/merchant/buildWithParameters?token=token">http://host/job/merchant/buildWithParameters?token=token</a>
+get请求形式即可完成</p>
 
-<p>数据线链接手机 打开device and simulators面板，勾选connect via network</p>
+<p><img src="sources/jenkins/02.png" width = "100%" /></p>
 
-<p><img src="sources/wireless/002.png" width = "100%" /></p>
+<p><strong>定时构建</strong></p>
 
-<p>选择你的设备开始编译 （就算断开数据线，这个设备依然会留在这里）
-  <img src="sources/wireless/005.png" width = "100%" /></p>
+<p>举个🌰</p>
 
-<p><img src="sources/wireless/003.png" width = "100%" /></p>
+<pre><code>* * * * *
+第一个*表示分钟，取值0~59
+第二个*表示小时，取值0~23
+第三个*表示一个月的第几天，取值1~31
+第四个*表示第几月，取值1~12
+第五个*表示一周中的第几天，取值0~7，其中0和7代表的都是周日
 
-<p>开始编译结束-可以查看手机的device日志，然后手机名字右边的网球 表示无线连接正常
-  <img src="sources/wireless/004.png" width = "100%" /></p>
+H H/3 * * *  
+每3小时构建以此
+
+0 9,13,18 * * 1-5
+每周一到周五 9点，13点，18点构建，
+</code></pre>
 
                       
                     </div>
@@ -230,7 +237,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/11/16/wirelessdebug/">http://blog.flywithme.top/2017/11/16/wirelessdebug/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/11/16/Jenkins/">http://blog.flywithme.top/2017/11/16/Jenkins/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -283,7 +290,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2017/11/16/wirelessdebug/" data-title="无线真机调试-Xcode9 -iOS" data-url="http://blog.flywithme.top/2017/11/16/wirelessdebug/"></div>
+<div class="ds-thread" data-thread-key="/2017/11/16/Jenkins/" data-title="Jenkins-打包之远程构建" data-url="http://blog.flywithme.top/2017/11/16/Jenkins/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -338,20 +345,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2017/11/15/PlistBuddy/" rel="next">
+        <a href="http://blog.flywithme.top/2017/11/16/wirelessdebug/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Shell 小记，imageMagick 和 PlistBuddy合体生成图标</span>
+          <span>无线真机调试-Xcode9 -iOS</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2017/11/16/Jenkins/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>Jenkins-打包之远程构建</span>
-        </a>
         
       </li>
     </ul>

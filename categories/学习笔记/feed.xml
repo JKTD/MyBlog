@@ -9,6 +9,44 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>Jenkins-打包之远程构建</title>
+            <link>http://blog.flywithme.top/2017/11/16/Jenkins/</link>
+            <pubDate>Thu, 16 Nov 2017 16:59:57 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/11/16/Jenkins/</guid>
+            <description>&lt;p&gt;在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。
+但是如果人工去构建打包又会显得不够fashion。每次有新的代码合入测完分支，就自动打一个包给测试人员，会更高效一些。&lt;/p&gt;
+
+&lt;p&gt;Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/jenkins/01.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上图所示的配置 &lt;strong&gt;触发远程构建&lt;/strong&gt;，是使用身份令牌的形式完成的：&lt;a href=&#34;http://host/job/merchant/buildWithParameters?token=token&#34;&gt;http://host/job/merchant/buildWithParameters?token=token&lt;/a&gt;
+get请求形式即可完成&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/jenkins/02.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;定时构建&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;举个🌰&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* * * * *
+第一个*表示分钟，取值0~59
+第二个*表示小时，取值0~23
+第三个*表示一个月的第几天，取值1~31
+第四个*表示第几月，取值1~12
+第五个*表示一周中的第几天，取值0~7，其中0和7代表的都是周日
+
+H H/3 * * *  
+每3小时构建以此
+
+0 9,13,18 * * 1-5
+每周一到周五 9点，13点，18点构建，
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
             <title>无线真机调试-Xcode9 -iOS</title>
             <link>http://blog.flywithme.top/2017/11/16/wirelessdebug/</link>
             <pubDate>Thu, 16 Nov 2017 11:15:21 CST</pubDate>
@@ -1068,43 +1106,6 @@ son.levelStr
          super.init(name: name)
      }
  }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3-17 单例</title>
-            <link>http://blog.flywithme.top/2017/03/31/swift17/</link>
-            <pubDate>Fri, 31 Mar 2017 19:47:41 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/03/31/swift17/</guid>
-            <description>&lt;p&gt;&lt;strong&gt;单例写法&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Manager{
-    public var score = 0
-    public static let defaultManager = Manager.init()
-
-    private init(){
-
-    }
-    public func addScore(){
-        score += 10
-    }
-}
-
-
-
-
-let manager = Manager.defaultManager
-
-manager.addScore()
-manager.score
-
-manager.addScore()
-manager.score
-let manager2 = Manager.defaultManager
-manager2.addScore()
-manager2.score
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
