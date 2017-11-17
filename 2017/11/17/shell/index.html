@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>无线真机调试-Xcode9 -iOS - Fly With Me</title>
+  <title>Shell 小记，-文本操作 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连">
+<meta name="description" content="修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="无线真机调试-Xcode9 -iOS - Fly With Me">
-<meta itemprop="description" content="首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连">
+<meta itemprop="name" content="Shell 小记，-文本操作 - Fly With Me">
+<meta itemprop="description" content="修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="无线真机调试-Xcode9 -iOS - Fly With Me" />
+<meta property="og:title" content="Shell 小记，-文本操作 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2017/11/16/wirelessdebug/" />
+<meta property="og:url" content="http://blog.flywithme.top/2017/11/17/shell/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连">
+<meta property="og:description" content="修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="无线真机调试-Xcode9 -iOS - Fly With Me">
-<meta name="twitter:description" content="首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连">
+<meta name="twitter:title" content="Shell 小记，-文本操作 - Fly With Me">
+<meta name="twitter:description" content="修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2017/11/16/wirelessdebug/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2017/11/16/wirelessdebug/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2017/11/17/shell/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2017/11/17/shell/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">无线真机调试-Xcode9 -iOS</h1>
+                  <h1 class="post-title">Shell 小记，-文本操作</h1>
 
                   <p class="post-byline">
-                    by  · 2017年11月16日 · 271 Words ·
+                    by  · 2017年11月17日 · 302 Words ·
                     ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-11-16-wirelessdebug.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-11-17-shell.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -198,27 +198,26 @@
                     <div class="entry-inner">
                       
                       <ul>
-<li>首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统</li>
-<li>其次你的手机必须和电脑处于同一个无线局域网中</li>
-
-<li><p>首次安装连接需要先连接数据线至同一个局域网的Mac上</p></li>
-
-<li><p>打开-&gt;windows里的Device and Simulators选项，勾选 Connect Via network</p></li>
+<li>修改文件的某一行内容
+做自动的git提交和PodSpec发布脚本
+需要在提交之前使用shell脚本修改podSpec文件的Version版本号。</li>
 </ul>
 
-<p>假设你的开发证书和描述文件都是齐全完整的，开始编译，会自动提示。真机调试选择刚才连接到 机器名字</p>
+<p>最开始想使用 <code>sed</code> 这个命令，但是mac上<code>-i</code>命令无法使用，使用-e <code>sed -e &quot;4d&quot; Pod/Resources/MCICheckTime</code> 命令可以修改，
+但是无法输出修改内容到文件上。一直提示no such file. 无法，只得另找办法</p>
 
-<p>数据线链接手机 打开device and simulators面板，勾选connect via network</p>
+<p><code>awk</code> 更换到使用awk命令的方式</p>
 
-<p><img src="sources/wireless/002.png" width = "100%" /></p>
+<p>在文件的当前目录下操作</p>
 
-<p>选择你的设备开始编译 （就算断开数据线，这个设备依然会留在这里）
-  <img src="sources/wireless/005.png" width = "100%" /></p>
+<pre><code> cmms=`date '+%y.%m.%d.%H'`
+ export version=&quot;  s.version      = \&quot;$cmms\&quot;&quot;
+ awk 'NR==4{$0=ENVIRON[&quot;version&quot;]}{print}' MTAForMCICodeInspect_backup.podspec &gt; MTAForMCICodeInspect.podspec
+</code></pre>
 
-<p><img src="sources/wireless/003.png" width = "100%" /></p>
+<p>我知道肯定有更简单直接的方法，但是因为不熟悉shell脚本，走了很多弯路，这个是我一个下午折腾出来可以实现的路径，某些路过的同学可以少走些弯路，</p>
 
-<p>开始编译结束-可以查看手机的device日志，然后手机名字右边的网球 表示无线连接正常
-  <img src="sources/wireless/004.png" width = "100%" /></p>
+<p>如果知道更方便的方法，好请邮件（flywithme.top@gmail.com）告知下啊。非常感谢</p>
 
                       
                     </div>
@@ -230,7 +229,7 @@
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/11/16/wirelessdebug/">http://blog.flywithme.top/2017/11/16/wirelessdebug/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2017/11/17/shell/">http://blog.flywithme.top/2017/11/17/shell/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -283,7 +282,7 @@
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2017/11/16/wirelessdebug/" data-title="无线真机调试-Xcode9 -iOS" data-url="http://blog.flywithme.top/2017/11/16/wirelessdebug/"></div>
+<div class="ds-thread" data-thread-key="/2017/11/17/shell/" data-title="Shell 小记，-文本操作" data-url="http://blog.flywithme.top/2017/11/17/shell/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -338,20 +337,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2017/11/15/PlistBuddy/" rel="next">
+        <a href="http://blog.flywithme.top/2017/11/16/Jenkins/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>imageMagick 和 PlistBuddy合体生成图标</span>
+          <span>Jenkins-打包之远程构建</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2017/11/16/Jenkins/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>Jenkins-打包之远程构建</span>
-        </a>
         
       </li>
     </ul>

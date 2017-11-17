@@ -9,6 +9,36 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>Shell 小记，-文本操作</title>
+            <link>http://blog.flywithme.top/2017/11/17/shell/</link>
+            <pubDate>Fri, 17 Nov 2017 16:26:03 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/11/17/shell/</guid>
+            <description>&lt;ul&gt;
+&lt;li&gt;修改文件的某一行内容
+做自动的git提交和PodSpec发布脚本
+需要在提交之前使用shell脚本修改podSpec文件的Version版本号。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;最开始想使用 &lt;code&gt;sed&lt;/code&gt; 这个命令，但是mac上&lt;code&gt;-i&lt;/code&gt;命令无法使用，使用-e &lt;code&gt;sed -e &amp;quot;4d&amp;quot; Pod/Resources/MCICheckTime&lt;/code&gt; 命令可以修改，
+但是无法输出修改内容到文件上。一直提示no such file. 无法，只得另找办法&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;awk&lt;/code&gt; 更换到使用awk命令的方式&lt;/p&gt;
+
+&lt;p&gt;在文件的当前目录下操作&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; cmms=`date &#39;+%y.%m.%d.%H&#39;`
+ export version=&amp;quot;  s.version      = \&amp;quot;$cmms\&amp;quot;&amp;quot;
+ awk &#39;NR==4{$0=ENVIRON[&amp;quot;version&amp;quot;]}{print}&#39; MTAForMCICodeInspect_backup.podspec &amp;gt; MTAForMCICodeInspect.podspec
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我知道肯定有更简单直接的方法，但是因为不熟悉shell脚本，走了很多弯路，这个是我一个下午折腾出来可以实现的路径，某些路过的同学可以少走些弯路，&lt;/p&gt;
+
+&lt;p&gt;如果知道更方便的方法，好请邮件（flywithme.top@gmail.com）告知下啊。非常感谢&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
             <title>Jenkins-打包之远程构建</title>
             <link>http://blog.flywithme.top/2017/11/16/Jenkins/</link>
             <pubDate>Thu, 16 Nov 2017 16:59:57 CST</pubDate>
@@ -78,7 +108,7 @@ H H/3 * * *
         </item>
         
         <item>
-            <title>Shell 小记，imageMagick 和 PlistBuddy合体生成图标</title>
+            <title>imageMagick 和 PlistBuddy合体生成图标</title>
             <link>http://blog.flywithme.top/2017/11/15/PlistBuddy/</link>
             <pubDate>Wed, 15 Nov 2017 19:06:14 CST</pubDate>
             <author>Brasbug</author>
@@ -535,6 +565,12 @@ convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&am
 
 &lt;p&gt;而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。&lt;br /&gt;
 这里需要注意的是关于emtpty的定义：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;常用Sql命令&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//查询手机号为176021986 时间在 1510678791 之前2000秒的 数据量
+select COUNT(*) as cnt  from smstx where mobile = &amp;quot;176021986&amp;quot; and time &amp;gt; 1510678791-2000
+&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         
@@ -1048,64 +1084,6 @@ printBasicInfo(base: grandson1)
 printBasicInfo(base: grandson2)
 grandson1.testFunc()
 grandson2.testFunc()
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3-18 继承</title>
-            <link>http://blog.flywithme.top/2017/04/01/swift18/</link>
-            <pubDate>Sat, 01 Apr 2017 22:29:17 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/04/01/swift18/</guid>
-            <description>&lt;p&gt;&lt;strong&gt;继承&lt;/strong&gt;：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)，
-我们也可以为类中继承来的属性添加属性观察器&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;基类&lt;/strong&gt; 没有继承其它类的类，称之为基类（Base Class）&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;子类&lt;/strong&gt; 子类指的是在一个已有类的基础上创建一个新的类。为了指明某个类的超类，将超类名写在子类名的后面，用冒号(:)分隔,语法格式如下&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class baseClass{
-    var baseName:String
-    init(name:String) {
-        self.baseName = name
-    }
-}
-class sonClass:baseClass{
-}
-sonClass.init(name: &amp;quot;a&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;重写（Overriding）&lt;/strong&gt; 子类可以通过继承来的实例方法，类方法，实例属性，或下标脚本来实现自己的定制功能，我们把这种行为叫重写（overriding）。我们可以使用 override 关键字来实现重&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class baseClass{
-    var baseName:String
-    init(name:String) {
-        self.baseName = name
-    }
-}
-class sonClass:baseClass{
-    var levelStr:String
-    override init(name: String) {
-        self.levelStr = name.appending(&amp;quot;b&amp;quot;)
-        super.init(name: name)
-    }
-}
-
-var son =  sonClass.init(name: &amp;quot;a&amp;quot;)
-son.baseName
-son.levelStr
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;// &lt;strong&gt;防止重写&lt;/strong&gt;   使用 final 关键字防止它们被重写&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; //final 关键字
- final class grandSon:sonClass{
-     final var grand:String = &amp;quot;&amp;quot;
-     override init(name: String) {
-         super.init(name: name)
-     }
- }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>

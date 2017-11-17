@@ -186,7 +186,7 @@
                   <h1 class="post-title">使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分</h1>
 
                   <p class="post-byline">
-                    by  · 2017年11月05日 · 229 Words ·
+                    by  · 2017年11月05日 · 282 Words ·
                     ~1min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-11-05-gin-mysql.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -210,6 +210,12 @@
 
 <p>而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。<br />
 这里需要注意的是关于emtpty的定义：</p>
+
+<p><strong>常用Sql命令</strong></p>
+
+<pre><code>//查询手机号为176021986 时间在 1510678791 之前2000秒的 数据量
+select COUNT(*) as cnt  from smstx where mobile = &quot;176021986&quot; and time &gt; 1510678791-2000
+</code></pre>
 
                       
                     </div>
