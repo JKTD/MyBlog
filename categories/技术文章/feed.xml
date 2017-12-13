@@ -9,6 +9,349 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>pigeon </title>
+            <link>http://blog.flywithme.top/2017/12/13/pigeon/</link>
+            <pubDate>Wed, 13 Dec 2017 21:55:46 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2017/12/13/pigeon/</guid>
+            <description>
+
+&lt;h4 id=&#34;小记&#34;&gt;小记&lt;/h4&gt;
+
+&lt;p&gt;最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等&lt;br /&gt;
+ 我们需要实时监控这些自动化的过程是否按预期完成了自己的任务，如果出现一些错误，或者需求要在完成任务之后提醒开发者。
+ 所以我就开发了一个基于公司内部通信系统的一个小型的消息通知管理中心。
+ 虽然之前断断续续有学写一些golang的东西，但是一直没有成型的作品，这是继上次做的个人实践项目之后，第一个在公司内部产生实际效益的服务。&lt;/p&gt;
+
+&lt;h5 id=&#34;源码地址在我的github上-关于fork提意见-适合初学者&#34;&gt;源码地址在我的github上  关于fork提意见。适合初学者&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/flywithbug/pigeon&#34;&gt;源码地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;主要功能&#34;&gt;主要功能&lt;/h4&gt;
+
+&lt;p&gt;本服务的主要功能是用于 给不同的服务配置不同的消息类型和接收人。最终会根据调用通知群组id发送给不同的接受对象。
+简单的实现了&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;组员的增删改查&lt;/li&gt;
+&lt;li&gt;群组的增删改查&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;消息应用的增删改查&lt;/li&gt;
+&lt;li&gt;组员和群组的关系的增删&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;群组和消息应用直之间的关系增删&lt;/li&gt;
+&lt;li&gt;应用版本号的tag自增接口（额外需求，与前面几个接口无关）&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;接口-json请求格式-application-json&#34;&gt;接口  json请求格式(application/json)&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;  1. /adduse               POST
+
+    //添加用户 
+    {
+     &amp;quot;mail&amp;quot;:&amp;quot;jack@meituan.com&amp;quot;,
+     &amp;quot;mobile&amp;quot;:&amp;quot;18792289&amp;quot;,
+     &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot;
+    }
+
+  2. /deleteuser           POST
+
+    //删除用户 
+    {
+     &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot;
+    }
+
+  3. /users             GET
+
+    //用户列表
+
+
+  4. /addgroup          POST
+
+    //添加群组
+    {
+     &amp;quot;group_name&amp;quot;:&amp;quot;商户前端&amp;quot;,
+     &amp;quot;type&amp;quot;:1,
+     &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;,
+     &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;,
+     &amp;quot;app_id&amp;quot;:1
+    }
+
+  5. /updategroup       POST
+
+    //更新群组信息
+    {
+     &amp;quot;group_name&amp;quot;:&amp;quot;商户前端html&amp;quot;,
+     &amp;quot;type&amp;quot;:1,
+     &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;,
+     &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;,
+     &amp;quot;app_id&amp;quot;:&amp;quot;28fa3c968b438fb71c8d7825af609591&amp;quot;
+    }
+
+  6. /addgcrow          POST
+
+    //添加群组成员
+    {
+     &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci&amp;quot;,
+     &amp;quot;user_name&amp;quot;:&amp;quot;erfeng.cheng&amp;quot;
+    }
+
+  7. /deletecrow        POST
+
+    //删除群组成员
+    {
+     &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci&amp;quot;,
+     &amp;quot;user_name&amp;quot;:&amp;quot;erfeng.cheng&amp;quot;
+    }
+
+  8. /grcrows           POST
+
+    //批量关联群组成员
+    {
+     &amp;quot;group_id&amp;quot;:&amp;quot;merchant&amp;quot;,
+     &amp;quot;users&amp;quot;:[
+     &amp;quot;erfeng.cheng&amp;quot;
+     ]
+    }
+
+  9.  /grouplist        GET
+
+    //群组列表
+
+  10. /group/:group_id  GET
+
+    //群组信息
+
+  11. /addapp           POST
+
+    //添加消息应用
+    {
+     &amp;quot;pub_id&amp;quot;:&amp;quot;1372264&amp;quot;,
+     &amp;quot;app_key&amp;quot;:&amp;quot;029507&amp;quot;,
+     &amp;quot;app_secret&amp;quot;:&amp;quot;232alkalalalalallala&amp;quot;,
+     &amp;quot;app_name&amp;quot;:&amp;quot;点评管家-通知&amp;quot;
+    }
+
+  12. /apps             GET
+
+    //消息应用列表
+
+
+  13. /sendmsg          POST
+
+    //发送消息
+    {
+     &amp;quot;title&amp;quot;:&amp;quot;test&amp;quot;,
+     &amp;quot;content&amp;quot;:&amp;quot;1.首页\n2.微海报&amp;quot;,
+     &amp;quot;receivers&amp;quot;:[&amp;quot;erfeng.cheng&amp;quot;],
+     &amp;quot;group_id&amp;quot;:&amp;quot;merchant&amp;quot;
+    }
+
+  14. /getversiontag?app_name=merchant_model&amp;amp;version=7.1.0  GET      
+
+    //获取版本号自增tag 每次调用会自增1  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;sql脚本-不同的table之前数据未做同步-可能出现关联过的用户在用户表中已被删除的情况&#34;&gt;SQL脚本 （不同的table之前数据未做同步，可能出现关联过的用户在用户表中已被删除的情况）&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;# ************************************************************
+# Sequel Pro SQL dump
+# Version 4096
+#
+# http://www.sequelpro.com/
+# http://code.google.com/p/sequel-pro/
+#
+# Host: 10.66.3.50 (MySQL 5.7.20)
+# Database: pigeon
+# Generation Time: 2017-12-13 13:28:43 +0000
+# ************************************************************
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE=&#39;NO_AUTO_VALUE_ON_ZERO&#39; */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table p_app_info
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `p_app_info`;
+
+CREATE TABLE `p_app_info` (
+  `uid` int(3) unsigned NOT NULL AUTO_INCREMENT,
+  `pub_id` varchar(12) NOT NULL DEFAULT &#39;&#39;,
+  `app_key` varchar(16) NOT NULL DEFAULT &#39;&#39;,
+  `app_secret` varchar(32) NOT NULL DEFAULT &#39;&#39;,
+  `app_name` varchar(20) NOT NULL DEFAULT &#39;&#39;,
+  `app_id` varchar(32) NOT NULL DEFAULT &#39;&#39;,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `pub_id` (`pub_id`),
+  UNIQUE KEY `app_key` (`app_key`),
+  UNIQUE KEY `app_secret` (`app_secret`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `p_app_info` WRITE;
+/*!40000 ALTER TABLE `p_app_info` DISABLE KEYS */;
+
+INSERT INTO `p_app_info` (`uid`, `pub_id`, `app_key`, `app_secret`, `app_name`, `app_id`)
+VALUES
+    (5,&#39;137441864&#39;,&#39;02210uU17507&#39;,&#39;b13fdda68c0034eefea16cb1&#39;,&#39;点评管家-通知&#39;,&#39;28fa3c968c8d7825af609591&#39;);
+
+/*!40000 ALTER TABLE `p_app_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table p_bussiness
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `p_bussiness`;
+
+CREATE TABLE `p_bussiness` (
+  `bid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `bis_type` int(2) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `bis_name` varchar(20) NOT NULL DEFAULT &#39;&#39;,
+  PRIMARY KEY (`bid`),
+  UNIQUE KEY `bis_type` (`bis_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table p_group
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `p_group`;
+
+CREATE TABLE `p_group` (
+  `gid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` varchar(30) NOT NULL DEFAULT &#39;&#39;,
+  `group_name` varchar(20) NOT NULL DEFAULT &#39;&#39;,
+  `type` int(2) NOT NULL DEFAULT &#39;0&#39;,
+  `app_id` varchar(32) NOT NULL DEFAULT &#39;&#39;,
+  `app_name` varchar(20) NOT NULL DEFAULT &#39;&#39;,
+  PRIMARY KEY (`gid`),
+  UNIQUE KEY `group_id` (`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `p_group` WRITE;
+/*!40000 ALTER TABLE `p_group` DISABLE KEYS */;
+
+INSERT INTO `p_group` (`gid`, `group_id`, `group_name`, `type`, `app_id`, `app_name`)
+VALUES
+    (23,&#39;merchant&#39;,&#39;点评管家-通知&#39;,0,&#39;28fa3c968b438af609591&#39;,&#39;点评管家-通知&#39;);
+
+/*!40000 ALTER TABLE `p_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table p_group_user_relation
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `p_group_user_relation`;
+
+CREATE TABLE `p_group_user_relation` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` varchar(30) NOT NULL DEFAULT &#39;&#39;,
+  `user_name` varchar(18) NOT NULL DEFAULT &#39;&#39;,
+  `unique_key` varchar(40) NOT NULL DEFAULT &#39;&#39;,
+  `group_name` varchar(20) NOT NULL DEFAULT &#39;&#39;,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_key` (`unique_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `p_group_user_relation` WRITE;
+/*!40000 ALTER TABLE `p_group_user_relation` DISABLE KEYS */;
+
+INSERT INTO `p_group_user_relation` (`id`, `group_id`, `user_name`, `unique_key`, `group_name`)
+VALUES
+    (76,&#39;merchant&#39;,&#39;Jack&#39;,&#39;Jackmerchant&#39;,&#39;点评管家&#39;);
+
+/*!40000 ALTER TABLE `p_group_user_relation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table p_message
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `p_message`;
+
+CREATE TABLE `p_message` (
+  `mid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `m_type` int(1) NOT NULL,
+  `text` varchar(500) NOT NULL DEFAULT &#39;&#39;,
+  `body` varchar(500) DEFAULT &#39;&#39;,
+  `status` int(1) NOT NULL DEFAULT &#39;0&#39;,
+  PRIMARY KEY (`mid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table p_user
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `p_user`;
+
+CREATE TABLE `p_user` (
+  `uid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(18) NOT NULL DEFAULT &#39;&#39;,
+  `mail` varchar(50) DEFAULT &#39;&#39;,
+  `mobile` varchar(13) DEFAULT &#39;&#39;,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `username` (`user_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `p_user` WRITE;
+/*!40000 ALTER TABLE `p_user` DISABLE KEYS */;
+
+INSERT INTO `p_user` (`uid`, `user_name`, `mail`, `mobile`)
+VALUES
+    (1,&#39;Jack&#39;,&#39;Jack@mail.com&#39;,&#39;13223232223&#39;);
+
+/*!40000 ALTER TABLE `p_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table p_version_tag
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `p_version_tag`;
+
+CREATE TABLE `p_version_tag` (
+  `uid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tag` int(4) NOT NULL DEFAULT &#39;1&#39;,
+  `version` varchar(10) NOT NULL DEFAULT &#39;&#39;,
+  `app_name` varchar(32) NOT NULL DEFAULT &#39;&#39;,
+  `unique_key` varchar(32) NOT NULL DEFAULT &#39;&#39;,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `unique_key` (`unique_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `p_version_tag` WRITE;
+/*!40000 ALTER TABLE `p_version_tag` DISABLE KEYS */;
+
+INSERT INTO `p_version_tag` (`uid`, `tag`, `version`, `app_name`, `unique_key`)
+VALUES
+    (9,38,&#39;7.1.0&#39;,&#39;MTAStaticModels&#39;,&#39;19b92d56eaa94a58f48e6f58a1498d12&#39;);
+
+/*!40000 ALTER TABLE `p_version_tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
             <title>Shell 小记，-文本操作</title>
             <link>http://blog.flywithme.top/2017/11/17/shell/</link>
             <pubDate>Fri, 17 Nov 2017 16:26:03 CST</pubDate>
@@ -1012,78 +1355,6 @@ class sonClass1:baseClass{
     }
 }
 let son = sonClass1.init(name: &amp;quot;a&amp;quot;, age: 2, str1: &amp;quot;str&amp;quot;)    
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3-19 多态性</title>
-            <link>http://blog.flywithme.top/2017/04/13/swift19/</link>
-            <pubDate>Thu, 13 Apr 2017 12:00:36 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/04/13/swift19/</guid>
-            <description>&lt;p&gt;&lt;strong&gt;多态性&lt;/strong&gt; 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引用调用相同方法而产生不同的行为。&lt;/li&gt;
-&lt;li&gt;多态的条件：a,必须存在继承关系，b,子类对父类的方法进行重写&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;示例：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class baseClass{
-    var name:String
-    var age:Int
-    init() {
-        self.name = &amp;quot;&amp;quot;
-        self.age = 0
-    }
-    init(name:String,age:Int) {
-        self.age = age
-        self.name = name
-    }
-    func testFunc() {
-        print(&amp;quot;baseClass&amp;quot;)
-    }
-}
-
-class sonClass1:baseClass{
-    var str1:String = &amp;quot;str1&amp;quot;
-    //重载
-    override func testFunc() {
-        print(&amp;quot;sonClass1&amp;quot;)
-    }
-}
-
-class sonClass2:baseClass{
-    var str1:String = &amp;quot;str1&amp;quot;
-    override func testFunc() {
-        print(&amp;quot;sonClass2&amp;quot;)
-    }
-}
-
-
-final class grandSon1:sonClass1{
-    var strGrand:String = &amp;quot;strGrand&amp;quot;
-}
-final class grandSon01:sonClass1{
-    var strGrand:String = &amp;quot;strGrand&amp;quot;
-}
-
-final class grandSon02:sonClass2{
-    var strGrand:String = &amp;quot;strGrand&amp;quot;
-}
-
-func printBasicInfo(base:baseClass){
-    print(&amp;quot;name is \(base.name)&amp;quot;)
-}
-
-var grandson1 = grandSon01.init(name: &amp;quot;a&amp;quot;, age: 10)
-var grandson2 = grandSon02.init(name: &amp;quot;b&amp;quot;, age: 7)
-printBasicInfo(base: grandson1)
-printBasicInfo(base: grandson2)
-grandson1.testFunc()
-grandson2.testFunc()
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
