@@ -186,7 +186,7 @@
                   <h1 class="post-title">imageMagick 和 PlistBuddy合体生成图标</h1>
 
                   <p class="post-byline">
-                    by  · 2017年11月15日 · 238 Words ·
+                    by  · 2017年11月15日 · 454 Words ·
                     ~1min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2017/2017-11-15-PlistBuddy.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -253,6 +253,73 @@ sh merchant-icon-generator.sh &quot;1024-origin.png&quot; &quot;$bundleShortVers
 <p><img src="sources/shell/02.png" width = "100%" /></p>
 
 <p><img src="sources/shell/03.png" width = "100%" /></p>
+
+<p>图片生产(merchant-icon-generator.sh)</p>
+
+<pre><code>SRC_FILE=&quot;$1&quot;
+shortVersion=&quot;$2&quot;
+bundlerNum=&quot;$3&quot;
+
+convert &quot;$SRC_FILE&quot; -region 1024x254+0+770 -fill &quot;rgb(0,159,250)&quot; -colorize 100%   -region 1024x254+650+770 -fill &quot;rgb(102,230,32)&quot; -colorize 100%  target-new.png  
+convert target-new.png -gravity southwest -fill white -font DINPro-Bold.otf -pointsize 230 -draw &quot;text 60,-10 '$shortVersion'&quot;  -gravity southeast -fill white -pointsize 230 -draw &quot;text 60,-10 '$bundlerNum'&quot; target-new.png
+
+DST_PATH=&quot;Jovi/Jovi/JVImages.xcassets/AppIcon.appiconset/&quot;
+
+if [ ! -d &quot;$DST_PATH&quot; ];then
+    mkdir -p &quot;$DST_PATH&quot;
+fi
+
+info() {
+     local green=&quot;\033[1;32m&quot;
+     local normal=&quot;\033[0m&quot;
+     echo -e &quot;[${green}INFO${normal}] $1&quot;
+}
+
+error() {
+     local red=&quot;\033[1;31m&quot;
+     local normal=&quot;\033[0m&quot;
+     echo -e &quot;[${red}ERROR${normal}] $1&quot;
+}
+SRC_FILE=&quot;target-new.png&quot;
+
+info 'Generate 1024x1024.png ...'
+convert &quot;$SRC_FILE&quot; -resize 1024x1024 &quot;$DST_PATH/1024x1024.png&quot;
+
+info 'Generate Icon-20.png ...'
+convert &quot;$SRC_FILE&quot; -resize 40x40 &quot;$DST_PATH/Icon-20@2x.png&quot;
+info 'Generate Icon-40@2x.png ...'
+convert &quot;$SRC_FILE&quot; -resize 60x60 &quot;$DST_PATH/Icon-20@3x.png&quot;
+
+
+info 'Generate Icon-60@2x.png ...'
+convert &quot;$SRC_FILE&quot; -resize 120x120 &quot;$DST_PATH/Icon-60@2x.png&quot;
+info 'Generate Icon-60@3x.png ...'
+convert &quot;$SRC_FILE&quot; -resize 180x180 &quot;$DST_PATH/Icon-60@3x.png&quot;
+
+
+
+info 'Generate Icon-Small.png ...'
+convert &quot;$SRC_FILE&quot; -resize 29x29 &quot;$DST_PATH/Icon-Small.png&quot;
+convert &quot;$SRC_FILE&quot; -resize 58x58 &quot;$DST_PATH/Icon-Small@2x.png&quot;
+info 'Generate Icon-Small-40@3x.png ...'
+convert &quot;$SRC_FILE&quot; -resize 87x87 &quot;$DST_PATH/Icon-Small@3x.png&quot;
+
+
+
+info 'Generate Icon-Spotlight-40@2x.png ...'
+convert &quot;$SRC_FILE&quot; -resize 80x80 &quot;$DST_PATH/Icon-Spotlight-40@2x.png&quot;
+info 'Generate Icon@2x.png ...'
+convert &quot;$SRC_FILE&quot; -resize 120x120 &quot;$DST_PATH/Icon-Spotlight-40@3x.png&quot;
+
+
+info 'Generate Icon.png ...'
+convert &quot;$SRC_FILE&quot; -resize 57x57 &quot;$DST_PATH/Icon.png&quot;
+info 'Generate Icon-Small@2x.png ...'
+convert &quot;$SRC_FILE&quot; -resize 114x114 &quot;$DST_PATH/Icon@2x.png&quot;
+
+
+info 'Generate Done.'
+</code></pre>
 
                       
                     </div>

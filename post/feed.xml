@@ -512,6 +512,73 @@ sh merchant-icon-generator.sh &amp;quot;1024-origin.png&amp;quot; &amp;quot;$bun
 &lt;p&gt;&lt;img src=&#34;sources/shell/02.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;sources/shell/03.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图片生产(merchant-icon-generator.sh)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SRC_FILE=&amp;quot;$1&amp;quot;
+shortVersion=&amp;quot;$2&amp;quot;
+bundlerNum=&amp;quot;$3&amp;quot;
+
+convert &amp;quot;$SRC_FILE&amp;quot; -region 1024x254+0+770 -fill &amp;quot;rgb(0,159,250)&amp;quot; -colorize 100%   -region 1024x254+650+770 -fill &amp;quot;rgb(102,230,32)&amp;quot; -colorize 100%  target-new.png  
+convert target-new.png -gravity southwest -fill white -font DINPro-Bold.otf -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$shortVersion&#39;&amp;quot;  -gravity southeast -fill white -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$bundlerNum&#39;&amp;quot; target-new.png
+
+DST_PATH=&amp;quot;Jovi/Jovi/JVImages.xcassets/AppIcon.appiconset/&amp;quot;
+
+if [ ! -d &amp;quot;$DST_PATH&amp;quot; ];then
+    mkdir -p &amp;quot;$DST_PATH&amp;quot;
+fi
+
+info() {
+     local green=&amp;quot;\033[1;32m&amp;quot;
+     local normal=&amp;quot;\033[0m&amp;quot;
+     echo -e &amp;quot;[${green}INFO${normal}] $1&amp;quot;
+}
+
+error() {
+     local red=&amp;quot;\033[1;31m&amp;quot;
+     local normal=&amp;quot;\033[0m&amp;quot;
+     echo -e &amp;quot;[${red}ERROR${normal}] $1&amp;quot;
+}
+SRC_FILE=&amp;quot;target-new.png&amp;quot;
+
+info &#39;Generate 1024x1024.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 1024x1024 &amp;quot;$DST_PATH/1024x1024.png&amp;quot;
+
+info &#39;Generate Icon-20.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 40x40 &amp;quot;$DST_PATH/Icon-20@2x.png&amp;quot;
+info &#39;Generate Icon-40@2x.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 60x60 &amp;quot;$DST_PATH/Icon-20@3x.png&amp;quot;
+
+
+info &#39;Generate Icon-60@2x.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 120x120 &amp;quot;$DST_PATH/Icon-60@2x.png&amp;quot;
+info &#39;Generate Icon-60@3x.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 180x180 &amp;quot;$DST_PATH/Icon-60@3x.png&amp;quot;
+
+
+
+info &#39;Generate Icon-Small.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 29x29 &amp;quot;$DST_PATH/Icon-Small.png&amp;quot;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 58x58 &amp;quot;$DST_PATH/Icon-Small@2x.png&amp;quot;
+info &#39;Generate Icon-Small-40@3x.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 87x87 &amp;quot;$DST_PATH/Icon-Small@3x.png&amp;quot;
+
+
+
+info &#39;Generate Icon-Spotlight-40@2x.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 80x80 &amp;quot;$DST_PATH/Icon-Spotlight-40@2x.png&amp;quot;
+info &#39;Generate Icon@2x.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 120x120 &amp;quot;$DST_PATH/Icon-Spotlight-40@3x.png&amp;quot;
+
+
+info &#39;Generate Icon.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 57x57 &amp;quot;$DST_PATH/Icon.png&amp;quot;
+info &#39;Generate Icon-Small@2x.png ...&#39;
+convert &amp;quot;$SRC_FILE&amp;quot; -resize 114x114 &amp;quot;$DST_PATH/Icon@2x.png&amp;quot;
+
+
+info &#39;Generate Done.&#39;
+&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         
