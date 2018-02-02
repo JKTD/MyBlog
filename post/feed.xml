@@ -6,7 +6,116 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Wed, 13 Dec 2017 21:55:46 CST</updated>
+        <updated>Tue, 30 Jan 2018 15:02:26 CST</updated>
+        
+        <item>
+            <title>Go 语言总结</title>
+            <link>http://blog.flywithme.top/2018/01/30/go/</link>
+            <pubDate>Tue, 30 Jan 2018 15:02:26 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/01/30/go/</guid>
+            <description>
+
+&lt;p&gt;前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力）&lt;/p&gt;
+
+&lt;h5 id=&#34;go-归类总结&#34;&gt;Go 归类总结&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;类型检查：编译时&lt;/li&gt;
+&lt;li&gt;运行环境：编译成机器代码直接运行&lt;/li&gt;
+&lt;li&gt;GO语言的特色：面向接口，函数式编程，并发编程&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;go语言的并发编程&#34;&gt;Go语言的并发编程&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;采用CSP(Communication Sequential Process)模型（有学术论文，比较复杂）&lt;/li&gt;
+&lt;li&gt;code层面不需要锁，不需要callback&lt;/li&gt;
+&lt;li&gt;并发编程VS并行计算&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;go语言的安装与开放环境&#34;&gt;Go语言的安装与开放环境&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;下载：&lt;a href=&#34;https://golang.org/dl/&#34;&gt;https://golang.org/dl/&lt;/a&gt; 下载对应系统的go安装包&lt;/li&gt;
+&lt;li&gt;开发工具： 我使用的是 WebStrom +go 插件 IDE jetbeans 除了Goland 编译器&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;一个简单的-goroutine&#34;&gt;一个简单的 goroutine&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+import &amp;quot;strconv&amp;quot;
+import &amp;quot;fmt&amp;quot;
+func main() {
+    taskChan := make(chan string, 3)
+    doneChan := make(chan int, 1)
+
+    for i := 0; i &amp;lt; 3; i++ {
+        taskChan &amp;lt;- strconv.Itoa(i)
+        fmt.Println(&amp;quot;send: &amp;quot;, i)
+    }
+
+    go func() {
+        for i := 0; i &amp;lt; 3; i++ {
+            task := &amp;lt;-taskChan
+            fmt.Println(&amp;quot;received: &amp;quot;, task)
+        }
+        doneChan &amp;lt;- 1
+    }()
+
+    &amp;lt;-doneChan
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;外部排序-归并排序&#34;&gt;外部排序 - 归并排序&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;将数据分为左右两半，分别归并排序，再把两个有序数据归并&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如何归并：
+[1,3,5,7],[1,5,8,9] -&amp;gt; 1&lt;br /&gt;
+[3,5,7],[1,5,8,9] -&amp;gt; 1&lt;br /&gt;
+[3,5,7],[5,8,9] -&amp;gt; 3&lt;br /&gt;
+[5,7],[5,8,9] -&amp;gt; 5&lt;br /&gt;
+[7],[5,8,9] -&amp;gt; 5&lt;br /&gt;
+[7],[8,9] -&amp;gt; 7&lt;br /&gt;
+[],[8,9] -&amp;gt; 8&lt;br /&gt;
+[],[9] -&amp;gt; 9&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;外部排序 可以把一个数据源使用节点切分成很多部分，然后分别进行排序&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;拆分数据源
+&lt;img src=&#34;sources/go/1517300935152.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;按节点归并 （k路归并）
+&lt;img src=&#34;sources/go/1517302277060.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;通道
+&lt;img src=&#34;sources/go/1517302401765.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;节点
+&lt;img src=&#34;sources/go/1517302488042.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;节点组装
+&lt;img src=&#34;sources/go/1517302577852.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;外部排序-单机版-pipeline-搭建&#34;&gt;外部排序 -单机版 Pipeline 搭建&lt;/h5&gt;
+
+&lt;p&gt;示意图
+&lt;img src=&#34;sources/go/1517302752446.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ReaderSource 节点-支持分块&lt;/li&gt;
+&lt;li&gt;MergeN - 搭建归并节点组&lt;/li&gt;
+&lt;li&gt;pipeline的搭建及运行 - 观察CPU及线程数量上的使用情况&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;外部排序-网络扩展&#34;&gt;外部排序 -网络扩展&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/go/1517468528492.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>pigeon </title>
@@ -1203,225 +1312,6 @@ var show: BaseClass? = BaseClass()
 print(counter) // 1
 show = nil  
 print(counter) // 0
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3-20 构造过程</title>
-            <link>http://blog.flywithme.top/2017/04/13/swift20/</link>
-            <pubDate>Thu, 13 Apr 2017 16:24:52 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/04/13/swift20/</guid>
-            <description>&lt;p&gt;构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务&lt;br /&gt;
- swift的构造函数使用的是init()方法。 这个方法没有返回值。主要任务是保证新实例在第一次使用之前完成正确的初始化。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;构造器&lt;/strong&gt; 在创建某特定类型的新实例时调用，它的关键字是init&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;init(){
-    //执行属性初值设置
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;两段式构造&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class baseClass{
-    var name:String
-    var age:Int
-    var level:String?
-    init() {
-        self.name = &amp;quot;&amp;quot;
-        self.age = 0
-    }
-    init(name:String,age:Int) {
-        self.age = age
-        self.name = name
-    }
-    func testFunc() {
-        print(&amp;quot;baseClass&amp;quot;)
-    }
-}
-
-class sonClass1:baseClass{
-    var str1:String
-
-    init(name:String, age:Int, str1:String){
-        //构造初值  第一段
-        self.str1 = str1
-        super.init(name: name, age: age)
-        //进一步完善  第二段
-        self.agefomat(age: age)
-
-    }
-    final func agefomat(age:Int){
-        if age &amp;lt;= 0 {
-            self.age = 1
-        }
-    }
-    //重载
-    override func testFunc() {
-        print(&amp;quot;sonClass1&amp;quot;)
-    }
-}
-let son = sonClass1.init(name: &amp;quot;a&amp;quot;, age: 2, str1: &amp;quot;str&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;默认属性值&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class simple{
-    var name = &amp;quot;&amp;quot;
-    var age:Int
-    init(){
-        age = 18
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;构造参数&lt;/strong&gt;  定义构造器 init() 时提供构造参数&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class baseClass{
-    var name:String
-    var age:Int
-    init() {
-        self.name = &amp;quot;&amp;quot;
-        self.age = 0
-    }
-    init(name:String,age:Int) {
-        self.age = age
-        self.name = name
-    }
-    func testFunc() {
-        print(&amp;quot;baseClass&amp;quot;)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;可选属性类型&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class baseClass{
-    var name:String
-    var age:Int
-    var level:String?
-    init() {
-        self.name = &amp;quot;&amp;quot;
-        self.age = 0
-    }
-    init(name:String,age:Int) {
-        self.age = age
-        self.name = name
-    }
-    func testFunc() {
-        print(&amp;quot;baseClass&amp;quot;)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;默认构造器&lt;/strong&gt; 所有属性都设置有默认值的实例&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class simple{
-    var name = &amp;quot;&amp;quot;
-    var age = 0
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;required 构造函数&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;必须被子类实现的构造函数&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class baseClass{
-    var name:String
-    var age:Int
-    var level:String?
-    init() {
-        self.name = &amp;quot;&amp;quot;
-        self.age = 0
-    }
-    //子类必须实现
-    required init(name:String,age:Int) {
-        self.age = age
-        self.name = name
-    }
-    func testFunc() {
-        print(&amp;quot;baseClass&amp;quot;)
-    }
-}
-
-class sonClass1:baseClass{
-    var str1:String
-
-    init(name:String, age:Int, str1:String){
-        //构造初值
-        self.str1 = str1
-        super.init(name: name, age: age)
-        //进一步完善
-        self.agefomat(age: age)
-
-    }
-    private final func agefomat(age:Int){
-        if age &amp;lt;= 0 {
-            self.age = 1
-        }
-    }
-    //子类实现父类的required
-    required convenience init(name: String, age: Int) {
-        self.init(name: name, age: age, str1: &amp;quot;&amp;quot;)
-    }
-    //重载
-    override func testFunc() {
-        print(&amp;quot;sonClass1&amp;quot;)
-    }
-}
-let son = sonClass1.init(name: &amp;quot;a&amp;quot;, age: 2, str1: &amp;quot;str&amp;quot;)
-son.name
-son.age
-son.level
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;构造函数的继承&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class baseClass{
-    var name:String
-    var age:Int
-    var level:String?
-    init() {
-        self.name = &amp;quot;&amp;quot;
-        self.age = 0
-    }
-    init(name:String,age:Int) {
-        self.age = age
-        self.name = name
-    }
-    func testFunc() {
-        print(&amp;quot;baseClass&amp;quot;)
-    }
-}
-
-class sonClass1:baseClass{
-    var str1:String
-
-    init(name:String, age:Int, str1:String){
-        //构造初值
-        self.str1 = str1
-        super.init(name: name, age: age)
-        //进一步完善
-        self.agefomat(age: age)
-
-    }
-    final func agefomat(age:Int){
-        if age &amp;lt;= 0 {
-            self.age = 1
-        }
-    }
-   //构造函数的继承
-    override convenience init(name: String, age: Int) {
-        self.init(name: name, age: age, str1: &amp;quot;&amp;quot;)
-    }
-    //重载
-    override func testFunc() {
-        print(&amp;quot;sonClass1&amp;quot;)
-    }
-}
-let son = sonClass1.init(name: &amp;quot;a&amp;quot;, age: 2, str1: &amp;quot;str&amp;quot;)    
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
