@@ -6,7 +6,190 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Tue, 30 Jan 2018 15:02:26 CST</updated>
+        <updated>Sat, 03 Feb 2018 19:45:12 CST</updated>
+        
+        <item>
+            <title>变量定义</title>
+            <link>http://blog.flywithme.top/2018/02/03/note_02/</link>
+            <pubDate>Sat, 03 Feb 2018 19:45:12 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/03/note_02/</guid>
+            <description>
+
+&lt;h5 id=&#34;变量声明&#34;&gt;变量声明&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;指定变量类型，声明后若不赋值，使用默认值。&lt;/li&gt;
+&lt;li&gt;根据值编译器自行判定变量类型。&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导致编译错误。（函数外部无法省略var关键字）
+```
+//默认 没有初值
+func variableZeroValue()  {
+	var a int
+	var s string
+	fmt.Printf(&amp;ldquo;%d,%q\n&amp;rdquo;,a,s)
+}&lt;/p&gt;
+
+&lt;p&gt;//赋予初值和类型
+func variableInitialValue()  {
+	var a,b int = 3,4
+	var s string = &amp;ldquo;abc&amp;rdquo;
+	fmt.Println(a,b,s)
+}&lt;/p&gt;
+
+&lt;p&gt;//赋予初值
+func variableTypeDeduction()  {
+	var a,b,c,s = 3,4,true,&amp;ldquo;def&amp;rdquo;
+	fmt.Println(a,b,c,s)
+}&lt;/p&gt;
+
+&lt;p&gt;func variableShorter()  {
+	a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo;
+	b = 3
+	fmt.Println(a,b,c,s)
+}
+var(
+	ss =&amp;ldquo;string&amp;rdquo;
+	aa = 1
+	bb = 2
+)
+func euler()  {
+	//c := 3+4i
+	//fmt.Println(cmplx.Abs&amp;copy;)
+	//cmplx.Pow(math.E,1i*math.Pi)+1&lt;/p&gt;
+
+&lt;p&gt;	fmt.Println(cmplx.Exp(1i*math.Pi)+1)
+}
+func main(){
+	fmt.Println(&amp;ldquo;hello world&amp;rdquo;)
+	variableZeroValue()
+	variableInitialValue()
+	variableTypeDeduction()
+	variableShorter()
+    fmt.Println(aa,ss,bb)
+    euler()
+}&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;    
+##### 内建变量类型
+ - bool, string 
+ - (u)int, (u)int8,(u)int16,(u)int32,(u)int64,(u)intptr (指针)
+ - byte,rune(Go语言的一个字符型，char类型坑太多，代替char,32位)
+ - float32,float64,complex64,complex128（复数）
+ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;func euler()  {
+ 	//c := 3+4i
+ 	//fmt.Println(cmplx.Abs(c))
+ 	//cmplx.Pow(math.E,1i*math.Pi)+1
+
+ 	fmt.Println(cmplx.Exp(1i*math.Pi)+1)
+ }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt; 
+    
+    
+
+##### 强制类型转换
+    
+    func triangle()  {
+        var a,b int = 3,4
+        c := math.Sqrt(float64(a*a+b*b))
+        fmt.Println(c)
+    }
+
+##### 常量的定义
+ - 常量是一个简单值的标识符，在程序运行时，不会被修改的量。
+ - 常量中的数据类型只可以是布尔型、数字型（整数型、浮点型和复数）和字符串型。
+ - **iota** iota，特殊常量，（iota 可以被用作枚举值）可以认为是一个可以被编译器修改的常量。在每一个const关键字出现时，
+ 被重置为0，然后再下一个const出现之前，每出现一次iota，其所代表的数字会自动增加1。
+ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;const filename = &amp;ldquo;abc.txt&amp;rdquo;
+func consts()  {
+	const a,b  = 3,4
+	//a,b可以不指定类型
+	c := math.Sqrt(a*a+b*b)
+	fmt.Println(filename,c)&lt;/p&gt;
+
+&lt;p&gt;}&lt;/p&gt;
+
+&lt;p&gt;//第一个 iota 等于 0，每当 iota 在新的一行被使用时，它的值都会自动加 1；所以 a=0, b=1, c=2 可以简写为如下形式：
+const (
+    a = iota
+    b
+    c
+)&lt;/p&gt;
+
+&lt;p&gt;const (
+	b = 1 &amp;lt;&amp;lt;(10*iota)
+	kb
+	mb
+	gb
+	tb
+	pb
+)&lt;/p&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;h5 id=&#34;变量定义的要点&#34;&gt;变量定义的要点&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;变量类型写在变量名之后&lt;/li&gt;
+&lt;li&gt;编译器可以推测变量的类型&lt;/li&gt;
+&lt;li&gt;没有char,只有rune&lt;/li&gt;
+&lt;li&gt;原生支持复数类型&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>记笔：1-1 导读</title>
+            <link>http://blog.flywithme.top/2018/02/02/note_01/</link>
+            <pubDate>Fri, 02 Feb 2018 17:27:32 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/02/note_01/</guid>
+            <description>
+
+&lt;h5 id=&#34;go语言很特别&#34;&gt;GO语言很特别&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;没有&amp;rdquo;对象&amp;rdquo;，没有继承多态，没有泛型，么有try/catch&lt;/li&gt;
+&lt;li&gt;有接口，函数式变成，CSP并发模型（goroutine+channel）&lt;/li&gt;
+&lt;li&gt;学习o语言很简单，因为语法简单&lt;/li&gt;
+&lt;li&gt;用好Go语言不容易，因为要跳转三观&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;go知识框架&#34;&gt;Go知识框架&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;基本语法  （遍历，选择，循环，指针，数组，容器）&lt;/li&gt;
+&lt;li&gt;面向接口  （结构体，duck typing的概念，组合的思想）&lt;/li&gt;
+&lt;li&gt;函数式编程（闭包的概念，例题）&lt;/li&gt;
+&lt;li&gt;工程化   （资源管理，错误处理，测试和文档，性能调优）&lt;/li&gt;
+&lt;li&gt;并发编程 （goroutine和channel,理解调度器，例题）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;实战项目&#34;&gt;实战项目&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;从零开始，使用Go语言自主搭建简单的分布式爬虫（不使用框架）&lt;/li&gt;
+&lt;li&gt;爬取网站资料&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/go/1517564741602.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;项目的架构图&lt;/strong&gt;
+ &lt;img src=&#34;sources/go/1517565353894.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;开发路径：单任务版-&amp;gt;并发版-&amp;gt;分布式&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>Go 语言总结</title>
@@ -1266,53 +1449,6 @@ self.tableView.estimatedSectionFooterHeight = 0;
    模型组里可以保存每一个分片的md5值，用于分片的上传状态。&lt;br /&gt;
    管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。&lt;/p&gt;
 &lt;/blockquote&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>swift3-22</title>
-            <link>http://blog.flywithme.top/2017/04/17/swift22/</link>
-            <pubDate>Mon, 17 Apr 2017 10:48:35 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/04/17/swift22/</guid>
-            <description></description>
-        </item>
-        
-        <item>
-            <title>swift3-21 析构过程</title>
-            <link>http://blog.flywithme.top/2017/04/13/swift21/</link>
-            <pubDate>Thu, 13 Apr 2017 17:19:53 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/04/13/swift21/</guid>
-            <description>&lt;p&gt;在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;析构过程原理&lt;/strong&gt; Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的
- 时候可能就需要额外的清理了。比如打开另一个文件写入数据，就需要在实例被释放前关闭该文件。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;语法&lt;/strong&gt;：在类的定义中，每个类最多只有一个析构函数，析构函数不带任何参数，不带括号&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;deinit{
-   //执行析构过程
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;示例：&lt;code&gt;deinit&lt;/code&gt;的调用时机&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var counter = 0;  
-class BaseClass {
-    init() {
-        counter += 1;
-    }
-    deinit {
-        counter -= 1;
-    }
-}
-
-var show: BaseClass? = BaseClass()
-print(counter) // 1
-show = nil  
-print(counter) // 0
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         
