@@ -9,7 +9,558 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
-            <title>变量定义</title>
+            <title>Go: 3-1 数组、切片和容器</title>
+            <link>http://blog.flywithme.top/2018/02/05/note_06/</link>
+            <pubDate>Mon, 05 Feb 2018 16:44:58 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/05/note_06/</guid>
+            <description>
+
+&lt;h5 id=&#34;数组-值类型&#34;&gt;数组 (值类型)&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;[10]int 和 [5]int 是不同的类型&lt;/li&gt;
+&lt;li&gt;调用func f(arr [5]int)会&lt;strong&gt;拷贝&lt;/strong&gt;数组&lt;/li&gt;
+&lt;li&gt;调用func f1(arr *[5]int)可以在方法里修改arr&lt;/li&gt;
+&lt;li&gt;Go中一般不直接使用数组&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;   //数组初始化
+    var arr1 [5]int
+   	arr2 :=[3]int{2,4,6}
+   	arr3 :=[...]int{2,4,5,6,78,0}
+   
+   	fmt.Println(arr1,arr2,arr3)
+   
+   	var grid[4][2][1]int
+   	fmt.Println(grid)
+   
+   	//元素遍历
+   	for i :=0;i &amp;lt; len(arr3) ;i ++  {
+   		fmt.Println(arr3[i])
+   	}
+   	
+   	
+//指针传递   	
+func printArray(arr *[5]int) {
+	arr[0] = 100
+	for i, v := range arr {
+		fmt.Println(i, v)
+	}
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;range-关键字-还会有很多其他地方用到&#34;&gt;&lt;code&gt;range&lt;/code&gt; 关键字 (还会有很多其他地方用到)&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;   	for i,v := range arr3  {
+   		fmt.Println(i,v)
+   	}
+   	for _,v := range arr3  {
+   		fmt.Println(v)
+   	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;切片-slice&#34;&gt;切片 Slice&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;    arr := [...]int{0, 1, 2, 3, 4, 5, 6, 7}
+
+	fmt.Println(&amp;quot;arr[2:6] =&amp;quot;, arr[2:6])
+	fmt.Println(&amp;quot;arr[:6] =&amp;quot;, arr[:6])
+	s1 := arr[2:]
+	fmt.Println(&amp;quot;s1 =&amp;quot;, s1)
+	s2 := arr[:]
+	fmt.Println(&amp;quot;s2 =&amp;quot;, s2)
+
+	fmt.Println(&amp;quot;After updateSlice(s1)&amp;quot;)
+	updateSlice(s1)
+	fmt.Println(s1)
+	fmt.Println(arr)
+
+	fmt.Println(&amp;quot;After updateSlice(s2)&amp;quot;)
+	updateSlice(s2)
+	fmt.Println(s2)
+	fmt.Println(arr)
+
+	fmt.Println(&amp;quot;Reslice&amp;quot;)
+	fmt.Println(s2)
+	s2 = s2[:5]
+	fmt.Println(s2)
+	s2 = s2[2:]
+	fmt.Println(s2)
+
+	fmt.Println(&amp;quot;Extending slice&amp;quot;)
+	arr[0], arr[2] = 0, 2
+	fmt.Println(&amp;quot;arr =&amp;quot;, arr)
+	s1 = arr[2:6]
+	fmt.Println(arr[0:1])
+	s2 = s1[3:6] // [s1[3], s1[4]]
+	fmt.Printf(&amp;quot;s1=%v, len(s1)=%d, cap(s1)=%d\n&amp;quot;,
+		s1, len(s1), cap(s1))
+		
+		
+	fmt.Printf(&amp;quot;s2=%v, len(s2)=%d, cap(s2)=%d\n&amp;quot;,
+		s2, len(s2), cap(s2))
+
+	s3 := append(s2, 10)
+	s4 := append(s3, 11)
+	s5 := append(s4, 12)
+	fmt.Println(&amp;quot;s3, s4, s5 =&amp;quot;, s3, s4, s5)
+	// s4 and s5 no longer view arr.
+	fmt.Println(&amp;quot;arr =&amp;quot;, arr)
+
+	// Uncomment to run sliceOps demo.
+	// If we see undefined: sliceOps
+	// please try go run slices.go sliceops.go
+	fmt.Println(&amp;quot;Uncomment to see sliceOps demo&amp;quot;)
+	// sliceOps()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;slice的向后扩展&#34;&gt;Slice的向后扩展&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;    arr := [...]int{0, 1, 2, 3, 4, 5, 6, 7}
+    s1 = arr[2:6]
+	s2 = s1[3:5]
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;s1的值为[2,3,4,5],s2的值为[5,6]&lt;/li&gt;
+&lt;li&gt;slice可以向后扩展，不可以向前扩展&lt;/li&gt;
+&lt;li&gt;s[i] 不可以超越len(s),向后扩展不可以超越底层数组cap(s)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/go/1517845264648.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 2-4 指针</title>
+            <link>http://blog.flywithme.top/2018/02/05/note_05/</link>
+            <pubDate>Mon, 05 Feb 2018 15:29:31 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/05/note_05/</guid>
+            <description>
+
+&lt;h5 id=&#34;什么是指针&#34;&gt;什么是指针&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;一个指针变量可以指向任何一个值的内存地址它指向那个值的内存地址。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;类似于变量和常量，在使用指针前你需要声明指针
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;如何使用指针&#34;&gt;如何使用指针&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;定义指针变量。&lt;/li&gt;
+&lt;li&gt;为指针变量赋值。&lt;/li&gt;
+&lt;li&gt;访问指针变量中指向地址的值。&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;    var a int = 2
+	var pa *int = &amp;amp;a
+	*pa = 3
+	fmt.Println(a)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;空指针&#34;&gt;空指针&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;当一个指针被定义后没有分配到任何变量时，它的值为 nil。&lt;/li&gt;
+&lt;li&gt;nil 指针也称为空指针。&lt;/li&gt;
+&lt;li&gt;nil在概念上和其它语言的null、None、nil、NULL一样，都指代零值或空值。&lt;/li&gt;
+&lt;li&gt;一个指针变量通常缩写为 ptr&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;    var  ptr *int
+    fmt.Printf(&amp;quot;ptr 的值为 : %x\n&amp;quot;, ptr  )
+    
+    if(ptr != nil)     /* ptr 不是空指针 */
+    if(ptr == nil)    /* ptr 是空指针 */
+    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;参数传递的几种形式&#34;&gt;参数传递的几种形式&lt;/h5&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/go/1517818417658.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/go/1517818442412.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/go/1517818481871.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import &amp;quot;fmt&amp;quot;
+
+func main()  {
+	var a int = 2
+	var pa *int = &amp;amp;a
+	*pa = 3
+	fmt.Println(a)
+
+	var  ptr *int
+	fmt.Printf(&amp;quot;ptr 的值为 : %x\n&amp;quot;, ptr  )
+	a,b := 3,4
+	swap(&amp;amp;a,&amp;amp;b)
+	fmt.Println(a,b)
+	a,b = swap1(a,b)
+	fmt.Println(a,b)
+
+
+}
+
+func swap(a,b *int)  {
+	*b,*a = *a,*b
+}
+
+func swap1(a,b int)(int,int)  {
+	return b,a
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 2-3 函数</title>
+            <link>http://blog.flywithme.top/2018/02/04/note_04/</link>
+            <pubDate>Sun, 04 Feb 2018 14:37:54 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/04/note_04/</guid>
+            <description>
+
+&lt;h5 id=&#34;函数&#34;&gt;函数&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;函数是基本的代码块，用于执行一个任务。&lt;/li&gt;
+&lt;li&gt;Go 语言最少有个 main() 函数。&lt;/li&gt;
+&lt;li&gt;你可以通过函数来划分不同功能，逻辑上每个函数执行的是指定的任务。&lt;/li&gt;
+&lt;li&gt;函数声明告诉了编译器函数的名称，返回类型，和参数。&lt;/li&gt;
+&lt;li&gt;Go 语言标准库提供了多种可动用的内置的函数。例如，len() 函数可以接受不同类型参数并返回该类型的长度。如果我们传入的是字符串则返回字符串的长度，如果传入的是数组，则返回数组中包含的元素个数。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Go 语言函数定义格式如下：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func function_name( [parameter list] ) [return_types] {
+   函数体
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;    package main
+    
+    import (
+    	&amp;quot;fmt&amp;quot;
+    	&amp;quot;reflect&amp;quot;
+    	&amp;quot;runtime&amp;quot;
+    	&amp;quot;math&amp;quot;
+    )
+    
+    func eval(a,b int,op string)  (int,error){
+    	switch op {
+    	case &amp;quot;+&amp;quot;:
+    		return a + b,nil
+    	case &amp;quot;-&amp;quot;:
+    		return a - b,nil
+    	case &amp;quot;*&amp;quot;:
+    		return a * b,nil
+    	case &amp;quot;/&amp;quot;:
+    		q,_ := div(a,b)
+    		return q,nil
+    	default:
+    		return 0,fmt.Errorf(&amp;quot;unsupported operation:&amp;quot; +op)
+    	}
+    }
+    
+    func apply(op func(int,int)int,a,b int)int  {
+    	p := reflect.ValueOf(op).Pointer()
+    	opName := runtime.FuncForPC(p).Name()
+    	fmt.Printf(&amp;quot;calling function %s with args (%d %d)&amp;quot;,opName,a,b)
+    	return op(a,b)
+    }
+    
+    //除法
+    
+    func div(a,b int)(int ,int)  {
+    	return a/b,a%b
+    }
+    
+    func pow(a,b int)int  {
+    	return int(math.Pow(float64(a),float64(b)))
+    }
+    
+    func sum(numbers ...int)int  {
+    	s := 0
+    	//for i := range numbers{
+    	//	s +=numbers[i]
+    	//}
+    	for _,value := range numbers{
+    		s += value
+    	}
+    	return s
+    }
+    
+    func main()  {
+    	fmt.Println(eval(3,4,&amp;quot;/-&amp;quot;))
+    	q,r := div(13,5)
+    	fmt.Println(q,r)
+    
+    	fmt.Println(apply(pow,3,4))
+    	fmt.Println(
+    		apply(func(a ,b int)int {
+    			return int(math.Pow(float64(a),float64(b)))
+    		},3,4))
+    
+    	fmt.Println(
+    		apply(func(a ,b int)int {
+    			return int(math.Pow(float64(a),float64(b)))
+    		},3,4))
+    	fmt.Println(sum(1,2,3,4,5,6,7,8,10))
+    }
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;函数语法的要点回顾&#34;&gt;函数语法的要点回顾&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;返回值类型写在后面&lt;/li&gt;
+&lt;li&gt;可以返回多个值&lt;/li&gt;
+&lt;li&gt;函数可作为参数&lt;/li&gt;
+&lt;li&gt;没有默认参数，可选参数 （有可变参数列表）&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 2-2 条件语句和循环语句</title>
+            <link>http://blog.flywithme.top/2018/02/04/note_03/</link>
+            <pubDate>Sun, 04 Feb 2018 14:05:59 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/04/note_03/</guid>
+            <description>
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;语句&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;if 语句&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;if 语句 由一个布尔表达式后紧跟一个或多个语句组成&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;if&amp;hellip;else&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;if 语句 后可以使用可选的 else 语句, else 语句中的表达式在布尔表达式为 false 时执行。&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;if 嵌套语句&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;你可以在 if 或 else if 语句中嵌入一个或多个 if 或 else if 语句。&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;switch 语句&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;switch 语句用于基于不同条件执行不同动作&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;select 语句&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;select 语句类似于 switch 语句，但是select会随机执行一个可运行的case。如果没有case可运行，它将阻塞，直到有case可运行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;pre&gt;&lt;code&gt;    package main
+    
+    import (
+    	&amp;quot;fmt&amp;quot;
+    	&amp;quot;io/ioutil&amp;quot;
+    )
+    
+    func grade(score int) string {
+    	g := &amp;quot;&amp;quot;
+    	switch {
+    	case score &amp;lt; 0 || score &amp;gt; 100:
+    		panic(fmt.Sprintf(
+    			&amp;quot;Wrong score: %d&amp;quot;, score))
+    	case score &amp;lt; 60:
+    		g = &amp;quot;F&amp;quot;
+    	case score &amp;lt; 80:
+    		g = &amp;quot;C&amp;quot;
+    	case score &amp;lt; 90:
+    		g = &amp;quot;B&amp;quot;
+    	case score &amp;lt;= 100:
+    		g = &amp;quot;A&amp;quot;
+    	}
+    	return g
+    }
+    
+    func main() {
+    	// If &amp;quot;abc.txt&amp;quot; is not found,
+    	// please check what current directory is,
+    	// and change filename accordingly.
+    	const filename = &amp;quot;abc.txt&amp;quot;
+    	if contents, err := ioutil.ReadFile(filename); err != nil {
+    		fmt.Println(err)
+    	} else {
+    		fmt.Printf(&amp;quot;%s\n&amp;quot;, contents)
+    	}
+    
+    	fmt.Println(
+    		grade(0),
+    		grade(59),
+    		grade(60),
+    		grade(82),
+    		grade(99),
+    		grade(100),
+    		// Uncomment to see it panics.
+    		// grade(-3),
+    	)
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;select是Go中的一个控制结构，类似于用于通信的switch语句。每个case必须是一个通信操作，要么是发送要么是接收。&lt;br /&gt;
+  select随机执行一个可运行的case。如果没有case可运行，它将阻塞，直到有case可运行。一个默认的子句应该总是可运行的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;select {
+    case communication clause  :
+       statement(s);      
+    case communication clause  :
+       statement(s); 
+    /* 你可以定义任意数量的 case */
+    default : /* 可选 */
+       statement(s);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;以下描述了-select-语句的语法&#34;&gt;以下描述了 select 语句的语法：&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;每个case都必须是一个通信&lt;/li&gt;
+&lt;li&gt;所有channel表达式都会被求值&lt;/li&gt;
+&lt;li&gt;所有被发送的表达式都会被求值&lt;/li&gt;
+&lt;li&gt;如果任意某个通信可以进行，它就执行；其他被忽略。&lt;/li&gt;
+&lt;li&gt;如果有多个case都可以运行，Select会随机公平地选出一个执行。其他不会执行。
+&lt;strong&gt;否则：&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;如果有default子句，则执行该语句。&lt;/li&gt;
+&lt;li&gt;如果没有default字句，select将阻塞，直到某个通信可以运行；Go不会重新对channel或值进行求值。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;   package main
+   import &amp;quot;fmt&amp;quot;
+   import &amp;quot;time&amp;quot;
+   func f1(ch chan int) {
+       time.Sleep(time.Second * 5)
+       ch &amp;lt;- 1
+   }
+   func f2(ch chan int) {
+       time.Sleep(time.Second * 10)
+       ch &amp;lt;- 1
+   }
+   func main() {
+       var ch1 = make(chan int)
+       var ch2 = make(chan int)
+       go f1(ch1)
+       go f2(ch2)
+       select {
+       case &amp;lt;-ch1:
+           fmt.Println(&amp;quot;The first case is selected.&amp;quot;)
+       case &amp;lt;-ch2:
+           fmt.Println(&amp;quot;The second case is selected.&amp;quot;)
+       }
+   }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;循环语句&#34;&gt;循环语句&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;strconv&amp;quot;
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;os&amp;quot;
+	&amp;quot;io&amp;quot;
+	&amp;quot;bufio&amp;quot;
+	&amp;quot;strings&amp;quot;
+)
+
+func convertToBin(n int) string  {
+	result := &amp;quot;&amp;quot;
+	for ; n &amp;gt;0; n /=2{
+		lsb := n%2
+		result = strconv.Itoa(lsb)+result
+	}
+	return result
+}
+
+func printFile(filename string)  {
+	file,err :=os.Open(filename)
+	if err != nil {
+		panic(err)
+	}
+	printFileContents(file)
+}
+
+func printFileContents(reader io.Reader) {
+	scanner := bufio.NewScanner(reader)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+}
+func forever()  {
+	for{
+		fmt.Println(&amp;quot;abc&amp;quot;)
+	}
+
+}
+
+func main()  {
+	fmt.Println(&amp;quot;convertToBin results:&amp;quot;)
+	fmt.Println(
+		convertToBin(15),
+		convertToBin(2),
+		convertToBin(5),
+	)
+	fmt.Println(&amp;quot;abc.txt contents:&amp;quot;)
+	printFile(&amp;quot;abc.txt&amp;quot;)
+
+
+	s := `abc &amp;quot;ad&amp;quot;
+	kddd
+	123
+	p
+	22333&#39;`
+	printFileContents(strings.NewReader(s))
+}
+
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 2-1 变量定义</title>
             <link>http://blog.flywithme.top/2018/02/03/note_02/</link>
             <pubDate>Sat, 03 Feb 2018 19:45:12 CST</pubDate>
             <author>Brasbug</author>
@@ -149,7 +700,7 @@ const (
         </item>
         
         <item>
-            <title>记笔：1-1 导读</title>
+            <title>Go:记笔：1-1 导读</title>
             <link>http://blog.flywithme.top/2018/02/02/note_01/</link>
             <pubDate>Fri, 02 Feb 2018 17:27:32 CST</pubDate>
             <author>Brasbug</author>
@@ -161,8 +712,8 @@ const (
 &lt;ul&gt;
 &lt;li&gt;没有&amp;rdquo;对象&amp;rdquo;，没有继承多态，没有泛型，么有try/catch&lt;/li&gt;
 &lt;li&gt;有接口，函数式变成，CSP并发模型（goroutine+channel）&lt;/li&gt;
-&lt;li&gt;学习o语言很简单，因为语法简单&lt;/li&gt;
-&lt;li&gt;用好Go语言不容易，因为要跳转三观&lt;/li&gt;
+&lt;li&gt;学习Go语言很简单，因为语法简单&lt;/li&gt;
+&lt;li&gt;用好Go语言不容易，因为要调整三观&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;go知识框架&#34;&gt;Go知识框架&lt;/h5&gt;
@@ -1219,236 +1770,6 @@ func checkErr(err error) {
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>imagemagic</title>
-            <link>http://blog.flywithme.top/2017/11/10/imagemagic/</link>
-            <pubDate>Fri, 10 Nov 2017 12:11:33 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/10/imagemagic/</guid>
-            <description>&lt;p&gt;首先：brew install ImageMagick&lt;/p&gt;
-
-&lt;p&gt;熟悉ImageMagick命令：&lt;/p&gt;
-
-&lt;p&gt;resize当前目录下的图片到100x100f分辨率&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;convert 1024x1024.png -resize 100x100 icon02.png
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;填充某像&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;convert 1024x1024.png -region 1024x224+0+800 -fill &amp;quot;rgb(255,166,48)&amp;quot; -colorize 100% new.png  
-
-convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&amp;quot; -colorize 100%   -region 1024x224+650+800 -fill &amp;quot;rgb(233,159,250)&amp;quot; -colorize 100%  new.png  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;py&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分</title>
-            <link>http://blog.flywithme.top/2017/11/05/gin-mysql/</link>
-            <pubDate>Sun, 05 Nov 2017 20:17:21 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/05/gin-mysql/</guid>
-            <description>&lt;ul&gt;
-&lt;li&gt;项目地址：&lt;a href=&#34;https://github.com/flywithbug/darkside&#34;&gt;https://github.com/flywithbug/darkside&lt;/a&gt; 欢迎fork。 TODO 更新更多内容&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;填坑1- struct to json 时，空值忽略，或者特定值忽略问题&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/&#34;&gt;http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Golang中，如果指定一个field序列化成JSON的变量名字为-，则序列化的时候自动忽略这个field。这种用法，
-才是和上面JsonIgnore的用法的作用是一样的。&lt;/p&gt;
-
-&lt;p&gt;而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。&lt;br /&gt;
-这里需要注意的是关于emtpty的定义：&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;常用Sql命令&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//查询手机号为176021986 时间在 1510678791 之前2000秒的 数据量
-select COUNT(*) as cnt  from smstx where mobile = &amp;quot;176021986&amp;quot; and time &amp;gt; 1510678791-2000
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>iOS11 ScrollView 页面下移问题</title>
-            <link>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt</link>
-            <pubDate>Sat, 30 Sep 2017 14:58:00 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt</guid>
-            <description>&lt;nav&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#一-ios-11下app中tableview内容下移20pt或下移64pt的原因分析&#34;&gt;一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#二-adjustcontentinset属性的计算方式&#34;&gt;二、 adjustContentInset属性的计算方式&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#三-什么情况下的tableview会发生上述问题&#34;&gt;三、什么情况下的tableView会发生上述问题&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#四-这个问题的解决方法有哪些&#34;&gt;四、这个问题的解决方法有哪些？&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#五-遇到的另外一个与安全区域无关的tableview内容下移的问题&#34;&gt;五、遇到的另外一个与安全区域无关的tableView内容下移的问题&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/nav&gt;
-
-&lt;p&gt;&lt;strong&gt;scorllView contentOffset变动问题&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h6 id=&#34;一-ios-11下app中tableview内容下移20pt或下移64pt的原因分析&#34;&gt;一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析&lt;/h6&gt;
-
-&lt;p&gt;问题如下图所示：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/scrollview/92.png&#34; alt=&#34;sss&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;1. 原因分析&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;原因是iOS 11中&lt;code&gt;UIViweController&lt;/code&gt;的&lt;code&gt;automaticallyAdjustsScrollViewInsets&lt;/code&gt;属性被废弃了，所以当&lt;code&gt;scrollView&lt;/code&gt;超出安全区域时系统自动调整了&lt;code&gt;SafeAreaInsets&lt;/code&gt;值，进而影响&lt;code&gt;adjustedContentInset&lt;/code&gt;值，&lt;br /&gt;
-在iOS 11中决定tableView的内容与边缘距离的是&lt;code&gt;adjustedContentInset&lt;/code&gt;属性，而不是&lt;code&gt;contentInset&lt;/code&gt;。&lt;code&gt;adjustedContentInset&lt;/code&gt;的计算方式见本文第二部分内容。因为系统对&lt;code&gt;adjustedContentInset&lt;/code&gt;值进行了调整，所以导致&lt;code&gt;tableView&lt;/code&gt;的内容到边缘的距离发生了变化，导致&lt;code&gt;tableView&lt;/code&gt;下移了20pt（statusbar高度）或64pt（navigationbar高度）。&lt;/p&gt;
-
-&lt;p&gt;如果你的APP中使用的是自定义的navigationbar，隐藏掉系统的navigationbar，并且tableView的frame为(0,0,SCREEN_WIDTH, SCREEN_HEIGHT)开始，那么系统会自动调整SafeAreaInsets值为(20,0,0,0)，如果使用了系统的navigationbar，那么SafeAreaInsets值为(64,0,0,0)，如果也使用了系统的tabbar，那么SafeAreaInsets值为(64,0,49,0)。关于什么情况下会发生内容下移的问题，本文第三部分有介绍。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;2. 安全区域的概念&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/scrollview/32.png&#34; alt=&#34;sssa&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。
-安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用&lt;code&gt;additionalSafeAreaInsets&lt;/code&gt;去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;safeAreaInsets&lt;/code&gt;属性反映了一个view距离该view的安全区域的边距。对于一个Controller的根视图而言，&lt;code&gt;SafeAreaInsets&lt;/code&gt;值包括了被&lt;code&gt;statusbar&lt;/code&gt;和其他可视的bars覆盖的区域和其他通过&lt;code&gt;additionalSafeAreaInsets&lt;/code&gt;自定义的insets值。对于view层次中得其他view，SafeAreaInsets值反映了view被覆盖的部分。如果一个view全部在它父视图的安全区域内，则SafeAreaInsets值为(0,0,0,0)。&lt;/p&gt;
-
-&lt;h6 id=&#34;二-adjustcontentinset属性的计算方式&#34;&gt;二、 adjustContentInset属性的计算方式&lt;/h6&gt;
-
-&lt;p&gt;首先看scrollView在iOS11新增的两个属性：adjustContentInset 和 contentInsetAdjustmentBehavior。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;/* Configure the behavior of adjustedContentInset.
-Default is UIScrollViewContentInsetAdjustmentAutomatic.
-*/
-@property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior
-adjustContentInset表示contentView.frame.origin偏移了scrollview.frame.origin多少；是系统计算得来的，计算方式由contentInsetAdjustmentBehavior决定。有以下几种计算方式：
-
-UIScrollViewContentInsetAdjustmentAutomatic：如果scrollview在一个automaticallyAdjustsScrollViewInsets = YES的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top &amp;amp; bottom上 adjustedContentInset = safeAreaInset + contentInset不管是否滚动。其他情况下与UIScrollViewContentInsetAdjustmentScrollableAxes相同
-
-UIScrollViewContentInsetAdjustmentScrollableAxes: 在可滚动方向上adjustedContentInset = safeAreaInset + contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset + contentInset
-
-UIScrollViewContentInsetAdjustmentNever: adjustedContentInset = contentInset
-
-UIScrollViewContentInsetAdjustmentAlways: adjustedContentInset = safeAreaInset + contentInset
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;当&lt;code&gt;contentInsetAdjustmentBehavior&lt;/code&gt;设置为&lt;code&gt;UIScrollViewContentInsetAdjustmentNever&lt;/code&gt;的时候，&lt;code&gt;adjustContentInset&lt;/code&gt;值不受&lt;code&gt;SafeAreaInset&lt;/code&gt;值的影响。&lt;/p&gt;
-
-&lt;h6 id=&#34;三-什么情况下的tableview会发生上述问题&#34;&gt;三、什么情况下的tableView会发生上述问题&lt;/h6&gt;
-
-&lt;p&gt;如果设置了automaticallyAdjustsScrollViewInsets = YES，那么不会发生问题，一直都是由系统来调整内容的偏移量。&lt;/p&gt;
-
-&lt;p&gt;接下来排查下自己的项目中哪些页面会发生以上问题。&lt;/p&gt;
-
-&lt;p&gt;当tableView的frame超出安全区域范围时，系统会自动调整内容的位置，SafeAreaInsets值会不为0，于是影响tableView的adjustContentInset值，于是影响tableView的内容展示，导致tableView的content下移了SafeAreaInsets的距离。SafeAreaInsets值为0时，是正常的情况。&lt;/p&gt;
-
-&lt;p&gt;需要了解每个页面的结构，看tableView是否被系统的statusbar或navigationbar覆盖，如果被覆盖的话，则会发生下移。也可以通过tableview.safeAreaInsets的值来确认是因为安全区域的问题导致的内容下移。&lt;/p&gt;
-
-&lt;p&gt;如下代码片段，可以看出系统对tableView向下调整了20pt的距离，因为tableView超出了安全区域范围，被statusbar覆盖。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;tableview.contentInset: {64, 0, 60, 0}
-tableview.safeAreaInsets: {20, 0, 0, 0}
-tableview.adjustedContentInset: {84, 0, 60, 0}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h6 id=&#34;四-这个问题的解决方法有哪些&#34;&gt;四、这个问题的解决方法有哪些？&lt;/h6&gt;
-
-&lt;ol&gt;
-&lt;li&gt;重新设置tableView的contentInset值，来抵消掉SafeAreaInset值，因为内容下移偏移量 = contentInset + SafeAreaInset；&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;如果之前自己设置了contentInset值为(64,0,0,0),现在系统又设置了SafeAreaInsets值为(64,0,0,0)，那么tableView内容下移了64pt，这种情况下，可以设置contentInset值为(0,0,0,0)，也就是遵从系统的设置了。&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;设置tableView的contentInsetAdjustmentBehavior属性&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;如果不需要系统为你设置边缘距离，可以做以下设置：&lt;/p&gt;
-
-&lt;p&gt;//如果iOS的系统是11.0，会有这样一个宏定义“#define __IPHONE_11_0  110000”；如果系统版本低于11.0则没有这个宏定义&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#ifdef __IPHONE_11_0   
-if ([tableView respondsToSelector:@selector(setContentInsetAdjustmentBehavior:)]) {
-    tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-}
-#endif
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;contentInsetAdjustmentBehavior&lt;/code&gt;属性也是用来取代&lt;code&gt;automaticallyAdjustsScrollViewInsets&lt;/code&gt;属性的，推荐使用这种方式。&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;通过设置iOS 11新增的属性addtionalSafeAreaInset；&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;iOS 11之前，大家是通过将Controller的&lt;code&gt;automaticallyAdjustsScrollViewInsets&lt;/code&gt;属性设置为NO，来禁止系统对tableView调整contentInsets的。如果还是想从Controller级别解决问题，
-那么可以通过设置Controller的additionalSafeAreaInsets属性，如果SafeAreaInset值为(20,0,0,0)，那么设置additionalSafeAreaInsets属性值为(-20,0,0,0)，则SafeAreaInsets不会对adjustedContentInset值产生影响，
-tableView内容不会显示异常。这里需要注意的是addtionalSafeAreaInset是Controller的属性，要知道SafeAreaInset的值是由哪个Controller引起的，可能是由自己的Controller调整的，可能是navigationController调整的。是由哪个Controller调整的，则设置哪个Controller的addtionalSafeAreaInset值来抵消掉SafeAreaInset值。&lt;/p&gt;
-
-&lt;h6 id=&#34;五-遇到的另外一个与安全区域无关的tableview内容下移的问题&#34;&gt;五、遇到的另外一个与安全区域无关的tableView内容下移的问题&lt;/h6&gt;
-
-&lt;p&gt;我的作品页面的tableView下移了约40pt，这里是否跟安全区域有关呢？&lt;/p&gt;
-
-&lt;p&gt;查了下页面结构，tableView的父视图的frame在navigationbar的bottom之下，tableView在父视图的安全区域内，打印出来tableView的SafeAreaInset值也是(0，0，0，0);所以不是安全区域导致的内容下移。&lt;/p&gt;
-
-&lt;p&gt;经过查看代码，发现tableView的style:UITableViewStyleGrouped类型，默认tableView开头和结尾是有间距的，不需要这个间距的话，可以通过实现heightForHeaderInSection方法（返回一个较小值：0.1）和viewForHeaderInSection（返回一个view）来去除头部的留白，底部同理。&lt;/p&gt;
-
-&lt;p&gt;iOS 11上发生tableView顶部有留白，原因是代码中只实现了heightForHeaderInSection方法，而没有实现viewForHeaderInSection方法。那样写是不规范的，只实现高度，而没有实现view，但代码这样写在iOS 11之前是没有问题的，iOS 11之后应该是由于开启了估算行高机制引起了bug。添加上viewForHeaderInSection方法后，问题就解决了。或者添加以下代码关闭估算行高，问题也得到解决。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;self.tableView.estimatedRowHeight = 0;
-self.tableView.estimatedSectionHeaderHeight = 0;
-self.tableView.estimatedSectionFooterHeight = 0;
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>大文件分片上传解决方案</title>
-            <link>http://blog.flywithme.top/2017/08/03/bigFileUpload/</link>
-            <pubDate>Thu, 03 Aug 2017 13:44:56 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/08/03/bigFileUpload/</guid>
-            <description>&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;md5: 获取文件的md5值&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;文件管理工具：文件路径， 分析文件内容，生成数据。&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;上传任务池中会保持小于等于3个的请求任务
- 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。
- 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中
- 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/bigFileUpload/bigfile001.png&#34; alt=&#34;bigfile001&#34; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式&lt;br /&gt;
-   模型组里可以保存每一个分片的md5值，用于分片的上传状态。&lt;br /&gt;
-   管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。&lt;/p&gt;
-&lt;/blockquote&gt;
 </description>
         </item>
         

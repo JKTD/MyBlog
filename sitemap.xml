@@ -2,6 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://blog.flywithme.top/2018/02/05/note_06/</loc>
+        <lastmod>2018-02-05T16:44:58+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://blog.flywithme.top/2018/02/05/note_05/</loc>
+        <lastmod>2018-02-05T15:29:31+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://blog.flywithme.top/2018/02/04/note_04/</loc>
+        <lastmod>2018-02-04T14:37:54+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://blog.flywithme.top/2018/02/04/note_03/</loc>
+        <lastmod>2018-02-04T14:05:59+08:00</lastmod>
+    </url>
+    
+    <url>
         <loc>http://blog.flywithme.top/2018/02/03/note_02/</loc>
         <lastmod>2018-02-03T19:45:12+08:00</lastmod>
     </url>
@@ -354,13 +374,13 @@
     
     <url>
         <loc>http://blog.flywithme.top/</loc>
-        <lastmod>2018-02-03T19:45:12+08:00</lastmod>
+        <lastmod>2018-02-05T16:44:58+08:00</lastmod>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>http://blog.flywithme.top/post/</loc>
-        <lastmod>2018-02-03T19:45:12+08:00</lastmod>
+        <lastmod>2018-02-05T16:44:58+08:00</lastmod>
         <priority>0</priority>
     </url>
     
@@ -378,13 +398,13 @@
     
     <url>
         <loc>http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-        <lastmod>2018-02-03T19:45:12+08:00</lastmod>
+        <lastmod>2018-02-05T16:44:58+08:00</lastmod>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</loc>
-        <lastmod>2018-02-03T19:45:12+08:00</lastmod>
+        <lastmod>2018-02-05T16:44:58+08:00</lastmod>
         <priority>0</priority>
     </url>
     

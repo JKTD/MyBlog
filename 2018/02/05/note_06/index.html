@@ -12,40 +12,38 @@
         }
     }
   </script>
-  <title>Fly With Me</title>
+  <title>Go: 3-1 数组、切片和容器 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="keywords" content="博客,程序员,读书笔记,技术分享">
-<meta name="description" content="Fly With Me">
+<meta name="keywords" content="xxx,">
+<meta name="description" content="数组 (值类型) [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Fly With Me">
-<meta itemprop="description" content="Fly With Me">
+<meta itemprop="name" content="Go: 3-1 数组、切片和容器 - Fly With Me">
+<meta itemprop="description" content="数组 (值类型) [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="Fly With Me" />
+<meta property="og:title" content="Go: 3-1 数组、切片和容器 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/" />
+<meta property="og:url" content="http://blog.flywithme.top/2018/02/05/note_06/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="Fly With Me">
+<meta property="og:description" content="数组 (值类型) [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="Fly With Me">
-<meta name="twitter:description" content="Fly With Me">
+<meta name="twitter:title" content="Go: 3-1 数组、切片和容器 - Fly With Me">
+<meta name="twitter:description" content="数组 (值类型) [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/">
-  <link rel='shortlink' href="http://blog.flywithme.top/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2018/02/05/note_06/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2018/02/05/note_06/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
- <link href="http://blog.flywithme.top//feed.xml" rel="alternate" type="application/rss+xml" title="Fly With Me" />
-
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
 <link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
 <link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
@@ -65,8 +63,7 @@
 
 </head>
 
-<body class="archive category col-3cm full-width topbar-enabled chrome">
-
+<body class="single single-post single-format-standard col-3cm full-width topbar-enabled chrome">
 <div id="wrapper">
   <header id="header">
 
@@ -160,282 +157,248 @@
 </header>
 
 
+
   <div class="container" id="page">
     <div class="container-inner">
       <div class="main">
         <div class="main-inner group">
           <section class="content">
-            <div class="pad group">
-              
-              <div class="featured">
-  <article class="post type-post status-publish format-standard has-post-thumbnail hentry group">
-      <div class="post-inner post-hover">
-          <div class="post-meta group">
-              <p class="post-category">
-              
-              <a href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="All posts in 学习笔记" rel="category tag">学习笔记</a>
-              
-              <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" title="All posts in 技术文章" rel="category tag">技术文章</a>
-              
-              </p>
-              <p class="post-date">2018年02月05日</p>
-          </div>
-          <h2 class="post-title">
-              <a href="http://blog.flywithme.top/2018/02/05/note_06/" rel="bookmark" title="Go: 3-1 数组、切片和容器">Go: 3-1 数组、切片和容器</a>
-          </h2>
-          <div class="entry excerpt">
-              <p>数组 (值类型) [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使</p>
-          </div>
-      </div>
-  </article>
-</div>
-
-              
-              <div class="post-list group">
+            <div class="page-title pad group">
+              <ul class="meta-single group">
                 
+                <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="category tag">学习笔记</a>
+                </li>
                 
+                <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                </li>
                 
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月05日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/05/note_05/" rel="bookmark" title="Go: 2-4 指针">Go: 2-4 指针</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月04日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/04/note_04/" rel="bookmark" title="Go: 2-3 函数">Go: 2-3 函数</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月04日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/04/note_03/" rel="bookmark" title="Go: 2-2 条件语句和循环语句">Go: 2-2 条件语句和循环语句</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月03日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/03/note_02/" rel="bookmark" title="Go: 2-1 变量定义">Go: 2-1 变量定义</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月02日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/02/note_01/" rel="bookmark" title="Go:记笔：1-1 导读">Go:记笔：1-1 导读</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年01月30日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/01/30/go/" rel="bookmark" title="Go 语言总结">Go 语言总结</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-              </div>
-              <nav class="pagination group">
-                <div class="wp-pagenavi">
-                  <a class="page" href="http://blog.flywithme.top/post/">More...</a>
-                </div>
-              </nav>
+              </ul>
             </div>
+
+            <div class="pad group">
+
+              <article
+                  class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
+                <div class="post-inner group">
+
+                  <h1 class="post-title">Go: 3-1 数组、切片和容器</h1>
+
+                  <p class="post-byline">
+                    by  · 2018年02月05日 · 402 Words ·
+                    ~1min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-02-05-note_06.md"
+                       target="_blank">Improve on <i class="fa fa-github"></i></a>
+                  </p>
+
+                  <div class="clear"></div>
+
+                  <div class="entry">
+                    <div class="entry-inner">
+                      
+                      
+
+<h5 id="数组-值类型">数组 (值类型)</h5>
+
+<ul>
+<li>[10]int 和 [5]int 是不同的类型</li>
+<li>调用func f(arr [5]int)会<strong>拷贝</strong>数组</li>
+<li>调用func f1(arr *[5]int)可以在方法里修改arr</li>
+<li>Go中一般不直接使用数组</li>
+</ul>
+
+<pre><code>   //数组初始化
+    var arr1 [5]int
+   	arr2 :=[3]int{2,4,6}
+   	arr3 :=[...]int{2,4,5,6,78,0}
+   
+   	fmt.Println(arr1,arr2,arr3)
+   
+   	var grid[4][2][1]int
+   	fmt.Println(grid)
+   
+   	//元素遍历
+   	for i :=0;i &lt; len(arr3) ;i ++  {
+   		fmt.Println(arr3[i])
+   	}
+   	
+   	
+//指针传递   	
+func printArray(arr *[5]int) {
+	arr[0] = 100
+	for i, v := range arr {
+		fmt.Println(i, v)
+	}
+}
+
+
+</code></pre>
+
+<h5 id="range-关键字-还会有很多其他地方用到"><code>range</code> 关键字 (还会有很多其他地方用到)</h5>
+
+<pre><code>   	for i,v := range arr3  {
+   		fmt.Println(i,v)
+   	}
+   	for _,v := range arr3  {
+   		fmt.Println(v)
+   	}
+</code></pre>
+
+<h5 id="切片-slice">切片 Slice</h5>
+
+<pre><code>    arr := [...]int{0, 1, 2, 3, 4, 5, 6, 7}
+
+	fmt.Println(&quot;arr[2:6] =&quot;, arr[2:6])
+	fmt.Println(&quot;arr[:6] =&quot;, arr[:6])
+	s1 := arr[2:]
+	fmt.Println(&quot;s1 =&quot;, s1)
+	s2 := arr[:]
+	fmt.Println(&quot;s2 =&quot;, s2)
+
+	fmt.Println(&quot;After updateSlice(s1)&quot;)
+	updateSlice(s1)
+	fmt.Println(s1)
+	fmt.Println(arr)
+
+	fmt.Println(&quot;After updateSlice(s2)&quot;)
+	updateSlice(s2)
+	fmt.Println(s2)
+	fmt.Println(arr)
+
+	fmt.Println(&quot;Reslice&quot;)
+	fmt.Println(s2)
+	s2 = s2[:5]
+	fmt.Println(s2)
+	s2 = s2[2:]
+	fmt.Println(s2)
+
+	fmt.Println(&quot;Extending slice&quot;)
+	arr[0], arr[2] = 0, 2
+	fmt.Println(&quot;arr =&quot;, arr)
+	s1 = arr[2:6]
+	fmt.Println(arr[0:1])
+	s2 = s1[3:6] // [s1[3], s1[4]]
+	fmt.Printf(&quot;s1=%v, len(s1)=%d, cap(s1)=%d\n&quot;,
+		s1, len(s1), cap(s1))
+		
+		
+	fmt.Printf(&quot;s2=%v, len(s2)=%d, cap(s2)=%d\n&quot;,
+		s2, len(s2), cap(s2))
+
+	s3 := append(s2, 10)
+	s4 := append(s3, 11)
+	s5 := append(s4, 12)
+	fmt.Println(&quot;s3, s4, s5 =&quot;, s3, s4, s5)
+	// s4 and s5 no longer view arr.
+	fmt.Println(&quot;arr =&quot;, arr)
+
+	// Uncomment to run sliceOps demo.
+	// If we see undefined: sliceOps
+	// please try go run slices.go sliceops.go
+	fmt.Println(&quot;Uncomment to see sliceOps demo&quot;)
+	// sliceOps()
+
+</code></pre>
+
+<h5 id="slice的向后扩展">Slice的向后扩展</h5>
+
+<pre><code>    arr := [...]int{0, 1, 2, 3, 4, 5, 6, 7}
+    s1 = arr[2:6]
+	s2 = s1[3:5]
+
+</code></pre>
+
+<ul>
+<li>s1的值为[2,3,4,5],s2的值为[5,6]</li>
+<li>slice可以向后扩展，不可以向前扩展</li>
+<li>s[i] 不可以超越len(s),向后扩展不可以超越底层数组cap(s)</li>
+</ul>
+
+<p><img src="sources/go/1517845264648.jpg" width = "100%" /></p>
+
+                      
+                    </div>
+                    <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+                        <div style="float:left;margin-top:0px;">
+                        <img src="http://blog.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
+                        <div style="text-align:center;">微信扫一扫</div>
+                        </div>
+                        <div>
+                            <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
+                            <br />微信关注：Crime_Sence (我在案发现场）
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/02/05/note_06/">http://blog.flywithme.top/2018/02/05/note_06/</a>
+                            <br />
+                            文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  
+
+                </div>
+                
+              </article>
+              
+
+              <div class="clear"></div>
+
+              <p class="post-tags">
+                <span>Tags:</span>
+                
+              </p>
+
+              <h4 class="heading">
+  <i class="fa fa-hand-o-right"></i>Related posts</h4>
+
+    <ul class="related-posts group">
+    
+    
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+    </ul>
+
+
+
+              <section id="comments" class="themeform">
+<div class="ds-thread" data-thread-key="/2018/02/05/note_06/" data-title="Go: 3-1 数组、切片和容器" data-url="http://blog.flywithme.top/2018/02/05/note_06/"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"brasbug"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</section>
+
+
+              
+            </div>
+
+
           </section>
           <div class="sidebar s1">
   <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
@@ -469,6 +432,20 @@
     <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
 </div>
 
+    <ul class="post-nav group">
+      <li class="next">
+        
+        <a href="http://blog.flywithme.top/2018/02/05/note_05/" rel="next">
+          <i class="fa fa-chevron-right"></i>
+          <strong>Next post</strong>
+          <span>Go: 2-4 指针</span>
+        </a>
+        
+      </li>
+      <li class="previous">
+        
+      </li>
+    </ul>
     <div id="search-2" class="widget widget_search"><h3>Search</h3>
       <form method="get" class="searchform themeform" action="https://www.google.com/search">
         <div>
@@ -477,6 +454,7 @@
       </form>
     </div>
   </div>
+  
 </div>
 
           <div class="sidebar s2">
