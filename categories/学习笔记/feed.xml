@@ -9,6 +9,227 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>Go: 4-1 面向对象</title>
+            <link>http://blog.flywithme.top/2018/02/08/note_08/</link>
+            <pubDate>Thu, 08 Feb 2018 11:34:35 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/08/note_08/</guid>
+            <description>
+
+&lt;h5 id=&#34;go语言的面向对象&#34;&gt;Go语言的面向对象&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Go语言仅支持封装，不支持继承和多态&lt;/li&gt;
+&lt;li&gt;Go语言没有class，只有struct&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;结构的创建&#34;&gt;结构的创建&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用自定义工厂函数，需要返回局部变量的地址，
+```
+type treeNode struct {
+	value int
+	left,right *treeNode
+}&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;func CreatNode(value int)*treeNode  {
+ 	return &amp;amp;treeNode{value:value}
+ }&lt;/p&gt;
+
+&lt;p&gt;root := treeNode{value:3}
+ root.right = CreatNode(3)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+ - 结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收
+ - 从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了
+ 
+ - 变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。
+ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;type struct T { xxx}
+func f() *T {
+    var ret T
+    return &amp;amp;ret
+}&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+ - Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;const Width, Height = 640, 480
+type Cursor struct {
+    X, Y int
+}&lt;/p&gt;
+
+&lt;p&gt;func Center(c *Cursor) {
+    c.X += Width / 2
+    c.Y += Height / 2
+}&lt;/p&gt;
+
+&lt;p&gt;func CenterCursor() {
+    c := new(Cursor)
+    Center&amp;copy;
+    fmt.Println(c.X, c.Y)
+}&lt;/p&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 3-2 Map 和字符串的一些操作</title>
+            <link>http://blog.flywithme.top/2018/02/07/note_07/</link>
+            <pubDate>Wed, 07 Feb 2018 17:52:33 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/07/note_07/</guid>
+            <description>&lt;nav&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#map&#34;&gt;Map&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rune-相当于go的char&#34;&gt;rune 相当于go的char&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#strings&#34;&gt;strings&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;h6 id=&#34;map&#34;&gt;Map&lt;/h6&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。&lt;/li&gt;
+&lt;li&gt;Map 是一种集合，可以像迭代数组和切片那样迭代它。Map 是无序的，我们无法决定它的返回顺序，因为 Map 是使用 hash 表来实现的。
+```
+	m := map[string]string{
+		&amp;ldquo;name&amp;rdquo;:    &amp;ldquo;jack&amp;rdquo;,
+		&amp;ldquo;course&amp;rdquo;:  &amp;ldquo;golang&amp;rdquo;,
+		&amp;ldquo;site&amp;rdquo;:    &amp;ldquo;imooc&amp;rdquo;,
+		&amp;ldquo;quality&amp;rdquo;: &amp;ldquo;notbad&amp;rdquo;,
+	}
+	&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;	m2 := make(map[string]int) // m2 == empty map
+    var m3 map[string]int // m3 == nil
+	fmt.Println(&amp;ldquo;m, m2, m3:&amp;ldquo;)
+    fmt.Println(m, m2, m3)
+	fmt.Println(&amp;ldquo;Traversing map m&amp;rdquo;)
+	for k, v := range m {
+		fmt.Println(k, v)
+	}&lt;/p&gt;
+
+&lt;p&gt;	fmt.Println(&amp;ldquo;Getting values&amp;rdquo;)
+	courseName := m[&amp;ldquo;course&amp;rdquo;]
+	fmt.Println(&lt;code&gt;m[&amp;quot;course&amp;quot;] =&lt;/code&gt;, courseName)
+	if causeName, ok := m[&amp;ldquo;cause&amp;rdquo;]; ok {
+		fmt.Println(causeName)
+	} else {
+		fmt.Println(&amp;ldquo;key &amp;lsquo;cause&amp;rsquo; does not exist&amp;rdquo;)
+	}&lt;/p&gt;
+
+&lt;p&gt;	fmt.Println(&amp;ldquo;Deleting values&amp;rdquo;)
+	name, ok := m[&amp;ldquo;name&amp;rdquo;]
+	fmt.Printf(&amp;ldquo;m[%q] before delete: %q, %v\n&amp;rdquo;,
+		&amp;ldquo;name&amp;rdquo;, name, ok)&lt;/p&gt;
+
+&lt;p&gt;	delete(m, &amp;ldquo;name&amp;rdquo;)
+	name, ok = m[&amp;ldquo;name&amp;rdquo;]
+	fmt.Printf(&amp;ldquo;m[%q] after delete: %q, %v\n&amp;rdquo;,
+		&amp;ldquo;name&amp;rdquo;, name, ok)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+##### map的key
+ - map使用hash表，必须可以比较相等
+ - 除了slice，map和fuction的內建类型都可以做key
+ - Struct类型不包含上述字段，也可以做key
+ - 会在编译时检查
+ 
+ 
+###### 寻找最长不含有重复字符的子串 (abcabcbb -&amp;gt; abc) rune
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;//视频提供的方法 比较繁琐，逻辑复杂，此方法更简洁
+func lengthOfNonRepeatingSubStr(s string)int  {
+	lastOccured := make(map[rune]rune)
+	for _ , ch := range []rune(s) {
+		lastOccured[ch] = ch
+	}
+	return len(lastOccured)
+}
+```&lt;/p&gt;
+
+&lt;h5 id=&#34;rune-相当于go的char&#34;&gt;rune 相当于go的char&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用range遍历pos,rune&lt;/li&gt;
+&lt;li&gt;使用utf8.RuneCountInString获得字符数量&lt;/li&gt;
+&lt;li&gt;len()获取的是字节长度&lt;/li&gt;
+&lt;li&gt;使用[]byte获得字节内容&lt;/li&gt;
+&lt;li&gt;[]rune&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;strings&#34;&gt;strings&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;string到int&lt;br /&gt;
+&lt;code&gt;int, err := strconv.Atoi(string)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;string到int64&lt;br /&gt;
+&lt;code&gt;int64, err := string.ParseInt(string, 10, 64)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;int到string&lt;br /&gt;
+&lt;code&gt;string := strconv.Itoa(int)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;int64到string&lt;br /&gt;
+&lt;code&gt;string := strconv.FormatInt(int64, 10)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Hasprefix判断字符串s是否以prefix开头&lt;br /&gt;
+&lt;code&gt;strings.HasPrefix(s, prefix string) bool&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;HasSuffix判断字符串s是否以suffix结尾&lt;br /&gt;
+&lt;code&gt;strings.HasSuffix(s, suffix string) bool&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Contains判断字符串s是否包含substr&lt;br /&gt;
+&lt;code&gt;strings.Contains(s, substr string) bool&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Index返回字符串str在字符串s中的索引(str的第一个字符的索引)，-1表示字符串s不包含字符串str&lt;br /&gt;
+&lt;code&gt;strings.Index(s, str string) int&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;LastIndex返回字符串str在字符串s中最后出现的位置&lt;br /&gt;
+&lt;code&gt;strings.LastIndex(s, str string) int&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;非ASCII编码的字符定位&lt;br /&gt;
+&lt;code&gt;strings.IndexRune(s string, ch int)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Replace用于将str中前n个字符串old替换为字符串new，如果为-1则替换所有字符串old为new&lt;br /&gt;
+&lt;code&gt;strings.Replace(str, old, new, n) string&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Count用于计算str在s中出现的非重叠次数&lt;br /&gt;
+&lt;code&gt;strings.Count(s, str string) int&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Repeat用于重复count次字符串s并返回一个新的字符串&lt;br /&gt;
+&lt;code&gt;strings.Repeat(s, count int) string&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;ToLower将字符串中Unicode字符全部转换为小写字符&lt;br /&gt;
+&lt;code&gt;strings.ToLower(s) string&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;ToUpper将字符串中Unicode字符全部转换为大写字符&lt;br /&gt;
+&lt;code&gt;strings.ToUpper(s) string&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;TrimSpace剔除字符串开头和结尾的空白符号&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Trim剔除开头和结尾的字符串&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;TrimLeft,TrimRight剔除开头或结尾字符串&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Fields利用一个或多个空白符号来作为动态长度的分隔符将字符串分割，返回slice&lt;br /&gt;
+&lt;code&gt;strings.Fields(s) slice&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Split用自定义分割符号来对指定字符串进行分割&lt;br /&gt;
+&lt;code&gt;strings.Split(s, sep) slice&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Join用于将元素类型为string的slice使用分割符号来拼接组成一个字符串&lt;br /&gt;
+&lt;code&gt;strings.Join(sl []string, sep string)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
             <title>Go: 3-1 数组、切片和容器</title>
             <link>http://blog.flywithme.top/2018/02/05/note_06/</link>
             <pubDate>Mon, 05 Feb 2018 16:44:58 CST</pubDate>
@@ -133,6 +354,14 @@ func printArray(arr *[5]int) {
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;img src=&#34;sources/go/1517845264648.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;向slice添加元素&#34;&gt;向slice添加元素&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;添加元素时如果超越cap长度，系统会重新分配更大的底层数组&lt;/li&gt;
+&lt;li&gt;由于值传递的关系，必须接受append的返回值&lt;/li&gt;
+&lt;li&gt;s = append(s,val)&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         </item>
         
@@ -1496,278 +1725,6 @@ func SendEmail(email *Email) error {
     mail := email.NewEmail(&amp;quot;xxx@163.com&amp;quot;,&amp;quot;案发现场-注册邮件验证&amp;quot;,mycontent)
     err := email.SendEmail(mail)
     fmt.Println(err)
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>ubuntu ssh免密登陆</title>
-            <link>http://blog.flywithme.top/2017/11/13/sshnopass/</link>
-            <pubDate>Mon, 13 Nov 2017 11:40:09 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/13/sshnopass/</guid>
-            <description>
-
-&lt;h3 id=&#34;前置条件&#34;&gt;前置条件：&lt;/h3&gt;
-
-&lt;ol&gt;
-&lt;li&gt;一台主流的Linux服务器，如CentOS,Ubuntu,Fedora,redhat等&lt;/li&gt;
-&lt;li&gt;一台能连上以上服务器的客户机，我用的mac，系统是osx&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;预备动作&#34;&gt;预备动作：&lt;/h3&gt;
-
-&lt;ol&gt;
-&lt;li&gt;打开终端 Terminal&lt;/li&gt;
-&lt;li&gt;生成ca证书私钥与公钥
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;执行&#34;&gt;执行：&lt;/h3&gt;
-
-&lt;ol&gt;
-&lt;li&gt;执行代码    ssh-copy-id -i (id_rsa路径) name@ip -p
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/ubuntu/001.png&#34; alt=&#34;001.png&#34; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;提示错误 需要登录服务器修改文件权限
-&lt;img src=&#34;sources/ubuntu/002.png&#34; alt=&#34;002.png&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;再次执行图1 内容
-&lt;img src=&#34;sources/ubuntu/003.png&#34; alt=&#34;003.png&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;这样的结果即可免密登陆
-&lt;img src=&#34;sources/ubuntu/004.png&#34; alt=&#34;004.png&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>web01-配置Mysql</title>
-            <link>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</link>
-            <pubDate>Sat, 11 Nov 2017 19:57:02 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</guid>
-            <description>&lt;p&gt;安装Mysql 创建userInfo表&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;CREATE TABLE `userinfo` (
-  `uid` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(16) DEFAULT &#39;&#39;,
-  `departname` varchar(20) DEFAULT &#39;&#39;,
-  `password` varchar(32) DEFAULT &#39;&#39;,
-  `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;,
-  `userid` varchar(32) DEFAULT &#39;&#39;,
-  `phone` varchar(13) DEFAULT &#39;&#39;,
-  `phoneprefix` varchar(6) DEFAULT &#39;&#39;,
-  `createtime` int(10) unsigned NOT NULL,
-  `updatetime` int(10) unsigned NOT NULL,
-  `state` tinyint(1) DEFAULT &#39;-1&#39;,
-  `authtoken` char(32) DEFAULT &#39;&#39;,
-  `mail` varchar(40) DEFAULT &#39;&#39;,
-  `oldpassword` varchar(100) DEFAULT &#39;&#39;,
-  PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=1000039 DEFAULT CHARSET=utf8;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;db 控制器&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//所有的db操作全部使用同一个db实例
-var db *sql.DB
-var err error
-
-func DBConf()*sql.DB  {
-    if db == nil {
-        InitMysql()
-    }
-    return db
-}
-
-func InitMysql()  {
-    db, err = sql.Open(config.TomlConf().Mysql().DBtype, config.TomlConf().Mysql().Url)
-    db.SetMaxIdleConns(200)
-    db.SetMaxOpenConns(100)
-    checkErr(err)
-}
-
-
-func checkErr(err error) {
-    if err != nil {
-        panic(err)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;userModel&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;type UserInfoModel struct {
-    Uid         int64       `json:&amp;quot;uid,omitempty&amp;quot; form:&amp;quot;uid,omitempty&amp;quot;`
-    UserName    string      `json:&amp;quot;username,omitempty&amp;quot; form:&amp;quot;username,omitempty&amp;quot;`
-    Password    string      `json:&amp;quot;password,omitempty&amp;quot; form:&amp;quot;password,omitempty&amp;quot;`
-    CreateTime  int64       `json:&amp;quot;createtime,omitempty&amp;quot; form:&amp;quot;createtime,omitempty&amp;quot;`
-    UpdateTime  int64       `json:&amp;quot;updatetime,omitempty&amp;quot; form:&amp;quot;updatetime,omitempty&amp;quot;`
-    Sex         int         `json:&amp;quot;sex,omitempty&amp;quot; form:&amp;quot;sex,omitempty&amp;quot;`     //0默认未设置 1男，2女
-    UserId      string      `json:&amp;quot;userid,omitempty&amp;quot; form:&amp;quot;userid,omitempty&amp;quot;`
-    DepartName  string      `json:&amp;quot;departname,omitempty&amp;quot; form:&amp;quot;departname,omitempty&amp;quot;`
-    Phone       string      `json:&amp;quot;phone,omitempty&amp;quot; form:&amp;quot;phone,omitempty&amp;quot;`
-    PhonePrefix     string      `json:&amp;quot;phoneprefix,omitempty&amp;quot; form:&amp;quot;phoneprefix,omitempty&amp;quot;`
-    Mail        string      `json:&amp;quot;mail,omitempty&amp;quot; form:&amp;quot;mail,omitempty&amp;quot;`
-    OldPassword     string      `json:&amp;quot;oldpassword,omitempty&amp;quot; form:&amp;quot;oldpassword,omitempty&amp;quot;`
-    Authtoken   string      `json:&amp;quot;authtoken,omitempty&amp;quot; form:&amp;quot;authtoken,omitempty&amp;quot;`
-    State       int         `json:&amp;quot;state,omitempty&amp;quot; form:&amp;quot;state,omitempty&amp;quot;`
-}
-
-//初始化一个uer
-func NewUser() UserInfoModel {
-    return UserInfoModel{}
-}
-
-func (user *UserInfoModel)ToString()(desc string)  {
-    desc = &amp;quot;name:&amp;quot;+user.UserName
-    return desc
-}
-
-//插入到数据库
-func (user *UserInfoModel)InsertUser()(error){
-    if CheckUserNameValid(user.UserName) == false{
-        err := errors.New(&amp;quot;username already exists&amp;quot;)
-        return err
-    }
-
-    if CheckPhoneValid(user.Phone) == false{
-        err := errors.New(&amp;quot;phone number already exists&amp;quot;)
-        return err
-    }
-
-    db := db.DBConf()
-    stmt, err := db.Prepare(&amp;quot;INSERT userinfo SET username=?,departname=?,createtime=?,updatetime=?,password=?,sex=?,mail=?,phone=?,phoneprefix=?&amp;quot;)
-    checkErr(err)
-    _, err = stmt.Exec(user.UserName, user.DepartName,user.CreateTime,user.UpdateTime,user.Password,user.Sex,user.Mail,user.Phone,user.PhonePrefix)
-    checkErr(err)
-    return err
-}
-
-//更新用户信息到数据库
-func (user *UserInfoModel)UpdateIntoDB()(error)  {
-    if user.Uid == 0 {
-        log.Error(&amp;quot;update faild，Pri key Uid not found&amp;quot;)
-        return errors.New(&amp;quot;update faild，Pri key Uid not found&amp;quot;)
-    }
-    db := db.DBConf()
-    stmt, err := db.Prepare(&amp;quot;UPDATE userinfo set username=?,departname=?,createtime=?,password=?,sex=? where uid=?&amp;quot;)
-    checkErr(err)
-    _, err = stmt.Exec(user.UserName, user.DepartName,user.CreateTime,user.Password,user.Sex, user.Uid)
-    checkErr(err)
-    return err
-}
-
-//判断次用户名有没有被注册
-func CheckUserNameValid(name string)(bool)  {
-    db := db.DBConf()
-    err := db.QueryRow(&amp;quot;SELECT  username FROM userinfo WHERE username=?&amp;quot;, name).Scan(&amp;amp;name)
-    if err != nil {
-        return true
-    }
-    log.Warn(&amp;quot;username already exist&amp;quot;,name)
-    return false
-}
-
-//判断手机号是否被注册
-func CheckPhoneValid(phone string)(bool)  {
-    db := db.DBConf()
-    err := db.QueryRow(&amp;quot;SELECT  username FROM userinfo WHERE phone=?&amp;quot;, phone).Scan(&amp;amp;phone)
-    if err != nil {
-        return true
-    }
-    log.Warn(&amp;quot;phone number already exists&amp;quot;,phone)
-    return false
-}
-//判断email是否被注册
-func CheckEmailValid(mail string)(bool)  {
-    db := db.DBConf()
-    err := db.QueryRow(&amp;quot;SELECT  username FROM userinfo WHERE mail=?&amp;quot;, mail).Scan(&amp;amp;mail)
-    if err != nil {
-        return true
-    }
-    log.Warn(&amp;quot;mail already exists&amp;quot;,mail)
-    return false
-}
-
-//判断userid是否已存在
-func CheckUserIdValid(userId string)(bool)  {
-    db := db.DBConf()
-    err := db.QueryRow(&amp;quot;SELECT  username FROM userinfo WHERE userid=?&amp;quot;, userId).Scan(&amp;amp;userId)
-    if err != nil {
-        return true
-    }
-    log.Warn(&amp;quot;CheckUserIdValid：userid already exists&amp;quot;,userId)
-    return false
-}
-//通过uid查找用户
-func FindUserFromDB(uid int64)(UserInfoModel,error)  {
-    var user UserInfoModel
-    db := db.DBConf()
-    err := db.QueryRow(&amp;quot;SELECT uid, username, departname, password, sex, userid, phone, phoneprefix, createtime, updatetime, state, authtoken, mail, oldpassword FROM userinfo WHERE uid=?&amp;quot;, uid).
-        Scan(&amp;amp;user.Uid,
-         &amp;amp;user.UserName, &amp;amp;user.DepartName, &amp;amp;user.Password, &amp;amp;user.Sex, &amp;amp;user.UserId, &amp;amp;user.Phone, &amp;amp;user.PhonePrefix,
-        &amp;amp;user.CreateTime, &amp;amp;user.UpdateTime,&amp;amp;user.State,&amp;amp;user.Authtoken,&amp;amp;user.Mail,&amp;amp;user.OldPassword)
-    checkErr(err)
-    return user,err
-}
-
-//通过用户名查找用户
-func FindUserFromDBByName(name string)(UserInfoModel,error)  {
-    var user UserInfoModel
-    db := db.DBConf()
-    err := db.QueryRow(&amp;quot;SELECT uid, username, departname, password, sex, userid, phone, phoneprefix, createtime, updatetime, state, authtoken, mail, oldpassword FROM userinfo WHERE username=?&amp;quot;, name).
-        Scan(&amp;amp;user.Uid,
-        &amp;amp;user.UserName, &amp;amp;user.DepartName, &amp;amp;user.Password, &amp;amp;user.Sex, &amp;amp;user.UserId, &amp;amp;user.Phone, &amp;amp;user.PhonePrefix,
-        &amp;amp;user.CreateTime, &amp;amp;user.UpdateTime,&amp;amp;user.State,&amp;amp;user.Authtoken,&amp;amp;user.Mail,&amp;amp;user.OldPassword)
-    user.Password = &amp;quot;&amp;quot;
-    user.OldPassword = &amp;quot;&amp;quot;
-    checkErr(err)
-    return user,err
-}
-
-//通过用户名和密码查找用户
-func CheckUserNameAndPass(name string,pass string)(UserInfoModel,error)  {
-    var user UserInfoModel
-    db := db.DBConf()
-    err := db.QueryRow(&amp;quot;SELECT uid, username, departname, password, sex, userid, phone, phoneprefix, createtime, updatetime, state, authtoken, mail, oldpassword FROM userinfo WHERE username=?&amp;quot;, name).
-        Scan(&amp;amp;user.Uid,
-        &amp;amp;user.UserName, &amp;amp;user.DepartName, &amp;amp;user.Password, &amp;amp;user.Sex, &amp;amp;user.UserId, &amp;amp;user.Phone, &amp;amp;user.PhonePrefix,
-        &amp;amp;user.CreateTime, &amp;amp;user.UpdateTime,&amp;amp;user.State,&amp;amp;user.Authtoken,&amp;amp;user.Mail,&amp;amp;user.OldPassword)
-
-    if user.Password != pass {
-        err = errors.New(&amp;quot;password not right&amp;quot;)
-        user = NewUser()
-    }
-    user.Password = &amp;quot;&amp;quot;
-    user.OldPassword = &amp;quot;&amp;quot;
-    checkErr(err)
-    return user,err
-}
-
-//通过uid删除用户
-func DeleteUserFromDB(uid int64)(error)  {
-    db := db.DBConf()
-    stmt, err := db.Prepare(&amp;quot;delete from userinfo where uid=?&amp;quot;)
-    if err != nil{
-        return err
-    }
-    fmt.Println(uid)
-    _,err = stmt.Exec(uid)
-    return err
-}
-
-//错误日志
-func checkErr(err error) {
-    if err != nil {
-        log.Warn(err.Error())
-    }
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
