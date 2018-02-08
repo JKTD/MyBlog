@@ -16,7 +16,7 @@
             <guid>http://blog.flywithme.top/2018/02/08/note_08/</guid>
             <description>
 
-&lt;h5 id=&#34;go语言的面向对象&#34;&gt;Go语言的面向对象&lt;/h5&gt;
+&lt;h4 id=&#34;go语言的面向对象&#34;&gt;&lt;strong&gt;Go语言的面向对象&lt;/strong&gt;&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Go语言仅支持封装，不支持继承和多态&lt;/li&gt;
@@ -26,57 +26,101 @@
 &lt;h5 id=&#34;结构的创建&#34;&gt;结构的创建&lt;/h5&gt;
 
 &lt;ul&gt;
-&lt;li&gt;使用自定义工厂函数，需要返回局部变量的地址，
-```
-type treeNode struct {
-	value int
-	left,right *treeNode
-}&lt;/li&gt;
+&lt;li&gt;使用自定义工厂函数，需要返回局部变量的地址&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;func CreatNode(value int)*treeNode  {
+&lt;pre&gt;&lt;code&gt; type treeNode struct {
+ 	value int
+ 	left,right *treeNode
+ }
+ 
+ func CreatNode(value int)*treeNode  {
  	return &amp;amp;treeNode{value:value}
- }&lt;/p&gt;
-
-&lt;p&gt;root := treeNode{value:3}
- root.right = CreatNode(3)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;
- - 结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收
- - 从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了
+ }
  
- - 变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。
- 
+ root := treeNode{value:3}
+ root.right = CreatNode(3)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;type struct T { xxx}
+&lt;ul&gt;
+&lt;li&gt;结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;type struct T { xxx}
 func f() *T {
     var ret T
     return &amp;amp;ret
-}&lt;/p&gt;
+}
+	
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code&gt;
- - Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆
+&lt;ul&gt;
+&lt;li&gt;Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;const Width, Height = 640, 480
+type Cursor struct {
+    X, Y int
+}
+
+func Center(c *Cursor) {
+    c.X += Width / 2
+    c.Y += Height / 2
+}
+
+func CenterCursor() {
+    c := new(Cursor)
+    Center(c)
+    fmt.Println(c.X, c.Y)
+}
 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;const Width, Height = 640, 480
-type Cursor struct {
-    X, Y int
-}&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用指针作为方法的接受者才可以改变结构内容&lt;/li&gt;
+&lt;li&gt;nil指针也可以调用方法，但是在使用时一样需要判断是否nill，以免panic&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;func Center(c *Cursor) {
-    c.X += Width / 2
-    c.Y += Height / 2
-}&lt;/p&gt;
+&lt;h5 id=&#34;值接收者-vs-指针接收者&#34;&gt;值接收者 VS 指针接收者&lt;/h5&gt;
 
-&lt;p&gt;func CenterCursor() {
-    c := new(Cursor)
-    Center&amp;copy;
-    fmt.Println(c.X, c.Y)
-}&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;要改变内容必须使用指针接收者&lt;/li&gt;
+&lt;li&gt;结构过大也考虑使用指针接收者（）&lt;/li&gt;
+&lt;li&gt;一致性&lt;/li&gt;
+&lt;li&gt;值接收者是go语言特有&lt;/li&gt;
+&lt;li&gt;值/指针接收者均可接收值/指针&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;```&lt;/p&gt;
+&lt;h4 id=&#34;封装&#34;&gt;&lt;strong&gt;封装&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;名字一般使用CamelCase(驼峰命名)&lt;/li&gt;
+&lt;li&gt;首字母大写：Public&lt;/li&gt;
+&lt;li&gt;首字母小写：private&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Public和private是针对包来说的，包外可以访问Public方法，&lt;/p&gt;
+
+&lt;h6 id=&#34;包&#34;&gt;包&lt;/h6&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;每个目录一个包&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;main包 包含可执行入口只能有一个main方法入口&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;为结构定义的方法必须放在同一个包内&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;可以是不同的文件&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;扩充系统类型或者第三方库类型&#34;&gt;扩充系统类型或者第三方库类型&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;定义别名&lt;/li&gt;
+&lt;li&gt;使用组合&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         </item>
         
