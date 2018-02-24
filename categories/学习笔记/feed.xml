@@ -9,6 +9,294 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>Go: 6-2 函数式编程</title>
+            <link>http://blog.flywithme.top/2018/02/24/note_11/</link>
+            <pubDate>Sat, 24 Feb 2018 14:35:09 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/24/note_11/</guid>
+            <description>
+
+&lt;h5 id=&#34;go语言闭包的应用&#34;&gt;go语言闭包的应用&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;package fib
+//斐波那契数列 
+// 1, 1, 2, 3, 5, 8, 13, ...
+func Fibonacci() func() int {
+	a, b := 0, 1
+	return func() int {
+		a, b = b, a+b
+		return a
+	}
+}
+
+---------------------------------------------
+
+package main
+
+import (
+	&amp;quot;bufio&amp;quot;
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;io&amp;quot;
+	&amp;quot;strings&amp;quot;
+
+	&amp;quot;imooc/fib&amp;quot;
+)
+
+//为函数实现接口
+type intGen func() int
+
+func (g intGen) Read(
+	p []byte) (n int, err error) {
+	next := g()
+	if next &amp;gt; 10000 {
+		return 0, io.EOF
+	}
+	s := fmt.Sprintf(&amp;quot;%d\n&amp;quot;, next)
+
+	return strings.NewReader(s).Read(p)
+}
+
+func printFileContents(reader io.Reader) {
+	scanner := bufio.NewScanner(reader)
+
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+}
+
+func main() {
+	var f intGen = fib.Fibonacci()
+	printFileContents(f)
+}
+
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 6-1 函数式编程</title>
+            <link>http://blog.flywithme.top/2018/02/12/note_10/</link>
+            <pubDate>Mon, 12 Feb 2018 13:32:36 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/12/note_10/</guid>
+            <description>
+
+&lt;h5 id=&#34;特点&#34;&gt;特点&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;函数可以作为参数，变量，返回值&lt;/li&gt;
+&lt;li&gt;高阶函数&lt;/li&gt;
+&lt;li&gt;函数-&amp;gt;闭包&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;//golang 
+func adder() func(int) int {
+	sum := 0 //自由变量
+	return func(v int) int {
+		sum += v
+		return sum
+	}
+}
+
+//python
+def adder();
+    sum = 0
+    def f(value):
+        nonlocal sum
+        sum += value
+        return sum
+    return f    
+    
+    
+// c++ 14中的闭包    
+auto adder(){
+    auto sum = 0;
+    return [=] (int value)mutable{
+        sum += value;
+        return sum;
+    };
+}
+
+//java中的闭包
+Function&amp;lt;Integer,Integer&amp;gt;adder(){
+    final Holder&amp;lt;Integer&amp;gt; sum = new Holder&amp;lt;&amp;gt;(0);
+    return (Integer value) -&amp;gt; {
+        sum.value += value;
+        return sum.value;
+    }
+}
+
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 5-1 接口</title>
+            <link>http://blog.flywithme.top/2018/02/09/note_09/</link>
+            <pubDate>Fri, 09 Feb 2018 15:16:41 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/09/note_09/</guid>
+            <description>
+
+&lt;h5 id=&#34;duck-typing&#34;&gt;duck typing&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;基于特征，而不是基于类型&lt;/li&gt;
+&lt;li&gt;描述的事物的外部行为，而不是内部结构&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;pythn中的duck-typing&#34;&gt;pythn中的duck typing&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;def download(retriever):
+    return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;运行时才知道传入的retriever有没有get方法&lt;/li&gt;
+&lt;li&gt;需要给download注释来说明接口需要实现get方法&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;c-中的duck-typing&#34;&gt;c++ 中的duck typing&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;template&amp;lt;class R&amp;gt;
+string download(const R&amp;amp; retriever){
+    return retriever.get(&amp;quot;www.downloadur..com&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;编译时才可以知道传入的retriever有么有get方法&lt;/li&gt;
+&lt;li&gt;需要注释来说明接口需求&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;java-中的类似代码&#34;&gt;java 中的类似代码&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;R extends Retriever&amp;gt;
+String download(R r){
+    return r.get(&amp;quot;www.downloadurl.com&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;传入的参数必须实现Retriever接口&lt;/li&gt;
+&lt;li&gt;不是duck typing&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;go-语言的duck-typing&#34;&gt;go 语言的duck typing&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;同时需要Readable,Appendable怎么做？（apache polygene）&lt;/li&gt;
+&lt;li&gt;同时具有python,c++的duck typing的灵活性&lt;/li&gt;
+&lt;li&gt;具有java的类型检查&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;接口的定义&#34;&gt;接口的定义&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用者&amp;mdash;&amp;gt;实现者&lt;/li&gt;
+&lt;li&gt;接口由&lt;strong&gt;使用者&lt;/strong&gt;定义&lt;/li&gt;
+&lt;li&gt;接口的实现是隐式的&lt;/li&gt;
+&lt;li&gt;只需要实现接口里的方法即可&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;接口遍历里有什么东西&#34;&gt;接口遍历里有什么东西&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;实现者的类型&lt;/li&gt;
+&lt;li&gt;实现者的值/指针&lt;/li&gt;
+&lt;li&gt;接口变量自带指针&lt;/li&gt;
+&lt;li&gt;接口变量采用值传递，几乎不需要使用接口的指针&lt;/li&gt;
+&lt;li&gt;指针接收者实现只能以指针的方式使用;值接受者都可以&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;查看接口变量&#34;&gt;查看接口变量&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;表示任何类型：interface{}&lt;/li&gt;
+&lt;li&gt;Type Assertion&lt;/li&gt;
+&lt;li&gt;Type Switch
+```&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;	//Type assertion
+	if mockRetriver, ok := r.(*mock.Retriever); ok {
+		fmt.Println(mockRetriver.Contents)
+	} else {
+		fmt.Println(&amp;ldquo;not mock retriver&amp;rdquo;)&lt;/p&gt;
+
+&lt;p&gt;	}&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;fmt.Printf(&amp;quot;%T %v\n&amp;quot;, r, r)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;	fmt.Println&amp;reg;
+	switch v := r.(type) {
+	case mock.Retriever:
+		fmt.Println(&amp;ldquo;contents:&amp;ldquo;, v.Contents)
+	case *real.Retriever:
+		fmt.Println(&amp;ldquo;UserAgent:&amp;ldquo;, v.UserAgent)&lt;/p&gt;
+
+&lt;p&gt;	}	&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+##### 接口的组合
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;//interface 1
+type Retriever interface {
+	Get(url string) string
+}
+//interface 2
+type Poster interface {
+	Post(url string, form map[string]string) string
+}&lt;/p&gt;
+
+&lt;p&gt;//interface  combination
+type RetrieverPoster interface {
+	Retriever
+	Poster
+}&lt;/p&gt;
+
+&lt;p&gt;//go lib  readWriter&lt;/p&gt;
+
+&lt;p&gt;// ReadWriter is the interface that groups the basic Read and Write methods.
+type ReadWriter interface {
+	Reader
+	Writer
+}&lt;/p&gt;
+
+&lt;p&gt;// ReadCloser is the interface that groups the basic Read and Close methods.
+type ReadCloser interface {
+	Reader
+	Closer
+}&lt;/p&gt;
+
+&lt;p&gt;// WriteCloser is the interface that groups the basic Write and Close methods.
+type WriteCloser interface {
+	Writer
+	Closer
+}&lt;/p&gt;
+
+&lt;p&gt;// ReadWriteCloser is the interface that groups the basic Read, Write and Close methods.
+type ReadWriteCloser interface {
+	Reader
+	Writer
+	Closer
+}&lt;/p&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;h5 id=&#34;常用系统接口&#34;&gt;常用系统接口&lt;/h5&gt;
+</description>
+        </item>
+        
+        <item>
             <title>Go: 4-1 面向对象</title>
             <link>http://blog.flywithme.top/2018/02/08/note_08/</link>
             <pubDate>Thu, 08 Feb 2018 11:34:35 CST</pubDate>
@@ -1139,10 +1427,6 @@ func main() {
  所以我就开发了一个基于公司内部通信系统的一个小型的消息通知管理中心。
  虽然之前断断续续有学写一些golang的东西，但是一直没有成型的作品，这是继上次做的个人实践项目之后，第一个在公司内部产生实际效益的服务。&lt;/p&gt;
 
-&lt;h5 id=&#34;源码地址在我的github上-关于fork提意见-适合初学者&#34;&gt;源码地址在我的github上  关于fork提意见。适合初学者&lt;/h5&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/flywithbug/pigeon&#34;&gt;源码地址&lt;/a&gt;&lt;/p&gt;
-
 &lt;h4 id=&#34;主要功能&#34;&gt;主要功能&lt;/h4&gt;
 
 &lt;p&gt;本服务的主要功能是用于 给不同的服务配置不同的消息类型和接收人。最终会根据调用通知群组id发送给不同的接受对象。
@@ -1464,6 +1748,10 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;源码地址在我的github上-适合初学者&#34;&gt;源码地址在我的github上,适合初学者&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/flywithbug/pigeon&#34;&gt;源码地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
@@ -1531,245 +1819,6 @@ H H/3 * * *
 
 0 9,13,18 * * 1-5
 每周一到周五 9点，13点，18点构建，
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>无线真机调试-Xcode9 -iOS</title>
-            <link>http://blog.flywithme.top/2017/11/16/wirelessdebug/</link>
-            <pubDate>Thu, 16 Nov 2017 11:15:21 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/16/wirelessdebug/</guid>
-            <description>&lt;ul&gt;
-&lt;li&gt;首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统&lt;/li&gt;
-&lt;li&gt;其次你的手机必须和电脑处于同一个无线局域网中&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;首次安装连接需要先连接数据线至同一个局域网的Mac上&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;打开-&amp;gt;windows里的Device and Simulators选项，勾选 Connect Via network&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;假设你的开发证书和描述文件都是齐全完整的，开始编译，会自动提示。真机调试选择刚才连接到 机器名字&lt;/p&gt;
-
-&lt;p&gt;数据线链接手机 打开device and simulators面板，勾选connect via network&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/wireless/002.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;选择你的设备开始编译 （就算断开数据线，这个设备依然会留在这里）
-  &lt;img src=&#34;sources/wireless/005.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/wireless/003.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;开始编译结束-可以查看手机的device日志，然后手机名字右边的网球 表示无线连接正常
-  &lt;img src=&#34;sources/wireless/004.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>imageMagick 和 PlistBuddy合体生成图标</title>
-            <link>http://blog.flywithme.top/2017/11/15/PlistBuddy/</link>
-            <pubDate>Wed, 15 Nov 2017 19:06:14 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/15/PlistBuddy/</guid>
-            <description>&lt;p&gt;&lt;a href=&#34;https://github.com/flywithbug/Shell_Demo&#34;&gt;demo地址&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;图片内容处理文件 (merchant-icon-generator.sh)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#获取参数 文件源
-SRC_FILE=&amp;quot;$1&amp;quot; 
-#版本号
-shortVersion=&amp;quot;$2&amp;quot;
-#标签number
-bundlerNum=&amp;quot;$3&amp;quot;
-
-#转换      文件         绘制    坐标           填充       颜色          透明度             填充      坐标          填充      颜色           透明度            生成目标图片
-convert &amp;quot;$SRC_FILE&amp;quot; -region 1024x244+0+780 -fill &amp;quot;rgb(0,159,250)&amp;quot; -colorize 100%   -region 1024x244+650+780 -fill &amp;quot;rgb(102,230,32)&amp;quot; -colorize 100%  target-new.png  
-
-#转换       文件         重置坐标  地图坐标西南角  写入 白色字体，文字尺寸     绘制文字   offset    内容                    
-convert target-new.png -gravity southwest -fill white -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$shortVersion&#39;&amp;quot;  -gravity southeast -fill white -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$bundlerNum&#39;&amp;quot; target-new.png
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;命令&lt;br /&gt;
-&lt;img src=&#34;sources/shell/01.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;原图&lt;br /&gt;
-&lt;img src=&#34;sources/shell/1024-origin.png&#34; width = &#34;20%&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;目标图&lt;br /&gt;
-&lt;img src=&#34;sources/shell/target-new.png&#34; width = &#34;20%&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Plist处理文件（merchant_plist_generator.sh）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#!/bin/bash
-appInfoPlistPath=&amp;quot;Jovi/Jovi/Info-AdHoc.plist&amp;quot;
-bundleShortVersion=$(/usr/libexec/PlistBuddy -c &amp;quot;print CFBundleShortVersionString&amp;quot; ${appInfoPlistPath})
-bundleVersion=$(/usr/libexec/PlistBuddy -c &amp;quot;print CFBundleVersion&amp;quot; ${appInfoPlistPath})
-
-# url=&amp;quot;$1&amp;quot;
-# if [ &amp;quot;$1&amp;quot;  = &amp;quot;&amp;quot; ]
-# then 
-#   url=&amp;quot;http://app.dp:8080/view/Merchant/job/dpmerchant_adhocMCI/lastBuild/buildNumber&amp;quot;
-# fi
-result=&amp;quot;23232&amp;quot;
-while [ &amp;quot;$result&amp;quot; == &amp;quot;&amp;quot; ]
-do 
-    result=$(curl -s &amp;quot;$url&amp;quot;)
-done
-
-newBundleVersion=&amp;quot;&amp;quot;$bundleShortVersion&amp;quot;.&amp;quot;$result&amp;quot;&amp;quot;
-/usr/libexec/PlistBuddy -c &amp;quot;Set CFBundleVersion ${newBundleVersion}&amp;quot;  ${appInfoPlistPath}
-
-sh merchant-icon-generator.sh &amp;quot;1024-origin.png&amp;quot; &amp;quot;$bundleShortVersion&amp;quot; &amp;quot;$result&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/shell/02.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/shell/03.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;图片生产(merchant-icon-generator.sh)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;SRC_FILE=&amp;quot;$1&amp;quot;
-shortVersion=&amp;quot;$2&amp;quot;
-bundlerNum=&amp;quot;$3&amp;quot;
-
-convert &amp;quot;$SRC_FILE&amp;quot; -region 1024x254+0+770 -fill &amp;quot;rgb(0,159,250)&amp;quot; -colorize 100%   -region 1024x254+650+770 -fill &amp;quot;rgb(102,230,32)&amp;quot; -colorize 100%  target-new.png  
-convert target-new.png -gravity southwest -fill white -font DINPro-Bold.otf -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$shortVersion&#39;&amp;quot;  -gravity southeast -fill white -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$bundlerNum&#39;&amp;quot; target-new.png
-
-DST_PATH=&amp;quot;Jovi/Jovi/JVImages.xcassets/AppIcon.appiconset/&amp;quot;
-
-if [ ! -d &amp;quot;$DST_PATH&amp;quot; ];then
-    mkdir -p &amp;quot;$DST_PATH&amp;quot;
-fi
-
-info() {
-     local green=&amp;quot;\033[1;32m&amp;quot;
-     local normal=&amp;quot;\033[0m&amp;quot;
-     echo -e &amp;quot;[${green}INFO${normal}] $1&amp;quot;
-}
-
-error() {
-     local red=&amp;quot;\033[1;31m&amp;quot;
-     local normal=&amp;quot;\033[0m&amp;quot;
-     echo -e &amp;quot;[${red}ERROR${normal}] $1&amp;quot;
-}
-SRC_FILE=&amp;quot;target-new.png&amp;quot;
-
-info &#39;Generate 1024x1024.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 1024x1024 &amp;quot;$DST_PATH/1024x1024.png&amp;quot;
-
-info &#39;Generate Icon-20.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 40x40 &amp;quot;$DST_PATH/Icon-20@2x.png&amp;quot;
-info &#39;Generate Icon-40@2x.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 60x60 &amp;quot;$DST_PATH/Icon-20@3x.png&amp;quot;
-
-
-info &#39;Generate Icon-60@2x.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 120x120 &amp;quot;$DST_PATH/Icon-60@2x.png&amp;quot;
-info &#39;Generate Icon-60@3x.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 180x180 &amp;quot;$DST_PATH/Icon-60@3x.png&amp;quot;
-
-
-
-info &#39;Generate Icon-Small.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 29x29 &amp;quot;$DST_PATH/Icon-Small.png&amp;quot;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 58x58 &amp;quot;$DST_PATH/Icon-Small@2x.png&amp;quot;
-info &#39;Generate Icon-Small-40@3x.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 87x87 &amp;quot;$DST_PATH/Icon-Small@3x.png&amp;quot;
-
-
-
-info &#39;Generate Icon-Spotlight-40@2x.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 80x80 &amp;quot;$DST_PATH/Icon-Spotlight-40@2x.png&amp;quot;
-info &#39;Generate Icon@2x.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 120x120 &amp;quot;$DST_PATH/Icon-Spotlight-40@3x.png&amp;quot;
-
-
-info &#39;Generate Icon.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 57x57 &amp;quot;$DST_PATH/Icon.png&amp;quot;
-info &#39;Generate Icon-Small@2x.png ...&#39;
-convert &amp;quot;$SRC_FILE&amp;quot; -resize 114x114 &amp;quot;$DST_PATH/Icon@2x.png&amp;quot;
-
-
-info &#39;Generate Done.&#39;
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>golang web Send Email</title>
-            <link>http://blog.flywithme.top/2017/11/13/mail/</link>
-            <pubDate>Mon, 13 Nov 2017 17:20:15 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/13/mail/</guid>
-            <description>&lt;p&gt;//注意邮件格式，以免被当垃圾邮件&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package email
-
-
-import (
-    &amp;quot;net/smtp&amp;quot;
-    &amp;quot;strings&amp;quot;
-)
-
-const (
-    HOST        = &amp;quot;smtp.163.com&amp;quot;
-    SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot;
-    USER        = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱
-    PASSWORD    = &amp;quot;xxx&amp;quot;         //发送邮件邮箱的客户端授权密码
-)
-
-type Email struct {
-    to      string &amp;quot;to&amp;quot;
-    subject string &amp;quot;subject&amp;quot;
-    msg     string &amp;quot;msg&amp;quot;
-}
-
-func NewEmail(to, subject, msg string) *Email {
-    return &amp;amp;Email{to: to, subject: subject, msg: msg}
-}
-
-func SendEmail(email *Email) error {
-    auth := smtp.PlainAuth(&amp;quot;&amp;quot;, USER, PASSWORD, HOST)
-    sendTo := strings.Split(email.to, &amp;quot;;&amp;quot;)
-    done := make(chan error, 1024)
-
-    go func() {
-        defer close(done)
-        for _, v := range sendTo {
-
-            str := strings.Replace(&amp;quot;From: &amp;quot;+USER+&amp;quot;~To: &amp;quot;+v+&amp;quot;~Subject: &amp;quot;+email.subject+&amp;quot;~~&amp;quot;, &amp;quot;~&amp;quot;, &amp;quot;\r\n&amp;quot;, -1) + email.msg
-
-            err := smtp.SendMail(
-                SERVER_ADDR,
-                auth,
-                USER,
-                []string{v},
-                []byte(str),
-            )
-            done &amp;lt;- err
-        }
-    }()
-
-    for i := 0; i &amp;lt; len(sendTo); i++ {
-        &amp;lt;-done
-    }
-
-    return nil
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;testCode&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func sendMail()  {
-    fmt.Println(&amp;quot;发送邮件&amp;quot;)
-    mycontent := &amp;quot;请查收验证码：12322&amp;quot;
-    mail := email.NewEmail(&amp;quot;xxx@163.com&amp;quot;,&amp;quot;案发现场-注册邮件验证&amp;quot;,mycontent)
-    err := email.SendEmail(mail)
-    fmt.Println(err)
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>

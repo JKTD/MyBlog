@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>Go: 4-1 面向对象 - Fly With Me</title>
+  <title>Go: 6-1 函数式编程 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量">
+<meta name="description" content="特点 函数可以作为参数，变量，返回值 高阶函数 函数-&gt;闭包 //golang func adder() func(int) int { sum := 0 //自由变量 return func(v int) int { sum &#43;= v return sum } } //python def adder(); sum = 0 def f(value): nonlocal sum sum &#43;= value">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Go: 4-1 面向对象 - Fly With Me">
-<meta itemprop="description" content="Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量">
+<meta itemprop="name" content="Go: 6-1 函数式编程 - Fly With Me">
+<meta itemprop="description" content="特点 函数可以作为参数，变量，返回值 高阶函数 函数-&gt;闭包 //golang func adder() func(int) int { sum := 0 //自由变量 return func(v int) int { sum &#43;= v return sum } } //python def adder(); sum = 0 def f(value): nonlocal sum sum &#43;= value">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="Go: 4-1 面向对象 - Fly With Me" />
+<meta property="og:title" content="Go: 6-1 函数式编程 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2018/02/08/note_08/" />
+<meta property="og:url" content="http://blog.flywithme.top/2018/02/12/note_10/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量">
+<meta property="og:description" content="特点 函数可以作为参数，变量，返回值 高阶函数 函数-&gt;闭包 //golang func adder() func(int) int { sum := 0 //自由变量 return func(v int) int { sum &#43;= v return sum } } //python def adder(); sum = 0 def f(value): nonlocal sum sum &#43;= value">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="Go: 4-1 面向对象 - Fly With Me">
-<meta name="twitter:description" content="Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量">
+<meta name="twitter:title" content="Go: 6-1 函数式编程 - Fly With Me">
+<meta name="twitter:description" content="特点 函数可以作为参数，变量，返回值 高阶函数 函数-&gt;闭包 //golang func adder() func(int) int { sum := 0 //自由变量 return func(v int) int { sum &#43;= v return sum } } //python def adder(); sum = 0 def f(value): nonlocal sum sum &#43;= value">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2018/02/08/note_08/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2018/02/08/note_08/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2018/02/12/note_10/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2018/02/12/note_10/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">Go: 4-1 面向对象</h1>
+                  <h1 class="post-title">Go: 6-1 函数式编程</h1>
 
                   <p class="post-byline">
-                    by  · 2018年02月08日 · 651 Words ·
-                    ~2min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-02-08-note_08.md"
+                    by  · 2018年02月12日 · 128 Words ·
+                    ~1min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-02-12-note_10.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -199,111 +199,54 @@
                       
                       
 
-<h4 id="go语言的面向对象"><strong>Go语言的面向对象</strong></h4>
+<h5 id="特点">特点</h5>
 
 <ul>
-<li>Go语言仅支持封装，不支持继承和多态</li>
-<li>Go语言没有class，只有struct</li>
+<li>函数可以作为参数，变量，返回值</li>
+<li>高阶函数</li>
+<li>函数-&gt;闭包</li>
 </ul>
 
-<h5 id="结构的创建">结构的创建</h5>
-
-<ul>
-<li>使用自定义工厂函数，需要返回局部变量的地址</li>
-</ul>
-
-<pre><code> type treeNode struct {
- 	value int
- 	left,right *treeNode
- }
- 
- func CreatNode(value int)*treeNode  {
- 	return &amp;treeNode{value:value}
- }
- 
- root := treeNode{value:3}
- root.right = CreatNode(3)
-</code></pre>
-
-<ul>
-<li>结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收</li>
-
-<li><p>从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了</p></li>
-
-<li><p>变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。</p></li>
-</ul>
-
-<pre><code>type struct T { xxx}
-func f() *T {
-    var ret T
-    return &amp;ret
-}
-	
-</code></pre>
-
-<ul>
-<li>Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆</li>
-</ul>
-
-<pre><code>const Width, Height = 640, 480
-type Cursor struct {
-    X, Y int
+<pre><code>//golang 
+func adder() func(int) int {
+	sum := 0 //自由变量
+	return func(v int) int {
+		sum += v
+		return sum
+	}
 }
 
-func Center(c *Cursor) {
-    c.X += Width / 2
-    c.Y += Height / 2
+//python
+def adder();
+    sum = 0
+    def f(value):
+        nonlocal sum
+        sum += value
+        return sum
+    return f    
+    
+    
+// c++ 14中的闭包    
+auto adder(){
+    auto sum = 0;
+    return [=] (int value)mutable{
+        sum += value;
+        return sum;
+    };
 }
 
-func CenterCursor() {
-    c := new(Cursor)
-    Center(c)
-    fmt.Println(c.X, c.Y)
+//java中的闭包
+Function&lt;Integer,Integer&gt;adder(){
+    final Holder&lt;Integer&gt; sum = new Holder&lt;&gt;(0);
+    return (Integer value) -&gt; {
+        sum.value += value;
+        return sum.value;
+    }
 }
+
+
 
 </code></pre>
-
-<ul>
-<li>使用指针作为方法的接受者才可以改变结构内容</li>
-<li>nil指针也可以调用方法，但是在使用时一样需要判断是否nill，以免panic</li>
-</ul>
-
-<h5 id="值接收者-vs-指针接收者">值接收者 VS 指针接收者</h5>
-
-<ul>
-<li>要改变内容必须使用指针接收者</li>
-<li>结构过大也考虑使用指针接收者（）</li>
-<li>一致性</li>
-<li>值接收者是go语言特有</li>
-<li>值/指针接收者均可接收值/指针</li>
-</ul>
-
-<h4 id="封装"><strong>封装</strong></h4>
-
-<ul>
-<li>名字一般使用CamelCase(驼峰命名)</li>
-<li>首字母大写：Public</li>
-<li>首字母小写：private</li>
-
-<li><p>Public和private是针对包来说的，包外可以访问Public方法，</p>
-
-<h6 id="包">包</h6></li>
-
-<li><p>每个目录一个包</p></li>
-
-<li><p>main包 包含可执行入口只能有一个main方法入口</p></li>
-
-<li><p>为结构定义的方法必须放在同一个包内</p></li>
-
-<li><p>可以是不同的文件</p></li>
-</ul>
-
-<h5 id="扩充系统类型或者第三方库类型">扩充系统类型或者第三方库类型</h5>
-
-<ul>
-<li>定义别名</li>
-<li>使用组合</li>
-</ul>
 
                       
                     </div>
@@ -315,7 +258,7 @@ func CenterCursor() {
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/02/08/note_08/">http://blog.flywithme.top/2018/02/08/note_08/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/02/12/note_10/">http://blog.flywithme.top/2018/02/12/note_10/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -368,7 +311,7 @@ func CenterCursor() {
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2018/02/08/note_08/" data-title="Go: 4-1 面向对象" data-url="http://blog.flywithme.top/2018/02/08/note_08/"></div>
+<div class="ds-thread" data-thread-key="/2018/02/12/note_10/" data-title="Go: 6-1 函数式编程" data-url="http://blog.flywithme.top/2018/02/12/note_10/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -423,19 +366,19 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2018/02/07/note_07/" rel="next">
+        <a href="http://blog.flywithme.top/2018/02/09/note_09/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Go: 3-2 Map 和字符串的一些操作</span>
+          <span>Go: 5-1 接口</span>
         </a>
         
       </li>
       <li class="previous">
         
-        <a href="http://blog.flywithme.top/2018/02/09/note_09/" rel="prev">
+        <a href="http://blog.flywithme.top/2018/02/24/note_11/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
-          <span>Go: 5-1 接口</span>
+          <span>Go: 6-2 函数式编程</span>
         </a>
         
       </li>
