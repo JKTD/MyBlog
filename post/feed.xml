@@ -6,7 +6,229 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sat, 24 Feb 2018 14:35:09 CST</updated>
+        <updated>Sat, 24 Feb 2018 17:43:08 CST</updated>
+        
+        <item>
+            <title>Go: 7-2 服务器统一出错处理</title>
+            <link>http://blog.flywithme.top/2018/02/24/note_13/</link>
+            <pubDate>Sat, 24 Feb 2018 17:43:08 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/24/note_13/</guid>
+            <description>
+
+&lt;h5 id=&#34;如何实现统一的错误处理逻辑-error部分&#34;&gt;如何实现统一的错误处理逻辑 Error部分&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在业务部分只处理正确的返回，error部分返回给调用部分&lt;/li&gt;
+&lt;li&gt;在函数输入部分做一个包装，然后再输出一个函数，同时处理输入函数的错误部分&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;
+func HandleFileList(writer http.ResponseWriter, request *http.Request) error {
+	path := request.URL.Path[len(&amp;quot;/list/&amp;quot;):]
+	file, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	all, err := ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+	writer.Write(all)
+	return nil
+}
+
+----------------------------------
+type appHandler func(writer http.ResponseWriter, request *http.Request) error
+
+func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		err := handlerrr(writer, request)
+		if err != nil {
+			logs.Warn(&amp;quot;Error handling request: %s&amp;quot;, err.Error())
+			code := http.StatusOK
+			switch {
+			case os.IsNotExist(err):
+				code = http.StatusNotFound
+			case os.IsPermission(err):
+				code = http.StatusForbidden
+			default:
+				code = http.StatusInternalServerError
+			}
+			http.Error(writer, http.StatusText(code), code)
+		}
+
+	}
+}
+
+func main() {
+	http.HandleFunc(&amp;quot;/list/&amp;quot;, errorWrapper(handler.HandleFileList))
+	err := http.ListenAndServe(&amp;quot;:8888&amp;quot;, nil)
+	if err != nil {
+		panic(err)
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;panic-recover&#34;&gt;panic &amp;amp; recover&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;停止当前函数执行&lt;/li&gt;
+&lt;li&gt;一直向上返回，执行每一层的defer&lt;/li&gt;
+&lt;li&gt;如果没有遇到recover，程序退出&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;recover&#34;&gt;recover&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;仅在defer中调用&lt;/li&gt;
+&lt;li&gt;获取panic值&lt;/li&gt;
+&lt;li&gt;如果无法处理，可重新panic&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;
+func tryRecover() {
+	defer func() {
+		r := recover()
+		if err, ok := r.(error); ok {
+			log.Println(&amp;quot;Error occured:&amp;quot;, err)
+		} else {
+			panic(r)
+		}
+	}()
+
+	//panic(errors.New(&amp;quot;this is an error&amp;quot;))
+	b := 0
+	a := 5 / b
+	fmt.Println(a)
+
+}
+
+func main() {
+	tryRecover()
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 7-1 资源管理与出错处理</title>
+            <link>http://blog.flywithme.top/2018/02/24/note_12/</link>
+            <pubDate>Sat, 24 Feb 2018 17:06:34 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/02/24/note_12/</guid>
+            <description>
+
+&lt;h5 id=&#34;defer的调用&#34;&gt;defer的调用&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func a() int {
+defer b()
+return 0
+}
+//b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;defer 的作用就是把关键字之后的函数执行压入一个栈中延迟执行&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;多个 defer 的执行顺序是后进先出 LIFO&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;defer func() { fmt.Println(&amp;quot;1&amp;quot;) }()
+defer func() { fmt.Println(&amp;quot;2&amp;quot;) }()
+defer func() { fmt.Println(&amp;quot;3&amp;quot;) }()
+//输出顺序是 321
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;常用在函数调用结束之后清理相关的资源&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;执行 recover&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;被 deferred 函数的参数在 defer 时确定&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func a() {
+	i := 0
+	defer fmt.Println(i)
+	i++
+	return
+}
+//a 执行输出的是 0 而不是 1，因为 defer 时，i 的值是 0，
+//此时被 defer 的函数参数已经进行执行计算并确定了
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;被 defer 的函数可以读取和修改带名称的返回值
+```
+func c() (i int) {
+defer func() { i++ }()
+return 1
+}
+//被 defer 的函数是在 return 之后执行，可以修改带名称的返回值，上面的函数 c 返回的是 2。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt; 
+ ##### Error处理
+ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;package main&lt;/p&gt;
+
+&lt;p&gt;import (
+ 	&amp;ldquo;fmt&amp;rdquo;
+ 	&amp;ldquo;os&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;	&amp;ldquo;bufio&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;	&amp;ldquo;imooc/function/fib&amp;rdquo;
+ )&lt;/p&gt;
+
+&lt;p&gt;func tryDefer() {
+ 	for i := 0; i &amp;lt; 100; i++ {
+ 		defer fmt.Println(i)
+ 		if i == 30 {
+ 			// Uncomment panic to see
+ 			// how it works with defer
+ 			// panic(&amp;ldquo;printed too many&amp;rdquo;)
+ 		}
+ 	}
+ }&lt;/p&gt;
+
+&lt;p&gt;func writeFile(filename string) {
+ 	file, err := os.OpenFile(filename,
+ 		os.O_EXCL|os.O_CREATE|os.O_WRONLY, 0666)
+    //错误处理
+ 	if err != nil {
+ 		if pathError, ok := err.(*os.PathError); !ok {
+ 			panic(err)
+ 		} else {
+ 			fmt.Printf(&amp;ldquo;%s, %s, %s\n&amp;rdquo;,
+ 				pathError.Op,
+ 				pathError.Path,
+ 				pathError.Err)
+ 		}
+ 		return
+ 	}
+ 	defer file.Close()&lt;/p&gt;
+
+&lt;p&gt;	writer := bufio.NewWriter(file)
+ 	defer writer.Flush()&lt;/p&gt;
+
+&lt;p&gt;	f := fib.Fibonacci()
+ 	for i := 0; i &amp;lt; 20; i++ {
+ 		fmt.Fprintln(writer, f())
+ 	}
+ }&lt;/p&gt;
+
+&lt;p&gt;func main() {
+ 	tryDefer()
+ 	writeFile(&amp;ldquo;fib1.txt&amp;rdquo;)
+ }
+ ```&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>Go: 6-2 函数式编程</title>
@@ -17,6 +239,11 @@
             <description>
 
 &lt;h5 id=&#34;go语言闭包的应用&#34;&gt;go语言闭包的应用&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;更为自然，不需要修饰如何访问自由变量&lt;/li&gt;
+&lt;li&gt;没有Lambda表达式，但是有匿名函数&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;pre&gt;&lt;code&gt;package fib
 //斐波那契数列 
@@ -1386,6 +1613,29 @@ func main() {
 &lt;p&gt;按节点归并 （k路归并）
 &lt;img src=&#34;sources/go/1517302277060.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
 
+&lt;pre&gt;&lt;code&gt;func Merge(in1, in2 &amp;lt;-chan int)&amp;lt;- chan int  {
+
+	out := make(chan  int,1024)
+	go func() {
+		v1,ok1 := &amp;lt;-in1
+		v2,ok2 := &amp;lt;-in2
+		for ok1 || ok2{
+			if !ok2 || (ok1 &amp;amp;&amp;amp; v1 &amp;lt;= v2) {
+				out &amp;lt;- v1
+				v1,ok1 = &amp;lt;- in1
+			}else {
+				out &amp;lt;- v2
+				v2,ok2 = &amp;lt;- in2
+			}
+		}
+		close(out)
+		fmt.Println(&amp;quot;Merge done:&amp;quot;,time.Now().Sub(startTime))
+	}()
+
+	return out
+}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;通道
 &lt;img src=&#34;sources/go/1517302401765.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
 
@@ -1752,74 +2002,6 @@ UNLOCK TABLES;
 &lt;h5 id=&#34;源码地址在我的github上-适合初学者&#34;&gt;源码地址在我的github上,适合初学者&lt;/h5&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/flywithbug/pigeon&#34;&gt;源码地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Shell 小记，-文本操作</title>
-            <link>http://blog.flywithme.top/2017/11/17/shell/</link>
-            <pubDate>Fri, 17 Nov 2017 16:26:03 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/17/shell/</guid>
-            <description>&lt;ul&gt;
-&lt;li&gt;修改文件的某一行内容
-做自动的git提交和PodSpec发布脚本
-需要在提交之前使用shell脚本修改podSpec文件的Version版本号。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;最开始想使用 &lt;code&gt;sed&lt;/code&gt; 这个命令，但是mac上&lt;code&gt;-i&lt;/code&gt;命令无法使用，使用-e &lt;code&gt;sed -e &amp;quot;4d&amp;quot; Pod/Resources/MCICheckTime&lt;/code&gt; 命令可以修改，
-但是无法输出修改内容到文件上。一直提示no such file. 无法，只得另找办法&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;awk&lt;/code&gt; 更换到使用awk命令的方式&lt;/p&gt;
-
-&lt;p&gt;在文件的当前目录下操作&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; cmms=`date &#39;+%y.%m.%d.%H&#39;`
- export version=&amp;quot;  s.version      = \&amp;quot;$cmms\&amp;quot;&amp;quot;
- awk &#39;NR==4{$0=ENVIRON[&amp;quot;version&amp;quot;]}{print}&#39; MTAForMCICodeInspect_backup.podspec &amp;gt; MTAForMCICodeInspect.podspec
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;我知道肯定有更简单直接的方法，但是因为不熟悉shell脚本，走了很多弯路，这个是我一个下午折腾出来可以实现的路径，某些路过的同学可以少走些弯路，&lt;/p&gt;
-
-&lt;p&gt;如果知道更方便的方法，好请邮件（flywithme.top@gmail.com）告知下啊。非常感谢&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Jenkins-打包之远程构建</title>
-            <link>http://blog.flywithme.top/2017/11/16/Jenkins/</link>
-            <pubDate>Thu, 16 Nov 2017 16:59:57 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/11/16/Jenkins/</guid>
-            <description>&lt;p&gt;在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。
-但是如果人工去构建打包又会显得不够fashion。每次有新的代码合入测完分支，就自动打一个包给测试人员，会更高效一些。&lt;/p&gt;
-
-&lt;p&gt;Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/jenkins/01.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;上图所示的配置 &lt;strong&gt;触发远程构建&lt;/strong&gt;，是使用身份令牌的形式完成的：&lt;a href=&#34;http://host/job/merchant/buildWithParameters?token=token&#34;&gt;http://host/job/merchant/buildWithParameters?token=token&lt;/a&gt;
-get请求形式即可完成&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/jenkins/02.png&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;定时构建&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;举个🌰&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;* * * * *
-第一个*表示分钟，取值0~59
-第二个*表示小时，取值0~23
-第三个*表示一个月的第几天，取值1~31
-第四个*表示第几月，取值1~12
-第五个*表示一周中的第几天，取值0~7，其中0和7代表的都是周日
-
-H H/3 * * *  
-每3小时构建以此
-
-0 9,13,18 * * 1-5
-每周一到周五 9点，13点，18点构建，
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         

@@ -186,8 +186,8 @@
                   <h1 class="post-title">Go 语言总结</h1>
 
                   <p class="post-byline">
-                    by  · 2018年01月30日 · 487 Words ·
-                    ~1min reading time |
+                    by  · 2018年01月30日 · 546 Words ·
+                    ~2min reading time |
                     <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-01-30-go.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
@@ -273,6 +273,29 @@ func main() {
 
 <p>按节点归并 （k路归并）
 <img src="sources/go/1517302277060.jpg" width = "100%" /></p>
+
+<pre><code>func Merge(in1, in2 &lt;-chan int)&lt;- chan int  {
+
+	out := make(chan  int,1024)
+	go func() {
+		v1,ok1 := &lt;-in1
+		v2,ok2 := &lt;-in2
+		for ok1 || ok2{
+			if !ok2 || (ok1 &amp;&amp; v1 &lt;= v2) {
+				out &lt;- v1
+				v1,ok1 = &lt;- in1
+			}else {
+				out &lt;- v2
+				v2,ok2 = &lt;- in2
+			}
+		}
+		close(out)
+		fmt.Println(&quot;Merge done:&quot;,time.Now().Sub(startTime))
+	}()
+
+	return out
+}
+</code></pre>
 
 <p>通道
 <img src="sources/go/1517302401765.jpg" width = "100%" /></p>

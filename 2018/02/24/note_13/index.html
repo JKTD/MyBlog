@@ -12,40 +12,38 @@
         }
     }
   </script>
-  <title>Fly With Me</title>
+  <title>Go: 7-2 服务器统一出错处理 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="keywords" content="博客,程序员,读书笔记,技术分享">
-<meta name="description" content="Fly With Me">
+<meta name="keywords" content="xxx,">
+<meta name="description" content="如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Fly With Me">
-<meta itemprop="description" content="Fly With Me">
+<meta itemprop="name" content="Go: 7-2 服务器统一出错处理 - Fly With Me">
+<meta itemprop="description" content="如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="Fly With Me" />
+<meta property="og:title" content="Go: 7-2 服务器统一出错处理 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/" />
+<meta property="og:url" content="http://blog.flywithme.top/2018/02/24/note_13/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="Fly With Me">
+<meta property="og:description" content="如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="Fly With Me">
-<meta name="twitter:description" content="Fly With Me">
+<meta name="twitter:title" content="Go: 7-2 服务器统一出错处理 - Fly With Me">
+<meta name="twitter:description" content="如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/">
-  <link rel='shortlink' href="http://blog.flywithme.top/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2018/02/24/note_13/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2018/02/24/note_13/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
- <link href="http://blog.flywithme.top//feed.xml" rel="alternate" type="application/rss+xml" title="Fly With Me" />
-
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
 <link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
 <link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
@@ -65,8 +63,7 @@
 
 </head>
 
-<body class="archive category col-3cm full-width topbar-enabled chrome">
-
+<body class="single single-post single-format-standard col-3cm full-width topbar-enabled chrome">
 <div id="wrapper">
   <header id="header">
 
@@ -160,401 +157,226 @@
 </header>
 
 
+
   <div class="container" id="page">
     <div class="container-inner">
       <div class="main">
         <div class="main-inner group">
           <section class="content">
-            <div class="pad group">
-              
-              <div class="featured">
-  <article class="post type-post status-publish format-standard has-post-thumbnail hentry group">
-      <div class="post-inner post-hover">
-          <div class="post-meta group">
-              <p class="post-category">
-              
-              <a href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="All posts in 学习笔记" rel="category tag">学习笔记</a>
-              
-              <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" title="All posts in 技术文章" rel="category tag">技术文章</a>
-              
-              </p>
-              <p class="post-date">2018年02月24日</p>
-          </div>
-          <h2 class="post-title">
-              <a href="http://blog.flywithme.top/2018/02/24/note_13/" rel="bookmark" title="Go: 7-2 服务器统一出错处理">Go: 7-2 服务器统一出错处理</a>
-          </h2>
-          <div class="entry excerpt">
-              <p>如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数</p>
-          </div>
-      </div>
-  </article>
-</div>
-
-              
-              <div class="post-list group">
+            <div class="page-title pad group">
+              <ul class="meta-single group">
                 
+                <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="category tag">学习笔记</a>
+                </li>
                 
+                <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
+                </li>
                 
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月24日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/24/note_12/" rel="bookmark" title="Go: 7-1 资源管理与出错处理">Go: 7-1 资源管理与出错处理</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月24日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/24/note_11/" rel="bookmark" title="Go: 6-2 函数式编程">Go: 6-2 函数式编程</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月12日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/12/note_10/" rel="bookmark" title="Go: 6-1 函数式编程">Go: 6-1 函数式编程</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月09日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/09/note_09/" rel="bookmark" title="Go: 5-1 接口">Go: 5-1 接口</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月08日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/08/note_08/" rel="bookmark" title="Go: 4-1 面向对象">Go: 4-1 面向对象</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月07日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/07/note_07/" rel="bookmark" title="Go: 3-2 Map 和字符串的一些操作">Go: 3-2 Map 和字符串的一些操作</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月05日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/05/note_06/" rel="bookmark" title="Go: 3-1 数组、切片和容器">Go: 3-1 数组、切片和容器</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月05日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/05/note_05/" rel="bookmark" title="Go: 2-4 指针">Go: 2-4 指针</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月04日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/04/note_04/" rel="bookmark" title="Go: 2-3 函数">Go: 2-3 函数</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月04日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/04/note_03/" rel="bookmark" title="Go: 2-2 条件语句和循环语句">Go: 2-2 条件语句和循环语句</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月03日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/03/note_02/" rel="bookmark" title="Go: 2-1 变量定义">Go: 2-1 变量定义</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年02月02日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/02/02/note_01/" rel="bookmark" title="Go:记笔：1-1 导读">Go:记笔：1-1 导读</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                <div class="post-row">
-                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年01月30日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/01/30/go/" rel="bookmark" title="Go 语言总结">Go 语言总结</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-                </div>
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-              </div>
-              <nav class="pagination group">
-                <div class="wp-pagenavi">
-                  <a class="page" href="http://blog.flywithme.top/post/">More...</a>
-                </div>
-              </nav>
+              </ul>
             </div>
+
+            <div class="pad group">
+
+              <article
+                  class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
+                <div class="post-inner group">
+
+                  <h1 class="post-title">Go: 7-2 服务器统一出错处理</h1>
+
+                  <p class="post-byline">
+                    by  · 2018年02月24日 · 314 Words ·
+                    ~1min reading time |
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-02-24-note_13.md"
+                       target="_blank">Improve on <i class="fa fa-github"></i></a>
+                  </p>
+
+                  <div class="clear"></div>
+
+                  <div class="entry">
+                    <div class="entry-inner">
+                      
+                      
+
+<h5 id="如何实现统一的错误处理逻辑-error部分">如何实现统一的错误处理逻辑 Error部分</h5>
+
+<ul>
+<li>在业务部分只处理正确的返回，error部分返回给调用部分</li>
+<li>在函数输入部分做一个包装，然后再输出一个函数，同时处理输入函数的错误部分</li>
+</ul>
+
+<pre><code>
+func HandleFileList(writer http.ResponseWriter, request *http.Request) error {
+	path := request.URL.Path[len(&quot;/list/&quot;):]
+	file, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	all, err := ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+	writer.Write(all)
+	return nil
+}
+
+----------------------------------
+type appHandler func(writer http.ResponseWriter, request *http.Request) error
+
+func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		err := handlerrr(writer, request)
+		if err != nil {
+			logs.Warn(&quot;Error handling request: %s&quot;, err.Error())
+			code := http.StatusOK
+			switch {
+			case os.IsNotExist(err):
+				code = http.StatusNotFound
+			case os.IsPermission(err):
+				code = http.StatusForbidden
+			default:
+				code = http.StatusInternalServerError
+			}
+			http.Error(writer, http.StatusText(code), code)
+		}
+
+	}
+}
+
+func main() {
+	http.HandleFunc(&quot;/list/&quot;, errorWrapper(handler.HandleFileList))
+	err := http.ListenAndServe(&quot;:8888&quot;, nil)
+	if err != nil {
+		panic(err)
+	}
+}
+
+</code></pre>
+
+<h5 id="panic-recover">panic &amp; recover</h5>
+
+<ul>
+<li>停止当前函数执行</li>
+<li>一直向上返回，执行每一层的defer</li>
+<li>如果没有遇到recover，程序退出</li>
+</ul>
+
+<h5 id="recover">recover</h5>
+
+<ul>
+<li>仅在defer中调用</li>
+<li>获取panic值</li>
+<li>如果无法处理，可重新panic</li>
+</ul>
+
+<pre><code>
+func tryRecover() {
+	defer func() {
+		r := recover()
+		if err, ok := r.(error); ok {
+			log.Println(&quot;Error occured:&quot;, err)
+		} else {
+			panic(r)
+		}
+	}()
+
+	//panic(errors.New(&quot;this is an error&quot;))
+	b := 0
+	a := 5 / b
+	fmt.Println(a)
+
+}
+
+func main() {
+	tryRecover()
+}
+
+</code></pre>
+
+                      
+                    </div>
+                    <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+                        <div style="float:left;margin-top:0px;">
+                        <img src="http://blog.flywithme.top/public/qrcode.jpg" width="129px" height="129px"/>
+                        <div style="text-align:center;">微信扫一扫</div>
+                        </div>
+                        <div>
+                            <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
+                            <br />微信关注：Crime_Sence (我在案发现场）
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/02/24/note_13/">http://blog.flywithme.top/2018/02/24/note_13/</a>
+                            <br />
+                            文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                  
+
+                </div>
+                
+              </article>
+              
+
+              <div class="clear"></div>
+
+              <p class="post-tags">
+                <span>Tags:</span>
+                
+              </p>
+
+              <h4 class="heading">
+  <i class="fa fa-hand-o-right"></i>Related posts</h4>
+
+    <ul class="related-posts group">
+    
+    
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+        
+        
+        
+    
+    </ul>
+
+
+
+              <section id="comments" class="themeform">
+<div class="ds-thread" data-thread-key="/2018/02/24/note_13/" data-title="Go: 7-2 服务器统一出错处理" data-url="http://blog.flywithme.top/2018/02/24/note_13/"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"brasbug"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</section>
+
+
+              
+            </div>
+
+
           </section>
           <div class="sidebar s1">
   <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
@@ -588,6 +410,20 @@
     <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
 </div>
 
+    <ul class="post-nav group">
+      <li class="next">
+        
+        <a href="http://blog.flywithme.top/2018/02/24/note_12/" rel="next">
+          <i class="fa fa-chevron-right"></i>
+          <strong>Next post</strong>
+          <span>Go: 7-1 资源管理与出错处理</span>
+        </a>
+        
+      </li>
+      <li class="previous">
+        
+      </li>
+    </ul>
     <div id="search-2" class="widget widget_search"><h3>Search</h3>
       <form method="get" class="searchform themeform" action="https://www.google.com/search">
         <div>
@@ -596,6 +432,7 @@
       </form>
     </div>
   </div>
+  
 </div>
 
           <div class="sidebar s2">
