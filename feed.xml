@@ -6,7 +6,179 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sat, 24 Feb 2018 17:43:08 CST</updated>
+        <updated>Fri, 02 Mar 2018 15:57:46 CST</updated>
+        
+        <item>
+            <title>Go: 8-1 测试http服务器</title>
+            <link>http://blog.flywithme.top/2018/03/02/note_15/</link>
+            <pubDate>Fri, 02 Mar 2018 15:57:46 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/02/note_15/</guid>
+            <description></description>
+        </item>
+        
+        <item>
+            <title>Go: 8-1 测试</title>
+            <link>http://blog.flywithme.top/2018/03/01/note_14/</link>
+            <pubDate>Thu, 01 Mar 2018 16:01:31 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/01/note_14/</guid>
+            <description>
+
+&lt;h5 id=&#34;传统测试&#34;&gt;传统测试&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;测试数据和测试逻辑混在一起&lt;/li&gt;
+&lt;li&gt;出错信息不明确&lt;/li&gt;
+&lt;li&gt;一旦一个数据出错，测试全部结束
+&lt;code&gt;
+@Test public void testAdd(){
+    assertEquals(3,add(1,2));
+    assertEquals(2,add(0,2));
+    assertEquals(0,add(0,0));
+    assertEquals(0,add(1,-1));
+    assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE));
+}
+&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;表格驱动测试&#34;&gt;表格驱动测试&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;分离了测试数据和测试逻辑&lt;/li&gt;
+&lt;li&gt;明确的出错信息&lt;/li&gt;
+&lt;li&gt;可以部分失败&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;tests := []struct{
+    a,b,c int32
+}{
+    {1,2,3},
+    {0,2,2},
+    {0,0,0},
+    {-1,1,0},
+    {Integer.MaxInt32,1,Integer.MinInt32},
+}
+for _,test := range tests{
+    if actual := add(test.a,test.b);actual != text.c{
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h5 id=&#34;测试代码覆盖率和性能测试&#34;&gt;测试代码覆盖率和性能测试&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;
+func lengthOfNonRepeatingSubStr(s string) int {
+	lastOccurred := make(map[rune]int)
+	start := 0
+	maxLength := 0
+
+	for i, ch := range []rune(s) {
+		if lastI, ok := lastOccurred[ch]; ok &amp;amp;&amp;amp; lastI &amp;gt;= start {
+			start = lastI + 1
+		}
+		if i-start+1 &amp;gt; maxLength {
+			maxLength = i - start + 1
+		}
+		lastOccurred[ch] = i
+	}
+
+	return maxLength
+}
+------------------------------------------------------------
+
+//在package目录下 执行命令 可以执行当前包下的所有测试用例
+go test .
+
+//测试代码覆盖率
+go test -coverprofile=c.out
+
+
+func TestSubstr(t *testing.T) {
+	tests := []struct {
+		s   string
+		ans int
+	}{
+		// Normal cases
+		{&amp;quot;abcabcbb&amp;quot;, 3},
+		{&amp;quot;pwwkew&amp;quot;, 4},
+
+		// Edge cases
+		{&amp;quot;&amp;quot;, 0},
+		{&amp;quot;b&amp;quot;, 1},
+		{&amp;quot;bbbbbbbbb&amp;quot;, 1},
+		{&amp;quot;abcabcabcd&amp;quot;, 4},
+
+		// Chinese support
+		{&amp;quot;这里是慕课网&amp;quot;, 6},
+		{&amp;quot;一二三二一&amp;quot;, 3},
+		{&amp;quot;黑化肥挥发发灰会花飞灰化肥挥发发黑会飞花&amp;quot;, 9},
+	}
+	for _, tt := range tests {
+		actual := lengthOfNonRepeatingSubStr(tt.s)
+		if actual != tt.ans {
+			t.Errorf(&amp;quot;got %d for input %s; &amp;quot;+
+				&amp;quot;expected %d&amp;quot;,
+				actual, tt.s, tt.ans)
+		}
+	}
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;pre&gt;&lt;code&gt;//性能测试
+go test -bench .
+func BenchmarkSubstr(b *testing.B) {
+	s := &amp;quot;黑化肥挥发发灰会花飞灰化肥挥发发黑会飞花&amp;quot;
+	for i := 0; i &amp;lt; 13; i++ {
+		s = s + s
+	}
+	b.Logf(&amp;quot;len(s) = %d&amp;quot;, len(s))
+	ans := 9
+	b.ResetTimer()
+
+	for i := 0; i &amp;lt; b.N; i++ {
+		actual := lengthOfNonRepeatingSubStr(s)
+		if actual != ans {
+			b.Errorf(&amp;quot;got %d for input %s; &amp;quot;+
+				&amp;quot;expected %d&amp;quot;,
+				actual, s, ans)
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;使用pprof进行性能调优&#34;&gt;使用pprof进行性能调优&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//生成cpu.out 二进制文件，无法直接查看
+go test -bench . -cpuprofile cpu.out 
+//可以使用
+go tool pprof cpu.out 
+//进入pprof 工具命令行解码
+
+$ go tool pprof cpu.out 
+Type: cpu
+Time: Mar 2, 2018 at 12:06pm (CST)
+Duration: 2.52s, Total samples = 2.09s (83.09%)
+Entering interactive mode (type &amp;quot;help&amp;quot; for commands, &amp;quot;o&amp;quot; for options)
+(pprof) web  // 若没有安装graphviz 需要 安装 brew install graphviz  
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;调优流程
+&lt;img src=&#34;sources/go/1519977293908.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;//打开web页面
+&lt;img src=&#34;sources/go/1519975114264.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>Go: 7-2 服务器统一出错处理</title>
@@ -109,6 +281,93 @@ func tryRecover() {
 func main() {
 	tryRecover()
 }
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;error-vs-panic&#34;&gt;error vs panic&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;意料之中的：使用error.如文件出错，主动错误判断等可以预料到的错误&lt;/li&gt;
+&lt;li&gt;意料之外的：使用panic.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;错误处理的综合示例&#34;&gt;错误处理的综合示例&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;defer + panic + recover&lt;/li&gt;
+&lt;li&gt;Type Assertion&lt;/li&gt;
+&lt;li&gt;函数式编程应用&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;type appHandler func(writer http.ResponseWriter, request *http.Request) error
+type userError interface {
+	error
+	Message() string
+}
+
+func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		defer func() {
+			r := recover()
+			if r != nil {
+				log.Printf(&amp;quot;Panic:%v&amp;quot;, r)
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+		}()
+		err := handlerrr(writer, request)
+		if err != nil {
+			log.Printf(&amp;quot;Error handling request: %s&amp;quot;, err.Error())
+			if userErr, ok := err.(userError); ok {
+				http.Error(writer, userErr.Message(), http.StatusBadRequest)
+				return
+			}
+
+			code := http.StatusOK
+			switch {
+			case os.IsNotExist(err):
+				code = http.StatusNotFound
+			case os.IsPermission(err):
+				code = http.StatusForbidden
+			default:
+				code = http.StatusInternalServerError
+			}
+			http.Error(writer, http.StatusText(code), code)
+		}
+
+	}
+}
+---------------------------------------------------------
+
+const prefix = &amp;quot;/list/&amp;quot;
+
+func HandleFileList(writer http.ResponseWriter, request *http.Request) error {
+	fmt.Println(request.URL.Path)
+	if !strings.HasPrefix(request.URL.Path, prefix) {
+		return userError(fmt.Sprintf(&amp;quot;path %s must start with %s&amp;quot;, request.URL.Path, prefix))
+	}
+	path := request.URL.Path[len(&amp;quot;/list/&amp;quot;):]
+	file, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	all, err := ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+	writer.Write(all)
+	return nil
+}
+
+type userError string
+
+func (e userError) Error() string {
+	return e.Message()
+}
+func (e userError) Message() string {
+	return string(e)
+}
+
 
 &lt;/code&gt;&lt;/pre&gt;
 </description>
@@ -1527,481 +1786,6 @@ const (
  &lt;img src=&#34;sources/go/1517565353894.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;开发路径：单任务版-&amp;gt;并发版-&amp;gt;分布式&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go 语言总结</title>
-            <link>http://blog.flywithme.top/2018/01/30/go/</link>
-            <pubDate>Tue, 30 Jan 2018 15:02:26 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/01/30/go/</guid>
-            <description>
-
-&lt;p&gt;前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力）&lt;/p&gt;
-
-&lt;h5 id=&#34;go-归类总结&#34;&gt;Go 归类总结&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;类型检查：编译时&lt;/li&gt;
-&lt;li&gt;运行环境：编译成机器代码直接运行&lt;/li&gt;
-&lt;li&gt;GO语言的特色：面向接口，函数式编程，并发编程&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;go语言的并发编程&#34;&gt;Go语言的并发编程&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;采用CSP(Communication Sequential Process)模型（有学术论文，比较复杂）&lt;/li&gt;
-&lt;li&gt;code层面不需要锁，不需要callback&lt;/li&gt;
-&lt;li&gt;并发编程VS并行计算&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;go语言的安装与开放环境&#34;&gt;Go语言的安装与开放环境&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;下载：&lt;a href=&#34;https://golang.org/dl/&#34;&gt;https://golang.org/dl/&lt;/a&gt; 下载对应系统的go安装包&lt;/li&gt;
-&lt;li&gt;开发工具： 我使用的是 WebStrom +go 插件 IDE jetbeans 除了Goland 编译器&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;一个简单的-goroutine&#34;&gt;一个简单的 goroutine&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-import &amp;quot;strconv&amp;quot;
-import &amp;quot;fmt&amp;quot;
-func main() {
-    taskChan := make(chan string, 3)
-    doneChan := make(chan int, 1)
-
-    for i := 0; i &amp;lt; 3; i++ {
-        taskChan &amp;lt;- strconv.Itoa(i)
-        fmt.Println(&amp;quot;send: &amp;quot;, i)
-    }
-
-    go func() {
-        for i := 0; i &amp;lt; 3; i++ {
-            task := &amp;lt;-taskChan
-            fmt.Println(&amp;quot;received: &amp;quot;, task)
-        }
-        doneChan &amp;lt;- 1
-    }()
-
-    &amp;lt;-doneChan
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;外部排序-归并排序&#34;&gt;外部排序 - 归并排序&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;将数据分为左右两半，分别归并排序，再把两个有序数据归并&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;如何归并：
-[1,3,5,7],[1,5,8,9] -&amp;gt; 1&lt;br /&gt;
-[3,5,7],[1,5,8,9] -&amp;gt; 1&lt;br /&gt;
-[3,5,7],[5,8,9] -&amp;gt; 3&lt;br /&gt;
-[5,7],[5,8,9] -&amp;gt; 5&lt;br /&gt;
-[7],[5,8,9] -&amp;gt; 5&lt;br /&gt;
-[7],[8,9] -&amp;gt; 7&lt;br /&gt;
-[],[8,9] -&amp;gt; 8&lt;br /&gt;
-[],[9] -&amp;gt; 9&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;外部排序 可以把一个数据源使用节点切分成很多部分，然后分别进行排序&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;拆分数据源
-&lt;img src=&#34;sources/go/1517300935152.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;按节点归并 （k路归并）
-&lt;img src=&#34;sources/go/1517302277060.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func Merge(in1, in2 &amp;lt;-chan int)&amp;lt;- chan int  {
-
-	out := make(chan  int,1024)
-	go func() {
-		v1,ok1 := &amp;lt;-in1
-		v2,ok2 := &amp;lt;-in2
-		for ok1 || ok2{
-			if !ok2 || (ok1 &amp;amp;&amp;amp; v1 &amp;lt;= v2) {
-				out &amp;lt;- v1
-				v1,ok1 = &amp;lt;- in1
-			}else {
-				out &amp;lt;- v2
-				v2,ok2 = &amp;lt;- in2
-			}
-		}
-		close(out)
-		fmt.Println(&amp;quot;Merge done:&amp;quot;,time.Now().Sub(startTime))
-	}()
-
-	return out
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;通道
-&lt;img src=&#34;sources/go/1517302401765.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;节点
-&lt;img src=&#34;sources/go/1517302488042.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;节点组装
-&lt;img src=&#34;sources/go/1517302577852.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;h5 id=&#34;外部排序-单机版-pipeline-搭建&#34;&gt;外部排序 -单机版 Pipeline 搭建&lt;/h5&gt;
-
-&lt;p&gt;示意图
-&lt;img src=&#34;sources/go/1517302752446.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;ReaderSource 节点-支持分块&lt;/li&gt;
-&lt;li&gt;MergeN - 搭建归并节点组&lt;/li&gt;
-&lt;li&gt;pipeline的搭建及运行 - 观察CPU及线程数量上的使用情况&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;外部排序-网络扩展&#34;&gt;外部排序 -网络扩展&lt;/h5&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/go/1517468528492.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>pigeon </title>
-            <link>http://blog.flywithme.top/2017/12/13/pigeon/</link>
-            <pubDate>Wed, 13 Dec 2017 21:55:46 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2017/12/13/pigeon/</guid>
-            <description>
-
-&lt;h4 id=&#34;小记&#34;&gt;小记&lt;/h4&gt;
-
-&lt;p&gt;最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等&lt;br /&gt;
- 我们需要实时监控这些自动化的过程是否按预期完成了自己的任务，如果出现一些错误，或者需求要在完成任务之后提醒开发者。
- 所以我就开发了一个基于公司内部通信系统的一个小型的消息通知管理中心。
- 虽然之前断断续续有学写一些golang的东西，但是一直没有成型的作品，这是继上次做的个人实践项目之后，第一个在公司内部产生实际效益的服务。&lt;/p&gt;
-
-&lt;h4 id=&#34;主要功能&#34;&gt;主要功能&lt;/h4&gt;
-
-&lt;p&gt;本服务的主要功能是用于 给不同的服务配置不同的消息类型和接收人。最终会根据调用通知群组id发送给不同的接受对象。
-简单的实现了&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;组员的增删改查&lt;/li&gt;
-&lt;li&gt;群组的增删改查&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;消息应用的增删改查&lt;/li&gt;
-&lt;li&gt;组员和群组的关系的增删&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;群组和消息应用直之间的关系增删&lt;/li&gt;
-&lt;li&gt;应用版本号的tag自增接口（额外需求，与前面几个接口无关）&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&#34;接口-json请求格式-application-json&#34;&gt;接口  json请求格式(application/json)&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;  1. /adduse               POST
-
-    //添加用户 
-    {
-     &amp;quot;mail&amp;quot;:&amp;quot;jack@meituan.com&amp;quot;,
-     &amp;quot;mobile&amp;quot;:&amp;quot;18792289&amp;quot;,
-     &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot;
-    }
-
-  2. /deleteuser           POST
-
-    //删除用户 
-    {
-     &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot;
-    }
-
-  3. /users             GET
-
-    //用户列表
-
-
-  4. /addgroup          POST
-
-    //添加群组
-    {
-     &amp;quot;group_name&amp;quot;:&amp;quot;商户前端&amp;quot;,
-     &amp;quot;type&amp;quot;:1,
-     &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;,
-     &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;,
-     &amp;quot;app_id&amp;quot;:1
-    }
-
-  5. /updategroup       POST
-
-    //更新群组信息
-    {
-     &amp;quot;group_name&amp;quot;:&amp;quot;商户前端html&amp;quot;,
-     &amp;quot;type&amp;quot;:1,
-     &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;,
-     &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;,
-     &amp;quot;app_id&amp;quot;:&amp;quot;28fa3c968b438fb71c8d7825af609591&amp;quot;
-    }
-
-  6. /addgcrow          POST
-
-    //添加群组成员
-    {
-     &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci&amp;quot;,
-     &amp;quot;user_name&amp;quot;:&amp;quot;erfeng.cheng&amp;quot;
-    }
-
-  7. /deletecrow        POST
-
-    //删除群组成员
-    {
-     &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci&amp;quot;,
-     &amp;quot;user_name&amp;quot;:&amp;quot;erfeng.cheng&amp;quot;
-    }
-
-  8. /grcrows           POST
-
-    //批量关联群组成员
-    {
-     &amp;quot;group_id&amp;quot;:&amp;quot;merchant&amp;quot;,
-     &amp;quot;users&amp;quot;:[
-     &amp;quot;erfeng.cheng&amp;quot;
-     ]
-    }
-
-  9.  /grouplist        GET
-
-    //群组列表
-
-  10. /group/:group_id  GET
-
-    //群组信息
-
-  11. /addapp           POST
-
-    //添加消息应用
-    {
-     &amp;quot;pub_id&amp;quot;:&amp;quot;1372264&amp;quot;,
-     &amp;quot;app_key&amp;quot;:&amp;quot;029507&amp;quot;,
-     &amp;quot;app_secret&amp;quot;:&amp;quot;232alkalalalalallala&amp;quot;,
-     &amp;quot;app_name&amp;quot;:&amp;quot;点评管家-通知&amp;quot;
-    }
-
-  12. /apps             GET
-
-    //消息应用列表
-
-
-  13. /sendmsg          POST
-
-    //发送消息
-    {
-     &amp;quot;title&amp;quot;:&amp;quot;test&amp;quot;,
-     &amp;quot;content&amp;quot;:&amp;quot;1.首页\n2.微海报&amp;quot;,
-     &amp;quot;receivers&amp;quot;:[&amp;quot;erfeng.cheng&amp;quot;],
-     &amp;quot;group_id&amp;quot;:&amp;quot;merchant&amp;quot;
-    }
-
-  14. /getversiontag?app_name=merchant_model&amp;amp;version=7.1.0  GET      
-
-    //获取版本号自增tag 每次调用会自增1  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;sql脚本-不同的table之前数据未做同步-可能出现关联过的用户在用户表中已被删除的情况&#34;&gt;SQL脚本 （不同的table之前数据未做同步，可能出现关联过的用户在用户表中已被删除的情况）&lt;/h4&gt;
-
-&lt;pre&gt;&lt;code&gt;# ************************************************************
-# Sequel Pro SQL dump
-# Version 4096
-#
-# http://www.sequelpro.com/
-# http://code.google.com/p/sequel-pro/
-#
-# Host: 10.66.3.50 (MySQL 5.7.20)
-# Database: pigeon
-# Generation Time: 2017-12-13 13:28:43 +0000
-# ************************************************************
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE=&#39;NO_AUTO_VALUE_ON_ZERO&#39; */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
-# Dump of table p_app_info
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `p_app_info`;
-
-CREATE TABLE `p_app_info` (
-  `uid` int(3) unsigned NOT NULL AUTO_INCREMENT,
-  `pub_id` varchar(12) NOT NULL DEFAULT &#39;&#39;,
-  `app_key` varchar(16) NOT NULL DEFAULT &#39;&#39;,
-  `app_secret` varchar(32) NOT NULL DEFAULT &#39;&#39;,
-  `app_name` varchar(20) NOT NULL DEFAULT &#39;&#39;,
-  `app_id` varchar(32) NOT NULL DEFAULT &#39;&#39;,
-  PRIMARY KEY (`uid`),
-  UNIQUE KEY `pub_id` (`pub_id`),
-  UNIQUE KEY `app_key` (`app_key`),
-  UNIQUE KEY `app_secret` (`app_secret`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `p_app_info` WRITE;
-/*!40000 ALTER TABLE `p_app_info` DISABLE KEYS */;
-
-INSERT INTO `p_app_info` (`uid`, `pub_id`, `app_key`, `app_secret`, `app_name`, `app_id`)
-VALUES
-    (5,&#39;137441864&#39;,&#39;02210uU17507&#39;,&#39;b13fdda68c0034eefea16cb1&#39;,&#39;点评管家-通知&#39;,&#39;28fa3c968c8d7825af609591&#39;);
-
-/*!40000 ALTER TABLE `p_app_info` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table p_bussiness
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `p_bussiness`;
-
-CREATE TABLE `p_bussiness` (
-  `bid` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `bis_type` int(2) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `bis_name` varchar(20) NOT NULL DEFAULT &#39;&#39;,
-  PRIMARY KEY (`bid`),
-  UNIQUE KEY `bis_type` (`bis_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Dump of table p_group
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `p_group`;
-
-CREATE TABLE `p_group` (
-  `gid` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `group_id` varchar(30) NOT NULL DEFAULT &#39;&#39;,
-  `group_name` varchar(20) NOT NULL DEFAULT &#39;&#39;,
-  `type` int(2) NOT NULL DEFAULT &#39;0&#39;,
-  `app_id` varchar(32) NOT NULL DEFAULT &#39;&#39;,
-  `app_name` varchar(20) NOT NULL DEFAULT &#39;&#39;,
-  PRIMARY KEY (`gid`),
-  UNIQUE KEY `group_id` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `p_group` WRITE;
-/*!40000 ALTER TABLE `p_group` DISABLE KEYS */;
-
-INSERT INTO `p_group` (`gid`, `group_id`, `group_name`, `type`, `app_id`, `app_name`)
-VALUES
-    (23,&#39;merchant&#39;,&#39;点评管家-通知&#39;,0,&#39;28fa3c968b438af609591&#39;,&#39;点评管家-通知&#39;);
-
-/*!40000 ALTER TABLE `p_group` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table p_group_user_relation
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `p_group_user_relation`;
-
-CREATE TABLE `p_group_user_relation` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `group_id` varchar(30) NOT NULL DEFAULT &#39;&#39;,
-  `user_name` varchar(18) NOT NULL DEFAULT &#39;&#39;,
-  `unique_key` varchar(40) NOT NULL DEFAULT &#39;&#39;,
-  `group_name` varchar(20) NOT NULL DEFAULT &#39;&#39;,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_key` (`unique_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `p_group_user_relation` WRITE;
-/*!40000 ALTER TABLE `p_group_user_relation` DISABLE KEYS */;
-
-INSERT INTO `p_group_user_relation` (`id`, `group_id`, `user_name`, `unique_key`, `group_name`)
-VALUES
-    (76,&#39;merchant&#39;,&#39;Jack&#39;,&#39;Jackmerchant&#39;,&#39;点评管家&#39;);
-
-/*!40000 ALTER TABLE `p_group_user_relation` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table p_message
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `p_message`;
-
-CREATE TABLE `p_message` (
-  `mid` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) NOT NULL,
-  `m_type` int(1) NOT NULL,
-  `text` varchar(500) NOT NULL DEFAULT &#39;&#39;,
-  `body` varchar(500) DEFAULT &#39;&#39;,
-  `status` int(1) NOT NULL DEFAULT &#39;0&#39;,
-  PRIMARY KEY (`mid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Dump of table p_user
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `p_user`;
-
-CREATE TABLE `p_user` (
-  `uid` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(18) NOT NULL DEFAULT &#39;&#39;,
-  `mail` varchar(50) DEFAULT &#39;&#39;,
-  `mobile` varchar(13) DEFAULT &#39;&#39;,
-  PRIMARY KEY (`uid`),
-  UNIQUE KEY `username` (`user_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `p_user` WRITE;
-/*!40000 ALTER TABLE `p_user` DISABLE KEYS */;
-
-INSERT INTO `p_user` (`uid`, `user_name`, `mail`, `mobile`)
-VALUES
-    (1,&#39;Jack&#39;,&#39;Jack@mail.com&#39;,&#39;13223232223&#39;);
-
-/*!40000 ALTER TABLE `p_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table p_version_tag
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `p_version_tag`;
-
-CREATE TABLE `p_version_tag` (
-  `uid` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `tag` int(4) NOT NULL DEFAULT &#39;1&#39;,
-  `version` varchar(10) NOT NULL DEFAULT &#39;&#39;,
-  `app_name` varchar(32) NOT NULL DEFAULT &#39;&#39;,
-  `unique_key` varchar(32) NOT NULL DEFAULT &#39;&#39;,
-  PRIMARY KEY (`uid`),
-  UNIQUE KEY `unique_key` (`unique_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `p_version_tag` WRITE;
-/*!40000 ALTER TABLE `p_version_tag` DISABLE KEYS */;
-
-INSERT INTO `p_version_tag` (`uid`, `tag`, `version`, `app_name`, `unique_key`)
-VALUES
-    (9,38,&#39;7.1.0&#39;,&#39;MTAStaticModels&#39;,&#39;19b92d56eaa94a58f48e6f58a1498d12&#39;);
-
-/*!40000 ALTER TABLE `p_version_tag` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;源码地址在我的github上-适合初学者&#34;&gt;源码地址在我的github上,适合初学者&lt;/h5&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/flywithbug/pigeon&#34;&gt;源码地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         

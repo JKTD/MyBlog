@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>Go: 7-2 服务器统一出错处理 - Fly With Me</title>
+  <title>Go: 8-1 测试 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数">
+<meta name="description" content="传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Go: 7-2 服务器统一出错处理 - Fly With Me">
-<meta itemprop="description" content="如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数">
+<meta itemprop="name" content="Go: 8-1 测试 - Fly With Me">
+<meta itemprop="description" content="传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="Go: 7-2 服务器统一出错处理 - Fly With Me" />
+<meta property="og:title" content="Go: 8-1 测试 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2018/02/24/note_13/" />
+<meta property="og:url" content="http://blog.flywithme.top/2018/03/01/note_14/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数">
+<meta property="og:description" content="传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="Go: 7-2 服务器统一出错处理 - Fly With Me">
-<meta name="twitter:description" content="如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数">
+<meta name="twitter:title" content="Go: 8-1 测试 - Fly With Me">
+<meta name="twitter:description" content="传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2018/02/24/note_13/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2018/02/24/note_13/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2018/03/01/note_14/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2018/03/01/note_14/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">Go: 7-2 服务器统一出错处理</h1>
+                  <h1 class="post-title">Go: 8-1 测试</h1>
 
                   <p class="post-byline">
-                    by  · 2018年02月24日 · 569 Words ·
+                    by  · 2018年03月01日 · 596 Words ·
                     ~2min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-02-24-note_13.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-03-01-note_14.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -199,188 +199,158 @@
                       
                       
 
-<h5 id="如何实现统一的错误处理逻辑-error部分">如何实现统一的错误处理逻辑 Error部分</h5>
+<h5 id="传统测试">传统测试</h5>
 
 <ul>
-<li>在业务部分只处理正确的返回，error部分返回给调用部分</li>
-<li>在函数输入部分做一个包装，然后再输出一个函数，同时处理输入函数的错误部分</li>
+<li>测试数据和测试逻辑混在一起</li>
+<li>出错信息不明确</li>
+<li>一旦一个数据出错，测试全部结束
+<code>
+@Test public void testAdd(){
+    assertEquals(3,add(1,2));
+    assertEquals(2,add(0,2));
+    assertEquals(0,add(0,0));
+    assertEquals(0,add(1,-1));
+    assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE));
+}
+</code></li>
 </ul>
+
+<h5 id="表格驱动测试">表格驱动测试</h5>
+
+<ul>
+<li>分离了测试数据和测试逻辑</li>
+<li>明确的出错信息</li>
+<li>可以部分失败</li>
+</ul>
+
+<pre><code>tests := []struct{
+    a,b,c int32
+}{
+    {1,2,3},
+    {0,2,2},
+    {0,0,0},
+    {-1,1,0},
+    {Integer.MaxInt32,1,Integer.MinInt32},
+}
+for _,test := range tests{
+    if actual := add(test.a,test.b);actual != text.c{
+    }
+}
+</code></pre>
+
+<hr />
+
+<h5 id="测试代码覆盖率和性能测试">测试代码覆盖率和性能测试</h5>
 
 <pre><code>
-func HandleFileList(writer http.ResponseWriter, request *http.Request) error {
-	path := request.URL.Path[len(&quot;/list/&quot;):]
-	file, err := os.Open(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	all, err := ioutil.ReadAll(file)
-	if err != nil {
-		return err
-	}
-	writer.Write(all)
-	return nil
-}
+func lengthOfNonRepeatingSubStr(s string) int {
+	lastOccurred := make(map[rune]int)
+	start := 0
+	maxLength := 0
 
-----------------------------------
-type appHandler func(writer http.ResponseWriter, request *http.Request) error
-
-func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) {
-	return func(writer http.ResponseWriter, request *http.Request) {
-		err := handlerrr(writer, request)
-		if err != nil {
-			logs.Warn(&quot;Error handling request: %s&quot;, err.Error())
-			code := http.StatusOK
-			switch {
-			case os.IsNotExist(err):
-				code = http.StatusNotFound
-			case os.IsPermission(err):
-				code = http.StatusForbidden
-			default:
-				code = http.StatusInternalServerError
-			}
-			http.Error(writer, http.StatusText(code), code)
+	for i, ch := range []rune(s) {
+		if lastI, ok := lastOccurred[ch]; ok &amp;&amp; lastI &gt;= start {
+			start = lastI + 1
 		}
-
-	}
-}
-
-func main() {
-	http.HandleFunc(&quot;/list/&quot;, errorWrapper(handler.HandleFileList))
-	err := http.ListenAndServe(&quot;:8888&quot;, nil)
-	if err != nil {
-		panic(err)
-	}
-}
-
-</code></pre>
-
-<h5 id="panic-recover">panic &amp; recover</h5>
-
-<ul>
-<li>停止当前函数执行</li>
-<li>一直向上返回，执行每一层的defer</li>
-<li>如果没有遇到recover，程序退出</li>
-</ul>
-
-<h5 id="recover">recover</h5>
-
-<ul>
-<li>仅在defer中调用</li>
-<li>获取panic值</li>
-<li>如果无法处理，可重新panic</li>
-</ul>
-
-<pre><code>
-func tryRecover() {
-	defer func() {
-		r := recover()
-		if err, ok := r.(error); ok {
-			log.Println(&quot;Error occured:&quot;, err)
-		} else {
-			panic(r)
+		if i-start+1 &gt; maxLength {
+			maxLength = i - start + 1
 		}
-	}()
+		lastOccurred[ch] = i
+	}
 
-	//panic(errors.New(&quot;this is an error&quot;))
-	b := 0
-	a := 5 / b
-	fmt.Println(a)
-
+	return maxLength
 }
+------------------------------------------------------------
 
-func main() {
-	tryRecover()
-}
+//在package目录下 执行命令 可以执行当前包下的所有测试用例
+go test .
 
-</code></pre>
+//测试代码覆盖率
+go test -coverprofile=c.out
 
-<h5 id="error-vs-panic">error vs panic</h5>
 
-<ul>
-<li>意料之中的：使用error.如文件出错，主动错误判断等可以预料到的错误</li>
-<li>意料之外的：使用panic.</li>
-</ul>
+func TestSubstr(t *testing.T) {
+	tests := []struct {
+		s   string
+		ans int
+	}{
+		// Normal cases
+		{&quot;abcabcbb&quot;, 3},
+		{&quot;pwwkew&quot;, 4},
 
-<h5 id="错误处理的综合示例">错误处理的综合示例</h5>
+		// Edge cases
+		{&quot;&quot;, 0},
+		{&quot;b&quot;, 1},
+		{&quot;bbbbbbbbb&quot;, 1},
+		{&quot;abcabcabcd&quot;, 4},
 
-<ul>
-<li>defer + panic + recover</li>
-<li>Type Assertion</li>
-<li>函数式编程应用</li>
-</ul>
-
-<pre><code>type appHandler func(writer http.ResponseWriter, request *http.Request) error
-type userError interface {
-	error
-	Message() string
-}
-
-func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) {
-	return func(writer http.ResponseWriter, request *http.Request) {
-		defer func() {
-			r := recover()
-			if r != nil {
-				log.Printf(&quot;Panic:%v&quot;, r)
-				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			}
-		}()
-		err := handlerrr(writer, request)
-		if err != nil {
-			log.Printf(&quot;Error handling request: %s&quot;, err.Error())
-			if userErr, ok := err.(userError); ok {
-				http.Error(writer, userErr.Message(), http.StatusBadRequest)
-				return
-			}
-
-			code := http.StatusOK
-			switch {
-			case os.IsNotExist(err):
-				code = http.StatusNotFound
-			case os.IsPermission(err):
-				code = http.StatusForbidden
-			default:
-				code = http.StatusInternalServerError
-			}
-			http.Error(writer, http.StatusText(code), code)
+		// Chinese support
+		{&quot;这里是慕课网&quot;, 6},
+		{&quot;一二三二一&quot;, 3},
+		{&quot;黑化肥挥发发灰会花飞灰化肥挥发发黑会飞花&quot;, 9},
+	}
+	for _, tt := range tests {
+		actual := lengthOfNonRepeatingSubStr(tt.s)
+		if actual != tt.ans {
+			t.Errorf(&quot;got %d for input %s; &quot;+
+				&quot;expected %d&quot;,
+				actual, tt.s, tt.ans)
 		}
-
 	}
-}
----------------------------------------------------------
-
-const prefix = &quot;/list/&quot;
-
-func HandleFileList(writer http.ResponseWriter, request *http.Request) error {
-	fmt.Println(request.URL.Path)
-	if !strings.HasPrefix(request.URL.Path, prefix) {
-		return userError(fmt.Sprintf(&quot;path %s must start with %s&quot;, request.URL.Path, prefix))
-	}
-	path := request.URL.Path[len(&quot;/list/&quot;):]
-	file, err := os.Open(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	all, err := ioutil.ReadAll(file)
-	if err != nil {
-		return err
-	}
-	writer.Write(all)
-	return nil
-}
-
-type userError string
-
-func (e userError) Error() string {
-	return e.Message()
-}
-func (e userError) Message() string {
-	return string(e)
 }
 
 
 </code></pre>
+
+<hr />
+
+<pre><code>//性能测试
+go test -bench .
+func BenchmarkSubstr(b *testing.B) {
+	s := &quot;黑化肥挥发发灰会花飞灰化肥挥发发黑会飞花&quot;
+	for i := 0; i &lt; 13; i++ {
+		s = s + s
+	}
+	b.Logf(&quot;len(s) = %d&quot;, len(s))
+	ans := 9
+	b.ResetTimer()
+
+	for i := 0; i &lt; b.N; i++ {
+		actual := lengthOfNonRepeatingSubStr(s)
+		if actual != ans {
+			b.Errorf(&quot;got %d for input %s; &quot;+
+				&quot;expected %d&quot;,
+				actual, s, ans)
+		}
+	}
+}
+</code></pre>
+
+<h5 id="使用pprof进行性能调优">使用pprof进行性能调优</h5>
+
+<pre><code>//生成cpu.out 二进制文件，无法直接查看
+go test -bench . -cpuprofile cpu.out 
+//可以使用
+go tool pprof cpu.out 
+//进入pprof 工具命令行解码
+
+$ go tool pprof cpu.out 
+Type: cpu
+Time: Mar 2, 2018 at 12:06pm (CST)
+Duration: 2.52s, Total samples = 2.09s (83.09%)
+Entering interactive mode (type &quot;help&quot; for commands, &quot;o&quot; for options)
+(pprof) web  // 若没有安装graphviz 需要 安装 brew install graphviz  
+
+</code></pre>
+
+<ul>
+<li>调优流程
+<img src="sources/go/1519977293908.jpg" width = "100%" /></li>
+</ul>
+
+<p>//打开web页面
+<img src="sources/go/1519975114264.jpg" width = "100%" /></p>
 
                       
                     </div>
@@ -392,7 +362,7 @@ func (e userError) Message() string {
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/02/24/note_13/">http://blog.flywithme.top/2018/02/24/note_13/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/03/01/note_14/">http://blog.flywithme.top/2018/03/01/note_14/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -445,7 +415,7 @@ func (e userError) Message() string {
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2018/02/24/note_13/" data-title="Go: 7-2 服务器统一出错处理" data-url="http://blog.flywithme.top/2018/02/24/note_13/"></div>
+<div class="ds-thread" data-thread-key="/2018/03/01/note_14/" data-title="Go: 8-1 测试" data-url="http://blog.flywithme.top/2018/03/01/note_14/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -500,19 +470,19 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2018/02/24/note_12/" rel="next">
+        <a href="http://blog.flywithme.top/2018/02/24/note_13/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Go: 7-1 资源管理与出错处理</span>
+          <span>Go: 7-2 服务器统一出错处理</span>
         </a>
         
       </li>
       <li class="previous">
         
-        <a href="http://blog.flywithme.top/2018/03/01/note_14/" rel="prev">
+        <a href="http://blog.flywithme.top/2018/03/02/note_15/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
-          <span>Go: 8-1 测试</span>
+          <span>Go: 8-1 测试http服务器</span>
         </a>
         
       </li>
