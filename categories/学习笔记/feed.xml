@@ -9,12 +9,244 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>Go: 8-2 生成文档和示例代码</title>
+            <link>http://blog.flywithme.top/2018/03/04/note_16/</link>
+            <pubDate>Sun, 04 Mar 2018 13:05:35 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/04/note_16/</guid>
+            <description>
+
+&lt;h5 id=&#34;文档&#34;&gt;文档&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;用注释写文档&lt;/li&gt;
+&lt;li&gt;在测试中加入Example&lt;/li&gt;
+&lt;li&gt;使用go doc/godoc 生成文档&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-//queue.go&#34;&gt;package queue
+
+import (
+	&amp;quot;fmt&amp;quot;
+)
+
+//A FIFO queue.
+type Queue []interface{}
+
+func (q *Queue) Push(v int) {
+	fmt.Println(q)
+
+	*q = append(*q, v)
+
+}
+
+// Pops element from head.
+func (q *Queue) Pop() int {
+	head := (*q)[0]
+	*q = (*q)[1:]
+	return head.(int)
+}
+
+// Returns if the queue is empty or not.
+func (q *Queue) IsEmpty() bool {
+	return len(*q) == 0
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-queue_test.go&#34;&gt;package queue
+
+import &amp;quot;fmt&amp;quot;
+
+func ExampleQueue_Pop() {
+	q := Queue{1}
+	q.Push(2)
+	q.Push(3)
+	fmt.Println(q.Pop())
+	fmt.Println(q.Pop())
+	fmt.Println(q.IsEmpty())
+
+	fmt.Println(q.Pop())
+	fmt.Println(q.IsEmpty())
+
+	// Output:
+	// &amp;amp;[1]
+	// &amp;amp;[1 2]
+	// 1
+	// 2
+	// false
+	// 3
+	// true
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;go doc 工具会从 Go 程序和包文件中提取顶级声明的首行注释以及每个对象的相关注释，并生成相关文档。
+
+一般用法：
+go doc package 获取包的文档注释，例如：go doc fmt 会显示使用 godoc 生成的 fmt 包的文档注释。
+go doc package/subpackage 获取子包的文档注释，例如：go doc container/list。
+go doc package function 获取某个函数在某个包中的文档注释，例如：go doc fmt Printf 会显示有关 fmt.Printf() 的使用说明。
+在命令行输入 godoc -http=:6060，然后使用浏览器打开 http://localhost:6060 后，你就可以看到本地文档浏览服务器提供的页面。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;测试总结&#34;&gt;测试总结&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;表格驱动测试&lt;/li&gt;
+&lt;li&gt;代码覆盖率&lt;/li&gt;
+&lt;li&gt;性能优化工具&lt;/li&gt;
+&lt;li&gt;http测试&lt;/li&gt;
+&lt;li&gt;文档以及示例代码&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
             <title>Go: 8-1 测试http服务器</title>
             <link>http://blog.flywithme.top/2018/03/02/note_15/</link>
             <pubDate>Fri, 02 Mar 2018 15:57:46 CST</pubDate>
             <author>Brasbug</author>
             <guid>http://blog.flywithme.top/2018/03/02/note_15/</guid>
-            <description></description>
+            <description>
+
+&lt;h5 id=&#34;针对7-2章节中的errorwapper的测试-示例代码在-imooc-errorhandler&#34;&gt;针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler）&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;通过虚拟Request/Response来测试 （TestErrWrapper）&lt;/li&gt;
+&lt;li&gt;通过启服务器&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;//errorWapper
+func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		defer func() {
+			r := recover()
+			if r != nil {
+				log.Printf(&amp;quot;Panic:%v&amp;quot;, r)
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+		}()
+		err := handlerrr(writer, request)
+		if err != nil {
+			log.Printf(&amp;quot;Error handling request: %s&amp;quot;, err.Error())
+			if userErr, ok := err.(userError); ok {
+				http.Error(writer, userErr.Message(), http.StatusBadRequest)
+				return
+			}
+
+			code := http.StatusOK
+			switch {
+			case os.IsNotExist(err):
+				code = http.StatusNotFound
+			case os.IsPermission(err):
+				code = http.StatusForbidden
+			default:
+				code = http.StatusInternalServerError
+			}
+			http.Error(writer, http.StatusText(code), code)
+		}
+
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;
+func errPanic(_ http.ResponseWriter,
+	_ *http.Request) error {
+	panic(123)
+}
+
+type testingUserError string
+
+func (e testingUserError) Error() string {
+	return e.Message()
+}
+
+func (e testingUserError) Message() string {
+	return string(e)
+}
+
+func errUserError(_ http.ResponseWriter,
+	_ *http.Request) error {
+	return testingUserError(&amp;quot;user error&amp;quot;)
+}
+
+func errNotFound(_ http.ResponseWriter,
+	_ *http.Request) error {
+	return os.ErrNotExist
+}
+
+func errNoPermission(_ http.ResponseWriter,
+	_ *http.Request) error {
+	return os.ErrPermission
+}
+
+func errUnknown(_ http.ResponseWriter,
+	_ *http.Request) error {
+	return errors.New(&amp;quot;unknown error&amp;quot;)
+}
+
+func noError(writer http.ResponseWriter,
+	_ *http.Request) error {
+	fmt.Fprintln(writer, &amp;quot;no error&amp;quot;)
+	return nil
+}
+
+var tests = []struct {
+	h       appHandler
+	code    int
+	message string
+}{
+	{errPanic, 500, &amp;quot;Internal Server Error&amp;quot;},
+	{errUserError, 400, &amp;quot;user error&amp;quot;},
+	{errNotFound, 404, &amp;quot;Not Found&amp;quot;},
+	{errNoPermission, 403, &amp;quot;Forbidden&amp;quot;},
+	{errUnknown, 500, &amp;quot;Internal Server Error&amp;quot;},
+	{noError, 200, &amp;quot;no error&amp;quot;},
+}
+
+func TestErrWrapper(t *testing.T) {
+	for _, tt := range tests {
+		f := errorWrapper(tt.h)
+		response := httptest.NewRecorder()
+		request := httptest.NewRequest(
+			http.MethodGet,
+			&amp;quot;http://www.imooc.com&amp;quot;, nil)
+		f(response, request)
+
+		verifyResponse(response.Result(),
+			tt.code, tt.message, t)
+	}
+}
+
+func TestErrWrapperInServer(t *testing.T) {
+	for _, tt := range tests {
+		f := errorWrapper(tt.h)
+		server := httptest.NewServer(
+			http.HandlerFunc(f))
+		resp, _ := http.Get(server.URL)
+
+		verifyResponse(
+			resp, tt.code, tt.message, t)
+	}
+}
+
+func verifyResponse(resp *http.Response,
+	expectedCode int, expectedMsg string,
+	t *testing.T) {
+	b, _ := ioutil.ReadAll(resp.Body)
+	body := strings.Trim(string(b), &amp;quot;\n&amp;quot;)
+	if resp.StatusCode != expectedCode ||
+		body != expectedMsg {
+		t.Errorf(&amp;quot;expect (%d, %s); &amp;quot;+
+			&amp;quot;got (%d, %s)&amp;quot;,
+			expectedCode, expectedMsg,
+			resp.StatusCode, body)
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
         </item>
         
         <item>
@@ -1743,49 +1975,6 @@ const (
 &lt;li&gt;没有char,只有rune&lt;/li&gt;
 &lt;li&gt;原生支持复数类型&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go:记笔：1-1 导读</title>
-            <link>http://blog.flywithme.top/2018/02/02/note_01/</link>
-            <pubDate>Fri, 02 Feb 2018 17:27:32 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/02/note_01/</guid>
-            <description>
-
-&lt;h5 id=&#34;go语言很特别&#34;&gt;GO语言很特别&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;没有&amp;rdquo;对象&amp;rdquo;，没有继承多态，没有泛型，么有try/catch&lt;/li&gt;
-&lt;li&gt;有接口，函数式变成，CSP并发模型（goroutine+channel）&lt;/li&gt;
-&lt;li&gt;学习Go语言很简单，因为语法简单&lt;/li&gt;
-&lt;li&gt;用好Go语言不容易，因为要调整三观&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;go知识框架&#34;&gt;Go知识框架&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;基本语法  （遍历，选择，循环，指针，数组，容器）&lt;/li&gt;
-&lt;li&gt;面向接口  （结构体，duck typing的概念，组合的思想）&lt;/li&gt;
-&lt;li&gt;函数式编程（闭包的概念，例题）&lt;/li&gt;
-&lt;li&gt;工程化   （资源管理，错误处理，测试和文档，性能调优）&lt;/li&gt;
-&lt;li&gt;并发编程 （goroutine和channel,理解调度器，例题）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;实战项目&#34;&gt;实战项目&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;从零开始，使用Go语言自主搭建简单的分布式爬虫（不使用框架）&lt;/li&gt;
-&lt;li&gt;爬取网站资料&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/go/1517564741602.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;项目的架构图&lt;/strong&gt;
- &lt;img src=&#34;sources/go/1517565353894.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;开发路径：单任务版-&amp;gt;并发版-&amp;gt;分布式&lt;/p&gt;
 </description>
         </item>
         

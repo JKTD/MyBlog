@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>Go: 8-1 测试http服务器 - Fly With Me</title>
+  <title>Go: 8-2 生成文档和示例代码 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler） 通过虚拟Request/Response来测">
+<meta name="description" content="文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &quot;fmt&quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q =">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Go: 8-1 测试http服务器 - Fly With Me">
-<meta itemprop="description" content="针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler） 通过虚拟Request/Response来测">
+<meta itemprop="name" content="Go: 8-2 生成文档和示例代码 - Fly With Me">
+<meta itemprop="description" content="文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &quot;fmt&quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q =">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="Go: 8-1 测试http服务器 - Fly With Me" />
+<meta property="og:title" content="Go: 8-2 生成文档和示例代码 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2018/03/02/note_15/" />
+<meta property="og:url" content="http://blog.flywithme.top/2018/03/04/note_16/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler） 通过虚拟Request/Response来测">
+<meta property="og:description" content="文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &quot;fmt&quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q =">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="Go: 8-1 测试http服务器 - Fly With Me">
-<meta name="twitter:description" content="针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler） 通过虚拟Request/Response来测">
+<meta name="twitter:title" content="Go: 8-2 生成文档和示例代码 - Fly With Me">
+<meta name="twitter:description" content="文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &quot;fmt&quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q =">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2018/03/02/note_15/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2018/03/02/note_15/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2018/03/04/note_16/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2018/03/04/note_16/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">Go: 8-1 测试http服务器</h1>
+                  <h1 class="post-title">Go: 8-2 生成文档和示例代码</h1>
 
                   <p class="post-byline">
-                    by  · 2018年03月02日 · 400 Words ·
+                    by  · 2018年03月04日 · 377 Words ·
                     ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-03-02-note_15.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-03-04-note_16.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -199,143 +199,88 @@
                       
                       
 
-<h5 id="针对7-2章节中的errorwapper的测试-示例代码在-imooc-errorhandler">针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler）</h5>
+<h5 id="文档">文档</h5>
 
 <ul>
-<li>通过虚拟Request/Response来测试 （TestErrWrapper）</li>
-<li>通过启服务器</li>
+<li>用注释写文档</li>
+<li>在测试中加入Example</li>
+<li>使用go doc/godoc 生成文档</li>
 </ul>
 
-<pre><code>//errorWapper
-func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) {
-	return func(writer http.ResponseWriter, request *http.Request) {
-		defer func() {
-			r := recover()
-			if r != nil {
-				log.Printf(&quot;Panic:%v&quot;, r)
-				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			}
-		}()
-		err := handlerrr(writer, request)
-		if err != nil {
-			log.Printf(&quot;Error handling request: %s&quot;, err.Error())
-			if userErr, ok := err.(userError); ok {
-				http.Error(writer, userErr.Message(), http.StatusBadRequest)
-				return
-			}
+<pre><code class="language-//queue.go">package queue
 
-			code := http.StatusOK
-			switch {
-			case os.IsNotExist(err):
-				code = http.StatusNotFound
-			case os.IsPermission(err):
-				code = http.StatusForbidden
-			default:
-				code = http.StatusInternalServerError
-			}
-			http.Error(writer, http.StatusText(code), code)
-		}
+import (
+	&quot;fmt&quot;
+)
 
-	}
+//A FIFO queue.
+type Queue []interface{}
+
+func (q *Queue) Push(v int) {
+	fmt.Println(q)
+
+	*q = append(*q, v)
+
+}
+
+// Pops element from head.
+func (q *Queue) Pop() int {
+	head := (*q)[0]
+	*q = (*q)[1:]
+	return head.(int)
+}
+
+// Returns if the queue is empty or not.
+func (q *Queue) IsEmpty() bool {
+	return len(*q) == 0
 }
 </code></pre>
 
-<pre><code>
-func errPanic(_ http.ResponseWriter,
-	_ *http.Request) error {
-	panic(123)
-}
+<pre><code class="language-queue_test.go">package queue
 
-type testingUserError string
+import &quot;fmt&quot;
 
-func (e testingUserError) Error() string {
-	return e.Message()
-}
+func ExampleQueue_Pop() {
+	q := Queue{1}
+	q.Push(2)
+	q.Push(3)
+	fmt.Println(q.Pop())
+	fmt.Println(q.Pop())
+	fmt.Println(q.IsEmpty())
 
-func (e testingUserError) Message() string {
-	return string(e)
-}
+	fmt.Println(q.Pop())
+	fmt.Println(q.IsEmpty())
 
-func errUserError(_ http.ResponseWriter,
-	_ *http.Request) error {
-	return testingUserError(&quot;user error&quot;)
-}
-
-func errNotFound(_ http.ResponseWriter,
-	_ *http.Request) error {
-	return os.ErrNotExist
-}
-
-func errNoPermission(_ http.ResponseWriter,
-	_ *http.Request) error {
-	return os.ErrPermission
-}
-
-func errUnknown(_ http.ResponseWriter,
-	_ *http.Request) error {
-	return errors.New(&quot;unknown error&quot;)
-}
-
-func noError(writer http.ResponseWriter,
-	_ *http.Request) error {
-	fmt.Fprintln(writer, &quot;no error&quot;)
-	return nil
-}
-
-var tests = []struct {
-	h       appHandler
-	code    int
-	message string
-}{
-	{errPanic, 500, &quot;Internal Server Error&quot;},
-	{errUserError, 400, &quot;user error&quot;},
-	{errNotFound, 404, &quot;Not Found&quot;},
-	{errNoPermission, 403, &quot;Forbidden&quot;},
-	{errUnknown, 500, &quot;Internal Server Error&quot;},
-	{noError, 200, &quot;no error&quot;},
-}
-
-func TestErrWrapper(t *testing.T) {
-	for _, tt := range tests {
-		f := errorWrapper(tt.h)
-		response := httptest.NewRecorder()
-		request := httptest.NewRequest(
-			http.MethodGet,
-			&quot;http://www.imooc.com&quot;, nil)
-		f(response, request)
-
-		verifyResponse(response.Result(),
-			tt.code, tt.message, t)
-	}
-}
-
-func TestErrWrapperInServer(t *testing.T) {
-	for _, tt := range tests {
-		f := errorWrapper(tt.h)
-		server := httptest.NewServer(
-			http.HandlerFunc(f))
-		resp, _ := http.Get(server.URL)
-
-		verifyResponse(
-			resp, tt.code, tt.message, t)
-	}
-}
-
-func verifyResponse(resp *http.Response,
-	expectedCode int, expectedMsg string,
-	t *testing.T) {
-	b, _ := ioutil.ReadAll(resp.Body)
-	body := strings.Trim(string(b), &quot;\n&quot;)
-	if resp.StatusCode != expectedCode ||
-		body != expectedMsg {
-		t.Errorf(&quot;expect (%d, %s); &quot;+
-			&quot;got (%d, %s)&quot;,
-			expectedCode, expectedMsg,
-			resp.StatusCode, body)
-	}
+	// Output:
+	// &amp;[1]
+	// &amp;[1 2]
+	// 1
+	// 2
+	// false
+	// 3
+	// true
 }
 
 </code></pre>
+
+<pre><code>go doc 工具会从 Go 程序和包文件中提取顶级声明的首行注释以及每个对象的相关注释，并生成相关文档。
+
+一般用法：
+go doc package 获取包的文档注释，例如：go doc fmt 会显示使用 godoc 生成的 fmt 包的文档注释。
+go doc package/subpackage 获取子包的文档注释，例如：go doc container/list。
+go doc package function 获取某个函数在某个包中的文档注释，例如：go doc fmt Printf 会显示有关 fmt.Printf() 的使用说明。
+在命令行输入 godoc -http=:6060，然后使用浏览器打开 http://localhost:6060 后，你就可以看到本地文档浏览服务器提供的页面。
+</code></pre>
+
+<h5 id="测试总结">测试总结</h5>
+
+<ul>
+<li>表格驱动测试</li>
+<li>代码覆盖率</li>
+<li>性能优化工具</li>
+<li>http测试</li>
+<li>文档以及示例代码</li>
+</ul>
 
                       
                     </div>
@@ -347,7 +292,7 @@ func verifyResponse(resp *http.Response,
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/03/02/note_15/">http://blog.flywithme.top/2018/03/02/note_15/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/03/04/note_16/">http://blog.flywithme.top/2018/03/04/note_16/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -400,7 +345,7 @@ func verifyResponse(resp *http.Response,
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2018/03/02/note_15/" data-title="Go: 8-1 测试http服务器" data-url="http://blog.flywithme.top/2018/03/02/note_15/"></div>
+<div class="ds-thread" data-thread-key="/2018/03/04/note_16/" data-title="Go: 8-2 生成文档和示例代码" data-url="http://blog.flywithme.top/2018/03/04/note_16/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -455,20 +400,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2018/03/01/note_14/" rel="next">
+        <a href="http://blog.flywithme.top/2018/03/02/note_15/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Go: 8-1 测试</span>
+          <span>Go: 8-1 测试http服务器</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2018/03/04/note_16/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>Go: 8-2 生成文档和示例代码</span>
-        </a>
         
       </li>
     </ul>
