@@ -936,79 +936,75 @@ String download(R r){
 &lt;ul&gt;
 &lt;li&gt;表示任何类型：interface{}&lt;/li&gt;
 &lt;li&gt;Type Assertion&lt;/li&gt;
-&lt;li&gt;Type Switch
-```&lt;/li&gt;
+&lt;li&gt;Type Switch&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;	//Type assertion
+&lt;pre&gt;&lt;code&gt;
+	//Type assertion
 	if mockRetriver, ok := r.(*mock.Retriever); ok {
 		fmt.Println(mockRetriver.Contents)
 	} else {
-		fmt.Println(&amp;ldquo;not mock retriver&amp;rdquo;)&lt;/p&gt;
+		fmt.Println(&amp;quot;not mock retriver&amp;quot;)
 
-&lt;p&gt;	}&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;fmt.Printf(&amp;quot;%T %v\n&amp;quot;, r, r)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;	fmt.Println&amp;reg;
+	}
+	
+    fmt.Printf(&amp;quot;%T %v\n&amp;quot;, r, r)
+	fmt.Println(r)
 	switch v := r.(type) {
 	case mock.Retriever:
-		fmt.Println(&amp;ldquo;contents:&amp;ldquo;, v.Contents)
+		fmt.Println(&amp;quot;contents:&amp;quot;, v.Contents)
 	case *real.Retriever:
-		fmt.Println(&amp;ldquo;UserAgent:&amp;ldquo;, v.UserAgent)&lt;/p&gt;
+		fmt.Println(&amp;quot;UserAgent:&amp;quot;, v.UserAgent)
 
-&lt;p&gt;	}	&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;
-##### 接口的组合
-
+	}	
 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;//interface 1
+&lt;h5 id=&#34;接口的组合&#34;&gt;接口的组合&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//interface 1
 type Retriever interface {
 	Get(url string) string
 }
 //interface 2
 type Poster interface {
 	Post(url string, form map[string]string) string
-}&lt;/p&gt;
+}
 
-&lt;p&gt;//interface  combination
+//interface  combination
 type RetrieverPoster interface {
 	Retriever
 	Poster
-}&lt;/p&gt;
+}
 
-&lt;p&gt;//go lib  readWriter&lt;/p&gt;
+//go lib  readWriter
 
-&lt;p&gt;// ReadWriter is the interface that groups the basic Read and Write methods.
+// ReadWriter is the interface that groups the basic Read and Write methods.
 type ReadWriter interface {
 	Reader
 	Writer
-}&lt;/p&gt;
+}
 
-&lt;p&gt;// ReadCloser is the interface that groups the basic Read and Close methods.
+// ReadCloser is the interface that groups the basic Read and Close methods.
 type ReadCloser interface {
 	Reader
 	Closer
-}&lt;/p&gt;
+}
 
-&lt;p&gt;// WriteCloser is the interface that groups the basic Write and Close methods.
+// WriteCloser is the interface that groups the basic Write and Close methods.
 type WriteCloser interface {
 	Writer
 	Closer
-}&lt;/p&gt;
+}
 
-&lt;p&gt;// ReadWriteCloser is the interface that groups the basic Read, Write and Close methods.
+// ReadWriteCloser is the interface that groups the basic Read, Write and Close methods.
 type ReadWriteCloser interface {
 	Reader
 	Writer
 	Closer
-}&lt;/p&gt;
+}
 
-&lt;p&gt;```&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h5 id=&#34;常用系统接口&#34;&gt;常用系统接口&lt;/h5&gt;
 </description>
