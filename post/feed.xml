@@ -6,7 +6,884 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sun, 04 Mar 2018 13:05:35 CST</updated>
+        <updated>Fri, 09 Mar 2018 16:05:38 CST</updated>
+        
+        <item>
+            <title>Go: 14-1 爬虫实现</title>
+            <link>http://blog.flywithme.top/2018/03/09/note_24/</link>
+            <pubDate>Fri, 09 Mar 2018 16:05:38 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/09/note_24/</guid>
+            <description>
+
+&lt;h5 id=&#34;获取初始页面内容&#34;&gt;获取初始页面内容&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用相亲网站做目标&lt;/li&gt;
+&lt;li&gt;编码格式自动识别转换
+```
+package main&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;import (
+	&amp;ldquo;fmt&amp;rdquo;
+	&amp;ldquo;io/ioutil&amp;rdquo;
+	&amp;ldquo;net/http&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;	&amp;ldquo;bufio&amp;rdquo;
+	&amp;ldquo;io&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;	&amp;ldquo;golang.org/x/net/html/charset&amp;rdquo;
+	&amp;ldquo;golang.org/x/text/encoding&amp;rdquo;
+	&amp;ldquo;golang.org/x/text/transform&amp;rdquo;
+)&lt;/p&gt;
+
+&lt;p&gt;func main() {
+	resp, err := http.Get(&amp;ldquo;&lt;a href=&#34;http://www.zhenai.com/zhenghun&amp;quot;&#34;&gt;http://www.zhenai.com/zhenghun&amp;quot;&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;	if err != nil {
+		panic(err)
+	}&lt;/p&gt;
+
+&lt;p&gt;	defer resp.Body.Close()&lt;/p&gt;
+
+&lt;p&gt;	if resp.StatusCode != http.StatusOK {
+		fmt.Println(&amp;ldquo;Error: status code &amp;ldquo;, resp.StatusCode)
+		return
+	}
+	e := determineEncoder(resp.Body)
+	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
+	result, err := ioutil.ReadAll(utf8Reader)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf(&amp;ldquo;%s\n&amp;rdquo;, result)
+}&lt;/p&gt;
+
+&lt;p&gt;//网站编码识别转换
+func determineEncoder(r io.Reader) encoding.Encoding {
+	bytes, err := bufio.NewReader&amp;reg;.Peek(1024)
+	if err != nil {
+		panic(err)
+	}
+	e, _, _ := charset.DetermineEncoding(bytes, &amp;ldquo;&amp;rdquo;)
+	return e
+}&lt;/p&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;h5 id=&#34;获取有价值信息&#34;&gt;获取有价值信息&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;获取城市名称和链接
+
+&lt;ul&gt;
+&lt;li&gt;使用css选择器&lt;/li&gt;
+&lt;li&gt;使用xpath&lt;/li&gt;
+&lt;li&gt;使用正则表达式
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 13-1 爬虫简介</title>
+            <link>http://blog.flywithme.top/2018/03/08/note_23/</link>
+            <pubDate>Thu, 08 Mar 2018 17:13:27 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/08/note_23/</guid>
+            <description>
+
+&lt;h5 id=&#34;网络爬虫分类&#34;&gt;网络爬虫分类&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;通用爬虫：如baidu,google&lt;/li&gt;
+&lt;li&gt;聚焦爬虫：从互联网获取结构化数据&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;项目总体结构&#34;&gt;项目总体结构&lt;/h5&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/go/1517564741602.jpg&#34;  /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;go语言的爬虫库-框架&#34;&gt;go语言的爬虫库/框架&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;henrylee2cn/pholcus&lt;/li&gt;
+&lt;li&gt;gocrawl&lt;/li&gt;
+&lt;li&gt;colly&lt;/li&gt;
+&lt;li&gt;hu17889/go_spider&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;重新开发一个爬虫库&#34;&gt;重新开发一个爬虫库&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;不适用现成的爬虫库/框架&lt;/li&gt;
+&lt;li&gt;使用ElasticSearch作为数据存储&lt;/li&gt;
+&lt;li&gt;使用Go语言标准模板库实现http数据展示部分&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;实现步骤&#34;&gt;实现步骤&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;单任务&lt;/li&gt;
+&lt;li&gt;并发版&lt;/li&gt;
+&lt;li&gt;分布式&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 12-1 迷宫的广度优先搜索</title>
+            <link>http://blog.flywithme.top/2018/03/07/note_22/</link>
+            <pubDate>Wed, 07 Mar 2018 17:21:14 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/07/note_22/</guid>
+            <description>
+
+&lt;h5 id=&#34;示例-广度优先算法&#34;&gt;示例：广度优先算法&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;为爬虫实战做准备&lt;/li&gt;
+&lt;li&gt;应用广泛，综合性强&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;示例-广度优先搜索走迷宫&#34;&gt;示例：广度优先搜索走迷宫&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;广度优先算法示意图&lt;br /&gt;
+&lt;image  src=&#34;sources/go/1520162909021.gif&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;用循环创建二维slice&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用slice来实现队列&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;用Fscanf读取文件&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;对point的抽象&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;//file
+6 5
+0 1 0 0 0
+0 0 0 1 0
+0 1 0 1 0
+1 1 1 0 0
+0 1 0 0 1
+0 1 0 0 0
+
+
+--------------- 
+package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;os&amp;quot;
+)
+
+func readMaze(filename string) [][]int {
+	file, err := os.Open(filename)
+	defer file.Close()
+	if err != nil {
+		panic(err)
+	}
+	var row, col int
+	fmt.Fscanf(file, &amp;quot;%d %d&amp;quot;, &amp;amp;row, &amp;amp;col)
+	maze := make([][]int, row)
+	for i := range maze {
+		maze[i] = make([]int, col)
+		for j := range maze[i] {
+			fmt.Fscanf(file, &amp;quot;%d&amp;quot;, &amp;amp;maze[i][j])
+		}
+	}
+	return maze
+}
+
+type point struct {
+	i, j int
+}
+
+var dirs = [4]point{
+	{-1, 0}, {0, -1}, {1, 0}, {0, 1}}
+
+func (p point) add(r point) point {
+	return point{p.i + r.i, p.j + r.j}
+}
+
+func (p point) at(grid [][]int) (int, bool) {
+	if p.i &amp;lt; 0 || p.i &amp;gt;= len(grid) {
+		return 0, false
+	}
+	if p.j &amp;lt; 0 || p.j &amp;gt;= len(grid[p.i]) {
+		return 0, false
+	}
+	return grid[p.i][p.j], true
+}
+
+func walk(maze [][]int, start, end point) [][]int {
+	steps := make([][]int, len(maze))
+	for i := range steps {
+		steps[i] = make([]int, len(maze[i]))
+	}
+	Q := []point{start}
+	for len(Q) &amp;gt; 0 {
+		cur := Q[0]
+		Q = Q[1:]
+		if cur == end {
+			break
+		}
+		for _, dir := range dirs {
+			next := cur.add(dir)
+			//maze att next is 0
+			//and steps at next is 0
+			//and next != start
+			value, ok := next.at(maze)
+			if !ok || value == 1 {
+				continue
+			}
+			value, ok = next.at(steps)
+			if !ok || value != 0 {
+				continue
+			}
+			if next == start {
+				continue
+			}
+			curSteps, _ := cur.at(steps)
+			steps[next.i][next.j] = curSteps + 1
+			Q = append(Q, next)
+		}
+
+	}
+	return steps
+}
+
+func main() {
+	maze := readMaze(&amp;quot;maze/maze.in&amp;quot;)
+	for _, row := range maze {
+		for _, val := range row {
+			fmt.Printf(&amp;quot;%d &amp;quot;, val)
+		}
+		fmt.Println()
+	}
+	steps := walk(maze, point{0, 0}, point{len(maze) - 1, len(maze[0]) - 1})
+	for _, row := range steps {
+		for _, val := range row {
+			fmt.Printf(&amp;quot;%3d &amp;quot;, val)
+		}
+		fmt.Println()
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 11-2 其他标准库</title>
+            <link>http://blog.flywithme.top/2018/03/07/note_21/</link>
+            <pubDate>Wed, 07 Mar 2018 16:54:46 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/07/note_21/</guid>
+            <description>
+
+&lt;h5 id=&#34;其他标准库&#34;&gt;其他标准库&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;bufio&lt;/li&gt;
+&lt;li&gt;log&lt;/li&gt;
+&lt;li&gt;encoding/json&lt;/li&gt;
+&lt;li&gt;regexp&lt;/li&gt;
+&lt;li&gt;time&lt;/li&gt;
+&lt;li&gt;stings/math/rand&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;查看库文档&#34;&gt;查看库文档&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;godoc -http :8888 (启用本地文档服务器)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://studygolang.com/pkgdoc&#34;&gt;https://studygolang.com/pkgdoc&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 11-1 http标准库</title>
+            <link>http://blog.flywithme.top/2018/03/07/note_20/</link>
+            <pubDate>Wed, 07 Mar 2018 13:24:53 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/07/note_20/</guid>
+            <description>
+
+&lt;h5 id=&#34;server&#34;&gt;Server&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;net/http&amp;quot;
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;)
+}
+
+func main() {
+	http.HandleFunc(&amp;quot;/&amp;quot;, handler)
+	http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;client&#34;&gt;Client&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用http客户端发送请求&lt;/li&gt;
+&lt;li&gt;使用http.Client 控制请求头部等&lt;/li&gt;
+&lt;li&gt;使用httputil简化工作
+```
+package main&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;import (
+	&amp;ldquo;fmt&amp;rdquo;
+	&amp;ldquo;net/http&amp;rdquo;
+	&amp;ldquo;net/http/httputil&amp;rdquo;
+)&lt;/p&gt;
+
+&lt;p&gt;func main() {
+	request, err := http.NewRequest(http.MethodGet, &amp;ldquo;&lt;a href=&#34;http://www.imooc.com&amp;quot;&#34;&gt;http://www.imooc.com&amp;quot;&lt;/a&gt;, nil)
+	if err != nil {
+		panic(err)
+	}
+	request.Header.Add(&amp;ldquo;User-Agent&amp;rdquo;, &amp;ldquo;Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1&amp;rdquo;)
+	client := http.Client{
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			fmt.Println(&amp;ldquo;Redirect:&amp;ldquo;, req)
+			return nil
+		},
+	}
+	resp, err := client.Do(request)&lt;/p&gt;
+
+&lt;p&gt;	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	s, err := httputil.DumpResponse(resp, true)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf(&amp;ldquo;%s\n&amp;rdquo;, s)
+}
+```&lt;/p&gt;
+
+&lt;h5 id=&#34;http服务器的性能分析&#34;&gt;http服务器的性能分析&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;import _ &amp;ldquo;net/http/pprof&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;访问/debug/pprof&lt;/li&gt;
+&lt;li&gt;使用go tool pprof分析性能&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 10-2 传统同步机制</title>
+            <link>http://blog.flywithme.top/2018/03/07/note_19/</link>
+            <pubDate>Wed, 07 Mar 2018 11:53:27 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/07/note_19/</guid>
+            <description>
+
+&lt;h5 id=&#34;检测数据冲突&#34;&gt;检测数据冲突&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;未加锁时使用 go run -race atomic.go 时检测会发现数据访问冲突&lt;/li&gt;
+&lt;li&gt;加锁之后 运行-race 数据访问冲突就没了&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;传统同步机制&#34;&gt;传统同步机制&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;WaitGroup
+```
+package main&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;import (
+ 	&amp;ldquo;fmt&amp;rdquo;
+ 	&amp;ldquo;sync&amp;rdquo;
+ )&lt;/p&gt;
+
+&lt;p&gt;func doWork(id int,
+ 	w worker) {
+ 	for n := range w.in {
+ 		fmt.Printf(&amp;ldquo;Worker %d received %c\n&amp;rdquo;,
+ 			id, n)
+ 		w.done()
+ 	}
+ }&lt;/p&gt;
+
+&lt;p&gt;type worker struct {
+ 	in   chan int
+ 	done func()
+ }&lt;/p&gt;
+
+&lt;p&gt;func createWorker(
+ 	id int, wg *sync.WaitGroup) worker {
+ 	w := worker{
+ 		in: make(chan int),
+ 		done: func() {
+ 			wg.Done()
+ 		},
+ 	}
+ 	go doWork(id, w)
+ 	return w
+ }&lt;/p&gt;
+
+&lt;p&gt;func chanDemo() {
+ 	var wg sync.WaitGroup&lt;/p&gt;
+
+&lt;p&gt;	var workers [10]worker
+ 	for i := 0; i &amp;lt; 10; i++ {
+ 		workers[i] = createWorker(i, &amp;amp;wg)
+ 	}&lt;/p&gt;
+
+&lt;p&gt;	wg.Add(20)
+ 	for i, worker := range workers {
+ 		worker.in &amp;lt;- &amp;lsquo;a&amp;rsquo; + i
+ 	}
+ 	for i, worker := range workers {
+ 		worker.in &amp;lt;- &amp;lsquo;A&amp;rsquo; + i
+ 	}&lt;/p&gt;
+
+&lt;p&gt;	wg.Wait()
+ }&lt;/p&gt;
+
+&lt;p&gt;func main() {
+ 	chanDemo()
+ }&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  
+  - Mutex
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;//加锁之前
+package main&lt;/p&gt;
+
+&lt;p&gt;import (
+	&amp;ldquo;fmt&amp;rdquo;
+	&amp;ldquo;time&amp;rdquo;
+)&lt;/p&gt;
+
+&lt;p&gt;type atomicInt int&lt;/p&gt;
+
+&lt;p&gt;func (a *atomicInt) increment() {
+	*a++
+}&lt;/p&gt;
+
+&lt;p&gt;func (a *atomicInt) get() int {
+	return int(*a)
+}&lt;/p&gt;
+
+&lt;p&gt;func main() {
+	var a atomicInt
+	a.increment()
+	go func() {
+		a.increment()
+	}()
+	time.Sleep(time.Millisecond)
+	fmt.Println(a)&lt;/p&gt;
+
+&lt;h2 id=&#34;toc_2&#34;&gt;}&lt;/h2&gt;
+
+&lt;p&gt;//加锁之后
+package main&lt;/p&gt;
+
+&lt;p&gt;import (
+	&amp;ldquo;fmt&amp;rdquo;
+	&amp;ldquo;sync&amp;rdquo;
+	&amp;ldquo;time&amp;rdquo;
+)&lt;/p&gt;
+
+&lt;p&gt;type atomicInt struct {
+	value int
+	lock  sync.Mutex
+}&lt;/p&gt;
+
+&lt;p&gt;func (a *atomicInt) increment() {
+	a.lock.Lock()
+	defer a.lock.Unlock()
+	a.value++
+}&lt;/p&gt;
+
+&lt;p&gt;func (a *atomicInt) get() int {
+	a.lock.Lock()
+	defer a.lock.Unlock()
+	return a.value
+}&lt;/p&gt;
+
+&lt;p&gt;func main() {
+	var a atomicInt
+	a.increment()
+	go func() {
+		a.increment()
+	}()
+	time.Sleep(time.Millisecond)
+	fmt.Println(a.get())
+}&lt;/p&gt;
+
+&lt;p&gt;```
+  - Cond&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 10-1 channel</title>
+            <link>http://blog.flywithme.top/2018/03/04/note_18/</link>
+            <pubDate>Sun, 04 Mar 2018 19:59:50 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/04/note_18/</guid>
+            <description>
+
+&lt;h5 id=&#34;channel的用法&#34;&gt;channel的用法&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;channel&lt;/li&gt;
+&lt;li&gt;buffered channel&lt;/li&gt;
+&lt;li&gt;range&lt;/li&gt;
+&lt;li&gt;理论基础：Communication Sequential Process(CSP)&lt;/li&gt;
+&lt;li&gt;Don&amp;rsquo;t communicate by sharing memory;share memory by communicating(不要通过共享内存来通信，
+通过通信来共享内存)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;time&amp;quot;
+)
+
+func worker(id int, c chan int) {
+	for n := range c {
+		fmt.Printf(&amp;quot;Worker %d received %c\n&amp;quot;,
+			id, n)
+	}
+}
+
+func createWorker(id int) chan&amp;lt;- int {
+	c := make(chan int)
+	go worker(id, c)
+	return c
+}
+
+func chanDemo() {
+	var channels [10]chan&amp;lt;- int
+	for i := 0; i &amp;lt; 10; i++ {
+		channels[i] = createWorker(i)
+	}
+
+	for i := 0; i &amp;lt; 10; i++ {
+		channels[i] &amp;lt;- &#39;a&#39; + i
+	}
+
+	for i := 0; i &amp;lt; 10; i++ {
+		channels[i] &amp;lt;- &#39;A&#39; + i
+	}
+
+	time.Sleep(time.Millisecond)
+}
+
+func bufferedChannel() {
+	c := make(chan int, 3)
+	go worker(0, c)
+	c &amp;lt;- &#39;a&#39;
+	c &amp;lt;- &#39;b&#39;
+	c &amp;lt;- &#39;c&#39;
+	c &amp;lt;- &#39;d&#39;
+	time.Sleep(time.Millisecond)
+}
+
+func channelClose() {
+	c := make(chan int)
+	go worker(0, c)
+	c &amp;lt;- &#39;a&#39;
+	c &amp;lt;- &#39;b&#39;
+	c &amp;lt;- &#39;c&#39;
+	c &amp;lt;- &#39;d&#39;
+	close(c)
+	time.Sleep(time.Millisecond)
+}
+
+func main() {
+	fmt.Println(&amp;quot;Channel as first-class citizen&amp;quot;)
+	chanDemo()
+	fmt.Println(&amp;quot;Buffered channel&amp;quot;)
+	bufferedChannel()
+	fmt.Println(&amp;quot;Channel close and range&amp;quot;)
+	channelClose()
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;示例-使用channel来等待goroutine-结束-waitgroup的使用&#34;&gt;示例： 使用channel来等待goroutine 结束 （waitGroup的使用）&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;sync&amp;quot;
+)
+
+func doWork(id int,
+	w worker) {
+	for n := range w.in {
+		fmt.Printf(&amp;quot;Worker %d received %c\n&amp;quot;,
+			id, n)
+		w.done()
+	}
+}
+
+type worker struct {
+	in   chan int
+	done func()
+}
+
+func createWorker(
+	id int, wg *sync.WaitGroup) worker {
+	w := worker{
+		in: make(chan int),
+		done: func() {
+			wg.Done()
+		},
+	}
+	go doWork(id, w)
+	return w
+}
+
+func chanDemo() {
+	var wg sync.WaitGroup
+
+	var workers [10]worker
+	for i := 0; i &amp;lt; 10; i++ {
+		workers[i] = createWorker(i, &amp;amp;wg)
+	}
+
+	wg.Add(20)
+	for i, worker := range workers {
+		worker.in &amp;lt;- &#39;a&#39; + i
+	}
+	for i, worker := range workers {
+		worker.in &amp;lt;- &#39;A&#39; + i
+	}
+
+	wg.Wait()
+}
+
+func main() {
+	chanDemo()
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;示例二-使用channel来实现叔的遍历&#34;&gt;示例二：使用channel来实现叔的遍历&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt; 
+func (node *Node) TraverseFunc(f func(*Node)) {
+	if node == nil {
+		return
+	}
+
+	node.Left.TraverseFunc(f)
+	f(node)
+	node.Right.TraverseFunc(f)
+}
+
+func (node *Node) TraverseWithChannel() chan *Node {
+	out := make(chan *Node)
+	go func() {
+		node.TraverseFunc(func(node *Node) {
+			out &amp;lt;- node
+		})
+		close(out)
+	}()
+	return out
+}
+
+
+---------------------
+	c := root.TraverseWithChannel()
+	maxValue := 0
+	for node := range c {
+		if node.Value &amp;gt; maxValue {
+			maxValue = node.Value
+		}
+	}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;示例三-使用select来进行调度&#34;&gt;示例三：使用Select来进行调度&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Select 的使用&lt;/li&gt;
+&lt;li&gt;定时器的使用&lt;/li&gt;
+&lt;li&gt;在select中可以使用Nil channel&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;math/rand&amp;quot;
+	&amp;quot;time&amp;quot;
+)
+
+func generator() chan int {
+	out := make(chan int)
+	go func() {
+		i := 0
+		for {
+			time.Sleep(
+				time.Duration(rand.Intn(1500)) *
+					time.Millisecond)
+			out &amp;lt;- i
+			i++
+		}
+	}()
+	return out
+}
+
+func worker(id int, c chan int) {
+	for n := range c {
+		time.Sleep(time.Second)
+		fmt.Printf(&amp;quot;Worker %d received %d\n&amp;quot;,
+			id, n)
+	}
+}
+
+func createWorker(id int) chan&amp;lt;- int {
+	c := make(chan int)
+	go worker(id, c)
+	return c
+}
+
+func main() {
+	var c1, c2 = generator(), generator()
+	var worker = createWorker(0)
+
+	var values []int
+	tm := time.After(10 * time.Second)
+	tick := time.Tick(time.Second)
+	for {
+		var activeWorker chan&amp;lt;- int
+		var activeValue int
+		if len(values) &amp;gt; 0 {
+			activeWorker = worker
+			activeValue = values[0]
+		}
+
+		select {
+		case n := &amp;lt;-c1:
+			values = append(values, n)
+		case n := &amp;lt;-c2:
+			values = append(values, n)
+		case activeWorker &amp;lt;- activeValue:
+			values = values[1:]
+
+		case &amp;lt;-time.After(800 * time.Millisecond):
+			fmt.Println(&amp;quot;timeout&amp;quot;)
+		case &amp;lt;-tick:
+			fmt.Println(
+				&amp;quot;queue len =&amp;quot;, len(values))
+		case &amp;lt;-tm:
+			fmt.Println(&amp;quot;bye&amp;quot;)
+			return
+		}
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 9-1 goroutine 并发编程</title>
+            <link>http://blog.flywithme.top/2018/03/04/note_17/</link>
+            <pubDate>Sun, 04 Mar 2018 18:02:36 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/04/note_17/</guid>
+            <description>
+
+&lt;h5 id=&#34;示例&#34;&gt;示例&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func main() {
+	for i := 0; i &amp;lt; 1000; i++ {
+		go func(i int) {
+			for {
+				fmt.Printf(&amp;quot;Hello form goroutine %d \n&amp;quot;, i)
+			}
+		}(i)
+	}
+} 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;协程-coroutine&#34;&gt;协程 Coroutine&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;轻量级&amp;rdquo;线程&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;非抢占式多任务处理，由协程主动交出控制权 （runtime.Gosched()）
+&lt;code&gt;
+func main() {
+	var a [10]int
+	for i := 0; i &amp;lt; 10; i++ {
+		go func(i int) {
+			for {
+				//fmt.Printf(&amp;quot;Hello form goroutine %d \n&amp;quot;, i)
+				a[i]++
+				runtime.Gosched() //交出控制权
+			}
+		}(i)
+	}
+	time.Sleep(time.Second)
+	fmt.Println(a)
+}
+&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;编译器/解释器/虚拟机层面的多任务&lt;/li&gt;
+&lt;li&gt;多个协程可能在一个或多个线程上运行&lt;/li&gt;
+&lt;li&gt;子程序是协程的一个特例
+&lt;img src=&#34;sources/go/1520161869947.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;其他语言的协程&#34;&gt;其他语言的协程&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;C++ :Boost.Coroutine&lt;/li&gt;
+&lt;li&gt;Java:原生不支持，第三方的有支持&lt;/li&gt;
+&lt;li&gt;Python 3.5之前使用yield关键字实现协程。 3.5之后加入了async def对协程原生支持&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;goroutine的调度器&#34;&gt;goroutine的调度器&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&#34;sources/go/1520162129021.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;goroutine的定义&#34;&gt;goroutine的定义&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;任何函数只需要加上go就能送给调度器运行&lt;/li&gt;
+&lt;li&gt;不需要再定义时区分是否异步函数&lt;/li&gt;
+&lt;li&gt;调度器会在合适的点进行切换&lt;/li&gt;
+&lt;li&gt;使用 -race来检测数据访问的冲突&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;goroutine可能的切换点&#34;&gt;goroutine可能的切换点&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I/O,select&lt;/li&gt;
+&lt;li&gt;channel&lt;/li&gt;
+&lt;li&gt;等待锁&lt;/li&gt;
+&lt;li&gt;函数调用（有时）&lt;/li&gt;
+&lt;li&gt;runtime.Gosched()&lt;/li&gt;
+&lt;li&gt;只是参考，不能保证切换，不能保证在其他地方不切换&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
         
         <item>
             <title>Go: 8-2 生成文档和示例代码</title>
@@ -849,1128 +1726,6 @@ Function&amp;lt;Integer,Integer&amp;gt;adder(){
 
 
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 5-1 接口</title>
-            <link>http://blog.flywithme.top/2018/02/09/note_09/</link>
-            <pubDate>Fri, 09 Feb 2018 15:16:41 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/09/note_09/</guid>
-            <description>
-
-&lt;h5 id=&#34;duck-typing&#34;&gt;duck typing&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;基于特征，而不是基于类型&lt;/li&gt;
-&lt;li&gt;描述的事物的外部行为，而不是内部结构&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;pythn中的duck-typing&#34;&gt;pythn中的duck typing&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;def download(retriever):
-    return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;运行时才知道传入的retriever有没有get方法&lt;/li&gt;
-&lt;li&gt;需要给download注释来说明接口需要实现get方法&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;c-中的duck-typing&#34;&gt;c++ 中的duck typing&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;template&amp;lt;class R&amp;gt;
-string download(const R&amp;amp; retriever){
-    return retriever.get(&amp;quot;www.downloadur..com&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;编译时才可以知道传入的retriever有么有get方法&lt;/li&gt;
-&lt;li&gt;需要注释来说明接口需求&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;java-中的类似代码&#34;&gt;java 中的类似代码&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;R extends Retriever&amp;gt;
-String download(R r){
-    return r.get(&amp;quot;www.downloadurl.com&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;传入的参数必须实现Retriever接口&lt;/li&gt;
-&lt;li&gt;不是duck typing&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;go-语言的duck-typing&#34;&gt;go 语言的duck typing&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;同时需要Readable,Appendable怎么做？（apache polygene）&lt;/li&gt;
-&lt;li&gt;同时具有python,c++的duck typing的灵活性&lt;/li&gt;
-&lt;li&gt;具有java的类型检查&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;接口的定义&#34;&gt;接口的定义&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;使用者&amp;mdash;&amp;gt;实现者&lt;/li&gt;
-&lt;li&gt;接口由&lt;strong&gt;使用者&lt;/strong&gt;定义&lt;/li&gt;
-&lt;li&gt;接口的实现是隐式的&lt;/li&gt;
-&lt;li&gt;只需要实现接口里的方法即可&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;接口遍历里有什么东西&#34;&gt;接口遍历里有什么东西&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;实现者的类型&lt;/li&gt;
-&lt;li&gt;实现者的值/指针&lt;/li&gt;
-&lt;li&gt;接口变量自带指针&lt;/li&gt;
-&lt;li&gt;接口变量采用值传递，几乎不需要使用接口的指针&lt;/li&gt;
-&lt;li&gt;指针接收者实现只能以指针的方式使用;值接受者都可以&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;查看接口变量&#34;&gt;查看接口变量&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;表示任何类型：interface{}&lt;/li&gt;
-&lt;li&gt;Type Assertion&lt;/li&gt;
-&lt;li&gt;Type Switch&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;
-	//Type assertion
-	if mockRetriver, ok := r.(*mock.Retriever); ok {
-		fmt.Println(mockRetriver.Contents)
-	} else {
-		fmt.Println(&amp;quot;not mock retriver&amp;quot;)
-
-	}
-	
-    fmt.Printf(&amp;quot;%T %v\n&amp;quot;, r, r)
-	fmt.Println(r)
-	switch v := r.(type) {
-	case mock.Retriever:
-		fmt.Println(&amp;quot;contents:&amp;quot;, v.Contents)
-	case *real.Retriever:
-		fmt.Println(&amp;quot;UserAgent:&amp;quot;, v.UserAgent)
-
-	}	
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;接口的组合&#34;&gt;接口的组合&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;//interface 1
-type Retriever interface {
-	Get(url string) string
-}
-//interface 2
-type Poster interface {
-	Post(url string, form map[string]string) string
-}
-
-//interface  combination
-type RetrieverPoster interface {
-	Retriever
-	Poster
-}
-
-//go lib  readWriter
-
-// ReadWriter is the interface that groups the basic Read and Write methods.
-type ReadWriter interface {
-	Reader
-	Writer
-}
-
-// ReadCloser is the interface that groups the basic Read and Close methods.
-type ReadCloser interface {
-	Reader
-	Closer
-}
-
-// WriteCloser is the interface that groups the basic Write and Close methods.
-type WriteCloser interface {
-	Writer
-	Closer
-}
-
-// ReadWriteCloser is the interface that groups the basic Read, Write and Close methods.
-type ReadWriteCloser interface {
-	Reader
-	Writer
-	Closer
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;常用系统接口&#34;&gt;常用系统接口&lt;/h5&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 4-1 面向对象</title>
-            <link>http://blog.flywithme.top/2018/02/08/note_08/</link>
-            <pubDate>Thu, 08 Feb 2018 11:34:35 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/08/note_08/</guid>
-            <description>
-
-&lt;h4 id=&#34;go语言的面向对象&#34;&gt;&lt;strong&gt;Go语言的面向对象&lt;/strong&gt;&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Go语言仅支持封装，不支持继承和多态&lt;/li&gt;
-&lt;li&gt;Go语言没有class，只有struct&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;结构的创建&#34;&gt;结构的创建&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;使用自定义工厂函数，需要返回局部变量的地址&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt; type treeNode struct {
- 	value int
- 	left,right *treeNode
- }
- 
- func CreatNode(value int)*treeNode  {
- 	return &amp;amp;treeNode{value:value}
- }
- 
- root := treeNode{value:3}
- root.right = CreatNode(3)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;type struct T { xxx}
-func f() *T {
-    var ret T
-    return &amp;amp;ret
-}
-	
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;const Width, Height = 640, 480
-type Cursor struct {
-    X, Y int
-}
-
-func Center(c *Cursor) {
-    c.X += Width / 2
-    c.Y += Height / 2
-}
-
-func CenterCursor() {
-    c := new(Cursor)
-    Center(c)
-    fmt.Println(c.X, c.Y)
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;使用指针作为方法的接受者才可以改变结构内容&lt;/li&gt;
-&lt;li&gt;nil指针也可以调用方法，但是在使用时一样需要判断是否nill，以免panic&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;值接收者-vs-指针接收者&#34;&gt;值接收者 VS 指针接收者&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;要改变内容必须使用指针接收者&lt;/li&gt;
-&lt;li&gt;结构过大也考虑使用指针接收者（）&lt;/li&gt;
-&lt;li&gt;一致性&lt;/li&gt;
-&lt;li&gt;值接收者是go语言特有&lt;/li&gt;
-&lt;li&gt;值/指针接收者均可接收值/指针&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;封装&#34;&gt;&lt;strong&gt;封装&lt;/strong&gt;&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;名字一般使用CamelCase(驼峰命名)&lt;/li&gt;
-&lt;li&gt;首字母大写：Public&lt;/li&gt;
-&lt;li&gt;首字母小写：private&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Public和private是针对包来说的，包外可以访问Public方法，&lt;/p&gt;
-
-&lt;h6 id=&#34;包&#34;&gt;包&lt;/h6&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;每个目录一个包&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;main包 包含可执行入口只能有一个main方法入口&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;为结构定义的方法必须放在同一个包内&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;可以是不同的文件&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;扩充系统类型或者第三方库类型&#34;&gt;扩充系统类型或者第三方库类型&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;定义别名&lt;/li&gt;
-&lt;li&gt;使用组合&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 3-2 Map 和字符串的一些操作</title>
-            <link>http://blog.flywithme.top/2018/02/07/note_07/</link>
-            <pubDate>Wed, 07 Feb 2018 17:52:33 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/07/note_07/</guid>
-            <description>&lt;nav&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#map&#34;&gt;Map&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#rune-相当于go的char&#34;&gt;rune 相当于go的char&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#strings&#34;&gt;strings&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/nav&gt;
-
-&lt;h6 id=&#34;map&#34;&gt;Map&lt;/h6&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。&lt;/li&gt;
-&lt;li&gt;Map 是一种集合，可以像迭代数组和切片那样迭代它。Map 是无序的，我们无法决定它的返回顺序，因为 Map 是使用 hash 表来实现的。
-```
-	m := map[string]string{
-		&amp;ldquo;name&amp;rdquo;:    &amp;ldquo;jack&amp;rdquo;,
-		&amp;ldquo;course&amp;rdquo;:  &amp;ldquo;golang&amp;rdquo;,
-		&amp;ldquo;site&amp;rdquo;:    &amp;ldquo;imooc&amp;rdquo;,
-		&amp;ldquo;quality&amp;rdquo;: &amp;ldquo;notbad&amp;rdquo;,
-	}
-	&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;	m2 := make(map[string]int) // m2 == empty map
-    var m3 map[string]int // m3 == nil
-	fmt.Println(&amp;ldquo;m, m2, m3:&amp;ldquo;)
-    fmt.Println(m, m2, m3)
-	fmt.Println(&amp;ldquo;Traversing map m&amp;rdquo;)
-	for k, v := range m {
-		fmt.Println(k, v)
-	}&lt;/p&gt;
-
-&lt;p&gt;	fmt.Println(&amp;ldquo;Getting values&amp;rdquo;)
-	courseName := m[&amp;ldquo;course&amp;rdquo;]
-	fmt.Println(&lt;code&gt;m[&amp;quot;course&amp;quot;] =&lt;/code&gt;, courseName)
-	if causeName, ok := m[&amp;ldquo;cause&amp;rdquo;]; ok {
-		fmt.Println(causeName)
-	} else {
-		fmt.Println(&amp;ldquo;key &amp;lsquo;cause&amp;rsquo; does not exist&amp;rdquo;)
-	}&lt;/p&gt;
-
-&lt;p&gt;	fmt.Println(&amp;ldquo;Deleting values&amp;rdquo;)
-	name, ok := m[&amp;ldquo;name&amp;rdquo;]
-	fmt.Printf(&amp;ldquo;m[%q] before delete: %q, %v\n&amp;rdquo;,
-		&amp;ldquo;name&amp;rdquo;, name, ok)&lt;/p&gt;
-
-&lt;p&gt;	delete(m, &amp;ldquo;name&amp;rdquo;)
-	name, ok = m[&amp;ldquo;name&amp;rdquo;]
-	fmt.Printf(&amp;ldquo;m[%q] after delete: %q, %v\n&amp;rdquo;,
-		&amp;ldquo;name&amp;rdquo;, name, ok)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;
-##### map的key
- - map使用hash表，必须可以比较相等
- - 除了slice，map和fuction的內建类型都可以做key
- - Struct类型不包含上述字段，也可以做key
- - 会在编译时检查
- 
- 
-###### 寻找最长不含有重复字符的子串 (abcabcbb -&amp;gt; abc) rune
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;//视频提供的方法 比较繁琐，逻辑复杂，此方法更简洁
-func lengthOfNonRepeatingSubStr(s string)int  {
-	lastOccured := make(map[rune]rune)
-	for _ , ch := range []rune(s) {
-		lastOccured[ch] = ch
-	}
-	return len(lastOccured)
-}
-```&lt;/p&gt;
-
-&lt;h5 id=&#34;rune-相当于go的char&#34;&gt;rune 相当于go的char&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;使用range遍历pos,rune&lt;/li&gt;
-&lt;li&gt;使用utf8.RuneCountInString获得字符数量&lt;/li&gt;
-&lt;li&gt;len()获取的是字节长度&lt;/li&gt;
-&lt;li&gt;使用[]byte获得字节内容&lt;/li&gt;
-&lt;li&gt;[]rune&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;strings&#34;&gt;strings&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;string到int&lt;br /&gt;
-&lt;code&gt;int, err := strconv.Atoi(string)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;string到int64&lt;br /&gt;
-&lt;code&gt;int64, err := string.ParseInt(string, 10, 64)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;int到string&lt;br /&gt;
-&lt;code&gt;string := strconv.Itoa(int)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;int64到string&lt;br /&gt;
-&lt;code&gt;string := strconv.FormatInt(int64, 10)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Hasprefix判断字符串s是否以prefix开头&lt;br /&gt;
-&lt;code&gt;strings.HasPrefix(s, prefix string) bool&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;HasSuffix判断字符串s是否以suffix结尾&lt;br /&gt;
-&lt;code&gt;strings.HasSuffix(s, suffix string) bool&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Contains判断字符串s是否包含substr&lt;br /&gt;
-&lt;code&gt;strings.Contains(s, substr string) bool&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Index返回字符串str在字符串s中的索引(str的第一个字符的索引)，-1表示字符串s不包含字符串str&lt;br /&gt;
-&lt;code&gt;strings.Index(s, str string) int&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;LastIndex返回字符串str在字符串s中最后出现的位置&lt;br /&gt;
-&lt;code&gt;strings.LastIndex(s, str string) int&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;非ASCII编码的字符定位&lt;br /&gt;
-&lt;code&gt;strings.IndexRune(s string, ch int)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Replace用于将str中前n个字符串old替换为字符串new，如果为-1则替换所有字符串old为new&lt;br /&gt;
-&lt;code&gt;strings.Replace(str, old, new, n) string&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Count用于计算str在s中出现的非重叠次数&lt;br /&gt;
-&lt;code&gt;strings.Count(s, str string) int&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Repeat用于重复count次字符串s并返回一个新的字符串&lt;br /&gt;
-&lt;code&gt;strings.Repeat(s, count int) string&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;ToLower将字符串中Unicode字符全部转换为小写字符&lt;br /&gt;
-&lt;code&gt;strings.ToLower(s) string&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;ToUpper将字符串中Unicode字符全部转换为大写字符&lt;br /&gt;
-&lt;code&gt;strings.ToUpper(s) string&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;TrimSpace剔除字符串开头和结尾的空白符号&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;Trim剔除开头和结尾的字符串&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;TrimLeft,TrimRight剔除开头或结尾字符串&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;Fields利用一个或多个空白符号来作为动态长度的分隔符将字符串分割，返回slice&lt;br /&gt;
-&lt;code&gt;strings.Fields(s) slice&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Split用自定义分割符号来对指定字符串进行分割&lt;br /&gt;
-&lt;code&gt;strings.Split(s, sep) slice&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Join用于将元素类型为string的slice使用分割符号来拼接组成一个字符串&lt;br /&gt;
-&lt;code&gt;strings.Join(sl []string, sep string)&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 3-1 数组、切片和容器</title>
-            <link>http://blog.flywithme.top/2018/02/05/note_06/</link>
-            <pubDate>Mon, 05 Feb 2018 16:44:58 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/05/note_06/</guid>
-            <description>
-
-&lt;h5 id=&#34;数组-值类型&#34;&gt;数组 (值类型)&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;[10]int 和 [5]int 是不同的类型&lt;/li&gt;
-&lt;li&gt;调用func f(arr [5]int)会&lt;strong&gt;拷贝&lt;/strong&gt;数组&lt;/li&gt;
-&lt;li&gt;调用func f1(arr *[5]int)可以在方法里修改arr&lt;/li&gt;
-&lt;li&gt;Go中一般不直接使用数组&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;   //数组初始化
-    var arr1 [5]int
-   	arr2 :=[3]int{2,4,6}
-   	arr3 :=[...]int{2,4,5,6,78,0}
-   
-   	fmt.Println(arr1,arr2,arr3)
-   
-   	var grid[4][2][1]int
-   	fmt.Println(grid)
-   
-   	//元素遍历
-   	for i :=0;i &amp;lt; len(arr3) ;i ++  {
-   		fmt.Println(arr3[i])
-   	}
-   	
-   	
-//指针传递   	
-func printArray(arr *[5]int) {
-	arr[0] = 100
-	for i, v := range arr {
-		fmt.Println(i, v)
-	}
-}
-
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;range-关键字-还会有很多其他地方用到&#34;&gt;&lt;code&gt;range&lt;/code&gt; 关键字 (还会有很多其他地方用到)&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;   	for i,v := range arr3  {
-   		fmt.Println(i,v)
-   	}
-   	for _,v := range arr3  {
-   		fmt.Println(v)
-   	}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;切片-slice&#34;&gt;切片 Slice&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;    arr := [...]int{0, 1, 2, 3, 4, 5, 6, 7}
-
-	fmt.Println(&amp;quot;arr[2:6] =&amp;quot;, arr[2:6])
-	fmt.Println(&amp;quot;arr[:6] =&amp;quot;, arr[:6])
-	s1 := arr[2:]
-	fmt.Println(&amp;quot;s1 =&amp;quot;, s1)
-	s2 := arr[:]
-	fmt.Println(&amp;quot;s2 =&amp;quot;, s2)
-
-	fmt.Println(&amp;quot;After updateSlice(s1)&amp;quot;)
-	updateSlice(s1)
-	fmt.Println(s1)
-	fmt.Println(arr)
-
-	fmt.Println(&amp;quot;After updateSlice(s2)&amp;quot;)
-	updateSlice(s2)
-	fmt.Println(s2)
-	fmt.Println(arr)
-
-	fmt.Println(&amp;quot;Reslice&amp;quot;)
-	fmt.Println(s2)
-	s2 = s2[:5]
-	fmt.Println(s2)
-	s2 = s2[2:]
-	fmt.Println(s2)
-
-	fmt.Println(&amp;quot;Extending slice&amp;quot;)
-	arr[0], arr[2] = 0, 2
-	fmt.Println(&amp;quot;arr =&amp;quot;, arr)
-	s1 = arr[2:6]
-	fmt.Println(arr[0:1])
-	s2 = s1[3:6] // [s1[3], s1[4]]
-	fmt.Printf(&amp;quot;s1=%v, len(s1)=%d, cap(s1)=%d\n&amp;quot;,
-		s1, len(s1), cap(s1))
-		
-		
-	fmt.Printf(&amp;quot;s2=%v, len(s2)=%d, cap(s2)=%d\n&amp;quot;,
-		s2, len(s2), cap(s2))
-
-	s3 := append(s2, 10)
-	s4 := append(s3, 11)
-	s5 := append(s4, 12)
-	fmt.Println(&amp;quot;s3, s4, s5 =&amp;quot;, s3, s4, s5)
-	// s4 and s5 no longer view arr.
-	fmt.Println(&amp;quot;arr =&amp;quot;, arr)
-
-	// Uncomment to run sliceOps demo.
-	// If we see undefined: sliceOps
-	// please try go run slices.go sliceops.go
-	fmt.Println(&amp;quot;Uncomment to see sliceOps demo&amp;quot;)
-	// sliceOps()
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;slice的向后扩展&#34;&gt;Slice的向后扩展&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;    arr := [...]int{0, 1, 2, 3, 4, 5, 6, 7}
-    s1 = arr[2:6]
-	s2 = s1[3:5]
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;s1的值为[2,3,4,5],s2的值为[5,6]&lt;/li&gt;
-&lt;li&gt;slice可以向后扩展，不可以向前扩展&lt;/li&gt;
-&lt;li&gt;s[i] 不可以超越len(s),向后扩展不可以超越底层数组cap(s)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/go/1517845264648.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;h5 id=&#34;向slice添加元素&#34;&gt;向slice添加元素&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;添加元素时如果超越cap长度，系统会重新分配更大的底层数组&lt;/li&gt;
-&lt;li&gt;由于值传递的关系，必须接受append的返回值&lt;/li&gt;
-&lt;li&gt;s = append(s,val)&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 2-4 指针</title>
-            <link>http://blog.flywithme.top/2018/02/05/note_05/</link>
-            <pubDate>Mon, 05 Feb 2018 15:29:31 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/05/note_05/</guid>
-            <description>
-
-&lt;h5 id=&#34;什么是指针&#34;&gt;什么是指针&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;一个指针变量可以指向任何一个值的内存地址它指向那个值的内存地址。&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;类似于变量和常量，在使用指针前你需要声明指针
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;如何使用指针&#34;&gt;如何使用指针&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;定义指针变量。&lt;/li&gt;
-&lt;li&gt;为指针变量赋值。&lt;/li&gt;
-&lt;li&gt;访问指针变量中指向地址的值。&lt;br /&gt;
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;    var a int = 2
-	var pa *int = &amp;amp;a
-	*pa = 3
-	fmt.Println(a)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;空指针&#34;&gt;空指针&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;当一个指针被定义后没有分配到任何变量时，它的值为 nil。&lt;/li&gt;
-&lt;li&gt;nil 指针也称为空指针。&lt;/li&gt;
-&lt;li&gt;nil在概念上和其它语言的null、None、nil、NULL一样，都指代零值或空值。&lt;/li&gt;
-&lt;li&gt;一个指针变量通常缩写为 ptr&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;    var  ptr *int
-    fmt.Printf(&amp;quot;ptr 的值为 : %x\n&amp;quot;, ptr  )
-    
-    if(ptr != nil)     /* ptr 不是空指针 */
-    if(ptr == nil)    /* ptr 是空指针 */
-    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;参数传递的几种形式&#34;&gt;参数传递的几种形式&lt;/h5&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/go/1517818417658.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/go/1517818442412.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/go/1517818481871.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import &amp;quot;fmt&amp;quot;
-
-func main()  {
-	var a int = 2
-	var pa *int = &amp;amp;a
-	*pa = 3
-	fmt.Println(a)
-
-	var  ptr *int
-	fmt.Printf(&amp;quot;ptr 的值为 : %x\n&amp;quot;, ptr  )
-	a,b := 3,4
-	swap(&amp;amp;a,&amp;amp;b)
-	fmt.Println(a,b)
-	a,b = swap1(a,b)
-	fmt.Println(a,b)
-
-
-}
-
-func swap(a,b *int)  {
-	*b,*a = *a,*b
-}
-
-func swap1(a,b int)(int,int)  {
-	return b,a
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 2-3 函数</title>
-            <link>http://blog.flywithme.top/2018/02/04/note_04/</link>
-            <pubDate>Sun, 04 Feb 2018 14:37:54 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/04/note_04/</guid>
-            <description>
-
-&lt;h5 id=&#34;函数&#34;&gt;函数&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;函数是基本的代码块，用于执行一个任务。&lt;/li&gt;
-&lt;li&gt;Go 语言最少有个 main() 函数。&lt;/li&gt;
-&lt;li&gt;你可以通过函数来划分不同功能，逻辑上每个函数执行的是指定的任务。&lt;/li&gt;
-&lt;li&gt;函数声明告诉了编译器函数的名称，返回类型，和参数。&lt;/li&gt;
-&lt;li&gt;Go 语言标准库提供了多种可动用的内置的函数。例如，len() 函数可以接受不同类型参数并返回该类型的长度。如果我们传入的是字符串则返回字符串的长度，如果传入的是数组，则返回数组中包含的元素个数。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Go 语言函数定义格式如下：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func function_name( [parameter list] ) [return_types] {
-   函数体
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;    package main
-    
-    import (
-    	&amp;quot;fmt&amp;quot;
-    	&amp;quot;reflect&amp;quot;
-    	&amp;quot;runtime&amp;quot;
-    	&amp;quot;math&amp;quot;
-    )
-    
-    func eval(a,b int,op string)  (int,error){
-    	switch op {
-    	case &amp;quot;+&amp;quot;:
-    		return a + b,nil
-    	case &amp;quot;-&amp;quot;:
-    		return a - b,nil
-    	case &amp;quot;*&amp;quot;:
-    		return a * b,nil
-    	case &amp;quot;/&amp;quot;:
-    		q,_ := div(a,b)
-    		return q,nil
-    	default:
-    		return 0,fmt.Errorf(&amp;quot;unsupported operation:&amp;quot; +op)
-    	}
-    }
-    
-    func apply(op func(int,int)int,a,b int)int  {
-    	p := reflect.ValueOf(op).Pointer()
-    	opName := runtime.FuncForPC(p).Name()
-    	fmt.Printf(&amp;quot;calling function %s with args (%d %d)&amp;quot;,opName,a,b)
-    	return op(a,b)
-    }
-    
-    //除法
-    
-    func div(a,b int)(int ,int)  {
-    	return a/b,a%b
-    }
-    
-    func pow(a,b int)int  {
-    	return int(math.Pow(float64(a),float64(b)))
-    }
-    
-    func sum(numbers ...int)int  {
-    	s := 0
-    	//for i := range numbers{
-    	//	s +=numbers[i]
-    	//}
-    	for _,value := range numbers{
-    		s += value
-    	}
-    	return s
-    }
-    
-    func main()  {
-    	fmt.Println(eval(3,4,&amp;quot;/-&amp;quot;))
-    	q,r := div(13,5)
-    	fmt.Println(q,r)
-    
-    	fmt.Println(apply(pow,3,4))
-    	fmt.Println(
-    		apply(func(a ,b int)int {
-    			return int(math.Pow(float64(a),float64(b)))
-    		},3,4))
-    
-    	fmt.Println(
-    		apply(func(a ,b int)int {
-    			return int(math.Pow(float64(a),float64(b)))
-    		},3,4))
-    	fmt.Println(sum(1,2,3,4,5,6,7,8,10))
-    }
-
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;函数语法的要点回顾&#34;&gt;函数语法的要点回顾&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;返回值类型写在后面&lt;/li&gt;
-&lt;li&gt;可以返回多个值&lt;/li&gt;
-&lt;li&gt;函数可作为参数&lt;/li&gt;
-&lt;li&gt;没有默认参数，可选参数 （有可变参数列表）&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 2-2 条件语句和循环语句</title>
-            <link>http://blog.flywithme.top/2018/02/04/note_03/</link>
-            <pubDate>Sun, 04 Feb 2018 14:05:59 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/04/note_03/</guid>
-            <description>
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;语句&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;描述&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;if 语句&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;if 语句 由一个布尔表达式后紧跟一个或多个语句组成&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;if&amp;hellip;else&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;if 语句 后可以使用可选的 else 语句, else 语句中的表达式在布尔表达式为 false 时执行。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;if 嵌套语句&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;你可以在 if 或 else if 语句中嵌入一个或多个 if 或 else if 语句。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;switch 语句&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;switch 语句用于基于不同条件执行不同动作&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;select 语句&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;select 语句类似于 switch 语句，但是select会随机执行一个可运行的case。如果没有case可运行，它将阻塞，直到有case可运行&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;pre&gt;&lt;code&gt;    package main
-    
-    import (
-    	&amp;quot;fmt&amp;quot;
-    	&amp;quot;io/ioutil&amp;quot;
-    )
-    
-    func grade(score int) string {
-    	g := &amp;quot;&amp;quot;
-    	switch {
-    	case score &amp;lt; 0 || score &amp;gt; 100:
-    		panic(fmt.Sprintf(
-    			&amp;quot;Wrong score: %d&amp;quot;, score))
-    	case score &amp;lt; 60:
-    		g = &amp;quot;F&amp;quot;
-    	case score &amp;lt; 80:
-    		g = &amp;quot;C&amp;quot;
-    	case score &amp;lt; 90:
-    		g = &amp;quot;B&amp;quot;
-    	case score &amp;lt;= 100:
-    		g = &amp;quot;A&amp;quot;
-    	}
-    	return g
-    }
-    
-    func main() {
-    	// If &amp;quot;abc.txt&amp;quot; is not found,
-    	// please check what current directory is,
-    	// and change filename accordingly.
-    	const filename = &amp;quot;abc.txt&amp;quot;
-    	if contents, err := ioutil.ReadFile(filename); err != nil {
-    		fmt.Println(err)
-    	} else {
-    		fmt.Printf(&amp;quot;%s\n&amp;quot;, contents)
-    	}
-    
-    	fmt.Println(
-    		grade(0),
-    		grade(59),
-    		grade(60),
-    		grade(82),
-    		grade(99),
-    		grade(100),
-    		// Uncomment to see it panics.
-    		// grade(-3),
-    	)
-    }
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;select是Go中的一个控制结构，类似于用于通信的switch语句。每个case必须是一个通信操作，要么是发送要么是接收。&lt;br /&gt;
-  select随机执行一个可运行的case。如果没有case可运行，它将阻塞，直到有case可运行。一个默认的子句应该总是可运行的。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;select {
-    case communication clause  :
-       statement(s);      
-    case communication clause  :
-       statement(s); 
-    /* 你可以定义任意数量的 case */
-    default : /* 可选 */
-       statement(s);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;以下描述了-select-语句的语法&#34;&gt;以下描述了 select 语句的语法：&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;每个case都必须是一个通信&lt;/li&gt;
-&lt;li&gt;所有channel表达式都会被求值&lt;/li&gt;
-&lt;li&gt;所有被发送的表达式都会被求值&lt;/li&gt;
-&lt;li&gt;如果任意某个通信可以进行，它就执行；其他被忽略。&lt;/li&gt;
-&lt;li&gt;如果有多个case都可以运行，Select会随机公平地选出一个执行。其他不会执行。
-&lt;strong&gt;否则：&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;如果有default子句，则执行该语句。&lt;/li&gt;
-&lt;li&gt;如果没有default字句，select将阻塞，直到某个通信可以运行；Go不会重新对channel或值进行求值。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;   package main
-   import &amp;quot;fmt&amp;quot;
-   import &amp;quot;time&amp;quot;
-   func f1(ch chan int) {
-       time.Sleep(time.Second * 5)
-       ch &amp;lt;- 1
-   }
-   func f2(ch chan int) {
-       time.Sleep(time.Second * 10)
-       ch &amp;lt;- 1
-   }
-   func main() {
-       var ch1 = make(chan int)
-       var ch2 = make(chan int)
-       go f1(ch1)
-       go f2(ch2)
-       select {
-       case &amp;lt;-ch1:
-           fmt.Println(&amp;quot;The first case is selected.&amp;quot;)
-       case &amp;lt;-ch2:
-           fmt.Println(&amp;quot;The second case is selected.&amp;quot;)
-       }
-   }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;循环语句&#34;&gt;循环语句&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;strconv&amp;quot;
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;os&amp;quot;
-	&amp;quot;io&amp;quot;
-	&amp;quot;bufio&amp;quot;
-	&amp;quot;strings&amp;quot;
-)
-
-func convertToBin(n int) string  {
-	result := &amp;quot;&amp;quot;
-	for ; n &amp;gt;0; n /=2{
-		lsb := n%2
-		result = strconv.Itoa(lsb)+result
-	}
-	return result
-}
-
-func printFile(filename string)  {
-	file,err :=os.Open(filename)
-	if err != nil {
-		panic(err)
-	}
-	printFileContents(file)
-}
-
-func printFileContents(reader io.Reader) {
-	scanner := bufio.NewScanner(reader)
-	for scanner.Scan() {
-		fmt.Println(scanner.Text())
-	}
-}
-func forever()  {
-	for{
-		fmt.Println(&amp;quot;abc&amp;quot;)
-	}
-
-}
-
-func main()  {
-	fmt.Println(&amp;quot;convertToBin results:&amp;quot;)
-	fmt.Println(
-		convertToBin(15),
-		convertToBin(2),
-		convertToBin(5),
-	)
-	fmt.Println(&amp;quot;abc.txt contents:&amp;quot;)
-	printFile(&amp;quot;abc.txt&amp;quot;)
-
-
-	s := `abc &amp;quot;ad&amp;quot;
-	kddd
-	123
-	p
-	22333&#39;`
-	printFileContents(strings.NewReader(s))
-}
-
-
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 2-1 变量定义</title>
-            <link>http://blog.flywithme.top/2018/02/03/note_02/</link>
-            <pubDate>Sat, 03 Feb 2018 19:45:12 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/03/note_02/</guid>
-            <description>
-
-&lt;h5 id=&#34;变量声明&#34;&gt;变量声明&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;指定变量类型，声明后若不赋值，使用默认值。&lt;/li&gt;
-&lt;li&gt;根据值编译器自行判定变量类型。&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导致编译错误。（函数外部无法省略var关键字）
-```
-//默认 没有初值
-func variableZeroValue()  {
-	var a int
-	var s string
-	fmt.Printf(&amp;ldquo;%d,%q\n&amp;rdquo;,a,s)
-}&lt;/p&gt;
-
-&lt;p&gt;//赋予初值和类型
-func variableInitialValue()  {
-	var a,b int = 3,4
-	var s string = &amp;ldquo;abc&amp;rdquo;
-	fmt.Println(a,b,s)
-}&lt;/p&gt;
-
-&lt;p&gt;//赋予初值
-func variableTypeDeduction()  {
-	var a,b,c,s = 3,4,true,&amp;ldquo;def&amp;rdquo;
-	fmt.Println(a,b,c,s)
-}&lt;/p&gt;
-
-&lt;p&gt;func variableShorter()  {
-	a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo;
-	b = 3
-	fmt.Println(a,b,c,s)
-}
-var(
-	ss =&amp;ldquo;string&amp;rdquo;
-	aa = 1
-	bb = 2
-)
-func euler()  {
-	//c := 3+4i
-	//fmt.Println(cmplx.Abs&amp;copy;)
-	//cmplx.Pow(math.E,1i*math.Pi)+1&lt;/p&gt;
-
-&lt;p&gt;	fmt.Println(cmplx.Exp(1i*math.Pi)+1)
-}
-func main(){
-	fmt.Println(&amp;ldquo;hello world&amp;rdquo;)
-	variableZeroValue()
-	variableInitialValue()
-	variableTypeDeduction()
-	variableShorter()
-    fmt.Println(aa,ss,bb)
-    euler()
-}&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;    
-##### 内建变量类型
- - bool, string 
- - (u)int, (u)int8,(u)int16,(u)int32,(u)int64,(u)intptr (指针)
- - byte,rune(Go语言的一个字符型，char类型坑太多，代替char,32位)
- - float32,float64,complex64,complex128（复数）
- 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;func euler()  {
- 	//c := 3+4i
- 	//fmt.Println(cmplx.Abs(c))
- 	//cmplx.Pow(math.E,1i*math.Pi)+1
-
- 	fmt.Println(cmplx.Exp(1i*math.Pi)+1)
- }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt; 
-    
-    
-
-##### 强制类型转换
-    
-    func triangle()  {
-        var a,b int = 3,4
-        c := math.Sqrt(float64(a*a+b*b))
-        fmt.Println(c)
-    }
-
-##### 常量的定义
- - 常量是一个简单值的标识符，在程序运行时，不会被修改的量。
- - 常量中的数据类型只可以是布尔型、数字型（整数型、浮点型和复数）和字符串型。
- - **iota** iota，特殊常量，（iota 可以被用作枚举值）可以认为是一个可以被编译器修改的常量。在每一个const关键字出现时，
- 被重置为0，然后再下一个const出现之前，每出现一次iota，其所代表的数字会自动增加1。
- 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;const filename = &amp;ldquo;abc.txt&amp;rdquo;
-func consts()  {
-	const a,b  = 3,4
-	//a,b可以不指定类型
-	c := math.Sqrt(a*a+b*b)
-	fmt.Println(filename,c)&lt;/p&gt;
-
-&lt;p&gt;}&lt;/p&gt;
-
-&lt;p&gt;//第一个 iota 等于 0，每当 iota 在新的一行被使用时，它的值都会自动加 1；所以 a=0, b=1, c=2 可以简写为如下形式：
-const (
-    a = iota
-    b
-    c
-)&lt;/p&gt;
-
-&lt;p&gt;const (
-	b = 1 &amp;lt;&amp;lt;(10*iota)
-	kb
-	mb
-	gb
-	tb
-	pb
-)&lt;/p&gt;
-
-&lt;p&gt;```&lt;/p&gt;
-
-&lt;h5 id=&#34;变量定义的要点&#34;&gt;变量定义的要点&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;变量类型写在变量名之后&lt;/li&gt;
-&lt;li&gt;编译器可以推测变量的类型&lt;/li&gt;
-&lt;li&gt;没有char,只有rune&lt;/li&gt;
-&lt;li&gt;原生支持复数类型&lt;/li&gt;
-&lt;/ul&gt;
 </description>
         </item>
         

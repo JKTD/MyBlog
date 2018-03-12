@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>golang Web 框架 gin 简介 - Fly With Me</title>
+  <title>Go: 13-1 爬虫简介 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="GitHub： 对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了">
+<meta name="description" content="网络爬虫分类 通用爬虫：如baidu,google 聚焦爬虫：从互联网获取结构化数据 项目总体结构 go语言的爬虫库/框架 henrylee2cn/pholcus gocrawl colly hu17889/go_spider 重新开发一个爬虫库">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="golang Web 框架 gin 简介 - Fly With Me">
-<meta itemprop="description" content="GitHub： 对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了">
+<meta itemprop="name" content="Go: 13-1 爬虫简介 - Fly With Me">
+<meta itemprop="description" content="网络爬虫分类 通用爬虫：如baidu,google 聚焦爬虫：从互联网获取结构化数据 项目总体结构 go语言的爬虫库/框架 henrylee2cn/pholcus gocrawl colly hu17889/go_spider 重新开发一个爬虫库">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="golang Web 框架 gin 简介 - Fly With Me" />
+<meta property="og:title" content="Go: 13-1 爬虫简介 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2016/03/29/golangGin" />
+<meta property="og:url" content="http://blog.flywithme.top/2018/03/08/note_23/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="GitHub： 对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了">
+<meta property="og:description" content="网络爬虫分类 通用爬虫：如baidu,google 聚焦爬虫：从互联网获取结构化数据 项目总体结构 go语言的爬虫库/框架 henrylee2cn/pholcus gocrawl colly hu17889/go_spider 重新开发一个爬虫库">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="golang Web 框架 gin 简介 - Fly With Me">
-<meta name="twitter:description" content="GitHub： 对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了">
+<meta name="twitter:title" content="Go: 13-1 爬虫简介 - Fly With Me">
+<meta name="twitter:description" content="网络爬虫分类 通用爬虫：如baidu,google 聚焦爬虫：从互联网获取结构化数据 项目总体结构 go语言的爬虫库/框架 henrylee2cn/pholcus gocrawl colly hu17889/go_spider 重新开发一个爬虫库">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2016/03/29/golangGin">
-  <link rel='shortlink' href="http://blog.flywithme.top/2016/03/29/golangGin"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2018/03/08/note_23/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2018/03/08/note_23/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -167,6 +167,10 @@
               <ul class="meta-single group">
                 
                 <li class="category">
+                  <a href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="category tag">学习笔记</a>
+                </li>
+                
+                <li class="category">
                   <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
                 </li>
                 
@@ -179,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">golang Web 框架 gin 简介</h1>
+                  <h1 class="post-title">Go: 13-1 爬虫简介</h1>
 
                   <p class="post-byline">
-                    by  · 2016年03月29日 · 170 Words ·
+                    by  · 2018年03月08日 · 139 Words ·
                     ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2016/2016-03-29-golangWebgin-gonic.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-03-08-note_23.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -193,34 +197,43 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <p><a href="https://gin-gonic.github.io/gin/">GitHub</a>：</p>
+                      
 
-<p>对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了一个小 demo</p>
+<h5 id="网络爬虫分类">网络爬虫分类</h5>
 
-<pre><code class="language-cpp">func main() {
-    router := gin.Default()
+<ul>
+<li>通用爬虫：如baidu,google</li>
+<li>聚焦爬虫：从互联网获取结构化数据</li>
+</ul>
 
-    // This handler will match /user/john but will not match neither /user/ or /user
-    router.GET(&quot;/user/:name&quot;, func(c *gin.Context) {
-        name := c.Param(&quot;name&quot;)
-        c.String(http.StatusOK, &quot;Hello %s&quot;, name)
-    })
+<h5 id="项目总体结构">项目总体结构</h5>
 
-    // However, this one will match /user/john/ and also /user/john/send
-    // If no other routers match /user/john, it will redirect to /user/john/
-    router.GET(&quot;/user/:name/*action&quot;, func(c *gin.Context) {
-        name := c.Param(&quot;name&quot;)
-        action := c.Param(&quot;action&quot;)
-        message := name + &quot; is &quot; + action
-        c.String(http.StatusOK, message)
-    })
+<p><image  src="sources/go/1517564741602.jpg"  /></p>
 
-    router.Run(&quot;:8080&quot;)
-}
-</code></pre>
+<h5 id="go语言的爬虫库-框架">go语言的爬虫库/框架</h5>
 
-<p>一点点代码,一个简单的 server 就完成了.
-so let&rsquo;s Do it!</p>
+<ul>
+<li>henrylee2cn/pholcus</li>
+<li>gocrawl</li>
+<li>colly</li>
+<li>hu17889/go_spider</li>
+</ul>
+
+<h5 id="重新开发一个爬虫库">重新开发一个爬虫库</h5>
+
+<ul>
+<li>不适用现成的爬虫库/框架</li>
+<li>使用ElasticSearch作为数据存储</li>
+<li>使用Go语言标准模板库实现http数据展示部分</li>
+</ul>
+
+<h5 id="实现步骤">实现步骤</h5>
+
+<ul>
+<li>单任务</li>
+<li>并发版</li>
+<li>分布式</li>
+</ul>
 
                       
                     </div>
@@ -232,7 +245,7 @@ so let&rsquo;s Do it!</p>
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2016/03/29/golangGin">http://blog.flywithme.top/2016/03/29/golangGin</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/03/08/note_23/">http://blog.flywithme.top/2018/03/08/note_23/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -285,7 +298,7 @@ so let&rsquo;s Do it!</p>
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2016/03/29/golangGin" data-title="golang Web 框架 gin 简介" data-url="http://blog.flywithme.top/2016/03/29/golangGin"></div>
+<div class="ds-thread" data-thread-key="/2018/03/08/note_23/" data-title="Go: 13-1 爬虫简介" data-url="http://blog.flywithme.top/2018/03/08/note_23/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -340,19 +353,19 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2016/03/28/basicknowledgepoint-drop/" rel="next">
+        <a href="http://blog.flywithme.top/2018/03/07/note_22/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>iOS 基础内容</span>
+          <span>Go: 12-1 迷宫的广度优先搜索</span>
         </a>
         
       </li>
       <li class="previous">
         
-        <a href="http://blog.flywithme.top/2016/03/31/golang-Mgo/" rel="prev">
+        <a href="http://blog.flywithme.top/2018/03/09/note_24/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
-          <span>MongoDB的Go语言驱动</span>
+          <span>Go: 14-1 爬虫实现</span>
         </a>
         
       </li>
