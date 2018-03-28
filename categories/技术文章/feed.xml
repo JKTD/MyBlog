@@ -201,7 +201,7 @@ func (s *QueuedScheduler) Run() {
 &lt;ul&gt;
 &lt;li&gt;使用css选择器&lt;/li&gt;
 &lt;li&gt;使用xpath&lt;/li&gt;
-&lt;li&gt;使用正则表达式
+&lt;li&gt;使用正则表达式&lt;br /&gt;
 &lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
