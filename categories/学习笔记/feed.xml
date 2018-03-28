@@ -9,6 +9,176 @@
         <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
         
         <item>
+            <title>Go: 14-3 多任务版爬虫</title>
+            <link>http://blog.flywithme.top/2018/03/16/note_26/</link>
+            <pubDate>Fri, 16 Mar 2018 16:02:01 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/16/note_26/</guid>
+            <description>
+
+&lt;h5 id=&#34;并发调度器&#34;&gt;并发调度器&lt;/h5&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/go/1521197187281.jpg&#34;  /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//engine 
+package engine
+
+import (
+	&amp;quot;log&amp;quot;
+)
+
+type ConcurrentEngine struct {
+	Scheduler   Scheduler
+	WorkerCount int
+}
+
+type Scheduler interface {
+	ReadyNotifier
+	Submit(Request)
+	WorkerChan() chan Request
+	Run()
+}
+
+type ReadyNotifier interface {
+	WokerReady(chan Request)
+}
+
+func (e *ConcurrentEngine) Run(seeds ...Request) {
+	out := make(chan ParseResult)
+	e.Scheduler.Run()
+	for i := 0; i &amp;lt; e.WorkerCount; i++ {
+		createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
+	}
+
+	for _, r := range seeds {
+		e.Scheduler.Submit(r)
+	}
+	itemCount := 0
+	for {
+		result := &amp;lt;-out
+		for _, item := range result.Items {
+			itemCount++
+			log.Printf(&amp;quot;Got item #%d: %v&amp;quot;, itemCount, item)
+		}
+		for _, request := range result.Requests {
+			e.Scheduler.Submit(request)
+		}
+	}
+}
+
+func createWorker(in chan Request, out chan ParseResult, ready ReadyNotifier) {
+	go func() {
+		for {
+			ready.WokerReady(in)
+			request := &amp;lt;-in
+			result, err := worker(request)
+			if err != nil {
+				continue
+			}
+			out &amp;lt;- result
+		}
+	}()
+}
+
+--------------------------------------
+//scheduler queued
+
+package scheduler
+
+import (
+	&amp;quot;imooc/craw/engine&amp;quot;
+)
+
+type QueuedScheduler struct {
+	requestChan chan engine.Request
+	workerChan  chan chan engine.Request
+}
+
+func (s *QueuedScheduler) WorkerChan() chan engine.Request {
+	return make(chan engine.Request)
+}
+
+func (s *QueuedScheduler) Submit(r engine.Request) {
+	s.requestChan &amp;lt;- r
+}
+
+func (s *QueuedScheduler) WokerReady(w chan engine.Request) {
+	s.workerChan &amp;lt;- w
+}
+
+func (s *QueuedScheduler) Run() {
+	s.workerChan = make(chan chan engine.Request)
+	s.requestChan = make(chan engine.Request)
+	go func() {
+		var requestQ []engine.Request
+		var workerQ []chan engine.Request
+		for {
+			var activeRequest engine.Request
+			var activeWorker chan engine.Request
+			if len(requestQ) &amp;gt; 0 &amp;amp;&amp;amp; len(workerQ) &amp;gt; 0 {
+				activeWorker = workerQ[0]
+				activeRequest = requestQ[0]
+			}
+
+			select {
+			case r := &amp;lt;-s.requestChan:
+				requestQ = append(requestQ, r)
+			case w := &amp;lt;-s.workerChan:
+				workerQ = append(workerQ, w)
+			case activeWorker &amp;lt;- activeRequest:
+				workerQ = workerQ[1:]
+				requestQ = requestQ[1:]
+			}
+		}
+
+	}()
+
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 14-2 单任务版爬虫</title>
+            <link>http://blog.flywithme.top/2018/03/14/note_25/</link>
+            <pubDate>Wed, 14 Mar 2018 16:54:13 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/14/note_25/</guid>
+            <description>
+
+&lt;h5 id=&#34;总体的算法步骤&#34;&gt;总体的算法步骤&lt;/h5&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/go/1521017696913.jpg&#34;  /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;解析器-parser&#34;&gt;解析器 Parser&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;输入： utf-8 编码的文本&lt;/li&gt;
+&lt;li&gt;输出： Request{URL,对应的Parser} 列表，Item列表&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;单任务版爬虫架构&#34;&gt;单任务版爬虫架构&lt;/h5&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/go/1521018347601.jpg&#34;  /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;获取并打印所有城市第一页用户的详细信息
+
+&lt;ul&gt;
+&lt;li&gt;使用http.Get获取内容&lt;/li&gt;
+&lt;li&gt;使用Encodeing来转换编码：gbk-&amp;gt;utf-8&lt;/li&gt;
+&lt;li&gt;使用charset.DetermineEncoding来判断编码&lt;/li&gt;
+&lt;li&gt;使用正则表达式筛选需要的内容&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;code &lt;a href=&#34;https://github.com/flywithbug/imooc/tree/release/0.0.1/craw&#34;&gt;单任务爬虫分支&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
             <title>Go: 14-1 爬虫实现</title>
             <link>http://blog.flywithme.top/2018/03/09/note_24/</link>
             <pubDate>Fri, 09 Mar 2018 16:05:38 CST</pubDate>
@@ -20,57 +190,8 @@
 
 &lt;ul&gt;
 &lt;li&gt;使用相亲网站做目标&lt;/li&gt;
-&lt;li&gt;编码格式自动识别转换
-```
-package main&lt;/li&gt;
+&lt;li&gt;编码格式自动识别转换&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;import (
-	&amp;ldquo;fmt&amp;rdquo;
-	&amp;ldquo;io/ioutil&amp;rdquo;
-	&amp;ldquo;net/http&amp;rdquo;&lt;/p&gt;
-
-&lt;p&gt;	&amp;ldquo;bufio&amp;rdquo;
-	&amp;ldquo;io&amp;rdquo;&lt;/p&gt;
-
-&lt;p&gt;	&amp;ldquo;golang.org/x/net/html/charset&amp;rdquo;
-	&amp;ldquo;golang.org/x/text/encoding&amp;rdquo;
-	&amp;ldquo;golang.org/x/text/transform&amp;rdquo;
-)&lt;/p&gt;
-
-&lt;p&gt;func main() {
-	resp, err := http.Get(&amp;ldquo;&lt;a href=&#34;http://www.zhenai.com/zhenghun&amp;quot;&#34;&gt;http://www.zhenai.com/zhenghun&amp;quot;&lt;/a&gt;)&lt;/p&gt;
-
-&lt;p&gt;	if err != nil {
-		panic(err)
-	}&lt;/p&gt;
-
-&lt;p&gt;	defer resp.Body.Close()&lt;/p&gt;
-
-&lt;p&gt;	if resp.StatusCode != http.StatusOK {
-		fmt.Println(&amp;ldquo;Error: status code &amp;ldquo;, resp.StatusCode)
-		return
-	}
-	e := determineEncoder(resp.Body)
-	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
-	result, err := ioutil.ReadAll(utf8Reader)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf(&amp;ldquo;%s\n&amp;rdquo;, result)
-}&lt;/p&gt;
-
-&lt;p&gt;//网站编码识别转换
-func determineEncoder(r io.Reader) encoding.Encoding {
-	bytes, err := bufio.NewReader&amp;reg;.Peek(1024)
-	if err != nil {
-		panic(err)
-	}
-	e, _, _ := charset.DetermineEncoding(bytes, &amp;ldquo;&amp;rdquo;)
-	return e
-}&lt;/p&gt;
-
-&lt;p&gt;```&lt;/p&gt;
 
 &lt;h5 id=&#34;获取有价值信息&#34;&gt;获取有价值信息&lt;/h5&gt;
 
@@ -84,6 +205,71 @@ func determineEncoder(r io.Reader) encoding.Encoding {
 &lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;io/ioutil&amp;quot;
+	&amp;quot;net/http&amp;quot;
+
+	&amp;quot;bufio&amp;quot;
+	&amp;quot;io&amp;quot;
+
+	&amp;quot;regexp&amp;quot;
+
+	&amp;quot;golang.org/x/net/html/charset&amp;quot;
+	&amp;quot;golang.org/x/text/encoding&amp;quot;
+	&amp;quot;golang.org/x/text/transform&amp;quot;
+)
+
+//网站编码识别转换
+func determineEncoder(r io.Reader) encoding.Encoding {
+	bytes, err := bufio.NewReader(r).Peek(1024)
+	if err != nil {
+		panic(err)
+	}
+	e, _, _ := charset.DetermineEncoding(bytes, &amp;quot;&amp;quot;)
+	return e
+}
+
+const regextstr = `&amp;lt;a href=&amp;quot;http://www.zhenai.com/zhenghun/[0-9a-z]+&amp;quot;[^&amp;gt;]*&amp;gt;[^&amp;lt;]+&amp;lt;/a&amp;gt;`
+
+const regextstr1 = `&amp;lt;a href=&amp;quot;(http://www.zhenai.com/zhenghun/[0-9a-z]+)&amp;quot;[^&amp;gt;]*&amp;gt;([^&amp;lt;]+)&amp;lt;/a&amp;gt;`
+
+func printCityList(contents []byte) {
+	re := regexp.MustCompile(regextstr1)
+	//matchs := re.FindAll(contents, -1)
+	amtch := re.FindAllSubmatch(contents, -1)
+
+	for _, m := range amtch {
+		fmt.Printf(&amp;quot;%s\n %s \n&amp;quot;, m[1], m[2])
+	}
+}
+
+func main() {
+	resp, err := http.Get(&amp;quot;http://www.zhenai.com/zhenghun&amp;quot;)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		fmt.Println(&amp;quot;Error: status code &amp;quot;, resp.StatusCode)
+		return
+	}
+	e := determineEncoder(resp.Body)
+	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
+	result, err := ioutil.ReadAll(utf8Reader)
+	if err != nil {
+		panic(err)
+	}
+	printCityList(result)
+	//fmt.Printf(&amp;quot;%s\n&amp;quot;, result)
+}
+&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         
@@ -1595,137 +1781,6 @@ return 1
  	writeFile(&amp;ldquo;fib1.txt&amp;rdquo;)
  }
  ```&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 6-2 函数式编程</title>
-            <link>http://blog.flywithme.top/2018/02/24/note_11/</link>
-            <pubDate>Sat, 24 Feb 2018 14:35:09 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/24/note_11/</guid>
-            <description>
-
-&lt;h5 id=&#34;go语言闭包的应用&#34;&gt;go语言闭包的应用&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;更为自然，不需要修饰如何访问自由变量&lt;/li&gt;
-&lt;li&gt;没有Lambda表达式，但是有匿名函数&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;package fib
-//斐波那契数列 
-// 1, 1, 2, 3, 5, 8, 13, ...
-func Fibonacci() func() int {
-	a, b := 0, 1
-	return func() int {
-		a, b = b, a+b
-		return a
-	}
-}
-
----------------------------------------------
-
-package main
-
-import (
-	&amp;quot;bufio&amp;quot;
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;io&amp;quot;
-	&amp;quot;strings&amp;quot;
-
-	&amp;quot;imooc/fib&amp;quot;
-)
-
-//为函数实现接口
-type intGen func() int
-
-func (g intGen) Read(
-	p []byte) (n int, err error) {
-	next := g()
-	if next &amp;gt; 10000 {
-		return 0, io.EOF
-	}
-	s := fmt.Sprintf(&amp;quot;%d\n&amp;quot;, next)
-
-	return strings.NewReader(s).Read(p)
-}
-
-func printFileContents(reader io.Reader) {
-	scanner := bufio.NewScanner(reader)
-
-	for scanner.Scan() {
-		fmt.Println(scanner.Text())
-	}
-}
-
-func main() {
-	var f intGen = fib.Fibonacci()
-	printFileContents(f)
-}
-
-
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 6-1 函数式编程</title>
-            <link>http://blog.flywithme.top/2018/02/12/note_10/</link>
-            <pubDate>Mon, 12 Feb 2018 13:32:36 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/12/note_10/</guid>
-            <description>
-
-&lt;h5 id=&#34;特点&#34;&gt;特点&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;函数可以作为参数，变量，返回值&lt;/li&gt;
-&lt;li&gt;高阶函数&lt;/li&gt;
-&lt;li&gt;函数-&amp;gt;闭包&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;//golang 
-func adder() func(int) int {
-	sum := 0 //自由变量
-	return func(v int) int {
-		sum += v
-		return sum
-	}
-}
-
-//python
-def adder();
-    sum = 0
-    def f(value):
-        nonlocal sum
-        sum += value
-        return sum
-    return f    
-    
-    
-// c++ 14中的闭包    
-auto adder(){
-    auto sum = 0;
-    return [=] (int value)mutable{
-        sum += value;
-        return sum;
-    };
-}
-
-//java中的闭包
-Function&amp;lt;Integer,Integer&amp;gt;adder(){
-    final Holder&amp;lt;Integer&amp;gt; sum = new Holder&amp;lt;&amp;gt;(0);
-    return (Integer value) -&amp;gt; {
-        sum.value += value;
-        return sum.value;
-    }
-}
-
-
-
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         

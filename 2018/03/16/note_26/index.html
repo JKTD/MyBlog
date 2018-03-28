@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>Go: 14-1 爬虫实现 - Fly With Me</title>
+  <title>Go: 14-3 多任务版爬虫 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &quot;fmt&quot;">
+<meta name="description" content="并发调度器 //engine package engine import ( &quot;log&quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &lt; e.WorkerCount; i&#43;&#43; { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Go: 14-1 爬虫实现 - Fly With Me">
-<meta itemprop="description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &quot;fmt&quot;">
+<meta itemprop="name" content="Go: 14-3 多任务版爬虫 - Fly With Me">
+<meta itemprop="description" content="并发调度器 //engine package engine import ( &quot;log&quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &lt; e.WorkerCount; i&#43;&#43; { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="Go: 14-1 爬虫实现 - Fly With Me" />
+<meta property="og:title" content="Go: 14-3 多任务版爬虫 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2018/03/09/note_24/" />
+<meta property="og:url" content="http://blog.flywithme.top/2018/03/16/note_26/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &quot;fmt&quot;">
+<meta property="og:description" content="并发调度器 //engine package engine import ( &quot;log&quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &lt; e.WorkerCount; i&#43;&#43; { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="Go: 14-1 爬虫实现 - Fly With Me">
-<meta name="twitter:description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &quot;fmt&quot;">
+<meta name="twitter:title" content="Go: 14-3 多任务版爬虫 - Fly With Me">
+<meta name="twitter:description" content="并发调度器 //engine package engine import ( &quot;log&quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &lt; e.WorkerCount; i&#43;&#43; { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2018/03/09/note_24/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2018/03/09/note_24/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2018/03/16/note_26/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2018/03/16/note_26/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">Go: 14-1 爬虫实现</h1>
+                  <h1 class="post-title">Go: 14-3 多任务版爬虫</h1>
 
                   <p class="post-byline">
-                    by  · 2018年03月09日 · 203 Words ·
+                    by  · 2018年03月16日 · 276 Words ·
                     ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-03-09-note_24.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-03-16-note_26.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -199,89 +199,126 @@
                       
                       
 
-<h5 id="获取初始页面内容">获取初始页面内容</h5>
+<h5 id="并发调度器">并发调度器</h5>
 
-<ul>
-<li>使用相亲网站做目标</li>
-<li>编码格式自动识别转换</li>
-</ul>
+<p><image  src="sources/go/1521197187281.jpg"  /></p>
 
-<h5 id="获取有价值信息">获取有价值信息</h5>
-
-<ul>
-<li>获取城市名称和链接
-
-<ul>
-<li>使用css选择器</li>
-<li>使用xpath</li>
-<li>使用正则表达式
-<br /></li>
-</ul></li>
-</ul>
-
-<pre><code>package main
+<pre><code>//engine 
+package engine
 
 import (
-	&quot;fmt&quot;
-	&quot;io/ioutil&quot;
-	&quot;net/http&quot;
-
-	&quot;bufio&quot;
-	&quot;io&quot;
-
-	&quot;regexp&quot;
-
-	&quot;golang.org/x/net/html/charset&quot;
-	&quot;golang.org/x/text/encoding&quot;
-	&quot;golang.org/x/text/transform&quot;
+	&quot;log&quot;
 )
 
-//网站编码识别转换
-func determineEncoder(r io.Reader) encoding.Encoding {
-	bytes, err := bufio.NewReader(r).Peek(1024)
-	if err != nil {
-		panic(err)
-	}
-	e, _, _ := charset.DetermineEncoding(bytes, &quot;&quot;)
-	return e
+type ConcurrentEngine struct {
+	Scheduler   Scheduler
+	WorkerCount int
 }
 
-const regextstr = `&lt;a href=&quot;http://www.zhenai.com/zhenghun/[0-9a-z]+&quot;[^&gt;]*&gt;[^&lt;]+&lt;/a&gt;`
+type Scheduler interface {
+	ReadyNotifier
+	Submit(Request)
+	WorkerChan() chan Request
+	Run()
+}
 
-const regextstr1 = `&lt;a href=&quot;(http://www.zhenai.com/zhenghun/[0-9a-z]+)&quot;[^&gt;]*&gt;([^&lt;]+)&lt;/a&gt;`
+type ReadyNotifier interface {
+	WokerReady(chan Request)
+}
 
-func printCityList(contents []byte) {
-	re := regexp.MustCompile(regextstr1)
-	//matchs := re.FindAll(contents, -1)
-	amtch := re.FindAllSubmatch(contents, -1)
+func (e *ConcurrentEngine) Run(seeds ...Request) {
+	out := make(chan ParseResult)
+	e.Scheduler.Run()
+	for i := 0; i &lt; e.WorkerCount; i++ {
+		createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
+	}
 
-	for _, m := range amtch {
-		fmt.Printf(&quot;%s\n %s \n&quot;, m[1], m[2])
+	for _, r := range seeds {
+		e.Scheduler.Submit(r)
+	}
+	itemCount := 0
+	for {
+		result := &lt;-out
+		for _, item := range result.Items {
+			itemCount++
+			log.Printf(&quot;Got item #%d: %v&quot;, itemCount, item)
+		}
+		for _, request := range result.Requests {
+			e.Scheduler.Submit(request)
+		}
 	}
 }
 
-func main() {
-	resp, err := http.Get(&quot;http://www.zhenai.com/zhenghun&quot;)
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		fmt.Println(&quot;Error: status code &quot;, resp.StatusCode)
-		return
-	}
-	e := determineEncoder(resp.Body)
-	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
-	result, err := ioutil.ReadAll(utf8Reader)
-	if err != nil {
-		panic(err)
-	}
-	printCityList(result)
-	//fmt.Printf(&quot;%s\n&quot;, result)
+func createWorker(in chan Request, out chan ParseResult, ready ReadyNotifier) {
+	go func() {
+		for {
+			ready.WokerReady(in)
+			request := &lt;-in
+			result, err := worker(request)
+			if err != nil {
+				continue
+			}
+			out &lt;- result
+		}
+	}()
 }
+
+--------------------------------------
+//scheduler queued
+
+package scheduler
+
+import (
+	&quot;imooc/craw/engine&quot;
+)
+
+type QueuedScheduler struct {
+	requestChan chan engine.Request
+	workerChan  chan chan engine.Request
+}
+
+func (s *QueuedScheduler) WorkerChan() chan engine.Request {
+	return make(chan engine.Request)
+}
+
+func (s *QueuedScheduler) Submit(r engine.Request) {
+	s.requestChan &lt;- r
+}
+
+func (s *QueuedScheduler) WokerReady(w chan engine.Request) {
+	s.workerChan &lt;- w
+}
+
+func (s *QueuedScheduler) Run() {
+	s.workerChan = make(chan chan engine.Request)
+	s.requestChan = make(chan engine.Request)
+	go func() {
+		var requestQ []engine.Request
+		var workerQ []chan engine.Request
+		for {
+			var activeRequest engine.Request
+			var activeWorker chan engine.Request
+			if len(requestQ) &gt; 0 &amp;&amp; len(workerQ) &gt; 0 {
+				activeWorker = workerQ[0]
+				activeRequest = requestQ[0]
+			}
+
+			select {
+			case r := &lt;-s.requestChan:
+				requestQ = append(requestQ, r)
+			case w := &lt;-s.workerChan:
+				workerQ = append(workerQ, w)
+			case activeWorker &lt;- activeRequest:
+				workerQ = workerQ[1:]
+				requestQ = requestQ[1:]
+			}
+		}
+
+	}()
+
+}
+
+
 </code></pre>
 
                       
@@ -294,7 +331,7 @@ func main() {
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/03/09/note_24/">http://blog.flywithme.top/2018/03/09/note_24/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/03/16/note_26/">http://blog.flywithme.top/2018/03/16/note_26/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -347,7 +384,7 @@ func main() {
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2018/03/09/note_24/" data-title="Go: 14-1 爬虫实现" data-url="http://blog.flywithme.top/2018/03/09/note_24/"></div>
+<div class="ds-thread" data-thread-key="/2018/03/16/note_26/" data-title="Go: 14-3 多任务版爬虫" data-url="http://blog.flywithme.top/2018/03/16/note_26/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -402,20 +439,14 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2018/03/08/note_23/" rel="next">
+        <a href="http://blog.flywithme.top/2018/03/14/note_25/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Go: 13-1 爬虫简介</span>
+          <span>Go: 14-2 单任务版爬虫</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2018/03/14/note_25/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>Go: 14-2 单任务版爬虫</span>
-        </a>
         
       </li>
     </ul>

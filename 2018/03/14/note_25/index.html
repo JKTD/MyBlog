@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>Go: 14-1 爬虫实现 - Fly With Me</title>
+  <title>Go: 14-2 单任务版爬虫 - Fly With Me</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &quot;fmt&quot;">
+<meta name="description" content="总体的算法步骤 解析器 Parser 输入： utf-8 编码的文本 输出： Request{URL,对应的Parser} 列表，Item列表 单任务版爬虫架构 获取并打印所有城">
 <meta name="author" content="brasbug">
 <meta name="publisher" content="brasbug">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Go: 14-1 爬虫实现 - Fly With Me">
-<meta itemprop="description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &quot;fmt&quot;">
+<meta itemprop="name" content="Go: 14-2 单任务版爬虫 - Fly With Me">
+<meta itemprop="description" content="总体的算法步骤 解析器 Parser 输入： utf-8 编码的文本 输出： Request{URL,对应的Parser} 列表，Item列表 单任务版爬虫架构 获取并打印所有城">
 <meta itemprop="image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
-<meta property="og:title" content="Go: 14-1 爬虫实现 - Fly With Me" />
+<meta property="og:title" content="Go: 14-2 单任务版爬虫 - Fly With Me" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2018/03/09/note_24/" />
+<meta property="og:url" content="http://blog.flywithme.top/2018/03/14/note_25/" />
 <meta property="og:image" content="http://blog.flywithme.top//public/coderjk.jpg" />
-<meta property="og:description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &quot;fmt&quot;">
+<meta property="og:description" content="总体的算法步骤 解析器 Parser 输入： utf-8 编码的文本 输出： Request{URL,对应的Parser} 列表，Item列表 单任务版爬虫架构 获取并打印所有城">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@brasbug">
-<meta name="twitter:title" content="Go: 14-1 爬虫实现 - Fly With Me">
-<meta name="twitter:description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &quot;fmt&quot;">
+<meta name="twitter:title" content="Go: 14-2 单任务版爬虫 - Fly With Me">
+<meta name="twitter:description" content="总体的算法步骤 解析器 Parser 输入： utf-8 编码的文本 输出： Request{URL,对应的Parser} 列表，Item列表 单任务版爬虫架构 获取并打印所有城">
 <meta name="twitter:creator" content="@brasbug">
 <meta name="twitter:image" content="http://blog.flywithme.top//public/coderjk.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2018/03/09/note_24/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2018/03/09/note_24/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2018/03/14/note_25/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2018/03/14/note_25/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top//public/coderjk.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">Go: 14-1 爬虫实现</h1>
+                  <h1 class="post-title">Go: 14-2 单任务版爬虫</h1>
 
                   <p class="post-byline">
-                    by  · 2018年03月09日 · 203 Words ·
+                    by  · 2018年03月14日 · 168 Words ·
                     ~1min reading time |
-                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-03-09-note_24.md"
+                    <a href="https://github.com/brasbug/brasbug-hugo-blog/tree/master/content/post/2018/2018-03-14-note_25.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -199,90 +199,33 @@
                       
                       
 
-<h5 id="获取初始页面内容">获取初始页面内容</h5>
+<h5 id="总体的算法步骤">总体的算法步骤</h5>
+
+<p><image  src="sources/go/1521017696913.jpg"  /></p>
+
+<h5 id="解析器-parser">解析器 Parser</h5>
 
 <ul>
-<li>使用相亲网站做目标</li>
-<li>编码格式自动识别转换</li>
+<li>输入： utf-8 编码的文本</li>
+<li>输出： Request{URL,对应的Parser} 列表，Item列表</li>
 </ul>
 
-<h5 id="获取有价值信息">获取有价值信息</h5>
+<h5 id="单任务版爬虫架构">单任务版爬虫架构</h5>
+
+<p><image  src="sources/go/1521018347601.jpg"  /></p>
 
 <ul>
-<li>获取城市名称和链接
+<li>获取并打印所有城市第一页用户的详细信息
 
 <ul>
-<li>使用css选择器</li>
-<li>使用xpath</li>
-<li>使用正则表达式
-<br /></li>
+<li>使用http.Get获取内容</li>
+<li>使用Encodeing来转换编码：gbk-&gt;utf-8</li>
+<li>使用charset.DetermineEncoding来判断编码</li>
+<li>使用正则表达式筛选需要的内容<br /></li>
 </ul></li>
 </ul>
 
-<pre><code>package main
-
-import (
-	&quot;fmt&quot;
-	&quot;io/ioutil&quot;
-	&quot;net/http&quot;
-
-	&quot;bufio&quot;
-	&quot;io&quot;
-
-	&quot;regexp&quot;
-
-	&quot;golang.org/x/net/html/charset&quot;
-	&quot;golang.org/x/text/encoding&quot;
-	&quot;golang.org/x/text/transform&quot;
-)
-
-//网站编码识别转换
-func determineEncoder(r io.Reader) encoding.Encoding {
-	bytes, err := bufio.NewReader(r).Peek(1024)
-	if err != nil {
-		panic(err)
-	}
-	e, _, _ := charset.DetermineEncoding(bytes, &quot;&quot;)
-	return e
-}
-
-const regextstr = `&lt;a href=&quot;http://www.zhenai.com/zhenghun/[0-9a-z]+&quot;[^&gt;]*&gt;[^&lt;]+&lt;/a&gt;`
-
-const regextstr1 = `&lt;a href=&quot;(http://www.zhenai.com/zhenghun/[0-9a-z]+)&quot;[^&gt;]*&gt;([^&lt;]+)&lt;/a&gt;`
-
-func printCityList(contents []byte) {
-	re := regexp.MustCompile(regextstr1)
-	//matchs := re.FindAll(contents, -1)
-	amtch := re.FindAllSubmatch(contents, -1)
-
-	for _, m := range amtch {
-		fmt.Printf(&quot;%s\n %s \n&quot;, m[1], m[2])
-	}
-}
-
-func main() {
-	resp, err := http.Get(&quot;http://www.zhenai.com/zhenghun&quot;)
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		fmt.Println(&quot;Error: status code &quot;, resp.StatusCode)
-		return
-	}
-	e := determineEncoder(resp.Body)
-	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
-	result, err := ioutil.ReadAll(utf8Reader)
-	if err != nil {
-		panic(err)
-	}
-	printCityList(result)
-	//fmt.Printf(&quot;%s\n&quot;, result)
-}
-</code></pre>
+<p>code <a href="https://github.com/flywithbug/imooc/tree/release/0.0.1/craw">单任务爬虫分支</a></p>
 
                       
                     </div>
@@ -294,7 +237,7 @@ func main() {
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Brasbug</a>
                             <br />微信关注：Crime_Sence (我在案发现场）
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/03/09/note_24/">http://blog.flywithme.top/2018/03/09/note_24/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/03/14/note_25/">http://blog.flywithme.top/2018/03/14/note_25/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -347,7 +290,7 @@ func main() {
 
 
               <section id="comments" class="themeform">
-<div class="ds-thread" data-thread-key="/2018/03/09/note_24/" data-title="Go: 14-1 爬虫实现" data-url="http://blog.flywithme.top/2018/03/09/note_24/"></div>
+<div class="ds-thread" data-thread-key="/2018/03/14/note_25/" data-title="Go: 14-2 单任务版爬虫" data-url="http://blog.flywithme.top/2018/03/14/note_25/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"brasbug"};
 	(function() {
@@ -402,19 +345,19 @@ var duoshuoQuery = {short_name:"brasbug"};
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2018/03/08/note_23/" rel="next">
+        <a href="http://blog.flywithme.top/2018/03/09/note_24/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Go: 13-1 爬虫简介</span>
+          <span>Go: 14-1 爬虫实现</span>
         </a>
         
       </li>
       <li class="previous">
         
-        <a href="http://blog.flywithme.top/2018/03/14/note_25/" rel="prev">
+        <a href="http://blog.flywithme.top/2018/03/16/note_26/" rel="prev">
           <i class="fa fa-chevron-left"></i>
           <strong>Previous Post</strong>
-          <span>Go: 14-2 单任务版爬虫</span>
+          <span>Go: 14-3 多任务版爬虫</span>
         </a>
         
       </li>

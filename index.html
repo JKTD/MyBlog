@@ -178,13 +178,13 @@
               <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" title="All posts in 技术文章" rel="category tag">技术文章</a>
               
               </p>
-              <p class="post-date">2018年03月09日</p>
+              <p class="post-date">2018年03月16日</p>
           </div>
           <h2 class="post-title">
-              <a href="http://blog.flywithme.top/2018/03/09/note_24/" rel="bookmark" title="Go: 14-1 爬虫实现">Go: 14-1 爬虫实现</a>
+              <a href="http://blog.flywithme.top/2018/03/16/note_26/" rel="bookmark" title="Go: 14-3 多任务版爬虫">Go: 14-3 多任务版爬虫</a>
           </h2>
           <div class="entry excerpt">
-              <p>获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 ``` package main import ( &ldquo;fmt&rdquo; &ldquo;io/ioutil&rdquo; &ldquo;net/http&rdquo; &ldquo;bufio&rdquo; &ldquo;io&rdquo; &ldquo;golang.org/x/net/html/charset&rdquo; &ldquo;golang.org/x/text/encoding&rdquo; &ldquo;golang.org/x/text/transform&rdquo; ) func main() { resp, err := http.Get(&ldquo;http://www.zhenai.com/zhenghun&quot;) if err != nil { panic(err) } defer resp.Body.Close() if resp.StatusCode != http.StatusOK { fmt.Println(&ldquo;Error: status code &ldquo;, resp.StatusCode) return } e</p>
+              <p>并发调度器 //engine package engine import ( &quot;log&quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &lt; e.WorkerCount; i++ { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {</p>
           </div>
       </div>
   </article>
@@ -193,6 +193,40 @@
               
               <div class="post-list group">
                 
+                
+                
+                
+                <div class="post-row">
+                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
+  <div class="post-inner post-hover">
+    <div class="post-meta group">
+  <p class="post-date">2018年03月14日</p>
+  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/03/14/note_25/" rel="bookmark" title="Go: 14-2 单任务版爬虫">Go: 14-2 单任务版爬虫</a></p>
+</div>
+
+  </div>
+  
+</article>
+
+
+                </div>
+                
+                
+                
+                <div class="post-row">
+                <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
+  <div class="post-inner post-hover">
+    <div class="post-meta group">
+  <p class="post-date">2018年03月09日</p>
+  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/03/09/note_24/" rel="bookmark" title="Go: 14-1 爬虫实现">Go: 14-1 爬虫实现</a></p>
+</div>
+
+  </div>
+  
+</article>
+
+
+                </div>
                 
                 
                 
