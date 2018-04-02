@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Fly With Me on Fly With Me</title>
-        <link>http://blog.flywithme.top/feed/index.xml</link>
+        <title>Fly With Bug on Fly With Bug</title>
+        <link>http://blog.flywithme.top/</link>
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Fri, 16 Mar 2018 16:02:01 CST</updated>
+        <updated>Mon, 02 Apr 2018 17:33:59 CST</updated>
+        
+        <item>
+            <title>note_27</title>
+            <link>http://blog.flywithme.top/2018/04/02/note_27/</link>
+            <pubDate>Mon, 02 Apr 2018 17:33:59 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/04/02/note_27/</guid>
+            <description></description>
+        </item>
         
         <item>
             <title>Go: 14-3 多任务版爬虫</title>
@@ -201,7 +210,7 @@ func (s *QueuedScheduler) Run() {
 &lt;ul&gt;
 &lt;li&gt;使用css选择器&lt;/li&gt;
 &lt;li&gt;使用xpath&lt;/li&gt;
-&lt;li&gt;使用正则表达式&lt;br /&gt;
+&lt;li&gt;使用正则表达式
 &lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -1665,122 +1674,6 @@ func (e userError) Message() string {
 
 
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 7-1 资源管理与出错处理</title>
-            <link>http://blog.flywithme.top/2018/02/24/note_12/</link>
-            <pubDate>Sat, 24 Feb 2018 17:06:34 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/24/note_12/</guid>
-            <description>
-
-&lt;h5 id=&#34;defer的调用&#34;&gt;defer的调用&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func a() int {
-defer b()
-return 0
-}
-//b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;defer 的作用就是把关键字之后的函数执行压入一个栈中延迟执行&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;多个 defer 的执行顺序是后进先出 LIFO&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;defer func() { fmt.Println(&amp;quot;1&amp;quot;) }()
-defer func() { fmt.Println(&amp;quot;2&amp;quot;) }()
-defer func() { fmt.Println(&amp;quot;3&amp;quot;) }()
-//输出顺序是 321
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;常用在函数调用结束之后清理相关的资源&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;执行 recover&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;被 deferred 函数的参数在 defer 时确定&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func a() {
-	i := 0
-	defer fmt.Println(i)
-	i++
-	return
-}
-//a 执行输出的是 0 而不是 1，因为 defer 时，i 的值是 0，
-//此时被 defer 的函数参数已经进行执行计算并确定了
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;被 defer 的函数可以读取和修改带名称的返回值
-```
-func c() (i int) {
-defer func() { i++ }()
-return 1
-}
-//被 defer 的函数是在 return 之后执行，可以修改带名称的返回值，上面的函数 c 返回的是 2。&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt; 
- ##### Error处理
- 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;package main&lt;/p&gt;
-
-&lt;p&gt;import (
- 	&amp;ldquo;fmt&amp;rdquo;
- 	&amp;ldquo;os&amp;rdquo;&lt;/p&gt;
-
-&lt;p&gt;	&amp;ldquo;bufio&amp;rdquo;&lt;/p&gt;
-
-&lt;p&gt;	&amp;ldquo;imooc/function/fib&amp;rdquo;
- )&lt;/p&gt;
-
-&lt;p&gt;func tryDefer() {
- 	for i := 0; i &amp;lt; 100; i++ {
- 		defer fmt.Println(i)
- 		if i == 30 {
- 			// Uncomment panic to see
- 			// how it works with defer
- 			// panic(&amp;ldquo;printed too many&amp;rdquo;)
- 		}
- 	}
- }&lt;/p&gt;
-
-&lt;p&gt;func writeFile(filename string) {
- 	file, err := os.OpenFile(filename,
- 		os.O_EXCL|os.O_CREATE|os.O_WRONLY, 0666)
-    //错误处理
- 	if err != nil {
- 		if pathError, ok := err.(*os.PathError); !ok {
- 			panic(err)
- 		} else {
- 			fmt.Printf(&amp;ldquo;%s, %s, %s\n&amp;rdquo;,
- 				pathError.Op,
- 				pathError.Path,
- 				pathError.Err)
- 		}
- 		return
- 	}
- 	defer file.Close()&lt;/p&gt;
-
-&lt;p&gt;	writer := bufio.NewWriter(file)
- 	defer writer.Flush()&lt;/p&gt;
-
-&lt;p&gt;	f := fib.Fibonacci()
- 	for i := 0; i &amp;lt; 20; i++ {
- 		fmt.Fprintln(writer, f())
- 	}
- }&lt;/p&gt;
-
-&lt;p&gt;func main() {
- 	tryDefer()
- 	writeFile(&amp;ldquo;fib1.txt&amp;rdquo;)
- }
- ```&lt;/p&gt;
 </description>
         </item>
         
