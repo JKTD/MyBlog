@@ -6,15 +6,94 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Mon, 02 Apr 2018 17:33:59 CST</updated>
+        <updated>Mon, 02 Apr 2018 18:30:28 CST</updated>
         
         <item>
-            <title>note_27</title>
+            <title>Elasticsearch 入门</title>
+            <link>http://blog.flywithme.top/2018/04/02/note_28/</link>
+            <pubDate>Mon, 02 Apr 2018 18:30:28 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/04/02/note_28/</guid>
+            <description>
+
+&lt;h5 id=&#34;简介-为什么要使用elasticsearch&#34;&gt;简介 为什么要使用Elasticsearch&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、
+ 可靠、快速，而且也具有良好的水平扩展能力，是专门为分布式环境设计的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;安装方便&lt;/strong&gt;： 没有其他依赖，下载后安装很方便，只需修改几个参数就可以搭建一个集群&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;JSON&lt;/strong&gt;: 输入\输出格式为JSON,不需要定义Schema,快捷方便&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RESTful&lt;/strong&gt;：基本所有操作（索引，查询，甚至配置）都可以通过HTTP接口进行&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;分布式&lt;/strong&gt;：节点对外表现对等（每个节点都可以用来做入口）；加入节点，自动均衡&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;多租户&lt;/strong&gt;：可以根据不同的用途分索引；可以同时操作多个索引&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;准实时&lt;/strong&gt;：从文档索引到可以被检索只有轻微延时，约1s&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;安装&#34;&gt;安装&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;上一节使用docker run elasticsearch&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;使用测试&#34;&gt;使用测试&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;打开idea -&amp;gt; tools -&amp;gt; testRESTful Web Service 工具&lt;/p&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/elasticsearch/1522668735966.jpg&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Docker 入门</title>
             <link>http://blog.flywithme.top/2018/04/02/note_27/</link>
             <pubDate>Mon, 02 Apr 2018 17:33:59 CST</pubDate>
             <author>Brasbug</author>
             <guid>http://blog.flywithme.top/2018/04/02/note_27/</guid>
-            <description></description>
+            <description>
+
+&lt;h5 id=&#34;什么是docker&#34;&gt;什么是Docker&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。
+ 它的工作方式非常像虚拟机，包裹所有的东西（文件系统，进程管理，环境变量等）
+ 在一个容器内。跟虚拟机有所不同，它是使用LXC（Linux kernel container）
+ 来替代虚拟层。 LXC没有自己的内核，但是与主机和其他容器一起共享Linux内核的。
+ 基于LXC，因此Docker是非常轻量级的，
+ 因此在运行应用程序的时候几乎没有性能损失。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;安装方式&#34;&gt;安装方式&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;brew install docker&lt;/li&gt;
+&lt;li&gt;官网下载 Docker for mac 下载 &lt;a href=&#34;https://store.docker.com/editions/community/docker-ce-desktop-mac&#34;&gt;docker 下载地址&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;加速器-配置地址-http-www-daocloud-io-mirror-accelerator-doc&#34;&gt;加速器 &lt;a href=&#34;http://www.daocloud.io/mirror#accelerator-doc&#34;&gt;配置地址&lt;/a&gt;&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;选择对应的配置，按照提示，添加镜像地址
+&lt;image  src=&#34;sources/docker/1522665847954.jpg&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;查看docker info
+&lt;image  src=&#34;sources/docker/1522665979813.jpg&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;运行命令 &lt;code&gt;docker run hello-world&lt;/code&gt;  下载使用镜像&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;启动docker nginx&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//把里面的端口映射到外面物理机的80端口
+docker run -d -p 80:80 nginx
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;docker run -d -p 9200:9200 nginx&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
         </item>
         
         <item>
@@ -1481,199 +1560,6 @@ Entering interactive mode (type &amp;quot;help&amp;quot; for commands, &amp;quot
 
 &lt;p&gt;//打开web页面
 &lt;img src=&#34;sources/go/1519975114264.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 7-2 服务器统一出错处理</title>
-            <link>http://blog.flywithme.top/2018/02/24/note_13/</link>
-            <pubDate>Sat, 24 Feb 2018 17:43:08 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/02/24/note_13/</guid>
-            <description>
-
-&lt;h5 id=&#34;如何实现统一的错误处理逻辑-error部分&#34;&gt;如何实现统一的错误处理逻辑 Error部分&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;在业务部分只处理正确的返回，error部分返回给调用部分&lt;/li&gt;
-&lt;li&gt;在函数输入部分做一个包装，然后再输出一个函数，同时处理输入函数的错误部分&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;
-func HandleFileList(writer http.ResponseWriter, request *http.Request) error {
-	path := request.URL.Path[len(&amp;quot;/list/&amp;quot;):]
-	file, err := os.Open(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	all, err := ioutil.ReadAll(file)
-	if err != nil {
-		return err
-	}
-	writer.Write(all)
-	return nil
-}
-
-----------------------------------
-type appHandler func(writer http.ResponseWriter, request *http.Request) error
-
-func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) {
-	return func(writer http.ResponseWriter, request *http.Request) {
-		err := handlerrr(writer, request)
-		if err != nil {
-			logs.Warn(&amp;quot;Error handling request: %s&amp;quot;, err.Error())
-			code := http.StatusOK
-			switch {
-			case os.IsNotExist(err):
-				code = http.StatusNotFound
-			case os.IsPermission(err):
-				code = http.StatusForbidden
-			default:
-				code = http.StatusInternalServerError
-			}
-			http.Error(writer, http.StatusText(code), code)
-		}
-
-	}
-}
-
-func main() {
-	http.HandleFunc(&amp;quot;/list/&amp;quot;, errorWrapper(handler.HandleFileList))
-	err := http.ListenAndServe(&amp;quot;:8888&amp;quot;, nil)
-	if err != nil {
-		panic(err)
-	}
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;panic-recover&#34;&gt;panic &amp;amp; recover&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;停止当前函数执行&lt;/li&gt;
-&lt;li&gt;一直向上返回，执行每一层的defer&lt;/li&gt;
-&lt;li&gt;如果没有遇到recover，程序退出&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;recover&#34;&gt;recover&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;仅在defer中调用&lt;/li&gt;
-&lt;li&gt;获取panic值&lt;/li&gt;
-&lt;li&gt;如果无法处理，可重新panic&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;
-func tryRecover() {
-	defer func() {
-		r := recover()
-		if err, ok := r.(error); ok {
-			log.Println(&amp;quot;Error occured:&amp;quot;, err)
-		} else {
-			panic(r)
-		}
-	}()
-
-	//panic(errors.New(&amp;quot;this is an error&amp;quot;))
-	b := 0
-	a := 5 / b
-	fmt.Println(a)
-
-}
-
-func main() {
-	tryRecover()
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;error-vs-panic&#34;&gt;error vs panic&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;意料之中的：使用error.如文件出错，主动错误判断等可以预料到的错误&lt;/li&gt;
-&lt;li&gt;意料之外的：使用panic.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;错误处理的综合示例&#34;&gt;错误处理的综合示例&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;defer + panic + recover&lt;/li&gt;
-&lt;li&gt;Type Assertion&lt;/li&gt;
-&lt;li&gt;函数式编程应用&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;type appHandler func(writer http.ResponseWriter, request *http.Request) error
-type userError interface {
-	error
-	Message() string
-}
-
-func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) {
-	return func(writer http.ResponseWriter, request *http.Request) {
-		defer func() {
-			r := recover()
-			if r != nil {
-				log.Printf(&amp;quot;Panic:%v&amp;quot;, r)
-				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			}
-		}()
-		err := handlerrr(writer, request)
-		if err != nil {
-			log.Printf(&amp;quot;Error handling request: %s&amp;quot;, err.Error())
-			if userErr, ok := err.(userError); ok {
-				http.Error(writer, userErr.Message(), http.StatusBadRequest)
-				return
-			}
-
-			code := http.StatusOK
-			switch {
-			case os.IsNotExist(err):
-				code = http.StatusNotFound
-			case os.IsPermission(err):
-				code = http.StatusForbidden
-			default:
-				code = http.StatusInternalServerError
-			}
-			http.Error(writer, http.StatusText(code), code)
-		}
-
-	}
-}
----------------------------------------------------------
-
-const prefix = &amp;quot;/list/&amp;quot;
-
-func HandleFileList(writer http.ResponseWriter, request *http.Request) error {
-	fmt.Println(request.URL.Path)
-	if !strings.HasPrefix(request.URL.Path, prefix) {
-		return userError(fmt.Sprintf(&amp;quot;path %s must start with %s&amp;quot;, request.URL.Path, prefix))
-	}
-	path := request.URL.Path[len(&amp;quot;/list/&amp;quot;):]
-	file, err := os.Open(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	all, err := ioutil.ReadAll(file)
-	if err != nil {
-		return err
-	}
-	writer.Write(all)
-	return nil
-}
-
-type userError string
-
-func (e userError) Error() string {
-	return e.Message()
-}
-func (e userError) Message() string {
-	return string(e)
-}
-
-
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         

@@ -12,30 +12,30 @@
         }
     }
   </script>
-  <title>note_27 - Fly With Bug</title>
+  <title>Docker 入门 - Fly With Bug</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="">
+<meta name="description" content="什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系">
 <meta name="author" content="coderzh">
 <meta name="publisher" content="coderzh">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="note_27 - Fly With Bug">
-<meta itemprop="description" content="">
+<meta itemprop="name" content="Docker 入门 - Fly With Bug">
+<meta itemprop="description" content="什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系">
 <meta itemprop="image" content="http://blog.flywithme.top/public/coderzh.jpg">
 
-<meta property="og:title" content="note_27 - Fly With Bug" />
+<meta property="og:title" content="Docker 入门 - Fly With Bug" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://blog.flywithme.top/2018/04/02/note_27/" />
 <meta property="og:image" content="http://blog.flywithme.top/public/coderzh.jpg" />
-<meta property="og:description" content="">
+<meta property="og:description" content="什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@coderzh">
-<meta name="twitter:title" content="note_27 - Fly With Bug">
-<meta name="twitter:description" content="">
+<meta name="twitter:title" content="Docker 入门 - Fly With Bug">
+<meta name="twitter:description" content="什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系">
 <meta name="twitter:creator" content="@coderzh">
 <meta name="twitter:image" content="http://blog.flywithme.top/public/coderzh.jpg">
 
@@ -183,11 +183,11 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">note_27</h1>
+                  <h1 class="post-title">Docker 入门</h1>
 
                   <p class="post-byline">
-                    by  · 2018年04月02日 · 0 Words ·
-                    ~0min reading time |
+                    by  · 2018年04月02日 · 305 Words ·
+                    ~1min reading time |
                     <a href="https://github.com/coderzh/coderzh-hugo-blog/blob/master/content/post/2018/2018-04-02-note_27.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
@@ -198,6 +198,45 @@
                     <div class="entry-inner">
                       
                       
+
+<h5 id="什么是docker">什么是Docker</h5>
+
+<blockquote>
+<p>Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。
+ 它的工作方式非常像虚拟机，包裹所有的东西（文件系统，进程管理，环境变量等）
+ 在一个容器内。跟虚拟机有所不同，它是使用LXC（Linux kernel container）
+ 来替代虚拟层。 LXC没有自己的内核，但是与主机和其他容器一起共享Linux内核的。
+ 基于LXC，因此Docker是非常轻量级的，
+ 因此在运行应用程序的时候几乎没有性能损失。</p>
+</blockquote>
+
+<h5 id="安装方式">安装方式</h5>
+
+<ul>
+<li>brew install docker</li>
+<li>官网下载 Docker for mac 下载 <a href="https://store.docker.com/editions/community/docker-ce-desktop-mac">docker 下载地址</a></li>
+</ul>
+
+<h4 id="加速器-配置地址-http-www-daocloud-io-mirror-accelerator-doc">加速器 <a href="http://www.daocloud.io/mirror#accelerator-doc">配置地址</a></h4>
+
+<ul>
+<li><p>选择对应的配置，按照提示，添加镜像地址
+<image  src="sources/docker/1522665847954.jpg"  /></p></li>
+
+<li><p>查看docker info
+<image  src="sources/docker/1522665979813.jpg"  /></p></li>
+
+<li><p>运行命令 <code>docker run hello-world</code>  下载使用镜像</p></li>
+
+<li><p>启动docker nginx</p>
+
+<pre><code>//把里面的端口映射到外面物理机的80端口
+docker run -d -p 80:80 nginx
+</code></pre></li>
+
+<li><p><code>docker run -d -p 9200:9200 nginx</code></p></li>
+</ul>
+
                       
                     </div>
                     <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
@@ -270,6 +309,12 @@
         
       </li>
       <li class="previous">
+        
+        <a href="http://blog.flywithme.top/2018/04/02/note_28/" rel="prev">
+          <i class="fa fa-chevron-left"></i>
+          <strong>Previous Post</strong>
+          <span>Elasticsearch 入门</span>
+        </a>
         
       </li>
     </ul>
