@@ -186,7 +186,7 @@
                   <h1 class="post-title">Elasticsearch 入门</h1>
 
                   <p class="post-byline">
-                    by  · 2018年04月02日 · 320 Words ·
+                    by  · 2018年04月02日 · 451 Words ·
                     ~1min reading time |
                     <a href="https://github.com/coderzh/coderzh-hugo-blog/blob/master/content/post/2018/2018-04-02-note_28.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -223,6 +223,8 @@
 
 <h5 id="使用测试">使用测试</h5>
 
+<p><image  src="sources/elasticsearch/1522727510567.jpg"  /></p>
+
 <ul>
 <li><p>打开idea -&gt; tools -&gt; testRESTful Web Service 工具</p>
 
@@ -245,6 +247,64 @@
 <li><p>查询
 <image  src="sources/elasticsearch/1522727299952.jpg"  /></p></li>
 </ul>
+
+<pre><code>package persist
+
+import (
+	&quot;context&quot;
+	&quot;errors&quot;
+	&quot;log&quot;
+
+	&quot;imooc/craw/engine&quot;
+
+	&quot;gopkg.in/olivere/elastic.v5&quot;
+)
+
+func ItemSaver(index string) (chan engine.Item, error) {
+	client, err := elastic.NewClient(
+		//Must turn off sniff in docker
+		elastic.SetSniff(false),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	out := make(chan engine.Item)
+	go func() {
+		itemCount := 0
+		for {
+			itemCount++
+			item := &lt;-out
+			log.Printf(&quot;ItemSaver got Item: #%d:%v&quot;, itemCount, item)
+			err := save(client, index, item)
+			if err != nil {
+				log.Printf(&quot;Item saver :error saving item %v:%v&quot;, item, err)
+			}
+
+		}
+	}()
+	return out, nil
+}
+
+func save(client *elastic.Client, index string, item engine.Item) error {
+
+	if item.Type == &quot;&quot; {
+		return errors.New(&quot;must suplly type&quot;)
+	}
+	indexService := client.Index().Index(index).Type(item.Type).BodyJson(item)
+	if item.Id != &quot;&quot; {
+		indexService.Id(item.Id)
+	}
+	_, err := indexService.Do(context.Background())
+	if err != nil {
+		return err
+	}
+	//fmt.Printf(&quot;%+v&quot;, resp)
+	return nil
+}
+
+
+</code></pre>
 
                       
                     </div>

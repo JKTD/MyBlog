@@ -40,6 +40,8 @@
 
 &lt;h5 id=&#34;使用测试&#34;&gt;使用测试&lt;/h5&gt;
 
+&lt;p&gt;&lt;image  src=&#34;sources/elasticsearch/1522727510567.jpg&#34;  /&gt;&lt;/p&gt;
+
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;打开idea -&amp;gt; tools -&amp;gt; testRESTful Web Service 工具&lt;/p&gt;
 
@@ -62,6 +64,64 @@
 &lt;li&gt;&lt;p&gt;查询
 &lt;image  src=&#34;sources/elasticsearch/1522727299952.jpg&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;package persist
+
+import (
+	&amp;quot;context&amp;quot;
+	&amp;quot;errors&amp;quot;
+	&amp;quot;log&amp;quot;
+
+	&amp;quot;imooc/craw/engine&amp;quot;
+
+	&amp;quot;gopkg.in/olivere/elastic.v5&amp;quot;
+)
+
+func ItemSaver(index string) (chan engine.Item, error) {
+	client, err := elastic.NewClient(
+		//Must turn off sniff in docker
+		elastic.SetSniff(false),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	out := make(chan engine.Item)
+	go func() {
+		itemCount := 0
+		for {
+			itemCount++
+			item := &amp;lt;-out
+			log.Printf(&amp;quot;ItemSaver got Item: #%d:%v&amp;quot;, itemCount, item)
+			err := save(client, index, item)
+			if err != nil {
+				log.Printf(&amp;quot;Item saver :error saving item %v:%v&amp;quot;, item, err)
+			}
+
+		}
+	}()
+	return out, nil
+}
+
+func save(client *elastic.Client, index string, item engine.Item) error {
+
+	if item.Type == &amp;quot;&amp;quot; {
+		return errors.New(&amp;quot;must suplly type&amp;quot;)
+	}
+	indexService := client.Index().Index(index).Type(item.Type).BodyJson(item)
+	if item.Id != &amp;quot;&amp;quot; {
+		indexService.Id(item.Id)
+	}
+	_, err := indexService.Do(context.Background())
+	if err != nil {
+		return err
+	}
+	//fmt.Printf(&amp;quot;%+v&amp;quot;, resp)
+	return nil
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         
