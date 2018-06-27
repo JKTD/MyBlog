@@ -754,31 +754,31 @@ package main&lt;/li&gt;
 &lt;h5 id=&#34;传统同步机制&#34;&gt;传统同步机制&lt;/h5&gt;
 
 &lt;ul&gt;
-&lt;li&gt;WaitGroup
-```
-package main&lt;/li&gt;
+&lt;li&gt;WaitGroup&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;import (
- 	&amp;ldquo;fmt&amp;rdquo;
- 	&amp;ldquo;sync&amp;rdquo;
- )&lt;/p&gt;
-
-&lt;p&gt;func doWork(id int,
+&lt;pre&gt;&lt;code&gt; package main
+ 
+ import (
+ 	&amp;quot;fmt&amp;quot;
+ 	&amp;quot;sync&amp;quot;
+ )
+ 
+ func doWork(id int,
  	w worker) {
  	for n := range w.in {
- 		fmt.Printf(&amp;ldquo;Worker %d received %c\n&amp;rdquo;,
+ 		fmt.Printf(&amp;quot;Worker %d received %c\n&amp;quot;,
  			id, n)
  		w.done()
  	}
- }&lt;/p&gt;
-
-&lt;p&gt;type worker struct {
+ }
+ 
+ type worker struct {
  	in   chan int
  	done func()
- }&lt;/p&gt;
-
-&lt;p&gt;func createWorker(
+ }
+ 
+ func createWorker(
  	id int, wg *sync.WaitGroup) worker {
  	w := worker{
  		in: make(chan int),
@@ -788,91 +788,94 @@ package main&lt;/li&gt;
  	}
  	go doWork(id, w)
  	return w
- }&lt;/p&gt;
-
-&lt;p&gt;func chanDemo() {
- 	var wg sync.WaitGroup&lt;/p&gt;
-
-&lt;p&gt;	var workers [10]worker
+ }
+ 
+ func chanDemo() {
+ 	var wg sync.WaitGroup
+ 
+ 	var workers [10]worker
  	for i := 0; i &amp;lt; 10; i++ {
  		workers[i] = createWorker(i, &amp;amp;wg)
- 	}&lt;/p&gt;
-
-&lt;p&gt;	wg.Add(20)
+ 	}
+ 
+ 	wg.Add(20)
  	for i, worker := range workers {
- 		worker.in &amp;lt;- &amp;lsquo;a&amp;rsquo; + i
+ 		worker.in &amp;lt;- &#39;a&#39; + i
  	}
  	for i, worker := range workers {
- 		worker.in &amp;lt;- &amp;lsquo;A&amp;rsquo; + i
- 	}&lt;/p&gt;
-
-&lt;p&gt;	wg.Wait()
- }&lt;/p&gt;
-
-&lt;p&gt;func main() {
+ 		worker.in &amp;lt;- &#39;A&#39; + i
+ 	}
+ 
+ 	wg.Wait()
+ }
+ 
+ func main() {
  	chanDemo()
- }&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;  
-  - Mutex
+ }
+ 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;//加锁之前
-package main&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Mutex&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;import (
-	&amp;ldquo;fmt&amp;rdquo;
-	&amp;ldquo;time&amp;rdquo;
-)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+//加锁之前
+package main
 
-&lt;p&gt;type atomicInt int&lt;/p&gt;
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;time&amp;quot;
+)
 
-&lt;p&gt;func (a *atomicInt) increment() {
+type atomicInt int
+
+func (a *atomicInt) increment() {
 	*a++
-}&lt;/p&gt;
+}
 
-&lt;p&gt;func (a *atomicInt) get() int {
+func (a *atomicInt) get() int {
 	return int(*a)
-}&lt;/p&gt;
+}
 
-&lt;p&gt;func main() {
+func main() {
 	var a atomicInt
 	a.increment()
 	go func() {
 		a.increment()
 	}()
 	time.Sleep(time.Millisecond)
-	fmt.Println(a)&lt;/p&gt;
+	fmt.Println(a)
+}
+----------------------------------------------------------------------------------------
+//加锁之后
+package main
 
-&lt;h2 id=&#34;toc_2&#34;&gt;}&lt;/h2&gt;
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;sync&amp;quot;
+	&amp;quot;time&amp;quot;
+)
 
-&lt;p&gt;//加锁之后
-package main&lt;/p&gt;
-
-&lt;p&gt;import (
-	&amp;ldquo;fmt&amp;rdquo;
-	&amp;ldquo;sync&amp;rdquo;
-	&amp;ldquo;time&amp;rdquo;
-)&lt;/p&gt;
-
-&lt;p&gt;type atomicInt struct {
+type atomicInt struct {
 	value int
 	lock  sync.Mutex
-}&lt;/p&gt;
+}
 
-&lt;p&gt;func (a *atomicInt) increment() {
+func (a *atomicInt) increment() {
 	a.lock.Lock()
 	defer a.lock.Unlock()
 	a.value++
-}&lt;/p&gt;
+}
 
-&lt;p&gt;func (a *atomicInt) get() int {
+func (a *atomicInt) get() int {
 	a.lock.Lock()
 	defer a.lock.Unlock()
 	return a.value
-}&lt;/p&gt;
+}
 
-&lt;p&gt;func main() {
+func main() {
 	var a atomicInt
 	a.increment()
 	go func() {
@@ -880,10 +883,13 @@ package main&lt;/p&gt;
 	}()
 	time.Sleep(time.Millisecond)
 	fmt.Println(a.get())
-}&lt;/p&gt;
+}
 
-&lt;p&gt;```
-  - Cond&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Cond&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         </item>
         

@@ -99,7 +99,7 @@
       <pubDate>Wed, 07 Mar 2018 11:53:27 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/07/note_19/</guid>
-      <description>检测数据冲突 未加锁时使用 go run -race atomic.go 时检测会发现数据访问冲突 加锁之后 运行-race 数据访问冲突就没了 传统同步机制 WaitGroup ``` package main import ( &amp;ldquo;fmt&amp;rdquo; &amp;ldquo;sync&amp;rdquo; ) func doWork(id int, w worker) { for</description>
+      <description>检测数据冲突 未加锁时使用 go run -race atomic.go 时检测会发现数据访问冲突 加锁之后 运行-race 数据访问冲突就没了 传统同步机制 WaitGroup package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; ) func doWork(id int, w worker) { for n</description>
     </item>
     
     <item>
