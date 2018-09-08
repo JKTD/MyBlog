@@ -6,7 +6,16 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Mon, 02 Apr 2018 18:30:28 CST</updated>
+        <updated>Fri, 31 Aug 2018 15:30:44 CST</updated>
+        
+        <item>
+            <title>nat</title>
+            <link>http://blog.flywithme.top/2018/08/31/nat/</link>
+            <pubDate>Fri, 31 Aug 2018 15:30:44 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/08/31/nat/</guid>
+            <description></description>
+        </item>
         
         <item>
             <title>Elasticsearch 入门</title>
@@ -35,7 +44,8 @@
 &lt;h5 id=&#34;安装&#34;&gt;安装&lt;/h5&gt;
 
 &lt;ul&gt;
-&lt;li&gt;上一节使用docker run elasticsearch&lt;/li&gt;
+&lt;li&gt;上一节使用docker run elasticsearch
+docker run -d -p 9200:9200 elasticsearch&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&#34;使用测试&#34;&gt;使用测试&lt;/h5&gt;
@@ -1480,169 +1490,6 @@ func verifyResponse(resp *http.Response,
 }
 
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 8-1 测试</title>
-            <link>http://blog.flywithme.top/2018/03/01/note_14/</link>
-            <pubDate>Thu, 01 Mar 2018 16:01:31 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/03/01/note_14/</guid>
-            <description>
-
-&lt;h5 id=&#34;传统测试&#34;&gt;传统测试&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;测试数据和测试逻辑混在一起&lt;/li&gt;
-&lt;li&gt;出错信息不明确&lt;/li&gt;
-&lt;li&gt;一旦一个数据出错，测试全部结束
-&lt;code&gt;
-@Test public void testAdd(){
-    assertEquals(3,add(1,2));
-    assertEquals(2,add(0,2));
-    assertEquals(0,add(0,0));
-    assertEquals(0,add(1,-1));
-    assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE));
-}
-&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;表格驱动测试&#34;&gt;表格驱动测试&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;分离了测试数据和测试逻辑&lt;/li&gt;
-&lt;li&gt;明确的出错信息&lt;/li&gt;
-&lt;li&gt;可以部分失败&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;tests := []struct{
-    a,b,c int32
-}{
-    {1,2,3},
-    {0,2,2},
-    {0,0,0},
-    {-1,1,0},
-    {Integer.MaxInt32,1,Integer.MinInt32},
-}
-for _,test := range tests{
-    if actual := add(test.a,test.b);actual != text.c{
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;h5 id=&#34;测试代码覆盖率和性能测试&#34;&gt;测试代码覆盖率和性能测试&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;
-func lengthOfNonRepeatingSubStr(s string) int {
-	lastOccurred := make(map[rune]int)
-	start := 0
-	maxLength := 0
-
-	for i, ch := range []rune(s) {
-		if lastI, ok := lastOccurred[ch]; ok &amp;amp;&amp;amp; lastI &amp;gt;= start {
-			start = lastI + 1
-		}
-		if i-start+1 &amp;gt; maxLength {
-			maxLength = i - start + 1
-		}
-		lastOccurred[ch] = i
-	}
-
-	return maxLength
-}
-------------------------------------------------------------
-
-//在package目录下 执行命令 可以执行当前包下的所有测试用例
-go test .
-
-//测试代码覆盖率
-go test -coverprofile=c.out
-
-
-func TestSubstr(t *testing.T) {
-	tests := []struct {
-		s   string
-		ans int
-	}{
-		// Normal cases
-		{&amp;quot;abcabcbb&amp;quot;, 3},
-		{&amp;quot;pwwkew&amp;quot;, 4},
-
-		// Edge cases
-		{&amp;quot;&amp;quot;, 0},
-		{&amp;quot;b&amp;quot;, 1},
-		{&amp;quot;bbbbbbbbb&amp;quot;, 1},
-		{&amp;quot;abcabcabcd&amp;quot;, 4},
-
-		// Chinese support
-		{&amp;quot;这里是慕课网&amp;quot;, 6},
-		{&amp;quot;一二三二一&amp;quot;, 3},
-		{&amp;quot;黑化肥挥发发灰会花飞灰化肥挥发发黑会飞花&amp;quot;, 9},
-	}
-	for _, tt := range tests {
-		actual := lengthOfNonRepeatingSubStr(tt.s)
-		if actual != tt.ans {
-			t.Errorf(&amp;quot;got %d for input %s; &amp;quot;+
-				&amp;quot;expected %d&amp;quot;,
-				actual, tt.s, tt.ans)
-		}
-	}
-}
-
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;pre&gt;&lt;code&gt;//性能测试
-go test -bench .
-func BenchmarkSubstr(b *testing.B) {
-	s := &amp;quot;黑化肥挥发发灰会花飞灰化肥挥发发黑会飞花&amp;quot;
-	for i := 0; i &amp;lt; 13; i++ {
-		s = s + s
-	}
-	b.Logf(&amp;quot;len(s) = %d&amp;quot;, len(s))
-	ans := 9
-	b.ResetTimer()
-
-	for i := 0; i &amp;lt; b.N; i++ {
-		actual := lengthOfNonRepeatingSubStr(s)
-		if actual != ans {
-			b.Errorf(&amp;quot;got %d for input %s; &amp;quot;+
-				&amp;quot;expected %d&amp;quot;,
-				actual, s, ans)
-		}
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;使用pprof进行性能调优&#34;&gt;使用pprof进行性能调优&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;//生成cpu.out 二进制文件，无法直接查看
-go test -bench . -cpuprofile cpu.out 
-//可以使用
-go tool pprof cpu.out 
-//进入pprof 工具命令行解码
-
-$ go tool pprof cpu.out 
-Type: cpu
-Time: Mar 2, 2018 at 12:06pm (CST)
-Duration: 2.52s, Total samples = 2.09s (83.09%)
-Entering interactive mode (type &amp;quot;help&amp;quot; for commands, &amp;quot;o&amp;quot; for options)
-(pprof) web  // 若没有安装graphviz 需要 安装 brew install graphviz  
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;调优流程
-&lt;img src=&#34;sources/go/1519977293908.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;//打开web页面
-&lt;img src=&#34;sources/go/1519975114264.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
 </description>
         </item>
         

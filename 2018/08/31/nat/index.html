@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>Elasticsearch 入门 - Fly With Bug</title>
+  <title>nat - Fly With Bug</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="简介 为什么要使用Elasticsearch Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门">
+<meta name="description" content="">
 <meta name="author" content="coderzh">
 <meta name="publisher" content="coderzh">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Elasticsearch 入门 - Fly With Bug">
-<meta itemprop="description" content="简介 为什么要使用Elasticsearch Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门">
+<meta itemprop="name" content="nat - Fly With Bug">
+<meta itemprop="description" content="">
 <meta itemprop="image" content="http://blog.flywithme.top/public/coderzh.jpg">
 
-<meta property="og:title" content="Elasticsearch 入门 - Fly With Bug" />
+<meta property="og:title" content="nat - Fly With Bug" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2018/04/02/note_28/" />
+<meta property="og:url" content="http://blog.flywithme.top/2018/08/31/nat/" />
 <meta property="og:image" content="http://blog.flywithme.top/public/coderzh.jpg" />
-<meta property="og:description" content="简介 为什么要使用Elasticsearch Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门">
+<meta property="og:description" content="">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@coderzh">
-<meta name="twitter:title" content="Elasticsearch 入门 - Fly With Bug">
-<meta name="twitter:description" content="简介 为什么要使用Elasticsearch Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门">
+<meta name="twitter:title" content="nat - Fly With Bug">
+<meta name="twitter:description" content="">
 <meta name="twitter:creator" content="@coderzh">
 <meta name="twitter:image" content="http://blog.flywithme.top/public/coderzh.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2018/04/02/note_28/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2018/04/02/note_28/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2018/08/31/nat/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2018/08/31/nat/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top/public/favicon.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">Elasticsearch 入门</h1>
+                  <h1 class="post-title">nat</h1>
 
                   <p class="post-byline">
-                    by  · 2018年04月02日 · 457 Words ·
-                    ~1min reading time |
-                    <a href="https://github.com/coderzh/coderzh-hugo-blog/blob/master/content/post/2018/2018-04-02-note_28.md"
+                    by  · 2018年08月31日 · 0 Words ·
+                    ~0min reading time |
+                    <a href="https://github.com/coderzh/coderzh-hugo-blog/blob/master/content/post/2018/2018-08-31-nat.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -198,115 +198,6 @@
                     <div class="entry-inner">
                       
                       
-
-<h5 id="简介-为什么要使用elasticsearch">简介 为什么要使用Elasticsearch</h5>
-
-<blockquote>
-<p>Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、
- 可靠、快速，而且也具有良好的水平扩展能力，是专门为分布式环境设计的。</p>
-</blockquote>
-
-<ul>
-<li><strong>安装方便</strong>： 没有其他依赖，下载后安装很方便，只需修改几个参数就可以搭建一个集群</li>
-<li><strong>JSON</strong>: 输入\输出格式为JSON,不需要定义Schema,快捷方便</li>
-<li><strong>RESTful</strong>：基本所有操作（索引，查询，甚至配置）都可以通过HTTP接口进行</li>
-<li><strong>分布式</strong>：节点对外表现对等（每个节点都可以用来做入口）；加入节点，自动均衡</li>
-<li><strong>多租户</strong>：可以根据不同的用途分索引；可以同时操作多个索引</li>
-<li><strong>准实时</strong>：从文档索引到可以被检索只有轻微延时，约1s</li>
-</ul>
-
-<h5 id="安装">安装</h5>
-
-<ul>
-<li>上一节使用docker run elasticsearch
-docker run -d -p 9200:9200 elasticsearch</li>
-</ul>
-
-<h5 id="使用测试">使用测试</h5>
-
-<p><image  src="sources/elasticsearch/1522727510567.jpg"  /></p>
-
-<ul>
-<li><p>打开idea -&gt; tools -&gt; testRESTful Web Service 工具</p>
-
-<p><image  src="sources/elasticsearch/1522668735966.jpg"  /></p></li>
-
-<li><p>请求：请求参数及说明</p>
-
-<ul>
-<li><server>:9200/index/type/id</li>
-<li>index -&gt; database</li>
-<li>type -&gt; table</li>
-</ul></li>
-
-<li><p>GET
-<image  src="sources/elasticsearch/1522726889411.jpg"  /></p></li>
-
-<li><p>插入
-<image  src="sources/elasticsearch/1522727255830.jpg"  /></p></li>
-
-<li><p>查询
-<image  src="sources/elasticsearch/1522727299952.jpg"  /></p></li>
-</ul>
-
-<pre><code>package persist
-
-import (
-	&quot;context&quot;
-	&quot;errors&quot;
-	&quot;log&quot;
-
-	&quot;imooc/craw/engine&quot;
-
-	&quot;gopkg.in/olivere/elastic.v5&quot;
-)
-
-func ItemSaver(index string) (chan engine.Item, error) {
-	client, err := elastic.NewClient(
-		//Must turn off sniff in docker
-		elastic.SetSniff(false),
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	out := make(chan engine.Item)
-	go func() {
-		itemCount := 0
-		for {
-			itemCount++
-			item := &lt;-out
-			log.Printf(&quot;ItemSaver got Item: #%d:%v&quot;, itemCount, item)
-			err := save(client, index, item)
-			if err != nil {
-				log.Printf(&quot;Item saver :error saving item %v:%v&quot;, item, err)
-			}
-
-		}
-	}()
-	return out, nil
-}
-
-func save(client *elastic.Client, index string, item engine.Item) error {
-
-	if item.Type == &quot;&quot; {
-		return errors.New(&quot;must suplly type&quot;)
-	}
-	indexService := client.Index().Index(index).Type(item.Type).BodyJson(item)
-	if item.Id != &quot;&quot; {
-		indexService.Id(item.Id)
-	}
-	_, err := indexService.Do(context.Background())
-	if err != nil {
-		return err
-	}
-	//fmt.Printf(&quot;%+v&quot;, resp)
-	return nil
-}
-
-
-</code></pre>
-
                       
                     </div>
                     <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
@@ -317,7 +208,7 @@ func save(client *elastic.Client, index string, item engine.Item) error {
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Flywithbug</a>
                             <br />微信关注：我再案发现场
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/04/02/note_28/">http://blog.flywithme.top/2018/04/02/note_28/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/08/31/nat/">http://blog.flywithme.top/2018/08/31/nat/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -371,20 +262,14 @@ func save(client *elastic.Client, index string, item engine.Item) error {
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2018/04/02/note_27/" rel="next">
+        <a href="http://blog.flywithme.top/2018/04/02/note_28/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>Docker 入门</span>
+          <span>Elasticsearch 入门</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2018/08/31/nat/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>nat</span>
-        </a>
         
       </li>
     </ul>
