@@ -6,7 +6,91 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Fri, 31 Aug 2018 15:30:44 CST</updated>
+        <updated>Mon, 10 Dec 2018 06:53:01 CST</updated>
+        
+        <item>
+            <title>MongoDB 用户名密码登录</title>
+            <link>http://blog.flywithme.top/2018/12/10/mongodb/</link>
+            <pubDate>Mon, 10 Dec 2018 06:53:01 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/12/10/mongodb/</guid>
+            <description>
+
+&lt;h5 id=&#34;mongodb-authentication&#34;&gt;MongoDB authentication&lt;/h5&gt;
+
+&lt;p&gt;MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产生安全风险，被利用此配置漏洞，入侵数据库。&lt;/p&gt;
+
+&lt;h5 id=&#34;容易遭受入侵的环境&#34;&gt;容易遭受入侵的环境&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用默认 mongod 命令启动 Mongodb&lt;/li&gt;
+&lt;li&gt;机器可以被公网访问&lt;/li&gt;
+&lt;li&gt;在公网上开放了 Mongodb 端口
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;开启用户名和密码验证&#34;&gt;开启用户名和密码验证&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;终端启动数据库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//参数默认可以不加，若有自定义参数，才要加上，下同
+mongod --port 27017 --dbpath /data/db1  
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;连接 mongo后创建用户&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mongo --port 27017
+use admin
+db.createUser(
+  {
+    user: &amp;quot;adminUser&amp;quot;,
+    pwd: &amp;quot;adminPass&amp;quot;,
+    roles: [ { role: &amp;quot;userAdminAnyDatabase&amp;quot;, db: &amp;quot;admin&amp;quot; } ]
+  }
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;重启 mongod 数据库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mongod --auth --port 27017 --dbpath /data/db1
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;连接数据库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;quot; --authenticationDatabase &amp;quot;admin&amp;quot;
+
+mongo --port 27017
+    
+use admin
+db.auth(&amp;quot;adminUser&amp;quot;, &amp;quot;adminPass&amp;quot;)
+    
+// 输出 1 表示验证成功
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;创建普通用户&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;use foo
+    
+db.createUser(
+  {
+    user: &amp;quot;simpleUser&amp;quot;,
+    pwd: &amp;quot;simplePass&amp;quot;,
+    roles: [ { role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;foo&amp;quot; },
+             { role: &amp;quot;read&amp;quot;, db: &amp;quot;bar&amp;quot; } ]
+  }
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用普通用户连接数据库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
         
         <item>
             <title>nat</title>
@@ -1342,154 +1426,6 @@ go doc package function 获取某个函数在某个包中的文档注释，例�
 &lt;li&gt;http测试&lt;/li&gt;
 &lt;li&gt;文档以及示例代码&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 8-1 测试http服务器</title>
-            <link>http://blog.flywithme.top/2018/03/02/note_15/</link>
-            <pubDate>Fri, 02 Mar 2018 15:57:46 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/03/02/note_15/</guid>
-            <description>
-
-&lt;h5 id=&#34;针对7-2章节中的errorwapper的测试-示例代码在-imooc-errorhandler&#34;&gt;针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler）&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;通过虚拟Request/Response来测试 （TestErrWrapper）&lt;/li&gt;
-&lt;li&gt;通过启服务器&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;//errorWapper
-func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) {
-	return func(writer http.ResponseWriter, request *http.Request) {
-		defer func() {
-			r := recover()
-			if r != nil {
-				log.Printf(&amp;quot;Panic:%v&amp;quot;, r)
-				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			}
-		}()
-		err := handlerrr(writer, request)
-		if err != nil {
-			log.Printf(&amp;quot;Error handling request: %s&amp;quot;, err.Error())
-			if userErr, ok := err.(userError); ok {
-				http.Error(writer, userErr.Message(), http.StatusBadRequest)
-				return
-			}
-
-			code := http.StatusOK
-			switch {
-			case os.IsNotExist(err):
-				code = http.StatusNotFound
-			case os.IsPermission(err):
-				code = http.StatusForbidden
-			default:
-				code = http.StatusInternalServerError
-			}
-			http.Error(writer, http.StatusText(code), code)
-		}
-
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;
-func errPanic(_ http.ResponseWriter,
-	_ *http.Request) error {
-	panic(123)
-}
-
-type testingUserError string
-
-func (e testingUserError) Error() string {
-	return e.Message()
-}
-
-func (e testingUserError) Message() string {
-	return string(e)
-}
-
-func errUserError(_ http.ResponseWriter,
-	_ *http.Request) error {
-	return testingUserError(&amp;quot;user error&amp;quot;)
-}
-
-func errNotFound(_ http.ResponseWriter,
-	_ *http.Request) error {
-	return os.ErrNotExist
-}
-
-func errNoPermission(_ http.ResponseWriter,
-	_ *http.Request) error {
-	return os.ErrPermission
-}
-
-func errUnknown(_ http.ResponseWriter,
-	_ *http.Request) error {
-	return errors.New(&amp;quot;unknown error&amp;quot;)
-}
-
-func noError(writer http.ResponseWriter,
-	_ *http.Request) error {
-	fmt.Fprintln(writer, &amp;quot;no error&amp;quot;)
-	return nil
-}
-
-var tests = []struct {
-	h       appHandler
-	code    int
-	message string
-}{
-	{errPanic, 500, &amp;quot;Internal Server Error&amp;quot;},
-	{errUserError, 400, &amp;quot;user error&amp;quot;},
-	{errNotFound, 404, &amp;quot;Not Found&amp;quot;},
-	{errNoPermission, 403, &amp;quot;Forbidden&amp;quot;},
-	{errUnknown, 500, &amp;quot;Internal Server Error&amp;quot;},
-	{noError, 200, &amp;quot;no error&amp;quot;},
-}
-
-func TestErrWrapper(t *testing.T) {
-	for _, tt := range tests {
-		f := errorWrapper(tt.h)
-		response := httptest.NewRecorder()
-		request := httptest.NewRequest(
-			http.MethodGet,
-			&amp;quot;http://www.imooc.com&amp;quot;, nil)
-		f(response, request)
-
-		verifyResponse(response.Result(),
-			tt.code, tt.message, t)
-	}
-}
-
-func TestErrWrapperInServer(t *testing.T) {
-	for _, tt := range tests {
-		f := errorWrapper(tt.h)
-		server := httptest.NewServer(
-			http.HandlerFunc(f))
-		resp, _ := http.Get(server.URL)
-
-		verifyResponse(
-			resp, tt.code, tt.message, t)
-	}
-}
-
-func verifyResponse(resp *http.Response,
-	expectedCode int, expectedMsg string,
-	t *testing.T) {
-	b, _ := ioutil.ReadAll(resp.Body)
-	body := strings.Trim(string(b), &amp;quot;\n&amp;quot;)
-	if resp.StatusCode != expectedCode ||
-		body != expectedMsg {
-		t.Errorf(&amp;quot;expect (%d, %s); &amp;quot;+
-			&amp;quot;got (%d, %s)&amp;quot;,
-			expectedCode, expectedMsg,
-			resp.StatusCode, body)
-	}
-}
-
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         

@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2015. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 31 Aug 2018 15:30:44 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 10 Dec 2018 06:53:01 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/feed.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MongoDB 用户名密码登录</title>
+      <link>http://blog.flywithme.top/2018/12/10/mongodb/</link>
+      <pubDate>Mon, 10 Dec 2018 06:53:01 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2018/12/10/mongodb/</guid>
+      <description>MongoDB authentication MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产</description>
+    </item>
     
     <item>
       <title>nat</title>

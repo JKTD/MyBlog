@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://blog.flywithme.top/2018/12/10/mongodb/</loc>
+        <lastmod>2018-12-10T06:53:01+08:00</lastmod>
+    </url>
+    
+    <url>
         <loc>http://blog.flywithme.top/2018/08/31/nat/</loc>
         <lastmod>2018-08-31T15:30:44+08:00</lastmod>
     </url>
@@ -489,13 +494,13 @@
     
     <url>
         <loc>http://blog.flywithme.top/</loc>
-        <lastmod>2018-08-31T15:30:44+08:00</lastmod>
+        <lastmod>2018-12-10T06:53:01+08:00</lastmod>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>http://blog.flywithme.top/post/</loc>
-        <lastmod>2018-08-31T15:30:44+08:00</lastmod>
+        <lastmod>2018-12-10T06:53:01+08:00</lastmod>
         <priority>0</priority>
     </url>
     
@@ -519,19 +524,19 @@
     
     <url>
         <loc>http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/</loc>
-        <lastmod>2018-08-31T15:30:44+08:00</lastmod>
+        <lastmod>2018-12-10T06:53:01+08:00</lastmod>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/</loc>
-        <lastmod>2018-08-31T15:30:44+08:00</lastmod>
+        <lastmod>2018-12-10T06:53:01+08:00</lastmod>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
-        <lastmod>2018-08-31T15:30:44+08:00</lastmod>
+        <lastmod>2018-12-10T06:53:01+08:00</lastmod>
         <priority>0</priority>
     </url>
     
