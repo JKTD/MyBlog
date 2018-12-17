@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2015. All rights reserved.</copyright>
-    <lastBuildDate>Mon, 10 Dec 2018 06:53:01 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 18 Dec 2018 03:35:24 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/feed.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>gin api 跨域问题,cors</title>
+      <link>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</link>
+      <pubDate>Tue, 18 Dec 2018 03:35:24 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</guid>
+      <description>package main import ( &amp;quot;time&amp;quot; &amp;quot;github.com/gin-contrib/cors&amp;quot; &amp;quot;github.com/gin-gonic/gin&amp;quot; ) func main() { router := gin.Default() // CORS for https://foo.com and https://github.com origins, allowing: // - PUT and PATCH methods // - Origin header // - Credentials share // - Preflight requests cached for 12 hours router.Use(cors.New(cors.Config{ AllowOrigins: []string{&amp;quot;https://foo.com&amp;quot;}, AllowMethods: []string{&amp;quot;PUT&amp;quot;, &amp;quot;PATCH&amp;quot;}, AllowHeaders: []string{&amp;quot;Origin&amp;quot;}, ExposeHeaders: []string{&amp;quot;Content-Length&amp;quot;}, AllowCredentials: true, AllowOriginFunc: func(origin string) bool { return origin == &amp;quot;https://github.com&amp;quot; }, MaxAge: 12 * time.Hour, })) router.</description>
+    </item>
     
     <item>
       <title>MongoDB 用户名密码登录</title>
