@@ -183,7 +183,7 @@
               <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" rel="bookmark" title="gin api 跨域问题,cors">gin api 跨域问题,cors</a>
           </h2>
           <div class="entry excerpt">
-              <p>package main import ( &quot;time&quot; &quot;github.com/gin-contrib/cors&quot; &quot;github.com/gin-gonic/gin&quot; ) func main() { router := gin.Default() // CORS for https://foo.com and https://github.com origins, allowing: // - PUT and PATCH methods // - Origin header // - Credentials share // - Preflight requests cached for 12 hours router.Use(cors.New(cors.Config{ AllowOrigins: []string{&quot;https://foo.com&quot;}, AllowMethods: []string{&quot;PUT&quot;, &quot;PATCH&quot;}, AllowHeaders: []string{&quot;Origin&quot;}, ExposeHeaders: []string{&quot;Content-Length&quot;}, AllowCredentials: true, AllowOriginFunc: func(origin string) bool { return origin == &quot;https://github.com&quot; }, MaxAge: 12 * time.Hour, })) router.</p>
+              <p>当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求</p>
           </div>
       </div>
   </article>
