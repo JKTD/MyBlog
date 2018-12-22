@@ -6,7 +6,159 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Tue, 18 Dec 2018 03:35:24 CST</updated>
+        <updated>Sat, 22 Dec 2018 06:57:21 CST</updated>
+        
+        <item>
+            <title>vue-element-admin 踩坑日记</title>
+            <link>http://blog.flywithme.top/2018/12/22/vue-element-admin/</link>
+            <pubDate>Sat, 22 Dec 2018 06:57:21 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/12/22/vue-element-admin/</guid>
+            <description>
+
+&lt;p&gt;&lt;a href=&#34;http://panjiachen.github.io/vue-element-admin&#34;&gt;vue-element-admin&lt;/a&gt; 是一个后台集成解决方案，
+它基于 vue 和 element。它使用了最新的前端技术栈，
+内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型，
+提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。&lt;/p&gt;
+
+&lt;p&gt;通过vue-element-admin 的源代码学习掌握Vue的一些基础知识&lt;/p&gt;
+
+&lt;h5 id=&#34;svg-图片加载&#34;&gt;SVG 图片加载&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;src/components目录下创建文件夹结构如下
+  &lt;img src=&#34;sources/vue/1458ED9C-2172-42AE-B350-131FDD080B19.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;br /&gt;
+SvgIcon下创建index.vue文件内容如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;template&amp;gt;
+  &amp;lt;svg :class=&amp;quot;svgClass&amp;quot; aria-hidden=&amp;quot;true&amp;quot;&amp;gt;
+    &amp;lt;use :xlink:href=&amp;quot;iconName&amp;quot;/&amp;gt;
+  &amp;lt;/svg&amp;gt;
+&amp;lt;/template&amp;gt;
+    
+&amp;lt;script&amp;gt;
+export default {
+  name: &#39;SvgIcon&#39;,
+  props: {
+    iconClass: {
+      type: String,
+      required: true
+    },
+    className: {
+      type: String,
+      default: &#39;&#39;
+    }
+  },
+  computed: {
+    iconName() {
+      return `#icon-${this.iconClass}`
+    },
+    svgClass() {
+      if (this.className) {
+        return &#39;svg-icon &#39; + this.className
+      } else {
+        return &#39;svg-icon&#39;
+      }
+    }
+  }
+}
+&amp;lt;/script&amp;gt;
+    
+&amp;lt;style scoped&amp;gt;
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+&amp;lt;/style&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在src目录下创建文件夹结构如图&lt;br /&gt;
+ &lt;img src=&#34;sources/vue/C4C47129-A335-4E5C-B076-2C1167B78492.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;br /&gt;
+svg 文件夹下放icon表情文件(.svg格式的文件)&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;index.js文件内容如下&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    import Vue from &#39;vue&#39;
+    import SvgIcon from &#39;@/components/SvgIcon&#39;// svg组件
+    
+    // register globally
+    Vue.component(&#39;svg-icon&#39;, SvgIcon)
+    
+    const req = require.context(&#39;./svg&#39;, false, /\.svg$/)
+    const requireAll = requireContext =&amp;gt; requireContext.keys().map(requireContext)
+    requireAll(req)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;svgo.yml文件内容如下&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# replace default config
+
+# multipass: true
+# full: true
+
+plugins:
+
+  # - name
+  #
+  # or:
+  # - name: false
+  # - name: true
+  #
+  # or:
+  # - name:
+  #     param1: 1
+  #     param2: 2
+
+- removeAttrs:
+    attrs:
+      - &#39;fill&#39;
+      - &#39;fill-rule&#39;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;修改配置文件 package.json文件
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;在scriptes 属性下添加一行&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;quot;svgo&amp;quot;: &amp;quot;svgo -f src/icons/svg --config=src/icons/svgo.yml&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;修改build目录下webpack.base.conf.js文件&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;修改module-&amp;gt;rules下元素&lt;/strong&gt;
+  如图示修改
+ &lt;img src=&#34;sources/vue/90A23CD9-00AD-4A94-A9E6-7F0C088E7B16.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    {
+      test: /\.svg$/,
+      loader: &#39;svg-sprite-loader&#39;,
+      include: [resolve(&#39;src/icons&#39;)],
+      options: {
+        symbolId: &#39;icon-[name]&#39;
+      }
+    },
+    {
+      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      loader: &#39;url-loader&#39;,
+      exclude: [resolve(&#39;src/icons&#39;)],
+      options: {
+        limit: 10000,
+        name: utils.assetsPath(&#39;img/[name].[hash:7].[ext]&#39;)
+      }
+    },
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>gin api 跨域问题,cors</title>
@@ -1298,88 +1450,6 @@ func main() {
 }
 
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 9-1 goroutine 并发编程</title>
-            <link>http://blog.flywithme.top/2018/03/04/note_17/</link>
-            <pubDate>Sun, 04 Mar 2018 18:02:36 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/03/04/note_17/</guid>
-            <description>
-
-&lt;h5 id=&#34;示例&#34;&gt;示例&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;func main() {
-	for i := 0; i &amp;lt; 1000; i++ {
-		go func(i int) {
-			for {
-				fmt.Printf(&amp;quot;Hello form goroutine %d \n&amp;quot;, i)
-			}
-		}(i)
-	}
-} 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;协程-coroutine&#34;&gt;协程 Coroutine&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;轻量级&amp;rdquo;线程&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;非抢占式多任务处理，由协程主动交出控制权 （runtime.Gosched()）
-&lt;code&gt;
-func main() {
-	var a [10]int
-	for i := 0; i &amp;lt; 10; i++ {
-		go func(i int) {
-			for {
-				//fmt.Printf(&amp;quot;Hello form goroutine %d \n&amp;quot;, i)
-				a[i]++
-				runtime.Gosched() //交出控制权
-			}
-		}(i)
-	}
-	time.Sleep(time.Second)
-	fmt.Println(a)
-}
-&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;编译器/解释器/虚拟机层面的多任务&lt;/li&gt;
-&lt;li&gt;多个协程可能在一个或多个线程上运行&lt;/li&gt;
-&lt;li&gt;子程序是协程的一个特例
-&lt;img src=&#34;sources/go/1520161869947.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;其他语言的协程&#34;&gt;其他语言的协程&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;C++ :Boost.Coroutine&lt;/li&gt;
-&lt;li&gt;Java:原生不支持，第三方的有支持&lt;/li&gt;
-&lt;li&gt;Python 3.5之前使用yield关键字实现协程。 3.5之后加入了async def对协程原生支持&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;goroutine的调度器&#34;&gt;goroutine的调度器&lt;/h5&gt;
-
-&lt;p&gt;&lt;img src=&#34;sources/go/1520162129021.jpg&#34; width = &#34;100%&#34; /&gt;&lt;/p&gt;
-
-&lt;h5 id=&#34;goroutine的定义&#34;&gt;goroutine的定义&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;任何函数只需要加上go就能送给调度器运行&lt;/li&gt;
-&lt;li&gt;不需要再定义时区分是否异步函数&lt;/li&gt;
-&lt;li&gt;调度器会在合适的点进行切换&lt;/li&gt;
-&lt;li&gt;使用 -race来检测数据访问的冲突&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;goroutine可能的切换点&#34;&gt;goroutine可能的切换点&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;I/O,select&lt;/li&gt;
-&lt;li&gt;channel&lt;/li&gt;
-&lt;li&gt;等待锁&lt;/li&gt;
-&lt;li&gt;函数调用（有时）&lt;/li&gt;
-&lt;li&gt;runtime.Gosched()&lt;/li&gt;
-&lt;li&gt;只是参考，不能保证切换，不能保证在其他地方不切换&lt;/li&gt;
-&lt;/ul&gt;
 </description>
         </item>
         

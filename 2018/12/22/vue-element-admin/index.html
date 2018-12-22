@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>gin api 跨域问题,cors - Fly With Bug</title>
+  <title>vue-element-admin 踩坑日记 - Fly With Bug</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求">
+<meta name="description" content="vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模">
 <meta name="author" content="coderzh">
 <meta name="publisher" content="coderzh">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="gin api 跨域问题,cors - Fly With Bug">
-<meta itemprop="description" content="当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求">
+<meta itemprop="name" content="vue-element-admin 踩坑日记 - Fly With Bug">
+<meta itemprop="description" content="vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模">
 <meta itemprop="image" content="http://blog.flywithme.top/public/coderzh.jpg">
 
-<meta property="og:title" content="gin api 跨域问题,cors - Fly With Bug" />
+<meta property="og:title" content="vue-element-admin 踩坑日记 - Fly With Bug" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" />
+<meta property="og:url" content="http://blog.flywithme.top/2018/12/22/vue-element-admin/" />
 <meta property="og:image" content="http://blog.flywithme.top/public/coderzh.jpg" />
-<meta property="og:description" content="当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求">
+<meta property="og:description" content="vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@coderzh">
-<meta name="twitter:title" content="gin api 跨域问题,cors - Fly With Bug">
-<meta name="twitter:description" content="当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求">
+<meta name="twitter:title" content="vue-element-admin 踩坑日记 - Fly With Bug">
+<meta name="twitter:description" content="vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模">
 <meta name="twitter:creator" content="@coderzh">
 <meta name="twitter:image" content="http://blog.flywithme.top/public/coderzh.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2018/12/22/vue-element-admin/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2018/12/22/vue-element-admin/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top/public/favicon.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">gin api 跨域问题,cors</h1>
+                  <h1 class="post-title">vue-element-admin 踩坑日记</h1>
 
                   <p class="post-byline">
-                    by  · 2018年12月18日 · 384 Words ·
-                    ~1min reading time |
-                    <a href="https://github.com/coderzh/coderzh-hugo-blog/blob/master/content/post/2018/2018-12-18-blocked%20by%20CORS%20policy.md"
+                    by  · 2018年12月22日 · 541 Words ·
+                    ~2min reading time |
+                    <a href="https://github.com/coderzh/coderzh-hugo-blog/blob/master/content/post/2018/2018-12-22-vue-element-admin.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -197,43 +197,148 @@
                   <div class="entry">
                     <div class="entry-inner">
                       
-                      <p>当一个资源从与该资源本身所在的服务器<strong>不同的域或端口</strong>请求一个资源时，资源会发起一个跨域 HTTP 请求。</p>
+                      
 
-<p>出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循<strong>同源策略</strong>。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。</p>
+<p><a href="http://panjiachen.github.io/vue-element-admin">vue-element-admin</a> 是一个后台集成解决方案，
+它基于 vue 和 element。它使用了最新的前端技术栈，
+内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型，
+提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。</p>
 
-<p>跨域资源共享标准：规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 GET 以外的 HTTP 请求，或者搭配某些 MIME 类型的 POST 请求），浏览器必须首先使用 <code>OPTIONS</code> 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）。</p>
+<p>通过vue-element-admin 的源代码学习掌握Vue的一些基础知识</p>
 
-<p><a href="https://github.com/gin-gonic/gin">gin</a></p>
+<h5 id="svg-图片加载">SVG 图片加载</h5>
 
-<pre><code>package main
+<ol>
+<li><p>src/components目录下创建文件夹结构如下
+  <img src="sources/vue/1458ED9C-2172-42AE-B350-131FDD080B19.png" alt="文件结构" /><br />
+SvgIcon下创建index.vue文件内容如下：</p>
 
-import (
-	&quot;time&quot;
-
-	&quot;github.com/gin-contrib/cors&quot;
-	&quot;github.com/gin-gonic/gin&quot;
-)
-
-func main() {
-	router := gin.Default()
-	// CORS for https://foo.com and https://github.com origins, allowing:
-	// - PUT and PATCH methods
-	// - Origin header
-	// - Credentials share
-	// - Preflight requests cached for 12 hours
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{&quot;https://foo.com&quot;},
-		AllowMethods:     []string{&quot;PUT&quot;, &quot;PATCH&quot;},
-		AllowHeaders:     []string{&quot;Origin&quot;},
-		ExposeHeaders:    []string{&quot;Content-Length&quot;},
-		AllowCredentials: true,
-		AllowOriginFunc: func(origin string) bool {
-			return origin == &quot;https://github.com&quot;
-		},
-		MaxAge: 12 * time.Hour,
-	}))
-	router.Run()
+<pre><code>&lt;template&gt;
+  &lt;svg :class=&quot;svgClass&quot; aria-hidden=&quot;true&quot;&gt;
+    &lt;use :xlink:href=&quot;iconName&quot;/&gt;
+  &lt;/svg&gt;
+&lt;/template&gt;
+    
+&lt;script&gt;
+export default {
+  name: 'SvgIcon',
+  props: {
+    iconClass: {
+      type: String,
+      required: true
+    },
+    className: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    iconName() {
+      return `#icon-${this.iconClass}`
+    },
+    svgClass() {
+      if (this.className) {
+        return 'svg-icon ' + this.className
+      } else {
+        return 'svg-icon'
+      }
+    }
+  }
 }
+&lt;/script&gt;
+    
+&lt;style scoped&gt;
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+&lt;/style&gt;
+
+</code></pre></li>
+
+<li><p>在src目录下创建文件夹结构如图<br />
+ <img src="sources/vue/C4C47129-A335-4E5C-B076-2C1167B78492.png" alt="文件结构" /><br />
+svg 文件夹下放icon表情文件(.svg格式的文件)</p></li>
+</ol>
+
+<p><strong>index.js文件内容如下</strong></p>
+
+<pre><code>    import Vue from 'vue'
+    import SvgIcon from '@/components/SvgIcon'// svg组件
+    
+    // register globally
+    Vue.component('svg-icon', SvgIcon)
+    
+    const req = require.context('./svg', false, /\.svg$/)
+    const requireAll = requireContext =&gt; requireContext.keys().map(requireContext)
+    requireAll(req)
+</code></pre>
+
+<p><strong>svgo.yml文件内容如下</strong></p>
+
+<pre><code># replace default config
+
+# multipass: true
+# full: true
+
+plugins:
+
+  # - name
+  #
+  # or:
+  # - name: false
+  # - name: true
+  #
+  # or:
+  # - name:
+  #     param1: 1
+  #     param2: 2
+
+- removeAttrs:
+    attrs:
+      - 'fill'
+      - 'fill-rule'
+
+</code></pre>
+
+<ol>
+<li>修改配置文件 package.json文件
+<br /></li>
+</ol>
+
+<p><strong>在scriptes 属性下添加一行</strong></p>
+
+<pre><code>  &quot;svgo&quot;: &quot;svgo -f src/icons/svg --config=src/icons/svgo.yml&quot;
+</code></pre>
+
+<ol>
+<li>修改build目录下webpack.base.conf.js文件</li>
+</ol>
+
+<p><strong>修改module-&gt;rules下元素</strong>
+  如图示修改
+ <img src="sources/vue/90A23CD9-00AD-4A94-A9E6-7F0C088E7B16.png" alt="文件结构" /></p>
+
+<pre><code>    {
+      test: /\.svg$/,
+      loader: 'svg-sprite-loader',
+      include: [resolve('src/icons')],
+      options: {
+        symbolId: 'icon-[name]'
+      }
+    },
+    {
+      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      loader: 'url-loader',
+      exclude: [resolve('src/icons')],
+      options: {
+        limit: 10000,
+        name: utils.assetsPath('img/[name].[hash:7].[ext]')
+      }
+    },
 </code></pre>
 
                       
@@ -246,7 +351,7 @@ func main() {
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Flywithbug</a>
                             <br />微信关注：我再案发现场
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/">http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/12/22/vue-element-admin/">http://blog.flywithme.top/2018/12/22/vue-element-admin/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -300,20 +405,14 @@ func main() {
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2018/12/10/mongodb/" rel="next">
+        <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>MongoDB 用户名密码登录</span>
+          <span>gin api 跨域问题,cors</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>vue-element-admin 踩坑日记</span>
-        </a>
         
       </li>
     </ul>
