@@ -6,7 +6,205 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sat, 22 Dec 2018 06:57:21 CST</updated>
+        <updated>Mon, 24 Dec 2018 07:14:17 CST</updated>
+        
+        <item>
+            <title>Vue上线后，history页面点击刷新按钮报错404问题</title>
+            <link>http://blog.flywithme.top/2018/12/24/vue_webserver/</link>
+            <pubDate>Mon, 24 Dec 2018 07:14:17 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/12/24/vue_webserver/</guid>
+            <description>
+
+&lt;p&gt;&lt;code&gt;vue-router&lt;/code&gt; 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。
+如果不想要很丑的 hash，可以用路由的 &lt;strong&gt;history 模式&lt;/strong&gt; ，这种模式充分利用 &lt;code&gt;history.pushState&lt;/code&gt; API 来完成 URL 跳转而无须重新加载页面。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;const router = new VueRouter({
+  mode: &#39;history&#39;,
+  routes: [...]
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是因为Vue的应用是个单页客户端应用,所以在history页面刷新时，如果服务器不做特殊配置，会返回404。&lt;/p&gt;
+
+&lt;h4 id=&#34;go-gin框架配置示例&#34;&gt;&lt;strong&gt;go gin框架配置示例&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;由于我使用go的gin框架做服务器，示例代码如下
+&lt;a href=&#34;https://github.com/flywithbug-docmanager/docmanager&#34;&gt;源码地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func NoRoute(c *gin.Context) {
+	path := strings.Split(c.Request.URL.Path, &amp;quot;/&amp;quot;)
+	if (path[1] != &amp;quot;&amp;quot;) &amp;amp;&amp;amp; (path[1] == &amp;quot;api&amp;quot;) {
+		aRes := model.NewResponse()
+		aRes.Code = http.StatusNotFound
+		aRes.Msg = &amp;quot;no route&amp;quot;
+		c.JSON(http.StatusNotFound, aRes)
+	} else {
+		c.HTML(http.StatusOK, &amp;quot;index.html&amp;quot;, &amp;quot;&amp;quot;)
+	}
+}
+
+r := gin.New()
+r.Use(middleware.Logger(), gin.Recovery())
+r.Use(static.Serve(&amp;quot;/&amp;quot;, static.LocalFile(staticPath, true)))
+r.LoadHTMLGlob(staticPath + &amp;quot;/index.html&amp;quot;)
+r.NoRoute(handler.NoRoute)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;官网配置例&#34;&gt;&lt;strong&gt;官网配置例&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90&#34;&gt;地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;apache&#34;&gt;Apache&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;IfModule mod_rewrite.c&amp;gt;
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+&amp;lt;/IfModule&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;除了 &lt;code&gt;mod_rewrite&lt;/code&gt;，你也可以使用 &lt;code&gt;FallbackResource&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h5 id=&#34;nginx&#34;&gt;nginx&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;location / {
+  try_files $uri $uri/ /index.html;
+}
+
+一、
+location /{
+    root   /data/nginx/html;
+    index  index.html index.htm;
+    error_page 404 /index.html;
+}
+
+二、
+location /{
+    root   /data/nginx/html;
+    index  index.html index.htm;
+    if (!-e $request_filename) {
+        rewrite ^/(.*) /index.html last;
+        break;
+    }
+}
+    
+三、
+server {
+    listen       8888;#默认端口是80，如果端口没被占用可以不用修改
+    server_name  localhost;
+    root        E:/vue/my_project/dist;#vue项目的打包后的dist
+    location / {
+        try_files $uri $uri/ @router;#需要指向下面的@router否则会出现vue的路由在nginx中刷新出现404
+        index  index.html index.htm;
+    }
+    #对应上面的@router，主要原因是路由的路径资源并不是一个真实的路径，所以无法找到具体的文件
+    #因此需要rewrite到index.html中，然后交给路由在处理请求资源
+    location @router {
+        rewrite ^.*$ /index.html last;
+    }
+    #.......其他部分省略
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;原生-node-js&#34;&gt;原生 Node.js&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;const http = require(&#39;http&#39;)
+const fs = require(&#39;fs&#39;)
+const httpPort = 80
+
+http.createServer((req, res) =&amp;gt; {
+  fs.readFile(&#39;index.htm&#39;, &#39;utf-8&#39;, (err, content) =&amp;gt; {
+    if (err) {
+      console.log(&#39;We cannot open &amp;quot;index.htm&amp;quot; file.&#39;)
+    }
+
+    res.writeHead(200, {
+      &#39;Content-Type&#39;: &#39;text/html; charset=utf-8&#39;
+    })
+
+    res.end(content)
+  })
+}).listen(httpPort, () =&amp;gt; {
+  console.log(&#39;Server listening on: http://localhost:%s&#39;, httpPort)
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;基于-node-js-的-express&#34;&gt;基于 Node.js 的 Express&lt;/h5&gt;
+
+&lt;p&gt;对于 Node.js/Express，请考虑使用 &lt;a href=&#34;https://github.com/bripkens/connect-history-api-fallback&#34;&gt;connect-history-api-fallback&lt;/a&gt; 中间件。&lt;/p&gt;
+
+&lt;h5 id=&#34;internet-information-services-iis&#34;&gt;Internet Information Services (IIS)&lt;/h5&gt;
+
+&lt;p&gt;安装 IIS UrlRewrite
+在你的网站根目录中创建一个 &lt;code&gt;web.config&lt;/code&gt;  文件，内容如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;
+&amp;lt;configuration&amp;gt;
+  &amp;lt;system.webServer&amp;gt;
+    &amp;lt;rewrite&amp;gt;
+      &amp;lt;rules&amp;gt;
+        &amp;lt;rule name=&amp;quot;Handle History Mode and custom 404/500&amp;quot; stopProcessing=&amp;quot;true&amp;quot;&amp;gt;
+          &amp;lt;match url=&amp;quot;(.*)&amp;quot; /&amp;gt;
+          &amp;lt;conditions logicalGrouping=&amp;quot;MatchAll&amp;quot;&amp;gt;
+            &amp;lt;add input=&amp;quot;{REQUEST_FILENAME}&amp;quot; matchType=&amp;quot;IsFile&amp;quot; negate=&amp;quot;true&amp;quot; /&amp;gt;
+            &amp;lt;add input=&amp;quot;{REQUEST_FILENAME}&amp;quot; matchType=&amp;quot;IsDirectory&amp;quot; negate=&amp;quot;true&amp;quot; /&amp;gt;
+          &amp;lt;/conditions&amp;gt;
+          &amp;lt;action type=&amp;quot;Rewrite&amp;quot; url=&amp;quot;/&amp;quot; /&amp;gt;
+        &amp;lt;/rule&amp;gt;
+      &amp;lt;/rules&amp;gt;
+    &amp;lt;/rewrite&amp;gt;
+  &amp;lt;/system.webServer&amp;gt;
+&amp;lt;/configuration&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;caddy&#34;&gt;Caddy&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;rewrite {
+    regexp .*
+    to {path} /
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;firebase-主机&#34;&gt;Firebase 主机&lt;/h5&gt;
+
+&lt;p&gt;在你的 &lt;code&gt;firebase.json&lt;/code&gt;  中加入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;hosting&amp;quot;: {
+    &amp;quot;public&amp;quot;: &amp;quot;dist&amp;quot;,
+    &amp;quot;rewrites&amp;quot;: [
+      {
+        &amp;quot;source&amp;quot;: &amp;quot;**&amp;quot;,
+        &amp;quot;destination&amp;quot;: &amp;quot;/index.html&amp;quot;
+      }
+    ]
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;警告&#34;&gt;警告&lt;/h5&gt;
+
+&lt;p&gt;给个警告，因为这么做以后，你的服务器就不再返回 404 错误页面，因为对于所有路径都会返回 index.html 文件。为了避免这种情况，你应该在 Vue 应用里面覆盖所有的路由情况，然后在给出一个 404 页面。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;const router = new VueRouter({
+  mode: &#39;history&#39;,
+  routes: [
+    { path: &#39;*&#39;, component: NotFoundComponent }
+  ]
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;或者，如果你使用 Node.js 服务器，你可以用服务端路由匹配到来的 URL，并在没有匹配到路由的时候返回 404，以实现回退。更多详情请查阅 &lt;a href=&#34;https://ssr.vuejs.org/zh/&#34;&gt;Vue 服务端渲染文档&lt;/a&gt;。&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>vue-element-admin 踩坑日记</title>
@@ -1183,273 +1381,6 @@ func main() {
 &lt;ul&gt;
 &lt;li&gt;Cond&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 10-1 channel</title>
-            <link>http://blog.flywithme.top/2018/03/04/note_18/</link>
-            <pubDate>Sun, 04 Mar 2018 19:59:50 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/03/04/note_18/</guid>
-            <description>
-
-&lt;h5 id=&#34;channel的用法&#34;&gt;channel的用法&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;channel&lt;/li&gt;
-&lt;li&gt;buffered channel&lt;/li&gt;
-&lt;li&gt;range&lt;/li&gt;
-&lt;li&gt;理论基础：Communication Sequential Process(CSP)&lt;/li&gt;
-&lt;li&gt;Don&amp;rsquo;t communicate by sharing memory;share memory by communicating(不要通过共享内存来通信，
-通过通信来共享内存)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;time&amp;quot;
-)
-
-func worker(id int, c chan int) {
-	for n := range c {
-		fmt.Printf(&amp;quot;Worker %d received %c\n&amp;quot;,
-			id, n)
-	}
-}
-
-func createWorker(id int) chan&amp;lt;- int {
-	c := make(chan int)
-	go worker(id, c)
-	return c
-}
-
-func chanDemo() {
-	var channels [10]chan&amp;lt;- int
-	for i := 0; i &amp;lt; 10; i++ {
-		channels[i] = createWorker(i)
-	}
-
-	for i := 0; i &amp;lt; 10; i++ {
-		channels[i] &amp;lt;- &#39;a&#39; + i
-	}
-
-	for i := 0; i &amp;lt; 10; i++ {
-		channels[i] &amp;lt;- &#39;A&#39; + i
-	}
-
-	time.Sleep(time.Millisecond)
-}
-
-func bufferedChannel() {
-	c := make(chan int, 3)
-	go worker(0, c)
-	c &amp;lt;- &#39;a&#39;
-	c &amp;lt;- &#39;b&#39;
-	c &amp;lt;- &#39;c&#39;
-	c &amp;lt;- &#39;d&#39;
-	time.Sleep(time.Millisecond)
-}
-
-func channelClose() {
-	c := make(chan int)
-	go worker(0, c)
-	c &amp;lt;- &#39;a&#39;
-	c &amp;lt;- &#39;b&#39;
-	c &amp;lt;- &#39;c&#39;
-	c &amp;lt;- &#39;d&#39;
-	close(c)
-	time.Sleep(time.Millisecond)
-}
-
-func main() {
-	fmt.Println(&amp;quot;Channel as first-class citizen&amp;quot;)
-	chanDemo()
-	fmt.Println(&amp;quot;Buffered channel&amp;quot;)
-	bufferedChannel()
-	fmt.Println(&amp;quot;Channel close and range&amp;quot;)
-	channelClose()
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;示例-使用channel来等待goroutine-结束-waitgroup的使用&#34;&gt;示例： 使用channel来等待goroutine 结束 （waitGroup的使用）&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;sync&amp;quot;
-)
-
-func doWork(id int,
-	w worker) {
-	for n := range w.in {
-		fmt.Printf(&amp;quot;Worker %d received %c\n&amp;quot;,
-			id, n)
-		w.done()
-	}
-}
-
-type worker struct {
-	in   chan int
-	done func()
-}
-
-func createWorker(
-	id int, wg *sync.WaitGroup) worker {
-	w := worker{
-		in: make(chan int),
-		done: func() {
-			wg.Done()
-		},
-	}
-	go doWork(id, w)
-	return w
-}
-
-func chanDemo() {
-	var wg sync.WaitGroup
-
-	var workers [10]worker
-	for i := 0; i &amp;lt; 10; i++ {
-		workers[i] = createWorker(i, &amp;amp;wg)
-	}
-
-	wg.Add(20)
-	for i, worker := range workers {
-		worker.in &amp;lt;- &#39;a&#39; + i
-	}
-	for i, worker := range workers {
-		worker.in &amp;lt;- &#39;A&#39; + i
-	}
-
-	wg.Wait()
-}
-
-func main() {
-	chanDemo()
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;示例二-使用channel来实现叔的遍历&#34;&gt;示例二：使用channel来实现叔的遍历&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt; 
-func (node *Node) TraverseFunc(f func(*Node)) {
-	if node == nil {
-		return
-	}
-
-	node.Left.TraverseFunc(f)
-	f(node)
-	node.Right.TraverseFunc(f)
-}
-
-func (node *Node) TraverseWithChannel() chan *Node {
-	out := make(chan *Node)
-	go func() {
-		node.TraverseFunc(func(node *Node) {
-			out &amp;lt;- node
-		})
-		close(out)
-	}()
-	return out
-}
-
-
----------------------
-	c := root.TraverseWithChannel()
-	maxValue := 0
-	for node := range c {
-		if node.Value &amp;gt; maxValue {
-			maxValue = node.Value
-		}
-	}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;示例三-使用select来进行调度&#34;&gt;示例三：使用Select来进行调度&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Select 的使用&lt;/li&gt;
-&lt;li&gt;定时器的使用&lt;/li&gt;
-&lt;li&gt;在select中可以使用Nil channel&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;math/rand&amp;quot;
-	&amp;quot;time&amp;quot;
-)
-
-func generator() chan int {
-	out := make(chan int)
-	go func() {
-		i := 0
-		for {
-			time.Sleep(
-				time.Duration(rand.Intn(1500)) *
-					time.Millisecond)
-			out &amp;lt;- i
-			i++
-		}
-	}()
-	return out
-}
-
-func worker(id int, c chan int) {
-	for n := range c {
-		time.Sleep(time.Second)
-		fmt.Printf(&amp;quot;Worker %d received %d\n&amp;quot;,
-			id, n)
-	}
-}
-
-func createWorker(id int) chan&amp;lt;- int {
-	c := make(chan int)
-	go worker(id, c)
-	return c
-}
-
-func main() {
-	var c1, c2 = generator(), generator()
-	var worker = createWorker(0)
-
-	var values []int
-	tm := time.After(10 * time.Second)
-	tick := time.Tick(time.Second)
-	for {
-		var activeWorker chan&amp;lt;- int
-		var activeValue int
-		if len(values) &amp;gt; 0 {
-			activeWorker = worker
-			activeValue = values[0]
-		}
-
-		select {
-		case n := &amp;lt;-c1:
-			values = append(values, n)
-		case n := &amp;lt;-c2:
-			values = append(values, n)
-		case activeWorker &amp;lt;- activeValue:
-			values = values[1:]
-
-		case &amp;lt;-time.After(800 * time.Millisecond):
-			fmt.Println(&amp;quot;timeout&amp;quot;)
-		case &amp;lt;-tick:
-			fmt.Println(
-				&amp;quot;queue len =&amp;quot;, len(values))
-		case &amp;lt;-tm:
-			fmt.Println(&amp;quot;bye&amp;quot;)
-			return
-		}
-	}
-}
-
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         

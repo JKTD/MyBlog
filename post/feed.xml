@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2015. All rights reserved.</copyright>
-    <lastBuildDate>Sat, 22 Dec 2018 06:57:21 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 24 Dec 2018 07:14:17 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/feed.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vue上线后，history页面点击刷新按钮报错404问题</title>
+      <link>http://blog.flywithme.top/2018/12/24/vue_webserver/</link>
+      <pubDate>Mon, 24 Dec 2018 07:14:17 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2018/12/24/vue_webserver/</guid>
+      <description>vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充</description>
+    </item>
     
     <item>
       <title>vue-element-admin 踩坑日记</title>
