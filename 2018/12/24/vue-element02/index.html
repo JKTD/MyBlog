@@ -186,7 +186,7 @@
                   <h1 class="post-title">vue 路由重载之后导致history页面刷新空白问题fix</h1>
 
                   <p class="post-byline">
-                    by  · 2018年12月23日 · 454 Words ·
+                    by  · 2018年12月23日 · 451 Words ·
                     ~1min reading time |
                     <a href="https://github.com/coderzh/coderzh-hugo-blog/blob/master/content/post/2018/2018-12-24-vue-element02.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
@@ -201,46 +201,47 @@
 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置
 但是在刷新完路由表之后 再刷新页面发现页面一片空白。</p>
 
-<p>// hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record</p>
+<p>hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record</p>
 
-<pre><code>next({ ...to, replace: true })  ```
+<pre><code>next({ ...to, replace: true })  
 </code></pre>
 
-<p>import router from &lsquo;@/router&rsquo;
-import store from &lsquo;@/store&rsquo;
-import { Message } from &lsquo;element-ui&rsquo;
-import NProgress from &lsquo;nprogress&rsquo; // progress bar
-import &lsquo;nprogress/nprogress.css&rsquo;// progress bar style
-import { getToken } from &lsquo;./utils/auth&rsquo; // getToken from cookie</p>
+<pre><code>import router from '@/router'
+import store from '@/store'
+import { Message } from 'element-ui'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css'// progress bar style
+import { getToken } from './utils/auth' // getToken from cookie
 
-<p>NProgress.configure({ showSpinner: false })// NProgress Configuration</p>
+NProgress.configure({ showSpinner: false })// NProgress Configuration
 
-<p>// permission judge function
+// permission judge function
 function hasPermission(roles, permissionRoles) {
-  if (roles.indexOf(&lsquo;admin&rsquo;) &gt;= 0) return true // admin permission passed directly
+  if (roles.indexOf('admin') &gt;= 0) return true // admin permission passed directly
   if (!permissionRoles) return true
   return roles.some(role =&gt; permissionRoles.indexOf(role) &gt;= 0)
-}</p>
+}
 
-<p>const whiteList = [&lsquo;/login&rsquo;,&lsquo;/auth-redirect&rsquo;]</p>
 
-<p>router.beforeEach((to, from ,next) =&gt; {
+const whiteList = ['/login','/auth-redirect']
+
+router.beforeEach((to, from ,next) =&gt; {
   NProgress.start()
   if (getToken()){  //判断是否登录
-    if (to.path === &lsquo;/login&rsquo;){
-      next({path:&lsquo;/&rsquo;})
+    if (to.path === '/login'){
+      next({path:'/'})
       NProgress.done()
     }else {
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch(&lsquo;GetUserInfo&rsquo;).then(user =&gt; {
-          store.dispatch(&lsquo;GenerateRoutes&rsquo;,user.roles).then(() =&gt; {
+        store.dispatch('GetUserInfo').then(user =&gt; {
+          store.dispatch('GenerateRoutes',user.roles).then(() =&gt; {
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-            next({ &hellip;to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
           })
         }).catch((err) =&gt; {
-          store.dispatch(&lsquo;FedLogOut&rsquo;).then(() =&gt; {
-            Message.error(err || &lsquo;Verification failed, please login again&rsquo;)
-            next({ path: &lsquo;/&rsquo; })
+          store.dispatch('FedLogOut').then(() =&gt; {
+            Message.error(err || 'Verification failed, please login again')
+            next({ path: '/' })
           })
         })
       } else {
@@ -248,7 +249,7 @@ function hasPermission(roles, permissionRoles) {
         if (hasPermission(store.getters.roles, to.meta.roles)) {
           next()
         } else {
-          next({ path: &lsquo;/401&rsquo;, replace: true, query: { noGoBack: true }})
+          next({ path: '/401', replace: true, query: { noGoBack: true }})
         }
       }
     }
@@ -257,17 +258,20 @@ function hasPermission(roles, permissionRoles) {
     if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
       next()
     } else {
-      next(<code>/login?redirect=${to.path}</code>) // 否则全部重定向到登录页
+      next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
       NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
     }
   }
-})</p>
+})
 
-<p>router.afterEach(() =&gt; {
+
+
+router.afterEach(() =&gt; {
   NProgress.done() // finish progress bar
-})</p>
+})
+    
 
-<p>```</p>
+</code></pre>
 
                       
                     </div>
