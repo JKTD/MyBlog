@@ -25,7 +25,9 @@
 })
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;但是因为Vue的应用是个单页客户端应用,所以在history页面刷新时，如果服务器不做特殊配置，会返回404。&lt;/p&gt;
+&lt;p&gt;当你使用 &lt;code&gt;history&lt;/code&gt; 模式时，URL 就像正常的 url，例如 &lt;code&gt;http://yoursite.com/user/id&lt;/code&gt;，也好看！
+不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 &lt;code&gt;http://oursite.com/user/id&lt;/code&gt; 就会返回 404，这就不好看了。
+所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 &lt;code&gt;index.html&lt;/code&gt; 页面，这个页面就是你 app 依赖的页面。&lt;/p&gt;
 
 &lt;h4 id=&#34;go-gin框架配置示例&#34;&gt;&lt;strong&gt;go gin框架配置示例&lt;/strong&gt;&lt;/h4&gt;
 
