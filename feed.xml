@@ -207,11 +207,91 @@ http.createServer((req, res) =&amp;gt; {
         </item>
         
         <item>
-            <title>vue-element-admin 踩坑日记</title>
-            <link>http://blog.flywithme.top/2018/12/22/vue-element-admin/</link>
+            <title>vue 路由重载之后导致history页面刷新空白问题fix</title>
+            <link>http://blog.flywithme.top/2018/12/24/vue-element02/</link>
+            <pubDate>Sun, 23 Dec 2018 06:57:21 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/12/24/vue-element02/</guid>
+            <description>&lt;p&gt;在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤，
+在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置
+但是在刷新完路由表之后 再刷新页面发现页面一片空白。&lt;/p&gt;
+
+&lt;p&gt;// hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;next({ ...to, replace: true })  ```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;import router from &amp;lsquo;@/router&amp;rsquo;
+import store from &amp;lsquo;@/store&amp;rsquo;
+import { Message } from &amp;lsquo;element-ui&amp;rsquo;
+import NProgress from &amp;lsquo;nprogress&amp;rsquo; // progress bar
+import &amp;lsquo;nprogress/nprogress.css&amp;rsquo;// progress bar style
+import { getToken } from &amp;lsquo;./utils/auth&amp;rsquo; // getToken from cookie&lt;/p&gt;
+
+&lt;p&gt;NProgress.configure({ showSpinner: false })// NProgress Configuration&lt;/p&gt;
+
+&lt;p&gt;// permission judge function
+function hasPermission(roles, permissionRoles) {
+  if (roles.indexOf(&amp;lsquo;admin&amp;rsquo;) &amp;gt;= 0) return true // admin permission passed directly
+  if (!permissionRoles) return true
+  return roles.some(role =&amp;gt; permissionRoles.indexOf(role) &amp;gt;= 0)
+}&lt;/p&gt;
+
+&lt;p&gt;const whiteList = [&amp;lsquo;/login&amp;rsquo;,&amp;lsquo;/auth-redirect&amp;rsquo;]&lt;/p&gt;
+
+&lt;p&gt;router.beforeEach((to, from ,next) =&amp;gt; {
+  NProgress.start()
+  if (getToken()){  //判断是否登录
+    if (to.path === &amp;lsquo;/login&amp;rsquo;){
+      next({path:&amp;lsquo;/&amp;rsquo;})
+      NProgress.done()
+    }else {
+      if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
+        store.dispatch(&amp;lsquo;GetUserInfo&amp;rsquo;).then(user =&amp;gt; {
+          store.dispatch(&amp;lsquo;GenerateRoutes&amp;rsquo;,user.roles).then(() =&amp;gt; {
+            router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
+            next({ &amp;hellip;to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+          })
+        }).catch((err) =&amp;gt; {
+          store.dispatch(&amp;lsquo;FedLogOut&amp;rsquo;).then(() =&amp;gt; {
+            Message.error(err || &amp;lsquo;Verification failed, please login again&amp;rsquo;)
+            next({ path: &amp;lsquo;/&amp;rsquo; })
+          })
+        })
+      } else {
+        // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
+        if (hasPermission(store.getters.roles, to.meta.roles)) {
+          next()
+        } else {
+          next({ path: &amp;lsquo;/401&amp;rsquo;, replace: true, query: { noGoBack: true }})
+        }
+      }
+    }
+  }else {
+    /* has no token*/
+    if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
+      next()
+    } else {
+      next(&lt;code&gt;/login?redirect=${to.path}&lt;/code&gt;) // 否则全部重定向到登录页
+      NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
+    }
+  }
+})&lt;/p&gt;
+
+&lt;p&gt;router.afterEach(() =&amp;gt; {
+  NProgress.done() // finish progress bar
+})&lt;/p&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>vue-element-admin 踩坑日记 01</title>
+            <link>http://blog.flywithme.top/2018/12/22/vue-element-admin01/</link>
             <pubDate>Sat, 22 Dec 2018 06:57:21 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/12/22/vue-element-admin/</guid>
+            <guid>http://blog.flywithme.top/2018/12/22/vue-element-admin01/</guid>
             <description>
 
 &lt;p&gt;&lt;a href=&#34;http://panjiachen.github.io/vue-element-admin&#34;&gt;vue-element-admin&lt;/a&gt; 是一个后台集成解决方案，
@@ -1223,163 +1303,6 @@ package main&lt;/li&gt;
 &lt;li&gt;import _ &amp;ldquo;net/http/pprof&amp;rdquo;&lt;/li&gt;
 &lt;li&gt;访问/debug/pprof&lt;/li&gt;
 &lt;li&gt;使用go tool pprof分析性能&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 10-2 传统同步机制</title>
-            <link>http://blog.flywithme.top/2018/03/07/note_19/</link>
-            <pubDate>Wed, 07 Mar 2018 11:53:27 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/03/07/note_19/</guid>
-            <description>
-
-&lt;h5 id=&#34;检测数据冲突&#34;&gt;检测数据冲突&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;未加锁时使用 go run -race atomic.go 时检测会发现数据访问冲突&lt;/li&gt;
-&lt;li&gt;加锁之后 运行-race 数据访问冲突就没了&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;传统同步机制&#34;&gt;传统同步机制&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;WaitGroup&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt; package main
- 
- import (
- 	&amp;quot;fmt&amp;quot;
- 	&amp;quot;sync&amp;quot;
- )
- 
- func doWork(id int,
- 	w worker) {
- 	for n := range w.in {
- 		fmt.Printf(&amp;quot;Worker %d received %c\n&amp;quot;,
- 			id, n)
- 		w.done()
- 	}
- }
- 
- type worker struct {
- 	in   chan int
- 	done func()
- }
- 
- func createWorker(
- 	id int, wg *sync.WaitGroup) worker {
- 	w := worker{
- 		in: make(chan int),
- 		done: func() {
- 			wg.Done()
- 		},
- 	}
- 	go doWork(id, w)
- 	return w
- }
- 
- func chanDemo() {
- 	var wg sync.WaitGroup
- 
- 	var workers [10]worker
- 	for i := 0; i &amp;lt; 10; i++ {
- 		workers[i] = createWorker(i, &amp;amp;wg)
- 	}
- 
- 	wg.Add(20)
- 	for i, worker := range workers {
- 		worker.in &amp;lt;- &#39;a&#39; + i
- 	}
- 	for i, worker := range workers {
- 		worker.in &amp;lt;- &#39;A&#39; + i
- 	}
- 
- 	wg.Wait()
- }
- 
- func main() {
- 	chanDemo()
- }
- 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Mutex&lt;br /&gt;
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;
-//加锁之前
-package main
-
-import (
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;time&amp;quot;
-)
-
-type atomicInt int
-
-func (a *atomicInt) increment() {
-	*a++
-}
-
-func (a *atomicInt) get() int {
-	return int(*a)
-}
-
-func main() {
-	var a atomicInt
-	a.increment()
-	go func() {
-		a.increment()
-	}()
-	time.Sleep(time.Millisecond)
-	fmt.Println(a)
-}
-----------------------------------------------------------------------------------------
-//加锁之后
-package main
-
-import (
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;sync&amp;quot;
-	&amp;quot;time&amp;quot;
-)
-
-type atomicInt struct {
-	value int
-	lock  sync.Mutex
-}
-
-func (a *atomicInt) increment() {
-	a.lock.Lock()
-	defer a.lock.Unlock()
-	a.value++
-}
-
-func (a *atomicInt) get() int {
-	a.lock.Lock()
-	defer a.lock.Unlock()
-	return a.value
-}
-
-func main() {
-	var a atomicInt
-	a.increment()
-	go func() {
-		a.increment()
-	}()
-	time.Sleep(time.Millisecond)
-	fmt.Println(a.get())
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Cond&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         </item>

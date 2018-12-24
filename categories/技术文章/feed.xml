@@ -22,11 +22,20 @@
     </item>
     
     <item>
-      <title>vue-element-admin 踩坑日记</title>
-      <link>http://blog.flywithme.top/2018/12/22/vue-element-admin/</link>
+      <title>vue 路由重载之后导致history页面刷新空白问题fix</title>
+      <link>http://blog.flywithme.top/2018/12/24/vue-element02/</link>
+      <pubDate>Sun, 23 Dec 2018 06:57:21 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2018/12/24/vue-element02/</guid>
+      <description>在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路</description>
+    </item>
+    
+    <item>
+      <title>vue-element-admin 踩坑日记 01</title>
+      <link>http://blog.flywithme.top/2018/12/22/vue-element-admin01/</link>
       <pubDate>Sat, 22 Dec 2018 06:57:21 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2018/12/22/vue-element-admin/</guid>
+      <guid>http://blog.flywithme.top/2018/12/22/vue-element-admin01/</guid>
       <description>vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模</description>
     </item>
     
