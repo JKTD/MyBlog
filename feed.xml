@@ -56,9 +56,7 @@ r.NoRoute(handler.NoRoute)
 
 &lt;hr /&gt;
 
-&lt;h3 id=&#34;官网配置例&#34;&gt;&lt;strong&gt;官网配置例&lt;/strong&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90&#34;&gt;地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;官网配置例-https-router-vuejs-org-zh-guide-essentials-history-mode-html-e5-90-8e-e7-ab-af-e9-85-8d-e7-bd-ae-e4-be-8b-e5-ad-90&#34;&gt;&lt;a href=&#34;https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90&#34;&gt;官网配置例&lt;/a&gt;&lt;/h3&gt;
 
 &lt;h5 id=&#34;apache&#34;&gt;Apache&lt;/h5&gt;
 
@@ -222,6 +220,8 @@ http.createServer((req, res) =&amp;gt; {
 
 &lt;pre&gt;&lt;code&gt;next({ ...to, replace: true })  
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;//路由权限配置源码&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;import router from &#39;@/router&#39;
 import store from &#39;@/store&#39;
