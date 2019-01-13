@@ -12,36 +12,36 @@
         }
     }
   </script>
-  <title>Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug</title>
+  <title>mongodb的数据备份和恢复 - Fly With Bug</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="keywords" content="xxx,">
-<meta name="description" content="vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充">
+<meta name="description" content="数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager">
 <meta name="author" content="coderzh">
 <meta name="publisher" content="coderzh">
 <meta name="generator" content="http://gohugo.io/"/>
 
-<meta itemprop="name" content="Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug">
-<meta itemprop="description" content="vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充">
+<meta itemprop="name" content="mongodb的数据备份和恢复 - Fly With Bug">
+<meta itemprop="description" content="数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager">
 <meta itemprop="image" content="http://blog.flywithme.top/public/coderzh.jpg">
 
-<meta property="og:title" content="Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug" />
+<meta property="og:title" content="mongodb的数据备份和恢复 - Fly With Bug" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2018/12/24/vue_webserver/" />
+<meta property="og:url" content="http://blog.flywithme.top/2019/01/13/mongodump/" />
 <meta property="og:image" content="http://blog.flywithme.top/public/coderzh.jpg" />
-<meta property="og:description" content="vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充">
+<meta property="og:description" content="数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@coderzh">
-<meta name="twitter:title" content="Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug">
-<meta name="twitter:description" content="vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充">
+<meta name="twitter:title" content="mongodb的数据备份和恢复 - Fly With Bug">
+<meta name="twitter:description" content="数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager">
 <meta name="twitter:creator" content="@coderzh">
 <meta name="twitter:image" content="http://blog.flywithme.top/public/coderzh.jpg">
 
   <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2018/12/24/vue_webserver/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2018/12/24/vue_webserver/"/>
+  <link rel="canonical" href="http://blog.flywithme.top/2019/01/13/mongodump/">
+  <link rel='shortlink' href="http://blog.flywithme.top/2019/01/13/mongodump/"/>
   <link rel="shortcut icon" href="http://blog.flywithme.top/public/favicon.ico"/>
   
 <link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
@@ -183,12 +183,12 @@
                   class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
                 <div class="post-inner group">
 
-                  <h1 class="post-title">Vue上线后，history页面点击刷新按钮报错404问题</h1>
+                  <h1 class="post-title">mongodb的数据备份和恢复</h1>
 
                   <p class="post-byline">
-                    by  · 2018年12月24日 · 1094 Words ·
-                    ~3min reading time |
-                    <a href="https://github.com/coderzh/coderzh-hugo-blog/blob/master/content/post/2018/2018-12-24-vue_webserver.md"
+                    by  · 2019年01月13日 · 58 Words ·
+                    ~1min reading time |
+                    <a href="https://github.com/coderzh/coderzh-hugo-blog/blob/master/content/post/2019/2019-01-13-mongodump.md"
                        target="_blank">Improve on <i class="fa fa-github"></i></a>
                   </p>
 
@@ -199,193 +199,13 @@
                       
                       
 
-<p><code>vue-router</code> 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。
-如果不想要很丑的 hash，可以用路由的 <strong>history 模式</strong> ，这种模式充分利用 <code>history.pushState</code> API 来完成 URL 跳转而无须重新加载页面。</p>
+<h3 id="数据库迁移">数据库迁移</h3>
 
-<pre><code>const router = new VueRouter({
-  mode: 'history',
-  routes: [...]
-})
-</code></pre>
+<p>把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录</p>
 
-<p>当你使用 <code>history</code> 模式时，URL 就像正常的 url，例如 <code>http://yoursite.com/user/id</code>，也好看！
-不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 <code>http://oursite.com/user/id</code> 就会返回 404，这就不好看了。
-所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 <code>index.html</code> 页面，这个页面就是你 app 依赖的页面。</p>
-
-<h4 id="go-gin框架配置示例"><strong>go gin框架配置示例</strong></h4>
-
-<p>由于我使用go的gin框架做服务器，示例代码如下
-<a href="https://github.com/flywithbug-docmanager/docmanager">源码地址</a></p>
-
-<pre><code>func NoRoute(c *gin.Context) {
-	path := strings.Split(c.Request.URL.Path, &quot;/&quot;)
-	if (path[1] != &quot;&quot;) &amp;&amp; (path[1] == &quot;api&quot;) {
-		aRes := model.NewResponse()
-		aRes.Code = http.StatusNotFound
-		aRes.Msg = &quot;no route&quot;
-		c.JSON(http.StatusNotFound, aRes)
-	} else {
-		c.HTML(http.StatusOK, &quot;index.html&quot;, &quot;&quot;)
-	}
-}
-
-r := gin.New()
-r.Use(middleware.Logger(), gin.Recovery())
-r.Use(static.Serve(&quot;/&quot;, static.LocalFile(staticPath, true)))
-r.LoadHTMLGlob(staticPath + &quot;/index.html&quot;)
-r.NoRoute(handler.NoRoute)
+<pre><code>mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager
 
 </code></pre>
-
-<hr />
-
-<h3 id="官网配置例-https-router-vuejs-org-zh-guide-essentials-history-mode-html-e5-90-8e-e7-ab-af-e9-85-8d-e7-bd-ae-e4-be-8b-e5-ad-90"><a href="https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90">官网配置例</a></h3>
-
-<h5 id="apache">Apache</h5>
-
-<pre><code>&lt;IfModule mod_rewrite.c&gt;
-  RewriteEngine On
-  RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
-&lt;/IfModule&gt;
-</code></pre>
-
-<p>除了 <code>mod_rewrite</code>，你也可以使用 <code>FallbackResource</code>。</p>
-
-<h5 id="nginx">nginx</h5>
-
-<pre><code>location / {
-  try_files $uri $uri/ /index.html;
-}
-
-一、
-location /{
-    root   /data/nginx/html;
-    index  index.html index.htm;
-    error_page 404 /index.html;
-}
-
-二、
-location /{
-    root   /data/nginx/html;
-    index  index.html index.htm;
-    if (!-e $request_filename) {
-        rewrite ^/(.*) /index.html last;
-        break;
-    }
-}
-    
-三、
-server {
-    listen       8888;#默认端口是80，如果端口没被占用可以不用修改
-    server_name  localhost;
-    root        E:/vue/my_project/dist;#vue项目的打包后的dist
-    location / {
-        try_files $uri $uri/ @router;#需要指向下面的@router否则会出现vue的路由在nginx中刷新出现404
-        index  index.html index.htm;
-    }
-    #对应上面的@router，主要原因是路由的路径资源并不是一个真实的路径，所以无法找到具体的文件
-    #因此需要rewrite到index.html中，然后交给路由在处理请求资源
-    location @router {
-        rewrite ^.*$ /index.html last;
-    }
-    #.......其他部分省略
-}
-
-</code></pre>
-
-<h5 id="原生-node-js">原生 Node.js</h5>
-
-<pre><code>const http = require('http')
-const fs = require('fs')
-const httpPort = 80
-
-http.createServer((req, res) =&gt; {
-  fs.readFile('index.htm', 'utf-8', (err, content) =&gt; {
-    if (err) {
-      console.log('We cannot open &quot;index.htm&quot; file.')
-    }
-
-    res.writeHead(200, {
-      'Content-Type': 'text/html; charset=utf-8'
-    })
-
-    res.end(content)
-  })
-}).listen(httpPort, () =&gt; {
-  console.log('Server listening on: http://localhost:%s', httpPort)
-})
-</code></pre>
-
-<h5 id="基于-node-js-的-express">基于 Node.js 的 Express</h5>
-
-<p>对于 Node.js/Express，请考虑使用 <a href="https://github.com/bripkens/connect-history-api-fallback">connect-history-api-fallback</a> 中间件。</p>
-
-<h5 id="internet-information-services-iis">Internet Information Services (IIS)</h5>
-
-<p>安装 IIS UrlRewrite
-在你的网站根目录中创建一个 <code>web.config</code>  文件，内容如下：</p>
-
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;configuration&gt;
-  &lt;system.webServer&gt;
-    &lt;rewrite&gt;
-      &lt;rules&gt;
-        &lt;rule name=&quot;Handle History Mode and custom 404/500&quot; stopProcessing=&quot;true&quot;&gt;
-          &lt;match url=&quot;(.*)&quot; /&gt;
-          &lt;conditions logicalGrouping=&quot;MatchAll&quot;&gt;
-            &lt;add input=&quot;{REQUEST_FILENAME}&quot; matchType=&quot;IsFile&quot; negate=&quot;true&quot; /&gt;
-            &lt;add input=&quot;{REQUEST_FILENAME}&quot; matchType=&quot;IsDirectory&quot; negate=&quot;true&quot; /&gt;
-          &lt;/conditions&gt;
-          &lt;action type=&quot;Rewrite&quot; url=&quot;/&quot; /&gt;
-        &lt;/rule&gt;
-      &lt;/rules&gt;
-    &lt;/rewrite&gt;
-  &lt;/system.webServer&gt;
-&lt;/configuration&gt;
-</code></pre>
-
-<h5 id="caddy">Caddy</h5>
-
-<pre><code>rewrite {
-    regexp .*
-    to {path} /
-}
-</code></pre>
-
-<h5 id="firebase-主机">Firebase 主机</h5>
-
-<p>在你的 <code>firebase.json</code>  中加入：</p>
-
-<pre><code>{
-  &quot;hosting&quot;: {
-    &quot;public&quot;: &quot;dist&quot;,
-    &quot;rewrites&quot;: [
-      {
-        &quot;source&quot;: &quot;**&quot;,
-        &quot;destination&quot;: &quot;/index.html&quot;
-      }
-    ]
-  }
-}
-</code></pre>
-
-<h5 id="警告">警告</h5>
-
-<p>给个警告，因为这么做以后，你的服务器就不再返回 404 错误页面，因为对于所有路径都会返回 index.html 文件。为了避免这种情况，你应该在 Vue 应用里面覆盖所有的路由情况，然后在给出一个 404 页面。</p>
-
-<pre><code>const router = new VueRouter({
-  mode: 'history',
-  routes: [
-    { path: '*', component: NotFoundComponent }
-  ]
-})
-</code></pre>
-
-<p>或者，如果你使用 Node.js 服务器，你可以用服务端路由匹配到来的 URL，并在没有匹配到路由的时候返回 404，以实现回退。更多详情请查阅 <a href="https://ssr.vuejs.org/zh/">Vue 服务端渲染文档</a>。</p>
 
                       
                     </div>
@@ -397,7 +217,7 @@ http.createServer((req, res) =&gt; {
                         <div>
                             <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Flywithbug</a>
                             <br />微信关注：我再案发现场
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/12/24/vue_webserver/">http://blog.flywithme.top/2018/12/24/vue_webserver/</a>
+                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2019/01/13/mongodump/">http://blog.flywithme.top/2019/01/13/mongodump/</a>
                             <br />
                             文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
                         </div>
@@ -451,20 +271,14 @@ http.createServer((req, res) =&gt; {
     <ul class="post-nav group">
       <li class="next">
         
-        <a href="http://blog.flywithme.top/2018/12/24/vue-element02/" rel="next">
+        <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/" rel="next">
           <i class="fa fa-chevron-right"></i>
           <strong>Next post</strong>
-          <span>vue 路由重载之后导致history页面刷新空白问题fix</span>
+          <span>Vue上线后，history页面点击刷新按钮报错404问题</span>
         </a>
         
       </li>
       <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2019/01/13/mongodump/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>mongodb的数据备份和恢复</span>
-        </a>
         
       </li>
     </ul>

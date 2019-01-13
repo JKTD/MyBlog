@@ -6,7 +6,25 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Mon, 24 Dec 2018 07:14:17 CST</updated>
+        <updated>Sun, 13 Jan 2019 10:45:59 CST</updated>
+        
+        <item>
+            <title>mongodb的数据备份和恢复</title>
+            <link>http://blog.flywithme.top/2019/01/13/mongodump/</link>
+            <pubDate>Sun, 13 Jan 2019 10:45:59 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/01/13/mongodump/</guid>
+            <description>
+
+&lt;h3 id=&#34;数据库迁移&#34;&gt;数据库迁移&lt;/h3&gt;
+
+&lt;p&gt;把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>Vue上线后，history页面点击刷新按钮报错404问题</title>
@@ -1230,85 +1248,6 @@ func main() {
 &lt;ul&gt;
 &lt;li&gt;godoc -http :8888 (启用本地文档服务器)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://studygolang.com/pkgdoc&#34;&gt;https://studygolang.com/pkgdoc&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 11-1 http标准库</title>
-            <link>http://blog.flywithme.top/2018/03/07/note_20/</link>
-            <pubDate>Wed, 07 Mar 2018 13:24:53 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/03/07/note_20/</guid>
-            <description>
-
-&lt;h5 id=&#34;server&#34;&gt;Server&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;net/http&amp;quot;
-)
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;)
-}
-
-func main() {
-	http.HandleFunc(&amp;quot;/&amp;quot;, handler)
-	http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;client&#34;&gt;Client&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;使用http客户端发送请求&lt;/li&gt;
-&lt;li&gt;使用http.Client 控制请求头部等&lt;/li&gt;
-&lt;li&gt;使用httputil简化工作
-```
-package main&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;import (
-	&amp;ldquo;fmt&amp;rdquo;
-	&amp;ldquo;net/http&amp;rdquo;
-	&amp;ldquo;net/http/httputil&amp;rdquo;
-)&lt;/p&gt;
-
-&lt;p&gt;func main() {
-	request, err := http.NewRequest(http.MethodGet, &amp;ldquo;&lt;a href=&#34;http://www.imooc.com&amp;quot;&#34;&gt;http://www.imooc.com&amp;quot;&lt;/a&gt;, nil)
-	if err != nil {
-		panic(err)
-	}
-	request.Header.Add(&amp;ldquo;User-Agent&amp;rdquo;, &amp;ldquo;Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1&amp;rdquo;)
-	client := http.Client{
-		CheckRedirect: func(req *http.Request, via []*http.Request) error {
-			fmt.Println(&amp;ldquo;Redirect:&amp;ldquo;, req)
-			return nil
-		},
-	}
-	resp, err := client.Do(request)&lt;/p&gt;
-
-&lt;p&gt;	if err != nil {
-		panic(err)
-	}
-	defer resp.Body.Close()
-	s, err := httputil.DumpResponse(resp, true)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf(&amp;ldquo;%s\n&amp;rdquo;, s)
-}
-```&lt;/p&gt;
-
-&lt;h5 id=&#34;http服务器的性能分析&#34;&gt;http服务器的性能分析&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;import _ &amp;ldquo;net/http/pprof&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;访问/debug/pprof&lt;/li&gt;
-&lt;li&gt;使用go tool pprof分析性能&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         </item>
