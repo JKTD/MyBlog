@@ -23,6 +23,16 @@
 &lt;pre&gt;&lt;code&gt;mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager
 
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;本地处理&#34;&gt;本地处理&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//              dump命令             数据库用户 密码     数据库名字      备份目录
+/usr/local/mongodb/bin/mongodump -u user -p pass -d docmanager  -o ../dump
+
+//              restore命令             数据库用户名 密码   数据库名字   备份目录      覆盖
+/usr/local/mongodb/bin/mongorestore -u 用户名 -p 密码 -d docmanager doc_manager --drop
+
+&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         

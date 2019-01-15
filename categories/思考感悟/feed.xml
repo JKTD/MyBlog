@@ -18,7 +18,7 @@
       <pubDate>Sun, 13 Jan 2019 10:45:59 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/01/13/mongodump/</guid>
-      <description>数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager</description>
+      <description>数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager 本地处理 // dump命令 数</description>
     </item>
     
     <item>
