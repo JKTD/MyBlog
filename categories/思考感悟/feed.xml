@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2015. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 13 Jan 2019 10:45:59 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 15 Jan 2019 14:38:32 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/feed.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Nginx 配置 HTTPS 服务器</title>
+      <link>http://blog.flywithme.top/2019/01/15/nginx/</link>
+      <pubDate>Tue, 15 Jan 2019 14:38:32 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/01/15/nginx/</guid>
+      <description>Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS 我的证书是在腾讯云上申请的地址 nginx.conf 配置内容 user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include</description>
+    </item>
     
     <item>
       <title>mongodb的数据备份和恢复</title>
