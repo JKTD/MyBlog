@@ -104,7 +104,7 @@ http {
         </item>
         
         <item>
-            <title>mongodb的数据备份和恢复</title>
+            <title>mongodb 维护小记</title>
             <link>http://blog.flywithme.top/2019/01/13/mongodump/</link>
             <pubDate>Sun, 13 Jan 2019 10:45:59 CST</pubDate>
             <author>Brasbug</author>
@@ -126,6 +126,39 @@ mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager
 
 //              restore命令             数据库用户名 密码   数据库名字   备份目录      覆盖
 /usr/local/mongodb/bin/mongorestore -u 用户名 -p 密码 -d docmanager doc_manager --drop
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;创建数据库管理员&#34;&gt;创建数据库管理员&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//进入mongo命令行
+mongo
+db.auth(&amp;quot;use&amp;quot;,&amp;quot;pass&amp;quot;)
+
+use log
+db.createUser(
+		{
+			user: &amp;quot;user&amp;quot;,
+			pwd: &amp;quot;pass&amp;quot;,
+			roles: [{ role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;log&amp;quot; }]
+		}
+	)
+
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;错误处理&#34;&gt;错误处理&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//   mongodb非正常关闭后
+about to fork child process, waiting until server is ready for connections.
+forked process: 9936
+ERROR: child process failed, exited with error number 48
+
+//处理方式
+//删除mongo数据库文件夹中的 
+killall mongod
+rm /data/mongo/mongod.lock
 
 &lt;/code&gt;&lt;/pre&gt;
 </description>
