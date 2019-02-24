@@ -1,386 +1,1192 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-<meta name="pinterest" content="nopin">
-<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
-
-<link rel="alternate" type="application/rss+xml" title="RSS" href="http://blog.flywithme.top/index.xml">
-
-<link rel="canonical" href="http://blog.flywithme.top/">
-
-
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>Fly With Bug</title>
-    
-    <link href="http://blog.flywithme.topcss/styles.css" rel="stylesheet">
-    
-
-  </head>
-
-  <body>
-    
-    
-    
-
-    <header class="l-header">
-      <nav class="navbar navbar-default">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
-          </div>
-
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
-          
-
-        </div>
-      </nav>
-    </header>
-
-    <main>
-      <div class="container">
-        
-<div class="row">
-  <div class="col-md-8">
-
-    
-
-    <ul class="p-articles">
-      
-      <li><article class="li">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2019-02-24T08:40:50JST">Feb 24, 2019</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
-      
-    </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2019/02/24/gobin/">go bin执行问题记录</a></h2>
-  </header>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.54.0" />
 
   
-  <div class="summary">因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， //只是在 .bash_profile文件里如此</div>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Fly With Bug</title>
 
   
-  <footer>
-    <a href="http://blog.flywithme.top/2019/02/24/gobin/" title="go bin执行问题记录">Read More…</a>
-  </footer>
-  
-</article>
-</li>
-      
-      <li><article class="li">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2019-01-15T14:38:32JST">Jan 15, 2019</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
-      
-    </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2019/01/15/nginx/">Nginx 配置 HTTPS 服务器</a></h2>
-  </header>
-
-  
-  <div class="summary">Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS 我的证书是在腾讯云上申请的地址 nginx.conf 配置内容 user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include</div>
-
-  
-  <footer>
-    <a href="http://blog.flywithme.top/2019/01/15/nginx/" title="Nginx 配置 HTTPS 服务器">Read More…</a>
-  </footer>
-  
-</article>
-</li>
-      
-      <li><article class="li">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2019-01-13T10:45:59JST">Jan 13, 2019</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
-      
-    </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2019/01/13/mongodump/">mongodb 维护小记</a></h2>
-  </header>
-
-  
-  <div class="summary">数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager 本地处</div>
-
-  
-  <footer>
-    <a href="http://blog.flywithme.top/2019/01/13/mongodump/" title="mongodb 维护小记">Read More…</a>
-  </footer>
-  
-</article>
-</li>
-      
-      <li><article class="li">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-12-24T07:14:17JST">Dec 24, 2018</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
-      
-    </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2018/12/24/vue_webserver/">Vue上线后，history页面点击刷新按钮报错404问题</a></h2>
-  </header>
-
-  
-  <div class="summary">如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &lsquo;history&rsquo;, routes: [&hellip;] }) 当你使用 ```history``` 模式时，</div>
-
-  
-  <footer>
-    <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/" title="Vue上线后，history页面点击刷新按钮报错404问题">Read More…</a>
-  </footer>
-  
-</article>
-</li>
-      
-      <li><article class="li">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-12-23T06:57:21JST">Dec 23, 2018</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
-      
-    </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2018/12/24/vue-element02/">vue 路由重载之后导致history页面刷新空白问题fix</a></h2>
-  </header>
-
-  
-  <div class="summary">在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路</div>
-
-  
-  <footer>
-    <a href="http://blog.flywithme.top/2018/12/24/vue-element02/" title="vue 路由重载之后导致history页面刷新空白问题fix">Read More…</a>
-  </footer>
-  
-</article>
-</li>
-      
-      <li><article class="li">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-12-22T06:57:21JST">Dec 22, 2018</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
-      
-    </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/">vue-element-admin 踩坑日记 01</a></h2>
-  </header>
-
-  
-  <div class="summary">vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模</div>
-
-  
-  <footer>
-    <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" title="vue-element-admin 踩坑日记 01">Read More…</a>
-  </footer>
-  
-</article>
-</li>
-      
-      <li><article class="li">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-12-18T03:35:24JST">Dec 18, 2018</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
-      
-    </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/">gin api 跨域问题,cors</a></h2>
-  </header>
-
-  
-  <div class="summary">当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求</div>
-
-  
-  <footer>
-    <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" title="gin api 跨域问题,cors">Read More…</a>
-  </footer>
-  
-</article>
-</li>
-      
-      <li><article class="li">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-12-10T06:53:01JST">Dec 10, 2018</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
-      
-    </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2018/12/10/mongodb/">MongoDB 用户名密码登录</a></h2>
-  </header>
-
-  
-  <div class="summary">MongoDB authentication MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产</div>
-
-  
-  <footer>
-    <a href="http://blog.flywithme.top/2018/12/10/mongodb/" title="MongoDB 用户名密码登录">Read More…</a>
-  </footer>
-  
-</article>
-</li>
-      
-      <li><article class="li">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-08-31T15:30:44JST">Aug 31, 2018</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
-      
-    </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2018/08/31/nat/">nat</a></h2>
-  </header>
-
-  
-  <div class="summary"></div>
-
-  
-</article>
-</li>
-      
-      <li><article class="li">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-04-02T18:30:28JST">Apr 2, 2018</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
-      
-    </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2018/04/02/note_28/">Elasticsearch 入门</a></h2>
-  </header>
-
-  
-  <div class="summary">简介 为什么要使用Elasticsearch Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门</div>
-
-  
-  <footer>
-    <a href="http://blog.flywithme.top/2018/04/02/note_28/" title="Elasticsearch 入门">Read More…</a>
-  </footer>
-  
-</article>
-</li>
-      
-    </ul>
-
-    
-<nav>
-  <ul class="pager">
-
-    
-    <li class="disabled"><a href="#">Previous</a></li>
-    
-
-    
-    <li><a href="http://blog.flywithme.top/paginator/2/">Next</a></li>
-    
-
-  </ul>
-</nav>
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
 
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.flywithme.top/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blog.flywithme.top/favicon.png">
 
+  
+  <link href="http://blog.flywithme.top/index.xml" rel="alternate" type="application/rss+xml" title="Fly With Bug" />
+
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://blog.flywithme.top"><h1>Fly With Bug</h1></a>
+      <p class="lead">
+       漫步走在沙滩上 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://blog.flywithme.top">Home</a> </li>
+        <li><a href="http://blog.flywithme.top/post/"> 归档 </a></li><li><a href="http://blog.flywithme.top/about/"> 关于我 </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2019. All rights reserved. </p>
   </div>
-  <div class="col-md-4">
-    
-<aside class="l-sidebar">
-
-  <section class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">LATESTS</div>
-    </div>
-    <div class="list-group">
-      
-      <a href="http://blog.flywithme.top/2019/02/24/gobin/" class="list-group-item">go bin执行问题记录</a>
-      
-      <a href="http://blog.flywithme.top/2019/01/15/nginx/" class="list-group-item">Nginx 配置 HTTPS 服务器</a>
-      
-      <a href="http://blog.flywithme.top/2019/01/13/mongodump/" class="list-group-item">mongodb 维护小记</a>
-      
-      <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/" class="list-group-item">Vue上线后，history页面点击刷新按钮报错404问题</a>
-      
-      <a href="http://blog.flywithme.top/2018/12/24/vue-element02/" class="list-group-item">vue 路由重载之后导致history页面刷新空白问题fix</a>
-      
-      <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
-      
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
-      
-      <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
-      
-      <a href="http://blog.flywithme.top/2018/08/31/nat/" class="list-group-item">nat</a>
-      
-      <a href="http://blog.flywithme.top/2018/04/02/note_28/" class="list-group-item">Elasticsearch 入门</a>
-      
-    </div>
-  </section>
-
-  
-  <section class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">CATEGORY</div>
-    </div>
-    <div class="list-group">
-      
-      <a href="http://blog.flywithme.topcategories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0" class="list-group-item">技术文章</a>
-      
-      <a href="http://blog.flywithme.topcategories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0" class="list-group-item">学习笔记</a>
-      
-      <a href="http://blog.flywithme.topcategories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F" class="list-group-item">思考感悟</a>
-      
-      <a href="http://blog.flywithme.topcategories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0" class="list-group-item">读书笔记</a>
-      
-    </div>
-  </section>
-  
-  <section class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">TAG</div>
-    </div>
-    <div class="list-group">
-      
-    </div>
-  </section>
-  
-
 </aside>
 
-
+    <main class="content container">
+    <div class="posts">
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2019/02/24/gobin/">go bin执行问题记录</a>
+  </h1>
+  <time datetime="2019-02-24T08:40:50&#43;0800" class="post-date">Sun, Feb 24, 2019</time>
+  因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， //只是在 .bash_profile文件里如此
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2019/02/24/gobin/">Read More…</a>
   </div>
-</div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2019/01/15/nginx/">Nginx 配置 HTTPS 服务器</a>
+  </h1>
+  <time datetime="2019-01-15T14:38:32&#43;0800" class="post-date">Tue, Jan 15, 2019</time>
+  Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS 我的证书是在腾讯云上申请的地址 nginx.conf 配置内容 user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2019/01/15/nginx/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2019/01/13/mongodump/">mongodb 维护小记</a>
+  </h1>
+  <time datetime="2019-01-13T10:45:59&#43;0800" class="post-date">Sun, Jan 13, 2019</time>
+  数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager 本地处
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2019/01/13/mongodump/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/">Vue上线后，history页面点击刷新按钮报错404问题</a>
+  </h1>
+  <time datetime="2018-12-24T07:14:17&#43;0800" class="post-date">Mon, Dec 24, 2018</time>
+  如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &lsquo;history&rsquo;, routes: [&hellip;] }) 当你使用 ```history``` 模式时，
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/12/24/vue-element02/">vue 路由重载之后导致history页面刷新空白问题fix</a>
+  </h1>
+  <time datetime="2018-12-23T06:57:21&#43;0800" class="post-date">Sun, Dec 23, 2018</time>
+  在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/12/24/vue-element02/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/">vue-element-admin 踩坑日记 01</a>
+  </h1>
+  <time datetime="2018-12-22T06:57:21&#43;0800" class="post-date">Sat, Dec 22, 2018</time>
+  vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/">gin api 跨域问题,cors</a>
+  </h1>
+  <time datetime="2018-12-18T03:35:24&#43;0800" class="post-date">Tue, Dec 18, 2018</time>
+  当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/12/10/mongodb/">MongoDB 用户名密码登录</a>
+  </h1>
+  <time datetime="2018-12-10T06:53:01&#43;0800" class="post-date">Mon, Dec 10, 2018</time>
+  MongoDB authentication MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/12/10/mongodb/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/08/31/nat/">nat</a>
+  </h1>
+  <time datetime="2018-08-31T15:30:44&#43;0800" class="post-date">Fri, Aug 31, 2018</time>
+  
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/04/02/note_28/">Elasticsearch 入门</a>
+  </h1>
+  <time datetime="2018-04-02T18:30:28&#43;0800" class="post-date">Mon, Apr 2, 2018</time>
+  简介 为什么要使用Elasticsearch Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/04/02/note_28/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/04/02/note_27/">Docker 入门</a>
+  </h1>
+  <time datetime="2018-04-02T17:33:59&#43;0800" class="post-date">Mon, Apr 2, 2018</time>
+  什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/04/02/note_27/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/16/note_26/">Go: 14-3 多任务版爬虫</a>
+  </h1>
+  <time datetime="2018-03-16T16:02:01&#43;0800" class="post-date">Fri, Mar 16, 2018</time>
+  并发调度器 //engine package engine import ( &quot;log&quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &lt; e.WorkerCount; i++ { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/16/note_26/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/14/note_25/">Go: 14-2 单任务版爬虫</a>
+  </h1>
+  <time datetime="2018-03-14T16:54:13&#43;0800" class="post-date">Wed, Mar 14, 2018</time>
+  总体的算法步骤 解析器 Parser 输入： utf-8 编码的文本 输出： Request{URL,对应的Parser} 列表，Item列表 单任务版爬虫架构 获取并打印所有城
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/14/note_25/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/09/note_24/">Go: 14-1 爬虫实现</a>
+  </h1>
+  <time datetime="2018-03-09T16:05:38&#43;0800" class="post-date">Fri, Mar 9, 2018</time>
+  获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &quot;fmt&quot;
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/09/note_24/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/08/note_23/">Go: 13-1 爬虫简介</a>
+  </h1>
+  <time datetime="2018-03-08T17:13:27&#43;0800" class="post-date">Thu, Mar 8, 2018</time>
+  网络爬虫分类 通用爬虫：如baidu,google 聚焦爬虫：从互联网获取结构化数据 项目总体结构 go语言的爬虫库/框架 henrylee2cn/pholcus gocrawl colly hu17889/go_spider 重新开发一个爬虫库
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/08/note_23/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/07/note_22/">Go: 12-1 迷宫的广度优先搜索</a>
+  </h1>
+  <time datetime="2018-03-07T17:21:14&#43;0800" class="post-date">Wed, Mar 7, 2018</time>
+  示例：广度优先算法 为爬虫实战做准备 应用广泛，综合性强 示例：广度优先搜索走迷宫 广度优先算法示意图 用循环创建二维slice 使用slice来实现队
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/07/note_22/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/07/note_21/">Go: 11-2 其他标准库</a>
+  </h1>
+  <time datetime="2018-03-07T16:54:46&#43;0800" class="post-date">Wed, Mar 7, 2018</time>
+  其他标准库 bufio log encoding/json regexp time stings/math/rand 查看库文档 godoc -http :8888 (启用本地文档服务器) https://studygolang.com/pkgdoc
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/07/note_20/">Go: 11-1 http标准库</a>
+  </h1>
+  <time datetime="2018-03-07T13:24:53&#43;0800" class="post-date">Wed, Mar 7, 2018</time>
+  Server package main import ( &quot;fmt&quot; &quot;net/http&quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &quot;Hello, world!&quot;) } func main() { http.HandleFunc(&quot;/&quot;, handler) http.ListenAndServe(&quot;:8080&quot;, nil) } Client 使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/07/note_20/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/07/note_19/">Go: 10-2 传统同步机制</a>
+  </h1>
+  <time datetime="2018-03-07T11:53:27&#43;0800" class="post-date">Wed, Mar 7, 2018</time>
+  检测数据冲突 未加锁时使用 go run -race atomic.go 时检测会发现数据访问冲突 加锁之后 运行-race 数据访问冲突就没了 传统同步机制 WaitGroup package main import ( &quot;fmt&quot; &quot;sync&quot; ) func doWork(id int, w worker) { for n
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/07/note_19/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/04/note_18/">Go: 10-1 channel</a>
+  </h1>
+  <time datetime="2018-03-04T19:59:50&#43;0800" class="post-date">Sun, Mar 4, 2018</time>
+  channel的用法 channel buffered channel range 理论基础：Communication Sequential Process(CSP) Don&rsquo;t communicate by sharing memory;share memory by communicating(不要通过共享内存来通信， 通过通
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/04/note_18/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/04/note_17/">Go: 9-1 goroutine 并发编程</a>
+  </h1>
+  <time datetime="2018-03-04T18:02:36&#43;0800" class="post-date">Sun, Mar 4, 2018</time>
+  示例 func main() { for i := 0; i &lt; 1000; i++ { go func(i int) { for { fmt.Printf(&quot;Hello form goroutine %d \n&quot;, i) } }(i) } } 协程 Coroutine 轻量级&rdquo;线程&rdquo; 非抢占式多任务处理，由协程主动交出控
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/04/note_17/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/04/note_16/">Go: 8-2 生成文档和示例代码</a>
+  </h1>
+  <time datetime="2018-03-04T13:05:35&#43;0800" class="post-date">Sun, Mar 4, 2018</time>
+  文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &quot;fmt&quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q =
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/04/note_16/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/02/note_15/">Go: 8-1 测试http服务器</a>
+  </h1>
+  <time datetime="2018-03-02T15:57:46&#43;0800" class="post-date">Fri, Mar 2, 2018</time>
+  针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler） 通过虚拟Request/Response来测
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/02/note_15/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/03/01/note_14/">Go: 8-1 测试</a>
+  </h1>
+  <time datetime="2018-03-01T16:01:31&#43;0800" class="post-date">Thu, Mar 1, 2018</time>
+  传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/03/01/note_14/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/24/note_13/">Go: 7-2 服务器统一出错处理</a>
+  </h1>
+  <time datetime="2018-02-24T17:43:08&#43;0800" class="post-date">Sat, Feb 24, 2018</time>
+  如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/24/note_13/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/24/note_12/">Go: 7-1 资源管理与出错处理</a>
+  </h1>
+  <time datetime="2018-02-24T17:06:34&#43;0800" class="post-date">Sat, Feb 24, 2018</time>
+  defer的调用 确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter) func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。 defer 的作用就是把
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/24/note_12/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/24/note_11/">Go: 6-2 函数式编程</a>
+  </h1>
+  <time datetime="2018-02-24T14:35:09&#43;0800" class="post-date">Sat, Feb 24, 2018</time>
+  go语言闭包的应用 更为自然，不需要修饰如何访问自由变量 没有Lambda表达式，但是有匿名函数 package fib //斐波那契数列 // 1, 1, 2, 3, 5, 8, 13, ... func Fibonacci() func() int {
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/24/note_11/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/12/note_10/">Go: 6-1 函数式编程</a>
+  </h1>
+  <time datetime="2018-02-12T13:32:36&#43;0800" class="post-date">Mon, Feb 12, 2018</time>
+  特点 函数可以作为参数，变量，返回值 高阶函数 函数-&gt;闭包 //golang func adder() func(int) int { sum := 0 //自由变量 return func(v int) int { sum += v return sum } } //python def adder(); sum = 0 def f(value): nonlocal sum sum += value
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/12/note_10/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/09/note_09/">Go: 5-1 接口</a>
+  </h1>
+  <time datetime="2018-02-09T15:16:41&#43;0800" class="post-date">Fri, Feb 9, 2018</time>
+  duck typing 基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构 pythn中的duck typing def download(retriever): return retriever.get(&quot;www.downloadurl.com&quot;) 运行时才知道传入的retriever有没有g
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/09/note_09/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/08/note_08/">Go: 4-1 面向对象</a>
+  </h1>
+  <time datetime="2018-02-08T11:34:35&#43;0800" class="post-date">Thu, Feb 8, 2018</time>
+  Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/08/note_08/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/07/note_07/">Go: 3-2 Map 和字符串的一些操作</a>
+  </h1>
+  <time datetime="2018-02-07T17:52:33&#43;0800" class="post-date">Wed, Feb 7, 2018</time>
+  Map rune 相当于go的char strings Map Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/07/note_07/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/05/note_06/">Go: 3-1 数组、切片和容器</a>
+  </h1>
+  <time datetime="2018-02-05T16:44:58&#43;0800" class="post-date">Mon, Feb 5, 2018</time>
+  数组 (值类型) [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/05/note_06/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/05/note_05/">Go: 2-4 指针</a>
+  </h1>
+  <time datetime="2018-02-05T15:29:31&#43;0800" class="post-date">Mon, Feb 5, 2018</time>
+  什么是指针 一个指针变量可以指向任何一个值的内存地址它指向那个值的内存地址。 类似于变量和常量，在使用指针前你需要声明指针 如何使用指针 定义指针变
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/05/note_05/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/04/note_04/">Go: 2-3 函数</a>
+  </h1>
+  <time datetime="2018-02-04T14:37:54&#43;0800" class="post-date">Sun, Feb 4, 2018</time>
+  函数 函数是基本的代码块，用于执行一个任务。 Go 语言最少有个 main() 函数。 你可以通过函数来划分不同功能，逻辑上每个函数执行的是指定的任务。 函数声明告诉
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/04/note_04/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/04/note_03/">Go: 2-2 条件语句和循环语句</a>
+  </h1>
+  <time datetime="2018-02-04T14:05:59&#43;0800" class="post-date">Sun, Feb 4, 2018</time>
+  语句 描述 if 语句 if 语句 由一个布尔表达式后紧跟一个或多个语句组成 if&hellip;else if 语句 后可以使用可选的 else 语句, else 语句中的表达式在布尔表达式为 false 时执行。 if 嵌套语
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/04/note_03/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/03/note_02/">Go: 2-1 变量定义</a>
+  </h1>
+  <time datetime="2018-02-03T19:45:12&#43;0800" class="post-date">Sat, Feb 3, 2018</time>
+  变量声明 指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/03/note_02/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/02/02/note_01/">Go:记笔：1-1 导读</a>
+  </h1>
+  <time datetime="2018-02-02T17:27:32&#43;0800" class="post-date">Fri, Feb 2, 2018</time>
+  GO语言很特别 没有&rdquo;对象&rdquo;，没有继承多态，没有泛型，么有try/catch 有接口，函数式变成，CSP并发模型（gor
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/02/02/note_01/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2018/01/30/go/">Go 语言总结</a>
+  </h1>
+  <time datetime="2018-01-30T15:02:26&#43;0800" class="post-date">Tue, Jan 30, 2018</time>
+  前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力） Go 归类总结 类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2018/01/30/go/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/12/13/pigeon/">pigeon </a>
+  </h1>
+  <time datetime="2017-12-13T21:55:46&#43;0800" class="post-date">Wed, Dec 13, 2017</time>
+  小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等 我们需要实时监控
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/12/13/pigeon/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/11/17/shell/">Shell 小记，-文本操作</a>
+  </h1>
+  <time datetime="2017-11-17T16:26:03&#43;0800" class="post-date">Fri, Nov 17, 2017</time>
+  修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/11/17/shell/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/11/16/Jenkins/">Jenkins-打包之远程构建</a>
+  </h1>
+  <time datetime="2017-11-16T16:59:57&#43;0800" class="post-date">Thu, Nov 16, 2017</time>
+  在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/11/16/Jenkins/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/11/16/wirelessdebug/">无线真机调试-Xcode9 -iOS</a>
+  </h1>
+  <time datetime="2017-11-16T11:15:21&#43;0800" class="post-date">Thu, Nov 16, 2017</time>
+  首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/11/16/wirelessdebug/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/11/15/PlistBuddy/">imageMagick 和 PlistBuddy合体生成图标</a>
+  </h1>
+  <time datetime="2017-11-15T19:06:14&#43;0800" class="post-date">Wed, Nov 15, 2017</time>
+  demo地址 图片内容处理文件 (merchant-icon-generator.sh) #获取参数 文件源 SRC_FILE=&quot;$1&quot; #版本号 shortVersion=&quot;$2&quot; #标签number bundlerNum=&quot;$3&quot; #转换 文件 绘制 坐标 填充 颜色 透明度 填充 坐标 填充 颜色 透明度 生成目标
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/11/15/PlistBuddy/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/11/13/mail/">golang web Send Email</a>
+  </h1>
+  <time datetime="2017-11-13T17:20:15&#43;0800" class="post-date">Mon, Nov 13, 2017</time>
+  //注意邮件格式，以免被当垃圾邮件 package email import ( &quot;net/smtp&quot; &quot;strings&quot; ) const ( HOST = &quot;smtp.163.com&quot; SERVER_ADDR = &quot;smtp.163.com:25&quot; USER = &quot;xxx@163.com&quot; //发送邮件的邮箱 PASSWORD = &quot;xxx&quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/11/13/mail/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/11/13/sshnopass/">ubuntu ssh免密登陆</a>
+  </h1>
+  <time datetime="2017-11-13T11:40:09&#43;0800" class="post-date">Mon, Nov 13, 2017</time>
+  前置条件： 一台主流的Linux服务器，如CentOS,Ubuntu,Fedora,redhat等 一台能连上以上服务器的客户机，我用的mac，
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/11/13/sshnopass/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/11/11/gin-mysql-Web/">web01-配置Mysql</a>
+  </h1>
+  <time datetime="2017-11-11T19:57:02&#43;0800" class="post-date">Sat, Nov 11, 2017</time>
+  安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT '', `departname` varchar(20) DEFAULT '', `password` varchar(32) DEFAULT '', `sex` tinyint(1) unsigned zerofill DEFAULT '0', `userid` varchar(32) DEFAULT '', `phone` varchar(13) DEFAULT '', `phoneprefix` varchar(6) DEFAULT '', `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/11/11/gin-mysql-Web/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/11/10/imagemagic/">imagemagic</a>
+  </h1>
+  <time datetime="2017-11-10T12:11:33&#43;0800" class="post-date">Fri, Nov 10, 2017</time>
+  首先：brew install ImageMagick 熟悉ImageMagick命令： resize当前目录下的图片到100x100f分辨率 convert 1024x1024.png -resize 100x100 icon02.png 填充某像 convert 1024x1024.png -region 1024x224+0+800 -fill &quot;rgb(255,166,48)&quot; -colorize 100% new.png convert
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/11/10/imagemagic/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/11/05/gin-mysql/">使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分</a>
+  </h1>
+  <time datetime="2017-11-05T20:17:21&#43;0800" class="post-date">Sun, Nov 5, 2017</time>
+  项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to json 时，空值忽略
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/11/05/gin-mysql/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt/">iOS11 ScrollView 页面下移问题</a>
+  </h1>
+  <time datetime="2017-09-30T14:58:00&#43;0800" class="post-date">Sat, Sep 30, 2017</time>
+  一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/08/03/bigFileUpload/">大文件分片上传解决方案</a>
+  </h1>
+  <time datetime="2017-08-03T13:44:56&#43;0800" class="post-date">Thu, Aug 3, 2017</time>
+  分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/08/03/bigFileUpload/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/04/17/swift22/">swift3-22</a>
+  </h1>
+  <time datetime="2017-04-17T10:48:35&#43;0800" class="post-date">Mon, Apr 17, 2017</time>
+  
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/04/13/swift21/">swift3-21 析构过程</a>
+  </h1>
+  <time datetime="2017-04-13T17:19:53&#43;0800" class="post-date">Thu, Apr 13, 2017</time>
+  在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。 析构过程原理 Sw
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/04/13/swift21/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/04/13/swift20/">swift3-20 构造过程</a>
+  </h1>
+  <time datetime="2017-04-13T16:24:52&#43;0800" class="post-date">Thu, Apr 13, 2017</time>
+  构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务 swift的构造函数
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/04/13/swift20/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/04/13/swift19/">swift3-19 多态性</a>
+  </h1>
+  <time datetime="2017-04-13T12:00:36&#43;0800" class="post-date">Thu, Apr 13, 2017</time>
+  多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/04/13/swift19/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/04/01/swift18/">swift3-18 继承</a>
+  </h1>
+  <time datetime="2017-04-01T22:29:17&#43;0800" class="post-date">Sat, Apr 1, 2017</time>
+  继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/04/01/swift18/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/03/31/swift17/">swift3-17 单例</a>
+  </h1>
+  <time datetime="2017-03-31T19:47:41&#43;0800" class="post-date">Fri, Mar 31, 2017</time>
+  单例写法 public class Manager{ public var score = 0 public static let defaultManager = Manager.init() private init(){ } public func addScore(){ score += 10 } } let manager = Manager.defaultManager manager.addScore() manager.score manager.addScore() manager.score let manager2 = Manager.defaultManager manager2.addScore() manager2.score
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/03/30/swift16/">swift3-16 属性</a>
+  </h1>
+  <time datetime="2017-03-30T16:53:45&#43;0800" class="post-date">Thu, Mar 30, 2017</time>
+  Swift 属性将值跟特定的类、结构或枚举关联 属性可分为存储属性和计算属性: 存储属性 计算属性 存储常量或变量作为实例的一部分 计算（而不是存储）一个值 用于
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/03/30/swift16/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/03/29/swift15/">swift3-15 类</a>
+  </h1>
+  <time datetime="2017-03-29T14:18:03&#43;0800" class="post-date">Wed, Mar 29, 2017</time>
+  类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/03/29/swift15/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/03/23/swift3-14/">swift3-14 结构体</a>
+  </h1>
+  <time datetime="2017-03-23T16:54:15&#43;0800" class="post-date">Thu, Mar 23, 2017</time>
+  Swift 结构体是构建代码所用的一种通用且灵活的构造体。我们可以为结构体定义属性（常量、变量）和添加方法，从而扩展结构体的功能. 与 C 和 Objective-C 不同的是: 结
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/03/23/swift3-14/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/03/21/swift13/">swift3-13 枚举</a>
+  </h1>
+  <time datetime="2017-03-21T15:30:52&#43;0800" class="post-date">Tue, Mar 21, 2017</time>
+  枚举简单的说也是一种数据类型，只不过是这种数据类型只包含自定义的特定数据，它是一组有共同特性的数据的集合。 Swift 的枚举类似于 Objective C 和 C 的结构 枚举的
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/03/21/swift13/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/28/swift12/">swift3-12 闭包</a>
+  </h1>
+  <time datetime="2017-02-28T17:43:27&#43;0800" class="post-date">Tue, Feb 28, 2017</time>
+  闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/28/swift12/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/27/swift11/">swift3-11 函数</a>
+  </h1>
+  <time datetime="2017-02-27T13:41:21&#43;0800" class="post-date">Mon, Feb 27, 2017</time>
+  函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/27/swift11/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/22/swift10/">swift3-10 数据集合小节</a>
+  </h1>
+  <time datetime="2017-02-22T16:15:18&#43;0800" class="post-date">Wed, Feb 22, 2017</time>
+  选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/22/swift10/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/22/swift09/">Swift3-09 集合</a>
+  </h1>
+  <time datetime="2017-02-22T15:18:43&#43;0800" class="post-date">Wed, Feb 22, 2017</time>
+  将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/22/swift09/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/22/swift08/">Swift3-08 字典</a>
+  </h1>
+  <time datetime="2017-02-22T14:12:36&#43;0800" class="post-date">Wed, Feb 22, 2017</time>
+  字典是存储 键-值 数据对的无序数据集合 基本方法 var dic = [&quot;key&quot;:&quot;value&quot;, &quot;a&quot;:&quot;b&quot;] dic[&quot;key&quot;] var value = dic[&quot;key&quot;] //返回的 value 是一个可选型 value = dic[&quot;daaaa&quot;] dict.isEmpty dict.count if let value = dic[&quot;key&quot;]{ print(value) } var dict:[String:Int] = [&quot;1&quot;:1,&quot;2&quot;:2] dict[&quot;1&quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&quot;a&quot;]
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/22/swift08/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/21/swift07/">Swift3-07 数组</a>
+  </h1>
+  <time datetime="2017-02-21T15:38:45&#43;0800" class="post-date">Tue, Feb 21, 2017</time>
+  数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。 初始化方式 var numbers = [0,1,2,3]
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/21/swift07/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/20/swift06/">Swift3-06 可选型 Optionals</a>
+  </h1>
+  <time datetime="2017-02-20T15:22:44&#43;0800" class="post-date">Mon, Feb 20, 2017</time>
+  画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/20/swift06/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/17/swift05/">Swift3-05 逻辑控制</a>
+  </h1>
+  <time datetime="2017-02-17T17:34:01&#43;0800" class="post-date">Fri, Feb 17, 2017</time>
+  控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/17/swift05/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/17/swift04/">Swift3-04 基础运算符</a>
+  </h1>
+  <time datetime="2017-02-17T11:00:55&#43;0800" class="post-date">Fri, Feb 17, 2017</time>
+  赋值运算符 = 这里是没有返回值的。返回值可能是Void，此时不等于nil，即赋值成功；或等于nil，即赋值失败 var a = 3 a = 2 数学运算符 + - * /
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/17/swift04/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/16/swift03/">Swift3-03 基础类型</a>
+  </h1>
+  <time datetime="2017-02-16T16:11:36&#43;0800" class="post-date">Thu, Feb 16, 2017</time>
+  常量 let let a = 1 let b:Int b = 1 变量 var var b = 2 swift 是一个强类型语言: var x = 1 x = &quot;abc&quot; //会报错(Cannot assign value of type &quot;String&quot; to type &quot;int&quot;) 显示声明变量 let s:String = &quot;abc&quot; 一次声明
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/16/swift03/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/16/swift02/">Swift3-02 初见</a>
+  </h1>
+  <time datetime="2017-02-16T11:27:44&#43;0800" class="post-date">Thu, Feb 16, 2017</time>
+  首先我们来在屏幕上输出一个 hello world print(&quot;hello world&quot;) 不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。 Xcode 提供了代码预览功能 Playground . 使用它可以加快 swi
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/16/swift02/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/02/09/swift01/">关于 Swift3-01</a>
+  </h1>
+  <time datetime="2017-02-09T10:12:48&#43;0800" class="post-date">Thu, Feb 9, 2017</time>
+  Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/02/09/swift01/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2017/01/01/golangfmt/">Go语言fmt包Printf方法详解t</a>
+  </h1>
+  <time datetime="2017-01-01T00:56:42&#43;0800" class="post-date">Sun, Jan 1, 2017</time>
+  Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。 General %v 以默认的方式打印
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2017/01/01/golangfmt/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/12/26/golang-Gin-Https/">golang-Gin-Https</a>
+  </h1>
+  <time datetime="2016-12-26T14:29:14&#43;0800" class="post-date">Mon, Dec 26, 2016</time>
+  关于https 背景知识 密码学的一些基本知识 大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，ke
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/12/26/golang-Gin-Https/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/">TableView 中 Cell的重用机制分析</a>
+  </h1>
+  <time datetime="2016-12-20T11:41:34&#43;0800" class="post-date">Tue, Dec 20, 2016</time>
+  UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/12/19/clientType/">JS判断客户端类型</a>
+  </h1>
+  <time datetime="2016-12-19T14:30:21&#43;0800" class="post-date">Mon, Dec 19, 2016</time>
+  通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型 扫描二维码打开: 测试链接: function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&quot;micromessenger&quot;) { alert('在微信里打开
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/12/19/clientType/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/07/14/debugpanel/">iOS 开发Debug工具壳</a>
+  </h1>
+  <time datetime="2016-07-14T11:40:29&#43;0800" class="post-date">Thu, Jul 14, 2016</time>
+  初衷 移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/07/14/debugpanel/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/06/30/Go-gin01/">golang-gin 框架学习 一、 GET POST Method</a>
+  </h1>
+  <time datetime="2016-06-30T18:16:12&#43;0800" class="post-date">Thu, Jun 30, 2016</time>
+  前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过. 所以就选了一个
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/06/30/Go-gin01/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/05/15/ReactiveCocoa/">ReactiveCocoa简单介绍</a>
+  </h1>
+  <time datetime="2016-06-14T14:33:00&#43;0800" class="post-date">Tue, Jun 14, 2016</time>
+  一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本 pod 'ReactiveCocoa' 二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/05/15/ReactiveCocoa/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/06/12/modelExt/">YYModel 简介与使用</a>
+  </h1>
+  <time datetime="2016-06-12T15:14:43&#43;0800" class="post-date">Sun, Jun 12, 2016</time>
+  1. 简单的 JSON 与 Model 的转换 // JSON: { &quot;uid&quot;:123456, &quot;name&quot;:&quot;Harry&quot;, &quot;created&quot;:&quot;1965-07-31T00:00:00+0000&quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject]; 如果 Model 属性的类型和 JSON 中
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/06/12/modelExt/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/05/27/Dlog-Introduce/">iOS 自定义 Log 简介</a>
+  </h1>
+  <time datetime="2016-05-27T10:46:06&#43;0800" class="post-date">Fri, May 27, 2016</time>
+  我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/05/27/Dlog-Introduce/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/06/14/singnal/">singnal 信号类型</a>
+  </h1>
+  <time datetime="2016-05-15T17:26:11&#43;0800" class="post-date">Sun, May 15, 2016</time>
+  简介 处理一些 crash 需要查到这些资料 信号是Linux编程中非常重要的部分，本文将详细介绍信号机制的基本概念、Linux对信号机制的大致实现方法、如
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/06/14/singnal/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/">UINavigationBar-使用总结</a>
+  </h1>
+  <time datetime="2016-05-03T11:49:19&#43;0800" class="post-date">Tue, May 3, 2016</time>
+  简介 UINavigationBar是用于实现管理层级关系内容的组件，直接继承自UIView。通常用在UINavgationControlle
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/04/28/ReactNativeRD/">React Native如何做跨平台设计</a>
+  </h1>
+  <time datetime="2016-04-28T10:54:03&#43;0800" class="post-date">Thu, Apr 28, 2016</time>
+  Facebook 开源 Facebook 在它的F8开发者大会上开源了它的F8大会App，甚至还配上了教程，我组织了一个翻译小队对这个教程进行了翻译。虽然比百万哥晚了几天，但
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/04/28/ReactNativeRD/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/">利用Multipeer Connectivity框架进行WiFi传输</a>
+  </h1>
+  <time datetime="2016-04-27T16:47:13&#43;0800" class="post-date">Wed, Apr 27, 2016</time>
+  什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/03/31/golang-Mgo/">MongoDB的Go语言驱动</a>
+  </h1>
+  <time datetime="2016-03-31T13:56:29&#43;0800" class="post-date">Thu, Mar 31, 2016</time>
+  mgo简介 mgo（音mango）是MongoDB的Go语言驱动，它用基于Go语法的简单API实现了丰富的特性，并经过良好测试。 官方网站：ht
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/03/31/golang-Mgo/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/03/29/golangGin/">golang Web 框架 gin 简介</a>
+  </h1>
+  <time datetime="2016-03-29T19:04:26&#43;0800" class="post-date">Tue, Mar 29, 2016</time>
+  GitHub： 对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/03/29/golangGin/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/03/28/basicknowledgepoint-drop/">iOS 基础内容</a>
+  </h1>
+  <time datetime="2016-03-28T14:07:36&#43;0800" class="post-date">Mon, Mar 28, 2016</time>
+  序言 基础要牢固! OC的理解与特性 OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C++）
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/03/28/basicknowledgepoint-drop/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/03/26/iOSRunloop/">深入理解RunLoop</a>
+  </h1>
+  <time datetime="2016-03-26T23:10:12&#43;0800" class="post-date">Sat, Mar 26, 2016</time>
+  RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/03/26/iOSRunloop/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/03/26/ResponderChain/">Responder -- iOS用户响应者链完全剖析</a>
+  </h1>
+  <time datetime="2016-03-26T22:28:03&#43;0800" class="post-date">Sat, Mar 26, 2016</time>
+  这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。 我们先从UIButton谈起，UIButton大家使用
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/03/26/ResponderChain/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/">iOS下Category添加属性字段</a>
+  </h1>
+  <time datetime="2016-03-25T16:52:16&#43;0800" class="post-date">Fri, Mar 25, 2016</time>
+  首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/03/24/loadAndinitialize/">Objective-C 中 &#43;load 与 &#43;initialize</a>
+  </h1>
+  <time datetime="2016-03-24T19:20:35&#43;0800" class="post-date">Thu, Mar 24, 2016</time>
+  类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/03/24/loadAndinitialize/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/03/24/OCRuntime/">Objective-C&#43;Runtime 浅析</a>
+  </h1>
+  <time datetime="2016-03-24T10:58:29&#43;0800" class="post-date">Thu, Mar 24, 2016</time>
+  From 一、什么是Objective-C Runtime? Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Obj
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/03/24/OCRuntime/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/">iOS中的谓词（NSPredicate）使用</a>
+  </h1>
+  <time datetime="2016-03-20T17:40:29&#43;0800" class="post-date">Sun, Mar 20, 2016</time>
+  首先，我们需要知道何谓谓词，让我们看看官方的解释: The NSPredicate class is used to define logical conditions used to constrain a search either for a fetch or for in-memory filtering. NSPredicate类是用来定义逻辑条件约束
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2015/09/15/JScallOC/">iOS JS call OC</a>
+  </h1>
+  <time datetime="2015-09-15T18:12:45&#43;0800" class="post-date">Tue, Sep 15, 2015</time>
+  接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2015/09/15/JScallOC/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2015/09/15/OCCallJS/">iOS OC call JS</a>
+  </h1>
+  <time datetime="2015-09-15T18:05:59&#43;0800" class="post-date">Tue, Sep 15, 2015</time>
+  从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。 下面我们就简单了解一下这个框架 首先
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2015/09/15/OCCallJS/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2015/08/29/hugo/">使用hugo搭建个人博客站点</a>
+  </h1>
+  <time datetime="2015-08-29T16:52:15&#43;0800" class="post-date">Sat, Aug 29, 2015</time>
+  <blockquote>
+<p>转载 from: <a href="http://blog.coderzh.com/2015/08/29/hugo/">coderzh</a></p>
+</blockquote>
 
-      </div>
+<p>Hugo是一个用Go语言编写的静态网站生成器，它使用起来非常简单，相对于Jekyll复杂的安装设置来说，Hugo仅需要一个二进制文件hugo(hugo.exe)即可轻松用于本地调试和生成静态页面。</p>
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2015/08/29/hugo/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2015/08/17/appUpdate/">iOS App检测AppStore更新</a>
+  </h1>
+  <time datetime="2015-08-17T14:06:05&#43;0800" class="post-date">Mon, Aug 17, 2015</time>
+  //id&nbsp;是&nbsp;itunes connect里的&nbsp;Apple ID #define APP_URL @&quot;http://itunes.apple.com/lookup?id=587231152&quot; //term&nbsp;是&nbsp;itun
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2015/08/17/appUpdate/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2015/02/27/JKImageView/">JKImageView</a>
+  </h1>
+  <time datetime="2015-02-27T16:42:11&#43;0800" class="post-date">Fri, Feb 27, 2015</time>
+  项目地址:https://github.com/brasbug/JKImageView-- 第一步：拿到网络图片并显示出来 首先重网络拿到图片资
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2015/02/27/JKImageView/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2015/02/25/NSThread/">NSThread</a>
+  </h1>
+  <time datetime="2015-02-25T16:37:37&#43;0800" class="post-date">Wed, Feb 25, 2015</time>
+  一、概述: NSThread是一个轻量级的多线程技术，每一个对象代表一个线程。优点：轻量级，使用简单缺点: &nbsp;不能控制线程执行顺序，不
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2015/02/25/NSThread/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2015/02/24/NSOperation/">NSOperation的简单使用</a>
+  </h1>
+  <time datetime="2015-02-24T15:57:21&#43;0800" class="post-date">Tue, Feb 24, 2015</time>
+  一、NSOperation的简介 NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。NSOperatio
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2015/02/24/NSOperation/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/2015/01/20/GCD/">GCD的介绍和使用</a>
+  </h1>
+  <time datetime="2015-01-20T14:16:48&#43;0800" class="post-date">Tue, Jan 20, 2015</time>
+  GCD的介绍和使用 介绍： Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/2015/01/20/GCD/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/about/">关于我</a>
+  </h1>
+  <time datetime="2014-03-20T17:40:29&#43;0800" class="post-date">Thu, Mar 20, 2014</time>
+  。。。。。。 一些链接 我的独立博客：blog.flywithme.top Github: github.com/flywithbug Email：neverfall@foxmail.com 微信公众号：
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/about/">Read More…</a>
+  </div>
+  
+</article><article class="post">
+  <h1 class="post-title">
+    <a href="http://blog.flywithme.top/sources/localHtml/clientType01/"></a>
+  </h1>
+  <time datetime="0001-01-01T00:00:00Z" class="post-date">Mon, Jan 1, 0001</time>
+  判断客户端类型   // if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { // //alert(navigator.userAgent); // alert('这是iOS'); // } else if (/(Android)/i.test(navigator.userAgent)) { // //alert(navigator.userAgent); // alert('这是Android'); // } else { // alert('这是PC'); // }; function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)=="micromessenger") { alert('在微信里打开'); } else { alert('不在微信里打开'); } } is_weixn(); //判断各个平台 function detectOS() { var sUserAgent = navigator.userAgent; if (/(iPhone|iPad|iPod|iOS)/i.test(sUserAgent)) { //alert(navigator.userAgent); // alert('这是IOS'); return "iOS" } else if (/(Android)/i.test(sUserAgent)) { //alert(navigator.userAgent); return "
+  
+  <div class="read-more-link">
+    <a href="http://blog.flywithme.top/sources/localHtml/clientType01/">Read More…</a>
+  </div>
+  
+</article>
+</div>
     </main>
 
-    <footer class="l-footer">
-      <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
-        <aside>
-          <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
-          <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
-        </aside>
-      </div>
-    </footer>
-
-    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+    
   </body>
 </html>
-
