@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Swift3-05 逻辑控制 - Fly With Bug</title>
     
-<meta name="description" content="控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行循环结构 循环语句使用同一个语句组根据一定的条件执行若干次选择结构: 分支语句根据一定的条件决定执行那一部分语句序列 顺序结构不再多说  循环结构for _ in 0...100{ print(&amp;quot;遍历循环&amp;quot;) } //这种方式在 swift3 中被废弃,不能在使用 //for var i = 1; i &amp;lt; 100 ; i&#43;&#43;{ // print(&amp;quot;遍历循环中&amp;quot;) //} var a = 0.0 while a &amp;lt; 50 { a &#43;= 0.5 sin(a) } //至少执行一次 repeat{ a &#43;= 0.5 sin(a) }while a &amp;lt; 100  选择结构if true { }else if(1 == 1){ }else{ } switch index { case 0: break case 1: break case 2: break default: break } //swift 提供的基础数据类型都可以用作 switch 的判断 var str = &amp;quot;a&amp;quot; switch str { case &amp;quot;a&amp;quot;,&amp;quot;A&amp;quot;: print(&amp;quot;A&amp;quot;) case &amp;quot;b&amp;quot;: print(&amp;quot;B&amp;quot;) default: break } //区间 let age = 19 switch age { case 0.">
+<meta name="description" content="控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组">
 
 <meta property="og:title" content="Swift3-05 逻辑控制 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/02/17/swift05/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行循环结构 循环语句使用同一个语句组根据一定的条件执行若干次选择结构: 分支语句根据一定的条件决定执行那一部分语句序列 顺序结构不再多说  循环结构for _ in 0...100{ print(&amp;quot;遍历循环&amp;quot;) } //这种方式在 swift3 中被废弃,不能在使用 //for var i = 1; i &amp;lt; 100 ; i&#43;&#43;{ // print(&amp;quot;遍历循环中&amp;quot;) //} var a = 0.0 while a &amp;lt; 50 { a &#43;= 0.5 sin(a) } //至少执行一次 repeat{ a &#43;= 0.5 sin(a) }while a &amp;lt; 100  选择结构if true { }else if(1 == 1){ }else{ } switch index { case 0: break case 1: break case 2: break default: break } //swift 提供的基础数据类型都可以用作 switch 的判断 var str = &amp;quot;a&amp;quot; switch str { case &amp;quot;a&amp;quot;,&amp;quot;A&amp;quot;: print(&amp;quot;A&amp;quot;) case &amp;quot;b&amp;quot;: print(&amp;quot;B&amp;quot;) default: break } //区间 let age = 19 switch age { case 0.">
+<meta property="og:description" content="控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/02/17/swift05/">
 <meta name="twitter:title" content="Swift3-05 逻辑控制 - Fly With Bug">
-<meta name="twitter:description" content="控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行循环结构 循环语句使用同一个语句组根据一定的条件执行若干次选择结构: 分支语句根据一定的条件决定执行那一部分语句序列 顺序结构不再多说  循环结构for _ in 0...100{ print(&amp;quot;遍历循环&amp;quot;) } //这种方式在 swift3 中被废弃,不能在使用 //for var i = 1; i &amp;lt; 100 ; i&#43;&#43;{ // print(&amp;quot;遍历循环中&amp;quot;) //} var a = 0.0 while a &amp;lt; 50 { a &#43;= 0.5 sin(a) } //至少执行一次 repeat{ a &#43;= 0.5 sin(a) }while a &amp;lt; 100  选择结构if true { }else if(1 == 1){ }else{ } switch index { case 0: break case 1: break case 2: break default: break } //swift 提供的基础数据类型都可以用作 switch 的判断 var str = &amp;quot;a&amp;quot; switch str { case &amp;quot;a&amp;quot;,&amp;quot;A&amp;quot;: print(&amp;quot;A&amp;quot;) case &amp;quot;b&amp;quot;: print(&amp;quot;B&amp;quot;) default: break } //区间 let age = 19 switch age { case 0.">
+<meta name="twitter:description" content="控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,13 +65,7 @@
         "height": 60
       }
     },
-    "description": "控制流的三种基本结构:
- 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行
-循环结构 循环语句使用同一个语句组根据一定的条件执行若干次
-选择结构: 分支语句根据一定的条件决定执行那一部分语句序列 顺序结构不再多说
-  循环结构
-for _ in 0...100{ print(&quot;遍历循环&quot;) } //这种方式在 swift3 中被废弃,不能在使用 //for var i = 1; i &lt; 100 ; i++{ // print(&quot;遍历循环中&quot;) //} var a = 0.0 while a &lt; 50 { a += 0.5 sin(a) } //至少执行一次 repeat{ a += 0.5 sin(a) }while a &lt; 100  选择结构
-if true { }else if(1 == 1){ }else{ } switch index { case 0: break case 1: break case 2: break default: break } //swift 提供的基础数据类型都可以用作 switch 的判断 var str = &quot;a&quot; switch str { case &quot;a&quot;,&quot;A&quot;: print(&quot;A&quot;) case &quot;b&quot;: print(&quot;B&quot;) default: break } //区间 let age = 19 switch age { case 0."
+    "description": "控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组"
   }
 </script>
 
@@ -99,6 +93,22 @@ if true { }else if(1 == 1){ }else{ } switch index { case 0: break case 1: break 
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -400,7 +410,7 @@ buyComputer(money: 9000, price: 6000, brand: &quot;Sony&quot;)
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

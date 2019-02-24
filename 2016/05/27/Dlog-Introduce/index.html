@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2016/05/27/dlog-introduce/">
+<link rel="canonical" href="http://blog.flywithme.top/2016/05/27/Dlog-Introduce/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>iOS 自定义 Log 简介 - Fly With Bug</title>
     
-<meta name="description" content="我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：#ifdef DEBUG # define DLog(fmt, ...) NSLog((@&amp;quot;[FileName:%s]\n&amp;quot; &amp;quot;[FuctionName:%s]\n&amp;quot; &amp;quot;[Line:%d] \n&amp;quot; fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__); #else # define DLog(...); #endif  参数解释： VA_ARGS是一个可变参数的宏，很少人知道这个宏，这个可变参数的宏是新的C99规范中新增的，目前似乎只有gcc支（VC6.0的编译器不支持）。宏前面加上##的作用在于，当可变参数的个数为0时，这里的##起到把前面多余的&amp;rdquo;,&amp;ldquo;去掉的作用,否则会编译出错, 你可以试试。stackOverflow FILE宏在预编译时会替换成当前的源文件名 LINE宏在预编译时会替换成当前的行号 FUNCTION宏在预编译时会替换成当前的函数名称  有了以上这几个宏，特别是有了VA_ARGS，调试信息的输出就变得灵活多了。">
+<meta name="description" content="我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，">
 
 <meta property="og:title" content="iOS 自定义 Log 简介 - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2016/05/27/dlog-introduce/">
+<meta property="og:url" content="http://blog.flywithme.top/2016/05/27/Dlog-Introduce/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：#ifdef DEBUG # define DLog(fmt, ...) NSLog((@&amp;quot;[FileName:%s]\n&amp;quot; &amp;quot;[FuctionName:%s]\n&amp;quot; &amp;quot;[Line:%d] \n&amp;quot; fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__); #else # define DLog(...); #endif  参数解释： VA_ARGS是一个可变参数的宏，很少人知道这个宏，这个可变参数的宏是新的C99规范中新增的，目前似乎只有gcc支（VC6.0的编译器不支持）。宏前面加上##的作用在于，当可变参数的个数为0时，这里的##起到把前面多余的&amp;rdquo;,&amp;ldquo;去掉的作用,否则会编译出错, 你可以试试。stackOverflow FILE宏在预编译时会替换成当前的源文件名 LINE宏在预编译时会替换成当前的行号 FUNCTION宏在预编译时会替换成当前的函数名称  有了以上这几个宏，特别是有了VA_ARGS，调试信息的输出就变得灵活多了。">
+<meta property="og:description" content="我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2016/05/27/dlog-introduce/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2016/05/27/Dlog-Introduce/">
 <meta name="twitter:title" content="iOS 自定义 Log 简介 - Fly With Bug">
-<meta name="twitter:description" content="我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：#ifdef DEBUG # define DLog(fmt, ...) NSLog((@&amp;quot;[FileName:%s]\n&amp;quot; &amp;quot;[FuctionName:%s]\n&amp;quot; &amp;quot;[Line:%d] \n&amp;quot; fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__); #else # define DLog(...); #endif  参数解释： VA_ARGS是一个可变参数的宏，很少人知道这个宏，这个可变参数的宏是新的C99规范中新增的，目前似乎只有gcc支（VC6.0的编译器不支持）。宏前面加上##的作用在于，当可变参数的个数为0时，这里的##起到把前面多余的&amp;rdquo;,&amp;ldquo;去掉的作用,否则会编译出错, 你可以试试。stackOverflow FILE宏在预编译时会替换成当前的源文件名 LINE宏在预编译时会替换成当前的行号 FUNCTION宏在预编译时会替换成当前的函数名称  有了以上这几个宏，特别是有了VA_ARGS，调试信息的输出就变得灵活多了。">
+<meta name="twitter:description" content="我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,13 +65,7 @@
         "height": 60
       }
     },
-    "description": "我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：
-#ifdef DEBUG # define DLog(fmt, ...) NSLog((@&quot;[FileName:%s]\n&quot; &quot;[FuctionName:%s]\n&quot; &quot;[Line:%d] \n&quot; fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__); #else # define DLog(...); #endif  参数解释：
- VA_ARGS是一个可变参数的宏，很少人知道这个宏，这个可变参数的宏是新的C99规范中新增的，目前似乎只有gcc支（VC6.0的编译器不支持）。宏前面加上##的作用在于，当可变参数的个数为0时，这里的##起到把前面多余的&rdquo;,&ldquo;去掉的作用,否则会编译出错, 你可以试试。stackOverflow
- FILE宏在预编译时会替换成当前的源文件名
- LINE宏在预编译时会替换成当前的行号
- FUNCTION宏在预编译时会替换成当前的函数名称
-  有了以上这几个宏，特别是有了VA_ARGS，调试信息的输出就变得灵活多了。"
+    "description": "我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，"
   }
 </script>
 
@@ -99,6 +93,22 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -212,7 +222,7 @@
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

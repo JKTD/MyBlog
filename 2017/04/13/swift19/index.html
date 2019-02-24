@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>swift3-19 多态性 - Fly With Bug</title>
     
-<meta name="description" content="多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引用调用相同方法而产生不同的行为。 多态的条件：a,必须存在继承关系，b,子类对父类的方法进行重写  示例：class baseClass{ var name:String var age:Int init() { self.name = &amp;quot;&amp;quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&amp;quot;baseClass&amp;quot;) } } class sonClass1:baseClass{ var str1:String = &amp;quot;str1&amp;quot; //重载 override func testFunc() { print(&amp;quot;sonClass1&amp;quot;) } } class sonClass2:baseClass{ var str1:String = &amp;quot;str1&amp;quot; override func testFunc() { print(&amp;quot;sonClass2&amp;quot;) } } final class grandSon1:sonClass1{ var strGrand:String = &amp;quot;strGrand&amp;quot; } final class grandSon01:sonClass1{ var strGrand:String = &amp;quot;strGrand&amp;quot; } final class grandSon02:sonClass2{ var strGrand:String = &amp;quot;strGrand&amp;quot; } func printBasicInfo(base:baseClass){ print(&amp;quot;name is \(base.">
+<meta name="description" content="多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引">
 
 <meta property="og:title" content="swift3-19 多态性 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/04/13/swift19/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引用调用相同方法而产生不同的行为。 多态的条件：a,必须存在继承关系，b,子类对父类的方法进行重写  示例：class baseClass{ var name:String var age:Int init() { self.name = &amp;quot;&amp;quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&amp;quot;baseClass&amp;quot;) } } class sonClass1:baseClass{ var str1:String = &amp;quot;str1&amp;quot; //重载 override func testFunc() { print(&amp;quot;sonClass1&amp;quot;) } } class sonClass2:baseClass{ var str1:String = &amp;quot;str1&amp;quot; override func testFunc() { print(&amp;quot;sonClass2&amp;quot;) } } final class grandSon1:sonClass1{ var strGrand:String = &amp;quot;strGrand&amp;quot; } final class grandSon01:sonClass1{ var strGrand:String = &amp;quot;strGrand&amp;quot; } final class grandSon02:sonClass2{ var strGrand:String = &amp;quot;strGrand&amp;quot; } func printBasicInfo(base:baseClass){ print(&amp;quot;name is \(base.">
+<meta property="og:description" content="多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/04/13/swift19/">
 <meta name="twitter:title" content="swift3-19 多态性 - Fly With Bug">
-<meta name="twitter:description" content="多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引用调用相同方法而产生不同的行为。 多态的条件：a,必须存在继承关系，b,子类对父类的方法进行重写  示例：class baseClass{ var name:String var age:Int init() { self.name = &amp;quot;&amp;quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&amp;quot;baseClass&amp;quot;) } } class sonClass1:baseClass{ var str1:String = &amp;quot;str1&amp;quot; //重载 override func testFunc() { print(&amp;quot;sonClass1&amp;quot;) } } class sonClass2:baseClass{ var str1:String = &amp;quot;str1&amp;quot; override func testFunc() { print(&amp;quot;sonClass2&amp;quot;) } } final class grandSon1:sonClass1{ var strGrand:String = &amp;quot;strGrand&amp;quot; } final class grandSon01:sonClass1{ var strGrand:String = &amp;quot;strGrand&amp;quot; } final class grandSon02:sonClass2{ var strGrand:String = &amp;quot;strGrand&amp;quot; } func printBasicInfo(base:baseClass){ print(&amp;quot;name is \(base.">
+<meta name="twitter:description" content="多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,9 +65,7 @@
         "height": 60
       }
     },
-    "description": "多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为
- 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引用调用相同方法而产生不同的行为。 多态的条件：a,必须存在继承关系，b,子类对父类的方法进行重写  示例：
-class baseClass{ var name:String var age:Int init() { self.name = &quot;&quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&quot;baseClass&quot;) } } class sonClass1:baseClass{ var str1:String = &quot;str1&quot; //重载 override func testFunc() { print(&quot;sonClass1&quot;) } } class sonClass2:baseClass{ var str1:String = &quot;str1&quot; override func testFunc() { print(&quot;sonClass2&quot;) } } final class grandSon1:sonClass1{ var strGrand:String = &quot;strGrand&quot; } final class grandSon01:sonClass1{ var strGrand:String = &quot;strGrand&quot; } final class grandSon02:sonClass2{ var strGrand:String = &quot;strGrand&quot; } func printBasicInfo(base:baseClass){ print(&quot;name is \(base."
+    "description": "多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引"
   }
 </script>
 
@@ -95,6 +93,22 @@ class baseClass{ var name:String var age:Int init() { self.name = &quot;&quot; s
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -247,7 +261,7 @@ grandson2.testFunc()
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

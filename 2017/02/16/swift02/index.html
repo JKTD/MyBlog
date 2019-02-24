@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Swift3-02 初见 - Fly With Bug</title>
     
-<meta name="description" content="首先我们来在屏幕上输出一个 hello worldprint(&amp;quot;hello world&amp;quot;)  不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。Xcode 提供了代码预览功能 Playground . 使用它可以加快 swift的学习速度初始化一个变量和常量var a = 2 //可变数据 a = 3 let b = 2 //不可变  if else if a == 2{ print(&amp;quot;true&amp;quot;) } else{ print(&amp;quot;false&amp;quot;) }  for in 遍历语句(此外还有 ,repeat..while ,for 循环3.0中已经被弃用)for index in 0...100{ var c = Double(index)/20.0 }  whilewhile 1 == 1 { a &#43;= 1 if a == 100{ break } print(&amp;quot;do something&amp;quot;,a) }  repeat&amp;hellip; while">
+<meta name="description" content="首先我们来在屏幕上输出一个 hello world print(&amp;quot;hello world&amp;quot;) 不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。 Xcode 提供了代码预览功能 Playground . 使用它可以加快 swi">
 
 <meta property="og:title" content="Swift3-02 初见 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/02/16/swift02/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="首先我们来在屏幕上输出一个 hello worldprint(&amp;quot;hello world&amp;quot;)  不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。Xcode 提供了代码预览功能 Playground . 使用它可以加快 swift的学习速度初始化一个变量和常量var a = 2 //可变数据 a = 3 let b = 2 //不可变  if else if a == 2{ print(&amp;quot;true&amp;quot;) } else{ print(&amp;quot;false&amp;quot;) }  for in 遍历语句(此外还有 ,repeat..while ,for 循环3.0中已经被弃用)for index in 0...100{ var c = Double(index)/20.0 }  whilewhile 1 == 1 { a &#43;= 1 if a == 100{ break } print(&amp;quot;do something&amp;quot;,a) }  repeat&amp;hellip; while">
+<meta property="og:description" content="首先我们来在屏幕上输出一个 hello world print(&amp;quot;hello world&amp;quot;) 不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。 Xcode 提供了代码预览功能 Playground . 使用它可以加快 swi">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/02/16/swift02/">
 <meta name="twitter:title" content="Swift3-02 初见 - Fly With Bug">
-<meta name="twitter:description" content="首先我们来在屏幕上输出一个 hello worldprint(&amp;quot;hello world&amp;quot;)  不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。Xcode 提供了代码预览功能 Playground . 使用它可以加快 swift的学习速度初始化一个变量和常量var a = 2 //可变数据 a = 3 let b = 2 //不可变  if else if a == 2{ print(&amp;quot;true&amp;quot;) } else{ print(&amp;quot;false&amp;quot;) }  for in 遍历语句(此外还有 ,repeat..while ,for 循环3.0中已经被弃用)for index in 0...100{ var c = Double(index)/20.0 }  whilewhile 1 == 1 { a &#43;= 1 if a == 100{ break } print(&amp;quot;do something&amp;quot;,a) }  repeat&amp;hellip; while">
+<meta name="twitter:description" content="首先我们来在屏幕上输出一个 hello world print(&amp;quot;hello world&amp;quot;) 不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。 Xcode 提供了代码预览功能 Playground . 使用它可以加快 swi">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,14 +65,7 @@
         "height": 60
       }
     },
-    "description": "首先我们来在屏幕上输出一个 hello world
-print(&quot;hello world&quot;)  不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。
-Xcode 提供了代码预览功能 Playground . 使用它可以加快 swift的学习速度
-初始化一个变量和常量
-var a = 2 //可变数据 a = 3 let b = 2 //不可变  if else
- if a == 2{ print(&quot;true&quot;) } else{ print(&quot;false&quot;) }  for in 遍历语句(此外还有 ,repeat..while ,for 循环3.0中已经被弃用)
-for index in 0...100{ var c = Double(index)/20.0 }  while
-while 1 == 1 { a += 1 if a == 100{ break } print(&quot;do something&quot;,a) }  repeat&hellip; while"
+    "description": "首先我们来在屏幕上输出一个 hello world print(&quot;hello world&quot;) 不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。 Xcode 提供了代码预览功能 Playground . 使用它可以加快 swi"
   }
 </script>
 
@@ -100,6 +93,22 @@ while 1 == 1 { a += 1 if a == 100{ break } print(&quot;do something&quot;,a) }  
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -254,7 +263,7 @@ assert(age &gt;= 0, &quot;A person's age cannot be less than zero&quot;)
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

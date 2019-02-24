@@ -17,10 +17,7 @@
       <pubDate>Sun, 24 Feb 2019 08:40:50 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/02/24/gobin/</guid>
-      <description>因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用，
-//只是在 .bash_profile文件里如此设置 需要Source之后才能被命令行识别
-export GOBIN=/Users/ori/go/bin export PATH=$PATH:$GOBIN export PUB_HOSTED_URL=https://pub.flutter-io.cn export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn export PATH=~/code/flutter/flutter/bin:$PATH  最好的处理方式还是直接把${GOPATH}/bin目录下的执行文件移动到go的Root的bin目录中更好
-mv $GOPATH/bin/** /usr/local/go/bin</description>
+      <description>因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， //只是在 .bash_profile文件里如此</description>
     </item>
     
     <item>
@@ -29,8 +26,7 @@ mv $GOPATH/bin/** /usr/local/go/bin</description>
       <pubDate>Tue, 15 Jan 2019 14:38:32 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/01/15/nginx/</guid>
-      <description>Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS
-我的证书是在腾讯云上申请的地址 nginx.conf 配置内容  user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include /etc/nginx/mime.types; default_type application/octet-stream; log_format main &#39;$remote_addr - $remote_user [$time_local] &amp;quot;$request&amp;quot; &#39; &#39;$status $body_bytes_sent &amp;quot;$http_referer&amp;quot; &#39; &#39;&amp;quot;$http_user_agent&amp;quot; &amp;quot;$http_x_forwarded_for&amp;quot;&#39;; access_log /var/log/nginx/access.log main; sendfile on; #tcp_nopush on; keepalive_timeout 65; #gzip on; upstream move{ server 127.0.0.1:9120; } server { listen 80; listen 443 ssl; ssl_certificate certificate_bundle.</description>
+      <description>Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS 我的证书是在腾讯云上申请的地址 nginx.conf 配置内容 user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include</description>
     </item>
     
     <item>
@@ -39,8 +35,7 @@ mv $GOPATH/bin/** /usr/local/go/bin</description>
       <pubDate>Sun, 13 Jan 2019 10:45:59 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/01/13/mongodump/</guid>
-      <description>数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录
-mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager  本地处理 // dump命令 数据库用户 密码 数据库名字 备份目录 /usr/local/mongodb/bin/mongodump -u user -p pass -d docmanager -o ../dump // restore命令 数据库用户名 密码 数据库名字 备份目录 覆盖 /usr/local/mongodb/bin/mongorestore -u 用户名 -p 密码 -d docmanager doc_manager --drop  创建数据库管理员 //进入mongo命令行 mongo db.auth(&amp;quot;use&amp;quot;,&amp;quot;pass&amp;quot;) use log db.createUser( { user: &amp;quot;user&amp;quot;, pwd: &amp;quot;pass&amp;quot;, roles: [{ role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;log&amp;quot; }] } )  错误处理 // mongodb非正常关闭后 about to fork child process, waiting until server is ready for connections.</description>
+      <description>数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager 本地处</description>
     </item>
     
     <item>
@@ -49,8 +44,7 @@ mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.d
       <pubDate>Mon, 24 Dec 2018 07:14:17 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/12/24/vue_webserver/</guid>
-      <description>如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。  const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] })
- 当你使用 ```history``` 模式时，URL 就像正常的 url，例如 ```http://yoursite.com/user/id```，也好看！ 不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 ```http://oursite.com/user/id``` 就会返回 404，这就不好看了。 所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 ```index.html``` 页面，这个页面就是你 app 依赖的页面。 #### **go gin框架配置示例** 由于我使用go的gin框架做服务器，示例代码如下 [源码地址](https://github.com/flywithbug-docmanager/docmanager)  func NoRoute(c *gin.Context) { path := strings.Split(c.Request.URL.Path, &amp;ldquo;/&amp;rdquo;) if (path[1] != &amp;ldquo;&amp;rdquo;) &amp;amp;&amp;amp; (path[1] == &amp;ldquo;api&amp;rdquo;) { aRes := model.NewResponse() aRes.Code = http.StatusNotFound aRes.Msg = &amp;ldquo;no route&amp;rdquo; c.</description>
+      <description>如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] }) 当你使用 ```history``` 模式时，</description>
     </item>
     
     <item>
@@ -59,10 +53,7 @@ mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.d
       <pubDate>Sun, 23 Dec 2018 06:57:21 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/12/24/vue-element02/</guid>
-      <description>在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路由表之后 再刷新页面发现页面一片空白。
-hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
-next({ ...to, replace: true })  //路由权限配置源码
-import router from &#39;@/router&#39; import store from &#39;@/store&#39; import { Message } from &#39;element-ui&#39; import NProgress from &#39;nprogress&#39; // progress bar import &#39;nprogress/nprogress.css&#39;// progress bar style import { getToken } from &#39;./utils/auth&#39; // getToken from cookie NProgress.configure({ showSpinner: false })// NProgress Configuration // permission judge function function hasPermission(roles, permissionRoles) { if (roles.</description>
+      <description>在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路</description>
     </item>
     
     <item>
@@ -71,23 +62,16 @@ import router from &#39;@/router&#39; import store from &#39;@/store&#39; import
       <pubDate>Sat, 22 Dec 2018 06:57:21 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/12/22/vue-element-admin01/</guid>
-      <description>vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型， 提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。
-通过vue-element-admin 的源代码学习掌握Vue的一些基础知识
-SVG 图片加载  src/components目录下创建文件夹结构如下 SvgIcon下创建index.vue文件内容如下：
-&amp;lt;template&amp;gt; &amp;lt;svg :class=&amp;quot;svgClass&amp;quot; aria-hidden=&amp;quot;true&amp;quot;&amp;gt; &amp;lt;use :xlink:href=&amp;quot;iconName&amp;quot;/&amp;gt; &amp;lt;/svg&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script&amp;gt; export default { name: &#39;SvgIcon&#39;, props: { iconClass: { type: String, required: true }, className: { type: String, default: &#39;&#39; } }, computed: { iconName() { return `#icon-${this.iconClass}` }, svgClass() { if (this.className) { return &#39;svg-icon &#39; + this.className } else { return &#39;svg-icon&#39; } } } } &amp;lt;/script&amp;gt; &amp;lt;style scoped&amp;gt; .</description>
+      <description>vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模</description>
     </item>
     
     <item>
       <title>gin api 跨域问题,cors</title>
-      <link>http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/</link>
+      <link>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</link>
       <pubDate>Tue, 18 Dec 2018 03:35:24 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/</guid>
-      <description>当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。
-出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循同源策略。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。
-跨域资源共享标准：规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 GET 以外的 HTTP 请求，或者搭配某些 MIME 类型的 POST 请求），浏览器必须首先使用 OPTIONS 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）。
-gin
-package main import ( &amp;quot;time&amp;quot; &amp;quot;github.com/gin-contrib/cors&amp;quot; &amp;quot;github.com/gin-gonic/gin&amp;quot; ) func main() { router := gin.Default() // CORS for https://foo.com and https://github.com origins, allowing: // - PUT and PATCH methods // - Origin header // - Credentials share // - Preflight requests cached for 12 hours router.</description>
+      <guid>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</guid>
+      <description>当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求</description>
     </item>
     
     <item>
@@ -96,12 +80,7 @@ package main import ( &amp;quot;time&amp;quot; &amp;quot;github.com/gin-contrib/
       <pubDate>Mon, 10 Dec 2018 06:53:01 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/12/10/mongodb/</guid>
-      <description>MongoDB authentication MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产生安全风险，被利用此配置漏洞，入侵数据库。
-容易遭受入侵的环境  使用默认 mongod 命令启动 Mongodb 机器可以被公网访问 在公网上开放了 Mongodb 端口   开启用户名和密码验证  终端启动数据库
-//参数默认可以不加，若有自定义参数，才要加上，下同 mongod --port 27017 --dbpath /data/db1  连接 mongo后创建用户
-mongo --port 27017 use admin db.createUser( { user: &amp;quot;adminUser&amp;quot;, pwd: &amp;quot;adminPass&amp;quot;, roles: [ { role: &amp;quot;userAdminAnyDatabase&amp;quot;, db: &amp;quot;admin&amp;quot; } ] } )  重启 mongod 数据库
-mongod --auth --port 27017 --dbpath /data/db1  连接数据库
-mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;quot; --authenticationDatabase &amp;quot;admin&amp;quot; mongo --port 27017 use admin db.</description>
+      <description>MongoDB authentication MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产</description>
     </item>
     
     <item>
@@ -119,10 +98,7 @@ mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;q
       <pubDate>Mon, 02 Apr 2018 18:30:28 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/04/02/note_28/</guid>
-      <description>简介 为什么要使用Elasticsearch  Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门为分布式环境设计的。
-  安装方便： 没有其他依赖，下载后安装很方便，只需修改几个参数就可以搭建一个集群 JSON: 输入\输出格式为JSON,不需要定义Schema,快捷方便 RESTful：基本所有操作（索引，查询，甚至配置）都可以通过HTTP接口进行 分布式：节点对外表现对等（每个节点都可以用来做入口）；加入节点，自动均衡 多租户：可以根据不同的用途分索引；可以同时操作多个索引 准实时：从文档索引到可以被检索只有轻微延时，约1s  安装  上一节使用docker run elasticsearch docker run -d -p 9200:9200 elasticsearch  使用测试  打开idea -&amp;gt; tools -&amp;gt; testRESTful Web Service 工具
- 请求：请求参数及说明
- :9200/index/type/id index -&amp;gt; database type -&amp;gt; table  GET  插入  查询   package persist import ( &amp;quot;context&amp;quot; &amp;quot;errors&amp;quot; &amp;quot;log&amp;quot; &amp;quot;imooc/craw/engine&amp;quot; &amp;quot;gopkg.in/olivere/elastic.v5&amp;quot; ) func ItemSaver(index string) (chan engine.</description>
+      <description>简介 为什么要使用Elasticsearch Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门</description>
     </item>
     
     <item>
@@ -131,11 +107,7 @@ mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;q
       <pubDate>Mon, 02 Apr 2018 17:33:59 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/04/02/note_27/</guid>
-      <description> 什么是Docker  Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系统，进程管理，环境变量等） 在一个容器内。跟虚拟机有所不同，它是使用LXC（Linux kernel container） 来替代虚拟层。 LXC没有自己的内核，但是与主机和其他容器一起共享Linux内核的。 基于LXC，因此Docker是非常轻量级的， 因此在运行应用程序的时候几乎没有性能损失。
- 安装方式  brew install docker 官网下载 Docker for mac 下载 docker 下载地址  加速器 配置地址  选择对应的配置，按照提示，添加镜像地址  查看docker info  运行命令 docker run hello-world 下载使用镜像
- 启动docker nginx
-//把里面的端口映射到外面物理机的80端口 docker run -d -p 80:80 nginx  docker run -d -p 9200:9200 nginx
-  </description>
+      <description>什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系</description>
     </item>
     
     <item>
@@ -144,7 +116,7 @@ mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;q
       <pubDate>Fri, 16 Mar 2018 16:02:01 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/16/note_26/</guid>
-      <description>并发调度器 //engine package engine import ( &amp;quot;log&amp;quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &amp;lt; e.WorkerCount; i++ { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds { e.Scheduler.Submit(r) } itemCount := 0 for { result := &amp;lt;-out for _, item := range result.</description>
+      <description>并发调度器 //engine package engine import ( &amp;quot;log&amp;quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &amp;lt; e.WorkerCount; i++ { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {</description>
     </item>
     
     <item>
@@ -153,8 +125,7 @@ mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;q
       <pubDate>Wed, 14 Mar 2018 16:54:13 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/14/note_25/</guid>
-      <description>总体的算法步骤 解析器 Parser  输入： utf-8 编码的文本 输出： Request{URL,对应的Parser} 列表，Item列表  单任务版爬虫架构  获取并打印所有城市第一页用户的详细信息  使用http.Get获取内容 使用Encodeing来转换编码：gbk-&amp;gt;utf-8 使用charset.DetermineEncoding来判断编码 使用正则表达式筛选需要的内容
-   code 单任务爬虫分支</description>
+      <description>总体的算法步骤 解析器 Parser 输入： utf-8 编码的文本 输出： Request{URL,对应的Parser} 列表，Item列表 单任务版爬虫架构 获取并打印所有城</description>
     </item>
     
     <item>
@@ -163,7 +134,7 @@ mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;q
       <pubDate>Fri, 09 Mar 2018 16:05:38 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/09/note_24/</guid>
-      <description>获取初始页面内容  使用相亲网站做目标 编码格式自动识别转换  获取有价值信息  获取城市名称和链接  使用css选择器 使用xpath 使用正则表达式    package main import ( &amp;quot;fmt&amp;quot; &amp;quot;io/ioutil&amp;quot; &amp;quot;net/http&amp;quot; &amp;quot;bufio&amp;quot; &amp;quot;io&amp;quot; &amp;quot;regexp&amp;quot; &amp;quot;golang.org/x/net/html/charset&amp;quot; &amp;quot;golang.org/x/text/encoding&amp;quot; &amp;quot;golang.org/x/text/transform&amp;quot; ) //网站编码识别转换 func determineEncoder(r io.Reader) encoding.Encoding { bytes, err := bufio.NewReader(r).Peek(1024) if err != nil { panic(err) } e, _, _ := charset.DetermineEncoding(bytes, &amp;quot;&amp;quot;) return e } const regextstr = `&amp;lt;a href=&amp;quot;http://www.zhenai.com/zhenghun/[0-9a-z]+&amp;quot;[^&amp;gt;]*&amp;gt;[^&amp;lt;]+&amp;lt;/a&amp;gt;` const regextstr1 = `&amp;lt;a href=&amp;quot;(http://www.zhenai.com/zhenghun/[0-9a-z]+)&amp;quot;[^&amp;gt;]*&amp;gt;([^&amp;lt;]+)&amp;lt;/a&amp;gt;` func printCityList(contents []byte) { re := regexp.</description>
+      <description>获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &amp;quot;fmt&amp;quot;</description>
     </item>
     
     <item>
@@ -172,7 +143,7 @@ mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;q
       <pubDate>Thu, 08 Mar 2018 17:13:27 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/08/note_23/</guid>
-      <description> 网络爬虫分类  通用爬虫：如baidu,google 聚焦爬虫：从互联网获取结构化数据  项目总体结构 go语言的爬虫库/框架  henrylee2cn/pholcus gocrawl colly hu17889/go_spider  重新开发一个爬虫库  不适用现成的爬虫库/框架 使用ElasticSearch作为数据存储 使用Go语言标准模板库实现http数据展示部分  实现步骤  单任务 并发版 分布式  </description>
+      <description>网络爬虫分类 通用爬虫：如baidu,google 聚焦爬虫：从互联网获取结构化数据 项目总体结构 go语言的爬虫库/框架 henrylee2cn/pholcus gocrawl colly hu17889/go_spider 重新开发一个爬虫库</description>
     </item>
     
     <item>
@@ -181,12 +152,7 @@ mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;q
       <pubDate>Wed, 07 Mar 2018 17:21:14 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/07/note_22/</guid>
-      <description>示例：广度优先算法  为爬虫实战做准备 应用广泛，综合性强  示例：广度优先搜索走迷宫  广度优先算法示意图
- 用循环创建二维slice
- 使用slice来实现队列
- 用Fscanf读取文件
- 对point的抽象
-  //file 6 5 0 1 0 0 0 0 0 0 1 0 0 1 0 1 0 1 1 1 0 0 0 1 0 0 1 0 1 0 0 0 --------------- package main import ( &amp;quot;fmt&amp;quot; &amp;quot;os&amp;quot; ) func readMaze(filename string) [][]int { file, err := os.Open(filename) defer file.</description>
+      <description>示例：广度优先算法 为爬虫实战做准备 应用广泛，综合性强 示例：广度优先搜索走迷宫 广度优先算法示意图 用循环创建二维slice 使用slice来实现队</description>
     </item>
     
     <item>
@@ -195,7 +161,7 @@ mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;q
       <pubDate>Wed, 07 Mar 2018 16:54:46 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/07/note_21/</guid>
-      <description> 其他标准库  bufio log encoding/json regexp time stings/math/rand  查看库文档  godoc -http :8888 (启用本地文档服务器) https://studygolang.com/pkgdoc  </description>
+      <description>其他标准库 bufio log encoding/json regexp time stings/math/rand 查看库文档 godoc -http :8888 (启用本地文档服务器) https://studygolang.com/pkgdoc</description>
     </item>
     
     <item>
@@ -204,8 +170,7 @@ mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;q
       <pubDate>Wed, 07 Mar 2018 13:24:53 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/07/note_20/</guid>
-      <description>Server package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;) } func main() { http.HandleFunc(&amp;quot;/&amp;quot;, handler) http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil) }  Client  使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil简化工作 ``` package main  import ( &amp;ldquo;fmt&amp;rdquo; &amp;ldquo;net/http&amp;rdquo; &amp;ldquo;net/http/httputil&amp;rdquo; )
-func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://www.imooc.com&amp;quot;, nil) if err != nil { panic(err) } request.Header.Add(&amp;ldquo;User-Agent&amp;rdquo;, &amp;ldquo;Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.</description>
+      <description>Server package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;) } func main() { http.HandleFunc(&amp;quot;/&amp;quot;, handler) http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil) } Client 使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil</description>
     </item>
     
     <item>
@@ -214,8 +179,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Wed, 07 Mar 2018 11:53:27 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/07/note_19/</guid>
-      <description>检测数据冲突  未加锁时使用 go run -race atomic.go 时检测会发现数据访问冲突 加锁之后 运行-race 数据访问冲突就没了  传统同步机制  WaitGroup
-   package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; ) func doWork(id int, w worker) { for n := range w.in { fmt.Printf(&amp;quot;Worker %d received %c\n&amp;quot;, id, n) w.done() } } type worker struct { in chan int done func() } func createWorker( id int, wg *sync.WaitGroup) worker { w := worker{ in: make(chan int), done: func() { wg.</description>
+      <description>检测数据冲突 未加锁时使用 go run -race atomic.go 时检测会发现数据访问冲突 加锁之后 运行-race 数据访问冲突就没了 传统同步机制 WaitGroup package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; ) func doWork(id int, w worker) { for n</description>
     </item>
     
     <item>
@@ -224,7 +188,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Sun, 04 Mar 2018 19:59:50 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/04/note_18/</guid>
-      <description>channel的用法  channel buffered channel range 理论基础：Communication Sequential Process(CSP) Don&amp;rsquo;t communicate by sharing memory;share memory by communicating(不要通过共享内存来通信， 通过通信来共享内存)  package main import ( &amp;quot;fmt&amp;quot; &amp;quot;time&amp;quot; ) func worker(id int, c chan int) { for n := range c { fmt.Printf(&amp;quot;Worker %d received %c\n&amp;quot;, id, n) } } func createWorker(id int) chan&amp;lt;- int { c := make(chan int) go worker(id, c) return c } func chanDemo() { var channels [10]chan&amp;lt;- int for i := 0; i &amp;lt; 10; i++ { channels[i] = createWorker(i) } for i := 0; i &amp;lt; 10; i++ { channels[i] &amp;lt;- &#39;a&#39; + i } for i := 0; i &amp;lt; 10; i++ { channels[i] &amp;lt;- &#39;A&#39; + i } time.</description>
+      <description>channel的用法 channel buffered channel range 理论基础：Communication Sequential Process(CSP) Don&amp;rsquo;t communicate by sharing memory;share memory by communicating(不要通过共享内存来通信， 通过通</description>
     </item>
     
     <item>
@@ -233,7 +197,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Sun, 04 Mar 2018 18:02:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/04/note_17/</guid>
-      <description>示例 func main() { for i := 0; i &amp;lt; 1000; i++ { go func(i int) { for { fmt.Printf(&amp;quot;Hello form goroutine %d \n&amp;quot;, i) } }(i) } }  协程 Coroutine  轻量级&amp;rdquo;线程&amp;rdquo; 非抢占式多任务处理，由协程主动交出控制权 （runtime.Gosched()）  func main() { var a [10]int for i := 0; i &amp;lt; 10; i++ { go func(i int) { for { //fmt.Printf(&amp;quot;Hello form goroutine %d \n&amp;quot;, i) a[i]++ runtime.Gosched() //交出控制权 } }(i) } time.</description>
+      <description>示例 func main() { for i := 0; i &amp;lt; 1000; i++ { go func(i int) { for { fmt.Printf(&amp;quot;Hello form goroutine %d \n&amp;quot;, i) } }(i) } } 协程 Coroutine 轻量级&amp;rdquo;线程&amp;rdquo; 非抢占式多任务处理，由协程主动交出控</description>
     </item>
     
     <item>
@@ -242,7 +206,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Sun, 04 Mar 2018 13:05:35 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/04/note_16/</guid>
-      <description>文档  用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档  package queue import ( &amp;quot;fmt&amp;quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q = (*q)[1:] return head.(int) } // Returns if the queue is empty or not. func (q *Queue) IsEmpty() bool { return len(*q) == 0 }  package queue import &amp;quot;fmt&amp;quot; func ExampleQueue_Pop() { q := Queue{1} q.</description>
+      <description>文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &amp;quot;fmt&amp;quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q =</description>
     </item>
     
     <item>
@@ -251,7 +215,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Fri, 02 Mar 2018 15:57:46 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/02/note_15/</guid>
-      <description>针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler）  通过虚拟Request/Response来测试 （TestErrWrapper） 通过启服务器  //errorWapper func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) { return func(writer http.ResponseWriter, request *http.Request) { defer func() { r := recover() if r != nil { log.Printf(&amp;quot;Panic:%v&amp;quot;, r) http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError) } }() err := handlerrr(writer, request) if err != nil { log.Printf(&amp;quot;Error handling request: %s&amp;quot;, err.Error()) if userErr, ok := err.(userError); ok { http.Error(writer, userErr.Message(), http.StatusBadRequest) return } code := http.</description>
+      <description>针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler） 通过虚拟Request/Response来测</description>
     </item>
     
     <item>
@@ -260,7 +224,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Thu, 01 Mar 2018 16:01:31 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/01/note_14/</guid>
-      <description>传统测试  测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束  @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); }   表格驱动测试  分离了测试数据和测试逻辑 明确的出错信息 可以部分失败  tests := []struct{ a,b,c int32 }{ {1,2,3}, {0,2,2}, {0,0,0}, {-1,1,0}, {Integer.MaxInt32,1,Integer.MinInt32}, } for _,test := range tests{ if actual := add(test.a,test.b);actual != text.c{ } }  测试代码覆盖率和性能测试  func lengthOfNonRepeatingSubStr(s string) int { lastOccurred := make(map[rune]int) start := 0 maxLength := 0 for i, ch := range []rune(s) { if lastI, ok := lastOccurred[ch]; ok &amp;amp;&amp;amp; lastI &amp;gt;= start { start = lastI + 1 } if i-start+1 &amp;gt; maxLength { maxLength = i - start + 1 } lastOccurred[ch] = i } return maxLength } ------------------------------------------------------------ //在package目录下 执行命令 可以执行当前包下的所有测试用例 go test .</description>
+      <description>传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的</description>
     </item>
     
     <item>
@@ -269,7 +233,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Sat, 24 Feb 2018 17:43:08 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/24/note_13/</guid>
-      <description>如何实现统一的错误处理逻辑 Error部分  在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数，同时处理输入函数的错误部分   func HandleFileList(writer http.ResponseWriter, request *http.Request) error { path := request.URL.Path[len(&amp;quot;/list/&amp;quot;):] file, err := os.Open(path) if err != nil { return err } defer file.Close() all, err := ioutil.ReadAll(file) if err != nil { return err } writer.Write(all) return nil } ---------------------------------- type appHandler func(writer http.ResponseWriter, request *http.Request) error func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) { return func(writer http.ResponseWriter, request *http.Request) { err := handlerrr(writer, request) if err !</description>
+      <description>如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数</description>
     </item>
     
     <item>
@@ -278,13 +242,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Sat, 24 Feb 2018 17:06:34 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/24/note_12/</guid>
-      <description>defer的调用  确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter)
-func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。  defer 的作用就是把关键字之后的函数执行压入一个栈中延迟执行
- 多个 defer 的执行顺序是后进先出 LIFO
-defer func() { fmt.Println(&amp;quot;1&amp;quot;) }() defer func() { fmt.Println(&amp;quot;2&amp;quot;) }() defer func() { fmt.Println(&amp;quot;3&amp;quot;) }() //输出顺序是 321  常用在函数调用结束之后清理相关的资源
- 执行 recover
- 被 deferred 函数的参数在 defer 时确定
-func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而不是 1，因为 defer 时，i 的值是 0， //此时被 defer 的函数参数已经进行执行计算并确定了  被 defer 的函数可以读取和修改带名称的返回值 ``` func c() (i int) { defer func() { i++ }() return 1 } //被 defer 的函数是在 return 之后执行，可以修改带名称的返回值，上面的函数 c 返回的是 2。</description>
+      <description>defer的调用 确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter) func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。 defer 的作用就是把</description>
     </item>
     
     <item>
@@ -293,7 +251,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Sat, 24 Feb 2018 14:35:09 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/24/note_11/</guid>
-      <description>go语言闭包的应用  更为自然，不需要修饰如何访问自由变量 没有Lambda表达式，但是有匿名函数  package fib //斐波那契数列 // 1, 1, 2, 3, 5, 8, 13, ... func Fibonacci() func() int { a, b := 0, 1 return func() int { a, b = b, a+b return a } } --------------------------------------------- package main import ( &amp;quot;bufio&amp;quot; &amp;quot;fmt&amp;quot; &amp;quot;io&amp;quot; &amp;quot;strings&amp;quot; &amp;quot;imooc/fib&amp;quot; ) //为函数实现接口 type intGen func() int func (g intGen) Read( p []byte) (n int, err error) { next := g() if next &amp;gt; 10000 { return 0, io.</description>
+      <description>go语言闭包的应用 更为自然，不需要修饰如何访问自由变量 没有Lambda表达式，但是有匿名函数 package fib //斐波那契数列 // 1, 1, 2, 3, 5, 8, 13, ... func Fibonacci() func() int {</description>
     </item>
     
     <item>
@@ -302,7 +260,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Mon, 12 Feb 2018 13:32:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/12/note_10/</guid>
-      <description>特点  函数可以作为参数，变量，返回值 高阶函数 函数-&amp;gt;闭包  //golang func adder() func(int) int { sum := 0 //自由变量 return func(v int) int { sum += v return sum } } //python def adder(); sum = 0 def f(value): nonlocal sum sum += value return sum return f // c++ 14中的闭包 auto adder(){ auto sum = 0; return [=] (int value)mutable{ sum += value; return sum; }; } //java中的闭包 Function&amp;lt;Integer,Integer&amp;gt;adder(){ final Holder&amp;lt;Integer&amp;gt; sum = new Holder&amp;lt;&amp;gt;(0); return (Integer value) -&amp;gt; { sum.</description>
+      <description>特点 函数可以作为参数，变量，返回值 高阶函数 函数-&amp;gt;闭包 //golang func adder() func(int) int { sum := 0 //自由变量 return func(v int) int { sum += v return sum } } //python def adder(); sum = 0 def f(value): nonlocal sum sum += value</description>
     </item>
     
     <item>
@@ -311,7 +269,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Fri, 09 Feb 2018 15:16:41 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/09/note_09/</guid>
-      <description>duck typing  基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构  pythn中的duck typing def download(retriever): return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;)   运行时才知道传入的retriever有没有get方法 需要给download注释来说明接口需要实现get方法  c++ 中的duck typing template&amp;lt;class R&amp;gt; string download(const R&amp;amp; retriever){ return retriever.get(&amp;quot;www.downloadur..com&amp;quot;) }   编译时才可以知道传入的retriever有么有get方法 需要注释来说明接口需求  java 中的类似代码 &amp;lt;R extends Retriever&amp;gt; String download(R r){ return r.get(&amp;quot;www.downloadurl.com&amp;quot;) }   传入的参数必须实现Retriever接口 不是duck typing  go 语言的duck typing  同时需要Readable,Appendable怎么做？（apache polygene） 同时具有python,c++的duck typing的灵活性 具有java的类型检查  接口的定义  使用者&amp;mdash;&amp;gt;实现者 接口由使用者定义 接口的实现是隐式的 只需要实现接口里的方法即可  接口遍历里有什么东西  实现者的类型 实现者的值/指针 接口变量自带指针 接口变量采用值传递，几乎不需要使用接口的指针 指针接收者实现只能以指针的方式使用;值接受者都可以  查看接口变量  表示任何类型：interface{} Type Assertion Type Switch   //Type assertion if mockRetriver, ok := r.</description>
+      <description>duck typing 基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构 pythn中的duck typing def download(retriever): return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;) 运行时才知道传入的retriever有没有g</description>
     </item>
     
     <item>
@@ -320,9 +278,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Thu, 08 Feb 2018 11:34:35 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/08/note_08/</guid>
-      <description>Go语言的面向对象  Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct  结构的创建  使用自定义工厂函数，需要返回局部变量的地址   type treeNode struct { value int left,right *treeNode } func CreatNode(value int)*treeNode { return &amp;amp;treeNode{value:value} } root := treeNode{value:3} root.right = CreatNode(3)   结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收 从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了
- 变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。
-  type struct T { xxx} func f() *T { var ret T return &amp;amp;ret }   Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆  const Width, Height = 640, 480 type Cursor struct { X, Y int } func Center(c *Cursor) { c.</description>
+      <description>Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量</description>
     </item>
     
     <item>
@@ -331,7 +287,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Wed, 07 Feb 2018 17:52:33 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/07/note_07/</guid>
-      <description>Map  rune 相当于go的char strings       Map  Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可以像迭代数组和切片那样迭代它。Map 是无序的，我们无法决定它的返回顺序，因为 Map 是使用 hash 表来实现的。 ``` m := map[string]string{ &amp;ldquo;name&amp;rdquo;: &amp;ldquo;jack&amp;rdquo;, &amp;ldquo;course&amp;rdquo;: &amp;ldquo;golang&amp;rdquo;, &amp;ldquo;site&amp;rdquo;: &amp;ldquo;imooc&amp;rdquo;, &amp;ldquo;quality&amp;rdquo;: &amp;ldquo;notbad&amp;rdquo;, }   	m2 := make(map[string]int) // m2 == empty map var m3 map[string]int // m3 == nil fmt.Println(&amp;ldquo;m, m2, m3:&amp;ldquo;) fmt.</description>
+      <description>Map rune 相当于go的char strings Map Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可</description>
     </item>
     
     <item>
@@ -340,7 +296,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Mon, 05 Feb 2018 16:44:58 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/05/note_06/</guid>
-      <description>数组 (值类型)  [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使用数组   //数组初始化 var arr1 [5]int arr2 :=[3]int{2,4,6} arr3 :=[...]int{2,4,5,6,78,0} fmt.Println(arr1,arr2,arr3) var grid[4][2][1]int fmt.Println(grid) //元素遍历 for i :=0;i &amp;lt; len(arr3) ;i ++ { fmt.Println(arr3[i]) } //指针传递 func printArray(arr *[5]int) { arr[0] = 100 for i, v := range arr { fmt.Println(i, v) } }  range 关键字 (还会有很多其他地方用到)  for i,v := range arr3 { fmt.</description>
+      <description>数组 (值类型) [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使</description>
     </item>
     
     <item>
@@ -349,9 +305,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Mon, 05 Feb 2018 15:29:31 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/05/note_05/</guid>
-      <description>什么是指针  一个指针变量可以指向任何一个值的内存地址它指向那个值的内存地址。
- 类似于变量和常量，在使用指针前你需要声明指针   如何使用指针  定义指针变量。 为指针变量赋值。 访问指针变量中指向地址的值。
-   var a int = 2 var pa *int = &amp;amp;a *pa = 3 fmt.Println(a)  空指针  当一个指针被定义后没有分配到任何变量时，它的值为 nil。 nil 指针也称为空指针。 nil在概念上和其它语言的null、None、nil、NULL一样，都指代零值或空值。 一个指针变量通常缩写为 ptr   var ptr *int fmt.Printf(&amp;quot;ptr 的值为 : %x\n&amp;quot;, ptr ) if(ptr != nil) /* ptr 不是空指针 */ if(ptr == nil) /* ptr 是空指针 */  参数传递的几种形式 package main import &amp;quot;fmt&amp;quot; func main() { var a int = 2 var pa *int = &amp;amp;a *pa = 3 fmt.</description>
+      <description>什么是指针 一个指针变量可以指向任何一个值的内存地址它指向那个值的内存地址。 类似于变量和常量，在使用指针前你需要声明指针 如何使用指针 定义指针变</description>
     </item>
     
     <item>
@@ -360,8 +314,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Sun, 04 Feb 2018 14:37:54 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/04/note_04/</guid>
-      <description>函数  函数是基本的代码块，用于执行一个任务。 Go 语言最少有个 main() 函数。 你可以通过函数来划分不同功能，逻辑上每个函数执行的是指定的任务。 函数声明告诉了编译器函数的名称，返回类型，和参数。 Go 语言标准库提供了多种可动用的内置的函数。例如，len() 函数可以接受不同类型参数并返回该类型的长度。如果我们传入的是字符串则返回字符串的长度，如果传入的是数组，则返回数组中包含的元素个数。  Go 语言函数定义格式如下：
-func function_name( [parameter list] ) [return_types] { 函数体 }   package main import ( &amp;quot;fmt&amp;quot; &amp;quot;reflect&amp;quot; &amp;quot;runtime&amp;quot; &amp;quot;math&amp;quot; ) func eval(a,b int,op string) (int,error){ switch op { case &amp;quot;+&amp;quot;: return a + b,nil case &amp;quot;-&amp;quot;: return a - b,nil case &amp;quot;*&amp;quot;: return a * b,nil case &amp;quot;/&amp;quot;: q,_ := div(a,b) return q,nil default: return 0,fmt.</description>
+      <description>函数 函数是基本的代码块，用于执行一个任务。 Go 语言最少有个 main() 函数。 你可以通过函数来划分不同功能，逻辑上每个函数执行的是指定的任务。 函数声明告诉</description>
     </item>
     
     <item>
@@ -370,7 +323,7 @@ func function_name( [parameter list] ) [return_types] { 函数体 }   package ma
       <pubDate>Sun, 04 Feb 2018 14:05:59 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/04/note_03/</guid>
-      <description>语句 描述     if 语句 if 语句 由一个布尔表达式后紧跟一个或多个语句组成   if&amp;hellip;else if 语句 后可以使用可选的 else 语句, else 语句中的表达式在布尔表达式为 false 时执行。   if 嵌套语句 你可以在 if 或 else if 语句中嵌入一个或多个 if 或 else if 语句。   switch 语句 switch 语句用于基于不同条件执行不同动作   select 语句 select 语句类似于 switch 语句，但是select会随机执行一个可运行的case。如果没有case可运行，它将阻塞，直到有case可运行     package main import ( &amp;quot;fmt&amp;quot; &amp;quot;io/ioutil&amp;quot; ) func grade(score int) string { g := &amp;quot;&amp;quot; switch { case score &amp;lt; 0 || score &amp;gt; 100: panic(fmt.</description>
+      <description>语句 描述 if 语句 if 语句 由一个布尔表达式后紧跟一个或多个语句组成 if&amp;hellip;else if 语句 后可以使用可选的 else 语句, else 语句中的表达式在布尔表达式为 false 时执行。 if 嵌套语</description>
     </item>
     
     <item>
@@ -379,10 +332,7 @@ func function_name( [parameter list] ) [return_types] { 函数体 }   package ma
       <pubDate>Sat, 03 Feb 2018 19:45:12 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/03/note_02/</guid>
-      <description>变量声明  指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导致编译错误。（函数外部无法省略var关键字） ``` //默认 没有初值 func variableZeroValue() { var a int var s string fmt.Printf(&amp;ldquo;%d,%q\n&amp;rdquo;,a,s) }
-//赋予初值和类型 func variableInitialValue() { var a,b int = 3,4 var s string = &amp;ldquo;abc&amp;rdquo; fmt.Println(a,b,s) }
-//赋予初值 func variableTypeDeduction() { var a,b,c,s = 3,4,true,&amp;ldquo;def&amp;rdquo; fmt.Println(a,b,c,s) }
-func variableShorter() { a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo; b = 3 fmt.Println(a,b,c,s) } var( ss =&amp;ldquo;string&amp;rdquo; aa = 1 bb = 2 ) func euler() { //c := 3+4i //fmt.</description>
+      <description>变量声明 指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导</description>
     </item>
     
     <item>
@@ -391,7 +341,7 @@ func variableShorter() { a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo; b = 3 fmt
       <pubDate>Fri, 02 Feb 2018 17:27:32 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/02/note_01/</guid>
-      <description>GO语言很特别  没有&amp;rdquo;对象&amp;rdquo;，没有继承多态，没有泛型，么有try/catch 有接口，函数式变成，CSP并发模型（goroutine+channel） 学习Go语言很简单，因为语法简单 用好Go语言不容易，因为要调整三观  Go知识框架  基本语法 （遍历，选择，循环，指针，数组，容器） 面向接口 （结构体，duck typing的概念，组合的思想） 函数式编程（闭包的概念，例题） 工程化 （资源管理，错误处理，测试和文档，性能调优） 并发编程 （goroutine和channel,理解调度器，例题）  实战项目  从零开始，使用Go语言自主搭建简单的分布式爬虫（不使用框架） 爬取网站资料  项目的架构图 开发路径：单任务版-&amp;gt;并发版-&amp;gt;分布式</description>
+      <description>GO语言很特别 没有&amp;rdquo;对象&amp;rdquo;，没有继承多态，没有泛型，么有try/catch 有接口，函数式变成，CSP并发模型（gor</description>
     </item>
     
     <item>
@@ -400,8 +350,7 @@ func variableShorter() { a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo; b = 3 fmt
       <pubDate>Tue, 30 Jan 2018 15:02:26 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/01/30/go/</guid>
-      <description>前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力）
-Go 归类总结  类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：面向接口，函数式编程，并发编程  Go语言的并发编程  采用CSP(Communication Sequential Process)模型（有学术论文，比较复杂） code层面不需要锁，不需要callback 并发编程VS并行计算  Go语言的安装与开放环境  下载：https://golang.org/dl/ 下载对应系统的go安装包 开发工具： 我使用的是 WebStrom +go 插件 IDE jetbeans 除了Goland 编译器  一个简单的 goroutine package main import &amp;quot;strconv&amp;quot; import &amp;quot;fmt&amp;quot; func main() { taskChan := make(chan string, 3) doneChan := make(chan int, 1) for i := 0; i &amp;lt; 3; i++ { taskChan &amp;lt;- strconv.Itoa(i) fmt.Println(&amp;quot;send: &amp;quot;, i) } go func() { for i := 0; i &amp;lt; 3; i++ { task := &amp;lt;-taskChan fmt.</description>
+      <description>前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力） Go 归类总结 类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：</description>
     </item>
     
     <item>
@@ -410,12 +359,7 @@ Go 归类总结  类型检查：编译时 运行环境：编译成机器代码�
       <pubDate>Wed, 13 Dec 2017 21:55:46 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/12/13/pigeon/</guid>
-      <description>小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等
-我们需要实时监控这些自动化的过程是否按预期完成了自己的任务，如果出现一些错误，或者需求要在完成任务之后提醒开发者。 所以我就开发了一个基于公司内部通信系统的一个小型的消息通知管理中心。 虽然之前断断续续有学写一些golang的东西，但是一直没有成型的作品，这是继上次做的个人实践项目之后，第一个在公司内部产生实际效益的服务。
-主要功能 本服务的主要功能是用于 给不同的服务配置不同的消息类型和接收人。最终会根据调用通知群组id发送给不同的接受对象。 简单的实现了
- 组员的增删改查 群组的增删改查
- 消息应用的增删改查 组员和群组的关系的增删
- 群组和消息应用直之间的关系增删 应用版本号的tag自增接口（额外需求，与前面几个接口无关）  接口 json请求格式(application/json)  1. /adduse POST //添加用户 { &amp;quot;mail&amp;quot;:&amp;quot;jack@meituan.com&amp;quot;, &amp;quot;mobile&amp;quot;:&amp;quot;18792289&amp;quot;, &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot; } 2. /deleteuser POST //删除用户 { &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot; } 3. /users GET //用户列表 4. /addgroup POST //添加群组 { &amp;quot;group_name&amp;quot;:&amp;quot;商户前端&amp;quot;, &amp;quot;type&amp;quot;:1, &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;, &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;, &amp;quot;app_id&amp;quot;:1 } 5. /updategroup POST //更新群组信息 { &amp;quot;group_name&amp;quot;:&amp;quot;商户前端html&amp;quot;, &amp;quot;type&amp;quot;:1, &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;, &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;, &amp;quot;app_id&amp;quot;:&amp;quot;28fa3c968b438fb71c8d7825af609591&amp;quot; } 6. /addgcrow POST //添加群组成员 { &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci&amp;quot;, &amp;quot;user_name&amp;quot;:&amp;quot;erfeng.</description>
+      <description>小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等 我们需要实时监控</description>
     </item>
     
     <item>
@@ -424,25 +368,16 @@ Go 归类总结  类型检查：编译时 运行环境：编译成机器代码�
       <pubDate>Fri, 17 Nov 2017 16:26:03 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/17/shell/</guid>
-      <description>修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。  最开始想使用 sed 这个命令，但是mac上-i命令无法使用，使用-e sed -e &amp;quot;4d&amp;quot; Pod/Resources/MCICheckTime 命令可以修改， 但是无法输出修改内容到文件上。一直提示no such file. 无法，只得另找办法
-awk 更换到使用awk命令的方式
-在文件的当前目录下操作
- cmms=`date &#39;+%y.%m.%d.%H&#39;` export version=&amp;quot; s.version = \&amp;quot;$cmms\&amp;quot;&amp;quot; awk &#39;NR==4{$0=ENVIRON[&amp;quot;version&amp;quot;]}{print}&#39; MTAForMCICodeInspect_backup.podspec &amp;gt; MTAForMCICodeInspect.podspec  我知道肯定有更简单直接的方法，但是因为不熟悉shell脚本，走了很多弯路，这个是我一个下午折腾出来可以实现的路径，某些路过的同学可以少走些弯路，
-如果知道更方便的方法，好请邮件（flywithme.top@gmail.com）告知下啊。非常感谢</description>
+      <description>修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。</description>
     </item>
     
     <item>
       <title>Jenkins-打包之远程构建</title>
-      <link>http://blog.flywithme.top/2017/11/16/jenkins/</link>
+      <link>http://blog.flywithme.top/2017/11/16/Jenkins/</link>
       <pubDate>Thu, 16 Nov 2017 16:59:57 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2017/11/16/jenkins/</guid>
-      <description>在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显得不够fashion。每次有新的代码合入测完分支，就自动打一个包给测试人员，会更高效一些。
-Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦
-上图所示的配置 触发远程构建，是使用身份令牌的形式完成的：http://host/job/merchant/buildWithParameters?token=token get请求形式即可完成
-定时构建
-举个🌰
-* * * * * 第一个*表示分钟，取值0~59 第二个*表示小时，取值0~23 第三个*表示一个月的第几天，取值1~31 第四个*表示第几月，取值1~12 第五个*表示一周中的第几天，取值0~7，其中0和7代表的都是周日 H H/3 * * * 每3小时构建以此 0 9,13,18 * * 1-5 每周一到周五 9点，13点，18点构建，  </description>
+      <guid>http://blog.flywithme.top/2017/11/16/Jenkins/</guid>
+      <description>在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显</description>
     </item>
     
     <item>
@@ -451,22 +386,16 @@ Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦
       <pubDate>Thu, 16 Nov 2017 11:15:21 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/16/wirelessdebug/</guid>
-      <description> 首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连接数据线至同一个局域网的Mac上
- 打开-&amp;gt;windows里的Device and Simulators选项，勾选 Connect Via network
-  假设你的开发证书和描述文件都是齐全完整的，开始编译，会自动提示。真机调试选择刚才连接到 机器名字
-数据线链接手机 打开device and simulators面板，勾选connect via network
-选择你的设备开始编译 （就算断开数据线，这个设备依然会留在这里） 开始编译结束-可以查看手机的device日志，然后手机名字右边的网球 表示无线连接正常 </description>
+      <description>首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连</description>
     </item>
     
     <item>
       <title>imageMagick 和 PlistBuddy合体生成图标</title>
-      <link>http://blog.flywithme.top/2017/11/15/plistbuddy/</link>
+      <link>http://blog.flywithme.top/2017/11/15/PlistBuddy/</link>
       <pubDate>Wed, 15 Nov 2017 19:06:14 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2017/11/15/plistbuddy/</guid>
-      <description>demo地址
-图片内容处理文件 (merchant-icon-generator.sh)
-#获取参数 文件源 SRC_FILE=&amp;quot;$1&amp;quot; #版本号 shortVersion=&amp;quot;$2&amp;quot; #标签number bundlerNum=&amp;quot;$3&amp;quot; #转换 文件 绘制 坐标 填充 颜色 透明度 填充 坐标 填充 颜色 透明度 生成目标图片 convert &amp;quot;$SRC_FILE&amp;quot; -region 1024x244+0+780 -fill &amp;quot;rgb(0,159,250)&amp;quot; -colorize 100% -region 1024x244+650+780 -fill &amp;quot;rgb(102,230,32)&amp;quot; -colorize 100% target-new.png #转换 文件 重置坐标 地图坐标西南角 写入 白色字体，文字尺寸 绘制文字 offset 内容 convert target-new.png -gravity southwest -fill white -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$shortVersion&#39;&amp;quot; -gravity southeast -fill white -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$bundlerNum&#39;&amp;quot; target-new.png   命令</description>
+      <guid>http://blog.flywithme.top/2017/11/15/PlistBuddy/</guid>
+      <description>demo地址 图片内容处理文件 (merchant-icon-generator.sh) #获取参数 文件源 SRC_FILE=&amp;quot;$1&amp;quot; #版本号 shortVersion=&amp;quot;$2&amp;quot; #标签number bundlerNum=&amp;quot;$3&amp;quot; #转换 文件 绘制 坐标 填充 颜色 透明度 填充 坐标 填充 颜色 透明度 生成目标</description>
     </item>
     
     <item>
@@ -475,8 +404,7 @@ Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦
       <pubDate>Mon, 13 Nov 2017 17:20:15 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/13/mail/</guid>
-      <description>//注意邮件格式，以免被当垃圾邮件
-package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; ) const ( HOST = &amp;quot;smtp.163.com&amp;quot; SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot; USER = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱 PASSWORD = &amp;quot;xxx&amp;quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string &amp;quot;to&amp;quot; subject string &amp;quot;subject&amp;quot; msg string &amp;quot;msg&amp;quot; } func NewEmail(to, subject, msg string) *Email { return &amp;amp;Email{to: to, subject: subject, msg: msg} } func SendEmail(email *Email) error { auth := smtp.PlainAuth(&amp;quot;&amp;quot;, USER, PASSWORD, HOST) sendTo := strings.Split(email.to, &amp;quot;;&amp;quot;) done := make(chan error, 1024) go func() { defer close(done) for _, v := range sendTo { str := strings.</description>
+      <description>//注意邮件格式，以免被当垃圾邮件 package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; ) const ( HOST = &amp;quot;smtp.163.com&amp;quot; SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot; USER = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱 PASSWORD = &amp;quot;xxx&amp;quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string</description>
     </item>
     
     <item>
@@ -485,17 +413,16 @@ package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; 
       <pubDate>Mon, 13 Nov 2017 11:40:09 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/13/sshnopass/</guid>
-      <description> 前置条件：  一台主流的Linux服务器，如CentOS,Ubuntu,Fedora,redhat等 一台能连上以上服务器的客户机，我用的mac，系统是osx  预备动作：  打开终端 Terminal 生成ca证书私钥与公钥   执行：  执行代码 ssh-copy-id -i (id_rsa路径) name@ip -p    提示错误 需要登录服务器修改文件权限  再次执行图1 内容  这样的结果即可免密登陆   </description>
+      <description>前置条件： 一台主流的Linux服务器，如CentOS,Ubuntu,Fedora,redhat等 一台能连上以上服务器的客户机，我用的mac，</description>
     </item>
     
     <item>
       <title>web01-配置Mysql</title>
-      <link>http://blog.flywithme.top/2017/11/11/gin-mysql-web/</link>
+      <link>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</link>
       <pubDate>Sat, 11 Nov 2017 19:57:02 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2017/11/11/gin-mysql-web/</guid>
-      <description>安装Mysql 创建userInfo表
-CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1) DEFAULT &#39;-1&#39;, `authtoken` char(32) DEFAULT &#39;&#39;, `mail` varchar(40) DEFAULT &#39;&#39;, `oldpassword` varchar(100) DEFAULT &#39;&#39;, PRIMARY KEY (`uid`) ) ENGINE=InnoDB AUTO_INCREMENT=1000039 DEFAULT CHARSET=utf8;  db 控制器</description>
+      <guid>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</guid>
+      <description>安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)</description>
     </item>
     
     <item>
@@ -504,11 +431,7 @@ CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `usern
       <pubDate>Fri, 10 Nov 2017 12:11:33 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/10/imagemagic/</guid>
-      <description>首先：brew install ImageMagick
-熟悉ImageMagick命令：
-resize当前目录下的图片到100x100f分辨率
-convert 1024x1024.png -resize 100x100 icon02.png  填充某像
-convert 1024x1024.png -region 1024x224+0+800 -fill &amp;quot;rgb(255,166,48)&amp;quot; -colorize 100% new.png convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&amp;quot; -colorize 100% -region 1024x224+650+800 -fill &amp;quot;rgb(233,159,250)&amp;quot; -colorize 100% new.png  py</description>
+      <description>首先：brew install ImageMagick 熟悉ImageMagick命令： resize当前目录下的图片到100x100f分辨率 convert 1024x1024.png -resize 100x100 icon02.png 填充某像 convert 1024x1024.png -region 1024x224+0+800 -fill &amp;quot;rgb(255,166,48)&amp;quot; -colorize 100% new.png convert</description>
     </item>
     
     <item>
@@ -517,49 +440,25 @@ convert 1024x1024.png -region 1024x224+0+800 -fill &amp;quot;rgb(255,166,48)&amp
       <pubDate>Sun, 05 Nov 2017 20:17:21 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/05/gin-mysql/</guid>
-      <description> 项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容  填坑1- struct to json 时，空值忽略，或者特定值忽略问题
-http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/
-Golang中，如果指定一个field序列化成JSON的变量名字为-，则序列化的时候自动忽略这个field。这种用法， 才是和上面JsonIgnore的用法的作用是一样的。
-而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。
-这里需要注意的是关于emtpty的定义：
-常用Sql命令
-//查询手机号为176021986 时间在 1510678791 之前2000秒的 数据量 select COUNT(*) as cnt from smstx where mobile = &amp;quot;176021986&amp;quot; and time &amp;gt; 1510678791-2000  </description>
+      <description>项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to json 时，空值忽略</description>
     </item>
     
     <item>
       <title>iOS11 ScrollView 页面下移问题</title>
-      <link>http://blog.flywithme.top/2017-09-30-ios11scrollview20pt/</link>
+      <link>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt/</link>
       <pubDate>Sat, 30 Sep 2017 14:58:00 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2017-09-30-ios11scrollview20pt/</guid>
-      <description>一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、什么情况下的tableView会发生上述问题 四、这个问题的解决方法有哪些？ 五、遇到的另外一个与安全区域无关的tableView内容下移的问题        scorllView contentOffset变动问题
-一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 问题如下图所示：
-1. 原因分析
-原因是iOS 11中UIViweController的automaticallyAdjustsScrollViewInsets属性被废弃了，所以当scrollView超出安全区域时系统自动调整了SafeAreaInsets值，进而影响adjustedContentInset值，
-在iOS 11中决定tableView的内容与边缘距离的是adjustedContentInset属性，而不是contentInset。adjustedContentInset的计算方式见本文第二部分内容。因为系统对adjustedContentInset值进行了调整，所以导致tableView的内容到边缘的距离发生了变化，导致tableView下移了20pt（statusbar高度）或64pt（navigationbar高度）。
-如果你的APP中使用的是自定义的navigationbar，隐藏掉系统的navigationbar，并且tableView的frame为(0,0,SCREEN_WIDTH, SCREEN_HEIGHT)开始，那么系统会自动调整SafeAreaInsets值为(20,0,0,0)，如果使用了系统的navigationbar，那么SafeAreaInsets值为(64,0,0,0)，如果也使用了系统的tabbar，那么SafeAreaInsets值为(64,0,49,0)。关于什么情况下会发生内容下移的问题，本文第三部分有介绍。
-2. 安全区域的概念
-系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：
-安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用additionalSafeAreaInsets去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。
-safeAreaInsets属性反映了一个view距离该view的安全区域的边距。对于一个Controller的根视图而言，SafeAreaInsets值包括了被statusbar和其他可视的bars覆盖的区域和其他通过additionalSafeAreaInsets自定义的insets值。对于view层次中得其他view，SafeAreaInsets值反映了view被覆盖的部分。如果一个view全部在它父视图的安全区域内，则SafeAreaInsets值为(0,0,0,0)。
-二、 adjustContentInset属性的计算方式 首先看scrollView在iOS11新增的两个属性：adjustContentInset 和 contentInsetAdjustmentBehavior。
-/* Configure the behavior of adjustedContentInset. Default is UIScrollViewContentInsetAdjustmentAutomatic. */ @property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior adjustContentInset表示contentView.frame.origin偏移了scrollview.frame.origin多少；是系统计算得来的，计算方式由contentInsetAdjustmentBehavior决定。有以下几种计算方式： UIScrollViewContentInsetAdjustmentAutomatic：如果scrollview在一个automaticallyAdjustsScrollViewInsets = YES的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top &amp;amp; bottom上 adjustedContentInset = safeAreaInset + contentInset不管是否滚动。其他情况下与UIScrollViewContentInsetAdjustmentScrollableAxes相同 UIScrollViewContentInsetAdjustmentScrollableAxes: 在可滚动方向上adjustedContentInset = safeAreaInset + contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset + contentInset UIScrollViewContentInsetAdjustmentNever: adjustedContentInset = contentInset UIScrollViewContentInsetAdjustmentAlways: adjustedContentInset = safeAreaInset + contentInset  当contentInsetAdjustmentBehavior设置为UIScrollViewContentInsetAdjustmentNever的时候，adjustContentInset值不受SafeAreaInset值的影响。</description>
+      <guid>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt/</guid>
+      <description>一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、</description>
     </item>
     
     <item>
       <title>大文件分片上传解决方案</title>
-      <link>http://blog.flywithme.top/2017/08/03/bigfileupload/</link>
+      <link>http://blog.flywithme.top/2017/08/03/bigFileUpload/</link>
       <pubDate>Thu, 03 Aug 2017 13:44:56 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2017/08/03/bigfileupload/</guid>
-      <description> 分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数
- md5: 获取文件的md5值
- 文件管理工具：文件路径， 分析文件内容，生成数据。
-   上传任务池中会保持小于等于3个的请求任务 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)
-  文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式
-模型组里可以保存每一个分片的md5值，用于分片的上传状态。
-管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。
- </description>
+      <guid>http://blog.flywithme.top/2017/08/03/bigFileUpload/</guid>
+      <description>分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中</description>
     </item>
     
     <item>
@@ -577,11 +476,7 @@ safeAreaInsets属性反映了一个view距离该view的安全区域的边距。�
       <pubDate>Thu, 13 Apr 2017 17:19:53 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/04/13/swift21/</guid>
-      <description>在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。
-析构过程原理 Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的 时候可能就需要额外的清理了。比如打开另一个文件写入数据，就需要在实例被释放前关闭该文件。
-语法：在类的定义中，每个类最多只有一个析构函数，析构函数不带任何参数，不带括号
-deinit{ //执行析构过程 }  示例：deinit的调用时机
-var counter = 0; class BaseClass { init() { counter += 1; } deinit { counter -= 1; } } var show: BaseClass? = BaseClass() print(counter) // 1 show = nil print(counter) // 0  </description>
+      <description>在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。 析构过程原理 Sw</description>
     </item>
     
     <item>
@@ -590,11 +485,7 @@ var counter = 0; class BaseClass { init() { counter += 1; } deinit { counter -= 
       <pubDate>Thu, 13 Apr 2017 16:24:52 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/04/13/swift20/</guid>
-      <description>构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务
-swift的构造函数使用的是init()方法。 这个方法没有返回值。主要任务是保证新实例在第一次使用之前完成正确的初始化。
-构造器 在创建某特定类型的新实例时调用，它的关键字是init
-init(){ //执行属性初值设置 }  两段式构造
-class baseClass{ var name:String var age:Int var level:String? init() { self.name = &amp;quot;&amp;quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&amp;quot;baseClass&amp;quot;) } } class sonClass1:baseClass{ var str1:String init(name:String, age:Int, str1:String){ //构造初值 第一段 self.str1 = str1 super.init(name: name, age: age) //进一步完善 第二段 self.agefomat(age: age) } final func agefomat(age:Int){ if age &amp;lt;= 0 { self.</description>
+      <description>构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务 swift的构造函数</description>
     </item>
     
     <item>
@@ -603,9 +494,7 @@ class baseClass{ var name:String var age:Int var level:String? init() { self.nam
       <pubDate>Thu, 13 Apr 2017 12:00:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/04/13/swift19/</guid>
-      <description>多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为
- 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引用调用相同方法而产生不同的行为。 多态的条件：a,必须存在继承关系，b,子类对父类的方法进行重写  示例：
-class baseClass{ var name:String var age:Int init() { self.name = &amp;quot;&amp;quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&amp;quot;baseClass&amp;quot;) } } class sonClass1:baseClass{ var str1:String = &amp;quot;str1&amp;quot; //重载 override func testFunc() { print(&amp;quot;sonClass1&amp;quot;) } } class sonClass2:baseClass{ var str1:String = &amp;quot;str1&amp;quot; override func testFunc() { print(&amp;quot;sonClass2&amp;quot;) } } final class grandSon1:sonClass1{ var strGrand:String = &amp;quot;strGrand&amp;quot; } final class grandSon01:sonClass1{ var strGrand:String = &amp;quot;strGrand&amp;quot; } final class grandSon02:sonClass2{ var strGrand:String = &amp;quot;strGrand&amp;quot; } func printBasicInfo(base:baseClass){ print(&amp;quot;name is \(base.</description>
+      <description>多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引</description>
     </item>
     
     <item>
@@ -614,12 +503,7 @@ class baseClass{ var name:String var age:Int init() { self.name = &amp;quot;&amp
       <pubDate>Sat, 01 Apr 2017 22:29:17 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/04/01/swift18/</guid>
-      <description>继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来的属性添加属性观察器
-基类 没有继承其它类的类，称之为基类（Base Class）
-子类 子类指的是在一个已有类的基础上创建一个新的类。为了指明某个类的超类，将超类名写在子类名的后面，用冒号(:)分隔,语法格式如下
-class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ } sonClass.init(name: &amp;quot;a&amp;quot;)  重写（Overriding） 子类可以通过继承来的实例方法，类方法，实例属性，或下标脚本来实现自己的定制功能，我们把这种行为叫重写（overriding）。我们可以使用 override 关键字来实现重
-class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ var levelStr:String override init(name: String) { self.levelStr = name.appending(&amp;quot;b&amp;quot;) super.init(name: name) } } var son = sonClass.init(name: &amp;quot;a&amp;quot;) son.baseName son.levelStr  // 防止重写 使用 final 关键字防止它们被重写
- //final 关键字 final class grandSon:sonClass{ final var grand:String = &amp;quot;&amp;quot; override init(name: String) { super.</description>
+      <description>继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来</description>
     </item>
     
     <item>
@@ -628,8 +512,7 @@ class baseClass{ var baseName:String init(name:String) { self.baseName = name } 
       <pubDate>Fri, 31 Mar 2017 19:47:41 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/03/31/swift17/</guid>
-      <description>单例写法
-public class Manager{ public var score = 0 public static let defaultManager = Manager.init() private init(){ } public func addScore(){ score += 10 } } let manager = Manager.defaultManager manager.addScore() manager.score manager.addScore() manager.score let manager2 = Manager.defaultManager manager2.addScore() manager2.score  </description>
+      <description>单例写法 public class Manager{ public var score = 0 public static let defaultManager = Manager.init() private init(){ } public func addScore(){ score += 10 } } let manager = Manager.defaultManager manager.addScore() manager.score manager.addScore() manager.score let manager2 = Manager.defaultManager manager2.addScore() manager2.score</description>
     </item>
     
     <item>
@@ -638,12 +521,7 @@ public class Manager{ public var score = 0 public static let defaultManager = Ma
       <pubDate>Thu, 30 Mar 2017 16:53:45 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/03/30/swift16/</guid>
-      <description>Swift 属性将值跟特定的类、结构或枚举关联
-属性可分为存储属性和计算属性:
-   存储属性 计算属性     存储常量或变量作为实例的一部分 计算（而不是存储）一个值   用于类和结构体 用于类、结构体和枚举    存储属性
- 可以在定义存储属性的时候指定默认值 在构造过程中设置或修改存储值属性的值，身子修改常量存储属性的值   延迟存储属性 lazy property
- 延迟对象的创建 当属性的值依赖于其他未知类
-class CloseRange{ var start: Int var end:Int var width:Int{ return end - start + 1 } lazy var sum: Int = { var res = 0 for i in self.start&amp;hellip;self.end{ res += 1 } return res }() var sum1: Int { var res = 0 for i in start&amp;hellip;end{ res += 1 } return res } init?</description>
+      <description>Swift 属性将值跟特定的类、结构或枚举关联 属性可分为存储属性和计算属性: 存储属性 计算属性 存储常量或变量作为实例的一部分 计算（而不是存储）一个值 用于</description>
     </item>
     
     <item>
@@ -652,12 +530,7 @@ class CloseRange{ var start: Int var end:Int var width:Int{ return end - start +
       <pubDate>Wed, 29 Mar 2017 14:18:03 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/03/29/swift15/</guid>
-      <description>类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类去创建独立的接口和实现文件， 你要做的是在一个单一文件中定义一个类，系统会自动生产面向其他代码的外部接口。
-//示例： class Person{ var firstName:String = &amp;quot;&amp;quot; var lastName:String = &amp;quot;&amp;quot; } class Person1{ var firstName:String var lastName:String init(firstName:String, lastName:String) { self.firstName = firstName self.lastName = lastName } } let person1 = Person1.init(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)  类和结构体的对比
-共同点：
- 定义属性用于存储值 定义方法用于提供功能 定义附属脚本用于访问值 定义构造器用于生成初始化值 通过扩展以增加默认实现的功能 符合协议以对某类提供标准功能   比结构体多了如下功能
- 允许一个类继承另一个类的特征 类型转换允许在运行时检查和解释一个类的实例类型 结构器允许一个实例释放任何其所分配的资源 引用计数允许对一个类多次引用   区别：引用类型和值类型
-//示例： class Person{ var firstName:String = &amp;quot;&amp;quot; var lastName:String = &amp;quot;&amp;quot; } let person1 = Person(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;) let person2 = person1 person2.</description>
+      <description>类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类</description>
     </item>
     
     <item>
@@ -666,14 +539,7 @@ class CloseRange{ var start: Int var end:Int var width:Int{ return end - start +
       <pubDate>Thu, 23 Mar 2017 16:54:15 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/03/23/swift3-14/</guid>
-      <description>Swift 结构体是构建代码所用的一种通用且灵活的构造体。我们可以为结构体定义属性（常量、变量）和添加方法，从而扩展结构体的功能.
-与 C 和 Objective-C 不同的是:
- 结构体不需要包含实现文件和接口 结构体允许我们创建一个单一文件,且系统会自动生成面向其他代码的外部接口   结构体总是通过被复制的方式在代码中传递，因此它的值是不可修改的.
-示例
-struct MarkStruct{ var mark1: Int var mark2: Int var mark3: Int }  结构体应用 需要注意的以下几点:
- 结构体的主要目的是用来封装少了相关简单数据 有理由预计一个结构体实例在赋值和传递时,封装的数据将会被拷贝而不是被引用 任何在结构体中存储的值类型属性,也将会被拷贝,而不是被引用。 结构体不需要去继承另一个已存在类型的属性或者行为。
-  总的来说就是:结构体实例是通过值传递,而不是通过引用传递。
-struct Location{ var latitude:Double var longitude:Double } let aLocation = Location(latitude: 12.0,longitude: 212.0) var bLoaction = Location.init(latitude: 1.2, longitude: 1.3) struct Place{ var location:Location var name:String } var aPlace = Place.init(location: bLoaction, name: &amp;quot;苹果总部&amp;quot;) bLoaction.</description>
+      <description>Swift 结构体是构建代码所用的一种通用且灵活的构造体。我们可以为结构体定义属性（常量、变量）和添加方法，从而扩展结构体的功能. 与 C 和 Objective-C 不同的是: 结</description>
     </item>
     
     <item>
@@ -682,14 +548,7 @@ struct Location{ var latitude:Double var longitude:Double } let aLocation = Loca
       <pubDate>Tue, 21 Mar 2017 15:30:52 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/03/21/swift13/</guid>
-      <description>枚举简单的说也是一种数据类型，只不过是这种数据类型只包含自定义的特定数据，它是一组有共同特性的数据的集合。 Swift 的枚举类似于 Objective C 和 C 的结构
-枚举的功能为
- 它声明在类中,可以通过实例化类来访问它的值.
-枚举也可以定义构造函数来提供一个初始成员值,可以在原始的实现基础上扩展它功能。
-可以遵守协议来提供标准的功能。
- 示例
-// 定义枚举 enum DaysofaWeek { case Sunday case Monday case TUESDAY case WEDNESDAY case THURSDAY case FRIDAY case Saturday } var weekDay = DaysofaWeek.THURSDAY weekDay = .THURSDAY switch weekDay { case .Sunday: print(&amp;quot;星期天&amp;quot;) case .Monday: print(&amp;quot;星期一&amp;quot;) case .TUESDAY: print(&amp;quot;星期二&amp;quot;) case .WEDNESDAY: print(&amp;quot;星期三&amp;quot;) case .THURSDAY: print(&amp;quot;星期四&amp;quot;) case .FRIDAY: print(&amp;quot;星期五&amp;quot;) case .Saturday: print(&amp;quot;星期六&amp;quot;) }  相关值与原始值的区别
-   相关值 原始值     不同数据类型 相同数据类型   值的创建基于常量或变量 预先填充的值   相关值是当你在创建一个枚举成员的心常量或变量时才会被设置,并且每次当你这么做的时候,它的值都不同 原始值试着是相同的    原始值 Raw value 原始值可以是字符串，字符，或者任何整型值或浮点型值。每个原始值在它的枚举声明中必须是唯一的.</description>
+      <description>枚举简单的说也是一种数据类型，只不过是这种数据类型只包含自定义的特定数据，它是一组有共同特性的数据的集合。 Swift 的枚举类似于 Objective C 和 C 的结构 枚举的</description>
     </item>
     
     <item>
@@ -698,14 +557,7 @@ struct Location{ var latitude:Double var longitude:Double } let aLocation = Loca
       <pubDate>Tue, 28 Feb 2017 17:43:27 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/28/swift12/</guid>
-      <description>闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编程语言中的匿名函数比较相似。 全局函数和嵌套函数其实就是特殊的闭包。
-闭包的形式有
- 全局函数: 有名字但不能捕获任何值
-嵌套函数: 有名字,可以捕获封闭函数内的值
-闭包表达式: 无名闭包,使用轻量级语法,可以根据上下文环境捕获值。
- 示例:
-let clousuer = { print(&amp;quot;Swift 闭包实例。&amp;quot;) } clousuer() //加法 let sum = {(val1:Int, val2:Int)-&amp;gt; Int in return val1 + val2 } let result = sum(20,2) //排序 var arr:[Int] = [] for _ in 0...100{ arr.append(Int(arc4random()%1000)) } arr.sorted(by: {(a: Int, b:Int) -&amp;gt; Bool in return a &amp;gt; b })  闭包的简化
-//简化: 根据现场情况,选择适合当前情况的写法。 arr.</description>
+      <description>闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编</description>
     </item>
     
     <item>
@@ -714,11 +566,7 @@ let clousuer = { print(&amp;quot;Swift 闭包实例。&amp;quot;) } clousuer() /
       <pubDate>Mon, 27 Feb 2017 13:41:21 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/27/swift11/</guid>
-      <description>函数定义
- Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过函数名以及对应类型的参数值来调用这个函数。函数的参数传递的顺序必须与参数列表相同。 函数的实参传递的顺序必须与形参列表相同，-&amp;gt; 后定义函数的返回值类型。
- 示例:
-func hello(name:String)-&amp;gt; String{ return &amp;quot;Hello &amp;quot; + name } hello(name: &amp;quot;Jack&amp;quot;) func hello1(name:String?)-&amp;gt; String{ return &amp;quot;Hello &amp;quot; + (name != nil ? name! : &amp;quot;guess&amp;quot;) } hello1(name: &amp;quot;Jack&amp;quot;) func printHello(){ print(&amp;quot;hello&amp;quot;) } printHello() func printHello1() -&amp;gt; Void{ //Void 是一个类型 print(&amp;quot;hello&amp;quot;) } printHello1() func printHello2() -&amp;gt; (){ print(&amp;quot;hello&amp;quot;) } printHello2()  使用元组作为返回值 函数返回值的类型可以是字符串,整型,浮点型等,元组与数组类似,不同的是,元组中的元素可以是任意类型,使用的是括号,你可以使用元组类型让多个值作为一个复合值从函数中返回。
-func findMaxAndMin(numbers:[Int]) -&amp;gt; (max:Int, min:Int)?{ //如果你不确定返回的元组一定不为nil，那么你可以返回一个可选的元组类型。 guard !</description>
+      <description>函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过</description>
     </item>
     
     <item>
@@ -727,15 +575,7 @@ func findMaxAndMin(numbers:[Int]) -&amp;gt; (max:Int, min:Int)?{ //如果你不�
       <pubDate>Wed, 22 Feb 2017 16:15:18 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/22/swift10/</guid>
-      <description>选择合适的数据结构
-数组:
- 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组
- 集合:
- 无序,唯一性,集合特有的操作,快速查找 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用 集合,获取共同喜好,共同兴趣等。快速查找这个是集合的一大优势,数组查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)), 例如一个100万的数据,如果是数组查找的话,最坏的情况是 查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。
- 字典:
- 键值数据对,这个就不说了,使用的很广泛。
- 回顾 for in
-for index in 1...10{ print(index) } for c in &amp;quot;hello&amp;quot;.characters{ print(c) } var arr = [&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] for str in arr{ print(str) } for (index ,str) in arr.enumerated(){ print(index, str) } var dic = [1:&amp;quot;a&amp;quot; , 2:&amp;quot;b&amp;quot;] for key in dic{ print(key) } for value in dic.</description>
+      <description>选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,</description>
     </item>
     
     <item>
@@ -744,11 +584,7 @@ for index in 1...10{ print(index) } for c in &amp;quot;hello&amp;quot;.character
       <pubDate>Wed, 22 Feb 2017 15:18:43 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/22/swift09/</guid>
-      <description>将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集
-为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。 集合中的每一个元素都是唯一的。
- 基本方法
-//集合的初始化 var arr = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //如果不显式的声明,则默认是数组 var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //必须显式声明才行 var emptySet1:Set&amp;lt;String&amp;gt; = [] var emptySet2 = Set&amp;lt;Int&amp;gt;() var setB = Set([&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;c&amp;quot;]) //将一个数组转换成集合 setA.count setA.isEmpty setA.first //随机的取出一个元素 setA.contains(&amp;quot;a&amp;quot;) //判断是否有这个元素 //遍历 for str in setA{ print(str) } var str = setA.joined(separator: &amp;quot;d&amp;quot;) //比较 setA == setB setA.elementsEqual(setB)  集合的操作
-var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //插入 setA.insert(&amp;quot;D&amp;quot;) //返回一个元组 //更新 setA.update(with: &amp;quot;A&amp;quot;) //若已存在元素,则返回改元素,若没有,则返回nil //删除 setA.remove(&amp;quot;a&amp;quot;) //返回一个 bool 若是 true 则表示删除成功,返回 false 则表示之前没有这个元素 setA.</description>
+      <description>将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做</description>
     </item>
     
     <item>
@@ -757,9 +593,7 @@ var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //插入 setA.inser
       <pubDate>Wed, 22 Feb 2017 14:12:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/22/swift08/</guid>
-      <description>字典是存储 键-值 数据对的无序数据集合
- 基本方法
-var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型 value = dic[&amp;quot;daaaa&amp;quot;] dict.isEmpty dict.count if let value = dic[&amp;quot;key&amp;quot;]{ print(value) } var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2] dict[&amp;quot;1&amp;quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;] dict02[1] //遍历 for (key, value) in dict{ print(key,value) } //比较 var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var dic2 = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic2[&amp;quot;key&amp;quot;]dict == dict01 dic == dic2 //true 如果 元素类型不同,比较会抛错  增删改查</description>
+      <description>字典是存储 键-值 数据对的无序数据集合 基本方法 var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型 value = dic[&amp;quot;daaaa&amp;quot;] dict.isEmpty dict.count if let value = dic[&amp;quot;key&amp;quot;]{ print(value) } var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2] dict[&amp;quot;1&amp;quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;]</description>
     </item>
     
     <item>
@@ -768,10 +602,7 @@ var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;qu
       <pubDate>Tue, 21 Feb 2017 15:38:45 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/21/swift07/</guid>
-      <description>数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。
- 初始化方式
-var numbers = [0,1,2,3] var num:[Int] = [0,1,2] //只能是 Int 类型 var arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] //只能是 字符串 var arr1:[Any] = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1,num,arr] //里面的元素可以为任意类型 var arr0: Array&amp;lt;String&amp;gt; = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;] var arr01 = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1] as [Any] //空数组的声明方式 var emptyArr1:[Int] = [] var emptyArr2:Array&amp;lt;Int&amp;gt; = [] var emptyArr3 = [Int]() //重复数组初始化 var allzZeros = [String](repeatElement(&amp;quot;a&amp;quot;, count: 4))  基本方法
- 数组的基本查询 属性方法 count ,isEmpty, first, last, max, min, [], contains, index, for in enumerated, compare</description>
+      <description>数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。 初始化方式 var numbers = [0,1,2,3]</description>
     </item>
     
     <item>
@@ -780,12 +611,7 @@ var numbers = [0,1,2,3] var num:[Int] = [0,1,2] //只能是 Int 类型 var arr =
       <pubDate>Mon, 20 Feb 2017 15:22:44 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/20/swift06/</guid>
-      <description>画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。
-可选型不是表示 可以表示任意类型,而是可以表示一个指定数据类型 和 nil类型,
-错误代码示范
-var name: String = &amp;quot;loveway&amp;quot; name = nil //报错 error: Nil cannot be assigned to type &#39;String&#39;  Optionals的声明 var optionalInteger: Int? , var optionalInteger: Optional&amp;lt;Int&amp;gt;
-var name: String? = &amp;quot;loveway&amp;quot; print(name!) name = nil print(name as Any)  可选型的解包
-var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot; print(name!) name = nil print(name as Any ) name = &amp;quot;sam&amp;quot; //var string = &amp;quot;my name is &amp;quot; + name //error 因为 ```name```是一个未解包的数据,不能直接使用。 var string = &amp;quot;my name is &amp;quot; + name!</description>
+      <description>画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的</description>
     </item>
     
     <item>
@@ -794,13 +620,7 @@ var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot; print(name!)
       <pubDate>Fri, 17 Feb 2017 17:34:01 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/17/swift05/</guid>
-      <description>控制流的三种基本结构:
- 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行
-循环结构 循环语句使用同一个语句组根据一定的条件执行若干次
-选择结构: 分支语句根据一定的条件决定执行那一部分语句序列 顺序结构不再多说
-  循环结构
-for _ in 0...100{ print(&amp;quot;遍历循环&amp;quot;) } //这种方式在 swift3 中被废弃,不能在使用 //for var i = 1; i &amp;lt; 100 ; i++{ // print(&amp;quot;遍历循环中&amp;quot;) //} var a = 0.0 while a &amp;lt; 50 { a += 0.5 sin(a) } //至少执行一次 repeat{ a += 0.5 sin(a) }while a &amp;lt; 100  选择结构
-if true { }else if(1 == 1){ }else{ } switch index { case 0: break case 1: break case 2: break default: break } //swift 提供的基础数据类型都可以用作 switch 的判断 var str = &amp;quot;a&amp;quot; switch str { case &amp;quot;a&amp;quot;,&amp;quot;A&amp;quot;: print(&amp;quot;A&amp;quot;) case &amp;quot;b&amp;quot;: print(&amp;quot;B&amp;quot;) default: break } //区间 let age = 19 switch age { case 0.</description>
+      <description>控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组</description>
     </item>
     
     <item>
@@ -809,10 +629,7 @@ if true { }else if(1 == 1){ }else{ } switch index { case 0: break case 1: break 
       <pubDate>Fri, 17 Feb 2017 11:00:55 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/17/swift04/</guid>
-      <description>赋值运算符
-= 这里是没有返回值的。返回值可能是Void，此时不等于nil，即赋值成功；或等于nil，即赋值失败
-var a = 3 a = 2  数学运算符 + - * / += -= %
-var a = 201 var b = 4 a + b a * b a - b a / b a % b a += 1 +a -a a += 2 a -= 3 a *= 2 a /= 2 a %= 2 var u = 2.5.truncatingRemainder(dividingBy: 1.2) //小数求余  逻辑运算符 !</description>
+      <description>赋值运算符 = 这里是没有返回值的。返回值可能是Void，此时不等于nil，即赋值成功；或等于nil，即赋值失败 var a = 3 a = 2 数学运算符 + - * /</description>
     </item>
     
     <item>
@@ -821,12 +638,7 @@ var a = 201 var b = 4 a + b a * b a - b a / b a % b a += 1 +a -a a += 2 a -= 3 a
       <pubDate>Thu, 16 Feb 2017 16:11:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
-      <description>常量 let
-let a = 1 let b:Int b = 1  变量 var
-var b = 2   swift 是一个强类型语言:
-var x = 1 x = &amp;quot;abc&amp;quot; //会报错(Cannot assign value of type &amp;quot;String&amp;quot; to type &amp;quot;int&amp;quot;)  显示声明变量
-let s:String = &amp;quot;abc&amp;quot;  一次声明多个变量,
-var y, z, d:Double var x = 1, y = 2, z = 3   常用数据类型: Int , Float ,Double , Boolean , String ,Tuple  Int</description>
+      <description>常量 let let a = 1 let b:Int b = 1 变量 var var b = 2 swift 是一个强类型语言: var x = 1 x = &amp;quot;abc&amp;quot; //会报错(Cannot assign value of type &amp;quot;String&amp;quot; to type &amp;quot;int&amp;quot;) 显示声明变量 let s:String = &amp;quot;abc&amp;quot; 一次声明</description>
     </item>
     
     <item>
@@ -835,14 +647,7 @@ var y, z, d:Double var x = 1, y = 2, z = 3   常用数据类型: Int , Float ,Do
       <pubDate>Thu, 16 Feb 2017 11:27:44 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/16/swift02/</guid>
-      <description>首先我们来在屏幕上输出一个 hello world
-print(&amp;quot;hello world&amp;quot;)  不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。
-Xcode 提供了代码预览功能 Playground . 使用它可以加快 swift的学习速度
-初始化一个变量和常量
-var a = 2 //可变数据 a = 3 let b = 2 //不可变  if else
- if a == 2{ print(&amp;quot;true&amp;quot;) } else{ print(&amp;quot;false&amp;quot;) }  for in 遍历语句(此外还有 ,repeat..while ,for 循环3.0中已经被弃用)
-for index in 0...100{ var c = Double(index)/20.0 }  while
-while 1 == 1 { a += 1 if a == 100{ break } print(&amp;quot;do something&amp;quot;,a) }  repeat&amp;hellip; while</description>
+      <description>首先我们来在屏幕上输出一个 hello world print(&amp;quot;hello world&amp;quot;) 不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。 Xcode 提供了代码预览功能 Playground . 使用它可以加快 swi</description>
     </item>
     
     <item>
@@ -851,13 +656,7 @@ while 1 == 1 { a += 1 if a == 100{ break } print(&amp;quot;do something&amp;quot
       <pubDate>Thu, 09 Feb 2017 10:12:48 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/09/swift01/</guid>
-      <description>Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。
- Swift 的开发从很久之前就开始了。为了给 Swift 打好基础，苹果公司改进了编译器，调试器和框架结构，让 Swift 使用自动引用计数（Automatic Reference Counting, ARC）来简化内存管理。
- Objective-C 开发者对于 Swift 并不会感到陌生。它采用了 Objective-C 的命名参数以及动态对象模型，可以无缝对接到现有的 Cocoa 框架，并且可以兼容 Objective-C 代码。在此基础之上，Swift 还有许多新特性，支持面向过程编程和面向对象编程。
- Swift 对于初学者来说也很简单。Swift是一门既满足工业标准又像脚本语言一样充满表现力和趣味的编程语言。Swift支持代码预览，这个革命性的特性可以允许程序员在不编译和运行应用程序的前提下运行 Swift 代码并实时查看结果。
- 使用 Swift编写 iOS，watchOS,macOS,和 tvOS apps 是一个极佳的选择。
- Swift 3.0 是自 Swift开源以来第一个大的版本更新。从语言角度不兼容之前的版本。
-  部分摘自：AppleLibrary</description>
+      <description>Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了</description>
     </item>
     
     <item>
@@ -866,96 +665,34 @@ while 1 == 1 { a += 1 if a == 100{ break } print(&amp;quot;do something&amp;quot
       <pubDate>Sun, 01 Jan 2017 00:56:42 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/01/01/golangfmt/</guid>
-      <description>Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。
-General
- %v 以默认的方式打印变量的值 %T 打印变量的类型 Integer
- %+d 带符号的整型，fmt.Printf(&amp;ldquo;%+d&amp;rdquo;, 255)输出+255
- %q 打印单引号
- %o 不带零的八进制
- %#o 带零的八进制
- %x 小写的十六进制
- %X 大写的十六进制
- %#x 带0x的十六进制
- %U 打印Unicode字符
- %#U 打印带字符的Unicode
- %b 打印整型的二进制
-  Integer width
- %5d 表示该整型最大长度是5，下面这段代码
-fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1) fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)   输出结果如下：
-| 1| |1234567|   %-5d则相反，打印结果会自动左对齐 %05d会在数字前面补零。  Float
- %f (=%.6f) 6位小数点 %e (=%.6e) 6位小数点（科学计数法） %g 用最少的数字来表示 %.</description>
+      <description>Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。 General %v 以默认的方式打印</description>
     </item>
     
     <item>
       <title>golang-Gin-Https</title>
-      <link>http://blog.flywithme.top/2016/12/26/golang-gin-https/</link>
+      <link>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</link>
       <pubDate>Mon, 26 Dec 2016 14:29:14 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/12/26/golang-gin-https/</guid>
-      <description>关于https
-背景知识
-密码学的一些基本知识
-大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，key就以一串随机数数，更换了key之后，算法还可以继续使用。
-基于key的加密算法又分为两类，对称加密和不对称加密，比如DES,AES那种的，通信双方一方用key加密之后，另一方用相同的key进行反向的运算就可以解密。
-不对称加密比较著名的就是RSA,加密的时候有一个公钥和一个私钥，公钥是可以交给对方的，a给b发送信息，a用自己的私钥加密，b用a的公钥解密，反之，b给a发送信息，b用自己的私钥加密。
-在通信之前，需要经过一些握手的过程，双方交换公钥，这个就是key exchange的过程，https最开始的阶段就包含了这个key exchange的过程，大概原理是这样，有些地方还要稍微复杂一些。
-数字证书与CA
-数字证书相当于是服务器的一个“身份证”，用于唯一标识一个服务器。一般而言，数字证书从受信的权威证书授权机构 (Certification Authority，证书授权机构)买来的（免费的很少），浏览器里面一般就内置好了一些权威的CA，在使用https的时候，只要是这些CA签发的证书，浏览器都是可以认证的，要是在与服务器通信的时候，收到一个没有权威CA认证的证书，就会报出提醒不受信任证书的错误，就像登录12306一样，但是也可以选择接受。
-在自己的一些项目中，通常是自己签发一个ca根证书，之后这个根证书签发一个server.crt，以及server.key给服务端，server.key是服务端的私钥，server.crt包含了服务端的公钥还有服务端的一些身份信息。在客户端和服务端通信的时候（特别是使用代码编写的客户端访问的时候），要指定ca根证书，作用就相当于是浏览器中内置的那些权威证书一样，用于进行服务端的身份检测。
-证书的格式：
-ca证书在为server.crt证书签名时候的大致流程参考这个(http://www.tuicool.com/articles/aymYbmM)：
-数字证书由两部分组成：
-1、C：证书相关信息（对象名称+过期时间+证书发布者+证书签名算法….）
-2、S：证书的数字签名 （由CA证书通过加密算法生成的）
-其中的数字签名是通过公式S = F(Digest&amp;copy;)得到的。
-Digest为摘要函数，也就是 md5、sha-1或sha256等单向散列算法，用于将无限输入值转换为一个有限长度的“浓缩”输出值。比如我们常用md5值来验证下载的大文件是否完整。大文件的内容就是一个无限输入。大文件被放在网站上用于下载时，网站会对大文件做一次md5计算，得出一个128bit的值作为大文件的摘要一同放在网站上。用户在下载文件后，对下载后的文件再进行一次本地的md5计算，用得出的值与网站上的md5值进行比较，如果一致，则大 文件下载完好，否则下载过程大文件内容有损坏或源文件被篡改。这里还有一个小技巧常常在机器之间copy或者下载压缩文件的时候也可以用md5sum的命令来进行检验，看看文件是否完整。
-F为签名函数。CA自己的私钥是唯一标识CA签名的，因此CA用于生成数字证书的签名函数一定要以自己的私钥作为一个输入参数。在RSA加密系统中，发送端的解密函数就是一个以私钥作为参数的函数，因此常常被用作签名函数使用。因此CA用私钥解密函数作为F，以CA证书中的私钥进行加密，生成最后的数字签名，正如最后一部分实践时候给出的证书生成过程，生成server.crt的时候需要ca.crt（包含根证书的信息）和ca.key（根证书的私钥）都加入进去。
-接收端接收服务端数字证书后，如何验证数字证书上携带的签名是这个CA的签名呢？当然接收端首先需要指定对应的CA，接收端会运用下面算法对数字证书的签名进行校验： F&amp;rsquo;(S) ?= Digest&amp;copy;
-接收端进行两个计算，并将计算结果进行比对：
-1、首先通过Digest&amp;copy;，接收端计算出证书内容（除签名之外）的摘要，C的内容都是明文可以看到到的。
-2、数字证书携带的签名是CA通过CA密钥加密摘要后的结果，因此接收端通过一个解密函数F&amp;rsquo;对S进行“解密”。就像最开始介绍的那样，在RSA系统中，接收端使用CA公钥（包含在ca.crt中）对S进行“解密”，这恰是CA用私钥对S进行“加密”的逆过程。
-将上述两个运算的结果进行比较，如果一致，说明签名的确属于该CA，该证书有效，否则要么证书不是该CA的，要么就是中途被人篡改了。
-对于self-signed(自签发)证书来说，接收端并没有你这个self-CA的数字证书，也就是没有CA公钥，也就没有办法对数字证书的签名进行验证。因此如果要编写一个可以对self-signed证书进行校验的接收端程序的话，首先我们要做的就是建立一个属于自己的CA，用该CA签发我们的server端证书，之后给客户端发送信息的话，需要对这个根证书进行指定，之后按上面的方式进行验证。
-可以使用openssl x509 -text -in client.crt -noout 查看某个证书文件所包含的具体信息。
-HTTPS基本过程概述
-https协议是在http协议的基础上组成的secure的协议。主要功能包含一下两个方面:
-1 通信双方的身份认证
-2 通信双方的通信过程加密
-下面通过详细分析https的通信过程来解释这两个功能。
-具体参考这两个文章：
-http://www.fenesky.com/blog/2014/07/19/how-https-works.html http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html
-1、client 发送 sayhello给server端，说明client所支持的加密套件，还有一个随机数1。 2、server 发送 sayhello给client端，端把server.crt发送给客户端,server.crt采用还有一个随机数2。 3、client端生成preMaster key 这个是随机数3，之后三个随机数结合在一起生成MasterSecret,之后生成session secret，使用指定的ca进行身份认证，就像之前介绍的那样，都正常的话，就切换到加密模式。 4、client端使用server.crt中的公钥对preMasterSecret进行加密，如果要进行双向认证的话，client端会把client.crt一并发送过去，server端接受到数据，解密之后，也有了三个随机数，采用同样的方式，三个随机数生成通信所使用的session secret。具体session secret的结构可以参考前面列出的两个博客。server端完成相关工作之后，会发一个ChangeCipherSpec给client，通知client说明自己已经切换到相关的加解密模式，之后发一段加密信息给client看是否正常。 5、client端解密正常，之后就可以按照之前的协议，使用session secret进行加密的通信了。
-整体看下，开始的时候建立握手的过程就是身份认证的过程，之后认证完毕之后，就是加密通信的过程了，https的两个主要做用就实现了。
-相关实践</description>
+      <guid>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
+      <description>关于https 背景知识 密码学的一些基本知识 大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，ke</description>
     </item>
     
     <item>
       <title>TableView 中 Cell的重用机制分析</title>
-      <link>http://blog.flywithme.top/2016/12/20/dequeuereusablecell/</link>
+      <link>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</link>
       <pubDate>Tue, 20 Dec 2016 11:41:34 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/12/20/dequeuereusablecell/</guid>
-      <description>UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢?
-[tableView dequeueReusableCellWithIdentifier:CellIdentifier]由于苹果并没有开源,所以我就对这个 ``的实现分析一下。
-UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell, 对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。
- 重用实现分析:
-UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源 NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;
-TableView 初始化之初,这两个数据都是空的。
-通过[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] 创建新的 cell,创建之后 数据会进入visiableCells 中 当屏幕上的Cell 够用之后,会有一个 Cell 使用 key CellIdentifier 存 reusableTableCels 中,
-比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:
- 用[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空
- tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。</description>
+      <guid>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
+      <description>UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe</description>
     </item>
     
     <item>
       <title>JS判断客户端类型</title>
-      <link>http://blog.flywithme.top/2016/12/19/clienttype/</link>
+      <link>http://blog.flywithme.top/2016/12/19/clientType/</link>
       <pubDate>Mon, 19 Dec 2016 14:30:21 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/12/19/clienttype/</guid>
-      <description>通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型
-扫描二维码打开: 测试链接:
-function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&amp;quot;micromessenger&amp;quot;) { alert(&#39;在微信里打开&#39;); } else { alert(&#39;不在微信里打开&#39;); } } is_weixn(); //判断各个平台 function detectOS() { var sUserAgent = navigator.userAgent; var isWin = (navigator.platform == &amp;quot;Win32&amp;quot;) || (navigator.platform == &amp;quot;Windows&amp;quot;); var isMac = (navigator.platform == &amp;quot;Mac68K&amp;quot;) || (navigator.platform == &amp;quot;MacPPC&amp;quot;) || (navigator.platform == &amp;quot;Macintosh&amp;quot;) || (navigator.platform == &amp;quot;MacIntel&amp;quot;); if (isMac) return &amp;quot;Mac&amp;quot;; var isUnix = (navigator.platform == &amp;quot;X11&amp;quot;) &amp;amp;&amp;amp; !isWin &amp;amp;&amp;amp; !isMac; if (isUnix) return &amp;quot;Unix&amp;quot;; var isLinux = (String(navigator.</description>
+      <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
+      <description>通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型 扫描二维码打开: 测试链接: function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&amp;quot;micromessenger&amp;quot;) { alert(&#39;在微信里打开</description>
     </item>
     
     <item>
@@ -964,70 +701,43 @@ function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/Mi
       <pubDate>Thu, 14 Jul 2016 11:40:29 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2016/07/14/debugpanel/</guid>
-      <description>初衷 移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想做一个固定在状态栏上的的 Debug 功能控件,之前公司也有一个旧的类似控件,但是里面牵连业务非常多,而且扩展也不友好,所以我就想趁着有新项目需求的时候写一个顶部的控件壳子, 而且可以很方便的扩展方法,当然,需要的测试方法依然需要开发者手动添加,这个控件并不侵入业务,以后如果有需要可以做一些设备基础功能的公用方法. 暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法
-效果如下图: 使用方法 Podfile
-To integrate DebugPanel into your Xcode project using CocoaPods, specify it in your Podfile:
- source &#39;https://github.com/CocoaPods/Specs.git&#39; platform :ios, &#39;7.0&#39; target &#39;TargetName&#39; do pod &#39;DebugPanel&#39; , :git =&amp;gt;&#39;https://github.com/brasbug/DebugPanel.git&#39; end  then ,runthe following command:
-pod install  参数说明:
-MTADebugModel
- /** * @author Jack, 16-07-14 12:07:12 * * title: 显示名称 * selectorProperty: 调用的方法名 * etc: 额外参数 */ @property (nonatomic, strong) NSString *title; @property (nonatomic, strong) NSDictionary *etc; @property (nonatomic, strong) NSString *selectorProperty;  MTADebugMethodBridge</description>
+      <description>初衷 移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想</description>
     </item>
     
     <item>
       <title>golang-gin 框架学习 一、 GET POST Method</title>
-      <link>http://blog.flywithme.top/2016/06/30/go-gin01/</link>
+      <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
       <pubDate>Thu, 30 Jun 2016 18:16:12 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/06/30/go-gin01/</guid>
-      <description>前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过.
-所以就选了一个文档比较齐全的 Gin 来写我的第一个 webServer 项目.这只是一个 Demo ,写这个日志是为了记录自己的学习历程.激励下自己吧.
-Gin API 搭建Web 服务器少不了要写 api 首先从最简单的 GET POST 开始.
-首先要初始化一个路由
-func main() { router := gin.Default()//初始化路由 router.Run(&amp;quot;:8080&amp;quot;) // listen and GO on 0.0.0.0:8080 }  GET Method 这个最基本的网络请求在 gin 几行代码就可以搞定
-router.GET(&amp;quot;/user/:name/:action&amp;quot;, func(c *gin.Context) { name := c.Param(&amp;quot;name&amp;quot;) action := c.Param(&amp;quot;action&amp;quot;) message := name + &amp;quot; is &amp;quot; + action c.String(http.StatusOK, message) })  client 使用方式如下图 router.GET(&amp;quot;/welcome&amp;quot;, func(c *gin.Context) { firstname := c.</description>
+      <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
+      <description>前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过. 所以就选了一个</description>
     </item>
     
     <item>
       <title>ReactiveCocoa简单介绍</title>
-      <link>http://blog.flywithme.top/2016/05/15/reactivecocoa/</link>
+      <link>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</link>
       <pubDate>Tue, 14 Jun 2016 14:33:00 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/05/15/reactivecocoa/</guid>
-      <description>一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本
-pod &#39;ReactiveCocoa&#39;  二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。
- 引入相应的头文件,在工程中引入下方的头文件（建议在Pch文件中引入）就可以使用我们的ReactiveCocoa框架了
-#import &amp;lt;ReactiveCocoa/ReactiveCocoa.h&amp;gt; #import &amp;lt;ReactiveCocoa/RACEXTScope.h&amp;gt;  Sequence和Map
-Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组，我们可以暂且把Sequence看做绑定信号量的数组吧。在OC中的NSArray可以通过rac_sequence方法转换成ReactiveCocoa中的Sequence，然后就可以调用处理信号的一些方法了。
-参考以下实例代码：
-a. 把NSArray通过rac_sequence方法生成RAC中的Sequence
-b. 获取该Sequence对象的信号量
-c. 调用Signal的Map方法，使每个元素的首字母大写
-d. 通过subscribNext方法对其进行遍历输出 //uppercaseString use map - (void)uppercaseString { RACSequence *sequence = [@[@&amp;quot;you&amp;quot;, @&amp;quot;are&amp;quot;, @&amp;quot;beautiful&amp;quot;] rac_sequence]; RACSignal *signal = sequence.signal; RACSignal *capitalizedSignal = [signal map:^id(NSString * value) { return [value capitalizedString]; }]; [signal subscribeNext:^(NSString * x) { NSLog(@&amp;quot;signal --- %@&amp;quot;, x); }]; [capitalizedSignal subscribeNext:^(NSString * x) { NSLog(@&amp;quot;capitalizedSignal --- %@&amp;quot;, x); }]; }  下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。</description>
+      <guid>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</guid>
+      <description>一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本 pod &#39;ReactiveCocoa&#39; 二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入</description>
     </item>
     
     <item>
       <title>YYModel 简介与使用</title>
-      <link>http://blog.flywithme.top/2016/06/12/modelext/</link>
+      <link>http://blog.flywithme.top/2016/06/12/modelExt/</link>
       <pubDate>Sun, 12 Jun 2016 15:14:43 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/06/12/modelext/</guid>
-      <description>1. 简单的 JSON 与 Model 的转换 // JSON: { &amp;quot;uid&amp;quot;:123456, &amp;quot;name&amp;quot;:&amp;quot;Harry&amp;quot;, &amp;quot;created&amp;quot;:&amp;quot;1965-07-31T00:00:00+0000&amp;quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject];   如果 Model 属性的类型和 JSON 中的类型不一样，YYModel 会自动进行如下转换:
-    JSON/Dictionary Model     NSString NSURL,SEL,Class   NSString  NSDate parsed with these formats:  yyyy-MM-dd  yyyy-MM-dd HH:mm:ss  yyyy-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ss  yyyy-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ssZ  EEE MMM dd HH:mm:ss Z yyyy    NSDate NSString (formatted with ISO8601)&amp;quot;YYYY-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ssZ&amp;quot;    NSString/NSNumber C number (BOOL,int,float,NSUInteger,UInt64,&amp;hellip;)NaN and Inf will be ignored    NSNumber NSString (NSNumber.</description>
+      <guid>http://blog.flywithme.top/2016/06/12/modelExt/</guid>
+      <description>1. 简单的 JSON 与 Model 的转换 // JSON: { &amp;quot;uid&amp;quot;:123456, &amp;quot;name&amp;quot;:&amp;quot;Harry&amp;quot;, &amp;quot;created&amp;quot;:&amp;quot;1965-07-31T00:00:00+0000&amp;quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject]; 如果 Model 属性的类型和 JSON 中</description>
     </item>
     
     <item>
       <title>iOS 自定义 Log 简介</title>
-      <link>http://blog.flywithme.top/2016/05/27/dlog-introduce/</link>
+      <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
       <pubDate>Fri, 27 May 2016 10:46:06 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/05/27/dlog-introduce/</guid>
-      <description>我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：
-#ifdef DEBUG # define DLog(fmt, ...) NSLog((@&amp;quot;[FileName:%s]\n&amp;quot; &amp;quot;[FuctionName:%s]\n&amp;quot; &amp;quot;[Line:%d] \n&amp;quot; fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__); #else # define DLog(...); #endif  参数解释：
- VA_ARGS是一个可变参数的宏，很少人知道这个宏，这个可变参数的宏是新的C99规范中新增的，目前似乎只有gcc支（VC6.0的编译器不支持）。宏前面加上##的作用在于，当可变参数的个数为0时，这里的##起到把前面多余的&amp;rdquo;,&amp;ldquo;去掉的作用,否则会编译出错, 你可以试试。stackOverflow
- FILE宏在预编译时会替换成当前的源文件名
- LINE宏在预编译时会替换成当前的行号
- FUNCTION宏在预编译时会替换成当前的函数名称
-  有了以上这几个宏，特别是有了VA_ARGS，调试信息的输出就变得灵活多了。</description>
+      <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+      <description>我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，</description>
     </item>
     
     <item>
@@ -1036,99 +746,52 @@ d. 通过subscribNext方法对其进行遍历输出 //uppercaseString use map - 
       <pubDate>Sun, 15 May 2016 17:26:11 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2016/06/14/singnal/</guid>
-      <description>简介  处理一些 crash 需要查到这些资料
-信号是Linux编程中非常重要的部分，本文将详细介绍信号机制的基本概念、Linux对信号机制的大致实现方法、如何使用信号，以及有关信号的几个系统调用。
-信号机制是进程之间相互传递消息的一种方法，信号全称为软中断信号，也有人称作软中断。从它的命名可以看出，它的实质和使用很象中断。所以，信号可以说是进程控制的一部分。
- 一、信号的基本概念 本节先介绍信号的一些基本概念，然后给出一些基本的信号类型和信号对应的事件。基本概念对于理解和使用信号，对于理解信号机制都特别重要。下面就来看看什么是信号。
- 基本概念  软中断信号（signal，又简称为信号）用来通知进程发生了异步事件。进程之间可以互相通过系统调用kill发送软中断信号。内核也可以因为内部事件而给进程发送信号，通知进程发生了某个事件。注意，信号只是用来通知某进程发生了什么事件，并不给该进程传递任何数据。
-收到信号的进程对各种信号有不同的处理方法。处理方法可以分为三类：第一种是类似中断的处理程序，对于需要处理的信号，进程可以指定处理函数，由该函数来处 理。第二种方法是，忽略某个信号，对该信号不做任何处理，就象未发生过一样。第三种方法是，对该信号的处理保留系统的默认值，这种缺省操作，对大部分的信 号的缺省操作是使得进程终止。进程通过系统调用signal来指定进程对某个信号的处理行为。
-在进程表的表项中有一个软中断信号域，该域中每一位对应一个信号，当有信号发送给进程时，对应位置位。由此可以看出，进程对不同的信号可以同时保留，但对于同一个信号，进程并不知道在处理之前来过多少个。
- 信号的类型  发出信号的原因很多，这里按发出信号的原因简单分类，以了解各种信号：
-（1） 与进程终止相关的信号。当进程退出，或者子进程终止时，发出这类信号。 （2） 与进程例外事件相关的信号。如进程越界，或企图写一个只读的内存区域（如程序正文区），或执行一个特权指令及其他各种硬件错误。 （3） 与在系统调用期间遇到不可恢复条件相关的信号。如执行系统调用exec时，原有资源已经释放，而目前系统资源又已经耗尽。 （4） 与执行系统调用时遇到非预测错误条件相关的信号。如执行一个并不存在的系统调用。 （5） 在用户态下的进程发出的信号。如进程调用系统调用kill向其他进程发送信号。 （6） 与终端交互相关的信号。如用户关闭一个终端，或按下break键等情况。 （7） 跟踪进程执行的信号。
-Linux支持的信号列表如下。很多信号是与机器的体系结构相关的，首先列出的是POSIX.1中列出的信号：
-信号 值 处理动作 发出信号的原因 ---------------------------------------------------------------------- SIGHUP 1 A 终端挂起或者控制进程终止 SIGINT 2 A 键盘中断（如break键被按下） SIGQUIT 3 C 键盘的退出键被按下 SIGILL 4 C 非法指令 SIGABRT 6 C 由abort(3)发出的退出指令 SIGFPE 8 C 浮点异常 SIGKILL 9 AEF Kill信号 SIGSEGV 11 C 无效的内存引用 SIGPIPE 13 A 管道破裂: 写一个没有读端口的管道 SIGALRM 14 A 由alarm(2)发出的信号 SIGTERM 15 A 终止信号 SIGUSR1 30,10,16 A 用户自定义信号1 SIGUSR2 31,12,17 A 用户自定义信号2 SIGCHLD 20,17,18 B 子进程结束信号 SIGCONT 19,18,25 进程继续（曾被停止的进程） SIGSTOP 17,19,23 DEF 终止进程 SIGTSTP 18,20,24 D 控制终端（tty）上按下停止键 SIGTTIN 21,21,26 D 后台进程企图从控制终端读 SIGTTOU 22,22,27 D 后台进程企图从控制终端写  下面的信号没在POSIX.</description>
+      <description>简介 处理一些 crash 需要查到这些资料 信号是Linux编程中非常重要的部分，本文将详细介绍信号机制的基本概念、Linux对信号机制的大致实现方法、如</description>
     </item>
     
     <item>
       <title>UINavigationBar-使用总结</title>
-      <link>http://blog.flywithme.top/2016/05/03/uinavigationbar-summary/</link>
+      <link>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</link>
       <pubDate>Tue, 03 May 2016 11:49:19 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/05/03/uinavigationbar-summary/</guid>
-      <description>简介 UINavigationBar是用于实现管理层级关系内容的组件，直接继承自UIView。通常用在UINavgationController类中，用于管理和显示UINavgationController的subViewController , 同时UINavgationBar也可以单独使用，添加至任何的UIView中。UINavigationBar比较重要的属性为，左侧按钮，中间的标题，以及右侧按钮。
- NS_CLASS_AVAILABLE_IOS(2_0) @interface UINavigationBar : UIView &amp;lt;NSCoding, UIBarPositioning&amp;gt;  在导航控制器中的简单使用  获取导航条
-UINavigationBar *navBar = self.navigationController.navigationBar; //设置导航栏 title self.navigationItem.title = @&amp;quot;UINavigationBar使用总结&amp;quot;;  设置导航栏背景色
-//通过barTintColor来设置背景色 self.navigationController.navigationBar.barTintColor = [UIColor redColor];//iOS7 以上系统   设置导航栏的背景图片
-[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@&amp;quot;Background&amp;quot;] forBarMetrics:UIBarMetricsDefault];  在这里得稍微说说UIBarMetrics这个枚举, 它主要是用来控制在不同状态下导航栏的显示。和UIButton的
-- (void)setBackgroundImage:(nullable UIImage *)image forState:(UIControlState)state  这个方法有点类似。
-typedef NS_ENUM(NSInteger, UIBarMetrics) { UIBarMetricsDefault, UIBarMetricsCompact, UIBarMetricsDefaultPrompt = 101, // Applicable only in bars with the prompt property, such as UINavigationBar and UISearchBar UIBarMetricsCompactPrompt, UIBarMetricsLandscapePhone NS_ENUM_DEPRECATED_IOS(5_0, 8_0, &amp;quot;Use UIBarMetricsCompact instead&amp;quot;) = UIBarMetricsCompact, UIBarMetricsLandscapePhonePrompt NS_ENUM_DEPRECATED_IOS(7_0, 8_0, &amp;quot;Use UIBarMetricsCompactPrompt&amp;quot;) = UIBarMetricsCompactPrompt, };  设置导航栏样式</description>
+      <guid>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</guid>
+      <description>简介 UINavigationBar是用于实现管理层级关系内容的组件，直接继承自UIView。通常用在UINavgationControlle</description>
     </item>
     
     <item>
       <title>React Native如何做跨平台设计</title>
-      <link>http://blog.flywithme.top/2016/04/28/reactnativerd/</link>
+      <link>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</link>
       <pubDate>Thu, 28 Apr 2016 10:54:03 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/04/28/reactnativerd/</guid>
-      <description>Facebook 开源  Facebook 在它的F8开发者大会上开源了它的F8大会App，甚至还配上了教程，我组织了一个翻译小队对这个教程进行了翻译。虽然比百万哥晚了几天，但总算还是完成了，欢迎大家Review。项目地址：
-https://github.com/brasbug/Building-the-F8-2016-App-CN/
-本文出自教程第二篇，介绍React Native在设计跨平台应用时的一些原则和技巧。
- React Native 的一大优势是：可以只用一种语法编写分别运行在 iOS 和 Android 平台上的程序，且可重用部分应用逻辑。
-然而，与“一次编写，到处运行”的理念不同的是，React Native 的哲学是“一次学习，到处编写”。如此一来，即使用 React Native 编写不同平台的程序，也可以尽可能贴合每个平台的特性。
-从 UI 的角度来看，每个平台都有自己独特的视觉风格、UI 范例甚或是技术层面的功能，那我们设计出一个统一的 UI 基础组件，然后再按照各平台特性进行调整岂不乐乎？
-准备工作 在后续的所有教程中，我们会仔细解读 App 的源代码，请克隆一份源代码到本地可访问的路径，然后根据配置说明在本地运行 App。在本章的教程中，你只需要阅读相关源代码。源代码地址：
-https://github.com/brasbug/f8app
-React Native 思维模式 在你写任何 React 代码之前，请认真思考这个至关重要的问题：如何才能尽可能多地重用代码?
-React Native 的理念是针对每个平台分而治之，代码重用的做法看起来与之相违背，好像我们就应该为每个平台定制其专属的视觉组件一样，但实际上我们仍需努力让每个平台上的代码尽可能多地统一。
-构建一套 React Native 应用视觉组件的关键点在于如何最好地实现平台抽象。开发人员和设计师可以列出应用中需要重用的组件，例如按钮、容器、列表行，头部等等，只有在必要的时候才单独为每个平台设计特定的组件。
-当然，有一些组件相对于其它组件而言更为复杂，我们先一起来看看 F8 应用中不同的组件有什么区别。
-小组件 请看 F8 应用的示例图： 在 iOS 版本中，我们用 iOS 系统中很常见的圆角边框风格来切分 Tab 控制；在 Android 版本中，我们用下划线的风格来标示这个组件。而这两个控制组件的功能其实完全相同。
-所以，即使两者样式稍有不同，但是实现的功能相同，所以我们可以用同一套代码抽象此处的逻辑，从而可以尽可能多地重用代码。
-我们针对像这样的小组件做了很多跨平台重用逻辑代码的案例，比如一个简单的文本按钮，在每个平台上我们都会设计不同的 hover 和 active 状态的样式，但是除开这些视觉上的细微的差异外，逻辑功能完全相同。所以我们总结了一个抽象 React Native 视觉组件的最佳实践方法：设计一套相同的逻辑代码，然后在控制语句中编写其余需要差异化的部分。</description>
+      <guid>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</guid>
+      <description>Facebook 开源 Facebook 在它的F8开发者大会上开源了它的F8大会App，甚至还配上了教程，我组织了一个翻译小队对这个教程进行了翻译。虽然比百万哥晚了几天，但</description>
     </item>
     
     <item>
       <title>利用Multipeer Connectivity框架进行WiFi传输</title>
-      <link>http://blog.flywithme.top/2016/04/27/multipeer-connectivity/</link>
+      <link>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</link>
       <pubDate>Wed, 27 Apr 2016 16:47:13 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/04/27/multipeer-connectivity/</guid>
-      <description>什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipeer Connectivity框架，即使在没有连接到WiFi（WLAN）或移动网络（xG）的情况下，距离较近的Apple设备（iMac/iPad/iPhone）之间可基于蓝牙和WiFi（P2P WiFi）技术进行发现和连接实现近场通信。
-Multipeer Connectivity扩充的功能与利用AirDrop传输文件非常类似，可以将其看作AirDrop不能直接使用的补偿，代价是需要自己实现。
- 本Demo主要用到4个类：
-   MCBrowserViewController:MCBrowserViewController继承自UIViewController，提供了基本的UI应用框架。
-MCAdvertiserAssistant、MCAdvertiserAssistant为针对Advertiser封装的管理助手,主要处理广播信息。
-MCSession:类似TCP链接中的socket。创建MCSession时，需指定自身MCPeerID，类似bind。
-MCPeerID:类似sockaddr，用于标识连接的两端endpoint，通常是昵称或设备名称。
- 简单地建立一个界面，主要有连接和发送2个UIButton。 Multipeer Connectivity框架初始化这4个类 #pragma mark - Wifi Sharing Methods -(void)setUpMultipeer { // Setup peer ID self.myPeerID = [[MCPeerID alloc] initWithDisplayName:[UIDevice currentDevice].name]; // Setup session self.mySession = [[MCSession alloc] initWithPeer:self.myPeerID]; self.mySession.delegate = self; // Setup BrowserViewController self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:@&amp;quot;chat&amp;quot; session:self.mySession]; self.browserVC.delegate = self; // Setup Advertiser self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@&amp;quot;chat&amp;quot; discoveryInfo:nil session:self.</description>
+      <guid>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</guid>
+      <description>什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee</description>
     </item>
     
     <item>
       <title>MongoDB的Go语言驱动</title>
-      <link>http://blog.flywithme.top/2016/03/31/golang-mgo/</link>
+      <link>http://blog.flywithme.top/2016/03/31/golang-Mgo/</link>
       <pubDate>Thu, 31 Mar 2016 13:56:29 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/03/31/golang-mgo/</guid>
-      <description>mgo简介  mgo（音mango）是MongoDB的Go语言驱动，它用基于Go语法的简单API实现了丰富的特性，并经过良好测试。
-官方网站：http://labix.org/mgo。
-golang.tc（golangtc.com）网站的数据存储就是是用的MongoDB+mgo。
- API文档  下面是mgo、mgo/bson、mgo/txn的在线文档。
-  mgo GoDoc GoWalker mgo/bson GoDoc GoWalker mgo/txn GoDoc GoWalker   安装  安装mgo之前请先安装Golang和MongoDB，安装过程不再赘述。
-安装bzr版本工具（mgo使用Bazaar作为版本控制系统，因安装的时候需要去Bazaar拉取代码）。
-安装命令
- go get labix.org/v2/mgo  示例  下面的代码是个示例。
- package main import ( &amp;quot;fmt&amp;quot; &amp;quot;labix.org/v2/mgo&amp;quot; &amp;quot;labix.org/v2/mgo/bson&amp;quot; ) type Person struct { Name string Phone string } func main() { session, err := mgo.Dial(&amp;quot;&amp;quot;) if err != nil { panic(err) } defer session.Close() // Optional.</description>
+      <guid>http://blog.flywithme.top/2016/03/31/golang-Mgo/</guid>
+      <description>mgo简介 mgo（音mango）是MongoDB的Go语言驱动，它用基于Go语法的简单API实现了丰富的特性，并经过良好测试。 官方网站：ht</description>
     </item>
     
     <item>
       <title>golang Web 框架 gin 简介</title>
-      <link>http://blog.flywithme.top/2016/03/29/golanggin/</link>
+      <link>http://blog.flywithme.top/2016/03/29/golangGin/</link>
       <pubDate>Tue, 29 Mar 2016 19:04:26 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/03/29/golanggin/</guid>
-      <description>GitHub：
-对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了一个小 demo
-func main() { router := gin.Default() // This handler will match /user/john but will not match neither /user/ or /user router.GET(&amp;quot;/user/:name&amp;quot;, func(c *gin.Context) { name := c.Param(&amp;quot;name&amp;quot;) c.String(http.StatusOK, &amp;quot;Hello %s&amp;quot;, name) }) // However, this one will match /user/john/ and also /user/john/send // If no other routers match /user/john, it will redirect to /user/john/ router.</description>
+      <guid>http://blog.flywithme.top/2016/03/29/golangGin/</guid>
+      <description>GitHub： 对比体验了 Beego 、Martini 和 Gin .整体来说 Beego 太重, 虽然功能完整,但是学习起来也有点不知所云. Martini 和 Gin 差不多. 先随着 Gin 的文档完成了</description>
     </item>
     
     <item>
@@ -1137,200 +800,79 @@ func main() { router := gin.Default() // This handler will match /user/john but 
       <pubDate>Mon, 28 Mar 2016 14:07:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2016/03/28/basicknowledgepoint-drop/</guid>
-      <description>序言 基础要牢固!
-OC的理解与特性  OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C++），又有动态语言的效率（动态绑定、动态加载等）。总体来讲，OC确实是一门不错的编程语言，
- Objective-C具有相当多的动态特性，表现为三方面：动态类型（Dynamic typing）、动态绑定（Dynamic binding）和动态加载（Dynamic loading）。动态——必须到运行时（run time）才会做的一些事情。
- 动态类型：即运行时再决定对象的类型，这种动态特性在日常的应用中非常常见，简单来说就是id类型。事实上，由于静态类型的固定性和可预知性，从而使用的更加广泛。静态类型是强类型，而动态类型属于弱类型，运行时决定接受者。
- 动态绑定：基于动态类型，在某个实例对象被确定后，其类型便被确定了，该对象对应的属性和响应消息也被完全确定。
- 动态加载：根据需求加载所需要的资源，最基本就是不同机型的适配，例如，在Retina设备上加载@2x的图片，而在老一些的普通苹设备上加载原图，让程序在运行时添加代码模块以及其他资源，用户可根据需要加载一些可执行代码和资源，而不是在启动时就加载所有组件，可执行代码可以含有和程序运行时整合的新类。
-  简述内存管理基本原则  之前：OC内存管理遵循“谁创建，谁释放，谁引用，谁管理”的机制，当创建或引用一个对象的时候，需要向她发送alloc、copy、retain消息，当释放该对象时需要发送release消息，当对象引用计数为0时，系统将释放该对象，这是OC的手动管理机制（MRC）。
- 目前：iOS 5.0之后引用自动管理机制——自动引用计数（ARC），管理机制与手动机制一样，只是不再需要调用retain、release、autorelease；它编译时的特性，当你使用ARC时，在适当位置插入release和autorelease；它引用strong和weak关键字，strong修饰的指针变量指向对象时，当指针指向新值或者指针不复存在，相关联的对象就会自动释放，而weak修饰的指针变量指向对象，当对象的拥有者指向新值或者不存在时weak修饰的指针会自动置为nil。
- 如果使用alloc、copy(mutableCopy)或者retian一个对象时,你就有义务,向它发送一条release或者autorelease消息。其他方法创建的对象,不需要由你来管理内存。
- 向一个对象发送一条autorelease消息,这个对象并不会立即销毁, 而是将这个对象放入了自动释放池,待池子释放时,它会向池中每一个对象发送 一条release消息,以此来释放对象.
- 向一个对象发送release消息,并不意味着这个对象被销毁了,而是当这个对象的引用计数为0时,系统才会调用dealloc方法,释放该对象和对象本身它所拥有的实例。
-  其他注意事项  如果一个对象有一个_strong类型的指针指向着，找个对象就不会被释放。如果一个指针指向超出了它的作用域，就会被指向nil。如果一个指针被指向nil，那么它原来指向的对象就被释放了。当一个视图控制器被释放时，它内部的全局指针会被指向nil。用法“：不管全局变量还是局部变量用_strong描述就行。
- 局部变量：出了作用域，指针会被置为nil。
- 方法内部创建对象，外部使用需要添加_autorelease;
- 连线的时候，用_weak描述。
- 代理使用unsafe_unretained就相当于assign；
- block中为了避免循环引用问题，使用_weak描述；
- 声明属性时，不要以new开头。如果非要以new开头命名属性的名字，需要自己定制get方法名，如
- @property(getter=theString) NSString * newString;
- 如果要使用自动释放池，用@autoreleasepool{}
- ARC只能管理Foundation框架的变量，如果程序中把Foundation中的变量强制换成COre Foundation中的变量需要交换管理权；
- 在非ARC工程中采用ARC去编译某些类：-fobjc-arc。
- 在ARC下的工程采用非ARC去编译某些类：-fno-fobjc-arc。
-  如何理解MVC设计模式  MVC是一种架构模式，M表示Model，V表示视图View，C表示控制器Controller：</description>
+      <description>序言 基础要牢固! OC的理解与特性 OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C++）</description>
     </item>
     
     <item>
       <title>深入理解RunLoop</title>
-      <link>http://blog.flywithme.top/2016/03/26/iosrunloop/</link>
+      <link>http://blog.flywithme.top/2016/03/26/iOSRunloop/</link>
       <pubDate>Sat, 26 Mar 2016 23:10:12 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/03/26/iosrunloop/</guid>
-      <description>RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。
-RunLoop 的概念  一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：
- function loop() { initialize(); do { var message = get_next_message(); process_message(message); } while (message != quit); }   这种模型通常被称作 Event Loop。 Event Loop 在很多系统和框架里都有实现，比如 Node.js 的事件处理，比如 Windows 程序的消息循环，再比如 OSX/iOS 里的 RunLoop。实现这种模型的关键点在于：如何管理事件/消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。
-所以，RunLoop 实际上就是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行上面 Event Loop 的逻辑。线程执行了这个函数后，就会一直处于这个函数内部 &amp;ldquo;接受消息-&amp;gt;等待-&amp;gt;处理&amp;rdquo; 的循环中，直到这个循环结束（比如传入 quit 的消息），函数返回。
-OSX/iOS 系统中，提供了两个这样的对象：NSRunLoop 和 CFRunLoopRef。 CFRunLoopRef 是在 CoreFoundation 框架内的，它提供了纯 C 函数的 API，所有这些 API 都是线程安全的。 NSRunLoop 是基于 CFRunLoopRef 的封装，提供了面向对象的 API，但是这些 API 不是线程安全的。</description>
+      <guid>http://blog.flywithme.top/2016/03/26/iOSRunloop/</guid>
+      <description>RunLoop 是 iOS 和 OSX 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释</description>
     </item>
     
     <item>
       <title>Responder -- iOS用户响应者链完全剖析</title>
-      <link>http://blog.flywithme.top/2016/03/26/responderchain/</link>
+      <link>http://blog.flywithme.top/2016/03/26/ResponderChain/</link>
       <pubDate>Sat, 26 Mar 2016 22:28:03 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/03/26/responderchain/</guid>
-      <description>这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。
- 我们先从UIButton谈起，UIButton大家使用的太多了，他特殊的地方就在于其内置的普通Default/高亮Highlighted/选择Selected/可用Enable的几个状态(UIControlState)。其次就是SDK内部已经为我们封装了以下用户事件:
-  最常用的莫过于Touch Up Inside这个事件了，他代表: 用户在按钮区域内按下，并且也在按钮区域内松开。
-关键点:按下并且松开 才能触发此方法，也就是正确的操作 按下一次，松开一次只会触发一次此事件。与之不同的Touch Drag Inside等方法不需要松开这个过程，Up变为了Drag,其实大家都能理解，SDK在封装的时候原理跟UITouchEvent是一个道理，第一个单词Touch 代表按下(Began)第二个单词Up代表松开(Ended),Drag代表拖动(Moved)。TouchMoved方法在一次完整的触摸中会被触发很多次，所以Touch Drag Inside方法会在用户手松开之前一直被触发。
-这些就是UIButton已封装的事件，而UIButton继承自UIControl。UIControl又继承自UIView。我们平时能用这些已封装的事件的控件都是UIControl的子类。那么父类UIView是没有内部事件的。
-我们常常利用UIView来写自己的UITouchEvent。例如在一个View/ViewController中直接实现以下3个方法:
- -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event { } -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event { } -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event { } -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event { }   我们用的非常多，但是大家知道这4个方法是谁的实例方法吗？如果你一下就说出是UIView的，那么为什么我们在UIViewController中也可以用呢，他们不是继承关系。
-注意这4个实例方法来自UIView与UIViewController的共同父类:UIResponder。它是我们今天的主角。
-基本上我们所能看到的所有图形界面都是继承自UIResponder的，So，它究竟为何方神圣?
-UIResponder所谓很多视图的父类，他掌管着用户的操作事件分发大权。如果没有他，我们的电容屏如何将用户的操作传递给我们的视图令其做出反应呢？
-  我们先看看iOS中的响应者链的概念:
- 每一个应用有一个响应者链，我们的视图结构是一个N叉树(一个视图可以有多个子视图，一个子视图同一时刻只有一个父视图),而每一个继承UIResponder的对象都可以在这个N叉树中扮演一个节点。当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。
-  例子:
- 我用SingleView模板创建了一个新的工程，它的主Window上只有一个UIViewController，其View之上有一个Button。这个项目中所有UIResponder的子类所构成的N叉树为这样的结构:
-  那么他看起来并不像N叉树，但是不代表者不是一颗N叉树，当我们项目复杂之后，这个View可不可以有多个UIButton节点？所以他就是一棵树。 &amp;gt; 实际上我们要把这棵树写完整，应该还要算上UIButton的UILabel和UIImageView，因为他们也是UIReponder的子类。这里先不考虑了。 &amp;gt; 我们对UIButton来讲，他此时若是叶节点，那么这时我们针对他所在的响应链来说，他在他之前的响应者就应该是我们controller的view(树中的叶节点比父节点永远更优先被分发事件,但是并不是说他就能在时间上先响应，我们下面讲为什么)。所以我们尝试在任意地方打印这个Button的nextReponder对象。nextResponder对象是UIReponder类的实例方法，它会返回任意对象在树中的上一个响应者实例:
-NSLog(@&amp;quot;%@&amp;quot;,_testButton.nextResponder);   控制台输出消息:</description>
+      <guid>http://blog.flywithme.top/2016/03/26/ResponderChain/</guid>
+      <description>这篇文章想跟大家分享的主旨是iOS捕获用户事件的各种情况，以及内部封装的一些特殊事件。 我们先从UIButton谈起，UIButton大家使用</description>
     </item>
     
     <item>
       <title>iOS下Category添加属性字段</title>
-      <link>http://blog.flywithme.top/2016/03/25/ioscategoryproperty/</link>
+      <link>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</link>
       <pubDate>Fri, 25 Mar 2016 16:52:16 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/03/25/ioscategoryproperty/</guid>
-      <description>首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。
-首先看下报错情况
-Category添加字段(常规方法)  编写 Category 头文件, 以 UIImage 为例
-// // UIImage+category.h // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &amp;lt;UIKit/UIKit.h&amp;gt; @interface UIImage (category) // 在UIImage中新建一个tag属性 @property (nonatomic, copy) NSString *tag; @end  编写 Category 源文件
-// // UIImage+category.m // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &amp;quot;UIImage+category.h&amp;quot; @implementation UIImage (category) - (NSString *)tag { return self.</description>
+      <guid>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</guid>
+      <description>首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。</description>
     </item>
     
     <item>
       <title>Objective-C 中 &#43;load 与 &#43;initialize</title>
-      <link>http://blog.flywithme.top/2016/03/24/loadandinitialize/</link>
+      <link>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</link>
       <pubDate>Thu, 24 Mar 2016 19:20:35 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/03/24/loadandinitialize/</guid>
-      <description>类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如
- Java代码
- public class MyClass{ static{ …… } }   在objc语言里，对应的机制是，2个类初始化方法，+(void)load和+(void)initialize。
- #import &amp;quot;Constants.h&amp;quot; @implementation Constants + (void)initialize{ NSLog(@&amp;quot;init constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;); } + (void)load{ NSLog(@&amp;quot;load constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;); } @end   两个方法有一些不同。
-load，是加载类的时候，这里是Constants类，就会调用。也就是说，iOS应用启动的时候，就会加载所有的类，就会调用这个方法
-这样有个缺点，当加载类需要很昂贵的资源，或者比较耗时的时候，可能造成不良的用户体验，或者系统的抖动。这时候，就要考虑initialize方法了。这个方法可看作类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。比如： [Constants alloc];
-alloc将为Constants实例在堆上分配变量。这时调用一次initialize方法，而且仅调用一次，也就是说再次alloc操作的时候，不会再调用initialize方法了。
-initialize 会在运行时仅被触发一次，如果没有向类发送消息的话，这个方法将不会被调用。这个方法的调用是线程安全的。父类会比子类先收到此消息。
-如果希望在类及其Categorgy中执行不同的初始化的话可以使用+load
-+(void)load; 在Objective-C运行时载入类或者Category时被调用
-这个方法对动态库和静态库中的类或(Category)都有效.
-  在Mac OS X 10.5及之后的版本，初始化的顺序如下：
- 调用所有的Framework中的初始化方法 调用所有的+load方法 调用C++的静态初始化方及C/C++中的attribute(constructor)函数 调用所有链接到目标文件的framework中的初始化方法     另外
-  一个类的+load方法在其父类的+load方法后调用 一个Category的+load方法在被其扩展的类的自有+load方法后调用 在+load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的+load方法可能尚未被调用。    下面是一个load的顺序</description>
+      <guid>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</guid>
+      <description>类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }</description>
     </item>
     
     <item>
       <title>Objective-C&#43;Runtime 浅析</title>
-      <link>http://blog.flywithme.top/2016/03/24/ocruntime/</link>
+      <link>http://blog.flywithme.top/2016/03/24/OCRuntime/</link>
       <pubDate>Thu, 24 Mar 2016 10:58:29 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/03/24/ocruntime/</guid>
-      <description>From
-一、什么是Objective-C Runtime?  Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Objective-C Runtime是一个实现Objective-C语言的C库。对象可以用C语言中的结构体表示，而方法（methods）可以用C函数实现。事实上，他们差不多也是这么干了，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，Objective-C程序员可以在程序运行时创建，检查，修改类，对象和它们的方法。
-首先可以考虑一个问题：如果让我们设计、实现一门计算机语言，要如何下手？可能我们平时很少这么思考过，但是这么一问，就会强迫我们从更高层次思考问题了。编译优化先忽略，语言的优雅性也可以暂时放一边，我们可以从实现来看下面三个层次：
-  传统的面向过程的语言开发，例如c语言。实现c语言编译器只要按照语法规则实现一个LALR语法分析器就可以了，忽略编译器的优化问题，我们可以先实现编译器中最最基础和原始的目标：把一份代码里的函数名称，转化成一个相对内存地址，把调用这个函数的语句转换成一个jmp跳转指令。在程序开始运行时候，调用语句可以正确跳转到对应的函数地址。
-void fly(char *name) { printf(&amp;quot;%s fly&amp;quot;, name); } void run(char *name) { printf(&amp;quot;%s run&amp;quot;, name); } fly(&amp;quot;Pig&amp;quot;); run(&amp;quot;Pig&amp;quot;); fly(&amp;quot;Dog&amp;quot;); run(&amp;quot;Dog&amp;quot;);  我们希望灵活，于是需要开发面向对象的语言，例如c++。 c++在c的基础上增加了类的部分。但这到底意味着什么呢？我们在写它的编译器要如何考虑呢？其实，就是让编译器多绕个弯，在严格的c编译器上增加一层类处理的机制，把一个函数限制在它处在的class环境里，每次请求一个函数调用，先找到它的对象, 其类型,返回值，参数等等，确定了这些后再jmp跳转到需要的函数。这样很多程序增加了灵活性同样一个函数调用会根据请求参数和类的环境返回完全不同的结果。增加类机制后，就模拟了现实世界的抽象模式，不同的对象有不同的属性和方法。同样的方法，不同的类有不同的行为!
-下面就可以开始尝试开发一种新的面向对象语言，先暂定这种语言叫DP-C吧！
-Class Animal { char *name; Animal(char *name) { this.name = name; } void fly() { printf(&amp;quot;%s fly&amp;quot;, this.name); } void run() { printf(&amp;quot;%s run&amp;quot;, this.name); } } Animal *pig = new Animal(&amp;quot;pig&amp;quot;); Animal *dog = new Animal(&amp;quot;dog&amp;quot;); pig.</description>
+      <guid>http://blog.flywithme.top/2016/03/24/OCRuntime/</guid>
+      <description>From 一、什么是Objective-C Runtime? Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Obj</description>
     </item>
     
     <item>
       <title>iOS中的谓词（NSPredicate）使用</title>
-      <link>http://blog.flywithme.top/2016/03/20/iosnspredicateuse/</link>
+      <link>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</link>
       <pubDate>Sun, 20 Mar 2016 17:40:29 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/03/20/iosnspredicateuse/</guid>
-      <description>首先，我们需要知道何谓谓词，让我们看看官方的解释:
- The NSPredicate class is used to define logical conditions used to constrain a search either for a fetch or for in-memory filtering.
- NSPredicate类是用来定义逻辑条件约束的获取或内存中的过滤搜索。 可以使用谓词来表示逻辑条件，用于描述对象持久性存储在内存中的对象过滤。其实意思就是：我是一个过滤器，不符合条件的都滚开。
-一、NSPredicate的基本语法 我们使用一门语言，无论是外语还是计算机语言，总是从语法开始的，这样我们才能正确的把握逻辑。所以我们从语法开始说起。在这部分我们仅关心其语法的使用 只要我们使用谓词（NSPredicate）都需要为谓词定义谓词表达式,而这个表达式必须是一个返回BOOL的值。 谓词表达式由表达式、运算符和值构成。
- 比较运算符
- 比较运算符如下
-  =、==：判断两个表达式是否相等，在谓词中=和==是相同的意思都是判断，而没有赋值这一说
-NSNumber *testNumber = @123; NSPredicate *predicate = [NSPredicate predicateWithFormat:@&amp;quot;SELF = 123&amp;quot;]; if ([predicate evaluateWithObject:testNumber]) { NSLog(@&amp;quot;testString:%@&amp;quot;, testNumber); }   我们可以看到输出的内容为:
- 2016-01-07 11:12:27.281 PredicteDemo[4130:80412] testString:123   =，=&amp;gt;：判断左边表达式的值是否大于或等于右边表达式的值
- &amp;lt;=，=&amp;lt;：判断右边表达式的值是否小于或等于右边表达式的值</description>
+      <guid>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</guid>
+      <description>首先，我们需要知道何谓谓词，让我们看看官方的解释: The NSPredicate class is used to define logical conditions used to constrain a search either for a fetch or for in-memory filtering. NSPredicate类是用来定义逻辑条件约束</description>
     </item>
     
     <item>
       <title>iOS JS call OC</title>
-      <link>http://blog.flywithme.top/2015/09/15/jscalloc/</link>
+      <link>http://blog.flywithme.top/2015/09/15/JScallOC/</link>
       <pubDate>Tue, 15 Sep 2015 18:12:45 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2015/09/15/jscalloc/</guid>
-      <description>接着上节我们讲到的iOS调用js
-下来我们使用js调用iOS
-js调用iOS分两种情况
-一，js里面直接调用方法
-二，js里面通过对象调用方法
-
-首先我们看第一种，直接调用方法。
-其中用到了iOS的block
-
-上代码
-
-
--(void)webViewDidFinishLoad:(UIWebView *)webView { //网页加载完成调用此方法 //iOS调用js //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext） JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;]; //js调用iOS //第一种情况 //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码 //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道 context[@&amp;quot;test1&amp;quot;] = ^() { NSArray *args = [JSContext currentArguments]; for (id obj in args) { NSLog(@&amp;quot;%@&amp;quot;,obj); } }; //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下） //首先准备一下js代码，来调用js的函数test1 然后执行 //一个参数 NSString *jsFunctStr=@&amp;quot;test1(&amp;#39;参数1&amp;#39;)&amp;quot;; [context evaluateScript:jsFunctStr]; //二个参数 NSString *jsFunctStr1=@&amp;quot;test1(&amp;#39;参数a&amp;#39;,&amp;#39;参数b&amp;#39;)&amp;quot;; [context evaluateScript:jsFunctStr1]; }
-以上代码中 给test1赋&amp;#20540;的block要是执行了那么结果就是对的，js调用了iOS 
-我们看结果
-
- 我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制
-
-
-下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。</description>
+      <guid>http://blog.flywithme.top/2015/09/15/JScallOC/</guid>
+      <description>接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我</description>
     </item>
     
     <item>
       <title>iOS OC call JS</title>
-      <link>http://blog.flywithme.top/2015/09/15/occalljs/</link>
+      <link>http://blog.flywithme.top/2015/09/15/OCCallJS/</link>
       <pubDate>Tue, 15 Sep 2015 18:05:59 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2015/09/15/occalljs/</guid>
-      <description>从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。
-下面我们就简单了解一下这个框架
-首先我导入framework
-方法如下
-
- 点击Linked Frameworks and Libraries 的添加后 选择 JavaScriptCore.framework
-
- 选中JavaScriptCore.framework后 点击右下角Add 添加完成
-好 创建完成之后我们导入一下头文件
-
-#import &amp;lt;JavaScriptCore/JavaScriptCore.h&amp;gt;
-点进去 会看到如下几个方法 
-
-#import &amp;quot;JSContext.h&amp;quot;
-#import &amp;quot;JSValue.h&amp;quot;
-#import &amp;quot;JSManagedValue.h&amp;quot;
-#import &amp;quot;JSVirtualMachine.h&amp;quot;
-#import &amp;quot;JSExport.h&amp;quot;
-这些方法我们等会再细讲
-
-下来我们创建一个UIWebView &amp;nbsp;用来测试
-
-创建UIWebView
-
-UIWebView *myWebView;
-初始化，添加，打开网址 
-
-
-//初始化webview myWebView=[[UIWebView alloc]initWithFrame:CGRectMake(0, 22, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-22)]; myWebView.delegate=self; //添加webview到当前viewcontroller的view上 [self.view addSubview:myWebView]; //网址 NSString *httpStr=@&amp;quot;https://www.baidu.com&amp;quot;; NSURL *httpUrl=[NSURL URLWithString:httpStr]; NSURLRequest *httpRequest=[NSURLRequest requestWithURL:httpUrl]; [myWebView loadRequest:httpRequest];</description>
+      <guid>http://blog.flywithme.top/2015/09/15/OCCallJS/</guid>
+      <description>从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。 下面我们就简单了解一下这个框架 首先</description>
     </item>
     
     <item>
@@ -1348,86 +890,47 @@ UIWebView *myWebView;
     
     <item>
       <title>iOS App检测AppStore更新</title>
-      <link>http://blog.flywithme.top/2015/08/17/appupdate/</link>
+      <link>http://blog.flywithme.top/2015/08/17/appUpdate/</link>
       <pubDate>Mon, 17 Aug 2015 14:06:05 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2015/08/17/appupdate/</guid>
-      <description>//id&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple ID
-#define APP_URL @&amp;quot;http://itunes.apple.com/lookup?id=587231152&amp;quot;
-//term&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple Name
-//#define APP_URL @&amp;quot;http://itunes.apple.com/search?term=应用名称&amp;amp;entity=software&amp;quot;
-
-//检测版本更新
-- (void)GetUpdate
-{
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSDictionary&amp;nbsp;*infoDict = [[NSBundle&amp;nbsp;mainBundle]infoDictionary];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*nowVersion = [infoDictobjectForKey:@&amp;quot;CFBundleVersion&amp;quot;];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*URL =&amp;nbsp;APP_URL;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSMutableURLRequest&amp;nbsp;*request = [[NSMutableURLRequestalloc]&amp;nbsp;init];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[request&amp;nbsp;setURL:[NSURL&amp;nbsp;URLWithString:URL]];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[request&amp;nbsp;setHTTPMethod:@&amp;quot;POST&amp;quot;];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSHTTPURLResponse&amp;nbsp;*urlResponse =&amp;nbsp;nil;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSError&amp;nbsp;*error =&amp;nbsp;nil;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSData&amp;nbsp;*recervedData = [NSURLConnectionsendSynchronousRequest:request&amp;nbsp;returningResponse:&amp;amp;urlResponseerror:&amp;amp;error];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*results = [[NSString&amp;nbsp;alloc]&amp;nbsp;initWithBytes:[recervedData&amp;nbsp;bytes]&amp;nbsp;length:[recervedData&amp;nbsp;length]encoding:NSUTF8StringEncoding];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;substr = [results&amp;nbsp;rangeOfString:@&amp;quot;&amp;quot;version&amp;quot;:&amp;quot;&amp;quot;];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;substr2 =[results&amp;nbsp;rangeOfString:@&amp;quot;&amp;quot;&amp;quot;&amp;nbsp;options:0range:NSMakeRange(substr.location&amp;#43;substr.length,10)];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;range = {substr.location&amp;#43;substr.length,substr2.location-substr.location-substr.length};
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*newVersion =[results&amp;nbsp;substringWithRange:range];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;if([nowVersion&amp;nbsp;isEqualToString:newVersion] ==&amp;nbsp;NO)
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;{
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;UIAlertView&amp;nbsp;*alert = [[UIAlertViewalloc]initWithTitle:nil&amp;nbsp;message:@&amp;quot;版本有更新&amp;quot;&amp;nbsp;delegate:selfcancelButtonTitle:@&amp;quot;取消&amp;quot;&amp;nbsp;otherButtonTitles:@&amp;quot;更新&amp;quot;,&amp;nbsp;nil];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[alert&amp;nbsp;show];
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;}
-}
-#pragma mark - UIAlertViewDelegate Method
-- (void)alertView:(UIAlertView&amp;nbsp;*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;if(buttonIndex ==&amp;nbsp;1)</description>
+      <guid>http://blog.flywithme.top/2015/08/17/appUpdate/</guid>
+      <description>//id&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple ID #define APP_URL @&amp;quot;http://itunes.apple.com/lookup?id=587231152&amp;quot; //term&amp;nbsp;是&amp;nbsp;itun</description>
     </item>
     
     <item>
       <title>JKImageView</title>
-      <link>http://blog.flywithme.top/2015/02/27/jkimageview/</link>
+      <link>http://blog.flywithme.top/2015/02/27/JKImageView/</link>
       <pubDate>Fri, 27 Feb 2015 16:42:11 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2015/02/27/jkimageview/</guid>
-      <description>项目地址:https://github.com/brasbug/JKImageView--  第一步：拿到网络图片并显示出来 首先重网络拿到图片资源  代码   把拿到的图片资源给相应的控件来展示&amp;nbsp;soeasy !!  代码然而因为没有考虑线程阻塞问题，一张图片还好，如果有多张网络图片或者列表里需要展示一系列网络图片，这样做的结果就是被自己蠢哭！  &amp;nbsp;  第二步：怎么做才能让我拿到图片的时候不卡 这个时候就需要借助于多线程技术了  多线程是什么玩意儿：iOS程序在启动的时候会创建一个主线程。因为一个线程只能执行一件事情，如果主线程执行某些耗时操作，比如我之前遇到的问题加载图片，或者是下载资源文件等就会阻塞主线程(导致界面卡死现象)，所以就需要使用多线程技术避免这类情况。iOS中有三种多线程技术，NSThread，NSOperation，GCD，这3种技术随着iOS的发展引入，抽象层次由低到高，使用也越来越简单。 多线程一些必要知识点  多线程使用并不是无节制的：iOS主线程堆栈大小是1M左右点击打开链接，从第二个线程开始都是512KB（官方文档）只有主线程可以修改UI（显示图片，更改显示文字等）,因为其余线程都是独立于Cocao Touch的，虽然有时在异步线程中可以实现界面修改，但是强烈不建议这么做。多线程并不能提高程序的运行效率，而是通过并发任务提高资源使用率来提高系统的整体性能。就单核而言，两个线程可以解决线程阻塞问题，但是执行效率比起一个线程执行是差不多的，并且再创建一个新线程的时候会消耗一定的内存和CPU时间。多线程只是葱粉发挥系统多核处理器的优势，并发执行任务以提高效率。但是哪个CPU上执行任务都是由系统调度的，开发者不需要纠结有几个CPU，只需要关系线程的使用以及线程间的关系就可以了。尽量不要多个线程去抢夺共享资源，如果必须要这样做，需要注意线程安全。   So 现在开始考虑到底选用哪一种方法来完成我的功能。  NSThreadNSOperationGCD（全称：Grand Central Dispatch）（&amp;nbsp;是基于C语言的框架，可以充分利用多核，是苹果推荐使用的多线程技术）  选哪一种技术来完成我的图片异步加载  NSThread 不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期（我要做的太多）GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）（我能做的太少，如果是一个用时非常长的操作，我无法取消）NSOperation 我不想做的和我想自己做的都给我预留。 看来只能选你啦。（可以很方便的取消一个线程，可以很容易的添加依赖关系，可以设置最大并发数，提供了任务状态。）   第三步：新建一个UIImageView的Category &amp;nbsp;UIImageView&amp;#43;JKWebCache&amp;nbsp; 写出异步方法并用来加载网络图片  加载代码结果：图片加载成功，而且没有卡主线程。 但是列表每次重载图片的时候都会重新请求网络图片，效果没达到预期。 看来需要把图片缓存下来，以便下次重载的时候调用。  JKImageCache &amp;nbsp; 这个类是我用来处理缓存数据的。有一个单例方法 &amp;#43;(instancetype)shareInstance &amp;nbsp; &amp;nbsp; &amp;nbsp;我选择用NSCache 来存储下载的图片数据
- 但是有一个问题关闭应用或者内存报警之后NSCache会清除一部分数据或者清空，再次加载同一张照片的时候还是会再下载一次。SO：我打算把下载的图片缓存到disk中,下次加载的时候先从内存拿，拿不到再去disk拿，也拿不到就去下载。下载成功之后会缓存到内存和disk中。     但是当我再重本地拿图片的时候发现了一个Bug &amp;nbsp;之前加载的GIF图片不会动了。  经查找原因 ，应该是存储是时候损失了一些图片信息 判断data是不是空， 非空就不再做图片转换。 加上占位图功能 过期图片自动清理（每次当应用退出到后天的时候会调用cleanDiskFile方法清理过期图片）  判断缓存和内存中没有改地址图片的的时候使用占位图展示。   一个最基本的 网络图片加载工具完成了。    &amp;nbsp; &amp;nbsp; &amp;nbsp; 第四步：优化一些细节 图片下载方法过于简单， 会遇到很多无法下载的情况，而无法查找原因把下载抽出来做管理</description>
+      <guid>http://blog.flywithme.top/2015/02/27/JKImageView/</guid>
+      <description>项目地址:https://github.com/brasbug/JKImageView-- 第一步：拿到网络图片并显示出来 首先重网络拿到图片资</description>
     </item>
     
     <item>
       <title>NSThread</title>
-      <link>http://blog.flywithme.top/2015/02/25/nsthread/</link>
+      <link>http://blog.flywithme.top/2015/02/25/NSThread/</link>
       <pubDate>Wed, 25 Feb 2015 16:37:37 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2015/02/25/nsthread/</guid>
-      <description>一、概述: NSThread是一个轻量级的多线程技术，每一个对象代表一个线程。优点：轻量级，使用简单缺点: &amp;nbsp;不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期 二、开启一个异步线程 NSThread是一个轻量级NSThread的多线程技术，每一个对象代表一个线程。  示例开启线程  三、在主线程上更新界面等操作 示例 子线程耗时操作结束之后去主线程更新UI  四、其他  如果需要处理的东西很耗内存，则需要给线程做内存管理 加上autoreleasepool 会更好线程休眠  // 指定休眠到多久日期
-&amp;#43; (void)sleepUntilDate:(NSDate *)date;
-// 指定休眠的毫秒数
-&amp;#43; (void)sleepForTimeInterval:(NSTimeInterval)ti;</description>
+      <guid>http://blog.flywithme.top/2015/02/25/NSThread/</guid>
+      <description>一、概述: NSThread是一个轻量级的多线程技术，每一个对象代表一个线程。优点：轻量级，使用简单缺点: &amp;nbsp;不能控制线程执行顺序，不</description>
     </item>
     
     <item>
       <title>NSOperation的简单使用</title>
-      <link>http://blog.flywithme.top/2015/02/24/nsoperation/</link>
+      <link>http://blog.flywithme.top/2015/02/24/NSOperation/</link>
       <pubDate>Tue, 24 Feb 2015 15:57:21 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2015/02/24/nsoperation/</guid>
-      <description>一、NSOperation的简介   NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。NSOperation表示一个独立的计算单元，作为一个抽象类，你需要实例话他的子类&amp;nbsp;&amp;nbsp;NSInvocationOperation /&amp;nbsp;&amp;nbsp;NSBlockOperation 来进行具体操作。实例化之后，调用start方法或者加入到一个NSOperationQueue 操作队列中，就可以开始执行。 
-    二、NSOperation的使用   直接启动一个NSInvocationOperation  示例 使用NSOperationQueue管理NSOperation并开启一个异步线程  示例 使用NSOperationQueue管理并NSBlockOperation开启一个线程  NSBlockOperation与NSInvocationOperation没有神马本质的区别，只是NSBlockOperation使用代码块会更方便一些。示例 在主线程中执行某些操作&amp;nbsp;添加线程之间的依赖关系  直接再队列中添加操作会并发执行，谁先谁后是系统调用决定的，但是在某些特定时候我们需要控制操作的执行顺序，就会使用addDependency操作。addDependency：是NSOperation的成员方法,调用该方法的NSOperation对象将在参数执行完成之后执行。需要先添加依赖关系，再将操作添加到队列中。示例 控制线程并发数  并发的线程越多越耗资源，队列可以设置同事并发线程的数量来进行控制示例 取消一个操作  NSOperation里有一系列的属性来表明自身状态： isReady → isExecuting → isFinish 。线程start后并不是立即执行，而是进入一个就绪的状态(isReady)，由系统调度执行。 有时可能需要进行取消操作，可以调用 -(void)cancel;来停止一些还未执行的不必要线程.示例 优先级  NSOpertaion可以通过threadPriority属性来指定优先级。 但是在iOS8中，线程这个概念已经被苹果框架系统性的忽略了,threadPriority已由NSQualityOfService属性替代。NSOperationQueuePriority的枚举类型如下NSQualityOfService的枚举类型如下      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
- 二、NSOperation小结  &amp;nbsp;NSOperation方便控制线程执行顺序使用NSBlockOperation可以使用块代码，不必单鞋线程方法，便于传递多个参数可以控制线程并发数，有效的对线程进行控制可以添加线程完成代码块，执行需要的操作</description>
+      <guid>http://blog.flywithme.top/2015/02/24/NSOperation/</guid>
+      <description>一、NSOperation的简介 NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。NSOperatio</description>
     </item>
     
     <item>
       <title>GCD的介绍和使用</title>
-      <link>http://blog.flywithme.top/2015/01/20/gcd/</link>
+      <link>http://blog.flywithme.top/2015/01/20/GCD/</link>
       <pubDate>Tue, 20 Jan 2015 14:16:48 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2015/01/20/gcd/</guid>
-      <description>GCD的介绍和使用 介绍：    Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务并行执行的线程池模式的基础上的。它首次发布在Mac OS X 10.6 ，iOS 4及以上也可用。 GCD是基于C语言的，这意味着高效率    &amp;nbsp; 设计：  GCD是苹果公司为多核的并行运算提出的解决方案GCD会自动利用更多的CPU内核（比如双核、四核）GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）程序员只需要告诉GCD想要执行什么任务，不需要编写任何线程管理代码  注意：  GCD存在于libdispatch.dylib这个库中，这个调度库包含了GCD的所有的东西，但任何IOS程序，默认就加载了这个库，在程序运行的过程中会动态的加载这个库，不需要我们手动导入。GCD是纯C语言的，因此我们在编写GCD相关代码的时候，面对的函数，而不是方法。 GCD中的函数大多数都以dispatch开头。    
- 任务和队列：   GCD中有2个核心概念:  任务：执行什么操作队列：用来存放任务    GCD的使用就2个步骤:  定制任务确定想做的事情   将任务添加到队列中，GCD会自动将队列中的任务取出，放到对应的线程中执行 提示：任务的取出遵循队列的FIFO原则：先进先出，后进后出   执行任务：   GCD中有2个用来执行任务的函数:    用同步的方式执行任务&amp;nbsp;dispatch_sync(dispatch_queue_t&amp;nbsp;queue,&amp;nbsp;dispatch_block_t&amp;nbsp;block)；用异步的方式执行任务&amp;nbsp;dispatch_async(dispatch_queue_t&amp;nbsp;queue,&amp;nbsp;dispatch_block_t&amp;nbsp;block);  &amp;nbsp; &amp;nbsp; &amp;nbsp; 注：参数说明：queue：队列，block：任务&amp;nbsp;函数说明：把右边的参数（任务）提交给左边的参数（队列）进行执行。&amp;nbsp;    同步和异步的区别:    同步：在当前线程中执行异步：在另一条线程中执行    队列类型：   GCD可以分为两大类：  并发队列（Concurrent&amp;nbsp;Dispatch Queue） &amp;nbsp;   可以让多个任务并发（同时）执行（自动开启多个线程同时执行任务）并发功能只有在异步（dispatch_async）函数下才有效      串行队列（Serial Dispatch Queue）      让任务一个接一个的执行（一个任务执行完毕后，再执行下一个任务）      补充说明（同步，异步，串行，并发）：  &amp;nbsp;同步异步决定了要不要开启新的线程  同步：在当前线程中执行任务，不具备开启新线程的能力异步：在新的线程中执行任务，具备开启新线程的能力 并发和串行决定了任务的执行方式  并发：多个任务同时执行串行:一个任务执行完毕后，再执行下一个任务</description>
+      <guid>http://blog.flywithme.top/2015/01/20/GCD/</guid>
+      <description>GCD的介绍和使用 介绍： Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务</description>
     </item>
     
   </channel>

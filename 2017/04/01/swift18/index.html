@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>swift3-18 继承 - Fly With Bug</title>
     
-<meta name="description" content="继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来的属性添加属性观察器基类 没有继承其它类的类，称之为基类（Base Class）子类 子类指的是在一个已有类的基础上创建一个新的类。为了指明某个类的超类，将超类名写在子类名的后面，用冒号(:)分隔,语法格式如下class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ } sonClass.init(name: &amp;quot;a&amp;quot;)  重写（Overriding） 子类可以通过继承来的实例方法，类方法，实例属性，或下标脚本来实现自己的定制功能，我们把这种行为叫重写（overriding）。我们可以使用 override 关键字来实现重class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ var levelStr:String override init(name: String) { self.levelStr = name.appending(&amp;quot;b&amp;quot;) super.init(name: name) } } var son = sonClass.init(name: &amp;quot;a&amp;quot;) son.baseName son.levelStr  // 防止重写 使用 final 关键字防止它们被重写 //final 关键字 final class grandSon:sonClass{ final var grand:String = &amp;quot;&amp;quot; override init(name: String) { super.">
+<meta name="description" content="继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来">
 
 <meta property="og:title" content="swift3-18 继承 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/04/01/swift18/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来的属性添加属性观察器基类 没有继承其它类的类，称之为基类（Base Class）子类 子类指的是在一个已有类的基础上创建一个新的类。为了指明某个类的超类，将超类名写在子类名的后面，用冒号(:)分隔,语法格式如下class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ } sonClass.init(name: &amp;quot;a&amp;quot;)  重写（Overriding） 子类可以通过继承来的实例方法，类方法，实例属性，或下标脚本来实现自己的定制功能，我们把这种行为叫重写（overriding）。我们可以使用 override 关键字来实现重class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ var levelStr:String override init(name: String) { self.levelStr = name.appending(&amp;quot;b&amp;quot;) super.init(name: name) } } var son = sonClass.init(name: &amp;quot;a&amp;quot;) son.baseName son.levelStr  // 防止重写 使用 final 关键字防止它们被重写 //final 关键字 final class grandSon:sonClass{ final var grand:String = &amp;quot;&amp;quot; override init(name: String) { super.">
+<meta property="og:description" content="继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/04/01/swift18/">
 <meta name="twitter:title" content="swift3-18 继承 - Fly With Bug">
-<meta name="twitter:description" content="继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来的属性添加属性观察器基类 没有继承其它类的类，称之为基类（Base Class）子类 子类指的是在一个已有类的基础上创建一个新的类。为了指明某个类的超类，将超类名写在子类名的后面，用冒号(:)分隔,语法格式如下class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ } sonClass.init(name: &amp;quot;a&amp;quot;)  重写（Overriding） 子类可以通过继承来的实例方法，类方法，实例属性，或下标脚本来实现自己的定制功能，我们把这种行为叫重写（overriding）。我们可以使用 override 关键字来实现重class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ var levelStr:String override init(name: String) { self.levelStr = name.appending(&amp;quot;b&amp;quot;) super.init(name: name) } } var son = sonClass.init(name: &amp;quot;a&amp;quot;) son.baseName son.levelStr  // 防止重写 使用 final 关键字防止它们被重写 //final 关键字 final class grandSon:sonClass{ final var grand:String = &amp;quot;&amp;quot; override init(name: String) { super.">
+<meta name="twitter:description" content="继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,12 +65,7 @@
         "height": 60
       }
     },
-    "description": "继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来的属性添加属性观察器
-基类 没有继承其它类的类，称之为基类（Base Class）
-子类 子类指的是在一个已有类的基础上创建一个新的类。为了指明某个类的超类，将超类名写在子类名的后面，用冒号(:)分隔,语法格式如下
-class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ } sonClass.init(name: &quot;a&quot;)  重写（Overriding） 子类可以通过继承来的实例方法，类方法，实例属性，或下标脚本来实现自己的定制功能，我们把这种行为叫重写（overriding）。我们可以使用 override 关键字来实现重
-class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ var levelStr:String override init(name: String) { self.levelStr = name.appending(&quot;b&quot;) super.init(name: name) } } var son = sonClass.init(name: &quot;a&quot;) son.baseName son.levelStr  // 防止重写 使用 final 关键字防止它们被重写
- //final 关键字 final class grandSon:sonClass{ final var grand:String = &quot;&quot; override init(name: String) { super."
+    "description": "继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来"
   }
 </script>
 
@@ -98,6 +93,22 @@ class baseClass{ var baseName:String init(name:String) { self.baseName = name } 
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -236,7 +247,7 @@ son.levelStr
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

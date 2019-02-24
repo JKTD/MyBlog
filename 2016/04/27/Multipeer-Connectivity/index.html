@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2016/04/27/multipeer-connectivity/">
+<link rel="canonical" href="http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>利用Multipeer Connectivity框架进行WiFi传输 - Fly With Bug</title>
     
-<meta name="description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipeer Connectivity框架，即使在没有连接到WiFi（WLAN）或移动网络（xG）的情况下，距离较近的Apple设备（iMac/iPad/iPhone）之间可基于蓝牙和WiFi（P2P WiFi）技术进行发现和连接实现近场通信。Multipeer Connectivity扩充的功能与利用AirDrop传输文件非常类似，可以将其看作AirDrop不能直接使用的补偿，代价是需要自己实现。 本Demo主要用到4个类：   MCBrowserViewController:MCBrowserViewController继承自UIViewController，提供了基本的UI应用框架。MCAdvertiserAssistant、MCAdvertiserAssistant为针对Advertiser封装的管理助手,主要处理广播信息。MCSession:类似TCP链接中的socket。创建MCSession时，需指定自身MCPeerID，类似bind。MCPeerID:类似sockaddr，用于标识连接的两端endpoint，通常是昵称或设备名称。 简单地建立一个界面，主要有连接和发送2个UIButton。 Multipeer Connectivity框架初始化这4个类 #pragma mark - Wifi Sharing Methods -(void)setUpMultipeer { // Setup peer ID self.myPeerID = [[MCPeerID alloc] initWithDisplayName:[UIDevice currentDevice].name]; // Setup session self.mySession = [[MCSession alloc] initWithPeer:self.myPeerID]; self.mySession.delegate = self; // Setup BrowserViewController self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:@&amp;quot;chat&amp;quot; session:self.mySession]; self.browserVC.delegate = self; // Setup Advertiser self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@&amp;quot;chat&amp;quot; discoveryInfo:nil session:self.">
+<meta name="description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
 
 <meta property="og:title" content="利用Multipeer Connectivity框架进行WiFi传输 - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2016/04/27/multipeer-connectivity/">
+<meta property="og:url" content="http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipeer Connectivity框架，即使在没有连接到WiFi（WLAN）或移动网络（xG）的情况下，距离较近的Apple设备（iMac/iPad/iPhone）之间可基于蓝牙和WiFi（P2P WiFi）技术进行发现和连接实现近场通信。Multipeer Connectivity扩充的功能与利用AirDrop传输文件非常类似，可以将其看作AirDrop不能直接使用的补偿，代价是需要自己实现。 本Demo主要用到4个类：   MCBrowserViewController:MCBrowserViewController继承自UIViewController，提供了基本的UI应用框架。MCAdvertiserAssistant、MCAdvertiserAssistant为针对Advertiser封装的管理助手,主要处理广播信息。MCSession:类似TCP链接中的socket。创建MCSession时，需指定自身MCPeerID，类似bind。MCPeerID:类似sockaddr，用于标识连接的两端endpoint，通常是昵称或设备名称。 简单地建立一个界面，主要有连接和发送2个UIButton。 Multipeer Connectivity框架初始化这4个类 #pragma mark - Wifi Sharing Methods -(void)setUpMultipeer { // Setup peer ID self.myPeerID = [[MCPeerID alloc] initWithDisplayName:[UIDevice currentDevice].name]; // Setup session self.mySession = [[MCSession alloc] initWithPeer:self.myPeerID]; self.mySession.delegate = self; // Setup BrowserViewController self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:@&amp;quot;chat&amp;quot; session:self.mySession]; self.browserVC.delegate = self; // Setup Advertiser self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@&amp;quot;chat&amp;quot; discoveryInfo:nil session:self.">
+<meta property="og:description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2016/04/27/multipeer-connectivity/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/">
 <meta name="twitter:title" content="利用Multipeer Connectivity框架进行WiFi传输 - Fly With Bug">
-<meta name="twitter:description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipeer Connectivity框架，即使在没有连接到WiFi（WLAN）或移动网络（xG）的情况下，距离较近的Apple设备（iMac/iPad/iPhone）之间可基于蓝牙和WiFi（P2P WiFi）技术进行发现和连接实现近场通信。Multipeer Connectivity扩充的功能与利用AirDrop传输文件非常类似，可以将其看作AirDrop不能直接使用的补偿，代价是需要自己实现。 本Demo主要用到4个类：   MCBrowserViewController:MCBrowserViewController继承自UIViewController，提供了基本的UI应用框架。MCAdvertiserAssistant、MCAdvertiserAssistant为针对Advertiser封装的管理助手,主要处理广播信息。MCSession:类似TCP链接中的socket。创建MCSession时，需指定自身MCPeerID，类似bind。MCPeerID:类似sockaddr，用于标识连接的两端endpoint，通常是昵称或设备名称。 简单地建立一个界面，主要有连接和发送2个UIButton。 Multipeer Connectivity框架初始化这4个类 #pragma mark - Wifi Sharing Methods -(void)setUpMultipeer { // Setup peer ID self.myPeerID = [[MCPeerID alloc] initWithDisplayName:[UIDevice currentDevice].name]; // Setup session self.mySession = [[MCSession alloc] initWithPeer:self.myPeerID]; self.mySession.delegate = self; // Setup BrowserViewController self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:@&amp;quot;chat&amp;quot; session:self.mySession]; self.browserVC.delegate = self; // Setup Advertiser self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@&amp;quot;chat&amp;quot; discoveryInfo:nil session:self.">
+<meta name="twitter:description" content="什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,14 +65,7 @@
         "height": 60
       }
     },
-    "description": "什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipeer Connectivity框架，即使在没有连接到WiFi（WLAN）或移动网络（xG）的情况下，距离较近的Apple设备（iMac/iPad/iPhone）之间可基于蓝牙和WiFi（P2P WiFi）技术进行发现和连接实现近场通信。
-Multipeer Connectivity扩充的功能与利用AirDrop传输文件非常类似，可以将其看作AirDrop不能直接使用的补偿，代价是需要自己实现。
- 本Demo主要用到4个类：
-   MCBrowserViewController:MCBrowserViewController继承自UIViewController，提供了基本的UI应用框架。
-MCAdvertiserAssistant、MCAdvertiserAssistant为针对Advertiser封装的管理助手,主要处理广播信息。
-MCSession:类似TCP链接中的socket。创建MCSession时，需指定自身MCPeerID，类似bind。
-MCPeerID:类似sockaddr，用于标识连接的两端endpoint，通常是昵称或设备名称。
- 简单地建立一个界面，主要有连接和发送2个UIButton。 Multipeer Connectivity框架初始化这4个类 #pragma mark - Wifi Sharing Methods -(void)setUpMultipeer { // Setup peer ID self.myPeerID = [[MCPeerID alloc] initWithDisplayName:[UIDevice currentDevice].name]; // Setup session self.mySession = [[MCSession alloc] initWithPeer:self.myPeerID]; self.mySession.delegate = self; // Setup BrowserViewController self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:@&quot;chat&quot; session:self.mySession]; self.browserVC.delegate = self; // Setup Advertiser self.advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@&quot;chat&quot; discoveryInfo:nil session:self."
+    "description": "什么是Multipeer Connectivity 在iOS7中，引入了一个全新的框架——Multipeer Connectivity（多点连接）。利用Multipee"
   }
 </script>
 
@@ -100,6 +93,22 @@ MCPeerID:类似sockaddr，用于标识连接的两端endpoint，通常是昵称�
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -386,7 +395,7 @@ MCPeerID:类似sockaddr，用于标识连接的两端endpoint，通常是昵称�
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

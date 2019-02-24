@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2016/12/26/golang-gin-https/">
+<link rel="canonical" href="http://blog.flywithme.top/2016/12/26/golang-Gin-Https/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>golang-Gin-Https - Fly With Bug</title>
     
-<meta name="description" content="关于https背景知识密码学的一些基本知识大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，key就以一串随机数数，更换了key之后，算法还可以继续使用。基于key的加密算法又分为两类，对称加密和不对称加密，比如DES,AES那种的，通信双方一方用key加密之后，另一方用相同的key进行反向的运算就可以解密。不对称加密比较著名的就是RSA,加密的时候有一个公钥和一个私钥，公钥是可以交给对方的，a给b发送信息，a用自己的私钥加密，b用a的公钥解密，反之，b给a发送信息，b用自己的私钥加密。在通信之前，需要经过一些握手的过程，双方交换公钥，这个就是key exchange的过程，https最开始的阶段就包含了这个key exchange的过程，大概原理是这样，有些地方还要稍微复杂一些。数字证书与CA数字证书相当于是服务器的一个“身份证”，用于唯一标识一个服务器。一般而言，数字证书从受信的权威证书授权机构 (Certification Authority，证书授权机构)买来的（免费的很少），浏览器里面一般就内置好了一些权威的CA，在使用https的时候，只要是这些CA签发的证书，浏览器都是可以认证的，要是在与服务器通信的时候，收到一个没有权威CA认证的证书，就会报出提醒不受信任证书的错误，就像登录12306一样，但是也可以选择接受。在自己的一些项目中，通常是自己签发一个ca根证书，之后这个根证书签发一个server.crt，以及server.key给服务端，server.key是服务端的私钥，server.crt包含了服务端的公钥还有服务端的一些身份信息。在客户端和服务端通信的时候（特别是使用代码编写的客户端访问的时候），要指定ca根证书，作用就相当于是浏览器中内置的那些权威证书一样，用于进行服务端的身份检测。证书的格式：ca证书在为server.crt证书签名时候的大致流程参考这个(http://www.tuicool.com/articles/aymYbmM)：数字证书由两部分组成：1、C：证书相关信息（对象名称&#43;过期时间&#43;证书发布者&#43;证书签名算法….）2、S：证书的数字签名 （由CA证书通过加密算法生成的）其中的数字签名是通过公式S = F(Digest&amp;copy;)得到的。Digest为摘要函数，也就是 md5、sha-1或sha256等单向散列算法，用于将无限输入值转换为一个有限长度的“浓缩”输出值。比如我们常用md5值来验证下载的大文件是否完整。大文件的内容就是一个无限输入。大文件被放在网站上用于下载时，网站会对大文件做一次md5计算，得出一个128bit的值作为大文件的摘要一同放在网站上。用户在下载文件后，对下载后的文件再进行一次本地的md5计算，用得出的值与网站上的md5值进行比较，如果一致，则大 文件下载完好，否则下载过程大文件内容有损坏或源文件被篡改。这里还有一个小技巧常常在机器之间copy或者下载压缩文件的时候也可以用md5sum的命令来进行检验，看看文件是否完整。F为签名函数。CA自己的私钥是唯一标识CA签名的，因此CA用于生成数字证书的签名函数一定要以自己的私钥作为一个输入参数。在RSA加密系统中，发送端的解密函数就是一个以私钥作为参数的函数，因此常常被用作签名函数使用。因此CA用私钥解密函数作为F，以CA证书中的私钥进行加密，生成最后的数字签名，正如最后一部分实践时候给出的证书生成过程，生成server.crt的时候需要ca.crt（包含根证书的信息）和ca.key（根证书的私钥）都加入进去。接收端接收服务端数字证书后，如何验证数字证书上携带的签名是这个CA的签名呢？当然接收端首先需要指定对应的CA，接收端会运用下面算法对数字证书的签名进行校验： F&amp;rsquo;(S) ?= Digest&amp;copy;接收端进行两个计算，并将计算结果进行比对：1、首先通过Digest&amp;copy;，接收端计算出证书内容（除签名之外）的摘要，C的内容都是明文可以看到到的。2、数字证书携带的签名是CA通过CA密钥加密摘要后的结果，因此接收端通过一个解密函数F&amp;rsquo;对S进行“解密”。就像最开始介绍的那样，在RSA系统中，接收端使用CA公钥（包含在ca.crt中）对S进行“解密”，这恰是CA用私钥对S进行“加密”的逆过程。将上述两个运算的结果进行比较，如果一致，说明签名的确属于该CA，该证书有效，否则要么证书不是该CA的，要么就是中途被人篡改了。对于self-signed(自签发)证书来说，接收端并没有你这个self-CA的数字证书，也就是没有CA公钥，也就没有办法对数字证书的签名进行验证。因此如果要编写一个可以对self-signed证书进行校验的接收端程序的话，首先我们要做的就是建立一个属于自己的CA，用该CA签发我们的server端证书，之后给客户端发送信息的话，需要对这个根证书进行指定，之后按上面的方式进行验证。可以使用openssl x509 -text -in client.crt -noout 查看某个证书文件所包含的具体信息。HTTPS基本过程概述https协议是在http协议的基础上组成的secure的协议。主要功能包含一下两个方面:1 通信双方的身份认证2 通信双方的通信过程加密下面通过详细分析https的通信过程来解释这两个功能。具体参考这两个文章：http://www.fenesky.com/blog/2014/07/19/how-https-works.html http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html1、client 发送 sayhello给server端，说明client所支持的加密套件，还有一个随机数1。 2、server 发送 sayhello给client端，端把server.crt发送给客户端,server.crt采用还有一个随机数2。 3、client端生成preMaster key 这个是随机数3，之后三个随机数结合在一起生成MasterSecret,之后生成session secret，使用指定的ca进行身份认证，就像之前介绍的那样，都正常的话，就切换到加密模式。 4、client端使用server.crt中的公钥对preMasterSecret进行加密，如果要进行双向认证的话，client端会把client.crt一并发送过去，server端接受到数据，解密之后，也有了三个随机数，采用同样的方式，三个随机数生成通信所使用的session secret。具体session secret的结构可以参考前面列出的两个博客。server端完成相关工作之后，会发一个ChangeCipherSpec给client，通知client说明自己已经切换到相关的加解密模式，之后发一段加密信息给client看是否正常。 5、client端解密正常，之后就可以按照之前的协议，使用session secret进行加密的通信了。整体看下，开始的时候建立握手的过程就是身份认证的过程，之后认证完毕之后，就是加密通信的过程了，https的两个主要做用就实现了。相关实践">
+<meta name="description" content="关于https 背景知识 密码学的一些基本知识 大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，ke">
 
 <meta property="og:title" content="golang-Gin-Https - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2016/12/26/golang-gin-https/">
+<meta property="og:url" content="http://blog.flywithme.top/2016/12/26/golang-Gin-Https/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="关于https背景知识密码学的一些基本知识大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，key就以一串随机数数，更换了key之后，算法还可以继续使用。基于key的加密算法又分为两类，对称加密和不对称加密，比如DES,AES那种的，通信双方一方用key加密之后，另一方用相同的key进行反向的运算就可以解密。不对称加密比较著名的就是RSA,加密的时候有一个公钥和一个私钥，公钥是可以交给对方的，a给b发送信息，a用自己的私钥加密，b用a的公钥解密，反之，b给a发送信息，b用自己的私钥加密。在通信之前，需要经过一些握手的过程，双方交换公钥，这个就是key exchange的过程，https最开始的阶段就包含了这个key exchange的过程，大概原理是这样，有些地方还要稍微复杂一些。数字证书与CA数字证书相当于是服务器的一个“身份证”，用于唯一标识一个服务器。一般而言，数字证书从受信的权威证书授权机构 (Certification Authority，证书授权机构)买来的（免费的很少），浏览器里面一般就内置好了一些权威的CA，在使用https的时候，只要是这些CA签发的证书，浏览器都是可以认证的，要是在与服务器通信的时候，收到一个没有权威CA认证的证书，就会报出提醒不受信任证书的错误，就像登录12306一样，但是也可以选择接受。在自己的一些项目中，通常是自己签发一个ca根证书，之后这个根证书签发一个server.crt，以及server.key给服务端，server.key是服务端的私钥，server.crt包含了服务端的公钥还有服务端的一些身份信息。在客户端和服务端通信的时候（特别是使用代码编写的客户端访问的时候），要指定ca根证书，作用就相当于是浏览器中内置的那些权威证书一样，用于进行服务端的身份检测。证书的格式：ca证书在为server.crt证书签名时候的大致流程参考这个(http://www.tuicool.com/articles/aymYbmM)：数字证书由两部分组成：1、C：证书相关信息（对象名称&#43;过期时间&#43;证书发布者&#43;证书签名算法….）2、S：证书的数字签名 （由CA证书通过加密算法生成的）其中的数字签名是通过公式S = F(Digest&amp;copy;)得到的。Digest为摘要函数，也就是 md5、sha-1或sha256等单向散列算法，用于将无限输入值转换为一个有限长度的“浓缩”输出值。比如我们常用md5值来验证下载的大文件是否完整。大文件的内容就是一个无限输入。大文件被放在网站上用于下载时，网站会对大文件做一次md5计算，得出一个128bit的值作为大文件的摘要一同放在网站上。用户在下载文件后，对下载后的文件再进行一次本地的md5计算，用得出的值与网站上的md5值进行比较，如果一致，则大 文件下载完好，否则下载过程大文件内容有损坏或源文件被篡改。这里还有一个小技巧常常在机器之间copy或者下载压缩文件的时候也可以用md5sum的命令来进行检验，看看文件是否完整。F为签名函数。CA自己的私钥是唯一标识CA签名的，因此CA用于生成数字证书的签名函数一定要以自己的私钥作为一个输入参数。在RSA加密系统中，发送端的解密函数就是一个以私钥作为参数的函数，因此常常被用作签名函数使用。因此CA用私钥解密函数作为F，以CA证书中的私钥进行加密，生成最后的数字签名，正如最后一部分实践时候给出的证书生成过程，生成server.crt的时候需要ca.crt（包含根证书的信息）和ca.key（根证书的私钥）都加入进去。接收端接收服务端数字证书后，如何验证数字证书上携带的签名是这个CA的签名呢？当然接收端首先需要指定对应的CA，接收端会运用下面算法对数字证书的签名进行校验： F&amp;rsquo;(S) ?= Digest&amp;copy;接收端进行两个计算，并将计算结果进行比对：1、首先通过Digest&amp;copy;，接收端计算出证书内容（除签名之外）的摘要，C的内容都是明文可以看到到的。2、数字证书携带的签名是CA通过CA密钥加密摘要后的结果，因此接收端通过一个解密函数F&amp;rsquo;对S进行“解密”。就像最开始介绍的那样，在RSA系统中，接收端使用CA公钥（包含在ca.crt中）对S进行“解密”，这恰是CA用私钥对S进行“加密”的逆过程。将上述两个运算的结果进行比较，如果一致，说明签名的确属于该CA，该证书有效，否则要么证书不是该CA的，要么就是中途被人篡改了。对于self-signed(自签发)证书来说，接收端并没有你这个self-CA的数字证书，也就是没有CA公钥，也就没有办法对数字证书的签名进行验证。因此如果要编写一个可以对self-signed证书进行校验的接收端程序的话，首先我们要做的就是建立一个属于自己的CA，用该CA签发我们的server端证书，之后给客户端发送信息的话，需要对这个根证书进行指定，之后按上面的方式进行验证。可以使用openssl x509 -text -in client.crt -noout 查看某个证书文件所包含的具体信息。HTTPS基本过程概述https协议是在http协议的基础上组成的secure的协议。主要功能包含一下两个方面:1 通信双方的身份认证2 通信双方的通信过程加密下面通过详细分析https的通信过程来解释这两个功能。具体参考这两个文章：http://www.fenesky.com/blog/2014/07/19/how-https-works.html http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html1、client 发送 sayhello给server端，说明client所支持的加密套件，还有一个随机数1。 2、server 发送 sayhello给client端，端把server.crt发送给客户端,server.crt采用还有一个随机数2。 3、client端生成preMaster key 这个是随机数3，之后三个随机数结合在一起生成MasterSecret,之后生成session secret，使用指定的ca进行身份认证，就像之前介绍的那样，都正常的话，就切换到加密模式。 4、client端使用server.crt中的公钥对preMasterSecret进行加密，如果要进行双向认证的话，client端会把client.crt一并发送过去，server端接受到数据，解密之后，也有了三个随机数，采用同样的方式，三个随机数生成通信所使用的session secret。具体session secret的结构可以参考前面列出的两个博客。server端完成相关工作之后，会发一个ChangeCipherSpec给client，通知client说明自己已经切换到相关的加解密模式，之后发一段加密信息给client看是否正常。 5、client端解密正常，之后就可以按照之前的协议，使用session secret进行加密的通信了。整体看下，开始的时候建立握手的过程就是身份认证的过程，之后认证完毕之后，就是加密通信的过程了，https的两个主要做用就实现了。相关实践">
+<meta property="og:description" content="关于https 背景知识 密码学的一些基本知识 大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，ke">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2016/12/26/golang-gin-https/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2016/12/26/golang-Gin-Https/">
 <meta name="twitter:title" content="golang-Gin-Https - Fly With Bug">
-<meta name="twitter:description" content="关于https背景知识密码学的一些基本知识大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，key就以一串随机数数，更换了key之后，算法还可以继续使用。基于key的加密算法又分为两类，对称加密和不对称加密，比如DES,AES那种的，通信双方一方用key加密之后，另一方用相同的key进行反向的运算就可以解密。不对称加密比较著名的就是RSA,加密的时候有一个公钥和一个私钥，公钥是可以交给对方的，a给b发送信息，a用自己的私钥加密，b用a的公钥解密，反之，b给a发送信息，b用自己的私钥加密。在通信之前，需要经过一些握手的过程，双方交换公钥，这个就是key exchange的过程，https最开始的阶段就包含了这个key exchange的过程，大概原理是这样，有些地方还要稍微复杂一些。数字证书与CA数字证书相当于是服务器的一个“身份证”，用于唯一标识一个服务器。一般而言，数字证书从受信的权威证书授权机构 (Certification Authority，证书授权机构)买来的（免费的很少），浏览器里面一般就内置好了一些权威的CA，在使用https的时候，只要是这些CA签发的证书，浏览器都是可以认证的，要是在与服务器通信的时候，收到一个没有权威CA认证的证书，就会报出提醒不受信任证书的错误，就像登录12306一样，但是也可以选择接受。在自己的一些项目中，通常是自己签发一个ca根证书，之后这个根证书签发一个server.crt，以及server.key给服务端，server.key是服务端的私钥，server.crt包含了服务端的公钥还有服务端的一些身份信息。在客户端和服务端通信的时候（特别是使用代码编写的客户端访问的时候），要指定ca根证书，作用就相当于是浏览器中内置的那些权威证书一样，用于进行服务端的身份检测。证书的格式：ca证书在为server.crt证书签名时候的大致流程参考这个(http://www.tuicool.com/articles/aymYbmM)：数字证书由两部分组成：1、C：证书相关信息（对象名称&#43;过期时间&#43;证书发布者&#43;证书签名算法….）2、S：证书的数字签名 （由CA证书通过加密算法生成的）其中的数字签名是通过公式S = F(Digest&amp;copy;)得到的。Digest为摘要函数，也就是 md5、sha-1或sha256等单向散列算法，用于将无限输入值转换为一个有限长度的“浓缩”输出值。比如我们常用md5值来验证下载的大文件是否完整。大文件的内容就是一个无限输入。大文件被放在网站上用于下载时，网站会对大文件做一次md5计算，得出一个128bit的值作为大文件的摘要一同放在网站上。用户在下载文件后，对下载后的文件再进行一次本地的md5计算，用得出的值与网站上的md5值进行比较，如果一致，则大 文件下载完好，否则下载过程大文件内容有损坏或源文件被篡改。这里还有一个小技巧常常在机器之间copy或者下载压缩文件的时候也可以用md5sum的命令来进行检验，看看文件是否完整。F为签名函数。CA自己的私钥是唯一标识CA签名的，因此CA用于生成数字证书的签名函数一定要以自己的私钥作为一个输入参数。在RSA加密系统中，发送端的解密函数就是一个以私钥作为参数的函数，因此常常被用作签名函数使用。因此CA用私钥解密函数作为F，以CA证书中的私钥进行加密，生成最后的数字签名，正如最后一部分实践时候给出的证书生成过程，生成server.crt的时候需要ca.crt（包含根证书的信息）和ca.key（根证书的私钥）都加入进去。接收端接收服务端数字证书后，如何验证数字证书上携带的签名是这个CA的签名呢？当然接收端首先需要指定对应的CA，接收端会运用下面算法对数字证书的签名进行校验： F&amp;rsquo;(S) ?= Digest&amp;copy;接收端进行两个计算，并将计算结果进行比对：1、首先通过Digest&amp;copy;，接收端计算出证书内容（除签名之外）的摘要，C的内容都是明文可以看到到的。2、数字证书携带的签名是CA通过CA密钥加密摘要后的结果，因此接收端通过一个解密函数F&amp;rsquo;对S进行“解密”。就像最开始介绍的那样，在RSA系统中，接收端使用CA公钥（包含在ca.crt中）对S进行“解密”，这恰是CA用私钥对S进行“加密”的逆过程。将上述两个运算的结果进行比较，如果一致，说明签名的确属于该CA，该证书有效，否则要么证书不是该CA的，要么就是中途被人篡改了。对于self-signed(自签发)证书来说，接收端并没有你这个self-CA的数字证书，也就是没有CA公钥，也就没有办法对数字证书的签名进行验证。因此如果要编写一个可以对self-signed证书进行校验的接收端程序的话，首先我们要做的就是建立一个属于自己的CA，用该CA签发我们的server端证书，之后给客户端发送信息的话，需要对这个根证书进行指定，之后按上面的方式进行验证。可以使用openssl x509 -text -in client.crt -noout 查看某个证书文件所包含的具体信息。HTTPS基本过程概述https协议是在http协议的基础上组成的secure的协议。主要功能包含一下两个方面:1 通信双方的身份认证2 通信双方的通信过程加密下面通过详细分析https的通信过程来解释这两个功能。具体参考这两个文章：http://www.fenesky.com/blog/2014/07/19/how-https-works.html http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html1、client 发送 sayhello给server端，说明client所支持的加密套件，还有一个随机数1。 2、server 发送 sayhello给client端，端把server.crt发送给客户端,server.crt采用还有一个随机数2。 3、client端生成preMaster key 这个是随机数3，之后三个随机数结合在一起生成MasterSecret,之后生成session secret，使用指定的ca进行身份认证，就像之前介绍的那样，都正常的话，就切换到加密模式。 4、client端使用server.crt中的公钥对preMasterSecret进行加密，如果要进行双向认证的话，client端会把client.crt一并发送过去，server端接受到数据，解密之后，也有了三个随机数，采用同样的方式，三个随机数生成通信所使用的session secret。具体session secret的结构可以参考前面列出的两个博客。server端完成相关工作之后，会发一个ChangeCipherSpec给client，通知client说明自己已经切换到相关的加解密模式，之后发一段加密信息给client看是否正常。 5、client端解密正常，之后就可以按照之前的协议，使用session secret进行加密的通信了。整体看下，开始的时候建立握手的过程就是身份认证的过程，之后认证完毕之后，就是加密通信的过程了，https的两个主要做用就实现了。相关实践">
+<meta name="twitter:description" content="关于https 背景知识 密码学的一些基本知识 大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，ke">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,41 +65,7 @@
         "height": 60
       }
     },
-    "description": "关于https
-背景知识
-密码学的一些基本知识
-大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，key就以一串随机数数，更换了key之后，算法还可以继续使用。
-基于key的加密算法又分为两类，对称加密和不对称加密，比如DES,AES那种的，通信双方一方用key加密之后，另一方用相同的key进行反向的运算就可以解密。
-不对称加密比较著名的就是RSA,加密的时候有一个公钥和一个私钥，公钥是可以交给对方的，a给b发送信息，a用自己的私钥加密，b用a的公钥解密，反之，b给a发送信息，b用自己的私钥加密。
-在通信之前，需要经过一些握手的过程，双方交换公钥，这个就是key exchange的过程，https最开始的阶段就包含了这个key exchange的过程，大概原理是这样，有些地方还要稍微复杂一些。
-数字证书与CA
-数字证书相当于是服务器的一个“身份证”，用于唯一标识一个服务器。一般而言，数字证书从受信的权威证书授权机构 (Certification Authority，证书授权机构)买来的（免费的很少），浏览器里面一般就内置好了一些权威的CA，在使用https的时候，只要是这些CA签发的证书，浏览器都是可以认证的，要是在与服务器通信的时候，收到一个没有权威CA认证的证书，就会报出提醒不受信任证书的错误，就像登录12306一样，但是也可以选择接受。
-在自己的一些项目中，通常是自己签发一个ca根证书，之后这个根证书签发一个server.crt，以及server.key给服务端，server.key是服务端的私钥，server.crt包含了服务端的公钥还有服务端的一些身份信息。在客户端和服务端通信的时候（特别是使用代码编写的客户端访问的时候），要指定ca根证书，作用就相当于是浏览器中内置的那些权威证书一样，用于进行服务端的身份检测。
-证书的格式：
-ca证书在为server.crt证书签名时候的大致流程参考这个(http://www.tuicool.com/articles/aymYbmM)：
-数字证书由两部分组成：
-1、C：证书相关信息（对象名称+过期时间+证书发布者+证书签名算法….）
-2、S：证书的数字签名 （由CA证书通过加密算法生成的）
-其中的数字签名是通过公式S = F(Digest&copy;)得到的。
-Digest为摘要函数，也就是 md5、sha-1或sha256等单向散列算法，用于将无限输入值转换为一个有限长度的“浓缩”输出值。比如我们常用md5值来验证下载的大文件是否完整。大文件的内容就是一个无限输入。大文件被放在网站上用于下载时，网站会对大文件做一次md5计算，得出一个128bit的值作为大文件的摘要一同放在网站上。用户在下载文件后，对下载后的文件再进行一次本地的md5计算，用得出的值与网站上的md5值进行比较，如果一致，则大 文件下载完好，否则下载过程大文件内容有损坏或源文件被篡改。这里还有一个小技巧常常在机器之间copy或者下载压缩文件的时候也可以用md5sum的命令来进行检验，看看文件是否完整。
-F为签名函数。CA自己的私钥是唯一标识CA签名的，因此CA用于生成数字证书的签名函数一定要以自己的私钥作为一个输入参数。在RSA加密系统中，发送端的解密函数就是一个以私钥作为参数的函数，因此常常被用作签名函数使用。因此CA用私钥解密函数作为F，以CA证书中的私钥进行加密，生成最后的数字签名，正如最后一部分实践时候给出的证书生成过程，生成server.crt的时候需要ca.crt（包含根证书的信息）和ca.key（根证书的私钥）都加入进去。
-接收端接收服务端数字证书后，如何验证数字证书上携带的签名是这个CA的签名呢？当然接收端首先需要指定对应的CA，接收端会运用下面算法对数字证书的签名进行校验： F&rsquo;(S) ?= Digest&copy;
-接收端进行两个计算，并将计算结果进行比对：
-1、首先通过Digest&copy;，接收端计算出证书内容（除签名之外）的摘要，C的内容都是明文可以看到到的。
-2、数字证书携带的签名是CA通过CA密钥加密摘要后的结果，因此接收端通过一个解密函数F&rsquo;对S进行“解密”。就像最开始介绍的那样，在RSA系统中，接收端使用CA公钥（包含在ca.crt中）对S进行“解密”，这恰是CA用私钥对S进行“加密”的逆过程。
-将上述两个运算的结果进行比较，如果一致，说明签名的确属于该CA，该证书有效，否则要么证书不是该CA的，要么就是中途被人篡改了。
-对于self-signed(自签发)证书来说，接收端并没有你这个self-CA的数字证书，也就是没有CA公钥，也就没有办法对数字证书的签名进行验证。因此如果要编写一个可以对self-signed证书进行校验的接收端程序的话，首先我们要做的就是建立一个属于自己的CA，用该CA签发我们的server端证书，之后给客户端发送信息的话，需要对这个根证书进行指定，之后按上面的方式进行验证。
-可以使用openssl x509 -text -in client.crt -noout 查看某个证书文件所包含的具体信息。
-HTTPS基本过程概述
-https协议是在http协议的基础上组成的secure的协议。主要功能包含一下两个方面:
-1 通信双方的身份认证
-2 通信双方的通信过程加密
-下面通过详细分析https的通信过程来解释这两个功能。
-具体参考这两个文章：
-http://www.fenesky.com/blog/2014/07/19/how-https-works.html http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html
-1、client 发送 sayhello给server端，说明client所支持的加密套件，还有一个随机数1。 2、server 发送 sayhello给client端，端把server.crt发送给客户端,server.crt采用还有一个随机数2。 3、client端生成preMaster key 这个是随机数3，之后三个随机数结合在一起生成MasterSecret,之后生成session secret，使用指定的ca进行身份认证，就像之前介绍的那样，都正常的话，就切换到加密模式。 4、client端使用server.crt中的公钥对preMasterSecret进行加密，如果要进行双向认证的话，client端会把client.crt一并发送过去，server端接受到数据，解密之后，也有了三个随机数，采用同样的方式，三个随机数生成通信所使用的session secret。具体session secret的结构可以参考前面列出的两个博客。server端完成相关工作之后，会发一个ChangeCipherSpec给client，通知client说明自己已经切换到相关的加解密模式，之后发一段加密信息给client看是否正常。 5、client端解密正常，之后就可以按照之前的协议，使用session secret进行加密的通信了。
-整体看下，开始的时候建立握手的过程就是身份认证的过程，之后认证完毕之后，就是加密通信的过程了，https的两个主要做用就实现了。
-相关实践"
+    "description": "关于https 背景知识 密码学的一些基本知识 大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，ke"
   }
 </script>
 
@@ -127,6 +93,22 @@ http://www.fenesky.com/blog/2014/07/19/how-https-works.html http://www.ruanyifen
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -532,7 +514,7 @@ openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfi
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

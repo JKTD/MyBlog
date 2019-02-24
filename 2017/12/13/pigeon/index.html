@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>pigeon  - Fly With Bug</title>
     
-<meta name="description" content="小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等我们需要实时监控这些自动化的过程是否按预期完成了自己的任务，如果出现一些错误，或者需求要在完成任务之后提醒开发者。 所以我就开发了一个基于公司内部通信系统的一个小型的消息通知管理中心。 虽然之前断断续续有学写一些golang的东西，但是一直没有成型的作品，这是继上次做的个人实践项目之后，第一个在公司内部产生实际效益的服务。主要功能 本服务的主要功能是用于 给不同的服务配置不同的消息类型和接收人。最终会根据调用通知群组id发送给不同的接受对象。 简单的实现了 组员的增删改查 群组的增删改查 消息应用的增删改查 组员和群组的关系的增删 群组和消息应用直之间的关系增删 应用版本号的tag自增接口（额外需求，与前面几个接口无关）  接口 json请求格式(application/json)  1. /adduse POST //添加用户 { &amp;quot;mail&amp;quot;:&amp;quot;jack@meituan.com&amp;quot;, &amp;quot;mobile&amp;quot;:&amp;quot;18792289&amp;quot;, &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot; } 2. /deleteuser POST //删除用户 { &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot; } 3. /users GET //用户列表 4. /addgroup POST //添加群组 { &amp;quot;group_name&amp;quot;:&amp;quot;商户前端&amp;quot;, &amp;quot;type&amp;quot;:1, &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;, &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;, &amp;quot;app_id&amp;quot;:1 } 5. /updategroup POST //更新群组信息 { &amp;quot;group_name&amp;quot;:&amp;quot;商户前端html&amp;quot;, &amp;quot;type&amp;quot;:1, &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;, &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;, &amp;quot;app_id&amp;quot;:&amp;quot;28fa3c968b438fb71c8d7825af609591&amp;quot; } 6. /addgcrow POST //添加群组成员 { &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci&amp;quot;, &amp;quot;user_name&amp;quot;:&amp;quot;erfeng.">
+<meta name="description" content="小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等 我们需要实时监控">
 
 <meta property="og:title" content="pigeon  - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/12/13/pigeon/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等我们需要实时监控这些自动化的过程是否按预期完成了自己的任务，如果出现一些错误，或者需求要在完成任务之后提醒开发者。 所以我就开发了一个基于公司内部通信系统的一个小型的消息通知管理中心。 虽然之前断断续续有学写一些golang的东西，但是一直没有成型的作品，这是继上次做的个人实践项目之后，第一个在公司内部产生实际效益的服务。主要功能 本服务的主要功能是用于 给不同的服务配置不同的消息类型和接收人。最终会根据调用通知群组id发送给不同的接受对象。 简单的实现了 组员的增删改查 群组的增删改查 消息应用的增删改查 组员和群组的关系的增删 群组和消息应用直之间的关系增删 应用版本号的tag自增接口（额外需求，与前面几个接口无关）  接口 json请求格式(application/json)  1. /adduse POST //添加用户 { &amp;quot;mail&amp;quot;:&amp;quot;jack@meituan.com&amp;quot;, &amp;quot;mobile&amp;quot;:&amp;quot;18792289&amp;quot;, &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot; } 2. /deleteuser POST //删除用户 { &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot; } 3. /users GET //用户列表 4. /addgroup POST //添加群组 { &amp;quot;group_name&amp;quot;:&amp;quot;商户前端&amp;quot;, &amp;quot;type&amp;quot;:1, &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;, &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;, &amp;quot;app_id&amp;quot;:1 } 5. /updategroup POST //更新群组信息 { &amp;quot;group_name&amp;quot;:&amp;quot;商户前端html&amp;quot;, &amp;quot;type&amp;quot;:1, &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;, &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;, &amp;quot;app_id&amp;quot;:&amp;quot;28fa3c968b438fb71c8d7825af609591&amp;quot; } 6. /addgcrow POST //添加群组成员 { &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci&amp;quot;, &amp;quot;user_name&amp;quot;:&amp;quot;erfeng.">
+<meta property="og:description" content="小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等 我们需要实时监控">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/12/13/pigeon/">
 <meta name="twitter:title" content="pigeon  - Fly With Bug">
-<meta name="twitter:description" content="小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等我们需要实时监控这些自动化的过程是否按预期完成了自己的任务，如果出现一些错误，或者需求要在完成任务之后提醒开发者。 所以我就开发了一个基于公司内部通信系统的一个小型的消息通知管理中心。 虽然之前断断续续有学写一些golang的东西，但是一直没有成型的作品，这是继上次做的个人实践项目之后，第一个在公司内部产生实际效益的服务。主要功能 本服务的主要功能是用于 给不同的服务配置不同的消息类型和接收人。最终会根据调用通知群组id发送给不同的接受对象。 简单的实现了 组员的增删改查 群组的增删改查 消息应用的增删改查 组员和群组的关系的增删 群组和消息应用直之间的关系增删 应用版本号的tag自增接口（额外需求，与前面几个接口无关）  接口 json请求格式(application/json)  1. /adduse POST //添加用户 { &amp;quot;mail&amp;quot;:&amp;quot;jack@meituan.com&amp;quot;, &amp;quot;mobile&amp;quot;:&amp;quot;18792289&amp;quot;, &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot; } 2. /deleteuser POST //删除用户 { &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot; } 3. /users GET //用户列表 4. /addgroup POST //添加群组 { &amp;quot;group_name&amp;quot;:&amp;quot;商户前端&amp;quot;, &amp;quot;type&amp;quot;:1, &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;, &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;, &amp;quot;app_id&amp;quot;:1 } 5. /updategroup POST //更新群组信息 { &amp;quot;group_name&amp;quot;:&amp;quot;商户前端html&amp;quot;, &amp;quot;type&amp;quot;:1, &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;, &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;, &amp;quot;app_id&amp;quot;:&amp;quot;28fa3c968b438fb71c8d7825af609591&amp;quot; } 6. /addgcrow POST //添加群组成员 { &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci&amp;quot;, &amp;quot;user_name&amp;quot;:&amp;quot;erfeng.">
+<meta name="twitter:description" content="小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等 我们需要实时监控">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,12 +65,7 @@
         "height": 60
       }
     },
-    "description": "小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等
-我们需要实时监控这些自动化的过程是否按预期完成了自己的任务，如果出现一些错误，或者需求要在完成任务之后提醒开发者。 所以我就开发了一个基于公司内部通信系统的一个小型的消息通知管理中心。 虽然之前断断续续有学写一些golang的东西，但是一直没有成型的作品，这是继上次做的个人实践项目之后，第一个在公司内部产生实际效益的服务。
-主要功能 本服务的主要功能是用于 给不同的服务配置不同的消息类型和接收人。最终会根据调用通知群组id发送给不同的接受对象。 简单的实现了
- 组员的增删改查 群组的增删改查
- 消息应用的增删改查 组员和群组的关系的增删
- 群组和消息应用直之间的关系增删 应用版本号的tag自增接口（额外需求，与前面几个接口无关）  接口 json请求格式(application/json)  1. /adduse POST //添加用户 { &quot;mail&quot;:&quot;jack@meituan.com&quot;, &quot;mobile&quot;:&quot;18792289&quot;, &quot;user_name&quot;:&quot;jack&quot; } 2. /deleteuser POST //删除用户 { &quot;user_name&quot;:&quot;jack&quot; } 3. /users GET //用户列表 4. /addgroup POST //添加群组 { &quot;group_name&quot;:&quot;商户前端&quot;, &quot;type&quot;:1, &quot;group_id&quot;:&quot;merchant_mci000011&quot;, &quot;app_name&quot;:&quot;点评管家&quot;, &quot;app_id&quot;:1 } 5. /updategroup POST //更新群组信息 { &quot;group_name&quot;:&quot;商户前端html&quot;, &quot;type&quot;:1, &quot;group_id&quot;:&quot;merchant_mci000011&quot;, &quot;app_name&quot;:&quot;点评管家&quot;, &quot;app_id&quot;:&quot;28fa3c968b438fb71c8d7825af609591&quot; } 6. /addgcrow POST //添加群组成员 { &quot;group_id&quot;:&quot;merchant_mci&quot;, &quot;user_name&quot;:&quot;erfeng."
+    "description": "小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等 我们需要实时监控"
   }
 </script>
 
@@ -98,6 +93,22 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -521,7 +532,7 @@ UNLOCK TABLES;
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

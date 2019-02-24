@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go: 5-1 接口 - Fly With Bug</title>
     
-<meta name="description" content="duck typing  基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构  pythn中的duck typing def download(retriever): return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;)   运行时才知道传入的retriever有没有get方法 需要给download注释来说明接口需要实现get方法  c&#43;&#43; 中的duck typing template&amp;lt;class R&amp;gt; string download(const R&amp;amp; retriever){ return retriever.get(&amp;quot;www.downloadur..com&amp;quot;) }   编译时才可以知道传入的retriever有么有get方法 需要注释来说明接口需求  java 中的类似代码 &amp;lt;R extends Retriever&amp;gt; String download(R r){ return r.get(&amp;quot;www.downloadurl.com&amp;quot;) }   传入的参数必须实现Retriever接口 不是duck typing  go 语言的duck typing  同时需要Readable,Appendable怎么做？（apache polygene） 同时具有python,c&#43;&#43;的duck typing的灵活性 具有java的类型检查  接口的定义  使用者&amp;mdash;&amp;gt;实现者 接口由使用者定义 接口的实现是隐式的 只需要实现接口里的方法即可  接口遍历里有什么东西  实现者的类型 实现者的值/指针 接口变量自带指针 接口变量采用值传递，几乎不需要使用接口的指针 指针接收者实现只能以指针的方式使用;值接受者都可以  查看接口变量  表示任何类型：interface{} Type Assertion Type Switch   //Type assertion if mockRetriver, ok := r.">
+<meta name="description" content="duck typing 基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构 pythn中的duck typing def download(retriever): return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;) 运行时才知道传入的retriever有没有g">
 
 <meta property="og:title" content="Go: 5-1 接口 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/02/09/note_09/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="duck typing  基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构  pythn中的duck typing def download(retriever): return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;)   运行时才知道传入的retriever有没有get方法 需要给download注释来说明接口需要实现get方法  c&#43;&#43; 中的duck typing template&amp;lt;class R&amp;gt; string download(const R&amp;amp; retriever){ return retriever.get(&amp;quot;www.downloadur..com&amp;quot;) }   编译时才可以知道传入的retriever有么有get方法 需要注释来说明接口需求  java 中的类似代码 &amp;lt;R extends Retriever&amp;gt; String download(R r){ return r.get(&amp;quot;www.downloadurl.com&amp;quot;) }   传入的参数必须实现Retriever接口 不是duck typing  go 语言的duck typing  同时需要Readable,Appendable怎么做？（apache polygene） 同时具有python,c&#43;&#43;的duck typing的灵活性 具有java的类型检查  接口的定义  使用者&amp;mdash;&amp;gt;实现者 接口由使用者定义 接口的实现是隐式的 只需要实现接口里的方法即可  接口遍历里有什么东西  实现者的类型 实现者的值/指针 接口变量自带指针 接口变量采用值传递，几乎不需要使用接口的指针 指针接收者实现只能以指针的方式使用;值接受者都可以  查看接口变量  表示任何类型：interface{} Type Assertion Type Switch   //Type assertion if mockRetriver, ok := r.">
+<meta property="og:description" content="duck typing 基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构 pythn中的duck typing def download(retriever): return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;) 运行时才知道传入的retriever有没有g">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/02/09/note_09/">
 <meta name="twitter:title" content="Go: 5-1 接口 - Fly With Bug">
-<meta name="twitter:description" content="duck typing  基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构  pythn中的duck typing def download(retriever): return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;)   运行时才知道传入的retriever有没有get方法 需要给download注释来说明接口需要实现get方法  c&#43;&#43; 中的duck typing template&amp;lt;class R&amp;gt; string download(const R&amp;amp; retriever){ return retriever.get(&amp;quot;www.downloadur..com&amp;quot;) }   编译时才可以知道传入的retriever有么有get方法 需要注释来说明接口需求  java 中的类似代码 &amp;lt;R extends Retriever&amp;gt; String download(R r){ return r.get(&amp;quot;www.downloadurl.com&amp;quot;) }   传入的参数必须实现Retriever接口 不是duck typing  go 语言的duck typing  同时需要Readable,Appendable怎么做？（apache polygene） 同时具有python,c&#43;&#43;的duck typing的灵活性 具有java的类型检查  接口的定义  使用者&amp;mdash;&amp;gt;实现者 接口由使用者定义 接口的实现是隐式的 只需要实现接口里的方法即可  接口遍历里有什么东西  实现者的类型 实现者的值/指针 接口变量自带指针 接口变量采用值传递，几乎不需要使用接口的指针 指针接收者实现只能以指针的方式使用;值接受者都可以  查看接口变量  表示任何类型：interface{} Type Assertion Type Switch   //Type assertion if mockRetriver, ok := r.">
+<meta name="twitter:description" content="duck typing 基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构 pythn中的duck typing def download(retriever): return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;) 运行时才知道传入的retriever有没有g">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,7 @@
         "height": 60
       }
     },
-    "description": "duck typing  基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构  pythn中的duck typing def download(retriever): return retriever.get(&quot;www.downloadurl.com&quot;)   运行时才知道传入的retriever有没有get方法 需要给download注释来说明接口需要实现get方法  c++ 中的duck typing template&lt;class R&gt; string download(const R&amp; retriever){ return retriever.get(&quot;www.downloadur..com&quot;) }   编译时才可以知道传入的retriever有么有get方法 需要注释来说明接口需求  java 中的类似代码 &lt;R extends Retriever&gt; String download(R r){ return r.get(&quot;www.downloadurl.com&quot;) }   传入的参数必须实现Retriever接口 不是duck typing  go 语言的duck typing  同时需要Readable,Appendable怎么做？（apache polygene） 同时具有python,c++的duck typing的灵活性 具有java的类型检查  接口的定义  使用者&mdash;&gt;实现者 接口由使用者定义 接口的实现是隐式的 只需要实现接口里的方法即可  接口遍历里有什么东西  实现者的类型 实现者的值/指针 接口变量自带指针 接口变量采用值传递，几乎不需要使用接口的指针 指针接收者实现只能以指针的方式使用;值接受者都可以  查看接口变量  表示任何类型：interface{} Type Assertion Type Switch   //Type assertion if mockRetriver, ok := r."
+    "description": "duck typing 基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构 pythn中的duck typing def download(retriever): return retriever.get(&quot;www.downloadurl.com&quot;) 运行时才知道传入的retriever有没有g"
   }
 </script>
 
@@ -93,6 +93,22 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -331,7 +347,7 @@ type ReadWriteCloser interface {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go: 14-3 多任务版爬虫 - Fly With Bug</title>
     
-<meta name="description" content="并发调度器 //engine package engine import ( &amp;quot;log&amp;quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &amp;lt; e.WorkerCount; i&#43;&#43; { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds { e.Scheduler.Submit(r) } itemCount := 0 for { result := &amp;lt;-out for _, item := range result.">
+<meta name="description" content="并发调度器 //engine package engine import ( &amp;quot;log&amp;quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &amp;lt; e.WorkerCount; i&#43;&#43; { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {">
 
 <meta property="og:title" content="Go: 14-3 多任务版爬虫 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/03/16/note_26/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="并发调度器 //engine package engine import ( &amp;quot;log&amp;quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &amp;lt; e.WorkerCount; i&#43;&#43; { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds { e.Scheduler.Submit(r) } itemCount := 0 for { result := &amp;lt;-out for _, item := range result.">
+<meta property="og:description" content="并发调度器 //engine package engine import ( &amp;quot;log&amp;quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &amp;lt; e.WorkerCount; i&#43;&#43; { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/03/16/note_26/">
 <meta name="twitter:title" content="Go: 14-3 多任务版爬虫 - Fly With Bug">
-<meta name="twitter:description" content="并发调度器 //engine package engine import ( &amp;quot;log&amp;quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &amp;lt; e.WorkerCount; i&#43;&#43; { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds { e.Scheduler.Submit(r) } itemCount := 0 for { result := &amp;lt;-out for _, item := range result.">
+<meta name="twitter:description" content="并发调度器 //engine package engine import ( &amp;quot;log&amp;quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &amp;lt; e.WorkerCount; i&#43;&#43; { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,7 @@
         "height": 60
       }
     },
-    "description": "并发调度器 //engine package engine import ( &quot;log&quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &lt; e.WorkerCount; i++ { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds { e.Scheduler.Submit(r) } itemCount := 0 for { result := &lt;-out for _, item := range result."
+    "description": "并发调度器 //engine package engine import ( &quot;log&quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &lt; e.WorkerCount; i++ { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {"
   }
 </script>
 
@@ -93,6 +93,22 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -305,7 +321,7 @@ func (s *QueuedScheduler) Run() {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

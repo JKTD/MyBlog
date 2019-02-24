@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2017/08/03/bigfileupload/">
+<link rel="canonical" href="http://blog.flywithme.top/2017/08/03/bigFileUpload/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>大文件分片上传解决方案 - Fly With Bug</title>
     
-<meta name="description" content=" 分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。   上传任务池中会保持小于等于3个的请求任务 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)  文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式模型组里可以保存每一个分片的md5值，用于分片的上传状态。管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。 ">
+<meta name="description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
 
 <meta property="og:title" content="大文件分片上传解决方案 - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2017/08/03/bigfileupload/">
+<meta property="og:url" content="http://blog.flywithme.top/2017/08/03/bigFileUpload/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content=" 分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。   上传任务池中会保持小于等于3个的请求任务 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)  文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式模型组里可以保存每一个分片的md5值，用于分片的上传状态。管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。 ">
+<meta property="og:description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2017/08/03/bigfileupload/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2017/08/03/bigFileUpload/">
 <meta name="twitter:title" content="大文件分片上传解决方案 - Fly With Bug">
-<meta name="twitter:description" content=" 分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。   上传任务池中会保持小于等于3个的请求任务 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)  文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式模型组里可以保存每一个分片的md5值，用于分片的上传状态。管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。 ">
+<meta name="twitter:description" content="分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,14 +65,7 @@
         "height": 60
       }
     },
-    "description": " 分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数
- md5: 获取文件的md5值
- 文件管理工具：文件路径， 分析文件内容，生成数据。
-   上传任务池中会保持小于等于3个的请求任务 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)
-  文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式
-模型组里可以保存每一个分片的md5值，用于分片的上传状态。
-管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。
- "
+    "description": "分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中"
   }
 </script>
 
@@ -100,6 +93,22 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -150,7 +159,7 @@
  等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)</p>
 </blockquote>
 
-<p><img src="/sources/bigFileUpload/bigfile001.png" alt="bigfile001" /></p>
+<p><img src="http://blog.flywithme.top/sources/bigFileUpload/bigfile001.png" alt="bigfile001" /></p>
 
 <blockquote>
 <p>文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式<br />
@@ -211,7 +220,7 @@
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

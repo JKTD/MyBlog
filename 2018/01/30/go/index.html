@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go 语言总结 - Fly With Bug</title>
     
-<meta name="description" content="前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力）Go 归类总结  类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：面向接口，函数式编程，并发编程  Go语言的并发编程  采用CSP(Communication Sequential Process)模型（有学术论文，比较复杂） code层面不需要锁，不需要callback 并发编程VS并行计算  Go语言的安装与开放环境  下载：https://golang.org/dl/ 下载对应系统的go安装包 开发工具： 我使用的是 WebStrom &#43;go 插件 IDE jetbeans 除了Goland 编译器  一个简单的 goroutine package main import &amp;quot;strconv&amp;quot; import &amp;quot;fmt&amp;quot; func main() { taskChan := make(chan string, 3) doneChan := make(chan int, 1) for i := 0; i &amp;lt; 3; i&#43;&#43; { taskChan &amp;lt;- strconv.Itoa(i) fmt.Println(&amp;quot;send: &amp;quot;, i) } go func() { for i := 0; i &amp;lt; 3; i&#43;&#43; { task := &amp;lt;-taskChan fmt.">
+<meta name="description" content="前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力） Go 归类总结 类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：">
 
 <meta property="og:title" content="Go 语言总结 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/01/30/go/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力）Go 归类总结  类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：面向接口，函数式编程，并发编程  Go语言的并发编程  采用CSP(Communication Sequential Process)模型（有学术论文，比较复杂） code层面不需要锁，不需要callback 并发编程VS并行计算  Go语言的安装与开放环境  下载：https://golang.org/dl/ 下载对应系统的go安装包 开发工具： 我使用的是 WebStrom &#43;go 插件 IDE jetbeans 除了Goland 编译器  一个简单的 goroutine package main import &amp;quot;strconv&amp;quot; import &amp;quot;fmt&amp;quot; func main() { taskChan := make(chan string, 3) doneChan := make(chan int, 1) for i := 0; i &amp;lt; 3; i&#43;&#43; { taskChan &amp;lt;- strconv.Itoa(i) fmt.Println(&amp;quot;send: &amp;quot;, i) } go func() { for i := 0; i &amp;lt; 3; i&#43;&#43; { task := &amp;lt;-taskChan fmt.">
+<meta property="og:description" content="前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力） Go 归类总结 类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/01/30/go/">
 <meta name="twitter:title" content="Go 语言总结 - Fly With Bug">
-<meta name="twitter:description" content="前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力）Go 归类总结  类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：面向接口，函数式编程，并发编程  Go语言的并发编程  采用CSP(Communication Sequential Process)模型（有学术论文，比较复杂） code层面不需要锁，不需要callback 并发编程VS并行计算  Go语言的安装与开放环境  下载：https://golang.org/dl/ 下载对应系统的go安装包 开发工具： 我使用的是 WebStrom &#43;go 插件 IDE jetbeans 除了Goland 编译器  一个简单的 goroutine package main import &amp;quot;strconv&amp;quot; import &amp;quot;fmt&amp;quot; func main() { taskChan := make(chan string, 3) doneChan := make(chan int, 1) for i := 0; i &amp;lt; 3; i&#43;&#43; { taskChan &amp;lt;- strconv.Itoa(i) fmt.Println(&amp;quot;send: &amp;quot;, i) } go func() { for i := 0; i &amp;lt; 3; i&#43;&#43; { task := &amp;lt;-taskChan fmt.">
+<meta name="twitter:description" content="前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力） Go 归类总结 类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,8 +65,7 @@
         "height": 60
       }
     },
-    "description": "前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力）
-Go 归类总结  类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：面向接口，函数式编程，并发编程  Go语言的并发编程  采用CSP(Communication Sequential Process)模型（有学术论文，比较复杂） code层面不需要锁，不需要callback 并发编程VS并行计算  Go语言的安装与开放环境  下载：https://golang.org/dl/ 下载对应系统的go安装包 开发工具： 我使用的是 WebStrom +go 插件 IDE jetbeans 除了Goland 编译器  一个简单的 goroutine package main import &quot;strconv&quot; import &quot;fmt&quot; func main() { taskChan := make(chan string, 3) doneChan := make(chan int, 1) for i := 0; i &lt; 3; i++ { taskChan &lt;- strconv.Itoa(i) fmt.Println(&quot;send: &quot;, i) } go func() { for i := 0; i &lt; 3; i++ { task := &lt;-taskChan fmt."
+    "description": "前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力） Go 归类总结 类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色："
   }
 </script>
 
@@ -94,6 +93,22 @@ Go 归类总结  类型检查：编译时 运行环境：编译成机器代码�
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -306,7 +321,7 @@ func main() {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

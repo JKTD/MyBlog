@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go语言fmt包Printf方法详解t - Fly With Bug</title>
     
-<meta name="description" content="Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。General %v 以默认的方式打印变量的值 %T 打印变量的类型 Integer %&#43;d 带符号的整型，fmt.Printf(&amp;ldquo;%&#43;d&amp;rdquo;, 255)输出&#43;255 %q 打印单引号 %o 不带零的八进制 %#o 带零的八进制 %x 小写的十六进制 %X 大写的十六进制 %#x 带0x的十六进制 %U 打印Unicode字符 %#U 打印带字符的Unicode %b 打印整型的二进制  Integer width %5d 表示该整型最大长度是5，下面这段代码fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1) fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)   输出结果如下：| 1| |1234567|   %-5d则相反，打印结果会自动左对齐 %05d会在数字前面补零。  Float %f (=%.6f) 6位小数点 %e (=%.6e) 6位小数点（科学计数法） %g 用最少的数字来表示 %.">
+<meta name="description" content="Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。 General %v 以默认的方式打印">
 
 <meta property="og:title" content="Go语言fmt包Printf方法详解t - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/01/01/golangfmt/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。General %v 以默认的方式打印变量的值 %T 打印变量的类型 Integer %&#43;d 带符号的整型，fmt.Printf(&amp;ldquo;%&#43;d&amp;rdquo;, 255)输出&#43;255 %q 打印单引号 %o 不带零的八进制 %#o 带零的八进制 %x 小写的十六进制 %X 大写的十六进制 %#x 带0x的十六进制 %U 打印Unicode字符 %#U 打印带字符的Unicode %b 打印整型的二进制  Integer width %5d 表示该整型最大长度是5，下面这段代码fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1) fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)   输出结果如下：| 1| |1234567|   %-5d则相反，打印结果会自动左对齐 %05d会在数字前面补零。  Float %f (=%.6f) 6位小数点 %e (=%.6e) 6位小数点（科学计数法） %g 用最少的数字来表示 %.">
+<meta property="og:description" content="Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。 General %v 以默认的方式打印">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/01/01/golangfmt/">
 <meta name="twitter:title" content="Go语言fmt包Printf方法详解t - Fly With Bug">
-<meta name="twitter:description" content="Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。General %v 以默认的方式打印变量的值 %T 打印变量的类型 Integer %&#43;d 带符号的整型，fmt.Printf(&amp;ldquo;%&#43;d&amp;rdquo;, 255)输出&#43;255 %q 打印单引号 %o 不带零的八进制 %#o 带零的八进制 %x 小写的十六进制 %X 大写的十六进制 %#x 带0x的十六进制 %U 打印Unicode字符 %#U 打印带字符的Unicode %b 打印整型的二进制  Integer width %5d 表示该整型最大长度是5，下面这段代码fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1) fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)   输出结果如下：| 1| |1234567|   %-5d则相反，打印结果会自动左对齐 %05d会在数字前面补零。  Float %f (=%.6f) 6位小数点 %e (=%.6e) 6位小数点（科学计数法） %g 用最少的数字来表示 %.">
+<meta name="twitter:description" content="Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。 General %v 以默认的方式打印">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,24 +65,7 @@
         "height": 60
       }
     },
-    "description": "Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。
-General
- %v 以默认的方式打印变量的值 %T 打印变量的类型 Integer
- %+d 带符号的整型，fmt.Printf(&ldquo;%+d&rdquo;, 255)输出+255
- %q 打印单引号
- %o 不带零的八进制
- %#o 带零的八进制
- %x 小写的十六进制
- %X 大写的十六进制
- %#x 带0x的十六进制
- %U 打印Unicode字符
- %#U 打印带字符的Unicode
- %b 打印整型的二进制
-  Integer width
- %5d 表示该整型最大长度是5，下面这段代码
-fmt.Printf(&quot;|%5d|&quot;, 1) fmt.Printf(&quot;|%5d|&quot;, 1234567)   输出结果如下：
-| 1| |1234567|   %-5d则相反，打印结果会自动左对齐 %05d会在数字前面补零。  Float
- %f (=%.6f) 6位小数点 %e (=%.6e) 6位小数点（科学计数法） %g 用最少的数字来表示 %."
+    "description": "Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。 General %v 以默认的方式打印"
   }
 </script>
 
@@ -110,6 +93,22 @@ fmt.Printf(&quot;|%5d|&quot;, 1) fmt.Printf(&quot;|%5d|&quot;, 1234567)   输出
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -304,7 +303,7 @@ fmt.Printf(&quot;|%5d|&quot;, 1234567)
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

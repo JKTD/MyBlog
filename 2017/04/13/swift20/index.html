@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>swift3-20 构造过程 - Fly With Bug</title>
     
-<meta name="description" content="构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务swift的构造函数使用的是init()方法。 这个方法没有返回值。主要任务是保证新实例在第一次使用之前完成正确的初始化。构造器 在创建某特定类型的新实例时调用，它的关键字是initinit(){ //执行属性初值设置 }  两段式构造class baseClass{ var name:String var age:Int var level:String? init() { self.name = &amp;quot;&amp;quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&amp;quot;baseClass&amp;quot;) } } class sonClass1:baseClass{ var str1:String init(name:String, age:Int, str1:String){ //构造初值 第一段 self.str1 = str1 super.init(name: name, age: age) //进一步完善 第二段 self.agefomat(age: age) } final func agefomat(age:Int){ if age &amp;lt;= 0 { self.">
+<meta name="description" content="构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务 swift的构造函数">
 
 <meta property="og:title" content="swift3-20 构造过程 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/04/13/swift20/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务swift的构造函数使用的是init()方法。 这个方法没有返回值。主要任务是保证新实例在第一次使用之前完成正确的初始化。构造器 在创建某特定类型的新实例时调用，它的关键字是initinit(){ //执行属性初值设置 }  两段式构造class baseClass{ var name:String var age:Int var level:String? init() { self.name = &amp;quot;&amp;quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&amp;quot;baseClass&amp;quot;) } } class sonClass1:baseClass{ var str1:String init(name:String, age:Int, str1:String){ //构造初值 第一段 self.str1 = str1 super.init(name: name, age: age) //进一步完善 第二段 self.agefomat(age: age) } final func agefomat(age:Int){ if age &amp;lt;= 0 { self.">
+<meta property="og:description" content="构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务 swift的构造函数">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/04/13/swift20/">
 <meta name="twitter:title" content="swift3-20 构造过程 - Fly With Bug">
-<meta name="twitter:description" content="构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务swift的构造函数使用的是init()方法。 这个方法没有返回值。主要任务是保证新实例在第一次使用之前完成正确的初始化。构造器 在创建某特定类型的新实例时调用，它的关键字是initinit(){ //执行属性初值设置 }  两段式构造class baseClass{ var name:String var age:Int var level:String? init() { self.name = &amp;quot;&amp;quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&amp;quot;baseClass&amp;quot;) } } class sonClass1:baseClass{ var str1:String init(name:String, age:Int, str1:String){ //构造初值 第一段 self.str1 = str1 super.init(name: name, age: age) //进一步完善 第二段 self.agefomat(age: age) } final func agefomat(age:Int){ if age &amp;lt;= 0 { self.">
+<meta name="twitter:description" content="构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务 swift的构造函数">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,11 +65,7 @@
         "height": 60
       }
     },
-    "description": "构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务
-swift的构造函数使用的是init()方法。 这个方法没有返回值。主要任务是保证新实例在第一次使用之前完成正确的初始化。
-构造器 在创建某特定类型的新实例时调用，它的关键字是init
-init(){ //执行属性初值设置 }  两段式构造
-class baseClass{ var name:String var age:Int var level:String? init() { self.name = &quot;&quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&quot;baseClass&quot;) } } class sonClass1:baseClass{ var str1:String init(name:String, age:Int, str1:String){ //构造初值 第一段 self.str1 = str1 super.init(name: name, age: age) //进一步完善 第二段 self.agefomat(age: age) } final func agefomat(age:Int){ if age &lt;= 0 { self."
+    "description": "构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务 swift的构造函数"
   }
 </script>
 
@@ -97,6 +93,22 @@ class baseClass{ var name:String var age:Int var level:String? init() { self.nam
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -396,7 +408,7 @@ let son = sonClass1.init(name: &quot;a&quot;, age: 2, str1: &quot;str&quot;)
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

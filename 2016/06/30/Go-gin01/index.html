@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2016/06/30/go-gin01/">
+<link rel="canonical" href="http://blog.flywithme.top/2016/06/30/Go-gin01/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>golang-gin 框架学习 一、 GET POST Method - Fly With Bug</title>
     
-<meta name="description" content="前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过.所以就选了一个文档比较齐全的 Gin 来写我的第一个 webServer 项目.这只是一个 Demo ,写这个日志是为了记录自己的学习历程.激励下自己吧.Gin API 搭建Web 服务器少不了要写 api 首先从最简单的 GET POST 开始.首先要初始化一个路由func main() { router := gin.Default()//初始化路由 router.Run(&amp;quot;:8080&amp;quot;) // listen and GO on 0.0.0.0:8080 }  GET Method 这个最基本的网络请求在 gin 几行代码就可以搞定router.GET(&amp;quot;/user/:name/:action&amp;quot;, func(c *gin.Context) { name := c.Param(&amp;quot;name&amp;quot;) action := c.Param(&amp;quot;action&amp;quot;) message := name &#43; &amp;quot; is &amp;quot; &#43; action c.String(http.StatusOK, message) })  client 使用方式如下图 router.GET(&amp;quot;/welcome&amp;quot;, func(c *gin.Context) { firstname := c.">
+<meta name="description" content="前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过. 所以就选了一个">
 
 <meta property="og:title" content="golang-gin 框架学习 一、 GET POST Method - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2016/06/30/go-gin01/">
+<meta property="og:url" content="http://blog.flywithme.top/2016/06/30/Go-gin01/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过.所以就选了一个文档比较齐全的 Gin 来写我的第一个 webServer 项目.这只是一个 Demo ,写这个日志是为了记录自己的学习历程.激励下自己吧.Gin API 搭建Web 服务器少不了要写 api 首先从最简单的 GET POST 开始.首先要初始化一个路由func main() { router := gin.Default()//初始化路由 router.Run(&amp;quot;:8080&amp;quot;) // listen and GO on 0.0.0.0:8080 }  GET Method 这个最基本的网络请求在 gin 几行代码就可以搞定router.GET(&amp;quot;/user/:name/:action&amp;quot;, func(c *gin.Context) { name := c.Param(&amp;quot;name&amp;quot;) action := c.Param(&amp;quot;action&amp;quot;) message := name &#43; &amp;quot; is &amp;quot; &#43; action c.String(http.StatusOK, message) })  client 使用方式如下图 router.GET(&amp;quot;/welcome&amp;quot;, func(c *gin.Context) { firstname := c.">
+<meta property="og:description" content="前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过. 所以就选了一个">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2016/06/30/go-gin01/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2016/06/30/Go-gin01/">
 <meta name="twitter:title" content="golang-gin 框架学习 一、 GET POST Method - Fly With Bug">
-<meta name="twitter:description" content="前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过.所以就选了一个文档比较齐全的 Gin 来写我的第一个 webServer 项目.这只是一个 Demo ,写这个日志是为了记录自己的学习历程.激励下自己吧.Gin API 搭建Web 服务器少不了要写 api 首先从最简单的 GET POST 开始.首先要初始化一个路由func main() { router := gin.Default()//初始化路由 router.Run(&amp;quot;:8080&amp;quot;) // listen and GO on 0.0.0.0:8080 }  GET Method 这个最基本的网络请求在 gin 几行代码就可以搞定router.GET(&amp;quot;/user/:name/:action&amp;quot;, func(c *gin.Context) { name := c.Param(&amp;quot;name&amp;quot;) action := c.Param(&amp;quot;action&amp;quot;) message := name &#43; &amp;quot; is &amp;quot; &#43; action c.String(http.StatusOK, message) })  client 使用方式如下图 router.GET(&amp;quot;/welcome&amp;quot;, func(c *gin.Context) { firstname := c.">
+<meta name="twitter:description" content="前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过. 所以就选了一个">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,12 +65,7 @@
         "height": 60
       }
     },
-    "description": "前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过.
-所以就选了一个文档比较齐全的 Gin 来写我的第一个 webServer 项目.这只是一个 Demo ,写这个日志是为了记录自己的学习历程.激励下自己吧.
-Gin API 搭建Web 服务器少不了要写 api 首先从最简单的 GET POST 开始.
-首先要初始化一个路由
-func main() { router := gin.Default()//初始化路由 router.Run(&quot;:8080&quot;) // listen and GO on 0.0.0.0:8080 }  GET Method 这个最基本的网络请求在 gin 几行代码就可以搞定
-router.GET(&quot;/user/:name/:action&quot;, func(c *gin.Context) { name := c.Param(&quot;name&quot;) action := c.Param(&quot;action&quot;) message := name + &quot; is &quot; + action c.String(http.StatusOK, message) })  client 使用方式如下图 router.GET(&quot;/welcome&quot;, func(c *gin.Context) { firstname := c."
+    "description": "前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过. 所以就选了一个"
   }
 </script>
 
@@ -98,6 +93,22 @@ router.GET(&quot;/user/:name/:action&quot;, func(c *gin.Context) { name := c.Par
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -290,7 +301,7 @@ router.GET(&quot;/user/:name/:action&quot;, func(c *gin.Context) { name := c.Par
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

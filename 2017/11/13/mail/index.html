@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>golang web Send Email - Fly With Bug</title>
     
-<meta name="description" content="//注意邮件格式，以免被当垃圾邮件package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; ) const ( HOST = &amp;quot;smtp.163.com&amp;quot; SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot; USER = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱 PASSWORD = &amp;quot;xxx&amp;quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string &amp;quot;to&amp;quot; subject string &amp;quot;subject&amp;quot; msg string &amp;quot;msg&amp;quot; } func NewEmail(to, subject, msg string) *Email { return &amp;amp;Email{to: to, subject: subject, msg: msg} } func SendEmail(email *Email) error { auth := smtp.PlainAuth(&amp;quot;&amp;quot;, USER, PASSWORD, HOST) sendTo := strings.Split(email.to, &amp;quot;;&amp;quot;) done := make(chan error, 1024) go func() { defer close(done) for _, v := range sendTo { str := strings.">
+<meta name="description" content="//注意邮件格式，以免被当垃圾邮件 package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; ) const ( HOST = &amp;quot;smtp.163.com&amp;quot; SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot; USER = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱 PASSWORD = &amp;quot;xxx&amp;quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string">
 
 <meta property="og:title" content="golang web Send Email - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/11/13/mail/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="//注意邮件格式，以免被当垃圾邮件package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; ) const ( HOST = &amp;quot;smtp.163.com&amp;quot; SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot; USER = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱 PASSWORD = &amp;quot;xxx&amp;quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string &amp;quot;to&amp;quot; subject string &amp;quot;subject&amp;quot; msg string &amp;quot;msg&amp;quot; } func NewEmail(to, subject, msg string) *Email { return &amp;amp;Email{to: to, subject: subject, msg: msg} } func SendEmail(email *Email) error { auth := smtp.PlainAuth(&amp;quot;&amp;quot;, USER, PASSWORD, HOST) sendTo := strings.Split(email.to, &amp;quot;;&amp;quot;) done := make(chan error, 1024) go func() { defer close(done) for _, v := range sendTo { str := strings.">
+<meta property="og:description" content="//注意邮件格式，以免被当垃圾邮件 package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; ) const ( HOST = &amp;quot;smtp.163.com&amp;quot; SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot; USER = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱 PASSWORD = &amp;quot;xxx&amp;quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/11/13/mail/">
 <meta name="twitter:title" content="golang web Send Email - Fly With Bug">
-<meta name="twitter:description" content="//注意邮件格式，以免被当垃圾邮件package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; ) const ( HOST = &amp;quot;smtp.163.com&amp;quot; SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot; USER = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱 PASSWORD = &amp;quot;xxx&amp;quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string &amp;quot;to&amp;quot; subject string &amp;quot;subject&amp;quot; msg string &amp;quot;msg&amp;quot; } func NewEmail(to, subject, msg string) *Email { return &amp;amp;Email{to: to, subject: subject, msg: msg} } func SendEmail(email *Email) error { auth := smtp.PlainAuth(&amp;quot;&amp;quot;, USER, PASSWORD, HOST) sendTo := strings.Split(email.to, &amp;quot;;&amp;quot;) done := make(chan error, 1024) go func() { defer close(done) for _, v := range sendTo { str := strings.">
+<meta name="twitter:description" content="//注意邮件格式，以免被当垃圾邮件 package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; ) const ( HOST = &amp;quot;smtp.163.com&amp;quot; SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot; USER = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱 PASSWORD = &amp;quot;xxx&amp;quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,8 +65,7 @@
         "height": 60
       }
     },
-    "description": "//注意邮件格式，以免被当垃圾邮件
-package email import ( &quot;net/smtp&quot; &quot;strings&quot; ) const ( HOST = &quot;smtp.163.com&quot; SERVER_ADDR = &quot;smtp.163.com:25&quot; USER = &quot;xxx@163.com&quot; //发送邮件的邮箱 PASSWORD = &quot;xxx&quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string &quot;to&quot; subject string &quot;subject&quot; msg string &quot;msg&quot; } func NewEmail(to, subject, msg string) *Email { return &amp;Email{to: to, subject: subject, msg: msg} } func SendEmail(email *Email) error { auth := smtp.PlainAuth(&quot;&quot;, USER, PASSWORD, HOST) sendTo := strings.Split(email.to, &quot;;&quot;) done := make(chan error, 1024) go func() { defer close(done) for _, v := range sendTo { str := strings."
+    "description": "//注意邮件格式，以免被当垃圾邮件 package email import ( &quot;net/smtp&quot; &quot;strings&quot; ) const ( HOST = &quot;smtp.163.com&quot; SERVER_ADDR = &quot;smtp.163.com:25&quot; USER = &quot;xxx@163.com&quot; //发送邮件的邮箱 PASSWORD = &quot;xxx&quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string"
   }
 </script>
 
@@ -94,6 +93,22 @@ package email import ( &quot;net/smtp&quot; &quot;strings&quot; ) const ( HOST =
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -250,7 +265,7 @@ func SendEmail(email *Email) error {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

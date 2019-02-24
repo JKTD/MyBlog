@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go: 8-1 测试 - Fly With Bug</title>
     
-<meta name="description" content="传统测试  测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束  @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); }   表格驱动测试  分离了测试数据和测试逻辑 明确的出错信息 可以部分失败  tests := []struct{ a,b,c int32 }{ {1,2,3}, {0,2,2}, {0,0,0}, {-1,1,0}, {Integer.MaxInt32,1,Integer.MinInt32}, } for _,test := range tests{ if actual := add(test.a,test.b);actual != text.c{ } }  测试代码覆盖率和性能测试  func lengthOfNonRepeatingSubStr(s string) int { lastOccurred := make(map[rune]int) start := 0 maxLength := 0 for i, ch := range []rune(s) { if lastI, ok := lastOccurred[ch]; ok &amp;amp;&amp;amp; lastI &amp;gt;= start { start = lastI &#43; 1 } if i-start&#43;1 &amp;gt; maxLength { maxLength = i - start &#43; 1 } lastOccurred[ch] = i } return maxLength } ------------------------------------------------------------ //在package目录下 执行命令 可以执行当前包下的所有测试用例 go test .">
+<meta name="description" content="传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的">
 
 <meta property="og:title" content="Go: 8-1 测试 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/03/01/note_14/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="传统测试  测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束  @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); }   表格驱动测试  分离了测试数据和测试逻辑 明确的出错信息 可以部分失败  tests := []struct{ a,b,c int32 }{ {1,2,3}, {0,2,2}, {0,0,0}, {-1,1,0}, {Integer.MaxInt32,1,Integer.MinInt32}, } for _,test := range tests{ if actual := add(test.a,test.b);actual != text.c{ } }  测试代码覆盖率和性能测试  func lengthOfNonRepeatingSubStr(s string) int { lastOccurred := make(map[rune]int) start := 0 maxLength := 0 for i, ch := range []rune(s) { if lastI, ok := lastOccurred[ch]; ok &amp;amp;&amp;amp; lastI &amp;gt;= start { start = lastI &#43; 1 } if i-start&#43;1 &amp;gt; maxLength { maxLength = i - start &#43; 1 } lastOccurred[ch] = i } return maxLength } ------------------------------------------------------------ //在package目录下 执行命令 可以执行当前包下的所有测试用例 go test .">
+<meta property="og:description" content="传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/03/01/note_14/">
 <meta name="twitter:title" content="Go: 8-1 测试 - Fly With Bug">
-<meta name="twitter:description" content="传统测试  测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束  @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); }   表格驱动测试  分离了测试数据和测试逻辑 明确的出错信息 可以部分失败  tests := []struct{ a,b,c int32 }{ {1,2,3}, {0,2,2}, {0,0,0}, {-1,1,0}, {Integer.MaxInt32,1,Integer.MinInt32}, } for _,test := range tests{ if actual := add(test.a,test.b);actual != text.c{ } }  测试代码覆盖率和性能测试  func lengthOfNonRepeatingSubStr(s string) int { lastOccurred := make(map[rune]int) start := 0 maxLength := 0 for i, ch := range []rune(s) { if lastI, ok := lastOccurred[ch]; ok &amp;amp;&amp;amp; lastI &amp;gt;= start { start = lastI &#43; 1 } if i-start&#43;1 &amp;gt; maxLength { maxLength = i - start &#43; 1 } lastOccurred[ch] = i } return maxLength } ------------------------------------------------------------ //在package目录下 执行命令 可以执行当前包下的所有测试用例 go test .">
+<meta name="twitter:description" content="传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,7 @@
         "height": 60
       }
     },
-    "description": "传统测试  测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束  @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); }   表格驱动测试  分离了测试数据和测试逻辑 明确的出错信息 可以部分失败  tests := []struct{ a,b,c int32 }{ {1,2,3}, {0,2,2}, {0,0,0}, {-1,1,0}, {Integer.MaxInt32,1,Integer.MinInt32}, } for _,test := range tests{ if actual := add(test.a,test.b);actual != text.c{ } }  测试代码覆盖率和性能测试  func lengthOfNonRepeatingSubStr(s string) int { lastOccurred := make(map[rune]int) start := 0 maxLength := 0 for i, ch := range []rune(s) { if lastI, ok := lastOccurred[ch]; ok &amp;&amp; lastI &gt;= start { start = lastI + 1 } if i-start+1 &gt; maxLength { maxLength = i - start + 1 } lastOccurred[ch] = i } return maxLength } ------------------------------------------------------------ //在package目录下 执行命令 可以执行当前包下的所有测试用例 go test ."
+    "description": "传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的"
   }
 </script>
 
@@ -93,6 +93,22 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -336,7 +352,7 @@ Entering interactive mode (type &quot;help&quot; for commands, &quot;o&quot; for
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

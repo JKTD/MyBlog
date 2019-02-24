@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/">
+<link rel="canonical" href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>gin api 跨域问题,cors - Fly With Bug</title>
     
-<meta name="description" content="当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循同源策略。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。跨域资源共享标准：规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 GET 以外的 HTTP 请求，或者搭配某些 MIME 类型的 POST 请求），浏览器必须首先使用 OPTIONS 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）。ginpackage main import ( &amp;quot;time&amp;quot; &amp;quot;github.com/gin-contrib/cors&amp;quot; &amp;quot;github.com/gin-gonic/gin&amp;quot; ) func main() { router := gin.Default() // CORS for https://foo.com and https://github.com origins, allowing: // - PUT and PATCH methods // - Origin header // - Credentials share // - Preflight requests cached for 12 hours router.">
+<meta name="description" content="当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求">
 
 <meta property="og:title" content="gin api 跨域问题,cors - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/">
+<meta property="og:url" content="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循同源策略。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。跨域资源共享标准：规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 GET 以外的 HTTP 请求，或者搭配某些 MIME 类型的 POST 请求），浏览器必须首先使用 OPTIONS 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）。ginpackage main import ( &amp;quot;time&amp;quot; &amp;quot;github.com/gin-contrib/cors&amp;quot; &amp;quot;github.com/gin-gonic/gin&amp;quot; ) func main() { router := gin.Default() // CORS for https://foo.com and https://github.com origins, allowing: // - PUT and PATCH methods // - Origin header // - Credentials share // - Preflight requests cached for 12 hours router.">
+<meta property="og:description" content="当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/">
 <meta name="twitter:title" content="gin api 跨域问题,cors - Fly With Bug">
-<meta name="twitter:description" content="当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循同源策略。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。跨域资源共享标准：规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 GET 以外的 HTTP 请求，或者搭配某些 MIME 类型的 POST 请求），浏览器必须首先使用 OPTIONS 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）。ginpackage main import ( &amp;quot;time&amp;quot; &amp;quot;github.com/gin-contrib/cors&amp;quot; &amp;quot;github.com/gin-gonic/gin&amp;quot; ) func main() { router := gin.Default() // CORS for https://foo.com and https://github.com origins, allowing: // - PUT and PATCH methods // - Origin header // - Credentials share // - Preflight requests cached for 12 hours router.">
+<meta name="twitter:description" content="当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,11 +65,7 @@
         "height": 60
       }
     },
-    "description": "当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。
-出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循同源策略。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。
-跨域资源共享标准：规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 GET 以外的 HTTP 请求，或者搭配某些 MIME 类型的 POST 请求），浏览器必须首先使用 OPTIONS 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）。
-gin
-package main import ( &quot;time&quot; &quot;github.com/gin-contrib/cors&quot; &quot;github.com/gin-gonic/gin&quot; ) func main() { router := gin.Default() // CORS for https://foo.com and https://github.com origins, allowing: // - PUT and PATCH methods // - Origin header // - Credentials share // - Preflight requests cached for 12 hours router."
+    "description": "当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求"
   }
 </script>
 
@@ -97,6 +93,22 @@ package main import ( &quot;time&quot; &quot;github.com/gin-contrib/cors&quot; &
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -226,7 +238,7 @@ func main() {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

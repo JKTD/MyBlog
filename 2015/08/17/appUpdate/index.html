@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2015/08/17/appupdate/">
+<link rel="canonical" href="http://blog.flywithme.top/2015/08/17/appUpdate/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>iOS App检测AppStore更新 - Fly With Bug</title>
     
-<meta name="description" content="//id&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple ID#define APP_URL @&amp;quot;http://itunes.apple.com/lookup?id=587231152&amp;quot;//term&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple Name//#define APP_URL @&amp;quot;http://itunes.apple.com/search?term=应用名称&amp;amp;entity=software&amp;quot;//检测版本更新- (void)GetUpdate{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSDictionary&amp;nbsp;*infoDict = [[NSBundle&amp;nbsp;mainBundle]infoDictionary];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*nowVersion = [infoDictobjectForKey:@&amp;quot;CFBundleVersion&amp;quot;];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*URL =&amp;nbsp;APP_URL;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSMutableURLRequest&amp;nbsp;*request = [[NSMutableURLRequestalloc]&amp;nbsp;init];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[request&amp;nbsp;setURL:[NSURL&amp;nbsp;URLWithString:URL]];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[request&amp;nbsp;setHTTPMethod:@&amp;quot;POST&amp;quot;];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSHTTPURLResponse&amp;nbsp;*urlResponse =&amp;nbsp;nil;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSError&amp;nbsp;*error =&amp;nbsp;nil;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSData&amp;nbsp;*recervedData = [NSURLConnectionsendSynchronousRequest:request&amp;nbsp;returningResponse:&amp;amp;urlResponseerror:&amp;amp;error];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*results = [[NSString&amp;nbsp;alloc]&amp;nbsp;initWithBytes:[recervedData&amp;nbsp;bytes]&amp;nbsp;length:[recervedData&amp;nbsp;length]encoding:NSUTF8StringEncoding];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;substr = [results&amp;nbsp;rangeOfString:@&amp;quot;&amp;quot;version&amp;quot;:&amp;quot;&amp;quot;];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;substr2 =[results&amp;nbsp;rangeOfString:@&amp;quot;&amp;quot;&amp;quot;&amp;nbsp;options:0range:NSMakeRange(substr.location&amp;#43;substr.length,10)];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;range = {substr.location&amp;#43;substr.length,substr2.location-substr.location-substr.length};&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*newVersion =[results&amp;nbsp;substringWithRange:range];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;if([nowVersion&amp;nbsp;isEqualToString:newVersion] ==&amp;nbsp;NO)&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;UIAlertView&amp;nbsp;*alert = [[UIAlertViewalloc]initWithTitle:nil&amp;nbsp;message:@&amp;quot;版本有更新&amp;quot;&amp;nbsp;delegate:selfcancelButtonTitle:@&amp;quot;取消&amp;quot;&amp;nbsp;otherButtonTitles:@&amp;quot;更新&amp;quot;,&amp;nbsp;nil];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[alert&amp;nbsp;show];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;}}#pragma mark - UIAlertViewDelegate Method- (void)alertView:(UIAlertView&amp;nbsp;*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;if(buttonIndex ==&amp;nbsp;1)">
+<meta name="description" content="//id&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple ID #define APP_URL @&amp;quot;http://itunes.apple.com/lookup?id=587231152&amp;quot; //term&amp;nbsp;是&amp;nbsp;itun">
 
 <meta property="og:title" content="iOS App检测AppStore更新 - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2015/08/17/appupdate/">
+<meta property="og:url" content="http://blog.flywithme.top/2015/08/17/appUpdate/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="//id&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple ID#define APP_URL @&amp;quot;http://itunes.apple.com/lookup?id=587231152&amp;quot;//term&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple Name//#define APP_URL @&amp;quot;http://itunes.apple.com/search?term=应用名称&amp;amp;entity=software&amp;quot;//检测版本更新- (void)GetUpdate{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSDictionary&amp;nbsp;*infoDict = [[NSBundle&amp;nbsp;mainBundle]infoDictionary];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*nowVersion = [infoDictobjectForKey:@&amp;quot;CFBundleVersion&amp;quot;];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*URL =&amp;nbsp;APP_URL;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSMutableURLRequest&amp;nbsp;*request = [[NSMutableURLRequestalloc]&amp;nbsp;init];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[request&amp;nbsp;setURL:[NSURL&amp;nbsp;URLWithString:URL]];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[request&amp;nbsp;setHTTPMethod:@&amp;quot;POST&amp;quot;];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSHTTPURLResponse&amp;nbsp;*urlResponse =&amp;nbsp;nil;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSError&amp;nbsp;*error =&amp;nbsp;nil;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSData&amp;nbsp;*recervedData = [NSURLConnectionsendSynchronousRequest:request&amp;nbsp;returningResponse:&amp;amp;urlResponseerror:&amp;amp;error];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*results = [[NSString&amp;nbsp;alloc]&amp;nbsp;initWithBytes:[recervedData&amp;nbsp;bytes]&amp;nbsp;length:[recervedData&amp;nbsp;length]encoding:NSUTF8StringEncoding];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;substr = [results&amp;nbsp;rangeOfString:@&amp;quot;&amp;quot;version&amp;quot;:&amp;quot;&amp;quot;];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;substr2 =[results&amp;nbsp;rangeOfString:@&amp;quot;&amp;quot;&amp;quot;&amp;nbsp;options:0range:NSMakeRange(substr.location&amp;#43;substr.length,10)];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;range = {substr.location&amp;#43;substr.length,substr2.location-substr.location-substr.length};&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*newVersion =[results&amp;nbsp;substringWithRange:range];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;if([nowVersion&amp;nbsp;isEqualToString:newVersion] ==&amp;nbsp;NO)&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;UIAlertView&amp;nbsp;*alert = [[UIAlertViewalloc]initWithTitle:nil&amp;nbsp;message:@&amp;quot;版本有更新&amp;quot;&amp;nbsp;delegate:selfcancelButtonTitle:@&amp;quot;取消&amp;quot;&amp;nbsp;otherButtonTitles:@&amp;quot;更新&amp;quot;,&amp;nbsp;nil];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[alert&amp;nbsp;show];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;}}#pragma mark - UIAlertViewDelegate Method- (void)alertView:(UIAlertView&amp;nbsp;*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;if(buttonIndex ==&amp;nbsp;1)">
+<meta property="og:description" content="//id&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple ID #define APP_URL @&amp;quot;http://itunes.apple.com/lookup?id=587231152&amp;quot; //term&amp;nbsp;是&amp;nbsp;itun">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2015/08/17/appupdate/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2015/08/17/appUpdate/">
 <meta name="twitter:title" content="iOS App检测AppStore更新 - Fly With Bug">
-<meta name="twitter:description" content="//id&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple ID#define APP_URL @&amp;quot;http://itunes.apple.com/lookup?id=587231152&amp;quot;//term&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple Name//#define APP_URL @&amp;quot;http://itunes.apple.com/search?term=应用名称&amp;amp;entity=software&amp;quot;//检测版本更新- (void)GetUpdate{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSDictionary&amp;nbsp;*infoDict = [[NSBundle&amp;nbsp;mainBundle]infoDictionary];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*nowVersion = [infoDictobjectForKey:@&amp;quot;CFBundleVersion&amp;quot;];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*URL =&amp;nbsp;APP_URL;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSMutableURLRequest&amp;nbsp;*request = [[NSMutableURLRequestalloc]&amp;nbsp;init];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[request&amp;nbsp;setURL:[NSURL&amp;nbsp;URLWithString:URL]];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[request&amp;nbsp;setHTTPMethod:@&amp;quot;POST&amp;quot;];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSHTTPURLResponse&amp;nbsp;*urlResponse =&amp;nbsp;nil;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSError&amp;nbsp;*error =&amp;nbsp;nil;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSData&amp;nbsp;*recervedData = [NSURLConnectionsendSynchronousRequest:request&amp;nbsp;returningResponse:&amp;amp;urlResponseerror:&amp;amp;error];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*results = [[NSString&amp;nbsp;alloc]&amp;nbsp;initWithBytes:[recervedData&amp;nbsp;bytes]&amp;nbsp;length:[recervedData&amp;nbsp;length]encoding:NSUTF8StringEncoding];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;substr = [results&amp;nbsp;rangeOfString:@&amp;quot;&amp;quot;version&amp;quot;:&amp;quot;&amp;quot;];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;substr2 =[results&amp;nbsp;rangeOfString:@&amp;quot;&amp;quot;&amp;quot;&amp;nbsp;options:0range:NSMakeRange(substr.location&amp;#43;substr.length,10)];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSRange&amp;nbsp;range = {substr.location&amp;#43;substr.length,substr2.location-substr.location-substr.length};&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;NSString&amp;nbsp;*newVersion =[results&amp;nbsp;substringWithRange:range];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;if([nowVersion&amp;nbsp;isEqualToString:newVersion] ==&amp;nbsp;NO)&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;UIAlertView&amp;nbsp;*alert = [[UIAlertViewalloc]initWithTitle:nil&amp;nbsp;message:@&amp;quot;版本有更新&amp;quot;&amp;nbsp;delegate:selfcancelButtonTitle:@&amp;quot;取消&amp;quot;&amp;nbsp;otherButtonTitles:@&amp;quot;更新&amp;quot;,&amp;nbsp;nil];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;[alert&amp;nbsp;show];&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;}}#pragma mark - UIAlertViewDelegate Method- (void)alertView:(UIAlertView&amp;nbsp;*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;if(buttonIndex ==&amp;nbsp;1)">
+<meta name="twitter:description" content="//id&amp;nbsp;是&amp;nbsp;itunes connect里的&amp;nbsp;Apple ID #define APP_URL @&amp;quot;http://itunes.apple.com/lookup?id=587231152&amp;quot; //term&amp;nbsp;是&amp;nbsp;itun">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,39 +65,7 @@
         "height": 60
       }
     },
-    "description": "//id&nbsp;是&nbsp;itunes connect里的&nbsp;Apple ID
-#define APP_URL @&quot;http://itunes.apple.com/lookup?id=587231152&quot;
-//term&nbsp;是&nbsp;itunes connect里的&nbsp;Apple Name
-//#define APP_URL @&quot;http://itunes.apple.com/search?term=应用名称&amp;entity=software&quot;
-
-//检测版本更新
-- (void)GetUpdate
-{
-&nbsp;&nbsp;&nbsp;&nbsp;NSDictionary&nbsp;*infoDict = [[NSBundle&nbsp;mainBundle]infoDictionary];
-&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*nowVersion = [infoDictobjectForKey:@&quot;CFBundleVersion&quot;];
-&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*URL =&nbsp;APP_URL;
-&nbsp;&nbsp;&nbsp;&nbsp;NSMutableURLRequest&nbsp;*request = [[NSMutableURLRequestalloc]&nbsp;init];
-&nbsp;&nbsp;&nbsp;&nbsp;[request&nbsp;setURL:[NSURL&nbsp;URLWithString:URL]];
-&nbsp;&nbsp;&nbsp;&nbsp;[request&nbsp;setHTTPMethod:@&quot;POST&quot;];
-&nbsp;&nbsp;&nbsp;&nbsp;NSHTTPURLResponse&nbsp;*urlResponse =&nbsp;nil;
-&nbsp;&nbsp;&nbsp;&nbsp;NSError&nbsp;*error =&nbsp;nil;
-&nbsp;&nbsp;&nbsp;&nbsp;NSData&nbsp;*recervedData = [NSURLConnectionsendSynchronousRequest:request&nbsp;returningResponse:&amp;urlResponseerror:&amp;error];
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*results = [[NSString&nbsp;alloc]&nbsp;initWithBytes:[recervedData&nbsp;bytes]&nbsp;length:[recervedData&nbsp;length]encoding:NSUTF8StringEncoding];
-&nbsp;&nbsp;&nbsp;&nbsp;NSRange&nbsp;substr = [results&nbsp;rangeOfString:@&quot;&quot;version&quot;:&quot;&quot;];
-&nbsp;&nbsp;&nbsp;&nbsp;NSRange&nbsp;substr2 =[results&nbsp;rangeOfString:@&quot;&quot;&quot;&nbsp;options:0range:NSMakeRange(substr.location&#43;substr.length,10)];
-&nbsp;&nbsp;&nbsp;&nbsp;NSRange&nbsp;range = {substr.location&#43;substr.length,substr2.location-substr.location-substr.length};
-&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*newVersion =[results&nbsp;substringWithRange:range];
-&nbsp;&nbsp;&nbsp;&nbsp;if([nowVersion&nbsp;isEqualToString:newVersion] ==&nbsp;NO)
-&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UIAlertView&nbsp;*alert = [[UIAlertViewalloc]initWithTitle:nil&nbsp;message:@&quot;版本有更新&quot;&nbsp;delegate:selfcancelButtonTitle:@&quot;取消&quot;&nbsp;otherButtonTitles:@&quot;更新&quot;,&nbsp;nil];
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[alert&nbsp;show];
-&nbsp;&nbsp;&nbsp;&nbsp;}
-}
-#pragma mark - UIAlertViewDelegate Method
-- (void)alertView:(UIAlertView&nbsp;*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-&nbsp;&nbsp;&nbsp;&nbsp;if(buttonIndex ==&nbsp;1)"
+    "description": "//id&nbsp;是&nbsp;itunes connect里的&nbsp;Apple ID #define APP_URL @&quot;http://itunes.apple.com/lookup?id=587231152&quot; //term&nbsp;是&nbsp;itun"
   }
 </script>
 
@@ -125,6 +93,22 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -450,7 +434,7 @@
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

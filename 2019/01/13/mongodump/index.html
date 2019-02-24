@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>mongodb 维护小记 - Fly With Bug</title>
     
-<meta name="description" content="数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager  本地处理 // dump命令 数据库用户 密码 数据库名字 备份目录 /usr/local/mongodb/bin/mongodump -u user -p pass -d docmanager -o ../dump // restore命令 数据库用户名 密码 数据库名字 备份目录 覆盖 /usr/local/mongodb/bin/mongorestore -u 用户名 -p 密码 -d docmanager doc_manager --drop  创建数据库管理员 //进入mongo命令行 mongo db.auth(&amp;quot;use&amp;quot;,&amp;quot;pass&amp;quot;) use log db.createUser( { user: &amp;quot;user&amp;quot;, pwd: &amp;quot;pass&amp;quot;, roles: [{ role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;log&amp;quot; }] } )  错误处理 // mongodb非正常关闭后 about to fork child process, waiting until server is ready for connections.">
+<meta name="description" content="数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager 本地处">
 
 <meta property="og:title" content="mongodb 维护小记 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2019/01/13/mongodump/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager  本地处理 // dump命令 数据库用户 密码 数据库名字 备份目录 /usr/local/mongodb/bin/mongodump -u user -p pass -d docmanager -o ../dump // restore命令 数据库用户名 密码 数据库名字 备份目录 覆盖 /usr/local/mongodb/bin/mongorestore -u 用户名 -p 密码 -d docmanager doc_manager --drop  创建数据库管理员 //进入mongo命令行 mongo db.auth(&amp;quot;use&amp;quot;,&amp;quot;pass&amp;quot;) use log db.createUser( { user: &amp;quot;user&amp;quot;, pwd: &amp;quot;pass&amp;quot;, roles: [{ role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;log&amp;quot; }] } )  错误处理 // mongodb非正常关闭后 about to fork child process, waiting until server is ready for connections.">
+<meta property="og:description" content="数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager 本地处">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2019/01/13/mongodump/">
 <meta name="twitter:title" content="mongodb 维护小记 - Fly With Bug">
-<meta name="twitter:description" content="数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager  本地处理 // dump命令 数据库用户 密码 数据库名字 备份目录 /usr/local/mongodb/bin/mongodump -u user -p pass -d docmanager -o ../dump // restore命令 数据库用户名 密码 数据库名字 备份目录 覆盖 /usr/local/mongodb/bin/mongorestore -u 用户名 -p 密码 -d docmanager doc_manager --drop  创建数据库管理员 //进入mongo命令行 mongo db.auth(&amp;quot;use&amp;quot;,&amp;quot;pass&amp;quot;) use log db.createUser( { user: &amp;quot;user&amp;quot;, pwd: &amp;quot;pass&amp;quot;, roles: [{ role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;log&amp;quot; }] } )  错误处理 // mongodb非正常关闭后 about to fork child process, waiting until server is ready for connections.">
+<meta name="twitter:description" content="数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager 本地处">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,8 +65,7 @@
         "height": 60
       }
     },
-    "description": "数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录
-mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager  本地处理 // dump命令 数据库用户 密码 数据库名字 备份目录 /usr/local/mongodb/bin/mongodump -u user -p pass -d docmanager -o ../dump // restore命令 数据库用户名 密码 数据库名字 备份目录 覆盖 /usr/local/mongodb/bin/mongorestore -u 用户名 -p 密码 -d docmanager doc_manager --drop  创建数据库管理员 //进入mongo命令行 mongo db.auth(&quot;use&quot;,&quot;pass&quot;) use log db.createUser( { user: &quot;user&quot;, pwd: &quot;pass&quot;, roles: [{ role: &quot;readWrite&quot;, db: &quot;log&quot; }] } )  错误处理 // mongodb非正常关闭后 about to fork child process, waiting until server is ready for connections."
+    "description": "数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager 本地处"
   }
 </script>
 
@@ -94,6 +93,22 @@ mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.d
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -237,7 +252,7 @@ rm /data/mongo/mongod.lock
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

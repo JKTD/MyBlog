@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2016/05/15/reactivecocoa/">
+<link rel="canonical" href="http://blog.flywithme.top/2016/05/15/ReactiveCocoa/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>ReactiveCocoa简单介绍 - Fly With Bug</title>
     
-<meta name="description" content="一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本pod &#39;ReactiveCocoa&#39;  二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入下方的头文件（建议在Pch文件中引入）就可以使用我们的ReactiveCocoa框架了#import &amp;lt;ReactiveCocoa/ReactiveCocoa.h&amp;gt; #import &amp;lt;ReactiveCocoa/RACEXTScope.h&amp;gt;  Sequence和MapSequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组，我们可以暂且把Sequence看做绑定信号量的数组吧。在OC中的NSArray可以通过rac_sequence方法转换成ReactiveCocoa中的Sequence，然后就可以调用处理信号的一些方法了。参考以下实例代码：a. 把NSArray通过rac_sequence方法生成RAC中的Sequenceb. 获取该Sequence对象的信号量c. 调用Signal的Map方法，使每个元素的首字母大写d. 通过subscribNext方法对其进行遍历输出 //uppercaseString use map - (void)uppercaseString { RACSequence *sequence = [@[@&amp;quot;you&amp;quot;, @&amp;quot;are&amp;quot;, @&amp;quot;beautiful&amp;quot;] rac_sequence]; RACSignal *signal = sequence.signal; RACSignal *capitalizedSignal = [signal map:^id(NSString * value) { return [value capitalizedString]; }]; [signal subscribeNext:^(NSString * x) { NSLog(@&amp;quot;signal --- %@&amp;quot;, x); }]; [capitalizedSignal subscribeNext:^(NSString * x) { NSLog(@&amp;quot;capitalizedSignal --- %@&amp;quot;, x); }]; }  下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。">
+<meta name="description" content="一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本 pod &#39;ReactiveCocoa&#39; 二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入">
 
 <meta property="og:title" content="ReactiveCocoa简单介绍 - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2016/05/15/reactivecocoa/">
+<meta property="og:url" content="http://blog.flywithme.top/2016/05/15/ReactiveCocoa/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本pod &#39;ReactiveCocoa&#39;  二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入下方的头文件（建议在Pch文件中引入）就可以使用我们的ReactiveCocoa框架了#import &amp;lt;ReactiveCocoa/ReactiveCocoa.h&amp;gt; #import &amp;lt;ReactiveCocoa/RACEXTScope.h&amp;gt;  Sequence和MapSequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组，我们可以暂且把Sequence看做绑定信号量的数组吧。在OC中的NSArray可以通过rac_sequence方法转换成ReactiveCocoa中的Sequence，然后就可以调用处理信号的一些方法了。参考以下实例代码：a. 把NSArray通过rac_sequence方法生成RAC中的Sequenceb. 获取该Sequence对象的信号量c. 调用Signal的Map方法，使每个元素的首字母大写d. 通过subscribNext方法对其进行遍历输出 //uppercaseString use map - (void)uppercaseString { RACSequence *sequence = [@[@&amp;quot;you&amp;quot;, @&amp;quot;are&amp;quot;, @&amp;quot;beautiful&amp;quot;] rac_sequence]; RACSignal *signal = sequence.signal; RACSignal *capitalizedSignal = [signal map:^id(NSString * value) { return [value capitalizedString]; }]; [signal subscribeNext:^(NSString * x) { NSLog(@&amp;quot;signal --- %@&amp;quot;, x); }]; [capitalizedSignal subscribeNext:^(NSString * x) { NSLog(@&amp;quot;capitalizedSignal --- %@&amp;quot;, x); }]; }  下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。">
+<meta property="og:description" content="一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本 pod &#39;ReactiveCocoa&#39; 二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2016/05/15/reactivecocoa/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2016/05/15/ReactiveCocoa/">
 <meta name="twitter:title" content="ReactiveCocoa简单介绍 - Fly With Bug">
-<meta name="twitter:description" content="一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本pod &#39;ReactiveCocoa&#39;  二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入下方的头文件（建议在Pch文件中引入）就可以使用我们的ReactiveCocoa框架了#import &amp;lt;ReactiveCocoa/ReactiveCocoa.h&amp;gt; #import &amp;lt;ReactiveCocoa/RACEXTScope.h&amp;gt;  Sequence和MapSequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组，我们可以暂且把Sequence看做绑定信号量的数组吧。在OC中的NSArray可以通过rac_sequence方法转换成ReactiveCocoa中的Sequence，然后就可以调用处理信号的一些方法了。参考以下实例代码：a. 把NSArray通过rac_sequence方法生成RAC中的Sequenceb. 获取该Sequence对象的信号量c. 调用Signal的Map方法，使每个元素的首字母大写d. 通过subscribNext方法对其进行遍历输出 //uppercaseString use map - (void)uppercaseString { RACSequence *sequence = [@[@&amp;quot;you&amp;quot;, @&amp;quot;are&amp;quot;, @&amp;quot;beautiful&amp;quot;] rac_sequence]; RACSignal *signal = sequence.signal; RACSignal *capitalizedSignal = [signal map:^id(NSString * value) { return [value capitalizedString]; }]; [signal subscribeNext:^(NSString * x) { NSLog(@&amp;quot;signal --- %@&amp;quot;, x); }]; [capitalizedSignal subscribeNext:^(NSString * x) { NSLog(@&amp;quot;capitalizedSignal --- %@&amp;quot;, x); }]; }  下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。">
+<meta name="twitter:description" content="一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本 pod &#39;ReactiveCocoa&#39; 二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,16 +65,7 @@
         "height": 60
       }
     },
-    "description": "一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本
-pod 'ReactiveCocoa'  二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。
- 引入相应的头文件,在工程中引入下方的头文件（建议在Pch文件中引入）就可以使用我们的ReactiveCocoa框架了
-#import &lt;ReactiveCocoa/ReactiveCocoa.h&gt; #import &lt;ReactiveCocoa/RACEXTScope.h&gt;  Sequence和Map
-Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组，我们可以暂且把Sequence看做绑定信号量的数组吧。在OC中的NSArray可以通过rac_sequence方法转换成ReactiveCocoa中的Sequence，然后就可以调用处理信号的一些方法了。
-参考以下实例代码：
-a. 把NSArray通过rac_sequence方法生成RAC中的Sequence
-b. 获取该Sequence对象的信号量
-c. 调用Signal的Map方法，使每个元素的首字母大写
-d. 通过subscribNext方法对其进行遍历输出 //uppercaseString use map - (void)uppercaseString { RACSequence *sequence = [@[@&quot;you&quot;, @&quot;are&quot;, @&quot;beautiful&quot;] rac_sequence]; RACSignal *signal = sequence.signal; RACSignal *capitalizedSignal = [signal map:^id(NSString * value) { return [value capitalizedString]; }]; [signal subscribeNext:^(NSString * x) { NSLog(@&quot;signal --- %@&quot;, x); }]; [capitalizedSignal subscribeNext:^(NSString * x) { NSLog(@&quot;capitalizedSignal --- %@&quot;, x); }]; }  下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。"
+    "description": "一 引入 ReactiveCocoa 使用 pod 引入 选择自己需要的版本 pod 'ReactiveCocoa' 二 使用 ReactiveCocoa 下方会通过一些简单的实例来介绍一下信号量机制和一些常用的方法。 引入相应的头文件,在工程中引入"
   }
 </script>
 
@@ -102,6 +93,22 @@ d. 通过subscribNext方法对其进行遍历输出 //uppercaseString use map - 
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -188,7 +195,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
 
 <p>下方截图是上个这个方法中的运行结果，从运行结果不难看出，通过Signal相应的方法处理完后，处理的结果会与新返回的信号量所绑定。原信号量中的值保持不变。每次信号量调用相应的方法处理完数据后，都会返回一个新的信号量，而这个信号量是独立于原信号量的。</p>
 
-<p><img src="/sources/reactivecocoa/blogreactivelog.png" alt="reactivelog" /></p>
+<p><img src="http://blog.flywithme.top/sources/reactivecocoa/blogreactivelog.png" alt="reactivelog" /></p>
 
 <p>由上面的介绍可知，上面方法中的一坨代码可以写成下方的一串。因为一个方法调用后会返回一个持有新结果的新的信号量，然后在这个信号量的基础上再次调用信号量其他的方法。Signal还有其他一些好用的方法，用法和map方法类似，在此就不一一赘述了，gitHub上有相应的实例文档。</p>
 
@@ -371,7 +378,7 @@ Sequence:队列，是ReactiveCocoa中引入的一个类型，它类似于数组�
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
