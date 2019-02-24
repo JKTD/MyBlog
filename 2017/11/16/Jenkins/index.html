@@ -8,29 +8,29 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2017/11/16/jenkins/">
+<link rel="canonical" href="http://blog.flywithme.top/2017/11/16/Jenkins/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>Jenkins-打包之远程构建 - Fly With Bug</title>
+    <title>Jenkins-打包之远程构建 - Fly With Me</title>
     
-<meta name="description" content="在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显得不够fashion。每次有新的代码合入测完分支，就自动打一个包给测试人员，会更高效一些。Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦上图所示的配置 触发远程构建，是使用身份令牌的形式完成的：http://host/job/merchant/buildWithParameters?token=token get请求形式即可完成定时构建举个🌰* * * * * 第一个*表示分钟，取值0~59 第二个*表示小时，取值0~23 第三个*表示一个月的第几天，取值1~31 第四个*表示第几月，取值1~12 第五个*表示一周中的第几天，取值0~7，其中0和7代表的都是周日 H H/3 * * * 每3小时构建以此 0 9,13,18 * * 1-5 每周一到周五 9点，13点，18点构建，  ">
+<meta name="description" content="在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显">
 
-<meta property="og:title" content="Jenkins-打包之远程构建 - Fly With Bug">
+<meta property="og:title" content="Jenkins-打包之远程构建 - Fly With Me">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2017/11/16/jenkins/">
+<meta property="og:url" content="http://blog.flywithme.top/2017/11/16/Jenkins/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
-<meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显得不够fashion。每次有新的代码合入测完分支，就自动打一个包给测试人员，会更高效一些。Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦上图所示的配置 触发远程构建，是使用身份令牌的形式完成的：http://host/job/merchant/buildWithParameters?token=token get请求形式即可完成定时构建举个🌰* * * * * 第一个*表示分钟，取值0~59 第二个*表示小时，取值0~23 第三个*表示一个月的第几天，取值1~31 第四个*表示第几月，取值1~12 第五个*表示一周中的第几天，取值0~7，其中0和7代表的都是周日 H H/3 * * * 每3小时构建以此 0 9,13,18 * * 1-5 每周一到周五 9点，13点，18点构建，  ">
+<meta property="og:site_name" content="Fly With Me">
+<meta property="og:description" content="在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2017/11/16/jenkins/">
-<meta name="twitter:title" content="Jenkins-打包之远程构建 - Fly With Bug">
-<meta name="twitter:description" content="在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显得不够fashion。每次有新的代码合入测完分支，就自动打一个包给测试人员，会更高效一些。Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦上图所示的配置 触发远程构建，是使用身份令牌的形式完成的：http://host/job/merchant/buildWithParameters?token=token get请求形式即可完成定时构建举个🌰* * * * * 第一个*表示分钟，取值0~59 第二个*表示小时，取值0~23 第三个*表示一个月的第几天，取值1~31 第四个*表示第几月，取值1~12 第五个*表示一周中的第几天，取值0~7，其中0和7代表的都是周日 H H/3 * * * 每3小时构建以此 0 9,13,18 * * 1-5 每周一到周五 9点，13点，18点构建，  ">
+<meta name="twitter:site" content="Fly With Me">
+<meta name="twitter:url" content="http://blog.flywithme.top/2017/11/16/Jenkins/">
+<meta name="twitter:title" content="Jenkins-打包之远程构建 - Fly With Me">
+<meta name="twitter:description" content="在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id":"http://blog.flywithme.top"
     },
-    "headline": "Jenkins-打包之远程构建 - Fly With Bug",
+    "headline": "Jenkins-打包之远程构建 - Fly With Me",
     "image": {
       "@type": "ImageObject",
       "url": "http://blog.flywithme.topimages/default.png",
@@ -53,11 +53,11 @@
     "dateModified": "2017-11-16T16:59:57JST",
     "author": {
       "@type": "Person",
-      "name": "Fly With Bug"
+      "name": "Fly With Me"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Fly With Bug",
+      "name": "Fly With Me",
       "logo": {
         "@type": "ImageObject",
         "url": "http://blog.flywithme.topimages/logo.png",
@@ -65,12 +65,7 @@
         "height": 60
       }
     },
-    "description": "在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显得不够fashion。每次有新的代码合入测完分支，就自动打一个包给测试人员，会更高效一些。
-Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦
-上图所示的配置 触发远程构建，是使用身份令牌的形式完成的：http://host/job/merchant/buildWithParameters?token=token get请求形式即可完成
-定时构建
-举个🌰
-* * * * * 第一个*表示分钟，取值0~59 第二个*表示小时，取值0~23 第三个*表示一个月的第几天，取值1~31 第四个*表示第几月，取值1~12 第五个*表示一周中的第几天，取值0~7，其中0和7代表的都是周日 H H/3 * * * 每3小时构建以此 0 9,13,18 * * 1-5 每周一到周五 9点，13点，18点构建，  "
+    "description": "在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显"
   }
 </script>
 
@@ -95,9 +90,25 @@ Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Me</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -216,7 +227,7 @@ H H/3 * * *
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -266,7 +277,7 @@ H H/3 * * *
 
     <footer class="l-footer">
       <div class="container">
-        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <p>Copyright (c) 2016. All rights reserved.</p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

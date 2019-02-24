@@ -8,29 +8,29 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2015/09/15/occalljs/">
+<link rel="canonical" href="http://blog.flywithme.top/2015/09/15/OCCallJS/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>iOS OC call JS - Fly With Bug</title>
+    <title>iOS OC call JS - Fly With Me</title>
     
-<meta name="description" content="从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。下面我们就简单了解一下这个框架首先我导入framework方法如下 点击Linked Frameworks and Libraries 的添加后 选择 JavaScriptCore.framework 选中JavaScriptCore.framework后 点击右下角Add 添加完成好 创建完成之后我们导入一下头文件#import &amp;lt;JavaScriptCore/JavaScriptCore.h&amp;gt;点进去 会看到如下几个方法 #import &amp;quot;JSContext.h&amp;quot;#import &amp;quot;JSValue.h&amp;quot;#import &amp;quot;JSManagedValue.h&amp;quot;#import &amp;quot;JSVirtualMachine.h&amp;quot;#import &amp;quot;JSExport.h&amp;quot;这些方法我们等会再细讲下来我们创建一个UIWebView &amp;nbsp;用来测试创建UIWebViewUIWebView *myWebView;初始化，添加，打开网址 //初始化webview myWebView=[[UIWebView alloc]initWithFrame:CGRectMake(0, 22, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-22)]; myWebView.delegate=self; //添加webview到当前viewcontroller的view上 [self.view addSubview:myWebView]; //网址 NSString *httpStr=@&amp;quot;https://www.baidu.com&amp;quot;; NSURL *httpUrl=[NSURL URLWithString:httpStr]; NSURLRequest *httpRequest=[NSURLRequest requestWithURL:httpUrl]; [myWebView loadRequest:httpRequest];">
+<meta name="description" content="从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。 下面我们就简单了解一下这个框架 首先">
 
-<meta property="og:title" content="iOS OC call JS - Fly With Bug">
+<meta property="og:title" content="iOS OC call JS - Fly With Me">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2015/09/15/occalljs/">
+<meta property="og:url" content="http://blog.flywithme.top/2015/09/15/OCCallJS/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
-<meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。下面我们就简单了解一下这个框架首先我导入framework方法如下 点击Linked Frameworks and Libraries 的添加后 选择 JavaScriptCore.framework 选中JavaScriptCore.framework后 点击右下角Add 添加完成好 创建完成之后我们导入一下头文件#import &amp;lt;JavaScriptCore/JavaScriptCore.h&amp;gt;点进去 会看到如下几个方法 #import &amp;quot;JSContext.h&amp;quot;#import &amp;quot;JSValue.h&amp;quot;#import &amp;quot;JSManagedValue.h&amp;quot;#import &amp;quot;JSVirtualMachine.h&amp;quot;#import &amp;quot;JSExport.h&amp;quot;这些方法我们等会再细讲下来我们创建一个UIWebView &amp;nbsp;用来测试创建UIWebViewUIWebView *myWebView;初始化，添加，打开网址 //初始化webview myWebView=[[UIWebView alloc]initWithFrame:CGRectMake(0, 22, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-22)]; myWebView.delegate=self; //添加webview到当前viewcontroller的view上 [self.view addSubview:myWebView]; //网址 NSString *httpStr=@&amp;quot;https://www.baidu.com&amp;quot;; NSURL *httpUrl=[NSURL URLWithString:httpStr]; NSURLRequest *httpRequest=[NSURLRequest requestWithURL:httpUrl]; [myWebView loadRequest:httpRequest];">
+<meta property="og:site_name" content="Fly With Me">
+<meta property="og:description" content="从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。 下面我们就简单了解一下这个框架 首先">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2015/09/15/occalljs/">
-<meta name="twitter:title" content="iOS OC call JS - Fly With Bug">
-<meta name="twitter:description" content="从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。下面我们就简单了解一下这个框架首先我导入framework方法如下 点击Linked Frameworks and Libraries 的添加后 选择 JavaScriptCore.framework 选中JavaScriptCore.framework后 点击右下角Add 添加完成好 创建完成之后我们导入一下头文件#import &amp;lt;JavaScriptCore/JavaScriptCore.h&amp;gt;点进去 会看到如下几个方法 #import &amp;quot;JSContext.h&amp;quot;#import &amp;quot;JSValue.h&amp;quot;#import &amp;quot;JSManagedValue.h&amp;quot;#import &amp;quot;JSVirtualMachine.h&amp;quot;#import &amp;quot;JSExport.h&amp;quot;这些方法我们等会再细讲下来我们创建一个UIWebView &amp;nbsp;用来测试创建UIWebViewUIWebView *myWebView;初始化，添加，打开网址 //初始化webview myWebView=[[UIWebView alloc]initWithFrame:CGRectMake(0, 22, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-22)]; myWebView.delegate=self; //添加webview到当前viewcontroller的view上 [self.view addSubview:myWebView]; //网址 NSString *httpStr=@&amp;quot;https://www.baidu.com&amp;quot;; NSURL *httpUrl=[NSURL URLWithString:httpStr]; NSURLRequest *httpRequest=[NSURLRequest requestWithURL:httpUrl]; [myWebView loadRequest:httpRequest];">
+<meta name="twitter:site" content="Fly With Me">
+<meta name="twitter:url" content="http://blog.flywithme.top/2015/09/15/OCCallJS/">
+<meta name="twitter:title" content="iOS OC call JS - Fly With Me">
+<meta name="twitter:description" content="从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。 下面我们就简单了解一下这个框架 首先">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id":"http://blog.flywithme.top"
     },
-    "headline": "iOS OC call JS - Fly With Bug",
+    "headline": "iOS OC call JS - Fly With Me",
     "image": {
       "@type": "ImageObject",
       "url": "http://blog.flywithme.topimages/default.png",
@@ -53,11 +53,11 @@
     "dateModified": "2015-09-15T18:05:59JST",
     "author": {
       "@type": "Person",
-      "name": "Fly With Bug"
+      "name": "Fly With Me"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Fly With Bug",
+      "name": "Fly With Me",
       "logo": {
         "@type": "ImageObject",
         "url": "http://blog.flywithme.topimages/logo.png",
@@ -65,35 +65,7 @@
         "height": 60
       }
     },
-    "description": "从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。
-下面我们就简单了解一下这个框架
-首先我导入framework
-方法如下
-
- 点击Linked Frameworks and Libraries 的添加后 选择 JavaScriptCore.framework
-
- 选中JavaScriptCore.framework后 点击右下角Add 添加完成
-好 创建完成之后我们导入一下头文件
-
-#import &lt;JavaScriptCore/JavaScriptCore.h&gt;
-点进去 会看到如下几个方法 
-
-#import &quot;JSContext.h&quot;
-#import &quot;JSValue.h&quot;
-#import &quot;JSManagedValue.h&quot;
-#import &quot;JSVirtualMachine.h&quot;
-#import &quot;JSExport.h&quot;
-这些方法我们等会再细讲
-
-下来我们创建一个UIWebView &nbsp;用来测试
-
-创建UIWebView
-
-UIWebView *myWebView;
-初始化，添加，打开网址 
-
-
-//初始化webview myWebView=[[UIWebView alloc]initWithFrame:CGRectMake(0, 22, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-22)]; myWebView.delegate=self; //添加webview到当前viewcontroller的view上 [self.view addSubview:myWebView]; //网址 NSString *httpStr=@&quot;https://www.baidu.com&quot;; NSURL *httpUrl=[NSURL URLWithString:httpStr]; NSURLRequest *httpRequest=[NSURLRequest requestWithURL:httpUrl]; [myWebView loadRequest:httpRequest];"
+    "description": "从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。 下面我们就简单了解一下这个框架 首先"
   }
 </script>
 
@@ -118,9 +90,25 @@ UIWebView *myWebView;
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Me</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -370,7 +358,7 @@ UIWebView *myWebView;
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -420,7 +408,7 @@ UIWebView *myWebView;
 
     <footer class="l-footer">
       <div class="container">
-        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <p>Copyright (c) 2016. All rights reserved.</p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

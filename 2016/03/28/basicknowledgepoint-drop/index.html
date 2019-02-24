@@ -14,23 +14,23 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>iOS 基础内容 - Fly With Bug</title>
+    <title>iOS 基础内容 - Fly With Me</title>
     
-<meta name="description" content="序言 基础要牢固!OC的理解与特性  OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C&#43;&#43;），又有动态语言的效率（动态绑定、动态加载等）。总体来讲，OC确实是一门不错的编程语言， Objective-C具有相当多的动态特性，表现为三方面：动态类型（Dynamic typing）、动态绑定（Dynamic binding）和动态加载（Dynamic loading）。动态——必须到运行时（run time）才会做的一些事情。 动态类型：即运行时再决定对象的类型，这种动态特性在日常的应用中非常常见，简单来说就是id类型。事实上，由于静态类型的固定性和可预知性，从而使用的更加广泛。静态类型是强类型，而动态类型属于弱类型，运行时决定接受者。 动态绑定：基于动态类型，在某个实例对象被确定后，其类型便被确定了，该对象对应的属性和响应消息也被完全确定。 动态加载：根据需求加载所需要的资源，最基本就是不同机型的适配，例如，在Retina设备上加载@2x的图片，而在老一些的普通苹设备上加载原图，让程序在运行时添加代码模块以及其他资源，用户可根据需要加载一些可执行代码和资源，而不是在启动时就加载所有组件，可执行代码可以含有和程序运行时整合的新类。  简述内存管理基本原则  之前：OC内存管理遵循“谁创建，谁释放，谁引用，谁管理”的机制，当创建或引用一个对象的时候，需要向她发送alloc、copy、retain消息，当释放该对象时需要发送release消息，当对象引用计数为0时，系统将释放该对象，这是OC的手动管理机制（MRC）。 目前：iOS 5.0之后引用自动管理机制——自动引用计数（ARC），管理机制与手动机制一样，只是不再需要调用retain、release、autorelease；它编译时的特性，当你使用ARC时，在适当位置插入release和autorelease；它引用strong和weak关键字，strong修饰的指针变量指向对象时，当指针指向新值或者指针不复存在，相关联的对象就会自动释放，而weak修饰的指针变量指向对象，当对象的拥有者指向新值或者不存在时weak修饰的指针会自动置为nil。 如果使用alloc、copy(mutableCopy)或者retian一个对象时,你就有义务,向它发送一条release或者autorelease消息。其他方法创建的对象,不需要由你来管理内存。 向一个对象发送一条autorelease消息,这个对象并不会立即销毁, 而是将这个对象放入了自动释放池,待池子释放时,它会向池中每一个对象发送 一条release消息,以此来释放对象. 向一个对象发送release消息,并不意味着这个对象被销毁了,而是当这个对象的引用计数为0时,系统才会调用dealloc方法,释放该对象和对象本身它所拥有的实例。  其他注意事项  如果一个对象有一个_strong类型的指针指向着，找个对象就不会被释放。如果一个指针指向超出了它的作用域，就会被指向nil。如果一个指针被指向nil，那么它原来指向的对象就被释放了。当一个视图控制器被释放时，它内部的全局指针会被指向nil。用法“：不管全局变量还是局部变量用_strong描述就行。 局部变量：出了作用域，指针会被置为nil。 方法内部创建对象，外部使用需要添加_autorelease; 连线的时候，用_weak描述。 代理使用unsafe_unretained就相当于assign； block中为了避免循环引用问题，使用_weak描述； 声明属性时，不要以new开头。如果非要以new开头命名属性的名字，需要自己定制get方法名，如 @property(getter=theString) NSString * newString; 如果要使用自动释放池，用@autoreleasepool{} ARC只能管理Foundation框架的变量，如果程序中把Foundation中的变量强制换成COre Foundation中的变量需要交换管理权； 在非ARC工程中采用ARC去编译某些类：-fobjc-arc。 在ARC下的工程采用非ARC去编译某些类：-fno-fobjc-arc。  如何理解MVC设计模式  MVC是一种架构模式，M表示Model，V表示视图View，C表示控制器Controller：">
+<meta name="description" content="序言 基础要牢固! OC的理解与特性 OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C&#43;&#43;）">
 
-<meta property="og:title" content="iOS 基础内容 - Fly With Bug">
+<meta property="og:title" content="iOS 基础内容 - Fly With Me">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2016/03/28/basicknowledgepoint-drop/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
-<meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="序言 基础要牢固!OC的理解与特性  OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C&#43;&#43;），又有动态语言的效率（动态绑定、动态加载等）。总体来讲，OC确实是一门不错的编程语言， Objective-C具有相当多的动态特性，表现为三方面：动态类型（Dynamic typing）、动态绑定（Dynamic binding）和动态加载（Dynamic loading）。动态——必须到运行时（run time）才会做的一些事情。 动态类型：即运行时再决定对象的类型，这种动态特性在日常的应用中非常常见，简单来说就是id类型。事实上，由于静态类型的固定性和可预知性，从而使用的更加广泛。静态类型是强类型，而动态类型属于弱类型，运行时决定接受者。 动态绑定：基于动态类型，在某个实例对象被确定后，其类型便被确定了，该对象对应的属性和响应消息也被完全确定。 动态加载：根据需求加载所需要的资源，最基本就是不同机型的适配，例如，在Retina设备上加载@2x的图片，而在老一些的普通苹设备上加载原图，让程序在运行时添加代码模块以及其他资源，用户可根据需要加载一些可执行代码和资源，而不是在启动时就加载所有组件，可执行代码可以含有和程序运行时整合的新类。  简述内存管理基本原则  之前：OC内存管理遵循“谁创建，谁释放，谁引用，谁管理”的机制，当创建或引用一个对象的时候，需要向她发送alloc、copy、retain消息，当释放该对象时需要发送release消息，当对象引用计数为0时，系统将释放该对象，这是OC的手动管理机制（MRC）。 目前：iOS 5.0之后引用自动管理机制——自动引用计数（ARC），管理机制与手动机制一样，只是不再需要调用retain、release、autorelease；它编译时的特性，当你使用ARC时，在适当位置插入release和autorelease；它引用strong和weak关键字，strong修饰的指针变量指向对象时，当指针指向新值或者指针不复存在，相关联的对象就会自动释放，而weak修饰的指针变量指向对象，当对象的拥有者指向新值或者不存在时weak修饰的指针会自动置为nil。 如果使用alloc、copy(mutableCopy)或者retian一个对象时,你就有义务,向它发送一条release或者autorelease消息。其他方法创建的对象,不需要由你来管理内存。 向一个对象发送一条autorelease消息,这个对象并不会立即销毁, 而是将这个对象放入了自动释放池,待池子释放时,它会向池中每一个对象发送 一条release消息,以此来释放对象. 向一个对象发送release消息,并不意味着这个对象被销毁了,而是当这个对象的引用计数为0时,系统才会调用dealloc方法,释放该对象和对象本身它所拥有的实例。  其他注意事项  如果一个对象有一个_strong类型的指针指向着，找个对象就不会被释放。如果一个指针指向超出了它的作用域，就会被指向nil。如果一个指针被指向nil，那么它原来指向的对象就被释放了。当一个视图控制器被释放时，它内部的全局指针会被指向nil。用法“：不管全局变量还是局部变量用_strong描述就行。 局部变量：出了作用域，指针会被置为nil。 方法内部创建对象，外部使用需要添加_autorelease; 连线的时候，用_weak描述。 代理使用unsafe_unretained就相当于assign； block中为了避免循环引用问题，使用_weak描述； 声明属性时，不要以new开头。如果非要以new开头命名属性的名字，需要自己定制get方法名，如 @property(getter=theString) NSString * newString; 如果要使用自动释放池，用@autoreleasepool{} ARC只能管理Foundation框架的变量，如果程序中把Foundation中的变量强制换成COre Foundation中的变量需要交换管理权； 在非ARC工程中采用ARC去编译某些类：-fobjc-arc。 在ARC下的工程采用非ARC去编译某些类：-fno-fobjc-arc。  如何理解MVC设计模式  MVC是一种架构模式，M表示Model，V表示视图View，C表示控制器Controller：">
+<meta property="og:site_name" content="Fly With Me">
+<meta property="og:description" content="序言 基础要牢固! OC的理解与特性 OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C&#43;&#43;）">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Fly With Bug">
+<meta name="twitter:site" content="Fly With Me">
 <meta name="twitter:url" content="http://blog.flywithme.top/2016/03/28/basicknowledgepoint-drop/">
-<meta name="twitter:title" content="iOS 基础内容 - Fly With Bug">
-<meta name="twitter:description" content="序言 基础要牢固!OC的理解与特性  OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C&#43;&#43;），又有动态语言的效率（动态绑定、动态加载等）。总体来讲，OC确实是一门不错的编程语言， Objective-C具有相当多的动态特性，表现为三方面：动态类型（Dynamic typing）、动态绑定（Dynamic binding）和动态加载（Dynamic loading）。动态——必须到运行时（run time）才会做的一些事情。 动态类型：即运行时再决定对象的类型，这种动态特性在日常的应用中非常常见，简单来说就是id类型。事实上，由于静态类型的固定性和可预知性，从而使用的更加广泛。静态类型是强类型，而动态类型属于弱类型，运行时决定接受者。 动态绑定：基于动态类型，在某个实例对象被确定后，其类型便被确定了，该对象对应的属性和响应消息也被完全确定。 动态加载：根据需求加载所需要的资源，最基本就是不同机型的适配，例如，在Retina设备上加载@2x的图片，而在老一些的普通苹设备上加载原图，让程序在运行时添加代码模块以及其他资源，用户可根据需要加载一些可执行代码和资源，而不是在启动时就加载所有组件，可执行代码可以含有和程序运行时整合的新类。  简述内存管理基本原则  之前：OC内存管理遵循“谁创建，谁释放，谁引用，谁管理”的机制，当创建或引用一个对象的时候，需要向她发送alloc、copy、retain消息，当释放该对象时需要发送release消息，当对象引用计数为0时，系统将释放该对象，这是OC的手动管理机制（MRC）。 目前：iOS 5.0之后引用自动管理机制——自动引用计数（ARC），管理机制与手动机制一样，只是不再需要调用retain、release、autorelease；它编译时的特性，当你使用ARC时，在适当位置插入release和autorelease；它引用strong和weak关键字，strong修饰的指针变量指向对象时，当指针指向新值或者指针不复存在，相关联的对象就会自动释放，而weak修饰的指针变量指向对象，当对象的拥有者指向新值或者不存在时weak修饰的指针会自动置为nil。 如果使用alloc、copy(mutableCopy)或者retian一个对象时,你就有义务,向它发送一条release或者autorelease消息。其他方法创建的对象,不需要由你来管理内存。 向一个对象发送一条autorelease消息,这个对象并不会立即销毁, 而是将这个对象放入了自动释放池,待池子释放时,它会向池中每一个对象发送 一条release消息,以此来释放对象. 向一个对象发送release消息,并不意味着这个对象被销毁了,而是当这个对象的引用计数为0时,系统才会调用dealloc方法,释放该对象和对象本身它所拥有的实例。  其他注意事项  如果一个对象有一个_strong类型的指针指向着，找个对象就不会被释放。如果一个指针指向超出了它的作用域，就会被指向nil。如果一个指针被指向nil，那么它原来指向的对象就被释放了。当一个视图控制器被释放时，它内部的全局指针会被指向nil。用法“：不管全局变量还是局部变量用_strong描述就行。 局部变量：出了作用域，指针会被置为nil。 方法内部创建对象，外部使用需要添加_autorelease; 连线的时候，用_weak描述。 代理使用unsafe_unretained就相当于assign； block中为了避免循环引用问题，使用_weak描述； 声明属性时，不要以new开头。如果非要以new开头命名属性的名字，需要自己定制get方法名，如 @property(getter=theString) NSString * newString; 如果要使用自动释放池，用@autoreleasepool{} ARC只能管理Foundation框架的变量，如果程序中把Foundation中的变量强制换成COre Foundation中的变量需要交换管理权； 在非ARC工程中采用ARC去编译某些类：-fobjc-arc。 在ARC下的工程采用非ARC去编译某些类：-fno-fobjc-arc。  如何理解MVC设计模式  MVC是一种架构模式，M表示Model，V表示视图View，C表示控制器Controller：">
+<meta name="twitter:title" content="iOS 基础内容 - Fly With Me">
+<meta name="twitter:description" content="序言 基础要牢固! OC的理解与特性 OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C&#43;&#43;）">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id":"http://blog.flywithme.top"
     },
-    "headline": "iOS 基础内容 - Fly With Bug",
+    "headline": "iOS 基础内容 - Fly With Me",
     "image": {
       "@type": "ImageObject",
       "url": "http://blog.flywithme.topimages/default.png",
@@ -53,11 +53,11 @@
     "dateModified": "2016-03-28T14:07:36JST",
     "author": {
       "@type": "Person",
-      "name": "Fly With Bug"
+      "name": "Fly With Me"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Fly With Bug",
+      "name": "Fly With Me",
       "logo": {
         "@type": "ImageObject",
         "url": "http://blog.flywithme.topimages/logo.png",
@@ -65,30 +65,7 @@
         "height": 60
       }
     },
-    "description": "序言 基础要牢固!
-OC的理解与特性  OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C++），又有动态语言的效率（动态绑定、动态加载等）。总体来讲，OC确实是一门不错的编程语言，
- Objective-C具有相当多的动态特性，表现为三方面：动态类型（Dynamic typing）、动态绑定（Dynamic binding）和动态加载（Dynamic loading）。动态——必须到运行时（run time）才会做的一些事情。
- 动态类型：即运行时再决定对象的类型，这种动态特性在日常的应用中非常常见，简单来说就是id类型。事实上，由于静态类型的固定性和可预知性，从而使用的更加广泛。静态类型是强类型，而动态类型属于弱类型，运行时决定接受者。
- 动态绑定：基于动态类型，在某个实例对象被确定后，其类型便被确定了，该对象对应的属性和响应消息也被完全确定。
- 动态加载：根据需求加载所需要的资源，最基本就是不同机型的适配，例如，在Retina设备上加载@2x的图片，而在老一些的普通苹设备上加载原图，让程序在运行时添加代码模块以及其他资源，用户可根据需要加载一些可执行代码和资源，而不是在启动时就加载所有组件，可执行代码可以含有和程序运行时整合的新类。
-  简述内存管理基本原则  之前：OC内存管理遵循“谁创建，谁释放，谁引用，谁管理”的机制，当创建或引用一个对象的时候，需要向她发送alloc、copy、retain消息，当释放该对象时需要发送release消息，当对象引用计数为0时，系统将释放该对象，这是OC的手动管理机制（MRC）。
- 目前：iOS 5.0之后引用自动管理机制——自动引用计数（ARC），管理机制与手动机制一样，只是不再需要调用retain、release、autorelease；它编译时的特性，当你使用ARC时，在适当位置插入release和autorelease；它引用strong和weak关键字，strong修饰的指针变量指向对象时，当指针指向新值或者指针不复存在，相关联的对象就会自动释放，而weak修饰的指针变量指向对象，当对象的拥有者指向新值或者不存在时weak修饰的指针会自动置为nil。
- 如果使用alloc、copy(mutableCopy)或者retian一个对象时,你就有义务,向它发送一条release或者autorelease消息。其他方法创建的对象,不需要由你来管理内存。
- 向一个对象发送一条autorelease消息,这个对象并不会立即销毁, 而是将这个对象放入了自动释放池,待池子释放时,它会向池中每一个对象发送 一条release消息,以此来释放对象.
- 向一个对象发送release消息,并不意味着这个对象被销毁了,而是当这个对象的引用计数为0时,系统才会调用dealloc方法,释放该对象和对象本身它所拥有的实例。
-  其他注意事项  如果一个对象有一个_strong类型的指针指向着，找个对象就不会被释放。如果一个指针指向超出了它的作用域，就会被指向nil。如果一个指针被指向nil，那么它原来指向的对象就被释放了。当一个视图控制器被释放时，它内部的全局指针会被指向nil。用法“：不管全局变量还是局部变量用_strong描述就行。
- 局部变量：出了作用域，指针会被置为nil。
- 方法内部创建对象，外部使用需要添加_autorelease;
- 连线的时候，用_weak描述。
- 代理使用unsafe_unretained就相当于assign；
- block中为了避免循环引用问题，使用_weak描述；
- 声明属性时，不要以new开头。如果非要以new开头命名属性的名字，需要自己定制get方法名，如
- @property(getter=theString) NSString * newString;
- 如果要使用自动释放池，用@autoreleasepool{}
- ARC只能管理Foundation框架的变量，如果程序中把Foundation中的变量强制换成COre Foundation中的变量需要交换管理权；
- 在非ARC工程中采用ARC去编译某些类：-fobjc-arc。
- 在ARC下的工程采用非ARC去编译某些类：-fno-fobjc-arc。
-  如何理解MVC设计模式  MVC是一种架构模式，M表示Model，V表示视图View，C表示控制器Controller："
+    "description": "序言 基础要牢固! OC的理解与特性 OC作为一门面向对象的语言，自然具有面向对象的语言特性：封装、继承、多态。它既具有静态语言的特性（如C++）"
   }
 </script>
 
@@ -113,9 +90,25 @@ OC的理解与特性  OC作为一门面向对象的语言，自然具有面向�
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Me</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -271,7 +264,7 @@ OC的理解与特性  OC作为一门面向对象的语言，自然具有面向�
 <p><strong>缺点</strong>：</p>
 
 <ul>
-<li>无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,<a href="/2016/03/25/iOSCategoryProperty/">查看这里</a>)</li>
+<li>无法向类目添加实例变量,如果需要添加实例变量,只能通过定义子类的方式;(但是可以使用 runtime 给 category 添加属性,<a href="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/">查看这里</a>)</li>
 <li>类目中的方法与原始类以及父类方法相比具有更高优先级,如果覆盖父类的方法,可能导致super消息的断裂。因此,最好不要覆盖原始类中的方法。
 <br />
 <br /></li>
@@ -455,7 +448,7 @@ ofObject:(id)object change:(NSDictionary *)change   context:(void *)context;
 <h5 id="对谓词的认识">对谓词的认识</h5>
 
 <ul>
-<li>Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，<a href="/2016/03/25/iOSNSPredicateUse">请看谓词的具体使用</a></li>
+<li>Cocoa 中提供了一个NSPredicate的类,该类主要用于指定过滤器的条件, 每一个对象通过谓词进行筛选,判断条件是否匹配。如果需要了解使用方法，<a href="http://blog.flywithme.top/2016/03/25/iOSNSPredicateUse">请看谓词的具体使用</a></li>
 </ul>
 
 <h5 id="static-self-super关键字的作用">static、self、super关键字的作用</h5>
@@ -1222,7 +1215,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 
 <li><p>当叶节点成为最高响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，那么对于这一个叶节点来讲，这一条链就是当前的响应者链。响应者链将系统捕获到的UIEvent与UITouch从叶节点开始层层向下分发，期间可以选择停止分发，也可以选择继续向下分发。</p></li>
 
-<li><p>如需了解更多细节，<a href="/2016/03/26/ResponderChain/">请读这篇文章</a>。</p></li>
+<li><p>如需了解更多细节，<a href="http://blog.flywithme.top/2016/03/26/ResponderChain/">请读这篇文章</a>。</p></li>
 </ul>
 
 <h5 id="view和view之间传值方式">View和View之间传值方式</h5>
@@ -1253,7 +1246,7 @@ dispatch_group_notify(group,dispatch_get_main_queue(), ^{
 <li><p>nonatomic：非原子性访问，不加同步， 多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。</p></li>
 </ul>
 
-<h5 id="对于run-loop的理解-详情-2016-03-26-iosrunloop">对于Run Loop的理解<a href="/2016/03/26/iOSRunloop/">详情</a></h5>
+<h5 id="对于run-loop的理解-详情-2016-03-26-iosrunloop">对于Run Loop的理解<a href="http://blog.flywithme.top/2016/03/26/iOSRunloop/">详情</a></h5>
 
 <ul>
 <li><p>RunLoop，是多线程的法宝，即一个线程一次只能执行一个任务，执行完任务后就会退出线程。主线程执行完即时任务时会继续等待接收事件而不退出。非主线程通常来说就是为了执行某一任务的，执行完毕就需要归还资源，因此默认是不运行RunLoop的；</p></li>
@@ -1467,7 +1460,7 @@ return image;
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -1517,7 +1510,7 @@ return image;
 
     <footer class="l-footer">
       <div class="container">
-        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <p>Copyright (c) 2016. All rights reserved.</p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

@@ -8,29 +8,29 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2016/03/24/ocruntime/">
+<link rel="canonical" href="http://blog.flywithme.top/2016/03/24/OCRuntime/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>Objective-C&#43;Runtime 浅析 - Fly With Bug</title>
+    <title>Objective-C&#43;Runtime 浅析 - Fly With Me</title>
     
-<meta name="description" content="From一、什么是Objective-C Runtime?  Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Objective-C Runtime是一个实现Objective-C语言的C库。对象可以用C语言中的结构体表示，而方法（methods）可以用C函数实现。事实上，他们差不多也是这么干了，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，Objective-C程序员可以在程序运行时创建，检查，修改类，对象和它们的方法。首先可以考虑一个问题：如果让我们设计、实现一门计算机语言，要如何下手？可能我们平时很少这么思考过，但是这么一问，就会强迫我们从更高层次思考问题了。编译优化先忽略，语言的优雅性也可以暂时放一边，我们可以从实现来看下面三个层次：  传统的面向过程的语言开发，例如c语言。实现c语言编译器只要按照语法规则实现一个LALR语法分析器就可以了，忽略编译器的优化问题，我们可以先实现编译器中最最基础和原始的目标：把一份代码里的函数名称，转化成一个相对内存地址，把调用这个函数的语句转换成一个jmp跳转指令。在程序开始运行时候，调用语句可以正确跳转到对应的函数地址。void fly(char *name) { printf(&amp;quot;%s fly&amp;quot;, name); } void run(char *name) { printf(&amp;quot;%s run&amp;quot;, name); } fly(&amp;quot;Pig&amp;quot;); run(&amp;quot;Pig&amp;quot;); fly(&amp;quot;Dog&amp;quot;); run(&amp;quot;Dog&amp;quot;);  我们希望灵活，于是需要开发面向对象的语言，例如c&#43;&#43;。 c&#43;&#43;在c的基础上增加了类的部分。但这到底意味着什么呢？我们在写它的编译器要如何考虑呢？其实，就是让编译器多绕个弯，在严格的c编译器上增加一层类处理的机制，把一个函数限制在它处在的class环境里，每次请求一个函数调用，先找到它的对象, 其类型,返回值，参数等等，确定了这些后再jmp跳转到需要的函数。这样很多程序增加了灵活性同样一个函数调用会根据请求参数和类的环境返回完全不同的结果。增加类机制后，就模拟了现实世界的抽象模式，不同的对象有不同的属性和方法。同样的方法，不同的类有不同的行为!下面就可以开始尝试开发一种新的面向对象语言，先暂定这种语言叫DP-C吧！Class Animal { char *name; Animal(char *name) { this.name = name; } void fly() { printf(&amp;quot;%s fly&amp;quot;, this.name); } void run() { printf(&amp;quot;%s run&amp;quot;, this.name); } } Animal *pig = new Animal(&amp;quot;pig&amp;quot;); Animal *dog = new Animal(&amp;quot;dog&amp;quot;); pig.">
+<meta name="description" content="From 一、什么是Objective-C Runtime? Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Obj">
 
-<meta property="og:title" content="Objective-C&#43;Runtime 浅析 - Fly With Bug">
+<meta property="og:title" content="Objective-C&#43;Runtime 浅析 - Fly With Me">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2016/03/24/ocruntime/">
+<meta property="og:url" content="http://blog.flywithme.top/2016/03/24/OCRuntime/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
-<meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="From一、什么是Objective-C Runtime?  Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Objective-C Runtime是一个实现Objective-C语言的C库。对象可以用C语言中的结构体表示，而方法（methods）可以用C函数实现。事实上，他们差不多也是这么干了，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，Objective-C程序员可以在程序运行时创建，检查，修改类，对象和它们的方法。首先可以考虑一个问题：如果让我们设计、实现一门计算机语言，要如何下手？可能我们平时很少这么思考过，但是这么一问，就会强迫我们从更高层次思考问题了。编译优化先忽略，语言的优雅性也可以暂时放一边，我们可以从实现来看下面三个层次：  传统的面向过程的语言开发，例如c语言。实现c语言编译器只要按照语法规则实现一个LALR语法分析器就可以了，忽略编译器的优化问题，我们可以先实现编译器中最最基础和原始的目标：把一份代码里的函数名称，转化成一个相对内存地址，把调用这个函数的语句转换成一个jmp跳转指令。在程序开始运行时候，调用语句可以正确跳转到对应的函数地址。void fly(char *name) { printf(&amp;quot;%s fly&amp;quot;, name); } void run(char *name) { printf(&amp;quot;%s run&amp;quot;, name); } fly(&amp;quot;Pig&amp;quot;); run(&amp;quot;Pig&amp;quot;); fly(&amp;quot;Dog&amp;quot;); run(&amp;quot;Dog&amp;quot;);  我们希望灵活，于是需要开发面向对象的语言，例如c&#43;&#43;。 c&#43;&#43;在c的基础上增加了类的部分。但这到底意味着什么呢？我们在写它的编译器要如何考虑呢？其实，就是让编译器多绕个弯，在严格的c编译器上增加一层类处理的机制，把一个函数限制在它处在的class环境里，每次请求一个函数调用，先找到它的对象, 其类型,返回值，参数等等，确定了这些后再jmp跳转到需要的函数。这样很多程序增加了灵活性同样一个函数调用会根据请求参数和类的环境返回完全不同的结果。增加类机制后，就模拟了现实世界的抽象模式，不同的对象有不同的属性和方法。同样的方法，不同的类有不同的行为!下面就可以开始尝试开发一种新的面向对象语言，先暂定这种语言叫DP-C吧！Class Animal { char *name; Animal(char *name) { this.name = name; } void fly() { printf(&amp;quot;%s fly&amp;quot;, this.name); } void run() { printf(&amp;quot;%s run&amp;quot;, this.name); } } Animal *pig = new Animal(&amp;quot;pig&amp;quot;); Animal *dog = new Animal(&amp;quot;dog&amp;quot;); pig.">
+<meta property="og:site_name" content="Fly With Me">
+<meta property="og:description" content="From 一、什么是Objective-C Runtime? Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Obj">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2016/03/24/ocruntime/">
-<meta name="twitter:title" content="Objective-C&#43;Runtime 浅析 - Fly With Bug">
-<meta name="twitter:description" content="From一、什么是Objective-C Runtime?  Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Objective-C Runtime是一个实现Objective-C语言的C库。对象可以用C语言中的结构体表示，而方法（methods）可以用C函数实现。事实上，他们差不多也是这么干了，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，Objective-C程序员可以在程序运行时创建，检查，修改类，对象和它们的方法。首先可以考虑一个问题：如果让我们设计、实现一门计算机语言，要如何下手？可能我们平时很少这么思考过，但是这么一问，就会强迫我们从更高层次思考问题了。编译优化先忽略，语言的优雅性也可以暂时放一边，我们可以从实现来看下面三个层次：  传统的面向过程的语言开发，例如c语言。实现c语言编译器只要按照语法规则实现一个LALR语法分析器就可以了，忽略编译器的优化问题，我们可以先实现编译器中最最基础和原始的目标：把一份代码里的函数名称，转化成一个相对内存地址，把调用这个函数的语句转换成一个jmp跳转指令。在程序开始运行时候，调用语句可以正确跳转到对应的函数地址。void fly(char *name) { printf(&amp;quot;%s fly&amp;quot;, name); } void run(char *name) { printf(&amp;quot;%s run&amp;quot;, name); } fly(&amp;quot;Pig&amp;quot;); run(&amp;quot;Pig&amp;quot;); fly(&amp;quot;Dog&amp;quot;); run(&amp;quot;Dog&amp;quot;);  我们希望灵活，于是需要开发面向对象的语言，例如c&#43;&#43;。 c&#43;&#43;在c的基础上增加了类的部分。但这到底意味着什么呢？我们在写它的编译器要如何考虑呢？其实，就是让编译器多绕个弯，在严格的c编译器上增加一层类处理的机制，把一个函数限制在它处在的class环境里，每次请求一个函数调用，先找到它的对象, 其类型,返回值，参数等等，确定了这些后再jmp跳转到需要的函数。这样很多程序增加了灵活性同样一个函数调用会根据请求参数和类的环境返回完全不同的结果。增加类机制后，就模拟了现实世界的抽象模式，不同的对象有不同的属性和方法。同样的方法，不同的类有不同的行为!下面就可以开始尝试开发一种新的面向对象语言，先暂定这种语言叫DP-C吧！Class Animal { char *name; Animal(char *name) { this.name = name; } void fly() { printf(&amp;quot;%s fly&amp;quot;, this.name); } void run() { printf(&amp;quot;%s run&amp;quot;, this.name); } } Animal *pig = new Animal(&amp;quot;pig&amp;quot;); Animal *dog = new Animal(&amp;quot;dog&amp;quot;); pig.">
+<meta name="twitter:site" content="Fly With Me">
+<meta name="twitter:url" content="http://blog.flywithme.top/2016/03/24/OCRuntime/">
+<meta name="twitter:title" content="Objective-C&#43;Runtime 浅析 - Fly With Me">
+<meta name="twitter:description" content="From 一、什么是Objective-C Runtime? Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Obj">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id":"http://blog.flywithme.top"
     },
-    "headline": "Objective-C&#43;Runtime 浅析 - Fly With Bug",
+    "headline": "Objective-C&#43;Runtime 浅析 - Fly With Me",
     "image": {
       "@type": "ImageObject",
       "url": "http://blog.flywithme.topimages/default.png",
@@ -53,11 +53,11 @@
     "dateModified": "2016-03-24T10:58:29JST",
     "author": {
       "@type": "Person",
-      "name": "Fly With Bug"
+      "name": "Fly With Me"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Fly With Bug",
+      "name": "Fly With Me",
       "logo": {
         "@type": "ImageObject",
         "url": "http://blog.flywithme.topimages/logo.png",
@@ -65,13 +65,7 @@
         "height": 60
       }
     },
-    "description": "From
-一、什么是Objective-C Runtime?  Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Objective-C Runtime是一个实现Objective-C语言的C库。对象可以用C语言中的结构体表示，而方法（methods）可以用C函数实现。事实上，他们差不多也是这么干了，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，Objective-C程序员可以在程序运行时创建，检查，修改类，对象和它们的方法。
-首先可以考虑一个问题：如果让我们设计、实现一门计算机语言，要如何下手？可能我们平时很少这么思考过，但是这么一问，就会强迫我们从更高层次思考问题了。编译优化先忽略，语言的优雅性也可以暂时放一边，我们可以从实现来看下面三个层次：
-  传统的面向过程的语言开发，例如c语言。实现c语言编译器只要按照语法规则实现一个LALR语法分析器就可以了，忽略编译器的优化问题，我们可以先实现编译器中最最基础和原始的目标：把一份代码里的函数名称，转化成一个相对内存地址，把调用这个函数的语句转换成一个jmp跳转指令。在程序开始运行时候，调用语句可以正确跳转到对应的函数地址。
-void fly(char *name) { printf(&quot;%s fly&quot;, name); } void run(char *name) { printf(&quot;%s run&quot;, name); } fly(&quot;Pig&quot;); run(&quot;Pig&quot;); fly(&quot;Dog&quot;); run(&quot;Dog&quot;);  我们希望灵活，于是需要开发面向对象的语言，例如c++。 c++在c的基础上增加了类的部分。但这到底意味着什么呢？我们在写它的编译器要如何考虑呢？其实，就是让编译器多绕个弯，在严格的c编译器上增加一层类处理的机制，把一个函数限制在它处在的class环境里，每次请求一个函数调用，先找到它的对象, 其类型,返回值，参数等等，确定了这些后再jmp跳转到需要的函数。这样很多程序增加了灵活性同样一个函数调用会根据请求参数和类的环境返回完全不同的结果。增加类机制后，就模拟了现实世界的抽象模式，不同的对象有不同的属性和方法。同样的方法，不同的类有不同的行为!
-下面就可以开始尝试开发一种新的面向对象语言，先暂定这种语言叫DP-C吧！
-Class Animal { char *name; Animal(char *name) { this.name = name; } void fly() { printf(&quot;%s fly&quot;, this.name); } void run() { printf(&quot;%s run&quot;, this.name); } } Animal *pig = new Animal(&quot;pig&quot;); Animal *dog = new Animal(&quot;dog&quot;); pig."
+    "description": "From 一、什么是Objective-C Runtime? Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Obj"
   }
 </script>
 
@@ -96,9 +90,25 @@ Class Animal { char *name; Animal(char *name) { this.name = name; } void fly() {
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Me</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -719,7 +729,7 @@ struct objc_super {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -769,7 +779,7 @@ struct objc_super {
 
     <footer class="l-footer">
       <div class="container">
-        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <p>Copyright (c) 2016. All rights reserved.</p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

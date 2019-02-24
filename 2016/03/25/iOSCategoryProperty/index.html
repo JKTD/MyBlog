@@ -8,29 +8,29 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2016/03/25/ioscategoryproperty/">
+<link rel="canonical" href="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>iOS下Category添加属性字段 - Fly With Bug</title>
+    <title>iOS下Category添加属性字段 - Fly With Me</title>
     
-<meta name="description" content="首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。首先看下报错情况Category添加字段(常规方法)  编写 Category 头文件, 以 UIImage 为例// // UIImage&#43;category.h // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &amp;lt;UIKit/UIKit.h&amp;gt; @interface UIImage (category) // 在UIImage中新建一个tag属性 @property (nonatomic, copy) NSString *tag; @end  编写 Category 源文件// // UIImage&#43;category.m // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &amp;quot;UIImage&#43;category.h&amp;quot; @implementation UIImage (category) - (NSString *)tag { return self.">
+<meta name="description" content="首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。">
 
-<meta property="og:title" content="iOS下Category添加属性字段 - Fly With Bug">
+<meta property="og:title" content="iOS下Category添加属性字段 - Fly With Me">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2016/03/25/ioscategoryproperty/">
+<meta property="og:url" content="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
-<meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。首先看下报错情况Category添加字段(常规方法)  编写 Category 头文件, 以 UIImage 为例// // UIImage&#43;category.h // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &amp;lt;UIKit/UIKit.h&amp;gt; @interface UIImage (category) // 在UIImage中新建一个tag属性 @property (nonatomic, copy) NSString *tag; @end  编写 Category 源文件// // UIImage&#43;category.m // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &amp;quot;UIImage&#43;category.h&amp;quot; @implementation UIImage (category) - (NSString *)tag { return self.">
+<meta property="og:site_name" content="Fly With Me">
+<meta property="og:description" content="首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2016/03/25/ioscategoryproperty/">
-<meta name="twitter:title" content="iOS下Category添加属性字段 - Fly With Bug">
-<meta name="twitter:description" content="首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。首先看下报错情况Category添加字段(常规方法)  编写 Category 头文件, 以 UIImage 为例// // UIImage&#43;category.h // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &amp;lt;UIKit/UIKit.h&amp;gt; @interface UIImage (category) // 在UIImage中新建一个tag属性 @property (nonatomic, copy) NSString *tag; @end  编写 Category 源文件// // UIImage&#43;category.m // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &amp;quot;UIImage&#43;category.h&amp;quot; @implementation UIImage (category) - (NSString *)tag { return self.">
+<meta name="twitter:site" content="Fly With Me">
+<meta name="twitter:url" content="http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/">
+<meta name="twitter:title" content="iOS下Category添加属性字段 - Fly With Me">
+<meta name="twitter:description" content="首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id":"http://blog.flywithme.top"
     },
-    "headline": "iOS下Category添加属性字段 - Fly With Bug",
+    "headline": "iOS下Category添加属性字段 - Fly With Me",
     "image": {
       "@type": "ImageObject",
       "url": "http://blog.flywithme.topimages/default.png",
@@ -53,11 +53,11 @@
     "dateModified": "2016-03-25T16:52:16JST",
     "author": {
       "@type": "Person",
-      "name": "Fly With Bug"
+      "name": "Fly With Me"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Fly With Bug",
+      "name": "Fly With Me",
       "logo": {
         "@type": "ImageObject",
         "url": "http://blog.flywithme.topimages/logo.png",
@@ -65,11 +65,7 @@
         "height": 60
       }
     },
-    "description": "首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。
-首先看下报错情况
-Category添加字段(常规方法)  编写 Category 头文件, 以 UIImage 为例
-// // UIImage+category.h // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &lt;UIKit/UIKit.h&gt; @interface UIImage (category) // 在UIImage中新建一个tag属性 @property (nonatomic, copy) NSString *tag; @end  编写 Category 源文件
-// // UIImage+category.m // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &quot;UIImage+category.h&quot; @implementation UIImage (category) - (NSString *)tag { return self."
+    "description": "首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。"
   }
 </script>
 
@@ -94,9 +90,25 @@ Category添加字段(常规方法)  编写 Category 头文件, 以 UIImage 为�
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Me</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -322,7 +334,7 @@ static const void *tagKey = &amp;tagKey;
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -372,7 +384,7 @@ static const void *tagKey = &amp;tagKey;
 
     <footer class="l-footer">
       <div class="container">
-        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <p>Copyright (c) 2016. All rights reserved.</p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

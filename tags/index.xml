@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Fly With Bug</title>
+    <title>Tags on Fly With Me</title>
     <link>http://blog.flywithme.top/tags/</link>
-    <description>Recent content in Tags on Fly With Bug</description>
+    <description>Recent content in Tags on Fly With Me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
+    <copyright>Copyright (c) 2016. All rights reserved.</copyright>
     
 	<atom:link href="http://blog.flywithme.top/tags/index.xml" rel="self" type="application/rss+xml" />
     

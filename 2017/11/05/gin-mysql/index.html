@@ -14,23 +14,23 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Bug</title>
+    <title>使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Me</title>
     
-<meta name="description" content=" 项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容  填坑1- struct to json 时，空值忽略，或者特定值忽略问题http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/Golang中，如果指定一个field序列化成JSON的变量名字为-，则序列化的时候自动忽略这个field。这种用法， 才是和上面JsonIgnore的用法的作用是一样的。而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。这里需要注意的是关于emtpty的定义：常用Sql命令//查询手机号为176021986 时间在 1510678791 之前2000秒的 数据量 select COUNT(*) as cnt from smstx where mobile = &amp;quot;176021986&amp;quot; and time &amp;gt; 1510678791-2000  ">
+<meta name="description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to json 时，空值忽略">
 
-<meta property="og:title" content="使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Bug">
+<meta property="og:title" content="使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Me">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/11/05/gin-mysql/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
-<meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content=" 项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容  填坑1- struct to json 时，空值忽略，或者特定值忽略问题http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/Golang中，如果指定一个field序列化成JSON的变量名字为-，则序列化的时候自动忽略这个field。这种用法， 才是和上面JsonIgnore的用法的作用是一样的。而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。这里需要注意的是关于emtpty的定义：常用Sql命令//查询手机号为176021986 时间在 1510678791 之前2000秒的 数据量 select COUNT(*) as cnt from smstx where mobile = &amp;quot;176021986&amp;quot; and time &amp;gt; 1510678791-2000  ">
+<meta property="og:site_name" content="Fly With Me">
+<meta property="og:description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to json 时，空值忽略">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Fly With Bug">
+<meta name="twitter:site" content="Fly With Me">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/11/05/gin-mysql/">
-<meta name="twitter:title" content="使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Bug">
-<meta name="twitter:description" content=" 项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容  填坑1- struct to json 时，空值忽略，或者特定值忽略问题http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/Golang中，如果指定一个field序列化成JSON的变量名字为-，则序列化的时候自动忽略这个field。这种用法， 才是和上面JsonIgnore的用法的作用是一样的。而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。这里需要注意的是关于emtpty的定义：常用Sql命令//查询手机号为176021986 时间在 1510678791 之前2000秒的 数据量 select COUNT(*) as cnt from smstx where mobile = &amp;quot;176021986&amp;quot; and time &amp;gt; 1510678791-2000  ">
+<meta name="twitter:title" content="使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Me">
+<meta name="twitter:description" content="项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to json 时，空值忽略">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -42,7 +42,7 @@
       "@type": "WebPage",
       "@id":"http://blog.flywithme.top"
     },
-    "headline": "使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Bug",
+    "headline": "使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分 - Fly With Me",
     "image": {
       "@type": "ImageObject",
       "url": "http://blog.flywithme.topimages/default.png",
@@ -53,11 +53,11 @@
     "dateModified": "2017-11-05T20:17:21JST",
     "author": {
       "@type": "Person",
-      "name": "Fly With Bug"
+      "name": "Fly With Me"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Fly With Bug",
+      "name": "Fly With Me",
       "logo": {
         "@type": "ImageObject",
         "url": "http://blog.flywithme.topimages/logo.png",
@@ -65,13 +65,7 @@
         "height": 60
       }
     },
-    "description": " 项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容  填坑1- struct to json 时，空值忽略，或者特定值忽略问题
-http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/
-Golang中，如果指定一个field序列化成JSON的变量名字为-，则序列化的时候自动忽略这个field。这种用法， 才是和上面JsonIgnore的用法的作用是一样的。
-而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。
-这里需要注意的是关于emtpty的定义：
-常用Sql命令
-//查询手机号为176021986 时间在 1510678791 之前2000秒的 数据量 select COUNT(*) as cnt from smstx where mobile = &quot;176021986&quot; and time &gt; 1510678791-2000  "
+    "description": "项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to json 时，空值忽略"
   }
 </script>
 
@@ -96,9 +90,25 @@ Golang中，如果指定一个field序列化成JSON的变量名字为-，则序�
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Me</a>
           </div>
 
+          
+          <div id="navbar" class="collapse navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+              
+              
+              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
+              
+              
+              
+              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
+              
+              
+            </ul>
+            
+          </div>
           
 
         </div>
@@ -207,7 +217,7 @@ select COUNT(*) as cnt  from smstx where mobile = &quot;176021986&quot; and time
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -257,7 +267,7 @@ select COUNT(*) as cnt  from smstx where mobile = &quot;176021986&quot; and time
 
     <footer class="l-footer">
       <div class="container">
-        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <p>Copyright (c) 2016. All rights reserved.</p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

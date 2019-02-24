@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>学习笔记 on Fly With Bug</title>
+    <title>学习笔记 on Fly With Me</title>
     <link>http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
-    <description>Recent content in 学习笔记 on Fly With Bug</description>
+    <description>Recent content in 学习笔记 on Fly With Me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
+    <copyright>Copyright (c) 2016. All rights reserved.</copyright>
     <lastBuildDate>Fri, 16 Mar 2018 16:02:01 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
@@ -17,7 +18,7 @@
       <pubDate>Fri, 16 Mar 2018 16:02:01 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/16/note_26/</guid>
-      <description>并发调度器 //engine package engine import ( &amp;quot;log&amp;quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &amp;lt; e.WorkerCount; i++ { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds { e.Scheduler.Submit(r) } itemCount := 0 for { result := &amp;lt;-out for _, item := range result.</description>
+      <description>并发调度器 //engine package engine import ( &amp;quot;log&amp;quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &amp;lt; e.WorkerCount; i++ { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds {</description>
     </item>
     
     <item>
@@ -26,8 +27,7 @@
       <pubDate>Wed, 14 Mar 2018 16:54:13 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/14/note_25/</guid>
-      <description>总体的算法步骤 解析器 Parser  输入： utf-8 编码的文本 输出： Request{URL,对应的Parser} 列表，Item列表  单任务版爬虫架构  获取并打印所有城市第一页用户的详细信息  使用http.Get获取内容 使用Encodeing来转换编码：gbk-&amp;gt;utf-8 使用charset.DetermineEncoding来判断编码 使用正则表达式筛选需要的内容
-   code 单任务爬虫分支</description>
+      <description>总体的算法步骤 解析器 Parser 输入： utf-8 编码的文本 输出： Request{URL,对应的Parser} 列表，Item列表 单任务版爬虫架构 获取并打印所有城</description>
     </item>
     
     <item>
@@ -36,7 +36,7 @@
       <pubDate>Fri, 09 Mar 2018 16:05:38 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/09/note_24/</guid>
-      <description>获取初始页面内容  使用相亲网站做目标 编码格式自动识别转换  获取有价值信息  获取城市名称和链接  使用css选择器 使用xpath 使用正则表达式    package main import ( &amp;quot;fmt&amp;quot; &amp;quot;io/ioutil&amp;quot; &amp;quot;net/http&amp;quot; &amp;quot;bufio&amp;quot; &amp;quot;io&amp;quot; &amp;quot;regexp&amp;quot; &amp;quot;golang.org/x/net/html/charset&amp;quot; &amp;quot;golang.org/x/text/encoding&amp;quot; &amp;quot;golang.org/x/text/transform&amp;quot; ) //网站编码识别转换 func determineEncoder(r io.Reader) encoding.Encoding { bytes, err := bufio.NewReader(r).Peek(1024) if err != nil { panic(err) } e, _, _ := charset.DetermineEncoding(bytes, &amp;quot;&amp;quot;) return e } const regextstr = `&amp;lt;a href=&amp;quot;http://www.zhenai.com/zhenghun/[0-9a-z]+&amp;quot;[^&amp;gt;]*&amp;gt;[^&amp;lt;]+&amp;lt;/a&amp;gt;` const regextstr1 = `&amp;lt;a href=&amp;quot;(http://www.zhenai.com/zhenghun/[0-9a-z]+)&amp;quot;[^&amp;gt;]*&amp;gt;([^&amp;lt;]+)&amp;lt;/a&amp;gt;` func printCityList(contents []byte) { re := regexp.</description>
+      <description>获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &amp;quot;fmt&amp;quot;</description>
     </item>
     
     <item>
@@ -45,7 +45,7 @@
       <pubDate>Thu, 08 Mar 2018 17:13:27 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/08/note_23/</guid>
-      <description> 网络爬虫分类  通用爬虫：如baidu,google 聚焦爬虫：从互联网获取结构化数据  项目总体结构 go语言的爬虫库/框架  henrylee2cn/pholcus gocrawl colly hu17889/go_spider  重新开发一个爬虫库  不适用现成的爬虫库/框架 使用ElasticSearch作为数据存储 使用Go语言标准模板库实现http数据展示部分  实现步骤  单任务 并发版 分布式  </description>
+      <description>网络爬虫分类 通用爬虫：如baidu,google 聚焦爬虫：从互联网获取结构化数据 项目总体结构 go语言的爬虫库/框架 henrylee2cn/pholcus gocrawl colly hu17889/go_spider 重新开发一个爬虫库</description>
     </item>
     
     <item>
@@ -54,12 +54,7 @@
       <pubDate>Wed, 07 Mar 2018 17:21:14 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/07/note_22/</guid>
-      <description>示例：广度优先算法  为爬虫实战做准备 应用广泛，综合性强  示例：广度优先搜索走迷宫  广度优先算法示意图
- 用循环创建二维slice
- 使用slice来实现队列
- 用Fscanf读取文件
- 对point的抽象
-  //file 6 5 0 1 0 0 0 0 0 0 1 0 0 1 0 1 0 1 1 1 0 0 0 1 0 0 1 0 1 0 0 0 --------------- package main import ( &amp;quot;fmt&amp;quot; &amp;quot;os&amp;quot; ) func readMaze(filename string) [][]int { file, err := os.Open(filename) defer file.</description>
+      <description>示例：广度优先算法 为爬虫实战做准备 应用广泛，综合性强 示例：广度优先搜索走迷宫 广度优先算法示意图 用循环创建二维slice 使用slice来实现队</description>
     </item>
     
     <item>
@@ -68,7 +63,7 @@
       <pubDate>Wed, 07 Mar 2018 16:54:46 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/07/note_21/</guid>
-      <description> 其他标准库  bufio log encoding/json regexp time stings/math/rand  查看库文档  godoc -http :8888 (启用本地文档服务器) https://studygolang.com/pkgdoc  </description>
+      <description>其他标准库 bufio log encoding/json regexp time stings/math/rand 查看库文档 godoc -http :8888 (启用本地文档服务器) https://studygolang.com/pkgdoc</description>
     </item>
     
     <item>
@@ -77,8 +72,7 @@
       <pubDate>Wed, 07 Mar 2018 13:24:53 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/07/note_20/</guid>
-      <description>Server package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;) } func main() { http.HandleFunc(&amp;quot;/&amp;quot;, handler) http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil) }  Client  使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil简化工作 ``` package main  import ( &amp;ldquo;fmt&amp;rdquo; &amp;ldquo;net/http&amp;rdquo; &amp;ldquo;net/http/httputil&amp;rdquo; )
-func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://www.imooc.com&amp;quot;, nil) if err != nil { panic(err) } request.Header.Add(&amp;ldquo;User-Agent&amp;rdquo;, &amp;ldquo;Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.</description>
+      <description>Server package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;) } func main() { http.HandleFunc(&amp;quot;/&amp;quot;, handler) http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil) } Client 使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil</description>
     </item>
     
     <item>
@@ -87,8 +81,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Wed, 07 Mar 2018 11:53:27 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/07/note_19/</guid>
-      <description>检测数据冲突  未加锁时使用 go run -race atomic.go 时检测会发现数据访问冲突 加锁之后 运行-race 数据访问冲突就没了  传统同步机制  WaitGroup
-   package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; ) func doWork(id int, w worker) { for n := range w.in { fmt.Printf(&amp;quot;Worker %d received %c\n&amp;quot;, id, n) w.done() } } type worker struct { in chan int done func() } func createWorker( id int, wg *sync.WaitGroup) worker { w := worker{ in: make(chan int), done: func() { wg.</description>
+      <description>检测数据冲突 未加锁时使用 go run -race atomic.go 时检测会发现数据访问冲突 加锁之后 运行-race 数据访问冲突就没了 传统同步机制 WaitGroup package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; ) func doWork(id int, w worker) { for n</description>
     </item>
     
     <item>
@@ -97,7 +90,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Sun, 04 Mar 2018 19:59:50 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/04/note_18/</guid>
-      <description>channel的用法  channel buffered channel range 理论基础：Communication Sequential Process(CSP) Don&amp;rsquo;t communicate by sharing memory;share memory by communicating(不要通过共享内存来通信， 通过通信来共享内存)  package main import ( &amp;quot;fmt&amp;quot; &amp;quot;time&amp;quot; ) func worker(id int, c chan int) { for n := range c { fmt.Printf(&amp;quot;Worker %d received %c\n&amp;quot;, id, n) } } func createWorker(id int) chan&amp;lt;- int { c := make(chan int) go worker(id, c) return c } func chanDemo() { var channels [10]chan&amp;lt;- int for i := 0; i &amp;lt; 10; i++ { channels[i] = createWorker(i) } for i := 0; i &amp;lt; 10; i++ { channels[i] &amp;lt;- &#39;a&#39; + i } for i := 0; i &amp;lt; 10; i++ { channels[i] &amp;lt;- &#39;A&#39; + i } time.</description>
+      <description>channel的用法 channel buffered channel range 理论基础：Communication Sequential Process(CSP) Don&amp;rsquo;t communicate by sharing memory;share memory by communicating(不要通过共享内存来通信， 通过通</description>
     </item>
     
     <item>
@@ -106,7 +99,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Sun, 04 Mar 2018 18:02:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/04/note_17/</guid>
-      <description>示例 func main() { for i := 0; i &amp;lt; 1000; i++ { go func(i int) { for { fmt.Printf(&amp;quot;Hello form goroutine %d \n&amp;quot;, i) } }(i) } }  协程 Coroutine  轻量级&amp;rdquo;线程&amp;rdquo; 非抢占式多任务处理，由协程主动交出控制权 （runtime.Gosched()）  func main() { var a [10]int for i := 0; i &amp;lt; 10; i++ { go func(i int) { for { //fmt.Printf(&amp;quot;Hello form goroutine %d \n&amp;quot;, i) a[i]++ runtime.Gosched() //交出控制权 } }(i) } time.</description>
+      <description>示例 func main() { for i := 0; i &amp;lt; 1000; i++ { go func(i int) { for { fmt.Printf(&amp;quot;Hello form goroutine %d \n&amp;quot;, i) } }(i) } } 协程 Coroutine 轻量级&amp;rdquo;线程&amp;rdquo; 非抢占式多任务处理，由协程主动交出控</description>
     </item>
     
     <item>
@@ -115,7 +108,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Sun, 04 Mar 2018 13:05:35 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/04/note_16/</guid>
-      <description>文档  用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档  package queue import ( &amp;quot;fmt&amp;quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q = (*q)[1:] return head.(int) } // Returns if the queue is empty or not. func (q *Queue) IsEmpty() bool { return len(*q) == 0 }  package queue import &amp;quot;fmt&amp;quot; func ExampleQueue_Pop() { q := Queue{1} q.</description>
+      <description>文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &amp;quot;fmt&amp;quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q =</description>
     </item>
     
     <item>
@@ -124,7 +117,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Fri, 02 Mar 2018 15:57:46 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/02/note_15/</guid>
-      <description>针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler）  通过虚拟Request/Response来测试 （TestErrWrapper） 通过启服务器  //errorWapper func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) { return func(writer http.ResponseWriter, request *http.Request) { defer func() { r := recover() if r != nil { log.Printf(&amp;quot;Panic:%v&amp;quot;, r) http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError) } }() err := handlerrr(writer, request) if err != nil { log.Printf(&amp;quot;Error handling request: %s&amp;quot;, err.Error()) if userErr, ok := err.(userError); ok { http.Error(writer, userErr.Message(), http.StatusBadRequest) return } code := http.</description>
+      <description>针对7-2章节中的errorWapper的测试 （示例代码在 imooc/errorHandler） 通过虚拟Request/Response来测</description>
     </item>
     
     <item>
@@ -133,7 +126,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Thu, 01 Mar 2018 16:01:31 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/03/01/note_14/</guid>
-      <description>传统测试  测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束  @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); }   表格驱动测试  分离了测试数据和测试逻辑 明确的出错信息 可以部分失败  tests := []struct{ a,b,c int32 }{ {1,2,3}, {0,2,2}, {0,0,0}, {-1,1,0}, {Integer.MaxInt32,1,Integer.MinInt32}, } for _,test := range tests{ if actual := add(test.a,test.b);actual != text.c{ } }  测试代码覆盖率和性能测试  func lengthOfNonRepeatingSubStr(s string) int { lastOccurred := make(map[rune]int) start := 0 maxLength := 0 for i, ch := range []rune(s) { if lastI, ok := lastOccurred[ch]; ok &amp;amp;&amp;amp; lastI &amp;gt;= start { start = lastI + 1 } if i-start+1 &amp;gt; maxLength { maxLength = i - start + 1 } lastOccurred[ch] = i } return maxLength } ------------------------------------------------------------ //在package目录下 执行命令 可以执行当前包下的所有测试用例 go test .</description>
+      <description>传统测试 测试数据和测试逻辑混在一起 出错信息不明确 一旦一个数据出错，测试全部结束 @Test public void testAdd(){ assertEquals(3,add(1,2)); assertEquals(2,add(0,2)); assertEquals(0,add(0,0)); assertEquals(0,add(1,-1)); assertEquals(Integer.MIN_VALUE,add(1,Integer.MAX_VALUE)); } 表格驱动测试 分离了测试数据和测试逻辑 明确的</description>
     </item>
     
     <item>
@@ -142,7 +135,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Sat, 24 Feb 2018 17:43:08 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/24/note_13/</guid>
-      <description>如何实现统一的错误处理逻辑 Error部分  在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数，同时处理输入函数的错误部分   func HandleFileList(writer http.ResponseWriter, request *http.Request) error { path := request.URL.Path[len(&amp;quot;/list/&amp;quot;):] file, err := os.Open(path) if err != nil { return err } defer file.Close() all, err := ioutil.ReadAll(file) if err != nil { return err } writer.Write(all) return nil } ---------------------------------- type appHandler func(writer http.ResponseWriter, request *http.Request) error func errorWrapper(handlerrr appHandler) func(w http.ResponseWriter, r *http.Request) { return func(writer http.ResponseWriter, request *http.Request) { err := handlerrr(writer, request) if err !</description>
+      <description>如何实现统一的错误处理逻辑 Error部分 在业务部分只处理正确的返回，error部分返回给调用部分 在函数输入部分做一个包装，然后再输出一个函数</description>
     </item>
     
     <item>
@@ -151,13 +144,7 @@ func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://
       <pubDate>Sat, 24 Feb 2018 17:06:34 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/24/note_12/</guid>
-      <description>defer的调用  确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter)
-func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。  defer 的作用就是把关键字之后的函数执行压入一个栈中延迟执行
- 多个 defer 的执行顺序是后进先出 LIFO
-defer func() { fmt.Println(&amp;quot;1&amp;quot;) }() defer func() { fmt.Println(&amp;quot;2&amp;quot;) }() defer func() { fmt.Println(&amp;quot;3&amp;quot;) }() //输出顺序是 321  常用在函数调用结束之后清理相关的资源
- 执行 recover
- 被 deferred 函数的参数在 defer 时确定
-func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而不是 1，因为 defer 时，i 的值是 0， //此时被 defer 的函数参数已经进行执行计算并确定了  被 defer 的函数可以读取和修改带名称的返回值 ``` func c() (i int) { defer func() { i++ }() return 1 } //被 defer 的函数是在 return 之后执行，可以修改带名称的返回值，上面的函数 c 返回的是 2。</description>
+      <description>defer的调用 确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter) func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。 defer 的作用就是把</description>
     </item>
     
     <item>
@@ -166,7 +153,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Sat, 24 Feb 2018 14:35:09 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/24/note_11/</guid>
-      <description>go语言闭包的应用  更为自然，不需要修饰如何访问自由变量 没有Lambda表达式，但是有匿名函数  package fib //斐波那契数列 // 1, 1, 2, 3, 5, 8, 13, ... func Fibonacci() func() int { a, b := 0, 1 return func() int { a, b = b, a+b return a } } --------------------------------------------- package main import ( &amp;quot;bufio&amp;quot; &amp;quot;fmt&amp;quot; &amp;quot;io&amp;quot; &amp;quot;strings&amp;quot; &amp;quot;imooc/fib&amp;quot; ) //为函数实现接口 type intGen func() int func (g intGen) Read( p []byte) (n int, err error) { next := g() if next &amp;gt; 10000 { return 0, io.</description>
+      <description>go语言闭包的应用 更为自然，不需要修饰如何访问自由变量 没有Lambda表达式，但是有匿名函数 package fib //斐波那契数列 // 1, 1, 2, 3, 5, 8, 13, ... func Fibonacci() func() int {</description>
     </item>
     
     <item>
@@ -175,7 +162,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Mon, 12 Feb 2018 13:32:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/12/note_10/</guid>
-      <description>特点  函数可以作为参数，变量，返回值 高阶函数 函数-&amp;gt;闭包  //golang func adder() func(int) int { sum := 0 //自由变量 return func(v int) int { sum += v return sum } } //python def adder(); sum = 0 def f(value): nonlocal sum sum += value return sum return f // c++ 14中的闭包 auto adder(){ auto sum = 0; return [=] (int value)mutable{ sum += value; return sum; }; } //java中的闭包 Function&amp;lt;Integer,Integer&amp;gt;adder(){ final Holder&amp;lt;Integer&amp;gt; sum = new Holder&amp;lt;&amp;gt;(0); return (Integer value) -&amp;gt; { sum.</description>
+      <description>特点 函数可以作为参数，变量，返回值 高阶函数 函数-&amp;gt;闭包 //golang func adder() func(int) int { sum := 0 //自由变量 return func(v int) int { sum += v return sum } } //python def adder(); sum = 0 def f(value): nonlocal sum sum += value</description>
     </item>
     
     <item>
@@ -184,7 +171,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Fri, 09 Feb 2018 15:16:41 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/09/note_09/</guid>
-      <description>duck typing  基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构  pythn中的duck typing def download(retriever): return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;)   运行时才知道传入的retriever有没有get方法 需要给download注释来说明接口需要实现get方法  c++ 中的duck typing template&amp;lt;class R&amp;gt; string download(const R&amp;amp; retriever){ return retriever.get(&amp;quot;www.downloadur..com&amp;quot;) }   编译时才可以知道传入的retriever有么有get方法 需要注释来说明接口需求  java 中的类似代码 &amp;lt;R extends Retriever&amp;gt; String download(R r){ return r.get(&amp;quot;www.downloadurl.com&amp;quot;) }   传入的参数必须实现Retriever接口 不是duck typing  go 语言的duck typing  同时需要Readable,Appendable怎么做？（apache polygene） 同时具有python,c++的duck typing的灵活性 具有java的类型检查  接口的定义  使用者&amp;mdash;&amp;gt;实现者 接口由使用者定义 接口的实现是隐式的 只需要实现接口里的方法即可  接口遍历里有什么东西  实现者的类型 实现者的值/指针 接口变量自带指针 接口变量采用值传递，几乎不需要使用接口的指针 指针接收者实现只能以指针的方式使用;值接受者都可以  查看接口变量  表示任何类型：interface{} Type Assertion Type Switch   //Type assertion if mockRetriver, ok := r.</description>
+      <description>duck typing 基于特征，而不是基于类型 描述的事物的外部行为，而不是内部结构 pythn中的duck typing def download(retriever): return retriever.get(&amp;quot;www.downloadurl.com&amp;quot;) 运行时才知道传入的retriever有没有g</description>
     </item>
     
     <item>
@@ -193,9 +180,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Thu, 08 Feb 2018 11:34:35 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/08/note_08/</guid>
-      <description>Go语言的面向对象  Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct  结构的创建  使用自定义工厂函数，需要返回局部变量的地址   type treeNode struct { value int left,right *treeNode } func CreatNode(value int)*treeNode { return &amp;amp;treeNode{value:value} } root := treeNode{value:3} root.right = CreatNode(3)   结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收 从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了
- 变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。
-  type struct T { xxx} func f() *T { var ret T return &amp;amp;ret }   Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆  const Width, Height = 640, 480 type Cursor struct { X, Y int } func Center(c *Cursor) { c.</description>
+      <description>Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量</description>
     </item>
     
     <item>
@@ -204,7 +189,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Wed, 07 Feb 2018 17:52:33 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/07/note_07/</guid>
-      <description>Map  rune 相当于go的char strings       Map  Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可以像迭代数组和切片那样迭代它。Map 是无序的，我们无法决定它的返回顺序，因为 Map 是使用 hash 表来实现的。 ``` m := map[string]string{ &amp;ldquo;name&amp;rdquo;: &amp;ldquo;jack&amp;rdquo;, &amp;ldquo;course&amp;rdquo;: &amp;ldquo;golang&amp;rdquo;, &amp;ldquo;site&amp;rdquo;: &amp;ldquo;imooc&amp;rdquo;, &amp;ldquo;quality&amp;rdquo;: &amp;ldquo;notbad&amp;rdquo;, }   	m2 := make(map[string]int) // m2 == empty map var m3 map[string]int // m3 == nil fmt.Println(&amp;ldquo;m, m2, m3:&amp;ldquo;) fmt.</description>
+      <description>Map rune 相当于go的char strings Map Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可</description>
     </item>
     
     <item>
@@ -213,7 +198,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Mon, 05 Feb 2018 16:44:58 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/05/note_06/</guid>
-      <description>数组 (值类型)  [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使用数组   //数组初始化 var arr1 [5]int arr2 :=[3]int{2,4,6} arr3 :=[...]int{2,4,5,6,78,0} fmt.Println(arr1,arr2,arr3) var grid[4][2][1]int fmt.Println(grid) //元素遍历 for i :=0;i &amp;lt; len(arr3) ;i ++ { fmt.Println(arr3[i]) } //指针传递 func printArray(arr *[5]int) { arr[0] = 100 for i, v := range arr { fmt.Println(i, v) } }  range 关键字 (还会有很多其他地方用到)  for i,v := range arr3 { fmt.</description>
+      <description>数组 (值类型) [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使</description>
     </item>
     
     <item>
@@ -222,9 +207,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Mon, 05 Feb 2018 15:29:31 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/05/note_05/</guid>
-      <description>什么是指针  一个指针变量可以指向任何一个值的内存地址它指向那个值的内存地址。
- 类似于变量和常量，在使用指针前你需要声明指针   如何使用指针  定义指针变量。 为指针变量赋值。 访问指针变量中指向地址的值。
-   var a int = 2 var pa *int = &amp;amp;a *pa = 3 fmt.Println(a)  空指针  当一个指针被定义后没有分配到任何变量时，它的值为 nil。 nil 指针也称为空指针。 nil在概念上和其它语言的null、None、nil、NULL一样，都指代零值或空值。 一个指针变量通常缩写为 ptr   var ptr *int fmt.Printf(&amp;quot;ptr 的值为 : %x\n&amp;quot;, ptr ) if(ptr != nil) /* ptr 不是空指针 */ if(ptr == nil) /* ptr 是空指针 */  参数传递的几种形式 package main import &amp;quot;fmt&amp;quot; func main() { var a int = 2 var pa *int = &amp;amp;a *pa = 3 fmt.</description>
+      <description>什么是指针 一个指针变量可以指向任何一个值的内存地址它指向那个值的内存地址。 类似于变量和常量，在使用指针前你需要声明指针 如何使用指针 定义指针变</description>
     </item>
     
     <item>
@@ -233,8 +216,7 @@ func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而
       <pubDate>Sun, 04 Feb 2018 14:37:54 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/04/note_04/</guid>
-      <description>函数  函数是基本的代码块，用于执行一个任务。 Go 语言最少有个 main() 函数。 你可以通过函数来划分不同功能，逻辑上每个函数执行的是指定的任务。 函数声明告诉了编译器函数的名称，返回类型，和参数。 Go 语言标准库提供了多种可动用的内置的函数。例如，len() 函数可以接受不同类型参数并返回该类型的长度。如果我们传入的是字符串则返回字符串的长度，如果传入的是数组，则返回数组中包含的元素个数。  Go 语言函数定义格式如下：
-func function_name( [parameter list] ) [return_types] { 函数体 }   package main import ( &amp;quot;fmt&amp;quot; &amp;quot;reflect&amp;quot; &amp;quot;runtime&amp;quot; &amp;quot;math&amp;quot; ) func eval(a,b int,op string) (int,error){ switch op { case &amp;quot;+&amp;quot;: return a + b,nil case &amp;quot;-&amp;quot;: return a - b,nil case &amp;quot;*&amp;quot;: return a * b,nil case &amp;quot;/&amp;quot;: q,_ := div(a,b) return q,nil default: return 0,fmt.</description>
+      <description>函数 函数是基本的代码块，用于执行一个任务。 Go 语言最少有个 main() 函数。 你可以通过函数来划分不同功能，逻辑上每个函数执行的是指定的任务。 函数声明告诉</description>
     </item>
     
     <item>
@@ -243,7 +225,7 @@ func function_name( [parameter list] ) [return_types] { 函数体 }   package ma
       <pubDate>Sun, 04 Feb 2018 14:05:59 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/04/note_03/</guid>
-      <description>语句 描述     if 语句 if 语句 由一个布尔表达式后紧跟一个或多个语句组成   if&amp;hellip;else if 语句 后可以使用可选的 else 语句, else 语句中的表达式在布尔表达式为 false 时执行。   if 嵌套语句 你可以在 if 或 else if 语句中嵌入一个或多个 if 或 else if 语句。   switch 语句 switch 语句用于基于不同条件执行不同动作   select 语句 select 语句类似于 switch 语句，但是select会随机执行一个可运行的case。如果没有case可运行，它将阻塞，直到有case可运行     package main import ( &amp;quot;fmt&amp;quot; &amp;quot;io/ioutil&amp;quot; ) func grade(score int) string { g := &amp;quot;&amp;quot; switch { case score &amp;lt; 0 || score &amp;gt; 100: panic(fmt.</description>
+      <description>语句 描述 if 语句 if 语句 由一个布尔表达式后紧跟一个或多个语句组成 if&amp;hellip;else if 语句 后可以使用可选的 else 语句, else 语句中的表达式在布尔表达式为 false 时执行。 if 嵌套语</description>
     </item>
     
     <item>
@@ -252,10 +234,7 @@ func function_name( [parameter list] ) [return_types] { 函数体 }   package ma
       <pubDate>Sat, 03 Feb 2018 19:45:12 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/03/note_02/</guid>
-      <description>变量声明  指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导致编译错误。（函数外部无法省略var关键字） ``` //默认 没有初值 func variableZeroValue() { var a int var s string fmt.Printf(&amp;ldquo;%d,%q\n&amp;rdquo;,a,s) }
-//赋予初值和类型 func variableInitialValue() { var a,b int = 3,4 var s string = &amp;ldquo;abc&amp;rdquo; fmt.Println(a,b,s) }
-//赋予初值 func variableTypeDeduction() { var a,b,c,s = 3,4,true,&amp;ldquo;def&amp;rdquo; fmt.Println(a,b,c,s) }
-func variableShorter() { a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo; b = 3 fmt.Println(a,b,c,s) } var( ss =&amp;ldquo;string&amp;rdquo; aa = 1 bb = 2 ) func euler() { //c := 3+4i //fmt.</description>
+      <description>变量声明 指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导</description>
     </item>
     
     <item>
@@ -264,7 +243,7 @@ func variableShorter() { a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo; b = 3 fmt
       <pubDate>Fri, 02 Feb 2018 17:27:32 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/02/02/note_01/</guid>
-      <description>GO语言很特别  没有&amp;rdquo;对象&amp;rdquo;，没有继承多态，没有泛型，么有try/catch 有接口，函数式变成，CSP并发模型（goroutine+channel） 学习Go语言很简单，因为语法简单 用好Go语言不容易，因为要调整三观  Go知识框架  基本语法 （遍历，选择，循环，指针，数组，容器） 面向接口 （结构体，duck typing的概念，组合的思想） 函数式编程（闭包的概念，例题） 工程化 （资源管理，错误处理，测试和文档，性能调优） 并发编程 （goroutine和channel,理解调度器，例题）  实战项目  从零开始，使用Go语言自主搭建简单的分布式爬虫（不使用框架） 爬取网站资料  项目的架构图 开发路径：单任务版-&amp;gt;并发版-&amp;gt;分布式</description>
+      <description>GO语言很特别 没有&amp;rdquo;对象&amp;rdquo;，没有继承多态，没有泛型，么有try/catch 有接口，函数式变成，CSP并发模型（gor</description>
     </item>
     
     <item>
@@ -273,8 +252,7 @@ func variableShorter() { a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo; b = 3 fmt
       <pubDate>Tue, 30 Jan 2018 15:02:26 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/01/30/go/</guid>
-      <description>前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力）
-Go 归类总结  类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：面向接口，函数式编程，并发编程  Go语言的并发编程  采用CSP(Communication Sequential Process)模型（有学术论文，比较复杂） code层面不需要锁，不需要callback 并发编程VS并行计算  Go语言的安装与开放环境  下载：https://golang.org/dl/ 下载对应系统的go安装包 开发工具： 我使用的是 WebStrom +go 插件 IDE jetbeans 除了Goland 编译器  一个简单的 goroutine package main import &amp;quot;strconv&amp;quot; import &amp;quot;fmt&amp;quot; func main() { taskChan := make(chan string, 3) doneChan := make(chan int, 1) for i := 0; i &amp;lt; 3; i++ { taskChan &amp;lt;- strconv.Itoa(i) fmt.Println(&amp;quot;send: &amp;quot;, i) } go func() { for i := 0; i &amp;lt; 3; i++ { task := &amp;lt;-taskChan fmt.</description>
+      <description>前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力） Go 归类总结 类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：</description>
     </item>
     
     <item>
@@ -283,12 +261,7 @@ Go 归类总结  类型检查：编译时 运行环境：编译成机器代码�
       <pubDate>Wed, 13 Dec 2017 21:55:46 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/12/13/pigeon/</guid>
-      <description>小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等
-我们需要实时监控这些自动化的过程是否按预期完成了自己的任务，如果出现一些错误，或者需求要在完成任务之后提醒开发者。 所以我就开发了一个基于公司内部通信系统的一个小型的消息通知管理中心。 虽然之前断断续续有学写一些golang的东西，但是一直没有成型的作品，这是继上次做的个人实践项目之后，第一个在公司内部产生实际效益的服务。
-主要功能 本服务的主要功能是用于 给不同的服务配置不同的消息类型和接收人。最终会根据调用通知群组id发送给不同的接受对象。 简单的实现了
- 组员的增删改查 群组的增删改查
- 消息应用的增删改查 组员和群组的关系的增删
- 群组和消息应用直之间的关系增删 应用版本号的tag自增接口（额外需求，与前面几个接口无关）  接口 json请求格式(application/json)  1. /adduse POST //添加用户 { &amp;quot;mail&amp;quot;:&amp;quot;jack@meituan.com&amp;quot;, &amp;quot;mobile&amp;quot;:&amp;quot;18792289&amp;quot;, &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot; } 2. /deleteuser POST //删除用户 { &amp;quot;user_name&amp;quot;:&amp;quot;jack&amp;quot; } 3. /users GET //用户列表 4. /addgroup POST //添加群组 { &amp;quot;group_name&amp;quot;:&amp;quot;商户前端&amp;quot;, &amp;quot;type&amp;quot;:1, &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;, &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;, &amp;quot;app_id&amp;quot;:1 } 5. /updategroup POST //更新群组信息 { &amp;quot;group_name&amp;quot;:&amp;quot;商户前端html&amp;quot;, &amp;quot;type&amp;quot;:1, &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci000011&amp;quot;, &amp;quot;app_name&amp;quot;:&amp;quot;点评管家&amp;quot;, &amp;quot;app_id&amp;quot;:&amp;quot;28fa3c968b438fb71c8d7825af609591&amp;quot; } 6. /addgcrow POST //添加群组成员 { &amp;quot;group_id&amp;quot;:&amp;quot;merchant_mci&amp;quot;, &amp;quot;user_name&amp;quot;:&amp;quot;erfeng.</description>
+      <description>小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等 我们需要实时监控</description>
     </item>
     
     <item>
@@ -297,25 +270,16 @@ Go 归类总结  类型检查：编译时 运行环境：编译成机器代码�
       <pubDate>Fri, 17 Nov 2017 16:26:03 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/17/shell/</guid>
-      <description>修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。  最开始想使用 sed 这个命令，但是mac上-i命令无法使用，使用-e sed -e &amp;quot;4d&amp;quot; Pod/Resources/MCICheckTime 命令可以修改， 但是无法输出修改内容到文件上。一直提示no such file. 无法，只得另找办法
-awk 更换到使用awk命令的方式
-在文件的当前目录下操作
- cmms=`date &#39;+%y.%m.%d.%H&#39;` export version=&amp;quot; s.version = \&amp;quot;$cmms\&amp;quot;&amp;quot; awk &#39;NR==4{$0=ENVIRON[&amp;quot;version&amp;quot;]}{print}&#39; MTAForMCICodeInspect_backup.podspec &amp;gt; MTAForMCICodeInspect.podspec  我知道肯定有更简单直接的方法，但是因为不熟悉shell脚本，走了很多弯路，这个是我一个下午折腾出来可以实现的路径，某些路过的同学可以少走些弯路，
-如果知道更方便的方法，好请邮件（flywithme.top@gmail.com）告知下啊。非常感谢</description>
+      <description>修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。</description>
     </item>
     
     <item>
       <title>Jenkins-打包之远程构建</title>
-      <link>http://blog.flywithme.top/2017/11/16/jenkins/</link>
+      <link>http://blog.flywithme.top/2017/11/16/Jenkins/</link>
       <pubDate>Thu, 16 Nov 2017 16:59:57 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2017/11/16/jenkins/</guid>
-      <description>在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显得不够fashion。每次有新的代码合入测完分支，就自动打一个包给测试人员，会更高效一些。
-Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦
-上图所示的配置 触发远程构建，是使用身份令牌的形式完成的：http://host/job/merchant/buildWithParameters?token=token get请求形式即可完成
-定时构建
-举个🌰
-* * * * * 第一个*表示分钟，取值0~59 第二个*表示小时，取值0~23 第三个*表示一个月的第几天，取值1~31 第四个*表示第几月，取值1~12 第五个*表示一周中的第几天，取值0~7，其中0和7代表的都是周日 H H/3 * * * 每3小时构建以此 0 9,13,18 * * 1-5 每周一到周五 9点，13点，18点构建，  </description>
+      <guid>http://blog.flywithme.top/2017/11/16/Jenkins/</guid>
+      <description>在大型项目中，经常会有新的业务或者基础库需要更新合并进入测试分支，然后使用Jenkins打包给测试人员进行测试。 但是如果人工去构建打包又会显</description>
     </item>
     
     <item>
@@ -324,22 +288,16 @@ Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦
       <pubDate>Thu, 16 Nov 2017 11:15:21 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/16/wirelessdebug/</guid>
-      <description> 首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连接数据线至同一个局域网的Mac上
- 打开-&amp;gt;windows里的Device and Simulators选项，勾选 Connect Via network
-  假设你的开发证书和描述文件都是齐全完整的，开始编译，会自动提示。真机调试选择刚才连接到 机器名字
-数据线链接手机 打开device and simulators面板，勾选connect via network
-选择你的设备开始编译 （就算断开数据线，这个设备依然会留在这里） 开始编译结束-可以查看手机的device日志，然后手机名字右边的网球 表示无线连接正常 </description>
+      <description>首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连</description>
     </item>
     
     <item>
       <title>imageMagick 和 PlistBuddy合体生成图标</title>
-      <link>http://blog.flywithme.top/2017/11/15/plistbuddy/</link>
+      <link>http://blog.flywithme.top/2017/11/15/PlistBuddy/</link>
       <pubDate>Wed, 15 Nov 2017 19:06:14 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2017/11/15/plistbuddy/</guid>
-      <description>demo地址
-图片内容处理文件 (merchant-icon-generator.sh)
-#获取参数 文件源 SRC_FILE=&amp;quot;$1&amp;quot; #版本号 shortVersion=&amp;quot;$2&amp;quot; #标签number bundlerNum=&amp;quot;$3&amp;quot; #转换 文件 绘制 坐标 填充 颜色 透明度 填充 坐标 填充 颜色 透明度 生成目标图片 convert &amp;quot;$SRC_FILE&amp;quot; -region 1024x244+0+780 -fill &amp;quot;rgb(0,159,250)&amp;quot; -colorize 100% -region 1024x244+650+780 -fill &amp;quot;rgb(102,230,32)&amp;quot; -colorize 100% target-new.png #转换 文件 重置坐标 地图坐标西南角 写入 白色字体，文字尺寸 绘制文字 offset 内容 convert target-new.png -gravity southwest -fill white -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$shortVersion&#39;&amp;quot; -gravity southeast -fill white -pointsize 230 -draw &amp;quot;text 60,-10 &#39;$bundlerNum&#39;&amp;quot; target-new.png   命令</description>
+      <guid>http://blog.flywithme.top/2017/11/15/PlistBuddy/</guid>
+      <description>demo地址 图片内容处理文件 (merchant-icon-generator.sh) #获取参数 文件源 SRC_FILE=&amp;quot;$1&amp;quot; #版本号 shortVersion=&amp;quot;$2&amp;quot; #标签number bundlerNum=&amp;quot;$3&amp;quot; #转换 文件 绘制 坐标 填充 颜色 透明度 填充 坐标 填充 颜色 透明度 生成目标</description>
     </item>
     
     <item>
@@ -348,8 +306,7 @@ Jenkins安装以及完毕的情况下，配置这样的事情也不算麻烦
       <pubDate>Mon, 13 Nov 2017 17:20:15 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/13/mail/</guid>
-      <description>//注意邮件格式，以免被当垃圾邮件
-package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; ) const ( HOST = &amp;quot;smtp.163.com&amp;quot; SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot; USER = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱 PASSWORD = &amp;quot;xxx&amp;quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string &amp;quot;to&amp;quot; subject string &amp;quot;subject&amp;quot; msg string &amp;quot;msg&amp;quot; } func NewEmail(to, subject, msg string) *Email { return &amp;amp;Email{to: to, subject: subject, msg: msg} } func SendEmail(email *Email) error { auth := smtp.PlainAuth(&amp;quot;&amp;quot;, USER, PASSWORD, HOST) sendTo := strings.Split(email.to, &amp;quot;;&amp;quot;) done := make(chan error, 1024) go func() { defer close(done) for _, v := range sendTo { str := strings.</description>
+      <description>//注意邮件格式，以免被当垃圾邮件 package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; ) const ( HOST = &amp;quot;smtp.163.com&amp;quot; SERVER_ADDR = &amp;quot;smtp.163.com:25&amp;quot; USER = &amp;quot;xxx@163.com&amp;quot; //发送邮件的邮箱 PASSWORD = &amp;quot;xxx&amp;quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string</description>
     </item>
     
     <item>
@@ -358,17 +315,16 @@ package email import ( &amp;quot;net/smtp&amp;quot; &amp;quot;strings&amp;quot; 
       <pubDate>Mon, 13 Nov 2017 11:40:09 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/13/sshnopass/</guid>
-      <description> 前置条件：  一台主流的Linux服务器，如CentOS,Ubuntu,Fedora,redhat等 一台能连上以上服务器的客户机，我用的mac，系统是osx  预备动作：  打开终端 Terminal 生成ca证书私钥与公钥   执行：  执行代码 ssh-copy-id -i (id_rsa路径) name@ip -p    提示错误 需要登录服务器修改文件权限  再次执行图1 内容  这样的结果即可免密登陆   </description>
+      <description>前置条件： 一台主流的Linux服务器，如CentOS,Ubuntu,Fedora,redhat等 一台能连上以上服务器的客户机，我用的mac，</description>
     </item>
     
     <item>
       <title>web01-配置Mysql</title>
-      <link>http://blog.flywithme.top/2017/11/11/gin-mysql-web/</link>
+      <link>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</link>
       <pubDate>Sat, 11 Nov 2017 19:57:02 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2017/11/11/gin-mysql-web/</guid>
-      <description>安装Mysql 创建userInfo表
-CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1) DEFAULT &#39;-1&#39;, `authtoken` char(32) DEFAULT &#39;&#39;, `mail` varchar(40) DEFAULT &#39;&#39;, `oldpassword` varchar(100) DEFAULT &#39;&#39;, PRIMARY KEY (`uid`) ) ENGINE=InnoDB AUTO_INCREMENT=1000039 DEFAULT CHARSET=utf8;  db 控制器</description>
+      <guid>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</guid>
+      <description>安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)</description>
     </item>
     
     <item>
@@ -377,11 +333,7 @@ CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `usern
       <pubDate>Fri, 10 Nov 2017 12:11:33 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/10/imagemagic/</guid>
-      <description>首先：brew install ImageMagick
-熟悉ImageMagick命令：
-resize当前目录下的图片到100x100f分辨率
-convert 1024x1024.png -resize 100x100 icon02.png  填充某像
-convert 1024x1024.png -region 1024x224+0+800 -fill &amp;quot;rgb(255,166,48)&amp;quot; -colorize 100% new.png convert 1024-origin.png -region 1024x224+0+800 -fill &amp;quot;rgb(0,159,250)&amp;quot; -colorize 100% -region 1024x224+650+800 -fill &amp;quot;rgb(233,159,250)&amp;quot; -colorize 100% new.png  py</description>
+      <description>首先：brew install ImageMagick 熟悉ImageMagick命令： resize当前目录下的图片到100x100f分辨率 convert 1024x1024.png -resize 100x100 icon02.png 填充某像 convert 1024x1024.png -region 1024x224+0+800 -fill &amp;quot;rgb(255,166,48)&amp;quot; -colorize 100% new.png convert</description>
     </item>
     
     <item>
@@ -390,49 +342,25 @@ convert 1024x1024.png -region 1024x224+0+800 -fill &amp;quot;rgb(255,166,48)&amp
       <pubDate>Sun, 05 Nov 2017 20:17:21 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/11/05/gin-mysql/</guid>
-      <description> 项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容  填坑1- struct to json 时，空值忽略，或者特定值忽略问题
-http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/
-Golang中，如果指定一个field序列化成JSON的变量名字为-，则序列化的时候自动忽略这个field。这种用法， 才是和上面JsonIgnore的用法的作用是一样的。
-而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。
-这里需要注意的是关于emtpty的定义：
-常用Sql命令
-//查询手机号为176021986 时间在 1510678791 之前2000秒的 数据量 select COUNT(*) as cnt from smstx where mobile = &amp;quot;176021986&amp;quot; and time &amp;gt; 1510678791-2000  </description>
+      <description>项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容 填坑1- struct to json 时，空值忽略</description>
     </item>
     
     <item>
       <title>iOS11 ScrollView 页面下移问题</title>
-      <link>http://blog.flywithme.top/2017-09-30-ios11scrollview20pt/</link>
+      <link>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt/</link>
       <pubDate>Sat, 30 Sep 2017 14:58:00 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2017-09-30-ios11scrollview20pt/</guid>
-      <description>一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、什么情况下的tableView会发生上述问题 四、这个问题的解决方法有哪些？ 五、遇到的另外一个与安全区域无关的tableView内容下移的问题        scorllView contentOffset变动问题
-一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 问题如下图所示：
-1. 原因分析
-原因是iOS 11中UIViweController的automaticallyAdjustsScrollViewInsets属性被废弃了，所以当scrollView超出安全区域时系统自动调整了SafeAreaInsets值，进而影响adjustedContentInset值，
-在iOS 11中决定tableView的内容与边缘距离的是adjustedContentInset属性，而不是contentInset。adjustedContentInset的计算方式见本文第二部分内容。因为系统对adjustedContentInset值进行了调整，所以导致tableView的内容到边缘的距离发生了变化，导致tableView下移了20pt（statusbar高度）或64pt（navigationbar高度）。
-如果你的APP中使用的是自定义的navigationbar，隐藏掉系统的navigationbar，并且tableView的frame为(0,0,SCREEN_WIDTH, SCREEN_HEIGHT)开始，那么系统会自动调整SafeAreaInsets值为(20,0,0,0)，如果使用了系统的navigationbar，那么SafeAreaInsets值为(64,0,0,0)，如果也使用了系统的tabbar，那么SafeAreaInsets值为(64,0,49,0)。关于什么情况下会发生内容下移的问题，本文第三部分有介绍。
-2. 安全区域的概念
-系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：
-安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用additionalSafeAreaInsets去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。
-safeAreaInsets属性反映了一个view距离该view的安全区域的边距。对于一个Controller的根视图而言，SafeAreaInsets值包括了被statusbar和其他可视的bars覆盖的区域和其他通过additionalSafeAreaInsets自定义的insets值。对于view层次中得其他view，SafeAreaInsets值反映了view被覆盖的部分。如果一个view全部在它父视图的安全区域内，则SafeAreaInsets值为(0,0,0,0)。
-二、 adjustContentInset属性的计算方式 首先看scrollView在iOS11新增的两个属性：adjustContentInset 和 contentInsetAdjustmentBehavior。
-/* Configure the behavior of adjustedContentInset. Default is UIScrollViewContentInsetAdjustmentAutomatic. */ @property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior adjustContentInset表示contentView.frame.origin偏移了scrollview.frame.origin多少；是系统计算得来的，计算方式由contentInsetAdjustmentBehavior决定。有以下几种计算方式： UIScrollViewContentInsetAdjustmentAutomatic：如果scrollview在一个automaticallyAdjustsScrollViewInsets = YES的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top &amp;amp; bottom上 adjustedContentInset = safeAreaInset + contentInset不管是否滚动。其他情况下与UIScrollViewContentInsetAdjustmentScrollableAxes相同 UIScrollViewContentInsetAdjustmentScrollableAxes: 在可滚动方向上adjustedContentInset = safeAreaInset + contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset + contentInset UIScrollViewContentInsetAdjustmentNever: adjustedContentInset = contentInset UIScrollViewContentInsetAdjustmentAlways: adjustedContentInset = safeAreaInset + contentInset  当contentInsetAdjustmentBehavior设置为UIScrollViewContentInsetAdjustmentNever的时候，adjustContentInset值不受SafeAreaInset值的影响。</description>
+      <guid>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt/</guid>
+      <description>一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、</description>
     </item>
     
     <item>
       <title>大文件分片上传解决方案</title>
-      <link>http://blog.flywithme.top/2017/08/03/bigfileupload/</link>
+      <link>http://blog.flywithme.top/2017/08/03/bigFileUpload/</link>
       <pubDate>Thu, 03 Aug 2017 13:44:56 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2017/08/03/bigfileupload/</guid>
-      <description> 分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数
- md5: 获取文件的md5值
- 文件管理工具：文件路径， 分析文件内容，生成数据。
-   上传任务池中会保持小于等于3个的请求任务 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)
-  文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式
-模型组里可以保存每一个分片的md5值，用于分片的上传状态。
-管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。
- </description>
+      <guid>http://blog.flywithme.top/2017/08/03/bigFileUpload/</guid>
+      <description>分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数 md5: 获取文件的md5值 文件管理工具：文件路径， 分析文件内容，生成数据。 上传任务池中</description>
     </item>
     
     <item>
@@ -450,11 +378,7 @@ safeAreaInsets属性反映了一个view距离该view的安全区域的边距。�
       <pubDate>Thu, 13 Apr 2017 17:19:53 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/04/13/swift21/</guid>
-      <description>在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。
-析构过程原理 Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的 时候可能就需要额外的清理了。比如打开另一个文件写入数据，就需要在实例被释放前关闭该文件。
-语法：在类的定义中，每个类最多只有一个析构函数，析构函数不带任何参数，不带括号
-deinit{ //执行析构过程 }  示例：deinit的调用时机
-var counter = 0; class BaseClass { init() { counter += 1; } deinit { counter -= 1; } } var show: BaseClass? = BaseClass() print(counter) // 1 show = nil print(counter) // 0  </description>
+      <description>在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。 析构过程原理 Sw</description>
     </item>
     
     <item>
@@ -463,11 +387,7 @@ var counter = 0; class BaseClass { init() { counter += 1; } deinit { counter -= 
       <pubDate>Thu, 13 Apr 2017 16:24:52 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/04/13/swift20/</guid>
-      <description>构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务
-swift的构造函数使用的是init()方法。 这个方法没有返回值。主要任务是保证新实例在第一次使用之前完成正确的初始化。
-构造器 在创建某特定类型的新实例时调用，它的关键字是init
-init(){ //执行属性初值设置 }  两段式构造
-class baseClass{ var name:String var age:Int var level:String? init() { self.name = &amp;quot;&amp;quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&amp;quot;baseClass&amp;quot;) } } class sonClass1:baseClass{ var str1:String init(name:String, age:Int, str1:String){ //构造初值 第一段 self.str1 = str1 super.init(name: name, age: age) //进一步完善 第二段 self.agefomat(age: age) } final func agefomat(age:Int){ if age &amp;lt;= 0 { self.</description>
+      <description>构造过程是为了使用某个类、结构体或者枚举类型实例而进行的准备过程。这个过程包含了为实例的每一个属性设置初始值 的初始化任务 swift的构造函数</description>
     </item>
     
     <item>
@@ -476,9 +396,7 @@ class baseClass{ var name:String var age:Int var level:String? init() { self.nam
       <pubDate>Thu, 13 Apr 2017 12:00:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/04/13/swift19/</guid>
-      <description>多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为
- 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引用调用相同方法而产生不同的行为。 多态的条件：a,必须存在继承关系，b,子类对父类的方法进行重写  示例：
-class baseClass{ var name:String var age:Int init() { self.name = &amp;quot;&amp;quot; self.age = 0 } init(name:String,age:Int) { self.age = age self.name = name } func testFunc() { print(&amp;quot;baseClass&amp;quot;) } } class sonClass1:baseClass{ var str1:String = &amp;quot;str1&amp;quot; //重载 override func testFunc() { print(&amp;quot;sonClass1&amp;quot;) } } class sonClass2:baseClass{ var str1:String = &amp;quot;str1&amp;quot; override func testFunc() { print(&amp;quot;sonClass2&amp;quot;) } } final class grandSon1:sonClass1{ var strGrand:String = &amp;quot;strGrand&amp;quot; } final class grandSon01:sonClass1{ var strGrand:String = &amp;quot;strGrand&amp;quot; } final class grandSon02:sonClass2{ var strGrand:String = &amp;quot;strGrand&amp;quot; } func printBasicInfo(base:baseClass){ print(&amp;quot;name is \(base.</description>
+      <description>多态性 同样的操作或者方法，不同的对象执行的时候表现出完全不同的行为 使用父类指针或者引用指向子类的实例，然后再自雷中覆盖父类的方法，利用父类引</description>
     </item>
     
     <item>
@@ -487,12 +405,7 @@ class baseClass{ var name:String var age:Int init() { self.name = &amp;quot;&amp
       <pubDate>Sat, 01 Apr 2017 22:29:17 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/04/01/swift18/</guid>
-      <description>继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来的属性添加属性观察器
-基类 没有继承其它类的类，称之为基类（Base Class）
-子类 子类指的是在一个已有类的基础上创建一个新的类。为了指明某个类的超类，将超类名写在子类名的后面，用冒号(:)分隔,语法格式如下
-class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ } sonClass.init(name: &amp;quot;a&amp;quot;)  重写（Overriding） 子类可以通过继承来的实例方法，类方法，实例属性，或下标脚本来实现自己的定制功能，我们把这种行为叫重写（overriding）。我们可以使用 override 关键字来实现重
-class baseClass{ var baseName:String init(name:String) { self.baseName = name } } class sonClass:baseClass{ var levelStr:String override init(name: String) { self.levelStr = name.appending(&amp;quot;b&amp;quot;) super.init(name: name) } } var son = sonClass.init(name: &amp;quot;a&amp;quot;) son.baseName son.levelStr  // 防止重写 使用 final 关键字防止它们被重写
- //final 关键字 final class grandSon:sonClass{ final var grand:String = &amp;quot;&amp;quot; override init(name: String) { super.</description>
+      <description>继承：我们可以理解为一个类获取了另外一个类的方法和属性。当一个类继承其它类时，继承类叫子类，被继承类叫超类（或父类)， 我们也可以为类中继承来</description>
     </item>
     
     <item>
@@ -501,8 +414,7 @@ class baseClass{ var baseName:String init(name:String) { self.baseName = name } 
       <pubDate>Fri, 31 Mar 2017 19:47:41 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/03/31/swift17/</guid>
-      <description>单例写法
-public class Manager{ public var score = 0 public static let defaultManager = Manager.init() private init(){ } public func addScore(){ score += 10 } } let manager = Manager.defaultManager manager.addScore() manager.score manager.addScore() manager.score let manager2 = Manager.defaultManager manager2.addScore() manager2.score  </description>
+      <description>单例写法 public class Manager{ public var score = 0 public static let defaultManager = Manager.init() private init(){ } public func addScore(){ score += 10 } } let manager = Manager.defaultManager manager.addScore() manager.score manager.addScore() manager.score let manager2 = Manager.defaultManager manager2.addScore() manager2.score</description>
     </item>
     
     <item>
@@ -511,12 +423,7 @@ public class Manager{ public var score = 0 public static let defaultManager = Ma
       <pubDate>Thu, 30 Mar 2017 16:53:45 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/03/30/swift16/</guid>
-      <description>Swift 属性将值跟特定的类、结构或枚举关联
-属性可分为存储属性和计算属性:
-   存储属性 计算属性     存储常量或变量作为实例的一部分 计算（而不是存储）一个值   用于类和结构体 用于类、结构体和枚举    存储属性
- 可以在定义存储属性的时候指定默认值 在构造过程中设置或修改存储值属性的值，身子修改常量存储属性的值   延迟存储属性 lazy property
- 延迟对象的创建 当属性的值依赖于其他未知类
-class CloseRange{ var start: Int var end:Int var width:Int{ return end - start + 1 } lazy var sum: Int = { var res = 0 for i in self.start&amp;hellip;self.end{ res += 1 } return res }() var sum1: Int { var res = 0 for i in start&amp;hellip;end{ res += 1 } return res } init?</description>
+      <description>Swift 属性将值跟特定的类、结构或枚举关联 属性可分为存储属性和计算属性: 存储属性 计算属性 存储常量或变量作为实例的一部分 计算（而不是存储）一个值 用于</description>
     </item>
     
     <item>
@@ -525,12 +432,7 @@ class CloseRange{ var start: Int var end:Int var width:Int{ return end - start +
       <pubDate>Wed, 29 Mar 2017 14:18:03 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/03/29/swift15/</guid>
-      <description>类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类去创建独立的接口和实现文件， 你要做的是在一个单一文件中定义一个类，系统会自动生产面向其他代码的外部接口。
-//示例： class Person{ var firstName:String = &amp;quot;&amp;quot; var lastName:String = &amp;quot;&amp;quot; } class Person1{ var firstName:String var lastName:String init(firstName:String, lastName:String) { self.firstName = firstName self.lastName = lastName } } let person1 = Person1.init(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)  类和结构体的对比
-共同点：
- 定义属性用于存储值 定义方法用于提供功能 定义附属脚本用于访问值 定义构造器用于生成初始化值 通过扩展以增加默认实现的功能 符合协议以对某类提供标准功能   比结构体多了如下功能
- 允许一个类继承另一个类的特征 类型转换允许在运行时检查和解释一个类的实例类型 结构器允许一个实例释放任何其所分配的资源 引用计数允许对一个类多次引用   区别：引用类型和值类型
-//示例： class Person{ var firstName:String = &amp;quot;&amp;quot; var lastName:String = &amp;quot;&amp;quot; } let person1 = Person(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;) let person2 = person1 person2.</description>
+      <description>类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类</description>
     </item>
     
     <item>
@@ -539,14 +441,7 @@ class CloseRange{ var start: Int var end:Int var width:Int{ return end - start +
       <pubDate>Thu, 23 Mar 2017 16:54:15 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/03/23/swift3-14/</guid>
-      <description>Swift 结构体是构建代码所用的一种通用且灵活的构造体。我们可以为结构体定义属性（常量、变量）和添加方法，从而扩展结构体的功能.
-与 C 和 Objective-C 不同的是:
- 结构体不需要包含实现文件和接口 结构体允许我们创建一个单一文件,且系统会自动生成面向其他代码的外部接口   结构体总是通过被复制的方式在代码中传递，因此它的值是不可修改的.
-示例
-struct MarkStruct{ var mark1: Int var mark2: Int var mark3: Int }  结构体应用 需要注意的以下几点:
- 结构体的主要目的是用来封装少了相关简单数据 有理由预计一个结构体实例在赋值和传递时,封装的数据将会被拷贝而不是被引用 任何在结构体中存储的值类型属性,也将会被拷贝,而不是被引用。 结构体不需要去继承另一个已存在类型的属性或者行为。
-  总的来说就是:结构体实例是通过值传递,而不是通过引用传递。
-struct Location{ var latitude:Double var longitude:Double } let aLocation = Location(latitude: 12.0,longitude: 212.0) var bLoaction = Location.init(latitude: 1.2, longitude: 1.3) struct Place{ var location:Location var name:String } var aPlace = Place.init(location: bLoaction, name: &amp;quot;苹果总部&amp;quot;) bLoaction.</description>
+      <description>Swift 结构体是构建代码所用的一种通用且灵活的构造体。我们可以为结构体定义属性（常量、变量）和添加方法，从而扩展结构体的功能. 与 C 和 Objective-C 不同的是: 结</description>
     </item>
     
     <item>
@@ -555,14 +450,7 @@ struct Location{ var latitude:Double var longitude:Double } let aLocation = Loca
       <pubDate>Tue, 21 Mar 2017 15:30:52 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/03/21/swift13/</guid>
-      <description>枚举简单的说也是一种数据类型，只不过是这种数据类型只包含自定义的特定数据，它是一组有共同特性的数据的集合。 Swift 的枚举类似于 Objective C 和 C 的结构
-枚举的功能为
- 它声明在类中,可以通过实例化类来访问它的值.
-枚举也可以定义构造函数来提供一个初始成员值,可以在原始的实现基础上扩展它功能。
-可以遵守协议来提供标准的功能。
- 示例
-// 定义枚举 enum DaysofaWeek { case Sunday case Monday case TUESDAY case WEDNESDAY case THURSDAY case FRIDAY case Saturday } var weekDay = DaysofaWeek.THURSDAY weekDay = .THURSDAY switch weekDay { case .Sunday: print(&amp;quot;星期天&amp;quot;) case .Monday: print(&amp;quot;星期一&amp;quot;) case .TUESDAY: print(&amp;quot;星期二&amp;quot;) case .WEDNESDAY: print(&amp;quot;星期三&amp;quot;) case .THURSDAY: print(&amp;quot;星期四&amp;quot;) case .FRIDAY: print(&amp;quot;星期五&amp;quot;) case .Saturday: print(&amp;quot;星期六&amp;quot;) }  相关值与原始值的区别
-   相关值 原始值     不同数据类型 相同数据类型   值的创建基于常量或变量 预先填充的值   相关值是当你在创建一个枚举成员的心常量或变量时才会被设置,并且每次当你这么做的时候,它的值都不同 原始值试着是相同的    原始值 Raw value 原始值可以是字符串，字符，或者任何整型值或浮点型值。每个原始值在它的枚举声明中必须是唯一的.</description>
+      <description>枚举简单的说也是一种数据类型，只不过是这种数据类型只包含自定义的特定数据，它是一组有共同特性的数据的集合。 Swift 的枚举类似于 Objective C 和 C 的结构 枚举的</description>
     </item>
     
     <item>
@@ -571,14 +459,7 @@ struct Location{ var latitude:Double var longitude:Double } let aLocation = Loca
       <pubDate>Tue, 28 Feb 2017 17:43:27 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/28/swift12/</guid>
-      <description>闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编程语言中的匿名函数比较相似。 全局函数和嵌套函数其实就是特殊的闭包。
-闭包的形式有
- 全局函数: 有名字但不能捕获任何值
-嵌套函数: 有名字,可以捕获封闭函数内的值
-闭包表达式: 无名闭包,使用轻量级语法,可以根据上下文环境捕获值。
- 示例:
-let clousuer = { print(&amp;quot;Swift 闭包实例。&amp;quot;) } clousuer() //加法 let sum = {(val1:Int, val2:Int)-&amp;gt; Int in return val1 + val2 } let result = sum(20,2) //排序 var arr:[Int] = [] for _ in 0...100{ arr.append(Int(arc4random()%1000)) } arr.sorted(by: {(a: Int, b:Int) -&amp;gt; Bool in return a &amp;gt; b })  闭包的简化
-//简化: 根据现场情况,选择适合当前情况的写法。 arr.</description>
+      <description>闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编</description>
     </item>
     
     <item>
@@ -587,11 +468,7 @@ let clousuer = { print(&amp;quot;Swift 闭包实例。&amp;quot;) } clousuer() /
       <pubDate>Mon, 27 Feb 2017 13:41:21 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/27/swift11/</guid>
-      <description>函数定义
- Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过函数名以及对应类型的参数值来调用这个函数。函数的参数传递的顺序必须与参数列表相同。 函数的实参传递的顺序必须与形参列表相同，-&amp;gt; 后定义函数的返回值类型。
- 示例:
-func hello(name:String)-&amp;gt; String{ return &amp;quot;Hello &amp;quot; + name } hello(name: &amp;quot;Jack&amp;quot;) func hello1(name:String?)-&amp;gt; String{ return &amp;quot;Hello &amp;quot; + (name != nil ? name! : &amp;quot;guess&amp;quot;) } hello1(name: &amp;quot;Jack&amp;quot;) func printHello(){ print(&amp;quot;hello&amp;quot;) } printHello() func printHello1() -&amp;gt; Void{ //Void 是一个类型 print(&amp;quot;hello&amp;quot;) } printHello1() func printHello2() -&amp;gt; (){ print(&amp;quot;hello&amp;quot;) } printHello2()  使用元组作为返回值 函数返回值的类型可以是字符串,整型,浮点型等,元组与数组类似,不同的是,元组中的元素可以是任意类型,使用的是括号,你可以使用元组类型让多个值作为一个复合值从函数中返回。
-func findMaxAndMin(numbers:[Int]) -&amp;gt; (max:Int, min:Int)?{ //如果你不确定返回的元组一定不为nil，那么你可以返回一个可选的元组类型。 guard !</description>
+      <description>函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过</description>
     </item>
     
     <item>
@@ -600,15 +477,7 @@ func findMaxAndMin(numbers:[Int]) -&amp;gt; (max:Int, min:Int)?{ //如果你不�
       <pubDate>Wed, 22 Feb 2017 16:15:18 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/22/swift10/</guid>
-      <description>选择合适的数据结构
-数组:
- 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组
- 集合:
- 无序,唯一性,集合特有的操作,快速查找 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用 集合,获取共同喜好,共同兴趣等。快速查找这个是集合的一大优势,数组查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)), 例如一个100万的数据,如果是数组查找的话,最坏的情况是 查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。
- 字典:
- 键值数据对,这个就不说了,使用的很广泛。
- 回顾 for in
-for index in 1...10{ print(index) } for c in &amp;quot;hello&amp;quot;.characters{ print(c) } var arr = [&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] for str in arr{ print(str) } for (index ,str) in arr.enumerated(){ print(index, str) } var dic = [1:&amp;quot;a&amp;quot; , 2:&amp;quot;b&amp;quot;] for key in dic{ print(key) } for value in dic.</description>
+      <description>选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,</description>
     </item>
     
     <item>
@@ -617,11 +486,7 @@ for index in 1...10{ print(index) } for c in &amp;quot;hello&amp;quot;.character
       <pubDate>Wed, 22 Feb 2017 15:18:43 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/22/swift09/</guid>
-      <description>将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集
-为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。 集合中的每一个元素都是唯一的。
- 基本方法
-//集合的初始化 var arr = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //如果不显式的声明,则默认是数组 var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //必须显式声明才行 var emptySet1:Set&amp;lt;String&amp;gt; = [] var emptySet2 = Set&amp;lt;Int&amp;gt;() var setB = Set([&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;c&amp;quot;]) //将一个数组转换成集合 setA.count setA.isEmpty setA.first //随机的取出一个元素 setA.contains(&amp;quot;a&amp;quot;) //判断是否有这个元素 //遍历 for str in setA{ print(str) } var str = setA.joined(separator: &amp;quot;d&amp;quot;) //比较 setA == setB setA.elementsEqual(setB)  集合的操作
-var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //插入 setA.insert(&amp;quot;D&amp;quot;) //返回一个元组 //更新 setA.update(with: &amp;quot;A&amp;quot;) //若已存在元素,则返回改元素,若没有,则返回nil //删除 setA.remove(&amp;quot;a&amp;quot;) //返回一个 bool 若是 true 则表示删除成功,返回 false 则表示之前没有这个元素 setA.</description>
+      <description>将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做</description>
     </item>
     
     <item>
@@ -630,9 +495,7 @@ var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //插入 setA.inser
       <pubDate>Wed, 22 Feb 2017 14:12:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/22/swift08/</guid>
-      <description>字典是存储 键-值 数据对的无序数据集合
- 基本方法
-var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型 value = dic[&amp;quot;daaaa&amp;quot;] dict.isEmpty dict.count if let value = dic[&amp;quot;key&amp;quot;]{ print(value) } var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2] dict[&amp;quot;1&amp;quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;] dict02[1] //遍历 for (key, value) in dict{ print(key,value) } //比较 var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var dic2 = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic2[&amp;quot;key&amp;quot;]dict == dict01 dic == dic2 //true 如果 元素类型不同,比较会抛错  增删改查</description>
+      <description>字典是存储 键-值 数据对的无序数据集合 基本方法 var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型 value = dic[&amp;quot;daaaa&amp;quot;] dict.isEmpty dict.count if let value = dic[&amp;quot;key&amp;quot;]{ print(value) } var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2] dict[&amp;quot;1&amp;quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;]</description>
     </item>
     
     <item>
@@ -641,10 +504,7 @@ var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;qu
       <pubDate>Tue, 21 Feb 2017 15:38:45 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/21/swift07/</guid>
-      <description>数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。
- 初始化方式
-var numbers = [0,1,2,3] var num:[Int] = [0,1,2] //只能是 Int 类型 var arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] //只能是 字符串 var arr1:[Any] = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1,num,arr] //里面的元素可以为任意类型 var arr0: Array&amp;lt;String&amp;gt; = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;] var arr01 = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1] as [Any] //空数组的声明方式 var emptyArr1:[Int] = [] var emptyArr2:Array&amp;lt;Int&amp;gt; = [] var emptyArr3 = [Int]() //重复数组初始化 var allzZeros = [String](repeatElement(&amp;quot;a&amp;quot;, count: 4))  基本方法
- 数组的基本查询 属性方法 count ,isEmpty, first, last, max, min, [], contains, index, for in enumerated, compare</description>
+      <description>数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。 初始化方式 var numbers = [0,1,2,3]</description>
     </item>
     
     <item>
@@ -653,12 +513,7 @@ var numbers = [0,1,2,3] var num:[Int] = [0,1,2] //只能是 Int 类型 var arr =
       <pubDate>Mon, 20 Feb 2017 15:22:44 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/20/swift06/</guid>
-      <description>画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。
-可选型不是表示 可以表示任意类型,而是可以表示一个指定数据类型 和 nil类型,
-错误代码示范
-var name: String = &amp;quot;loveway&amp;quot; name = nil //报错 error: Nil cannot be assigned to type &#39;String&#39;  Optionals的声明 var optionalInteger: Int? , var optionalInteger: Optional&amp;lt;Int&amp;gt;
-var name: String? = &amp;quot;loveway&amp;quot; print(name!) name = nil print(name as Any)  可选型的解包
-var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot; print(name!) name = nil print(name as Any ) name = &amp;quot;sam&amp;quot; //var string = &amp;quot;my name is &amp;quot; + name //error 因为 ```name```是一个未解包的数据,不能直接使用。 var string = &amp;quot;my name is &amp;quot; + name!</description>
+      <description>画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的</description>
     </item>
     
     <item>
@@ -667,13 +522,7 @@ var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot; print(name!)
       <pubDate>Fri, 17 Feb 2017 17:34:01 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/17/swift05/</guid>
-      <description>控制流的三种基本结构:
- 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行
-循环结构 循环语句使用同一个语句组根据一定的条件执行若干次
-选择结构: 分支语句根据一定的条件决定执行那一部分语句序列 顺序结构不再多说
-  循环结构
-for _ in 0...100{ print(&amp;quot;遍历循环&amp;quot;) } //这种方式在 swift3 中被废弃,不能在使用 //for var i = 1; i &amp;lt; 100 ; i++{ // print(&amp;quot;遍历循环中&amp;quot;) //} var a = 0.0 while a &amp;lt; 50 { a += 0.5 sin(a) } //至少执行一次 repeat{ a += 0.5 sin(a) }while a &amp;lt; 100  选择结构
-if true { }else if(1 == 1){ }else{ } switch index { case 0: break case 1: break case 2: break default: break } //swift 提供的基础数据类型都可以用作 switch 的判断 var str = &amp;quot;a&amp;quot; switch str { case &amp;quot;a&amp;quot;,&amp;quot;A&amp;quot;: print(&amp;quot;A&amp;quot;) case &amp;quot;b&amp;quot;: print(&amp;quot;B&amp;quot;) default: break } //区间 let age = 19 switch age { case 0.</description>
+      <description>控制流的三种基本结构: 顺序结构: 顺序语句有语句序列组成,程序执行时,按照语句顺序,从上而下,一条一条顺序执行 循环结构 循环语句使用同一个语句组</description>
     </item>
     
     <item>
@@ -682,10 +531,7 @@ if true { }else if(1 == 1){ }else{ } switch index { case 0: break case 1: break 
       <pubDate>Fri, 17 Feb 2017 11:00:55 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/17/swift04/</guid>
-      <description>赋值运算符
-= 这里是没有返回值的。返回值可能是Void，此时不等于nil，即赋值成功；或等于nil，即赋值失败
-var a = 3 a = 2  数学运算符 + - * / += -= %
-var a = 201 var b = 4 a + b a * b a - b a / b a % b a += 1 +a -a a += 2 a -= 3 a *= 2 a /= 2 a %= 2 var u = 2.5.truncatingRemainder(dividingBy: 1.2) //小数求余  逻辑运算符 !</description>
+      <description>赋值运算符 = 这里是没有返回值的。返回值可能是Void，此时不等于nil，即赋值成功；或等于nil，即赋值失败 var a = 3 a = 2 数学运算符 + - * /</description>
     </item>
     
     <item>
@@ -694,12 +540,7 @@ var a = 201 var b = 4 a + b a * b a - b a / b a % b a += 1 +a -a a += 2 a -= 3 a
       <pubDate>Thu, 16 Feb 2017 16:11:36 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/16/swift03/</guid>
-      <description>常量 let
-let a = 1 let b:Int b = 1  变量 var
-var b = 2   swift 是一个强类型语言:
-var x = 1 x = &amp;quot;abc&amp;quot; //会报错(Cannot assign value of type &amp;quot;String&amp;quot; to type &amp;quot;int&amp;quot;)  显示声明变量
-let s:String = &amp;quot;abc&amp;quot;  一次声明多个变量,
-var y, z, d:Double var x = 1, y = 2, z = 3   常用数据类型: Int , Float ,Double , Boolean , String ,Tuple  Int</description>
+      <description>常量 let let a = 1 let b:Int b = 1 变量 var var b = 2 swift 是一个强类型语言: var x = 1 x = &amp;quot;abc&amp;quot; //会报错(Cannot assign value of type &amp;quot;String&amp;quot; to type &amp;quot;int&amp;quot;) 显示声明变量 let s:String = &amp;quot;abc&amp;quot; 一次声明</description>
     </item>
     
     <item>
@@ -708,14 +549,7 @@ var y, z, d:Double var x = 1, y = 2, z = 3   常用数据类型: Int , Float ,Do
       <pubDate>Thu, 16 Feb 2017 11:27:44 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/16/swift02/</guid>
-      <description>首先我们来在屏幕上输出一个 hello world
-print(&amp;quot;hello world&amp;quot;)  不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。
-Xcode 提供了代码预览功能 Playground . 使用它可以加快 swift的学习速度
-初始化一个变量和常量
-var a = 2 //可变数据 a = 3 let b = 2 //不可变  if else
- if a == 2{ print(&amp;quot;true&amp;quot;) } else{ print(&amp;quot;false&amp;quot;) }  for in 遍历语句(此外还有 ,repeat..while ,for 循环3.0中已经被弃用)
-for index in 0...100{ var c = Double(index)/20.0 }  while
-while 1 == 1 { a += 1 if a == 100{ break } print(&amp;quot;do something&amp;quot;,a) }  repeat&amp;hellip; while</description>
+      <description>首先我们来在屏幕上输出一个 hello world print(&amp;quot;hello world&amp;quot;) 不需要 import 任何库,可以直接在全局作用域使用。代码结尾不要带分号。 Xcode 提供了代码预览功能 Playground . 使用它可以加快 swi</description>
     </item>
     
     <item>
@@ -724,13 +558,7 @@ while 1 == 1 { a += 1 if a == 100{ break } print(&amp;quot;do something&amp;quot
       <pubDate>Thu, 09 Feb 2017 10:12:48 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/02/09/swift01/</guid>
-      <description>Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。
- Swift 的开发从很久之前就开始了。为了给 Swift 打好基础，苹果公司改进了编译器，调试器和框架结构，让 Swift 使用自动引用计数（Automatic Reference Counting, ARC）来简化内存管理。
- Objective-C 开发者对于 Swift 并不会感到陌生。它采用了 Objective-C 的命名参数以及动态对象模型，可以无缝对接到现有的 Cocoa 框架，并且可以兼容 Objective-C 代码。在此基础之上，Swift 还有许多新特性，支持面向过程编程和面向对象编程。
- Swift 对于初学者来说也很简单。Swift是一门既满足工业标准又像脚本语言一样充满表现力和趣味的编程语言。Swift支持代码预览，这个革命性的特性可以允许程序员在不编译和运行应用程序的前提下运行 Swift 代码并实时查看结果。
- 使用 Swift编写 iOS，watchOS,macOS,和 tvOS apps 是一个极佳的选择。
- Swift 3.0 是自 Swift开源以来第一个大的版本更新。从语言角度不兼容之前的版本。
-  部分摘自：AppleLibrary</description>
+      <description>Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了</description>
     </item>
     
     <item>
@@ -739,96 +567,34 @@ while 1 == 1 { a += 1 if a == 100{ break } print(&amp;quot;do something&amp;quot
       <pubDate>Sun, 01 Jan 2017 00:56:42 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2017/01/01/golangfmt/</guid>
-      <description>Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。
-General
- %v 以默认的方式打印变量的值 %T 打印变量的类型 Integer
- %+d 带符号的整型，fmt.Printf(&amp;ldquo;%+d&amp;rdquo;, 255)输出+255
- %q 打印单引号
- %o 不带零的八进制
- %#o 带零的八进制
- %x 小写的十六进制
- %X 大写的十六进制
- %#x 带0x的十六进制
- %U 打印Unicode字符
- %#U 打印带字符的Unicode
- %b 打印整型的二进制
-  Integer width
- %5d 表示该整型最大长度是5，下面这段代码
-fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1) fmt.Printf(&amp;quot;|%5d|&amp;quot;, 1234567)   输出结果如下：
-| 1| |1234567|   %-5d则相反，打印结果会自动左对齐 %05d会在数字前面补零。  Float
- %f (=%.6f) 6位小数点 %e (=%.6e) 6位小数点（科学计数法） %g 用最少的数字来表示 %.</description>
+      <description>Go语言的标准输出流在打印到屏幕时有些参数跟别的语言（比如C#和Java）不同，下面是我整理的一些常用的格式化输入操作。 General %v 以默认的方式打印</description>
     </item>
     
     <item>
       <title>golang-Gin-Https</title>
-      <link>http://blog.flywithme.top/2016/12/26/golang-gin-https/</link>
+      <link>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</link>
       <pubDate>Mon, 26 Dec 2016 14:29:14 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/12/26/golang-gin-https/</guid>
-      <description>关于https
-背景知识
-密码学的一些基本知识
-大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，key就以一串随机数数，更换了key之后，算法还可以继续使用。
-基于key的加密算法又分为两类，对称加密和不对称加密，比如DES,AES那种的，通信双方一方用key加密之后，另一方用相同的key进行反向的运算就可以解密。
-不对称加密比较著名的就是RSA,加密的时候有一个公钥和一个私钥，公钥是可以交给对方的，a给b发送信息，a用自己的私钥加密，b用a的公钥解密，反之，b给a发送信息，b用自己的私钥加密。
-在通信之前，需要经过一些握手的过程，双方交换公钥，这个就是key exchange的过程，https最开始的阶段就包含了这个key exchange的过程，大概原理是这样，有些地方还要稍微复杂一些。
-数字证书与CA
-数字证书相当于是服务器的一个“身份证”，用于唯一标识一个服务器。一般而言，数字证书从受信的权威证书授权机构 (Certification Authority，证书授权机构)买来的（免费的很少），浏览器里面一般就内置好了一些权威的CA，在使用https的时候，只要是这些CA签发的证书，浏览器都是可以认证的，要是在与服务器通信的时候，收到一个没有权威CA认证的证书，就会报出提醒不受信任证书的错误，就像登录12306一样，但是也可以选择接受。
-在自己的一些项目中，通常是自己签发一个ca根证书，之后这个根证书签发一个server.crt，以及server.key给服务端，server.key是服务端的私钥，server.crt包含了服务端的公钥还有服务端的一些身份信息。在客户端和服务端通信的时候（特别是使用代码编写的客户端访问的时候），要指定ca根证书，作用就相当于是浏览器中内置的那些权威证书一样，用于进行服务端的身份检测。
-证书的格式：
-ca证书在为server.crt证书签名时候的大致流程参考这个(http://www.tuicool.com/articles/aymYbmM)：
-数字证书由两部分组成：
-1、C：证书相关信息（对象名称+过期时间+证书发布者+证书签名算法….）
-2、S：证书的数字签名 （由CA证书通过加密算法生成的）
-其中的数字签名是通过公式S = F(Digest&amp;copy;)得到的。
-Digest为摘要函数，也就是 md5、sha-1或sha256等单向散列算法，用于将无限输入值转换为一个有限长度的“浓缩”输出值。比如我们常用md5值来验证下载的大文件是否完整。大文件的内容就是一个无限输入。大文件被放在网站上用于下载时，网站会对大文件做一次md5计算，得出一个128bit的值作为大文件的摘要一同放在网站上。用户在下载文件后，对下载后的文件再进行一次本地的md5计算，用得出的值与网站上的md5值进行比较，如果一致，则大 文件下载完好，否则下载过程大文件内容有损坏或源文件被篡改。这里还有一个小技巧常常在机器之间copy或者下载压缩文件的时候也可以用md5sum的命令来进行检验，看看文件是否完整。
-F为签名函数。CA自己的私钥是唯一标识CA签名的，因此CA用于生成数字证书的签名函数一定要以自己的私钥作为一个输入参数。在RSA加密系统中，发送端的解密函数就是一个以私钥作为参数的函数，因此常常被用作签名函数使用。因此CA用私钥解密函数作为F，以CA证书中的私钥进行加密，生成最后的数字签名，正如最后一部分实践时候给出的证书生成过程，生成server.crt的时候需要ca.crt（包含根证书的信息）和ca.key（根证书的私钥）都加入进去。
-接收端接收服务端数字证书后，如何验证数字证书上携带的签名是这个CA的签名呢？当然接收端首先需要指定对应的CA，接收端会运用下面算法对数字证书的签名进行校验： F&amp;rsquo;(S) ?= Digest&amp;copy;
-接收端进行两个计算，并将计算结果进行比对：
-1、首先通过Digest&amp;copy;，接收端计算出证书内容（除签名之外）的摘要，C的内容都是明文可以看到到的。
-2、数字证书携带的签名是CA通过CA密钥加密摘要后的结果，因此接收端通过一个解密函数F&amp;rsquo;对S进行“解密”。就像最开始介绍的那样，在RSA系统中，接收端使用CA公钥（包含在ca.crt中）对S进行“解密”，这恰是CA用私钥对S进行“加密”的逆过程。
-将上述两个运算的结果进行比较，如果一致，说明签名的确属于该CA，该证书有效，否则要么证书不是该CA的，要么就是中途被人篡改了。
-对于self-signed(自签发)证书来说，接收端并没有你这个self-CA的数字证书，也就是没有CA公钥，也就没有办法对数字证书的签名进行验证。因此如果要编写一个可以对self-signed证书进行校验的接收端程序的话，首先我们要做的就是建立一个属于自己的CA，用该CA签发我们的server端证书，之后给客户端发送信息的话，需要对这个根证书进行指定，之后按上面的方式进行验证。
-可以使用openssl x509 -text -in client.crt -noout 查看某个证书文件所包含的具体信息。
-HTTPS基本过程概述
-https协议是在http协议的基础上组成的secure的协议。主要功能包含一下两个方面:
-1 通信双方的身份认证
-2 通信双方的通信过程加密
-下面通过详细分析https的通信过程来解释这两个功能。
-具体参考这两个文章：
-http://www.fenesky.com/blog/2014/07/19/how-https-works.html http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html
-1、client 发送 sayhello给server端，说明client所支持的加密套件，还有一个随机数1。 2、server 发送 sayhello给client端，端把server.crt发送给客户端,server.crt采用还有一个随机数2。 3、client端生成preMaster key 这个是随机数3，之后三个随机数结合在一起生成MasterSecret,之后生成session secret，使用指定的ca进行身份认证，就像之前介绍的那样，都正常的话，就切换到加密模式。 4、client端使用server.crt中的公钥对preMasterSecret进行加密，如果要进行双向认证的话，client端会把client.crt一并发送过去，server端接受到数据，解密之后，也有了三个随机数，采用同样的方式，三个随机数生成通信所使用的session secret。具体session secret的结构可以参考前面列出的两个博客。server端完成相关工作之后，会发一个ChangeCipherSpec给client，通知client说明自己已经切换到相关的加解密模式，之后发一段加密信息给client看是否正常。 5、client端解密正常，之后就可以按照之前的协议，使用session secret进行加密的通信了。
-整体看下，开始的时候建立握手的过程就是身份认证的过程，之后认证完毕之后，就是加密通信的过程了，https的两个主要做用就实现了。
-相关实践</description>
+      <guid>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</guid>
+      <description>关于https 背景知识 密码学的一些基本知识 大致上分为两类，基于key的加密算法与不基于key的加密算法。现在的算法基本都是基于key的，ke</description>
     </item>
     
     <item>
       <title>TableView 中 Cell的重用机制分析</title>
-      <link>http://blog.flywithme.top/2016/12/20/dequeuereusablecell/</link>
+      <link>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</link>
       <pubDate>Tue, 20 Dec 2016 11:41:34 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/12/20/dequeuereusablecell/</guid>
-      <description>UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢?
-[tableView dequeueReusableCellWithIdentifier:CellIdentifier]由于苹果并没有开源,所以我就对这个 ``的实现分析一下。
-UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell, 对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。
- 重用实现分析:
-UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源 NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;
-TableView 初始化之初,这两个数据都是空的。
-通过[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] 创建新的 cell,创建之后 数据会进入visiableCells 中 当屏幕上的Cell 够用之后,会有一个 Cell 使用 key CellIdentifier 存 reusableTableCels 中,
-比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:
- 用[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空
- tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。</description>
+      <guid>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</guid>
+      <description>UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe</description>
     </item>
     
     <item>
       <title>JS判断客户端类型</title>
-      <link>http://blog.flywithme.top/2016/12/19/clienttype/</link>
+      <link>http://blog.flywithme.top/2016/12/19/clientType/</link>
       <pubDate>Mon, 19 Dec 2016 14:30:21 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/12/19/clienttype/</guid>
-      <description>通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型
-扫描二维码打开: 测试链接:
-function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&amp;quot;micromessenger&amp;quot;) { alert(&#39;在微信里打开&#39;); } else { alert(&#39;不在微信里打开&#39;); } } is_weixn(); //判断各个平台 function detectOS() { var sUserAgent = navigator.userAgent; var isWin = (navigator.platform == &amp;quot;Win32&amp;quot;) || (navigator.platform == &amp;quot;Windows&amp;quot;); var isMac = (navigator.platform == &amp;quot;Mac68K&amp;quot;) || (navigator.platform == &amp;quot;MacPPC&amp;quot;) || (navigator.platform == &amp;quot;Macintosh&amp;quot;) || (navigator.platform == &amp;quot;MacIntel&amp;quot;); if (isMac) return &amp;quot;Mac&amp;quot;; var isUnix = (navigator.platform == &amp;quot;X11&amp;quot;) &amp;amp;&amp;amp; !isWin &amp;amp;&amp;amp; !isMac; if (isUnix) return &amp;quot;Unix&amp;quot;; var isLinux = (String(navigator.</description>
+      <guid>http://blog.flywithme.top/2016/12/19/clientType/</guid>
+      <description>通过浏览器的userAgent,使用JS判断客户端、浏览器、操作系统类型 扫描二维码打开: 测试链接: function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i)==&amp;quot;micromessenger&amp;quot;) { alert(&#39;在微信里打开</description>
     </item>
     
     <item>
@@ -837,42 +603,25 @@ function is_weixn(){ var ua = navigator.userAgent.toLowerCase(); if(ua.match(/Mi
       <pubDate>Thu, 14 Jul 2016 11:40:29 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2016/07/14/debugpanel/</guid>
-      <description>初衷 移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想做一个固定在状态栏上的的 Debug 功能控件,之前公司也有一个旧的类似控件,但是里面牵连业务非常多,而且扩展也不友好,所以我就想趁着有新项目需求的时候写一个顶部的控件壳子, 而且可以很方便的扩展方法,当然,需要的测试方法依然需要开发者手动添加,这个控件并不侵入业务,以后如果有需要可以做一些设备基础功能的公用方法. 暂时这个工具只有一个非常简单的工具壳,使用起来应该也不算麻烦.下面是使用方法
-效果如下图: 使用方法 Podfile
-To integrate DebugPanel into your Xcode project using CocoaPods, specify it in your Podfile:
- source &#39;https://github.com/CocoaPods/Specs.git&#39; platform :ios, &#39;7.0&#39; target &#39;TargetName&#39; do pod &#39;DebugPanel&#39; , :git =&amp;gt;&#39;https://github.com/brasbug/DebugPanel.git&#39; end  then ,runthe following command:
-pod install  参数说明:
-MTADebugModel
- /** * @author Jack, 16-07-14 12:07:12 * * title: 显示名称 * selectorProperty: 调用的方法名 * etc: 额外参数 */ @property (nonatomic, strong) NSString *title; @property (nonatomic, strong) NSDictionary *etc; @property (nonatomic, strong) NSString *selectorProperty;  MTADebugMethodBridge</description>
+      <description>初衷 移动端开发的时候总会遇到需要切换设备环境,或者切换服务器环境,或者查看一些测试 Log的时候. 这个时候免不了需要调取一下设备信息, 所以就想</description>
     </item>
     
     <item>
       <title>golang-gin 框架学习 一、 GET POST Method</title>
-      <link>http://blog.flywithme.top/2016/06/30/go-gin01/</link>
+      <link>http://blog.flywithme.top/2016/06/30/Go-gin01/</link>
       <pubDate>Thu, 30 Jun 2016 18:16:12 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/06/30/go-gin01/</guid>
-      <description>前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过.
-所以就选了一个文档比较齐全的 Gin 来写我的第一个 webServer 项目.这只是一个 Demo ,写这个日志是为了记录自己的学习历程.激励下自己吧.
-Gin API 搭建Web 服务器少不了要写 api 首先从最简单的 GET POST 开始.
-首先要初始化一个路由
-func main() { router := gin.Default()//初始化路由 router.Run(&amp;quot;:8080&amp;quot;) // listen and GO on 0.0.0.0:8080 }  GET Method 这个最基本的网络请求在 gin 几行代码就可以搞定
-router.GET(&amp;quot;/user/:name/:action&amp;quot;, func(c *gin.Context) { name := c.Param(&amp;quot;name&amp;quot;) action := c.Param(&amp;quot;action&amp;quot;) message := name + &amp;quot; is &amp;quot; + action c.String(http.StatusOK, message) })  client 使用方式如下图 router.GET(&amp;quot;/welcome&amp;quot;, func(c *gin.Context) { firstname := c.</description>
+      <guid>http://blog.flywithme.top/2016/06/30/Go-gin01/</guid>
+      <description>前言 一直想学一些新的东西,自从接触了 Go 语言,然后学了一些基本语法,但是基本上还是停留在知道这么个语言的阶段,没有深入的了解过. 所以就选了一个</description>
     </item>
     
     <item>
       <title>iOS 自定义 Log 简介</title>
-      <link>http://blog.flywithme.top/2016/05/27/dlog-introduce/</link>
+      <link>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</link>
       <pubDate>Fri, 27 May 2016 10:46:06 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/05/27/dlog-introduce/</guid>
-      <description>我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，在调试的时候，会输出日志，在Release正式版本的时候，会关闭日志输出。代码如下：
-#ifdef DEBUG # define DLog(fmt, ...) NSLog((@&amp;quot;[FileName:%s]\n&amp;quot; &amp;quot;[FuctionName:%s]\n&amp;quot; &amp;quot;[Line:%d] \n&amp;quot; fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__); #else # define DLog(...); #endif  参数解释：
- VA_ARGS是一个可变参数的宏，很少人知道这个宏，这个可变参数的宏是新的C99规范中新增的，目前似乎只有gcc支（VC6.0的编译器不支持）。宏前面加上##的作用在于，当可变参数的个数为0时，这里的##起到把前面多余的&amp;rdquo;,&amp;ldquo;去掉的作用,否则会编译出错, 你可以试试。stackOverflow
- FILE宏在预编译时会替换成当前的源文件名
- LINE宏在预编译时会替换成当前的行号
- FUNCTION宏在预编译时会替换成当前的函数名称
-  有了以上这几个宏，特别是有了VA_ARGS，调试信息的输出就变得灵活多了。</description>
+      <guid>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</guid>
+      <description>我们在调试程序的时候，往往需要输出一些日志信息，用到NSLog函数，当我们准备发布程序，需要注释掉NSLog代码，这个时候往往会定义一个宏，</description>
     </item>
     
     <item>
@@ -881,32 +630,16 @@ router.GET(&amp;quot;/user/:name/:action&amp;quot;, func(c *gin.Context) { name 
       <pubDate>Sun, 15 May 2016 17:26:11 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2016/06/14/singnal/</guid>
-      <description>简介  处理一些 crash 需要查到这些资料
-信号是Linux编程中非常重要的部分，本文将详细介绍信号机制的基本概念、Linux对信号机制的大致实现方法、如何使用信号，以及有关信号的几个系统调用。
-信号机制是进程之间相互传递消息的一种方法，信号全称为软中断信号，也有人称作软中断。从它的命名可以看出，它的实质和使用很象中断。所以，信号可以说是进程控制的一部分。
- 一、信号的基本概念 本节先介绍信号的一些基本概念，然后给出一些基本的信号类型和信号对应的事件。基本概念对于理解和使用信号，对于理解信号机制都特别重要。下面就来看看什么是信号。
- 基本概念  软中断信号（signal，又简称为信号）用来通知进程发生了异步事件。进程之间可以互相通过系统调用kill发送软中断信号。内核也可以因为内部事件而给进程发送信号，通知进程发生了某个事件。注意，信号只是用来通知某进程发生了什么事件，并不给该进程传递任何数据。
-收到信号的进程对各种信号有不同的处理方法。处理方法可以分为三类：第一种是类似中断的处理程序，对于需要处理的信号，进程可以指定处理函数，由该函数来处 理。第二种方法是，忽略某个信号，对该信号不做任何处理，就象未发生过一样。第三种方法是，对该信号的处理保留系统的默认值，这种缺省操作，对大部分的信 号的缺省操作是使得进程终止。进程通过系统调用signal来指定进程对某个信号的处理行为。
-在进程表的表项中有一个软中断信号域，该域中每一位对应一个信号，当有信号发送给进程时，对应位置位。由此可以看出，进程对不同的信号可以同时保留，但对于同一个信号，进程并不知道在处理之前来过多少个。
- 信号的类型  发出信号的原因很多，这里按发出信号的原因简单分类，以了解各种信号：
-（1） 与进程终止相关的信号。当进程退出，或者子进程终止时，发出这类信号。 （2） 与进程例外事件相关的信号。如进程越界，或企图写一个只读的内存区域（如程序正文区），或执行一个特权指令及其他各种硬件错误。 （3） 与在系统调用期间遇到不可恢复条件相关的信号。如执行系统调用exec时，原有资源已经释放，而目前系统资源又已经耗尽。 （4） 与执行系统调用时遇到非预测错误条件相关的信号。如执行一个并不存在的系统调用。 （5） 在用户态下的进程发出的信号。如进程调用系统调用kill向其他进程发送信号。 （6） 与终端交互相关的信号。如用户关闭一个终端，或按下break键等情况。 （7） 跟踪进程执行的信号。
-Linux支持的信号列表如下。很多信号是与机器的体系结构相关的，首先列出的是POSIX.1中列出的信号：
-信号 值 处理动作 发出信号的原因 ---------------------------------------------------------------------- SIGHUP 1 A 终端挂起或者控制进程终止 SIGINT 2 A 键盘中断（如break键被按下） SIGQUIT 3 C 键盘的退出键被按下 SIGILL 4 C 非法指令 SIGABRT 6 C 由abort(3)发出的退出指令 SIGFPE 8 C 浮点异常 SIGKILL 9 AEF Kill信号 SIGSEGV 11 C 无效的内存引用 SIGPIPE 13 A 管道破裂: 写一个没有读端口的管道 SIGALRM 14 A 由alarm(2)发出的信号 SIGTERM 15 A 终止信号 SIGUSR1 30,10,16 A 用户自定义信号1 SIGUSR2 31,12,17 A 用户自定义信号2 SIGCHLD 20,17,18 B 子进程结束信号 SIGCONT 19,18,25 进程继续（曾被停止的进程） SIGSTOP 17,19,23 DEF 终止进程 SIGTSTP 18,20,24 D 控制终端（tty）上按下停止键 SIGTTIN 21,21,26 D 后台进程企图从控制终端读 SIGTTOU 22,22,27 D 后台进程企图从控制终端写  下面的信号没在POSIX.</description>
+      <description>简介 处理一些 crash 需要查到这些资料 信号是Linux编程中非常重要的部分，本文将详细介绍信号机制的基本概念、Linux对信号机制的大致实现方法、如</description>
     </item>
     
     <item>
       <title>Objective-C&#43;Runtime 浅析</title>
-      <link>http://blog.flywithme.top/2016/03/24/ocruntime/</link>
+      <link>http://blog.flywithme.top/2016/03/24/OCRuntime/</link>
       <pubDate>Thu, 24 Mar 2016 10:58:29 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2016/03/24/ocruntime/</guid>
-      <description>From
-一、什么是Objective-C Runtime?  Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Objective-C Runtime是一个实现Objective-C语言的C库。对象可以用C语言中的结构体表示，而方法（methods）可以用C函数实现。事实上，他们差不多也是这么干了，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，Objective-C程序员可以在程序运行时创建，检查，修改类，对象和它们的方法。
-首先可以考虑一个问题：如果让我们设计、实现一门计算机语言，要如何下手？可能我们平时很少这么思考过，但是这么一问，就会强迫我们从更高层次思考问题了。编译优化先忽略，语言的优雅性也可以暂时放一边，我们可以从实现来看下面三个层次：
-  传统的面向过程的语言开发，例如c语言。实现c语言编译器只要按照语法规则实现一个LALR语法分析器就可以了，忽略编译器的优化问题，我们可以先实现编译器中最最基础和原始的目标：把一份代码里的函数名称，转化成一个相对内存地址，把调用这个函数的语句转换成一个jmp跳转指令。在程序开始运行时候，调用语句可以正确跳转到对应的函数地址。
-void fly(char *name) { printf(&amp;quot;%s fly&amp;quot;, name); } void run(char *name) { printf(&amp;quot;%s run&amp;quot;, name); } fly(&amp;quot;Pig&amp;quot;); run(&amp;quot;Pig&amp;quot;); fly(&amp;quot;Dog&amp;quot;); run(&amp;quot;Dog&amp;quot;);  我们希望灵活，于是需要开发面向对象的语言，例如c++。 c++在c的基础上增加了类的部分。但这到底意味着什么呢？我们在写它的编译器要如何考虑呢？其实，就是让编译器多绕个弯，在严格的c编译器上增加一层类处理的机制，把一个函数限制在它处在的class环境里，每次请求一个函数调用，先找到它的对象, 其类型,返回值，参数等等，确定了这些后再jmp跳转到需要的函数。这样很多程序增加了灵活性同样一个函数调用会根据请求参数和类的环境返回完全不同的结果。增加类机制后，就模拟了现实世界的抽象模式，不同的对象有不同的属性和方法。同样的方法，不同的类有不同的行为!
-下面就可以开始尝试开发一种新的面向对象语言，先暂定这种语言叫DP-C吧！
-Class Animal { char *name; Animal(char *name) { this.name = name; } void fly() { printf(&amp;quot;%s fly&amp;quot;, this.name); } void run() { printf(&amp;quot;%s run&amp;quot;, this.name); } } Animal *pig = new Animal(&amp;quot;pig&amp;quot;); Animal *dog = new Animal(&amp;quot;dog&amp;quot;); pig.</description>
+      <guid>http://blog.flywithme.top/2016/03/24/OCRuntime/</guid>
+      <description>From 一、什么是Objective-C Runtime? Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Obj</description>
     </item>
     
   </channel>
