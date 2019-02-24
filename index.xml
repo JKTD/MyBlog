@@ -43,7 +43,7 @@ export  PATH=~/code/flutter/flutter/bin:$PATH
 &lt;p&gt;Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS&lt;/p&gt;
 
 &lt;p&gt;我的证书是在腾讯云上申请的&lt;a href=&#34;https://console.cloud.tencent.com/ssl&#34;&gt;地址&lt;/a&gt;
- &lt;img src=&#34;sources/nginx/FF1BD64F-62AD-4FDB-AE5A-B51C5FBB125C.png&#34; alt=&#34;cer&#34; /&gt;&lt;/p&gt;
+ &lt;img src=&#34;http://blog.flywithme.top/sources/nginx/FF1BD64F-62AD-4FDB-AE5A-B51C5FBB125C.png&#34; alt=&#34;cer&#34; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;nginx-conf-配置内容&#34;&gt;nginx.conf 配置内容&lt;/h4&gt;
 
@@ -493,7 +493,7 @@ router.afterEach(() =&amp;gt; {
 
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;src/components目录下创建文件夹结构如下
-  &lt;img src=&#34;sources/vue/1458ED9C-2172-42AE-B350-131FDD080B19.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;br /&gt;
+  &lt;img src=&#34;http://blog.flywithme.top/sources/vue/1458ED9C-2172-42AE-B350-131FDD080B19.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;br /&gt;
 SvgIcon下创建index.vue文件内容如下：&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;&amp;lt;template&amp;gt;
@@ -543,7 +543,7 @@ export default {
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;在src目录下创建文件夹结构如图&lt;br /&gt;
- &lt;img src=&#34;sources/vue/C4C47129-A335-4E5C-B076-2C1167B78492.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;br /&gt;
+ &lt;img src=&#34;http://blog.flywithme.top/sources/vue/C4C47129-A335-4E5C-B076-2C1167B78492.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;br /&gt;
 svg 文件夹下放icon表情文件(.svg格式的文件)&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -603,7 +603,7 @@ plugins:
 
 &lt;p&gt;&lt;strong&gt;修改module-&amp;gt;rules下元素&lt;/strong&gt;
   如图示修改
- &lt;img src=&#34;sources/vue/90A23CD9-00AD-4A94-A9E6-7F0C088E7B16.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;/p&gt;
+ &lt;img src=&#34;http://blog.flywithme.top/sources/vue/90A23CD9-00AD-4A94-A9E6-7F0C088E7B16.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;    {
       test: /\.svg$/,

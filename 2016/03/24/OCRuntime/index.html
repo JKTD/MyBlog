@@ -492,7 +492,7 @@ struct objc_class {
 <ol>
 <li><p><strong>Objective-C</strong> 中类和对象<br />
 下面一幅图比较经典，描述了Objective-C中类和对象的关系<br />
-<img src="sources/runtime/superclassRelation.png" alt="superClass" /></p></li>
+<img src="http://blog.flywithme.top/sources/runtime/superclassRelation.png" alt="superClass" /></p></li>
 
 <li><p><strong>消息机制</strong></p>
 
@@ -504,7 +504,7 @@ struct objc_class {
 
 <p>首先，编译器将代码[obj makeText];转化为objc_msgSend(obj, @selector (makeText));，在objc_msgSend函数中。首先通过obj的isa指针找到obj对应的class。在Class中先去cache中 通过SEL查找对应函数method（猜测cache中method列表是以SEL为key通过hash表来存储的，这样能提高函数查找速度），若 cache中未找到。再去methodList中查找，若methodlist中未找到，则去superClass中查找。若能找到，则将method加 入到cache中，以方便下次查找，并通过method中的函数指针跳转到对应的函数中去执行。</p>
 
-<p><img src="sources/runtime/methodListGet.jpg" alt="methodList" /></p>
+<p><img src="http://blog.flywithme.top/sources/runtime/methodListGet.jpg" alt="methodList" /></p>
 
 <p>objc_msgSend的定义：</p>
 </blockquote>

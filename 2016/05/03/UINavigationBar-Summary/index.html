@@ -169,14 +169,14 @@ self.navigationItem.title = @&quot;UINavigationBar使用总结&quot;;
 self.navigationController.navigationBar.barTintColor = [UIColor redColor];//iOS7 以上系统  
 </code></pre>
 
-<p><img src="sources/navigationbar/navigationbackbartiniColor.png" alt="navigation back bar tint Color" /></p></li>
+<p><img src="http://blog.flywithme.top/sources/navigationbar/navigationbackbartiniColor.png" alt="navigation back bar tint Color" /></p></li>
 
 <li><p>设置导航栏的背景图片</p>
 
 <pre><code>[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@&quot;Background&quot;] forBarMetrics:UIBarMetricsDefault];
 </code></pre>
 
-<p><img src="sources/navigationbar/uinavigationBarbackground.png" alt="navigation Bar background" /></p>
+<p><img src="http://blog.flywithme.top/sources/navigationbar/uinavigationBarbackground.png" alt="navigation Bar background" /></p>
 
 <p>在这里得稍微说说UIBarMetrics这个枚举, 它主要是用来控制在不同状态下导航栏的显示。和<code>UIButton</code>的</p>
 
@@ -264,7 +264,7 @@ switch (buttonIndex) {
 </ul>
 
 <p>恩，我们来看看运行效果。<br />
-   <img src="sources/navigationbar/uinavigationBarbackground.png" alt="naviagation" /></p></li>
+   <img src="http://blog.flywithme.top/sources/navigationbar/uinavigationBarbackground.png" alt="naviagation" /></p></li>
 
 <li><p>设置返回按钮
   从上面的效果图中我们可以看到返回按钮还是默认的蓝色按钮，下面我将会大家来介绍返回按钮的个性化。</p>
@@ -276,7 +276,7 @@ switch (buttonIndex) {
 </code></pre>
 
 <p>得到的效果图如下：<br />
-<img src="sources/navigationbar/navigationbartiniColor.png" alt="naviagation" /></p></li>
+<img src="http://blog.flywithme.top/sources/navigationbar/navigationbartiniColor.png" alt="naviagation" /></p></li>
 
 <li><p>只设置返回按钮的图片</p>
 
@@ -299,7 +299,7 @@ switch (buttonIndex) {
 </code></pre>
 
 <p>得到的效果如下：<br />
-<img src="sources/navigationbar/navigationBarBackBtn.png" alt="naviagation" /></p>
+<img src="http://blog.flywithme.top/sources/navigationbar/navigationBarBackBtn.png" alt="naviagation" /></p>
 
 <blockquote>
 <p>这里需要注意的地方有三点：</p>
@@ -324,7 +324,7 @@ switch (buttonIndex) {
 </code></pre>
 
 <p>得到的效果如下：<br />
-  <img src="sources/navigationbar/navigationbarBtnTitle.png" alt="" /></p></li>
+  <img src="http://blog.flywithme.top/sources/navigationbar/navigationbarBtnTitle.png" alt="" /></p></li>
 
 <li><p>自定义返回按钮<br />
  如果上面几种方式还无法满足你的要求（比如，需要同时设置返回按钮文字和图片），就需要用到UIBarButtonItem的initWithCustomView方法。</p>
@@ -348,7 +348,7 @@ switch (buttonIndex) {
 </code></pre>
 
 <p>得到的效果图如下：<br />
-   <img src="sources/navigationbar/navigationBackBartBackImage.png" alt="" /></p>
+   <img src="http://blog.flywithme.top/sources/navigationbar/navigationBackBartBackImage.png" alt="" /></p>
 
 <blockquote>
 <p>设置<code>rightBarButtonItem</code>基本上脱离不了上面的几种方式，大家可以参照上面返回按钮的设置方式。</p>
@@ -374,7 +374,7 @@ switch (buttonIndex) {
 </code></pre>
 
 <p>来看看效果图：<br />
-   <img src="sources/navigationbar/navShadowLineHide.png" alt="" /></p></li>
+   <img src="http://blog.flywithme.top/sources/navigationbar/navShadowLineHide.png" alt="" /></p></li>
 
 <li><p>还有一种做法，一行代码就可以达到效果</p>
 
@@ -425,7 +425,7 @@ self.navigationController.navigationBar.clipsToBounds = YES;
 </code></pre>
 
 <p>依照惯例，看下效果图：<br />
-     <img src="sources/navigationbar/anvShadowSet.png" alt="" /></p>
+     <img src="http://blog.flywithme.top/sources/navigationbar/anvShadowSet.png" alt="" /></p>
 
 <blockquote>
 <p>当然还有其他的方式也可以做到，如<code>addSubview</code>,<code>addSubLayer</code>等。感兴趣的话可以参考下这个页面：<a href="http://stackoverflow.com/questions/19101361/ios7-change-uinavigationbar-border-color">iOS7 - Change UINavigationBar border color</a></p>
@@ -465,7 +465,7 @@ else {
 </code></pre>
 
 <p>然后，运行的效果图如下：<br />
-    <img src="sources/navigationbar/addbtnOnNavBar.png" alt="" /></p>
+    <img src="http://blog.flywithme.top/sources/navigationbar/addbtnOnNavBar.png" alt="" /></p>
 
 <blockquote>
 <p>方法一用到了<code>leftItemsSupplementBackButton</code> 这个属性，会显示系统默认的返回按钮，但是文字也是显示默认的Back文字，目前还没找到怎么修改这个文字，如果有谁知道，还请不吝赐教；所以我暂时还是建议大家用方法二。相应的还有 <code>rightBarButtonItems</code> 这个属性，如果要在导航栏右侧展示多个按钮的话，可以设置这个属性。</p>
@@ -482,7 +482,7 @@ self.navigationItem.titleView = segControl;
 </code></pre>
 
 <p>代码很简单，就是设置 <code>titleView</code> 这个属性，当然，你也可以把这个属性设置为你自定义的View.<br />
-  <img src="sources/navigationbar/NavTitleView.png" alt="" /></p></li>
+  <img src="http://blog.flywithme.top/sources/navigationbar/NavTitleView.png" alt="" /></p></li>
 
 <li><p>导航栏全局属性设置</p>
 
@@ -500,13 +500,13 @@ self.navigationItem.titleView = segControl;
 
 <ol>
 <li><a href="https://github.com/ninjinkun/NJKWebViewProgress">NJKWebViewProgress</a> - 类似于Safiri加载网页时的进度显示<br />
-<img src="sources/navigationbar/njgWebprogress.png" alt="" />
+<img src="http://blog.flywithme.top/sources/navigationbar/njgWebprogress.png" alt="" />
 <br /></li>
 </ol></li>
 
 <li><p><a href="https://github.com/forkingdog/FDFullscreenPopGesture">FDFullscreenPopGesture</a> 一个丝滑的全屏滑动返回手势<br />
     原文介绍<a href="http://blog.sunnyxx.com/2015/06/07/fullscreen-pop-gesture/">链接</a><br />
-    <img src="sources/navigationbar/snapshot0.gif" alt="" /></p></li>
+    <img src="http://blog.flywithme.top/sources/navigationbar/snapshot0.gif" alt="" /></p></li>
 </ol>
 
 <p><h5><code>UINavigationItem</code> 和 <code>UINavigationBar</code> 关系分</h5></p>
