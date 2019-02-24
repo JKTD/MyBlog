@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Swift3-07 数组 - Fly With Bug</title>
     
-<meta name="description" content="数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。 初始化方式 var numbers = [0,1,2,3]">
+<meta name="description" content="数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。 初始化方式var numbers = [0,1,2,3] var num:[Int] = [0,1,2] //只能是 Int 类型 var arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] //只能是 字符串 var arr1:[Any] = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1,num,arr] //里面的元素可以为任意类型 var arr0: Array&amp;lt;String&amp;gt; = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;] var arr01 = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1] as [Any] //空数组的声明方式 var emptyArr1:[Int] = [] var emptyArr2:Array&amp;lt;Int&amp;gt; = [] var emptyArr3 = [Int]() //重复数组初始化 var allzZeros = [String](repeatElement(&amp;quot;a&amp;quot;, count: 4))  基本方法 数组的基本查询 属性方法 count ,isEmpty, first, last, max, min, [], contains, index, for in enumerated, compare">
 
 <meta property="og:title" content="Swift3-07 数组 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/02/21/swift07/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。 初始化方式 var numbers = [0,1,2,3]">
+<meta property="og:description" content="数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。 初始化方式var numbers = [0,1,2,3] var num:[Int] = [0,1,2] //只能是 Int 类型 var arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] //只能是 字符串 var arr1:[Any] = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1,num,arr] //里面的元素可以为任意类型 var arr0: Array&amp;lt;String&amp;gt; = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;] var arr01 = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1] as [Any] //空数组的声明方式 var emptyArr1:[Int] = [] var emptyArr2:Array&amp;lt;Int&amp;gt; = [] var emptyArr3 = [Int]() //重复数组初始化 var allzZeros = [String](repeatElement(&amp;quot;a&amp;quot;, count: 4))  基本方法 数组的基本查询 属性方法 count ,isEmpty, first, last, max, min, [], contains, index, for in enumerated, compare">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/02/21/swift07/">
 <meta name="twitter:title" content="Swift3-07 数组 - Fly With Bug">
-<meta name="twitter:description" content="数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。 初始化方式 var numbers = [0,1,2,3]">
+<meta name="twitter:description" content="数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。 初始化方式var numbers = [0,1,2,3] var num:[Int] = [0,1,2] //只能是 Int 类型 var arr = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] //只能是 字符串 var arr1:[Any] = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1,num,arr] //里面的元素可以为任意类型 var arr0: Array&amp;lt;String&amp;gt; = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;] var arr01 = [&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,1] as [Any] //空数组的声明方式 var emptyArr1:[Int] = [] var emptyArr2:Array&amp;lt;Int&amp;gt; = [] var emptyArr3 = [Int]() //重复数组初始化 var allzZeros = [String](repeatElement(&amp;quot;a&amp;quot;, count: 4))  基本方法 数组的基本查询 属性方法 count ,isEmpty, first, last, max, min, [], contains, index, for in enumerated, compare">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,10 @@
         "height": 60
       }
     },
-    "description": "数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。 初始化方式 var numbers = [0,1,2,3]"
+    "description": "数组是 Swift 三种最基本的数据集合的一种,这三种集合分别是: Array Dictionary set 数组的概念就是一个有序的数据序列,概念很简单,我们已经很熟悉。
+ 初始化方式
+var numbers = [0,1,2,3] var num:[Int] = [0,1,2] //只能是 Int 类型 var arr = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;] //只能是 字符串 var arr1:[Any] = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,1,num,arr] //里面的元素可以为任意类型 var arr0: Array&lt;String&gt; = [&quot;a&quot;,&quot;b&quot;] var arr01 = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,1] as [Any] //空数组的声明方式 var emptyArr1:[Int] = [] var emptyArr2:Array&lt;Int&gt; = [] var emptyArr3 = [Int]() //重复数组初始化 var allzZeros = [String](repeatElement(&quot;a&quot;, count: 4))  基本方法
+ 数组的基本查询 属性方法 count ,isEmpty, first, last, max, min, [], contains, index, for in enumerated, compare"
   }
 </script>
 
@@ -93,22 +96,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -331,7 +318,7 @@ arr0001[1]
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -381,7 +368,7 @@ arr0001[1]
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

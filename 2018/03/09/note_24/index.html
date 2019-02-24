@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go: 14-1 爬虫实现 - Fly With Bug</title>
     
-<meta name="description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &amp;quot;fmt&amp;quot;">
+<meta name="description" content="获取初始页面内容  使用相亲网站做目标 编码格式自动识别转换  获取有价值信息  获取城市名称和链接  使用css选择器 使用xpath 使用正则表达式    package main import ( &amp;quot;fmt&amp;quot; &amp;quot;io/ioutil&amp;quot; &amp;quot;net/http&amp;quot; &amp;quot;bufio&amp;quot; &amp;quot;io&amp;quot; &amp;quot;regexp&amp;quot; &amp;quot;golang.org/x/net/html/charset&amp;quot; &amp;quot;golang.org/x/text/encoding&amp;quot; &amp;quot;golang.org/x/text/transform&amp;quot; ) //网站编码识别转换 func determineEncoder(r io.Reader) encoding.Encoding { bytes, err := bufio.NewReader(r).Peek(1024) if err != nil { panic(err) } e, _, _ := charset.DetermineEncoding(bytes, &amp;quot;&amp;quot;) return e } const regextstr = `&amp;lt;a href=&amp;quot;http://www.zhenai.com/zhenghun/[0-9a-z]&#43;&amp;quot;[^&amp;gt;]*&amp;gt;[^&amp;lt;]&#43;&amp;lt;/a&amp;gt;` const regextstr1 = `&amp;lt;a href=&amp;quot;(http://www.zhenai.com/zhenghun/[0-9a-z]&#43;)&amp;quot;[^&amp;gt;]*&amp;gt;([^&amp;lt;]&#43;)&amp;lt;/a&amp;gt;` func printCityList(contents []byte) { re := regexp.">
 
 <meta property="og:title" content="Go: 14-1 爬虫实现 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/03/09/note_24/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &amp;quot;fmt&amp;quot;">
+<meta property="og:description" content="获取初始页面内容  使用相亲网站做目标 编码格式自动识别转换  获取有价值信息  获取城市名称和链接  使用css选择器 使用xpath 使用正则表达式    package main import ( &amp;quot;fmt&amp;quot; &amp;quot;io/ioutil&amp;quot; &amp;quot;net/http&amp;quot; &amp;quot;bufio&amp;quot; &amp;quot;io&amp;quot; &amp;quot;regexp&amp;quot; &amp;quot;golang.org/x/net/html/charset&amp;quot; &amp;quot;golang.org/x/text/encoding&amp;quot; &amp;quot;golang.org/x/text/transform&amp;quot; ) //网站编码识别转换 func determineEncoder(r io.Reader) encoding.Encoding { bytes, err := bufio.NewReader(r).Peek(1024) if err != nil { panic(err) } e, _, _ := charset.DetermineEncoding(bytes, &amp;quot;&amp;quot;) return e } const regextstr = `&amp;lt;a href=&amp;quot;http://www.zhenai.com/zhenghun/[0-9a-z]&#43;&amp;quot;[^&amp;gt;]*&amp;gt;[^&amp;lt;]&#43;&amp;lt;/a&amp;gt;` const regextstr1 = `&amp;lt;a href=&amp;quot;(http://www.zhenai.com/zhenghun/[0-9a-z]&#43;)&amp;quot;[^&amp;gt;]*&amp;gt;([^&amp;lt;]&#43;)&amp;lt;/a&amp;gt;` func printCityList(contents []byte) { re := regexp.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/03/09/note_24/">
 <meta name="twitter:title" content="Go: 14-1 爬虫实现 - Fly With Bug">
-<meta name="twitter:description" content="获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &amp;quot;fmt&amp;quot;">
+<meta name="twitter:description" content="获取初始页面内容  使用相亲网站做目标 编码格式自动识别转换  获取有价值信息  获取城市名称和链接  使用css选择器 使用xpath 使用正则表达式    package main import ( &amp;quot;fmt&amp;quot; &amp;quot;io/ioutil&amp;quot; &amp;quot;net/http&amp;quot; &amp;quot;bufio&amp;quot; &amp;quot;io&amp;quot; &amp;quot;regexp&amp;quot; &amp;quot;golang.org/x/net/html/charset&amp;quot; &amp;quot;golang.org/x/text/encoding&amp;quot; &amp;quot;golang.org/x/text/transform&amp;quot; ) //网站编码识别转换 func determineEncoder(r io.Reader) encoding.Encoding { bytes, err := bufio.NewReader(r).Peek(1024) if err != nil { panic(err) } e, _, _ := charset.DetermineEncoding(bytes, &amp;quot;&amp;quot;) return e } const regextstr = `&amp;lt;a href=&amp;quot;http://www.zhenai.com/zhenghun/[0-9a-z]&#43;&amp;quot;[^&amp;gt;]*&amp;gt;[^&amp;lt;]&#43;&amp;lt;/a&amp;gt;` const regextstr1 = `&amp;lt;a href=&amp;quot;(http://www.zhenai.com/zhenghun/[0-9a-z]&#43;)&amp;quot;[^&amp;gt;]*&amp;gt;([^&amp;lt;]&#43;)&amp;lt;/a&amp;gt;` func printCityList(contents []byte) { re := regexp.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,7 @@
         "height": 60
       }
     },
-    "description": "获取初始页面内容 使用相亲网站做目标 编码格式自动识别转换 获取有价值信息 获取城市名称和链接 使用css选择器 使用xpath 使用正则表达式 package main import ( &quot;fmt&quot;"
+    "description": "获取初始页面内容  使用相亲网站做目标 编码格式自动识别转换  获取有价值信息  获取城市名称和链接  使用css选择器 使用xpath 使用正则表达式    package main import ( &quot;fmt&quot; &quot;io/ioutil&quot; &quot;net/http&quot; &quot;bufio&quot; &quot;io&quot; &quot;regexp&quot; &quot;golang.org/x/net/html/charset&quot; &quot;golang.org/x/text/encoding&quot; &quot;golang.org/x/text/transform&quot; ) //网站编码识别转换 func determineEncoder(r io.Reader) encoding.Encoding { bytes, err := bufio.NewReader(r).Peek(1024) if err != nil { panic(err) } e, _, _ := charset.DetermineEncoding(bytes, &quot;&quot;) return e } const regextstr = `&lt;a href=&quot;http://www.zhenai.com/zhenghun/[0-9a-z]+&quot;[^&gt;]*&gt;[^&lt;]+&lt;/a&gt;` const regextstr1 = `&lt;a href=&quot;(http://www.zhenai.com/zhenghun/[0-9a-z]+)&quot;[^&gt;]*&gt;([^&lt;]+)&lt;/a&gt;` func printCityList(contents []byte) { re := regexp."
   }
 </script>
 
@@ -93,22 +93,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -284,7 +268,7 @@ func main() {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -334,7 +318,7 @@ func main() {
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

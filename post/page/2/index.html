@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="pinterest" content="nopin">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://blog.flywithme.top/post/index.xml">
+
+<link rel="canonical" href="http://blog.flywithme.top/post/">
+
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <title>Posts - Fly With Bug</title>
+    
+    <link href="http://blog.flywithme.topcss/styles.css" rel="stylesheet">
+    
+
+  </head>
+
+  <body>
+    
+    
+    
+
+    <header class="l-header">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+          </div>
+
+          
+
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        
+<div class="row">
+  <div class="col-md-8">
+
+    
+    <header class="page-header">
+      <h1>Posts</h1>
+    </header>
+    
+
+    <ul class="p-articles">
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-04-02T17:33:59JST">Apr 2, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/04/02/note_27/">Docker 入门</a></h2>
+  </header>
+
+  
+  <div class="summary"> 什么是Docker  Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系统，进程管理，环境变量等） 在一个容器内。跟虚拟机有所不同，它是使用LXC（Linux kernel container） 来替代虚拟层。 LXC没有自己的内核，但是与主机和其他容器一起共享Linux内核的。 基于LXC，因此Docker是非常轻量级的， 因此在运行应用程序的时候几乎没有性能损失。
+ 安装方式  brew install docker 官网下载 Docker for mac 下载 docker 下载地址  加速器 配置地址  选择对应的配置，按照提示，添加镜像地址  查看docker info  运行命令 docker run hello-world 下载使用镜像
+ 启动docker nginx
+//把里面的端口映射到外面物理机的80端口 docker run -d -p 80:80 nginx  docker run -d -p 9200:9200 nginx
+  </div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-03-16T16:02:01JST">Mar 16, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/03/16/note_26/">Go: 14-3 多任务版爬虫</a></h2>
+  </header>
+
+  
+  <div class="summary">并发调度器 //engine package engine import ( &quot;log&quot; ) type ConcurrentEngine struct { Scheduler Scheduler WorkerCount int } type Scheduler interface { ReadyNotifier Submit(Request) WorkerChan() chan Request Run() } type ReadyNotifier interface { WokerReady(chan Request) } func (e *ConcurrentEngine) Run(seeds ...Request) { out := make(chan ParseResult) e.Scheduler.Run() for i := 0; i &lt; e.WorkerCount; i++ { createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler) } for _, r := range seeds { e.Scheduler.Submit(r) } itemCount := 0 for { result := &lt;-out for _, item := range result.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/03/16/note_26/" title="Go: 14-3 多任务版爬虫">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-03-14T16:54:13JST">Mar 14, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/03/14/note_25/">Go: 14-2 单任务版爬虫</a></h2>
+  </header>
+
+  
+  <div class="summary">总体的算法步骤 解析器 Parser  输入： utf-8 编码的文本 输出： Request{URL,对应的Parser} 列表，Item列表  单任务版爬虫架构  获取并打印所有城市第一页用户的详细信息  使用http.Get获取内容 使用Encodeing来转换编码：gbk-&gt;utf-8 使用charset.DetermineEncoding来判断编码 使用正则表达式筛选需要的内容
+   code 单任务爬虫分支</div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-03-09T16:05:38JST">Mar 9, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/03/09/note_24/">Go: 14-1 爬虫实现</a></h2>
+  </header>
+
+  
+  <div class="summary">获取初始页面内容  使用相亲网站做目标 编码格式自动识别转换  获取有价值信息  获取城市名称和链接  使用css选择器 使用xpath 使用正则表达式    package main import ( &quot;fmt&quot; &quot;io/ioutil&quot; &quot;net/http&quot; &quot;bufio&quot; &quot;io&quot; &quot;regexp&quot; &quot;golang.org/x/net/html/charset&quot; &quot;golang.org/x/text/encoding&quot; &quot;golang.org/x/text/transform&quot; ) //网站编码识别转换 func determineEncoder(r io.Reader) encoding.Encoding { bytes, err := bufio.NewReader(r).Peek(1024) if err != nil { panic(err) } e, _, _ := charset.DetermineEncoding(bytes, &quot;&quot;) return e } const regextstr = `&lt;a href=&quot;http://www.zhenai.com/zhenghun/[0-9a-z]+&quot;[^&gt;]*&gt;[^&lt;]+&lt;/a&gt;` const regextstr1 = `&lt;a href=&quot;(http://www.zhenai.com/zhenghun/[0-9a-z]+)&quot;[^&gt;]*&gt;([^&lt;]+)&lt;/a&gt;` func printCityList(contents []byte) { re := regexp.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/03/09/note_24/" title="Go: 14-1 爬虫实现">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-03-08T17:13:27JST">Mar 8, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/03/08/note_23/">Go: 13-1 爬虫简介</a></h2>
+  </header>
+
+  
+  <div class="summary"> 网络爬虫分类  通用爬虫：如baidu,google 聚焦爬虫：从互联网获取结构化数据  项目总体结构 go语言的爬虫库/框架  henrylee2cn/pholcus gocrawl colly hu17889/go_spider  重新开发一个爬虫库  不适用现成的爬虫库/框架 使用ElasticSearch作为数据存储 使用Go语言标准模板库实现http数据展示部分  实现步骤  单任务 并发版 分布式  </div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-03-07T17:21:14JST">Mar 7, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/03/07/note_22/">Go: 12-1 迷宫的广度优先搜索</a></h2>
+  </header>
+
+  
+  <div class="summary">示例：广度优先算法  为爬虫实战做准备 应用广泛，综合性强  示例：广度优先搜索走迷宫  广度优先算法示意图
+ 用循环创建二维slice
+ 使用slice来实现队列
+ 用Fscanf读取文件
+ 对point的抽象
+  //file 6 5 0 1 0 0 0 0 0 0 1 0 0 1 0 1 0 1 1 1 0 0 0 1 0 0 1 0 1 0 0 0 --------------- package main import ( &quot;fmt&quot; &quot;os&quot; ) func readMaze(filename string) [][]int { file, err := os.Open(filename) defer file.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/03/07/note_22/" title="Go: 12-1 迷宫的广度优先搜索">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-03-07T16:54:46JST">Mar 7, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/03/07/note_21/">Go: 11-2 其他标准库</a></h2>
+  </header>
+
+  
+  <div class="summary"> 其他标准库  bufio log encoding/json regexp time stings/math/rand  查看库文档  godoc -http :8888 (启用本地文档服务器) https://studygolang.com/pkgdoc  </div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-03-07T13:24:53JST">Mar 7, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/03/07/note_20/">Go: 11-1 http标准库</a></h2>
+  </header>
+
+  
+  <div class="summary">Server package main import ( &quot;fmt&quot; &quot;net/http&quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &quot;Hello, world!&quot;) } func main() { http.HandleFunc(&quot;/&quot;, handler) http.ListenAndServe(&quot;:8080&quot;, nil) }  Client  使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil简化工作 ``` package main  import ( &ldquo;fmt&rdquo; &ldquo;net/http&rdquo; &ldquo;net/http/httputil&rdquo; )
+func main() { request, err := http.NewRequest(http.MethodGet, &ldquo;http://www.imooc.com&quot;, nil) if err != nil { panic(err) } request.Header.Add(&ldquo;User-Agent&rdquo;, &ldquo;Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/03/07/note_20/" title="Go: 11-1 http标准库">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-03-07T11:53:27JST">Mar 7, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/03/07/note_19/">Go: 10-2 传统同步机制</a></h2>
+  </header>
+
+  
+  <div class="summary">检测数据冲突  未加锁时使用 go run -race atomic.go 时检测会发现数据访问冲突 加锁之后 运行-race 数据访问冲突就没了  传统同步机制  WaitGroup
+   package main import ( &quot;fmt&quot; &quot;sync&quot; ) func doWork(id int, w worker) { for n := range w.in { fmt.Printf(&quot;Worker %d received %c\n&quot;, id, n) w.done() } } type worker struct { in chan int done func() } func createWorker( id int, wg *sync.WaitGroup) worker { w := worker{ in: make(chan int), done: func() { wg.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/03/07/note_19/" title="Go: 10-2 传统同步机制">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-03-04T19:59:50JST">Mar 4, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/03/04/note_18/">Go: 10-1 channel</a></h2>
+  </header>
+
+  
+  <div class="summary">channel的用法  channel buffered channel range 理论基础：Communication Sequential Process(CSP) Don&rsquo;t communicate by sharing memory;share memory by communicating(不要通过共享内存来通信， 通过通信来共享内存)  package main import ( &quot;fmt&quot; &quot;time&quot; ) func worker(id int, c chan int) { for n := range c { fmt.Printf(&quot;Worker %d received %c\n&quot;, id, n) } } func createWorker(id int) chan&lt;- int { c := make(chan int) go worker(id, c) return c } func chanDemo() { var channels [10]chan&lt;- int for i := 0; i &lt; 10; i++ { channels[i] = createWorker(i) } for i := 0; i &lt; 10; i++ { channels[i] &lt;- 'a' + i } for i := 0; i &lt; 10; i++ { channels[i] &lt;- 'A' + i } time.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/03/04/note_18/" title="Go: 10-1 channel">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+    </ul>
+
+    
+<nav>
+  <ul class="pager">
+
+    
+    <li><a href="/post/">Previous</a></li>
+    
+
+    
+    <li><a href="/post/page/3/">Next</a></li>
+    
+
+  </ul>
+</nav>
+
+
+
+  </div>
+  <div class="col-md-4">
+    
+<aside class="l-sidebar">
+
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">LATESTS</div>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://blog.flywithme.top/2019/02/24/gobin/" class="list-group-item">go bin执行问题记录</a>
+      
+      <a href="http://blog.flywithme.top/2019/01/15/nginx/" class="list-group-item">Nginx 配置 HTTPS 服务器</a>
+      
+      <a href="http://blog.flywithme.top/2019/01/13/mongodump/" class="list-group-item">mongodb 维护小记</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/" class="list-group-item">Vue上线后，history页面点击刷新按钮报错404问题</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/24/vue-element02/" class="list-group-item">vue 路由重载之后导致history页面刷新空白问题fix</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
+      
+      <a href="http://blog.flywithme.top/2018/08/31/nat/" class="list-group-item">nat</a>
+      
+      <a href="http://blog.flywithme.top/2018/04/02/note_28/" class="list-group-item">Elasticsearch 入门</a>
+      
+    </div>
+  </section>
+
+  
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">CATEGORY</div>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://blog.flywithme.topcategories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0" class="list-group-item">技术文章</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0" class="list-group-item">学习笔记</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F" class="list-group-item">思考感悟</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0" class="list-group-item">读书笔记</a>
+      
+    </div>
+  </section>
+  
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">TAG</div>
+    </div>
+    <div class="list-group">
+      
+    </div>
+  </section>
+  
+
+</aside>
+
+
+  </div>
+</div>
+
+      </div>
+    </main>
+
+    <footer class="l-footer">
+      <div class="container">
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <aside>
+          <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
+          <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
+        </aside>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

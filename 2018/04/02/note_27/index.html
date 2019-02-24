@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Docker 入门 - Fly With Bug</title>
     
-<meta name="description" content="什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系">
+<meta name="description" content=" 什么是Docker  Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系统，进程管理，环境变量等） 在一个容器内。跟虚拟机有所不同，它是使用LXC（Linux kernel container） 来替代虚拟层。 LXC没有自己的内核，但是与主机和其他容器一起共享Linux内核的。 基于LXC，因此Docker是非常轻量级的， 因此在运行应用程序的时候几乎没有性能损失。 安装方式  brew install docker 官网下载 Docker for mac 下载 docker 下载地址  加速器 配置地址  选择对应的配置，按照提示，添加镜像地址  查看docker info  运行命令 docker run hello-world 下载使用镜像 启动docker nginx//把里面的端口映射到外面物理机的80端口 docker run -d -p 80:80 nginx  docker run -d -p 9200:9200 nginx  ">
 
 <meta property="og:title" content="Docker 入门 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/04/02/note_27/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系">
+<meta property="og:description" content=" 什么是Docker  Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系统，进程管理，环境变量等） 在一个容器内。跟虚拟机有所不同，它是使用LXC（Linux kernel container） 来替代虚拟层。 LXC没有自己的内核，但是与主机和其他容器一起共享Linux内核的。 基于LXC，因此Docker是非常轻量级的， 因此在运行应用程序的时候几乎没有性能损失。 安装方式  brew install docker 官网下载 Docker for mac 下载 docker 下载地址  加速器 配置地址  选择对应的配置，按照提示，添加镜像地址  查看docker info  运行命令 docker run hello-world 下载使用镜像 启动docker nginx//把里面的端口映射到外面物理机的80端口 docker run -d -p 80:80 nginx  docker run -d -p 9200:9200 nginx  ">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/04/02/note_27/">
 <meta name="twitter:title" content="Docker 入门 - Fly With Bug">
-<meta name="twitter:description" content="什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系">
+<meta name="twitter:description" content=" 什么是Docker  Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系统，进程管理，环境变量等） 在一个容器内。跟虚拟机有所不同，它是使用LXC（Linux kernel container） 来替代虚拟层。 LXC没有自己的内核，但是与主机和其他容器一起共享Linux内核的。 基于LXC，因此Docker是非常轻量级的， 因此在运行应用程序的时候几乎没有性能损失。 安装方式  brew install docker 官网下载 Docker for mac 下载 docker 下载地址  加速器 配置地址  选择对应的配置，按照提示，添加镜像地址  查看docker info  运行命令 docker run hello-world 下载使用镜像 启动docker nginx//把里面的端口映射到外面物理机的80端口 docker run -d -p 80:80 nginx  docker run -d -p 9200:9200 nginx  ">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,11 @@
         "height": 60
       }
     },
-    "description": "什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系"
+    "description": " 什么是Docker  Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系统，进程管理，环境变量等） 在一个容器内。跟虚拟机有所不同，它是使用LXC（Linux kernel container） 来替代虚拟层。 LXC没有自己的内核，但是与主机和其他容器一起共享Linux内核的。 基于LXC，因此Docker是非常轻量级的， 因此在运行应用程序的时候几乎没有性能损失。
+ 安装方式  brew install docker 官网下载 Docker for mac 下载 docker 下载地址  加速器 配置地址  选择对应的配置，按照提示，添加镜像地址  查看docker info  运行命令 docker run hello-world 下载使用镜像
+ 启动docker nginx
+//把里面的端口映射到外面物理机的80端口 docker run -d -p 80:80 nginx  docker run -d -p 9200:9200 nginx
+  "
   }
 </script>
 
@@ -93,22 +97,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -239,7 +227,7 @@ docker run -d -p 80:80 nginx
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -289,7 +277,7 @@ docker run -d -p 80:80 nginx
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

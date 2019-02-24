@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>swift3-15 类 - Fly With Bug</title>
     
-<meta name="description" content="类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类">
+<meta name="description" content="类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类去创建独立的接口和实现文件， 你要做的是在一个单一文件中定义一个类，系统会自动生产面向其他代码的外部接口。//示例： class Person{ var firstName:String = &amp;quot;&amp;quot; var lastName:String = &amp;quot;&amp;quot; } class Person1{ var firstName:String var lastName:String init(firstName:String, lastName:String) { self.firstName = firstName self.lastName = lastName } } let person1 = Person1.init(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)  类和结构体的对比共同点： 定义属性用于存储值 定义方法用于提供功能 定义附属脚本用于访问值 定义构造器用于生成初始化值 通过扩展以增加默认实现的功能 符合协议以对某类提供标准功能   比结构体多了如下功能 允许一个类继承另一个类的特征 类型转换允许在运行时检查和解释一个类的实例类型 结构器允许一个实例释放任何其所分配的资源 引用计数允许对一个类多次引用   区别：引用类型和值类型//示例： class Person{ var firstName:String = &amp;quot;&amp;quot; var lastName:String = &amp;quot;&amp;quot; } let person1 = Person(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;) let person2 = person1 person2.">
 
 <meta property="og:title" content="swift3-15 类 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/03/29/swift15/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类">
+<meta property="og:description" content="类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类去创建独立的接口和实现文件， 你要做的是在一个单一文件中定义一个类，系统会自动生产面向其他代码的外部接口。//示例： class Person{ var firstName:String = &amp;quot;&amp;quot; var lastName:String = &amp;quot;&amp;quot; } class Person1{ var firstName:String var lastName:String init(firstName:String, lastName:String) { self.firstName = firstName self.lastName = lastName } } let person1 = Person1.init(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)  类和结构体的对比共同点： 定义属性用于存储值 定义方法用于提供功能 定义附属脚本用于访问值 定义构造器用于生成初始化值 通过扩展以增加默认实现的功能 符合协议以对某类提供标准功能   比结构体多了如下功能 允许一个类继承另一个类的特征 类型转换允许在运行时检查和解释一个类的实例类型 结构器允许一个实例释放任何其所分配的资源 引用计数允许对一个类多次引用   区别：引用类型和值类型//示例： class Person{ var firstName:String = &amp;quot;&amp;quot; var lastName:String = &amp;quot;&amp;quot; } let person1 = Person(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;) let person2 = person1 person2.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/03/29/swift15/">
 <meta name="twitter:title" content="swift3-15 类 - Fly With Bug">
-<meta name="twitter:description" content="类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类">
+<meta name="twitter:description" content="类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类去创建独立的接口和实现文件， 你要做的是在一个单一文件中定义一个类，系统会自动生产面向其他代码的外部接口。//示例： class Person{ var firstName:String = &amp;quot;&amp;quot; var lastName:String = &amp;quot;&amp;quot; } class Person1{ var firstName:String var lastName:String init(firstName:String, lastName:String) { self.firstName = firstName self.lastName = lastName } } let person1 = Person1.init(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;)  类和结构体的对比共同点： 定义属性用于存储值 定义方法用于提供功能 定义附属脚本用于访问值 定义构造器用于生成初始化值 通过扩展以增加默认实现的功能 符合协议以对某类提供标准功能   比结构体多了如下功能 允许一个类继承另一个类的特征 类型转换允许在运行时检查和解释一个类的实例类型 结构器允许一个实例释放任何其所分配的资源 引用计数允许对一个类多次引用   区别：引用类型和值类型//示例： class Person{ var firstName:String = &amp;quot;&amp;quot; var lastName:String = &amp;quot;&amp;quot; } let person1 = Person(firstName: &amp;quot;Bobo&amp;quot;, lastName: &amp;quot;Stream&amp;quot;) let person2 = person1 person2.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,12 @@
         "height": 60
       }
     },
-    "description": "类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类"
+    "description": "类：Swift 类是构建代码所用的一种通用且灵活的结构体。我们可以为类定义属性和方法。 与其他编程语言不同的是,Swift 并不要求你为自定义的类去创建独立的接口和实现文件， 你要做的是在一个单一文件中定义一个类，系统会自动生产面向其他代码的外部接口。
+//示例： class Person{ var firstName:String = &quot;&quot; var lastName:String = &quot;&quot; } class Person1{ var firstName:String var lastName:String init(firstName:String, lastName:String) { self.firstName = firstName self.lastName = lastName } } let person1 = Person1.init(firstName: &quot;Bobo&quot;, lastName: &quot;Stream&quot;)  类和结构体的对比
+共同点：
+ 定义属性用于存储值 定义方法用于提供功能 定义附属脚本用于访问值 定义构造器用于生成初始化值 通过扩展以增加默认实现的功能 符合协议以对某类提供标准功能   比结构体多了如下功能
+ 允许一个类继承另一个类的特征 类型转换允许在运行时检查和解释一个类的实例类型 结构器允许一个实例释放任何其所分配的资源 引用计数允许对一个类多次引用   区别：引用类型和值类型
+//示例： class Person{ var firstName:String = &quot;&quot; var lastName:String = &quot;&quot; } let person1 = Person(firstName: &quot;Bobo&quot;, lastName: &quot;Stream&quot;) let person2 = person1 person2."
   }
 </script>
 
@@ -93,22 +98,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -278,7 +267,7 @@ aLocation.latitude    // 2.0  aLocation 和 bloaction 是值类型关系，赋�
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -328,7 +317,7 @@ aLocation.latitude    // 2.0  aLocation 和 bloaction 是值类型关系，赋�
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

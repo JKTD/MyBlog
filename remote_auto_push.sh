@@ -25,3 +25,16 @@ fi
 git add .
 git commit -m "${dif}"
 git push
+
+sh release.sh
+
+cp -rf public/  ../MyBlog
+
+cd ../Myblog
+
+git add .
+git commit -m "${dif}"
+git push
+
+
+

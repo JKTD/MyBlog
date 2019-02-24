@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2016/03/24/loadAndinitialize/">
+<link rel="canonical" href="http://blog.flywithme.top/2016/03/24/loadandinitialize/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Objective-C 中 &#43;load 与 &#43;initialize - Fly With Bug</title>
     
-<meta name="description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+<meta name="description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… } }   在objc语言里，对应的机制是，2个类初始化方法，&#43;(void)load和&#43;(void)initialize。 #import &amp;quot;Constants.h&amp;quot; @implementation Constants &#43; (void)initialize{ NSLog(@&amp;quot;init constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;); } &#43; (void)load{ NSLog(@&amp;quot;load constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;); } @end   两个方法有一些不同。load，是加载类的时候，这里是Constants类，就会调用。也就是说，iOS应用启动的时候，就会加载所有的类，就会调用这个方法这样有个缺点，当加载类需要很昂贵的资源，或者比较耗时的时候，可能造成不良的用户体验，或者系统的抖动。这时候，就要考虑initialize方法了。这个方法可看作类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。比如： [Constants alloc];alloc将为Constants实例在堆上分配变量。这时调用一次initialize方法，而且仅调用一次，也就是说再次alloc操作的时候，不会再调用initialize方法了。initialize 会在运行时仅被触发一次，如果没有向类发送消息的话，这个方法将不会被调用。这个方法的调用是线程安全的。父类会比子类先收到此消息。如果希望在类及其Categorgy中执行不同的初始化的话可以使用&#43;load&#43;(void)load; 在Objective-C运行时载入类或者Category时被调用这个方法对动态库和静态库中的类或(Category)都有效.  在Mac OS X 10.5及之后的版本，初始化的顺序如下： 调用所有的Framework中的初始化方法 调用所有的&#43;load方法 调用C&#43;&#43;的静态初始化方及C/C&#43;&#43;中的attribute(constructor)函数 调用所有链接到目标文件的framework中的初始化方法     另外  一个类的&#43;load方法在其父类的&#43;load方法后调用 一个Category的&#43;load方法在被其扩展的类的自有&#43;load方法后调用 在&#43;load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的&#43;load方法可能尚未被调用。    下面是一个load的顺序">
 
 <meta property="og:title" content="Objective-C 中 &#43;load 与 &#43;initialize - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2016/03/24/loadAndinitialize/">
+<meta property="og:url" content="http://blog.flywithme.top/2016/03/24/loadandinitialize/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+<meta property="og:description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… } }   在objc语言里，对应的机制是，2个类初始化方法，&#43;(void)load和&#43;(void)initialize。 #import &amp;quot;Constants.h&amp;quot; @implementation Constants &#43; (void)initialize{ NSLog(@&amp;quot;init constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;); } &#43; (void)load{ NSLog(@&amp;quot;load constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;); } @end   两个方法有一些不同。load，是加载类的时候，这里是Constants类，就会调用。也就是说，iOS应用启动的时候，就会加载所有的类，就会调用这个方法这样有个缺点，当加载类需要很昂贵的资源，或者比较耗时的时候，可能造成不良的用户体验，或者系统的抖动。这时候，就要考虑initialize方法了。这个方法可看作类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。比如： [Constants alloc];alloc将为Constants实例在堆上分配变量。这时调用一次initialize方法，而且仅调用一次，也就是说再次alloc操作的时候，不会再调用initialize方法了。initialize 会在运行时仅被触发一次，如果没有向类发送消息的话，这个方法将不会被调用。这个方法的调用是线程安全的。父类会比子类先收到此消息。如果希望在类及其Categorgy中执行不同的初始化的话可以使用&#43;load&#43;(void)load; 在Objective-C运行时载入类或者Category时被调用这个方法对动态库和静态库中的类或(Category)都有效.  在Mac OS X 10.5及之后的版本，初始化的顺序如下： 调用所有的Framework中的初始化方法 调用所有的&#43;load方法 调用C&#43;&#43;的静态初始化方及C/C&#43;&#43;中的attribute(constructor)函数 调用所有链接到目标文件的framework中的初始化方法     另外  一个类的&#43;load方法在其父类的&#43;load方法后调用 一个Category的&#43;load方法在被其扩展的类的自有&#43;load方法后调用 在&#43;load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的&#43;load方法可能尚未被调用。    下面是一个load的顺序">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2016/03/24/loadAndinitialize/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2016/03/24/loadandinitialize/">
 <meta name="twitter:title" content="Objective-C 中 &#43;load 与 &#43;initialize - Fly With Bug">
-<meta name="twitter:description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }">
+<meta name="twitter:description" content="类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… } }   在objc语言里，对应的机制是，2个类初始化方法，&#43;(void)load和&#43;(void)initialize。 #import &amp;quot;Constants.h&amp;quot; @implementation Constants &#43; (void)initialize{ NSLog(@&amp;quot;init constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;); } &#43; (void)load{ NSLog(@&amp;quot;load constants &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;quot;); } @end   两个方法有一些不同。load，是加载类的时候，这里是Constants类，就会调用。也就是说，iOS应用启动的时候，就会加载所有的类，就会调用这个方法这样有个缺点，当加载类需要很昂贵的资源，或者比较耗时的时候，可能造成不良的用户体验，或者系统的抖动。这时候，就要考虑initialize方法了。这个方法可看作类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。比如： [Constants alloc];alloc将为Constants实例在堆上分配变量。这时调用一次initialize方法，而且仅调用一次，也就是说再次alloc操作的时候，不会再调用initialize方法了。initialize 会在运行时仅被触发一次，如果没有向类发送消息的话，这个方法将不会被调用。这个方法的调用是线程安全的。父类会比子类先收到此消息。如果希望在类及其Categorgy中执行不同的初始化的话可以使用&#43;load&#43;(void)load; 在Objective-C运行时载入类或者Category时被调用这个方法对动态库和静态库中的类或(Category)都有效.  在Mac OS X 10.5及之后的版本，初始化的顺序如下： 调用所有的Framework中的初始化方法 调用所有的&#43;load方法 调用C&#43;&#43;的静态初始化方及C/C&#43;&#43;中的attribute(constructor)函数 调用所有链接到目标文件的framework中的初始化方法     另外  一个类的&#43;load方法在其父类的&#43;load方法后调用 一个Category的&#43;load方法在被其扩展的类的自有&#43;load方法后调用 在&#43;load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的&#43;load方法可能尚未被调用。    下面是一个load的顺序">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,20 @@
         "height": 60
       }
     },
-    "description": "类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如 Java代码 public class MyClass{ static{ …… }"
+    "description": "类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如
+ Java代码
+ public class MyClass{ static{ …… } }   在objc语言里，对应的机制是，2个类初始化方法，+(void)load和+(void)initialize。
+ #import &quot;Constants.h&quot; @implementation Constants + (void)initialize{ NSLog(@&quot;init constants &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;); } + (void)load{ NSLog(@&quot;load constants &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;); } @end   两个方法有一些不同。
+load，是加载类的时候，这里是Constants类，就会调用。也就是说，iOS应用启动的时候，就会加载所有的类，就会调用这个方法
+这样有个缺点，当加载类需要很昂贵的资源，或者比较耗时的时候，可能造成不良的用户体验，或者系统的抖动。这时候，就要考虑initialize方法了。这个方法可看作类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。比如： [Constants alloc];
+alloc将为Constants实例在堆上分配变量。这时调用一次initialize方法，而且仅调用一次，也就是说再次alloc操作的时候，不会再调用initialize方法了。
+initialize 会在运行时仅被触发一次，如果没有向类发送消息的话，这个方法将不会被调用。这个方法的调用是线程安全的。父类会比子类先收到此消息。
+如果希望在类及其Categorgy中执行不同的初始化的话可以使用+load
++(void)load; 在Objective-C运行时载入类或者Category时被调用
+这个方法对动态库和静态库中的类或(Category)都有效.
+  在Mac OS X 10.5及之后的版本，初始化的顺序如下：
+ 调用所有的Framework中的初始化方法 调用所有的+load方法 调用C++的静态初始化方及C/C++中的attribute(constructor)函数 调用所有链接到目标文件的framework中的初始化方法     另外
+  一个类的+load方法在其父类的+load方法后调用 一个Category的+load方法在被其扩展的类的自有+load方法后调用 在+load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的+load方法可能尚未被调用。    下面是一个load的顺序"
   }
 </script>
 
@@ -93,22 +106,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -555,7 +552,7 @@ NSLog(@&ldquo;%@ %s&rdquo;, array, <strong>FUNCTION</strong>);<br />
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -605,7 +602,7 @@ NSLog(@&ldquo;%@ %s&rdquo;, array, <strong>FUNCTION</strong>);<br />
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

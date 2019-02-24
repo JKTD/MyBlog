@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>swift3-12 闭包 - Fly With Bug</title>
     
-<meta name="description" content="闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编">
+<meta name="description" content="闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编程语言中的匿名函数比较相似。 全局函数和嵌套函数其实就是特殊的闭包。闭包的形式有 全局函数: 有名字但不能捕获任何值嵌套函数: 有名字,可以捕获封闭函数内的值闭包表达式: 无名闭包,使用轻量级语法,可以根据上下文环境捕获值。 示例:let clousuer = { print(&amp;quot;Swift 闭包实例。&amp;quot;) } clousuer() //加法 let sum = {(val1:Int, val2:Int)-&amp;gt; Int in return val1 &#43; val2 } let result = sum(20,2) //排序 var arr:[Int] = [] for _ in 0...100{ arr.append(Int(arc4random()%1000)) } arr.sorted(by: {(a: Int, b:Int) -&amp;gt; Bool in return a &amp;gt; b })  闭包的简化//简化: 根据现场情况,选择适合当前情况的写法。 arr.">
 
 <meta property="og:title" content="swift3-12 闭包 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/02/28/swift12/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编">
+<meta property="og:description" content="闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编程语言中的匿名函数比较相似。 全局函数和嵌套函数其实就是特殊的闭包。闭包的形式有 全局函数: 有名字但不能捕获任何值嵌套函数: 有名字,可以捕获封闭函数内的值闭包表达式: 无名闭包,使用轻量级语法,可以根据上下文环境捕获值。 示例:let clousuer = { print(&amp;quot;Swift 闭包实例。&amp;quot;) } clousuer() //加法 let sum = {(val1:Int, val2:Int)-&amp;gt; Int in return val1 &#43; val2 } let result = sum(20,2) //排序 var arr:[Int] = [] for _ in 0...100{ arr.append(Int(arc4random()%1000)) } arr.sorted(by: {(a: Int, b:Int) -&amp;gt; Bool in return a &amp;gt; b })  闭包的简化//简化: 根据现场情况,选择适合当前情况的写法。 arr.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/02/28/swift12/">
 <meta name="twitter:title" content="swift3-12 闭包 - Fly With Bug">
-<meta name="twitter:description" content="闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编">
+<meta name="twitter:description" content="闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编程语言中的匿名函数比较相似。 全局函数和嵌套函数其实就是特殊的闭包。闭包的形式有 全局函数: 有名字但不能捕获任何值嵌套函数: 有名字,可以捕获封闭函数内的值闭包表达式: 无名闭包,使用轻量级语法,可以根据上下文环境捕获值。 示例:let clousuer = { print(&amp;quot;Swift 闭包实例。&amp;quot;) } clousuer() //加法 let sum = {(val1:Int, val2:Int)-&amp;gt; Int in return val1 &#43; val2 } let result = sum(20,2) //排序 var arr:[Int] = [] for _ in 0...100{ arr.append(Int(arc4random()%1000)) } arr.sorted(by: {(a: Int, b:Int) -&amp;gt; Bool in return a &amp;gt; b })  闭包的简化//简化: 根据现场情况,选择适合当前情况的写法。 arr.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,14 @@
         "height": 60
       }
     },
-    "description": "闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编"
+    "description": "闭包 闭包(Closures)是自包含的功能代码块,可以在代码中使用或者用来传参传值。 Swift 的闭包与 C 和 Objective-C 中的代码块(blocks)以及其他一些编程语言中的匿名函数比较相似。 全局函数和嵌套函数其实就是特殊的闭包。
+闭包的形式有
+ 全局函数: 有名字但不能捕获任何值
+嵌套函数: 有名字,可以捕获封闭函数内的值
+闭包表达式: 无名闭包,使用轻量级语法,可以根据上下文环境捕获值。
+ 示例:
+let clousuer = { print(&quot;Swift 闭包实例。&quot;) } clousuer() //加法 let sum = {(val1:Int, val2:Int)-&gt; Int in return val1 + val2 } let result = sum(20,2) //排序 var arr:[Int] = [] for _ in 0...100{ arr.append(Int(arc4random()%1000)) } arr.sorted(by: {(a: Int, b:Int) -&gt; Bool in return a &gt; b })  闭包的简化
+//简化: 根据现场情况,选择适合当前情况的写法。 arr."
   }
 </script>
 
@@ -93,22 +100,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -324,7 +315,7 @@ print(alsoIncrementByTen())
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -374,7 +365,7 @@ print(alsoIncrementByTen())
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

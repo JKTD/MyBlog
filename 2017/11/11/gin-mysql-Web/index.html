@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2017/11/11/gin-mysql-Web/">
+<link rel="canonical" href="http://blog.flywithme.top/2017/11/11/gin-mysql-web/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>web01-配置Mysql - Fly With Bug</title>
     
-<meta name="description" content="安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)">
+<meta name="description" content="安装Mysql 创建userInfo表CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1) DEFAULT &#39;-1&#39;, `authtoken` char(32) DEFAULT &#39;&#39;, `mail` varchar(40) DEFAULT &#39;&#39;, `oldpassword` varchar(100) DEFAULT &#39;&#39;, PRIMARY KEY (`uid`) ) ENGINE=InnoDB AUTO_INCREMENT=1000039 DEFAULT CHARSET=utf8;  db 控制器">
 
 <meta property="og:title" content="web01-配置Mysql - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2017/11/11/gin-mysql-Web/">
+<meta property="og:url" content="http://blog.flywithme.top/2017/11/11/gin-mysql-web/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)">
+<meta property="og:description" content="安装Mysql 创建userInfo表CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1) DEFAULT &#39;-1&#39;, `authtoken` char(32) DEFAULT &#39;&#39;, `mail` varchar(40) DEFAULT &#39;&#39;, `oldpassword` varchar(100) DEFAULT &#39;&#39;, PRIMARY KEY (`uid`) ) ENGINE=InnoDB AUTO_INCREMENT=1000039 DEFAULT CHARSET=utf8;  db 控制器">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2017/11/11/gin-mysql-Web/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2017/11/11/gin-mysql-web/">
 <meta name="twitter:title" content="web01-配置Mysql - Fly With Bug">
-<meta name="twitter:description" content="安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)">
+<meta name="twitter:description" content="安装Mysql 创建userInfo表CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT &#39;&#39;, `departname` varchar(20) DEFAULT &#39;&#39;, `password` varchar(32) DEFAULT &#39;&#39;, `sex` tinyint(1) unsigned zerofill DEFAULT &#39;0&#39;, `userid` varchar(32) DEFAULT &#39;&#39;, `phone` varchar(13) DEFAULT &#39;&#39;, `phoneprefix` varchar(6) DEFAULT &#39;&#39;, `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1) DEFAULT &#39;-1&#39;, `authtoken` char(32) DEFAULT &#39;&#39;, `mail` varchar(40) DEFAULT &#39;&#39;, `oldpassword` varchar(100) DEFAULT &#39;&#39;, PRIMARY KEY (`uid`) ) ENGINE=InnoDB AUTO_INCREMENT=1000039 DEFAULT CHARSET=utf8;  db 控制器">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,8 @@
         "height": 60
       }
     },
-    "description": "安装Mysql 创建userInfo表 CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT '', `departname` varchar(20) DEFAULT '', `password` varchar(32) DEFAULT '', `sex` tinyint(1) unsigned zerofill DEFAULT '0', `userid` varchar(32) DEFAULT '', `phone` varchar(13) DEFAULT '', `phoneprefix` varchar(6) DEFAULT '', `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1)"
+    "description": "安装Mysql 创建userInfo表
+CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT '', `departname` varchar(20) DEFAULT '', `password` varchar(32) DEFAULT '', `sex` tinyint(1) unsigned zerofill DEFAULT '0', `userid` varchar(32) DEFAULT '', `phone` varchar(13) DEFAULT '', `phoneprefix` varchar(6) DEFAULT '', `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1) DEFAULT '-1', `authtoken` char(32) DEFAULT '', `mail` varchar(40) DEFAULT '', `oldpassword` varchar(100) DEFAULT '', PRIMARY KEY (`uid`) ) ENGINE=InnoDB AUTO_INCREMENT=1000039 DEFAULT CHARSET=utf8;  db 控制器"
   }
 </script>
 
@@ -93,22 +94,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -416,7 +401,7 @@ func checkErr(err error) {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -466,7 +451,7 @@ func checkErr(err error) {
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

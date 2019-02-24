@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="pinterest" content="nopin">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml">
+
+<link rel="canonical" href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <title>学习笔记 - Fly With Bug</title>
+    
+    <link href="http://blog.flywithme.topcss/styles.css" rel="stylesheet">
+    
+
+  </head>
+
+  <body>
+    
+    
+    
+
+    <header class="l-header">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+          </div>
+
+          
+
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        
+<div class="row">
+  <div class="col-md-8">
+
+    
+    <header class="page-header">
+      <h1>学习笔记</h1>
+    </header>
+    
+
+    <ul class="p-articles">
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-11-16T11:15:21JST">Nov 16, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/11/16/wirelessdebug/">无线真机调试-Xcode9 -iOS</a></h2>
+  </header>
+
+  
+  <div class="summary"> 首先你需要 Mac系统电脑 安装Xcode9 iPhone设备需要iOS11的系统 其次你的手机必须和电脑处于同一个无线局域网中 首次安装连接需要先连接数据线至同一个局域网的Mac上
+ 打开-&gt;windows里的Device and Simulators选项，勾选 Connect Via network
+  假设你的开发证书和描述文件都是齐全完整的，开始编译，会自动提示。真机调试选择刚才连接到 机器名字
+数据线链接手机 打开device and simulators面板，勾选connect via network
+选择你的设备开始编译 （就算断开数据线，这个设备依然会留在这里） 开始编译结束-可以查看手机的device日志，然后手机名字右边的网球 表示无线连接正常 </div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-11-15T19:06:14JST">Nov 15, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/11/15/plistbuddy/">imageMagick 和 PlistBuddy合体生成图标</a></h2>
+  </header>
+
+  
+  <div class="summary">demo地址
+图片内容处理文件 (merchant-icon-generator.sh)
+#获取参数 文件源 SRC_FILE=&quot;$1&quot; #版本号 shortVersion=&quot;$2&quot; #标签number bundlerNum=&quot;$3&quot; #转换 文件 绘制 坐标 填充 颜色 透明度 填充 坐标 填充 颜色 透明度 生成目标图片 convert &quot;$SRC_FILE&quot; -region 1024x244+0+780 -fill &quot;rgb(0,159,250)&quot; -colorize 100% -region 1024x244+650+780 -fill &quot;rgb(102,230,32)&quot; -colorize 100% target-new.png #转换 文件 重置坐标 地图坐标西南角 写入 白色字体，文字尺寸 绘制文字 offset 内容 convert target-new.png -gravity southwest -fill white -pointsize 230 -draw &quot;text 60,-10 '$shortVersion'&quot; -gravity southeast -fill white -pointsize 230 -draw &quot;text 60,-10 '$bundlerNum'&quot; target-new.png   命令</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2017/11/15/plistbuddy/" title="imageMagick 和 PlistBuddy合体生成图标">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-11-13T17:20:15JST">Nov 13, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/11/13/mail/">golang web Send Email</a></h2>
+  </header>
+
+  
+  <div class="summary">//注意邮件格式，以免被当垃圾邮件
+package email import ( &quot;net/smtp&quot; &quot;strings&quot; ) const ( HOST = &quot;smtp.163.com&quot; SERVER_ADDR = &quot;smtp.163.com:25&quot; USER = &quot;xxx@163.com&quot; //发送邮件的邮箱 PASSWORD = &quot;xxx&quot; //发送邮件邮箱的客户端授权密码 ) type Email struct { to string &quot;to&quot; subject string &quot;subject&quot; msg string &quot;msg&quot; } func NewEmail(to, subject, msg string) *Email { return &amp;Email{to: to, subject: subject, msg: msg} } func SendEmail(email *Email) error { auth := smtp.PlainAuth(&quot;&quot;, USER, PASSWORD, HOST) sendTo := strings.Split(email.to, &quot;;&quot;) done := make(chan error, 1024) go func() { defer close(done) for _, v := range sendTo { str := strings.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2017/11/13/mail/" title="golang web Send Email">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-11-13T11:40:09JST">Nov 13, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/11/13/sshnopass/">ubuntu ssh免密登陆</a></h2>
+  </header>
+
+  
+  <div class="summary"> 前置条件：  一台主流的Linux服务器，如CentOS,Ubuntu,Fedora,redhat等 一台能连上以上服务器的客户机，我用的mac，系统是osx  预备动作：  打开终端 Terminal 生成ca证书私钥与公钥   执行：  执行代码 ssh-copy-id -i (id_rsa路径) name@ip -p    提示错误 需要登录服务器修改文件权限  再次执行图1 内容  这样的结果即可免密登陆   </div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-11-11T19:57:02JST">Nov 11, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/11/11/gin-mysql-web/">web01-配置Mysql</a></h2>
+  </header>
+
+  
+  <div class="summary">安装Mysql 创建userInfo表
+CREATE TABLE `userinfo` ( `uid` int(11) unsigned NOT NULL AUTO_INCREMENT, `username` varchar(16) DEFAULT '', `departname` varchar(20) DEFAULT '', `password` varchar(32) DEFAULT '', `sex` tinyint(1) unsigned zerofill DEFAULT '0', `userid` varchar(32) DEFAULT '', `phone` varchar(13) DEFAULT '', `phoneprefix` varchar(6) DEFAULT '', `createtime` int(10) unsigned NOT NULL, `updatetime` int(10) unsigned NOT NULL, `state` tinyint(1) DEFAULT '-1', `authtoken` char(32) DEFAULT '', `mail` varchar(40) DEFAULT '', `oldpassword` varchar(100) DEFAULT '', PRIMARY KEY (`uid`) ) ENGINE=InnoDB AUTO_INCREMENT=1000039 DEFAULT CHARSET=utf8;  db 控制器</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2017/11/11/gin-mysql-web/" title="web01-配置Mysql">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-11-10T12:11:33JST">Nov 10, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/11/10/imagemagic/">imagemagic</a></h2>
+  </header>
+
+  
+  <div class="summary">首先：brew install ImageMagick
+熟悉ImageMagick命令：
+resize当前目录下的图片到100x100f分辨率
+convert 1024x1024.png -resize 100x100 icon02.png  填充某像
+convert 1024x1024.png -region 1024x224+0+800 -fill &quot;rgb(255,166,48)&quot; -colorize 100% new.png convert 1024-origin.png -region 1024x224+0+800 -fill &quot;rgb(0,159,250)&quot; -colorize 100% -region 1024x224+650+800 -fill &quot;rgb(233,159,250)&quot; -colorize 100% new.png  py</div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-11-05T20:17:21JST">Nov 5, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/11/05/gin-mysql/">使用gin框架实现一个基于Mysql数据库的用户系统-填坑部分</a></h2>
+  </header>
+
+  
+  <div class="summary"> 项目地址：https://github.com/flywithbug/darkside 欢迎fork。 TODO 更新更多内容  填坑1- struct to json 时，空值忽略，或者特定值忽略问题
+http://ethancai.github.io/2016/06/23/bad-parts-about-json-serialization-in-Golang/
+Golang中，如果指定一个field序列化成JSON的变量名字为-，则序列化的时候自动忽略这个field。这种用法， 才是和上面JsonIgnore的用法的作用是一样的。
+而omitempty的作用是当一个field的值是empty的时候，序列化JSON时候忽略这个field。
+这里需要注意的是关于emtpty的定义：
+常用Sql命令
+//查询手机号为176021986 时间在 1510678791 之前2000秒的 数据量 select COUNT(*) as cnt from smstx where mobile = &quot;176021986&quot; and time &gt; 1510678791-2000  </div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-09-30T14:58:00JST">Sep 30, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017-09-30-ios11scrollview20pt/">iOS11 ScrollView 页面下移问题</a></h2>
+  </header>
+
+  
+  <div class="summary">一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、什么情况下的tableView会发生上述问题 四、这个问题的解决方法有哪些？ 五、遇到的另外一个与安全区域无关的tableView内容下移的问题        scorllView contentOffset变动问题
+一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 问题如下图所示：
+1. 原因分析
+原因是iOS 11中UIViweController的automaticallyAdjustsScrollViewInsets属性被废弃了，所以当scrollView超出安全区域时系统自动调整了SafeAreaInsets值，进而影响adjustedContentInset值，
+在iOS 11中决定tableView的内容与边缘距离的是adjustedContentInset属性，而不是contentInset。adjustedContentInset的计算方式见本文第二部分内容。因为系统对adjustedContentInset值进行了调整，所以导致tableView的内容到边缘的距离发生了变化，导致tableView下移了20pt（statusbar高度）或64pt（navigationbar高度）。
+如果你的APP中使用的是自定义的navigationbar，隐藏掉系统的navigationbar，并且tableView的frame为(0,0,SCREEN_WIDTH, SCREEN_HEIGHT)开始，那么系统会自动调整SafeAreaInsets值为(20,0,0,0)，如果使用了系统的navigationbar，那么SafeAreaInsets值为(64,0,0,0)，如果也使用了系统的tabbar，那么SafeAreaInsets值为(64,0,49,0)。关于什么情况下会发生内容下移的问题，本文第三部分有介绍。
+2. 安全区域的概念
+系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：
+安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用additionalSafeAreaInsets去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。
+safeAreaInsets属性反映了一个view距离该view的安全区域的边距。对于一个Controller的根视图而言，SafeAreaInsets值包括了被statusbar和其他可视的bars覆盖的区域和其他通过additionalSafeAreaInsets自定义的insets值。对于view层次中得其他view，SafeAreaInsets值反映了view被覆盖的部分。如果一个view全部在它父视图的安全区域内，则SafeAreaInsets值为(0,0,0,0)。
+二、 adjustContentInset属性的计算方式 首先看scrollView在iOS11新增的两个属性：adjustContentInset 和 contentInsetAdjustmentBehavior。
+/* Configure the behavior of adjustedContentInset. Default is UIScrollViewContentInsetAdjustmentAutomatic. */ @property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior adjustContentInset表示contentView.frame.origin偏移了scrollview.frame.origin多少；是系统计算得来的，计算方式由contentInsetAdjustmentBehavior决定。有以下几种计算方式： UIScrollViewContentInsetAdjustmentAutomatic：如果scrollview在一个automaticallyAdjustsScrollViewInsets = YES的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top &amp; bottom上 adjustedContentInset = safeAreaInset + contentInset不管是否滚动。其他情况下与UIScrollViewContentInsetAdjustmentScrollableAxes相同 UIScrollViewContentInsetAdjustmentScrollableAxes: 在可滚动方向上adjustedContentInset = safeAreaInset + contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset + contentInset UIScrollViewContentInsetAdjustmentNever: adjustedContentInset = contentInset UIScrollViewContentInsetAdjustmentAlways: adjustedContentInset = safeAreaInset + contentInset  当contentInsetAdjustmentBehavior设置为UIScrollViewContentInsetAdjustmentNever的时候，adjustContentInset值不受SafeAreaInset值的影响。</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2017-09-30-ios11scrollview20pt/" title="iOS11 ScrollView 页面下移问题">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-08-03T13:44:56JST">Aug 3, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/08/03/bigfileupload/">大文件分片上传解决方案</a></h2>
+  </header>
+
+  
+  <div class="summary"> 分片模型：索引，上传状态，偏移量，大小，文件名，类型，分片数
+ md5: 获取文件的md5值
+ 文件管理工具：文件路径， 分析文件内容，生成数据。
+   上传任务池中会保持小于等于3个的请求任务 启动上传任务之后会往任务池中添加上传任务，若分片数大于3个，则会把任务池填满。 等其中任意一个任务上传结束之后会回调通知任务池，添加一个新的请求任务进入任务池中 等上传任务全部结束，发送合并片的请求(这个其实是业务方自己做的)
+  文件的md5值读取，在文件很大的时候不要使用把数据转换成二进制流的形式获取。因为这样可能会造成内存溢出。使用分片读取md5的形式
+模型组里可以保存每一个分片的md5值，用于分片的上传状态。
+管理中心可以保存分片文件的上传状态，上传失败之后可以尝试重新上传，同一个分片数据只上传一次。
+ </div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-04-17T10:48:35JST">Apr 17, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/04/17/swift22/">swift3-22</a></h2>
+  </header>
+
+  
+  <div class="summary"></div>
+
+  
+</article>
+</li>
+      
+    </ul>
+
+    
+<nav>
+  <ul class="pager">
+
+    
+    <li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/page/3/">Previous</a></li>
+    
+
+    
+    <li><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/page/5/">Next</a></li>
+    
+
+  </ul>
+</nav>
+
+
+
+  </div>
+  <div class="col-md-4">
+    
+<aside class="l-sidebar">
+
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">LATESTS</div>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://blog.flywithme.top/2019/02/24/gobin/" class="list-group-item">go bin执行问题记录</a>
+      
+      <a href="http://blog.flywithme.top/2019/01/15/nginx/" class="list-group-item">Nginx 配置 HTTPS 服务器</a>
+      
+      <a href="http://blog.flywithme.top/2019/01/13/mongodump/" class="list-group-item">mongodb 维护小记</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/" class="list-group-item">Vue上线后，history页面点击刷新按钮报错404问题</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/24/vue-element02/" class="list-group-item">vue 路由重载之后导致history页面刷新空白问题fix</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
+      
+      <a href="http://blog.flywithme.top/2018/08/31/nat/" class="list-group-item">nat</a>
+      
+      <a href="http://blog.flywithme.top/2018/04/02/note_28/" class="list-group-item">Elasticsearch 入门</a>
+      
+    </div>
+  </section>
+
+  
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">CATEGORY</div>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://blog.flywithme.topcategories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0" class="list-group-item">技术文章</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0" class="list-group-item">学习笔记</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F" class="list-group-item">思考感悟</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0" class="list-group-item">读书笔记</a>
+      
+    </div>
+  </section>
+  
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">TAG</div>
+    </div>
+    <div class="list-group">
+      
+    </div>
+  </section>
+  
+
+</aside>
+
+
+  </div>
+</div>
+
+      </div>
+    </main>
+
+    <footer class="l-footer">
+      <div class="container">
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <aside>
+          <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
+          <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
+        </aside>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

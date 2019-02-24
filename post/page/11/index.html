@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="pinterest" content="nopin">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://blog.flywithme.top/post/index.xml">
+
+<link rel="canonical" href="http://blog.flywithme.top/post/">
+
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <title>Posts - Fly With Bug</title>
+    
+    <link href="http://blog.flywithme.topcss/styles.css" rel="stylesheet">
+    
+
+  </head>
+
+  <body>
+    
+    
+    
+
+    <header class="l-header">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+          </div>
+
+          
+
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        
+<div class="row">
+  <div class="col-md-8">
+
+    
+    <header class="page-header">
+      <h1>Posts</h1>
+    </header>
+    
+
+    <ul class="p-articles">
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2015-02-24T15:57:21JST">Feb 24, 2015</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2015/02/24/nsoperation/">NSOperation的简单使用</a></h2>
+  </header>
+
+  
+  <div class="summary">一、NSOperation的简介   NSOperation的抽象程度高于NSThread，它是苹果对线程的一个面向对象封装。NSOperation表示一个独立的计算单元，作为一个抽象类，你需要实例话他的子类&nbsp;&nbsp;NSInvocationOperation /&nbsp;&nbsp;NSBlockOperation 来进行具体操作。实例化之后，调用start方法或者加入到一个NSOperationQueue 操作队列中，就可以开始执行。 
+    二、NSOperation的使用   直接启动一个NSInvocationOperation  示例 使用NSOperationQueue管理NSOperation并开启一个异步线程  示例 使用NSOperationQueue管理并NSBlockOperation开启一个线程  NSBlockOperation与NSInvocationOperation没有神马本质的区别，只是NSBlockOperation使用代码块会更方便一些。示例 在主线程中执行某些操作&nbsp;添加线程之间的依赖关系  直接再队列中添加操作会并发执行，谁先谁后是系统调用决定的，但是在某些特定时候我们需要控制操作的执行顺序，就会使用addDependency操作。addDependency：是NSOperation的成员方法,调用该方法的NSOperation对象将在参数执行完成之后执行。需要先添加依赖关系，再将操作添加到队列中。示例 控制线程并发数  并发的线程越多越耗资源，队列可以设置同事并发线程的数量来进行控制示例 取消一个操作  NSOperation里有一系列的属性来表明自身状态： isReady → isExecuting → isFinish 。线程start后并不是立即执行，而是进入一个就绪的状态(isReady)，由系统调度执行。 有时可能需要进行取消操作，可以调用 -(void)cancel;来停止一些还未执行的不必要线程.示例 优先级  NSOpertaion可以通过threadPriority属性来指定优先级。 但是在iOS8中，线程这个概念已经被苹果框架系统性的忽略了,threadPriority已由NSQualityOfService属性替代。NSOperationQueuePriority的枚举类型如下NSQualityOfService的枚举类型如下      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 二、NSOperation小结  &nbsp;NSOperation方便控制线程执行顺序使用NSBlockOperation可以使用块代码，不必单鞋线程方法，便于传递多个参数可以控制线程并发数，有效的对线程进行控制可以添加线程完成代码块，执行需要的操作</div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2015-01-20T14:16:48JST">Jan 20, 2015</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2015/01/20/gcd/">GCD的介绍和使用</a></h2>
+  </header>
+
+  
+  <div class="summary">GCD的介绍和使用 介绍：    Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务并行执行的线程池模式的基础上的。它首次发布在Mac OS X 10.6 ，iOS 4及以上也可用。 GCD是基于C语言的，这意味着高效率    &nbsp; 设计：  GCD是苹果公司为多核的并行运算提出的解决方案GCD会自动利用更多的CPU内核（比如双核、四核）GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）程序员只需要告诉GCD想要执行什么任务，不需要编写任何线程管理代码  注意：  GCD存在于libdispatch.dylib这个库中，这个调度库包含了GCD的所有的东西，但任何IOS程序，默认就加载了这个库，在程序运行的过程中会动态的加载这个库，不需要我们手动导入。GCD是纯C语言的，因此我们在编写GCD相关代码的时候，面对的函数，而不是方法。 GCD中的函数大多数都以dispatch开头。    
+ 任务和队列：   GCD中有2个核心概念:  任务：执行什么操作队列：用来存放任务    GCD的使用就2个步骤:  定制任务确定想做的事情   将任务添加到队列中，GCD会自动将队列中的任务取出，放到对应的线程中执行 提示：任务的取出遵循队列的FIFO原则：先进先出，后进后出   执行任务：   GCD中有2个用来执行任务的函数:    用同步的方式执行任务&nbsp;dispatch_sync(dispatch_queue_t&nbsp;queue,&nbsp;dispatch_block_t&nbsp;block)；用异步的方式执行任务&nbsp;dispatch_async(dispatch_queue_t&nbsp;queue,&nbsp;dispatch_block_t&nbsp;block);  &nbsp; &nbsp; &nbsp; 注：参数说明：queue：队列，block：任务&nbsp;函数说明：把右边的参数（任务）提交给左边的参数（队列）进行执行。&nbsp;    同步和异步的区别:    同步：在当前线程中执行异步：在另一条线程中执行    队列类型：   GCD可以分为两大类：  并发队列（Concurrent&nbsp;Dispatch Queue） &nbsp;   可以让多个任务并发（同时）执行（自动开启多个线程同时执行任务）并发功能只有在异步（dispatch_async）函数下才有效      串行队列（Serial Dispatch Queue）      让任务一个接一个的执行（一个任务执行完毕后，再执行下一个任务）      补充说明（同步，异步，串行，并发）：  &nbsp;同步异步决定了要不要开启新的线程  同步：在当前线程中执行任务，不具备开启新线程的能力异步：在新的线程中执行任务，具备开启新线程的能力 并发和串行决定了任务的执行方式  并发：多个任务同时执行串行:一个任务执行完毕后，再执行下一个任务</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2015/01/20/gcd/" title="GCD的介绍和使用">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+    </ul>
+
+    
+<nav>
+  <ul class="pager">
+
+    
+    <li><a href="/post/page/10/">Previous</a></li>
+    
+
+    
+    <li class="disabled"><a href="#">Next</a></li>
+    
+
+  </ul>
+</nav>
+
+
+
+  </div>
+  <div class="col-md-4">
+    
+<aside class="l-sidebar">
+
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">LATESTS</div>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://blog.flywithme.top/2019/02/24/gobin/" class="list-group-item">go bin执行问题记录</a>
+      
+      <a href="http://blog.flywithme.top/2019/01/15/nginx/" class="list-group-item">Nginx 配置 HTTPS 服务器</a>
+      
+      <a href="http://blog.flywithme.top/2019/01/13/mongodump/" class="list-group-item">mongodb 维护小记</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/" class="list-group-item">Vue上线后，history页面点击刷新按钮报错404问题</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/24/vue-element02/" class="list-group-item">vue 路由重载之后导致history页面刷新空白问题fix</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
+      
+      <a href="http://blog.flywithme.top/2018/08/31/nat/" class="list-group-item">nat</a>
+      
+      <a href="http://blog.flywithme.top/2018/04/02/note_28/" class="list-group-item">Elasticsearch 入门</a>
+      
+    </div>
+  </section>
+
+  
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">CATEGORY</div>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://blog.flywithme.topcategories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0" class="list-group-item">技术文章</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0" class="list-group-item">学习笔记</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F" class="list-group-item">思考感悟</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0" class="list-group-item">读书笔记</a>
+      
+    </div>
+  </section>
+  
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">TAG</div>
+    </div>
+    <div class="list-group">
+      
+    </div>
+  </section>
+  
+
+</aside>
+
+
+  </div>
+</div>
+
+      </div>
+    </main>
+
+    <footer class="l-footer">
+      <div class="container">
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <aside>
+          <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
+          <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
+        </aside>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

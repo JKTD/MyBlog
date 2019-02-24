@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="pinterest" content="nopin">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://blog.flywithme.top/index.xml">
+
+<link rel="canonical" href="http://blog.flywithme.top/">
+
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <title>Fly With Bug</title>
+    
+    <link href="http://blog.flywithme.topcss/styles.css" rel="stylesheet">
+    
+
+  </head>
+
+  <body>
+    
+    
+    
+
+    <header class="l-header">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+          </div>
+
+          
+
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        
+<div class="row">
+  <div class="col-md-8">
+
+    
+
+    <ul class="p-articles">
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-03-25T16:52:16JST">Mar 25, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2016/03/25/ioscategoryproperty/">iOS下Category添加属性字段</a></h2>
+  </header>
+
+  
+  <div class="summary">首先说明一下，直接在Category中是不能添加属性的，就算在.m文件中实现了相应的getter和setter方法，调用的时候也是会报错的。
+首先看下报错情况
+Category添加字段(常规方法)  编写 Category 头文件, 以 UIImage 为例
+// // UIImage+category.h // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &lt;UIKit/UIKit.h&gt; @interface UIImage (category) // 在UIImage中新建一个tag属性 @property (nonatomic, copy) NSString *tag; @end  编写 Category 源文件
+// // UIImage+category.m // // // Created by Linf on 15-5-19. // Copyright (c) 2015年 Linf. All rights reserved. // #import &quot;UIImage+category.h&quot; @implementation UIImage (category) - (NSString *)tag { return self.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2016/03/25/ioscategoryproperty/" title="iOS下Category添加属性字段">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-03-24T19:20:35JST">Mar 24, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2016/03/24/loadandinitialize/">Objective-C 中 &#43;load 与 &#43;initialize</a></h2>
+  </header>
+
+  
+  <div class="summary">类的加载 在java语言里，可以通过如下代码来实现加载类的时候执行对类的操作，一般叫：类初始块，或者，类加载块。比如
+ Java代码
+ public class MyClass{ static{ …… } }   在objc语言里，对应的机制是，2个类初始化方法，+(void)load和+(void)initialize。
+ #import &quot;Constants.h&quot; @implementation Constants + (void)initialize{ NSLog(@&quot;init constants &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;); } + (void)load{ NSLog(@&quot;load constants &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;); } @end   两个方法有一些不同。
+load，是加载类的时候，这里是Constants类，就会调用。也就是说，iOS应用启动的时候，就会加载所有的类，就会调用这个方法
+这样有个缺点，当加载类需要很昂贵的资源，或者比较耗时的时候，可能造成不良的用户体验，或者系统的抖动。这时候，就要考虑initialize方法了。这个方法可看作类加载的延时加载方法。类加载后并不执行该方法。只有当实例化该类的实例的时候，才会在第一个实例加载前执行该方法。比如： [Constants alloc];
+alloc将为Constants实例在堆上分配变量。这时调用一次initialize方法，而且仅调用一次，也就是说再次alloc操作的时候，不会再调用initialize方法了。
+initialize 会在运行时仅被触发一次，如果没有向类发送消息的话，这个方法将不会被调用。这个方法的调用是线程安全的。父类会比子类先收到此消息。
+如果希望在类及其Categorgy中执行不同的初始化的话可以使用+load
++(void)load; 在Objective-C运行时载入类或者Category时被调用
+这个方法对动态库和静态库中的类或(Category)都有效.
+  在Mac OS X 10.5及之后的版本，初始化的顺序如下：
+ 调用所有的Framework中的初始化方法 调用所有的+load方法 调用C++的静态初始化方及C/C++中的attribute(constructor)函数 调用所有链接到目标文件的framework中的初始化方法     另外
+  一个类的+load方法在其父类的+load方法后调用 一个Category的+load方法在被其扩展的类的自有+load方法后调用 在+load方法中，可以安全地向同一二进制包中的其它无关的类发送消息，但接收消息的类中的+load方法可能尚未被调用。    下面是一个load的顺序</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2016/03/24/loadandinitialize/" title="Objective-C 中 &#43;load 与 &#43;initialize">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-03-24T10:58:29JST">Mar 24, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2016/03/24/ocruntime/">Objective-C&#43;Runtime 浅析</a></h2>
+  </header>
+
+  
+  <div class="summary">From
+一、什么是Objective-C Runtime?  Objective-C是动态语言, 而Runtime可以说是Objective-C的灵魂。简单来说，Objective-C Runtime是一个实现Objective-C语言的C库。对象可以用C语言中的结构体表示，而方法（methods）可以用C函数实现。事实上，他们差不多也是这么干了，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，Objective-C程序员可以在程序运行时创建，检查，修改类，对象和它们的方法。
+首先可以考虑一个问题：如果让我们设计、实现一门计算机语言，要如何下手？可能我们平时很少这么思考过，但是这么一问，就会强迫我们从更高层次思考问题了。编译优化先忽略，语言的优雅性也可以暂时放一边，我们可以从实现来看下面三个层次：
+  传统的面向过程的语言开发，例如c语言。实现c语言编译器只要按照语法规则实现一个LALR语法分析器就可以了，忽略编译器的优化问题，我们可以先实现编译器中最最基础和原始的目标：把一份代码里的函数名称，转化成一个相对内存地址，把调用这个函数的语句转换成一个jmp跳转指令。在程序开始运行时候，调用语句可以正确跳转到对应的函数地址。
+void fly(char *name) { printf(&quot;%s fly&quot;, name); } void run(char *name) { printf(&quot;%s run&quot;, name); } fly(&quot;Pig&quot;); run(&quot;Pig&quot;); fly(&quot;Dog&quot;); run(&quot;Dog&quot;);  我们希望灵活，于是需要开发面向对象的语言，例如c++。 c++在c的基础上增加了类的部分。但这到底意味着什么呢？我们在写它的编译器要如何考虑呢？其实，就是让编译器多绕个弯，在严格的c编译器上增加一层类处理的机制，把一个函数限制在它处在的class环境里，每次请求一个函数调用，先找到它的对象, 其类型,返回值，参数等等，确定了这些后再jmp跳转到需要的函数。这样很多程序增加了灵活性同样一个函数调用会根据请求参数和类的环境返回完全不同的结果。增加类机制后，就模拟了现实世界的抽象模式，不同的对象有不同的属性和方法。同样的方法，不同的类有不同的行为!
+下面就可以开始尝试开发一种新的面向对象语言，先暂定这种语言叫DP-C吧！
+Class Animal { char *name; Animal(char *name) { this.name = name; } void fly() { printf(&quot;%s fly&quot;, this.name); } void run() { printf(&quot;%s run&quot;, this.name); } } Animal *pig = new Animal(&quot;pig&quot;); Animal *dog = new Animal(&quot;dog&quot;); pig.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2016/03/24/ocruntime/" title="Objective-C&#43;Runtime 浅析">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2016-03-20T17:40:29JST">Mar 20, 2016</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2016/03/20/iosnspredicateuse/">iOS中的谓词（NSPredicate）使用</a></h2>
+  </header>
+
+  
+  <div class="summary">首先，我们需要知道何谓谓词，让我们看看官方的解释:
+ The NSPredicate class is used to define logical conditions used to constrain a search either for a fetch or for in-memory filtering.
+ NSPredicate类是用来定义逻辑条件约束的获取或内存中的过滤搜索。 可以使用谓词来表示逻辑条件，用于描述对象持久性存储在内存中的对象过滤。其实意思就是：我是一个过滤器，不符合条件的都滚开。
+一、NSPredicate的基本语法 我们使用一门语言，无论是外语还是计算机语言，总是从语法开始的，这样我们才能正确的把握逻辑。所以我们从语法开始说起。在这部分我们仅关心其语法的使用 只要我们使用谓词（NSPredicate）都需要为谓词定义谓词表达式,而这个表达式必须是一个返回BOOL的值。 谓词表达式由表达式、运算符和值构成。
+ 比较运算符
+ 比较运算符如下
+  =、==：判断两个表达式是否相等，在谓词中=和==是相同的意思都是判断，而没有赋值这一说
+NSNumber *testNumber = @123; NSPredicate *predicate = [NSPredicate predicateWithFormat:@&quot;SELF = 123&quot;]; if ([predicate evaluateWithObject:testNumber]) { NSLog(@&quot;testString:%@&quot;, testNumber); }   我们可以看到输出的内容为:
+ 2016-01-07 11:12:27.281 PredicteDemo[4130:80412] testString:123   =，=&gt;：判断左边表达式的值是否大于或等于右边表达式的值
+ &lt;=，=&lt;：判断右边表达式的值是否小于或等于右边表达式的值</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2016/03/20/iosnspredicateuse/" title="iOS中的谓词（NSPredicate）使用">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2015-09-15T18:12:45JST">Sep 15, 2015</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2015/09/15/jscalloc/">iOS JS call OC</a></h2>
+  </header>
+
+  
+  <div class="summary">接着上节我们讲到的iOS调用js
+下来我们使用js调用iOS
+js调用iOS分两种情况
+一，js里面直接调用方法
+二，js里面通过对象调用方法
+
+首先我们看第一种，直接调用方法。
+其中用到了iOS的block
+
+上代码
+
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView { //网页加载完成调用此方法 //iOS调用js //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext） JSContext *context=[webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;]; //js调用iOS //第一种情况 //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码 //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道 context[@&quot;test1&quot;] = ^() { NSArray *args = [JSContext currentArguments]; for (id obj in args) { NSLog(@&quot;%@&quot;,obj); } }; //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下） //首先准备一下js代码，来调用js的函数test1 然后执行 //一个参数 NSString *jsFunctStr=@&quot;test1(&#39;参数1&#39;)&quot;; [context evaluateScript:jsFunctStr]; //二个参数 NSString *jsFunctStr1=@&quot;test1(&#39;参数a&#39;,&#39;参数b&#39;)&quot;; [context evaluateScript:jsFunctStr1]; }
+以上代码中 给test1赋&#20540;的block要是执行了那么结果就是对的，js调用了iOS 
+我们看结果
+
+ 我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制
+
+
+下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2015/09/15/jscalloc/" title="iOS JS call OC">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2015-09-15T18:05:59JST">Sep 15, 2015</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2015/09/15/occalljs/">iOS OC call JS</a></h2>
+  </header>
+
+  
+  <div class="summary">从iOS7开始 苹果公布了JavaScriptCore.framework 它使得JS与OC的交互更加方便了。
+下面我们就简单了解一下这个框架
+首先我导入framework
+方法如下
+
+ 点击Linked Frameworks and Libraries 的添加后 选择 JavaScriptCore.framework
+
+ 选中JavaScriptCore.framework后 点击右下角Add 添加完成
+好 创建完成之后我们导入一下头文件
+
+#import &lt;JavaScriptCore/JavaScriptCore.h&gt;
+点进去 会看到如下几个方法 
+
+#import &quot;JSContext.h&quot;
+#import &quot;JSValue.h&quot;
+#import &quot;JSManagedValue.h&quot;
+#import &quot;JSVirtualMachine.h&quot;
+#import &quot;JSExport.h&quot;
+这些方法我们等会再细讲
+
+下来我们创建一个UIWebView &nbsp;用来测试
+
+创建UIWebView
+
+UIWebView *myWebView;
+初始化，添加，打开网址 
+
+
+//初始化webview myWebView=[[UIWebView alloc]initWithFrame:CGRectMake(0, 22, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-22)]; myWebView.delegate=self; //添加webview到当前viewcontroller的view上 [self.view addSubview:myWebView]; //网址 NSString *httpStr=@&quot;https://www.baidu.com&quot;; NSURL *httpUrl=[NSURL URLWithString:httpStr]; NSURLRequest *httpRequest=[NSURLRequest requestWithURL:httpUrl]; [myWebView loadRequest:httpRequest];</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2015/09/15/occalljs/" title="iOS OC call JS">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2015-08-29T16:52:15JST">Aug 29, 2015</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2015/08/29/hugo/">使用hugo搭建个人博客站点</a></h2>
+  </header>
+
+  
+  <div class="summary"><blockquote>
+<p>转载 from: <a href="http://blog.coderzh.com/2015/08/29/hugo/">coderzh</a></p>
+</blockquote>
+
+<p>Hugo是一个用Go语言编写的静态网站生成器，它使用起来非常简单，相对于Jekyll复杂的安装设置来说，Hugo仅需要一个二进制文件hugo(hugo.exe)即可轻松用于本地调试和生成静态页面。</p></div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2015/08/29/hugo/" title="使用hugo搭建个人博客站点">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2015-08-17T14:06:05JST">Aug 17, 2015</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2015/08/17/appupdate/">iOS App检测AppStore更新</a></h2>
+  </header>
+
+  
+  <div class="summary">//id&nbsp;是&nbsp;itunes connect里的&nbsp;Apple ID
+#define APP_URL @&quot;http://itunes.apple.com/lookup?id=587231152&quot;
+//term&nbsp;是&nbsp;itunes connect里的&nbsp;Apple Name
+//#define APP_URL @&quot;http://itunes.apple.com/search?term=应用名称&amp;entity=software&quot;
+
+//检测版本更新
+- (void)GetUpdate
+{
+&nbsp;&nbsp;&nbsp;&nbsp;NSDictionary&nbsp;*infoDict = [[NSBundle&nbsp;mainBundle]infoDictionary];
+&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*nowVersion = [infoDictobjectForKey:@&quot;CFBundleVersion&quot;];
+&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*URL =&nbsp;APP_URL;
+&nbsp;&nbsp;&nbsp;&nbsp;NSMutableURLRequest&nbsp;*request = [[NSMutableURLRequestalloc]&nbsp;init];
+&nbsp;&nbsp;&nbsp;&nbsp;[request&nbsp;setURL:[NSURL&nbsp;URLWithString:URL]];
+&nbsp;&nbsp;&nbsp;&nbsp;[request&nbsp;setHTTPMethod:@&quot;POST&quot;];
+&nbsp;&nbsp;&nbsp;&nbsp;NSHTTPURLResponse&nbsp;*urlResponse =&nbsp;nil;
+&nbsp;&nbsp;&nbsp;&nbsp;NSError&nbsp;*error =&nbsp;nil;
+&nbsp;&nbsp;&nbsp;&nbsp;NSData&nbsp;*recervedData = [NSURLConnectionsendSynchronousRequest:request&nbsp;returningResponse:&amp;urlResponseerror:&amp;error];
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*results = [[NSString&nbsp;alloc]&nbsp;initWithBytes:[recervedData&nbsp;bytes]&nbsp;length:[recervedData&nbsp;length]encoding:NSUTF8StringEncoding];
+&nbsp;&nbsp;&nbsp;&nbsp;NSRange&nbsp;substr = [results&nbsp;rangeOfString:@&quot;&quot;version&quot;:&quot;&quot;];
+&nbsp;&nbsp;&nbsp;&nbsp;NSRange&nbsp;substr2 =[results&nbsp;rangeOfString:@&quot;&quot;&quot;&nbsp;options:0range:NSMakeRange(substr.location&#43;substr.length,10)];
+&nbsp;&nbsp;&nbsp;&nbsp;NSRange&nbsp;range = {substr.location&#43;substr.length,substr2.location-substr.location-substr.length};
+&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*newVersion =[results&nbsp;substringWithRange:range];
+&nbsp;&nbsp;&nbsp;&nbsp;if([nowVersion&nbsp;isEqualToString:newVersion] ==&nbsp;NO)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UIAlertView&nbsp;*alert = [[UIAlertViewalloc]initWithTitle:nil&nbsp;message:@&quot;版本有更新&quot;&nbsp;delegate:selfcancelButtonTitle:@&quot;取消&quot;&nbsp;otherButtonTitles:@&quot;更新&quot;,&nbsp;nil];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[alert&nbsp;show];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+#pragma mark - UIAlertViewDelegate Method
+- (void)alertView:(UIAlertView&nbsp;*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+&nbsp;&nbsp;&nbsp;&nbsp;if(buttonIndex ==&nbsp;1)</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2015/08/17/appupdate/" title="iOS App检测AppStore更新">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2015-02-27T16:42:11JST">Feb 27, 2015</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2015/02/27/jkimageview/">JKImageView</a></h2>
+  </header>
+
+  
+  <div class="summary">项目地址:https://github.com/brasbug/JKImageView--  第一步：拿到网络图片并显示出来 首先重网络拿到图片资源  代码   把拿到的图片资源给相应的控件来展示&nbsp;soeasy !!  代码然而因为没有考虑线程阻塞问题，一张图片还好，如果有多张网络图片或者列表里需要展示一系列网络图片，这样做的结果就是被自己蠢哭！  &nbsp;  第二步：怎么做才能让我拿到图片的时候不卡 这个时候就需要借助于多线程技术了  多线程是什么玩意儿：iOS程序在启动的时候会创建一个主线程。因为一个线程只能执行一件事情，如果主线程执行某些耗时操作，比如我之前遇到的问题加载图片，或者是下载资源文件等就会阻塞主线程(导致界面卡死现象)，所以就需要使用多线程技术避免这类情况。iOS中有三种多线程技术，NSThread，NSOperation，GCD，这3种技术随着iOS的发展引入，抽象层次由低到高，使用也越来越简单。 多线程一些必要知识点  多线程使用并不是无节制的：iOS主线程堆栈大小是1M左右点击打开链接，从第二个线程开始都是512KB（官方文档）只有主线程可以修改UI（显示图片，更改显示文字等）,因为其余线程都是独立于Cocao Touch的，虽然有时在异步线程中可以实现界面修改，但是强烈不建议这么做。多线程并不能提高程序的运行效率，而是通过并发任务提高资源使用率来提高系统的整体性能。就单核而言，两个线程可以解决线程阻塞问题，但是执行效率比起一个线程执行是差不多的，并且再创建一个新线程的时候会消耗一定的内存和CPU时间。多线程只是葱粉发挥系统多核处理器的优势，并发执行任务以提高效率。但是哪个CPU上执行任务都是由系统调度的，开发者不需要纠结有几个CPU，只需要关系线程的使用以及线程间的关系就可以了。尽量不要多个线程去抢夺共享资源，如果必须要这样做，需要注意线程安全。   So 现在开始考虑到底选用哪一种方法来完成我的功能。  NSThreadNSOperationGCD（全称：Grand Central Dispatch）（&nbsp;是基于C语言的框架，可以充分利用多核，是苹果推荐使用的多线程技术）  选哪一种技术来完成我的图片异步加载  NSThread 不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期（我要做的太多）GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）（我能做的太少，如果是一个用时非常长的操作，我无法取消）NSOperation 我不想做的和我想自己做的都给我预留。 看来只能选你啦。（可以很方便的取消一个线程，可以很容易的添加依赖关系，可以设置最大并发数，提供了任务状态。）   第三步：新建一个UIImageView的Category &nbsp;UIImageView&#43;JKWebCache&nbsp; 写出异步方法并用来加载网络图片  加载代码结果：图片加载成功，而且没有卡主线程。 但是列表每次重载图片的时候都会重新请求网络图片，效果没达到预期。 看来需要把图片缓存下来，以便下次重载的时候调用。  JKImageCache &nbsp; 这个类是我用来处理缓存数据的。有一个单例方法 &#43;(instancetype)shareInstance &nbsp; &nbsp; &nbsp;我选择用NSCache 来存储下载的图片数据
+ 但是有一个问题关闭应用或者内存报警之后NSCache会清除一部分数据或者清空，再次加载同一张照片的时候还是会再下载一次。SO：我打算把下载的图片缓存到disk中,下次加载的时候先从内存拿，拿不到再去disk拿，也拿不到就去下载。下载成功之后会缓存到内存和disk中。     但是当我再重本地拿图片的时候发现了一个Bug &nbsp;之前加载的GIF图片不会动了。  经查找原因 ，应该是存储是时候损失了一些图片信息 判断data是不是空， 非空就不再做图片转换。 加上占位图功能 过期图片自动清理（每次当应用退出到后天的时候会调用cleanDiskFile方法清理过期图片）  判断缓存和内存中没有改地址图片的的时候使用占位图展示。   一个最基本的 网络图片加载工具完成了。    &nbsp; &nbsp; &nbsp; 第四步：优化一些细节 图片下载方法过于简单， 会遇到很多无法下载的情况，而无法查找原因把下载抽出来做管理</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2015/02/27/jkimageview/" title="JKImageView">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2015-02-25T16:37:37JST">Feb 25, 2015</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2015/02/25/nsthread/">NSThread</a></h2>
+  </header>
+
+  
+  <div class="summary">一、概述: NSThread是一个轻量级的多线程技术，每一个对象代表一个线程。优点：轻量级，使用简单缺点: &nbsp;不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期 二、开启一个异步线程 NSThread是一个轻量级NSThread的多线程技术，每一个对象代表一个线程。  示例开启线程  三、在主线程上更新界面等操作 示例 子线程耗时操作结束之后去主线程更新UI  四、其他  如果需要处理的东西很耗内存，则需要给线程做内存管理 加上autoreleasepool 会更好线程休眠  // 指定休眠到多久日期
+&#43; (void)sleepUntilDate:(NSDate *)date;
+// 指定休眠的毫秒数
+&#43; (void)sleepForTimeInterval:(NSTimeInterval)ti;</div>
+
+  
+</article>
+</li>
+      
+    </ul>
+
+    
+<nav>
+  <ul class="pager">
+
+    
+    <li><a href="/page/9/">Previous</a></li>
+    
+
+    
+    <li><a href="/page/11/">Next</a></li>
+    
+
+  </ul>
+</nav>
+
+
+
+  </div>
+  <div class="col-md-4">
+    
+<aside class="l-sidebar">
+
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">LATESTS</div>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://blog.flywithme.top/2019/02/24/gobin/" class="list-group-item">go bin执行问题记录</a>
+      
+      <a href="http://blog.flywithme.top/2019/01/15/nginx/" class="list-group-item">Nginx 配置 HTTPS 服务器</a>
+      
+      <a href="http://blog.flywithme.top/2019/01/13/mongodump/" class="list-group-item">mongodb 维护小记</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/" class="list-group-item">Vue上线后，history页面点击刷新按钮报错404问题</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/24/vue-element02/" class="list-group-item">vue 路由重载之后导致history页面刷新空白问题fix</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
+      
+      <a href="http://blog.flywithme.top/2018/08/31/nat/" class="list-group-item">nat</a>
+      
+      <a href="http://blog.flywithme.top/2018/04/02/note_28/" class="list-group-item">Elasticsearch 入门</a>
+      
+    </div>
+  </section>
+
+  
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">CATEGORY</div>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://blog.flywithme.topcategories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0" class="list-group-item">技术文章</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0" class="list-group-item">学习笔记</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F" class="list-group-item">思考感悟</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0" class="list-group-item">读书笔记</a>
+      
+    </div>
+  </section>
+  
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">TAG</div>
+    </div>
+    <div class="list-group">
+      
+    </div>
+  </section>
+  
+
+</aside>
+
+
+  </div>
+</div>
+
+      </div>
+    </main>
+
+    <footer class="l-footer">
+      <div class="container">
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <aside>
+          <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
+          <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
+        </aside>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

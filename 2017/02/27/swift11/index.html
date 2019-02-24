@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>swift3-11 函数 - Fly With Bug</title>
     
-<meta name="description" content="函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过">
+<meta name="description" content="函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过函数名以及对应类型的参数值来调用这个函数。函数的参数传递的顺序必须与参数列表相同。 函数的实参传递的顺序必须与形参列表相同，-&amp;gt; 后定义函数的返回值类型。 示例:func hello(name:String)-&amp;gt; String{ return &amp;quot;Hello &amp;quot; &#43; name } hello(name: &amp;quot;Jack&amp;quot;) func hello1(name:String?)-&amp;gt; String{ return &amp;quot;Hello &amp;quot; &#43; (name != nil ? name! : &amp;quot;guess&amp;quot;) } hello1(name: &amp;quot;Jack&amp;quot;) func printHello(){ print(&amp;quot;hello&amp;quot;) } printHello() func printHello1() -&amp;gt; Void{ //Void 是一个类型 print(&amp;quot;hello&amp;quot;) } printHello1() func printHello2() -&amp;gt; (){ print(&amp;quot;hello&amp;quot;) } printHello2()  使用元组作为返回值 函数返回值的类型可以是字符串,整型,浮点型等,元组与数组类似,不同的是,元组中的元素可以是任意类型,使用的是括号,你可以使用元组类型让多个值作为一个复合值从函数中返回。func findMaxAndMin(numbers:[Int]) -&amp;gt; (max:Int, min:Int)?{ //如果你不确定返回的元组一定不为nil，那么你可以返回一个可选的元组类型。 guard !">
 
 <meta property="og:title" content="swift3-11 函数 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/02/27/swift11/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过">
+<meta property="og:description" content="函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过函数名以及对应类型的参数值来调用这个函数。函数的参数传递的顺序必须与参数列表相同。 函数的实参传递的顺序必须与形参列表相同，-&amp;gt; 后定义函数的返回值类型。 示例:func hello(name:String)-&amp;gt; String{ return &amp;quot;Hello &amp;quot; &#43; name } hello(name: &amp;quot;Jack&amp;quot;) func hello1(name:String?)-&amp;gt; String{ return &amp;quot;Hello &amp;quot; &#43; (name != nil ? name! : &amp;quot;guess&amp;quot;) } hello1(name: &amp;quot;Jack&amp;quot;) func printHello(){ print(&amp;quot;hello&amp;quot;) } printHello() func printHello1() -&amp;gt; Void{ //Void 是一个类型 print(&amp;quot;hello&amp;quot;) } printHello1() func printHello2() -&amp;gt; (){ print(&amp;quot;hello&amp;quot;) } printHello2()  使用元组作为返回值 函数返回值的类型可以是字符串,整型,浮点型等,元组与数组类似,不同的是,元组中的元素可以是任意类型,使用的是括号,你可以使用元组类型让多个值作为一个复合值从函数中返回。func findMaxAndMin(numbers:[Int]) -&amp;gt; (max:Int, min:Int)?{ //如果你不确定返回的元组一定不为nil，那么你可以返回一个可选的元组类型。 guard !">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/02/27/swift11/">
 <meta name="twitter:title" content="swift3-11 函数 - Fly With Bug">
-<meta name="twitter:description" content="函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过">
+<meta name="twitter:description" content="函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过函数名以及对应类型的参数值来调用这个函数。函数的参数传递的顺序必须与参数列表相同。 函数的实参传递的顺序必须与形参列表相同，-&amp;gt; 后定义函数的返回值类型。 示例:func hello(name:String)-&amp;gt; String{ return &amp;quot;Hello &amp;quot; &#43; name } hello(name: &amp;quot;Jack&amp;quot;) func hello1(name:String?)-&amp;gt; String{ return &amp;quot;Hello &amp;quot; &#43; (name != nil ? name! : &amp;quot;guess&amp;quot;) } hello1(name: &amp;quot;Jack&amp;quot;) func printHello(){ print(&amp;quot;hello&amp;quot;) } printHello() func printHello1() -&amp;gt; Void{ //Void 是一个类型 print(&amp;quot;hello&amp;quot;) } printHello1() func printHello2() -&amp;gt; (){ print(&amp;quot;hello&amp;quot;) } printHello2()  使用元组作为返回值 函数返回值的类型可以是字符串,整型,浮点型等,元组与数组类似,不同的是,元组中的元素可以是任意类型,使用的是括号,你可以使用元组类型让多个值作为一个复合值从函数中返回。func findMaxAndMin(numbers:[Int]) -&amp;gt; (max:Int, min:Int)?{ //如果你不确定返回的元组一定不为nil，那么你可以返回一个可选的元组类型。 guard !">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,11 @@
         "height": 60
       }
     },
-    "description": "函数定义 Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过"
+    "description": "函数定义
+ Swift 定义函数使用关键字 func。 定义函数的时候，可以指定一个或多个输入参数和一个返回值类型。 每个函数都有一个函数名来描述它的功能。通过函数名以及对应类型的参数值来调用这个函数。函数的参数传递的顺序必须与参数列表相同。 函数的实参传递的顺序必须与形参列表相同，-&gt; 后定义函数的返回值类型。
+ 示例:
+func hello(name:String)-&gt; String{ return &quot;Hello &quot; + name } hello(name: &quot;Jack&quot;) func hello1(name:String?)-&gt; String{ return &quot;Hello &quot; + (name != nil ? name! : &quot;guess&quot;) } hello1(name: &quot;Jack&quot;) func printHello(){ print(&quot;hello&quot;) } printHello() func printHello1() -&gt; Void{ //Void 是一个类型 print(&quot;hello&quot;) } printHello1() func printHello2() -&gt; (){ print(&quot;hello&quot;) } printHello2()  使用元组作为返回值 函数返回值的类型可以是字符串,整型,浮点型等,元组与数组类似,不同的是,元组中的元素可以是任意类型,使用的是括号,你可以使用元组类型让多个值作为一个复合值从函数中返回。
+func findMaxAndMin(numbers:[Int]) -&gt; (max:Int, min:Int)?{ //如果你不确定返回的元组一定不为nil，那么你可以返回一个可选的元组类型。 guard !"
   }
 </script>
 
@@ -93,22 +97,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -467,7 +455,7 @@ feeBytUnitPrice(price: 2, wight: 11)
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -517,7 +505,7 @@ feeBytUnitPrice(price: 2, wight: 11)
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

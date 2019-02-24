@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="pinterest" content="nopin">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://blog.flywithme.top/index.xml">
+
+<link rel="canonical" href="http://blog.flywithme.top/">
+
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
+    <title>Fly With Bug</title>
+    
+    <link href="http://blog.flywithme.topcss/styles.css" rel="stylesheet">
+    
+
+  </head>
+
+  <body>
+    
+    
+    
+
+    <header class="l-header">
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
+          </div>
+
+          
+
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        
+<div class="row">
+  <div class="col-md-8">
+
+    
+
+    <ul class="p-articles">
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-02-07T17:52:33JST">Feb 7, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/02/07/note_07/">Go: 3-2 Map 和字符串的一些操作</a></h2>
+  </header>
+
+  
+  <div class="summary">Map  rune 相当于go的char strings       Map  Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可以像迭代数组和切片那样迭代它。Map 是无序的，我们无法决定它的返回顺序，因为 Map 是使用 hash 表来实现的。 ``` m := map[string]string{ &ldquo;name&rdquo;: &ldquo;jack&rdquo;, &ldquo;course&rdquo;: &ldquo;golang&rdquo;, &ldquo;site&rdquo;: &ldquo;imooc&rdquo;, &ldquo;quality&rdquo;: &ldquo;notbad&rdquo;, }   	m2 := make(map[string]int) // m2 == empty map var m3 map[string]int // m3 == nil fmt.Println(&ldquo;m, m2, m3:&ldquo;) fmt.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/02/07/note_07/" title="Go: 3-2 Map 和字符串的一些操作">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-02-05T16:44:58JST">Feb 5, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/02/05/note_06/">Go: 3-1 数组、切片和容器</a></h2>
+  </header>
+
+  
+  <div class="summary">数组 (值类型)  [10]int 和 [5]int 是不同的类型 调用func f(arr [5]int)会拷贝数组 调用func f1(arr *[5]int)可以在方法里修改arr Go中一般不直接使用数组   //数组初始化 var arr1 [5]int arr2 :=[3]int{2,4,6} arr3 :=[...]int{2,4,5,6,78,0} fmt.Println(arr1,arr2,arr3) var grid[4][2][1]int fmt.Println(grid) //元素遍历 for i :=0;i &lt; len(arr3) ;i ++ { fmt.Println(arr3[i]) } //指针传递 func printArray(arr *[5]int) { arr[0] = 100 for i, v := range arr { fmt.Println(i, v) } }  range 关键字 (还会有很多其他地方用到)  for i,v := range arr3 { fmt.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/02/05/note_06/" title="Go: 3-1 数组、切片和容器">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-02-05T15:29:31JST">Feb 5, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/02/05/note_05/">Go: 2-4 指针</a></h2>
+  </header>
+
+  
+  <div class="summary">什么是指针  一个指针变量可以指向任何一个值的内存地址它指向那个值的内存地址。
+ 类似于变量和常量，在使用指针前你需要声明指针   如何使用指针  定义指针变量。 为指针变量赋值。 访问指针变量中指向地址的值。
+   var a int = 2 var pa *int = &amp;a *pa = 3 fmt.Println(a)  空指针  当一个指针被定义后没有分配到任何变量时，它的值为 nil。 nil 指针也称为空指针。 nil在概念上和其它语言的null、None、nil、NULL一样，都指代零值或空值。 一个指针变量通常缩写为 ptr   var ptr *int fmt.Printf(&quot;ptr 的值为 : %x\n&quot;, ptr ) if(ptr != nil) /* ptr 不是空指针 */ if(ptr == nil) /* ptr 是空指针 */  参数传递的几种形式 package main import &quot;fmt&quot; func main() { var a int = 2 var pa *int = &amp;a *pa = 3 fmt.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/02/05/note_05/" title="Go: 2-4 指针">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-02-04T14:37:54JST">Feb 4, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/02/04/note_04/">Go: 2-3 函数</a></h2>
+  </header>
+
+  
+  <div class="summary">函数  函数是基本的代码块，用于执行一个任务。 Go 语言最少有个 main() 函数。 你可以通过函数来划分不同功能，逻辑上每个函数执行的是指定的任务。 函数声明告诉了编译器函数的名称，返回类型，和参数。 Go 语言标准库提供了多种可动用的内置的函数。例如，len() 函数可以接受不同类型参数并返回该类型的长度。如果我们传入的是字符串则返回字符串的长度，如果传入的是数组，则返回数组中包含的元素个数。  Go 语言函数定义格式如下：
+func function_name( [parameter list] ) [return_types] { 函数体 }   package main import ( &quot;fmt&quot; &quot;reflect&quot; &quot;runtime&quot; &quot;math&quot; ) func eval(a,b int,op string) (int,error){ switch op { case &quot;+&quot;: return a + b,nil case &quot;-&quot;: return a - b,nil case &quot;*&quot;: return a * b,nil case &quot;/&quot;: q,_ := div(a,b) return q,nil default: return 0,fmt.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/02/04/note_04/" title="Go: 2-3 函数">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-02-04T14:05:59JST">Feb 4, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/02/04/note_03/">Go: 2-2 条件语句和循环语句</a></h2>
+  </header>
+
+  
+  <div class="summary">语句 描述     if 语句 if 语句 由一个布尔表达式后紧跟一个或多个语句组成   if&hellip;else if 语句 后可以使用可选的 else 语句, else 语句中的表达式在布尔表达式为 false 时执行。   if 嵌套语句 你可以在 if 或 else if 语句中嵌入一个或多个 if 或 else if 语句。   switch 语句 switch 语句用于基于不同条件执行不同动作   select 语句 select 语句类似于 switch 语句，但是select会随机执行一个可运行的case。如果没有case可运行，它将阻塞，直到有case可运行     package main import ( &quot;fmt&quot; &quot;io/ioutil&quot; ) func grade(score int) string { g := &quot;&quot; switch { case score &lt; 0 || score &gt; 100: panic(fmt.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/02/04/note_03/" title="Go: 2-2 条件语句和循环语句">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-02-03T19:45:12JST">Feb 3, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/02/03/note_02/">Go: 2-1 变量定义</a></h2>
+  </header>
+
+  
+  <div class="summary">变量声明  指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导致编译错误。（函数外部无法省略var关键字） ``` //默认 没有初值 func variableZeroValue() { var a int var s string fmt.Printf(&ldquo;%d,%q\n&rdquo;,a,s) }
+//赋予初值和类型 func variableInitialValue() { var a,b int = 3,4 var s string = &ldquo;abc&rdquo; fmt.Println(a,b,s) }
+//赋予初值 func variableTypeDeduction() { var a,b,c,s = 3,4,true,&ldquo;def&rdquo; fmt.Println(a,b,c,s) }
+func variableShorter() { a,b,c,s := 3,4,true,&ldquo;def&rdquo; b = 3 fmt.Println(a,b,c,s) } var( ss =&ldquo;string&rdquo; aa = 1 bb = 2 ) func euler() { //c := 3+4i //fmt.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/02/03/note_02/" title="Go: 2-1 变量定义">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-02-02T17:27:32JST">Feb 2, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/02/02/note_01/">Go:记笔：1-1 导读</a></h2>
+  </header>
+
+  
+  <div class="summary">GO语言很特别  没有&rdquo;对象&rdquo;，没有继承多态，没有泛型，么有try/catch 有接口，函数式变成，CSP并发模型（goroutine+channel） 学习Go语言很简单，因为语法简单 用好Go语言不容易，因为要调整三观  Go知识框架  基本语法 （遍历，选择，循环，指针，数组，容器） 面向接口 （结构体，duck typing的概念，组合的思想） 函数式编程（闭包的概念，例题） 工程化 （资源管理，错误处理，测试和文档，性能调优） 并发编程 （goroutine和channel,理解调度器，例题）  实战项目  从零开始，使用Go语言自主搭建简单的分布式爬虫（不使用框架） 爬取网站资料  项目的架构图 开发路径：单任务版-&gt;并发版-&gt;分布式</div>
+
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-01-30T15:02:26JST">Jan 30, 2018</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/01/30/go/">Go 语言总结</a></h2>
+  </header>
+
+  
+  <div class="summary">前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力）
+Go 归类总结  类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：面向接口，函数式编程，并发编程  Go语言的并发编程  采用CSP(Communication Sequential Process)模型（有学术论文，比较复杂） code层面不需要锁，不需要callback 并发编程VS并行计算  Go语言的安装与开放环境  下载：https://golang.org/dl/ 下载对应系统的go安装包 开发工具： 我使用的是 WebStrom +go 插件 IDE jetbeans 除了Goland 编译器  一个简单的 goroutine package main import &quot;strconv&quot; import &quot;fmt&quot; func main() { taskChan := make(chan string, 3) doneChan := make(chan int, 1) for i := 0; i &lt; 3; i++ { taskChan &lt;- strconv.Itoa(i) fmt.Println(&quot;send: &quot;, i) } go func() { for i := 0; i &lt; 3; i++ { task := &lt;-taskChan fmt.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2018/01/30/go/" title="Go 语言总结">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-12-13T21:55:46JST">Dec 13, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/12/13/pigeon/">pigeon </a></h2>
+  </header>
+
+  
+  <div class="summary">小记 最近做持续的自动集成工具，例如数据模型好api接口模型的自动化生产，Code提交自动检查，合并代码到打包分支自动打包等等
+我们需要实时监控这些自动化的过程是否按预期完成了自己的任务，如果出现一些错误，或者需求要在完成任务之后提醒开发者。 所以我就开发了一个基于公司内部通信系统的一个小型的消息通知管理中心。 虽然之前断断续续有学写一些golang的东西，但是一直没有成型的作品，这是继上次做的个人实践项目之后，第一个在公司内部产生实际效益的服务。
+主要功能 本服务的主要功能是用于 给不同的服务配置不同的消息类型和接收人。最终会根据调用通知群组id发送给不同的接受对象。 简单的实现了
+ 组员的增删改查 群组的增删改查
+ 消息应用的增删改查 组员和群组的关系的增删
+ 群组和消息应用直之间的关系增删 应用版本号的tag自增接口（额外需求，与前面几个接口无关）  接口 json请求格式(application/json)  1. /adduse POST //添加用户 { &quot;mail&quot;:&quot;jack@meituan.com&quot;, &quot;mobile&quot;:&quot;18792289&quot;, &quot;user_name&quot;:&quot;jack&quot; } 2. /deleteuser POST //删除用户 { &quot;user_name&quot;:&quot;jack&quot; } 3. /users GET //用户列表 4. /addgroup POST //添加群组 { &quot;group_name&quot;:&quot;商户前端&quot;, &quot;type&quot;:1, &quot;group_id&quot;:&quot;merchant_mci000011&quot;, &quot;app_name&quot;:&quot;点评管家&quot;, &quot;app_id&quot;:1 } 5. /updategroup POST //更新群组信息 { &quot;group_name&quot;:&quot;商户前端html&quot;, &quot;type&quot;:1, &quot;group_id&quot;:&quot;merchant_mci000011&quot;, &quot;app_name&quot;:&quot;点评管家&quot;, &quot;app_id&quot;:&quot;28fa3c968b438fb71c8d7825af609591&quot; } 6. /addgcrow POST //添加群组成员 { &quot;group_id&quot;:&quot;merchant_mci&quot;, &quot;user_name&quot;:&quot;erfeng.</div>
+
+  
+  <footer>
+    <a href="http://blog.flywithme.top/2017/12/13/pigeon/" title="pigeon ">Read More…</a>
+  </footer>
+  
+</article>
+</li>
+      
+      <li><article class="li">
+  <header>
+    <ul class="p-facts">
+      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2017-11-17T16:26:03JST">Nov 17, 2017</time></li>
+      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
+      
+    </ul>
+    <h2 class="title"><a href="http://blog.flywithme.top/2017/11/17/shell/">Shell 小记，-文本操作</a></h2>
+  </header>
+
+  
+  <div class="summary">修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。  最开始想使用 sed 这个命令，但是mac上-i命令无法使用，使用-e sed -e &quot;4d&quot; Pod/Resources/MCICheckTime 命令可以修改， 但是无法输出修改内容到文件上。一直提示no such file. 无法，只得另找办法
+awk 更换到使用awk命令的方式
+在文件的当前目录下操作
+ cmms=`date '+%y.%m.%d.%H'` export version=&quot; s.version = \&quot;$cmms\&quot;&quot; awk 'NR==4{$0=ENVIRON[&quot;version&quot;]}{print}' MTAForMCICodeInspect_backup.podspec &gt; MTAForMCICodeInspect.podspec  我知道肯定有更简单直接的方法，但是因为不熟悉shell脚本，走了很多弯路，这个是我一个下午折腾出来可以实现的路径，某些路过的同学可以少走些弯路，
+如果知道更方便的方法，好请邮件（flywithme.top@gmail.com）告知下啊。非常感谢</div>
+
+  
+</article>
+</li>
+      
+    </ul>
+
+    
+<nav>
+  <ul class="pager">
+
+    
+    <li><a href="/page/3/">Previous</a></li>
+    
+
+    
+    <li><a href="/page/5/">Next</a></li>
+    
+
+  </ul>
+</nav>
+
+
+
+  </div>
+  <div class="col-md-4">
+    
+<aside class="l-sidebar">
+
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">LATESTS</div>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://blog.flywithme.top/2019/02/24/gobin/" class="list-group-item">go bin执行问题记录</a>
+      
+      <a href="http://blog.flywithme.top/2019/01/15/nginx/" class="list-group-item">Nginx 配置 HTTPS 服务器</a>
+      
+      <a href="http://blog.flywithme.top/2019/01/13/mongodump/" class="list-group-item">mongodb 维护小记</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/" class="list-group-item">Vue上线后，history页面点击刷新按钮报错404问题</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/24/vue-element02/" class="list-group-item">vue 路由重载之后导致history页面刷新空白问题fix</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      
+      <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
+      
+      <a href="http://blog.flywithme.top/2018/08/31/nat/" class="list-group-item">nat</a>
+      
+      <a href="http://blog.flywithme.top/2018/04/02/note_28/" class="list-group-item">Elasticsearch 入门</a>
+      
+    </div>
+  </section>
+
+  
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">CATEGORY</div>
+    </div>
+    <div class="list-group">
+      
+      <a href="http://blog.flywithme.topcategories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0" class="list-group-item">技术文章</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0" class="list-group-item">学习笔记</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F" class="list-group-item">思考感悟</a>
+      
+      <a href="http://blog.flywithme.topcategories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0" class="list-group-item">读书笔记</a>
+      
+    </div>
+  </section>
+  
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">TAG</div>
+    </div>
+    <div class="list-group">
+      
+    </div>
+  </section>
+  
+
+</aside>
+
+
+  </div>
+</div>
+
+      </div>
+    </main>
+
+    <footer class="l-footer">
+      <div class="container">
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
+        <aside>
+          <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
+          <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
+        </aside>
+      </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

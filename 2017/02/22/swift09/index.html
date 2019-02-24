@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Swift3-09 集合 - Fly With Bug</title>
     
-<meta name="description" content="将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做">
+<meta name="description" content="将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。 集合中的每一个元素都是唯一的。 基本方法//集合的初始化 var arr = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //如果不显式的声明,则默认是数组 var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //必须显式声明才行 var emptySet1:Set&amp;lt;String&amp;gt; = [] var emptySet2 = Set&amp;lt;Int&amp;gt;() var setB = Set([&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;c&amp;quot;]) //将一个数组转换成集合 setA.count setA.isEmpty setA.first //随机的取出一个元素 setA.contains(&amp;quot;a&amp;quot;) //判断是否有这个元素 //遍历 for str in setA{ print(str) } var str = setA.joined(separator: &amp;quot;d&amp;quot;) //比较 setA == setB setA.elementsEqual(setB)  集合的操作var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //插入 setA.insert(&amp;quot;D&amp;quot;) //返回一个元组 //更新 setA.update(with: &amp;quot;A&amp;quot;) //若已存在元素,则返回改元素,若没有,则返回nil //删除 setA.remove(&amp;quot;a&amp;quot;) //返回一个 bool 若是 true 则表示删除成功,返回 false 则表示之前没有这个元素 setA.">
 
 <meta property="og:title" content="Swift3-09 集合 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/02/22/swift09/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做">
+<meta property="og:description" content="将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。 集合中的每一个元素都是唯一的。 基本方法//集合的初始化 var arr = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //如果不显式的声明,则默认是数组 var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //必须显式声明才行 var emptySet1:Set&amp;lt;String&amp;gt; = [] var emptySet2 = Set&amp;lt;Int&amp;gt;() var setB = Set([&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;c&amp;quot;]) //将一个数组转换成集合 setA.count setA.isEmpty setA.first //随机的取出一个元素 setA.contains(&amp;quot;a&amp;quot;) //判断是否有这个元素 //遍历 for str in setA{ print(str) } var str = setA.joined(separator: &amp;quot;d&amp;quot;) //比较 setA == setB setA.elementsEqual(setB)  集合的操作var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //插入 setA.insert(&amp;quot;D&amp;quot;) //返回一个元组 //更新 setA.update(with: &amp;quot;A&amp;quot;) //若已存在元素,则返回改元素,若没有,则返回nil //删除 setA.remove(&amp;quot;a&amp;quot;) //返回一个 bool 若是 true 则表示删除成功,返回 false 则表示之前没有这个元素 setA.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/02/22/swift09/">
 <meta name="twitter:title" content="Swift3-09 集合 - Fly With Bug">
-<meta name="twitter:description" content="将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做">
+<meta name="twitter:description" content="将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。 集合中的每一个元素都是唯一的。 基本方法//集合的初始化 var arr = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //如果不显式的声明,则默认是数组 var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //必须显式声明才行 var emptySet1:Set&amp;lt;String&amp;gt; = [] var emptySet2 = Set&amp;lt;Int&amp;gt;() var setB = Set([&amp;quot;a&amp;quot;,&amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;,&amp;quot;c&amp;quot;]) //将一个数组转换成集合 setA.count setA.isEmpty setA.first //随机的取出一个元素 setA.contains(&amp;quot;a&amp;quot;) //判断是否有这个元素 //遍历 for str in setA{ print(str) } var str = setA.joined(separator: &amp;quot;d&amp;quot;) //比较 setA == setB setA.elementsEqual(setB)  集合的操作var setA:Set = [&amp;quot;x&amp;quot;,&amp;quot;y&amp;quot;] //插入 setA.insert(&amp;quot;D&amp;quot;) //返回一个元组 //更新 setA.update(with: &amp;quot;A&amp;quot;) //若已存在元素,则返回改元素,若没有,则返回nil //删除 setA.remove(&amp;quot;a&amp;quot;) //返回一个 bool 若是 true 则表示删除成功,返回 false 则表示之前没有这个元素 setA.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,11 @@
         "height": 60
       }
     },
-    "description": "将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集 为什么需要集合,因为集合是无序的,所以,在做"
+    "description": "将一些元素放在一起,它们是无序的, 跟数组的不同是,数组是一个有序的列表,而集合是一个有序的数据集
+为什么需要集合,因为集合是无序的,所以,在做一些查找和判重的时候,效率会有差别。集合会有一些,比数组使用起来方便很多。 集合中的每一个元素都是唯一的。
+ 基本方法
+//集合的初始化 var arr = [&quot;x&quot;,&quot;y&quot;] //如果不显式的声明,则默认是数组 var setA:Set = [&quot;x&quot;,&quot;y&quot;] //必须显式声明才行 var emptySet1:Set&lt;String&gt; = [] var emptySet2 = Set&lt;Int&gt;() var setB = Set([&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;c&quot;]) //将一个数组转换成集合 setA.count setA.isEmpty setA.first //随机的取出一个元素 setA.contains(&quot;a&quot;) //判断是否有这个元素 //遍历 for str in setA{ print(str) } var str = setA.joined(separator: &quot;d&quot;) //比较 setA == setB setA.elementsEqual(setB)  集合的操作
+var setA:Set = [&quot;x&quot;,&quot;y&quot;] //插入 setA.insert(&quot;D&quot;) //返回一个元组 //更新 setA.update(with: &quot;A&quot;) //若已存在元素,则返回改元素,若没有,则返回nil //删除 setA.remove(&quot;a&quot;) //返回一个 bool 若是 true 则表示删除成功,返回 false 则表示之前没有这个元素 setA."
   }
 </script>
 
@@ -93,22 +97,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -314,7 +302,7 @@ setA.isStrictSuperset(of: setB)
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -364,7 +352,7 @@ setA.isStrictSuperset(of: setB)
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

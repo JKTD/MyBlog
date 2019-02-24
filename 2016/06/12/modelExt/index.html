@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2016/06/12/modelExt/">
+<link rel="canonical" href="http://blog.flywithme.top/2016/06/12/modelext/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>YYModel 简介与使用 - Fly With Bug</title>
     
-<meta name="description" content="1. 简单的 JSON 与 Model 的转换 // JSON: { &amp;quot;uid&amp;quot;:123456, &amp;quot;name&amp;quot;:&amp;quot;Harry&amp;quot;, &amp;quot;created&amp;quot;:&amp;quot;1965-07-31T00:00:00&#43;0000&amp;quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject]; 如果 Model 属性的类型和 JSON 中">
+<meta name="description" content="1. 简单的 JSON 与 Model 的转换 // JSON: { &amp;quot;uid&amp;quot;:123456, &amp;quot;name&amp;quot;:&amp;quot;Harry&amp;quot;, &amp;quot;created&amp;quot;:&amp;quot;1965-07-31T00:00:00&#43;0000&amp;quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject];   如果 Model 属性的类型和 JSON 中的类型不一样，YYModel 会自动进行如下转换:    JSON/Dictionary Model     NSString NSURL,SEL,Class   NSString  NSDate parsed with these formats:  yyyy-MM-dd  yyyy-MM-dd HH:mm:ss  yyyy-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ss  yyyy-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ssZ  EEE MMM dd HH:mm:ss Z yyyy    NSDate NSString (formatted with ISO8601)&amp;quot;YYYY-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ssZ&amp;quot;    NSString/NSNumber C number (BOOL,int,float,NSUInteger,UInt64,&amp;hellip;)NaN and Inf will be ignored    NSNumber NSString (NSNumber.">
 
 <meta property="og:title" content="YYModel 简介与使用 - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2016/06/12/modelExt/">
+<meta property="og:url" content="http://blog.flywithme.top/2016/06/12/modelext/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="1. 简单的 JSON 与 Model 的转换 // JSON: { &amp;quot;uid&amp;quot;:123456, &amp;quot;name&amp;quot;:&amp;quot;Harry&amp;quot;, &amp;quot;created&amp;quot;:&amp;quot;1965-07-31T00:00:00&#43;0000&amp;quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject]; 如果 Model 属性的类型和 JSON 中">
+<meta property="og:description" content="1. 简单的 JSON 与 Model 的转换 // JSON: { &amp;quot;uid&amp;quot;:123456, &amp;quot;name&amp;quot;:&amp;quot;Harry&amp;quot;, &amp;quot;created&amp;quot;:&amp;quot;1965-07-31T00:00:00&#43;0000&amp;quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject];   如果 Model 属性的类型和 JSON 中的类型不一样，YYModel 会自动进行如下转换:    JSON/Dictionary Model     NSString NSURL,SEL,Class   NSString  NSDate parsed with these formats:  yyyy-MM-dd  yyyy-MM-dd HH:mm:ss  yyyy-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ss  yyyy-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ssZ  EEE MMM dd HH:mm:ss Z yyyy    NSDate NSString (formatted with ISO8601)&amp;quot;YYYY-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ssZ&amp;quot;    NSString/NSNumber C number (BOOL,int,float,NSUInteger,UInt64,&amp;hellip;)NaN and Inf will be ignored    NSNumber NSString (NSNumber.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2016/06/12/modelExt/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2016/06/12/modelext/">
 <meta name="twitter:title" content="YYModel 简介与使用 - Fly With Bug">
-<meta name="twitter:description" content="1. 简单的 JSON 与 Model 的转换 // JSON: { &amp;quot;uid&amp;quot;:123456, &amp;quot;name&amp;quot;:&amp;quot;Harry&amp;quot;, &amp;quot;created&amp;quot;:&amp;quot;1965-07-31T00:00:00&#43;0000&amp;quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject]; 如果 Model 属性的类型和 JSON 中">
+<meta name="twitter:description" content="1. 简单的 JSON 与 Model 的转换 // JSON: { &amp;quot;uid&amp;quot;:123456, &amp;quot;name&amp;quot;:&amp;quot;Harry&amp;quot;, &amp;quot;created&amp;quot;:&amp;quot;1965-07-31T00:00:00&#43;0000&amp;quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject];   如果 Model 属性的类型和 JSON 中的类型不一样，YYModel 会自动进行如下转换:    JSON/Dictionary Model     NSString NSURL,SEL,Class   NSString  NSDate parsed with these formats:  yyyy-MM-dd  yyyy-MM-dd HH:mm:ss  yyyy-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ss  yyyy-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ssZ  EEE MMM dd HH:mm:ss Z yyyy    NSDate NSString (formatted with ISO8601)&amp;quot;YYYY-MM-dd&amp;rsquo;T&amp;rsquo;HH:mm:ssZ&amp;quot;    NSString/NSNumber C number (BOOL,int,float,NSUInteger,UInt64,&amp;hellip;)NaN and Inf will be ignored    NSNumber NSString (NSNumber.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,8 @@
         "height": 60
       }
     },
-    "description": "1. 简单的 JSON 与 Model 的转换 // JSON: { &quot;uid&quot;:123456, &quot;name&quot;:&quot;Harry&quot;, &quot;created&quot;:&quot;1965-07-31T00:00:00+0000&quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject]; 如果 Model 属性的类型和 JSON 中"
+    "description": "1. 简单的 JSON 与 Model 的转换 // JSON: { &quot;uid&quot;:123456, &quot;name&quot;:&quot;Harry&quot;, &quot;created&quot;:&quot;1965-07-31T00:00:00+0000&quot; } // Model: @interface User : NSObject @property UInt64 uid; @property NSString *name; @property NSDate *created; @end @implementation User @end // 从 JSON 转为 Model: User *user = [User yy_modelWithJSON:json]; //从 Model 转为 JSON: NSDictionary *json = [user yy_modelToJSONObject];   如果 Model 属性的类型和 JSON 中的类型不一样，YYModel 会自动进行如下转换:
+    JSON/Dictionary Model     NSString NSURL,SEL,Class   NSString  NSDate parsed with these formats:  yyyy-MM-dd  yyyy-MM-dd HH:mm:ss  yyyy-MM-dd&rsquo;T&rsquo;HH:mm:ss  yyyy-MM-dd&rsquo;T&rsquo;HH:mm:ssZ  EEE MMM dd HH:mm:ss Z yyyy    NSDate NSString (formatted with ISO8601)&quot;YYYY-MM-dd&rsquo;T&rsquo;HH:mm:ssZ&quot;    NSString/NSNumber C number (BOOL,int,float,NSUInteger,UInt64,&hellip;)NaN and Inf will be ignored    NSNumber NSString (NSNumber."
   }
 </script>
 
@@ -93,22 +94,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -448,7 +433,7 @@ NSDictionary *json = [user yy_modelToJSONObject];
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -498,7 +483,7 @@ NSDictionary *json = [user yy_modelToJSONObject];
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

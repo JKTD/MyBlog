@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2015/09/15/JScallOC/">
+<link rel="canonical" href="http://blog.flywithme.top/2015/09/15/jscalloc/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>iOS JS call OC - Fly With Bug</title>
     
-<meta name="description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
+<meta name="description" content="接着上节我们讲到的iOS调用js下来我们使用js调用iOSjs调用iOS分两种情况一，js里面直接调用方法二，js里面通过对象调用方法首先我们看第一种，直接调用方法。其中用到了iOS的block上代码-(void)webViewDidFinishLoad:(UIWebView *)webView { //网页加载完成调用此方法 //iOS调用js //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext） JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;]; //js调用iOS //第一种情况 //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码 //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道 context[@&amp;quot;test1&amp;quot;] = ^() { NSArray *args = [JSContext currentArguments]; for (id obj in args) { NSLog(@&amp;quot;%@&amp;quot;,obj); } }; //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下） //首先准备一下js代码，来调用js的函数test1 然后执行 //一个参数 NSString *jsFunctStr=@&amp;quot;test1(&amp;#39;参数1&amp;#39;)&amp;quot;; [context evaluateScript:jsFunctStr]; //二个参数 NSString *jsFunctStr1=@&amp;quot;test1(&amp;#39;参数a&amp;#39;,&amp;#39;参数b&amp;#39;)&amp;quot;; [context evaluateScript:jsFunctStr1]; }以上代码中 给test1赋&amp;#20540;的block要是执行了那么结果就是对的，js调用了iOS 我们看结果 我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。">
 
 <meta property="og:title" content="iOS JS call OC - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2015/09/15/JScallOC/">
+<meta property="og:url" content="http://blog.flywithme.top/2015/09/15/jscalloc/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
+<meta property="og:description" content="接着上节我们讲到的iOS调用js下来我们使用js调用iOSjs调用iOS分两种情况一，js里面直接调用方法二，js里面通过对象调用方法首先我们看第一种，直接调用方法。其中用到了iOS的block上代码-(void)webViewDidFinishLoad:(UIWebView *)webView { //网页加载完成调用此方法 //iOS调用js //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext） JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;]; //js调用iOS //第一种情况 //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码 //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道 context[@&amp;quot;test1&amp;quot;] = ^() { NSArray *args = [JSContext currentArguments]; for (id obj in args) { NSLog(@&amp;quot;%@&amp;quot;,obj); } }; //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下） //首先准备一下js代码，来调用js的函数test1 然后执行 //一个参数 NSString *jsFunctStr=@&amp;quot;test1(&amp;#39;参数1&amp;#39;)&amp;quot;; [context evaluateScript:jsFunctStr]; //二个参数 NSString *jsFunctStr1=@&amp;quot;test1(&amp;#39;参数a&amp;#39;,&amp;#39;参数b&amp;#39;)&amp;quot;; [context evaluateScript:jsFunctStr1]; }以上代码中 给test1赋&amp;#20540;的block要是执行了那么结果就是对的，js调用了iOS 我们看结果 我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2015/09/15/JScallOC/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2015/09/15/jscalloc/">
 <meta name="twitter:title" content="iOS JS call OC - Fly With Bug">
-<meta name="twitter:description" content="接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我">
+<meta name="twitter:description" content="接着上节我们讲到的iOS调用js下来我们使用js调用iOSjs调用iOS分两种情况一，js里面直接调用方法二，js里面通过对象调用方法首先我们看第一种，直接调用方法。其中用到了iOS的block上代码-(void)webViewDidFinishLoad:(UIWebView *)webView { //网页加载完成调用此方法 //iOS调用js //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext） JSContext *context=[webView valueForKeyPath:@&amp;quot;documentView.webView.mainFrame.javaScriptContext&amp;quot;]; //js调用iOS //第一种情况 //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码 //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道 context[@&amp;quot;test1&amp;quot;] = ^() { NSArray *args = [JSContext currentArguments]; for (id obj in args) { NSLog(@&amp;quot;%@&amp;quot;,obj); } }; //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下） //首先准备一下js代码，来调用js的函数test1 然后执行 //一个参数 NSString *jsFunctStr=@&amp;quot;test1(&amp;#39;参数1&amp;#39;)&amp;quot;; [context evaluateScript:jsFunctStr]; //二个参数 NSString *jsFunctStr1=@&amp;quot;test1(&amp;#39;参数a&amp;#39;,&amp;#39;参数b&amp;#39;)&amp;quot;; [context evaluateScript:jsFunctStr1]; }以上代码中 给test1赋&amp;#20540;的block要是执行了那么结果就是对的，js调用了iOS 我们看结果 我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,26 @@
         "height": 60
       }
     },
-    "description": "接着上节我们讲到的iOS调用js 下来我们使用js调用iOS js调用iOS分两种情况 一，js里面直接调用方法 二，js里面通过对象调用方法 首先我"
+    "description": "接着上节我们讲到的iOS调用js
+下来我们使用js调用iOS
+js调用iOS分两种情况
+一，js里面直接调用方法
+二，js里面通过对象调用方法
+
+首先我们看第一种，直接调用方法。
+其中用到了iOS的block
+
+上代码
+
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView { //网页加载完成调用此方法 //iOS调用js //首先创建JSContext 对象（此处通过当前webView的键获取到jscontext） JSContext *context=[webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;]; //js调用iOS //第一种情况 //其中test1就是js的方法名称，赋给是一个block 里面是iOS代码 //此方法最终将打印出所有接收到的参数，js参数是不固定的 我们测试一下就知道 context[@&quot;test1&quot;] = ^() { NSArray *args = [JSContext currentArguments]; for (id obj in args) { NSLog(@&quot;%@&quot;,obj); } }; //此处我们没有写后台（但是前面我们已经知道iOS是可以调用js的，我们模拟一下） //首先准备一下js代码，来调用js的函数test1 然后执行 //一个参数 NSString *jsFunctStr=@&quot;test1(&#39;参数1&#39;)&quot;; [context evaluateScript:jsFunctStr]; //二个参数 NSString *jsFunctStr1=@&quot;test1(&#39;参数a&#39;,&#39;参数b&#39;)&quot;; [context evaluateScript:jsFunctStr1]; }
+以上代码中 给test1赋&#20540;的block要是执行了那么结果就是对的，js调用了iOS 
+我们看结果
+
+ 我们看到参数被打印出来了，而且一个参数和两个参数都可以，也符合js参数个数不限制
+
+
+下来我们看第二种情况 就是js 中是通过一个对象来调用方法的。"
   }
 </script>
 
@@ -93,22 +112,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -382,7 +385,7 @@ JSExport</p>
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -432,7 +435,7 @@ JSExport</p>
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

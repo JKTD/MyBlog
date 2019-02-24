@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go: 3-2 Map 和字符串的一些操作 - Fly With Bug</title>
     
-<meta name="description" content="Map rune 相当于go的char strings Map Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可">
+<meta name="description" content="Map  rune 相当于go的char strings       Map  Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可以像迭代数组和切片那样迭代它。Map 是无序的，我们无法决定它的返回顺序，因为 Map 是使用 hash 表来实现的。 ``` m := map[string]string{ &amp;ldquo;name&amp;rdquo;: &amp;ldquo;jack&amp;rdquo;, &amp;ldquo;course&amp;rdquo;: &amp;ldquo;golang&amp;rdquo;, &amp;ldquo;site&amp;rdquo;: &amp;ldquo;imooc&amp;rdquo;, &amp;ldquo;quality&amp;rdquo;: &amp;ldquo;notbad&amp;rdquo;, }   	m2 := make(map[string]int) // m2 == empty map var m3 map[string]int // m3 == nil fmt.Println(&amp;ldquo;m, m2, m3:&amp;ldquo;) fmt.">
 
 <meta property="og:title" content="Go: 3-2 Map 和字符串的一些操作 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/02/07/note_07/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="Map rune 相当于go的char strings Map Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可">
+<meta property="og:description" content="Map  rune 相当于go的char strings       Map  Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可以像迭代数组和切片那样迭代它。Map 是无序的，我们无法决定它的返回顺序，因为 Map 是使用 hash 表来实现的。 ``` m := map[string]string{ &amp;ldquo;name&amp;rdquo;: &amp;ldquo;jack&amp;rdquo;, &amp;ldquo;course&amp;rdquo;: &amp;ldquo;golang&amp;rdquo;, &amp;ldquo;site&amp;rdquo;: &amp;ldquo;imooc&amp;rdquo;, &amp;ldquo;quality&amp;rdquo;: &amp;ldquo;notbad&amp;rdquo;, }   	m2 := make(map[string]int) // m2 == empty map var m3 map[string]int // m3 == nil fmt.Println(&amp;ldquo;m, m2, m3:&amp;ldquo;) fmt.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/02/07/note_07/">
 <meta name="twitter:title" content="Go: 3-2 Map 和字符串的一些操作 - Fly With Bug">
-<meta name="twitter:description" content="Map rune 相当于go的char strings Map Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可">
+<meta name="twitter:description" content="Map  rune 相当于go的char strings       Map  Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可以像迭代数组和切片那样迭代它。Map 是无序的，我们无法决定它的返回顺序，因为 Map 是使用 hash 表来实现的。 ``` m := map[string]string{ &amp;ldquo;name&amp;rdquo;: &amp;ldquo;jack&amp;rdquo;, &amp;ldquo;course&amp;rdquo;: &amp;ldquo;golang&amp;rdquo;, &amp;ldquo;site&amp;rdquo;: &amp;ldquo;imooc&amp;rdquo;, &amp;ldquo;quality&amp;rdquo;: &amp;ldquo;notbad&amp;rdquo;, }   	m2 := make(map[string]int) // m2 == empty map var m3 map[string]int // m3 == nil fmt.Println(&amp;ldquo;m, m2, m3:&amp;ldquo;) fmt.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,7 @@
         "height": 60
       }
     },
-    "description": "Map rune 相当于go的char strings Map Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可"
+    "description": "Map  rune 相当于go的char strings       Map  Map 是一种无序的键值对的集合。最重要的一点是通过 key 来快速检索数据，key 类似于索引，指向数据的值。 Map 是一种集合，可以像迭代数组和切片那样迭代它。Map 是无序的，我们无法决定它的返回顺序，因为 Map 是使用 hash 表来实现的。 ``` m := map[string]string{ &ldquo;name&rdquo;: &ldquo;jack&rdquo;, &ldquo;course&rdquo;: &ldquo;golang&rdquo;, &ldquo;site&rdquo;: &ldquo;imooc&rdquo;, &ldquo;quality&rdquo;: &ldquo;notbad&rdquo;, }   	m2 := make(map[string]int) // m2 == empty map var m3 map[string]int // m3 == nil fmt.Println(&ldquo;m, m2, m3:&ldquo;) fmt."
   }
 </script>
 
@@ -93,22 +93,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -338,7 +322,7 @@ func lengthOfNonRepeatingSubStr(s string)int  {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -388,7 +372,7 @@ func lengthOfNonRepeatingSubStr(s string)int  {
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>

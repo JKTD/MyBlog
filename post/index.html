@@ -40,22 +40,6 @@
           </div>
 
           
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
-          
 
         </div>
       </nav>
@@ -86,12 +70,11 @@
   </header>
 
   
-  <div class="summary">因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， //只是在 .bash_profile文件里如此</div>
+  <div class="summary">因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用，
+//只是在 .bash_profile文件里如此设置 需要Source之后才能被命令行识别
+export GOBIN=/Users/ori/go/bin export PATH=$PATH:$GOBIN export PUB_HOSTED_URL=https://pub.flutter-io.cn export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn export PATH=~/code/flutter/flutter/bin:$PATH  最好的处理方式还是直接把${GOPATH}/bin目录下的执行文件移动到go的Root的bin目录中更好
+mv $GOPATH/bin/** /usr/local/go/bin</div>
 
-  
-  <footer>
-    <a href="http://blog.flywithme.top/2019/02/24/gobin/" title="go bin执行问题记录">Read More…</a>
-  </footer>
   
 </article>
 </li>
@@ -107,7 +90,8 @@
   </header>
 
   
-  <div class="summary">Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS 我的证书是在腾讯云上申请的地址 nginx.conf 配置内容 user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include</div>
+  <div class="summary">Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS
+我的证书是在腾讯云上申请的地址 nginx.conf 配置内容  user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include /etc/nginx/mime.types; default_type application/octet-stream; log_format main '$remote_addr - $remote_user [$time_local] &quot;$request&quot; ' '$status $body_bytes_sent &quot;$http_referer&quot; ' '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;'; access_log /var/log/nginx/access.log main; sendfile on; #tcp_nopush on; keepalive_timeout 65; #gzip on; upstream move{ server 127.0.0.1:9120; } server { listen 80; listen 443 ssl; ssl_certificate certificate_bundle.</div>
 
   
   <footer>
@@ -128,7 +112,8 @@
   </header>
 
   
-  <div class="summary">数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager 本地处</div>
+  <div class="summary">数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录
+mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager  本地处理 // dump命令 数据库用户 密码 数据库名字 备份目录 /usr/local/mongodb/bin/mongodump -u user -p pass -d docmanager -o ../dump // restore命令 数据库用户名 密码 数据库名字 备份目录 覆盖 /usr/local/mongodb/bin/mongorestore -u 用户名 -p 密码 -d docmanager doc_manager --drop  创建数据库管理员 //进入mongo命令行 mongo db.auth(&quot;use&quot;,&quot;pass&quot;) use log db.createUser( { user: &quot;user&quot;, pwd: &quot;pass&quot;, roles: [{ role: &quot;readWrite&quot;, db: &quot;log&quot; }] } )  错误处理 // mongodb非正常关闭后 about to fork child process, waiting until server is ready for connections.</div>
 
   
   <footer>
@@ -149,7 +134,8 @@
   </header>
 
   
-  <div class="summary">如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &lsquo;history&rsquo;, routes: [&hellip;] }) 当你使用 ```history``` 模式时，</div>
+  <div class="summary">如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。  const router = new VueRouter({ mode: &lsquo;history&rsquo;, routes: [&hellip;] })
+ 当你使用 ```history``` 模式时，URL 就像正常的 url，例如 ```http://yoursite.com/user/id```，也好看！ 不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 ```http://oursite.com/user/id``` 就会返回 404，这就不好看了。 所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 ```index.html``` 页面，这个页面就是你 app 依赖的页面。 #### **go gin框架配置示例** 由于我使用go的gin框架做服务器，示例代码如下 [源码地址](https://github.com/flywithbug-docmanager/docmanager)  func NoRoute(c *gin.Context) { path := strings.Split(c.Request.URL.Path, &ldquo;/&rdquo;) if (path[1] != &ldquo;&rdquo;) &amp;&amp; (path[1] == &ldquo;api&rdquo;) { aRes := model.NewResponse() aRes.Code = http.StatusNotFound aRes.Msg = &ldquo;no route&rdquo; c.</div>
 
   
   <footer>
@@ -170,7 +156,10 @@
   </header>
 
   
-  <div class="summary">在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路</div>
+  <div class="summary">在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路由表之后 再刷新页面发现页面一片空白。
+hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+next({ ...to, replace: true })  //路由权限配置源码
+import router from '@/router' import store from '@/store' import { Message } from 'element-ui' import NProgress from 'nprogress' // progress bar import 'nprogress/nprogress.css'// progress bar style import { getToken } from './utils/auth' // getToken from cookie NProgress.configure({ showSpinner: false })// NProgress Configuration // permission judge function function hasPermission(roles, permissionRoles) { if (roles.</div>
 
   
   <footer>
@@ -191,7 +180,10 @@
   </header>
 
   
-  <div class="summary">vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模</div>
+  <div class="summary">vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型， 提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。
+通过vue-element-admin 的源代码学习掌握Vue的一些基础知识
+SVG 图片加载  src/components目录下创建文件夹结构如下 SvgIcon下创建index.vue文件内容如下：
+&lt;template&gt; &lt;svg :class=&quot;svgClass&quot; aria-hidden=&quot;true&quot;&gt; &lt;use :xlink:href=&quot;iconName&quot;/&gt; &lt;/svg&gt; &lt;/template&gt; &lt;script&gt; export default { name: 'SvgIcon', props: { iconClass: { type: String, required: true }, className: { type: String, default: '' } }, computed: { iconName() { return `#icon-${this.iconClass}` }, svgClass() { if (this.className) { return 'svg-icon ' + this.className } else { return 'svg-icon' } } } } &lt;/script&gt; &lt;style scoped&gt; .</div>
 
   
   <footer>
@@ -208,15 +200,19 @@
       <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.toppost/">post</a></li>
       
     </ul>
-    <h2 class="title"><a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/">gin api 跨域问题,cors</a></h2>
+    <h2 class="title"><a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/">gin api 跨域问题,cors</a></h2>
   </header>
 
   
-  <div class="summary">当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求</div>
+  <div class="summary">当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。
+出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循同源策略。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。
+跨域资源共享标准：规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 GET 以外的 HTTP 请求，或者搭配某些 MIME 类型的 POST 请求），浏览器必须首先使用 OPTIONS 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）。
+gin
+package main import ( &quot;time&quot; &quot;github.com/gin-contrib/cors&quot; &quot;github.com/gin-gonic/gin&quot; ) func main() { router := gin.Default() // CORS for https://foo.com and https://github.com origins, allowing: // - PUT and PATCH methods // - Origin header // - Credentials share // - Preflight requests cached for 12 hours router.</div>
 
   
   <footer>
-    <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" title="gin api 跨域问题,cors">Read More…</a>
+    <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" title="gin api 跨域问题,cors">Read More…</a>
   </footer>
   
 </article>
@@ -233,7 +229,12 @@
   </header>
 
   
-  <div class="summary">MongoDB authentication MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产</div>
+  <div class="summary">MongoDB authentication MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产生安全风险，被利用此配置漏洞，入侵数据库。
+容易遭受入侵的环境  使用默认 mongod 命令启动 Mongodb 机器可以被公网访问 在公网上开放了 Mongodb 端口   开启用户名和密码验证  终端启动数据库
+//参数默认可以不加，若有自定义参数，才要加上，下同 mongod --port 27017 --dbpath /data/db1  连接 mongo后创建用户
+mongo --port 27017 use admin db.createUser( { user: &quot;adminUser&quot;, pwd: &quot;adminPass&quot;, roles: [ { role: &quot;userAdminAnyDatabase&quot;, db: &quot;admin&quot; } ] } )  重启 mongod 数据库
+mongod --auth --port 27017 --dbpath /data/db1  连接数据库
+mongo --port 27017 -u &quot;adminUser&quot; -p &quot;adminPass&quot; --authenticationDatabase &quot;admin&quot; mongo --port 27017 use admin db.</div>
 
   
   <footer>
@@ -271,7 +272,10 @@
   </header>
 
   
-  <div class="summary">简介 为什么要使用Elasticsearch Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门</div>
+  <div class="summary">简介 为什么要使用Elasticsearch  Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门为分布式环境设计的。
+  安装方便： 没有其他依赖，下载后安装很方便，只需修改几个参数就可以搭建一个集群 JSON: 输入\输出格式为JSON,不需要定义Schema,快捷方便 RESTful：基本所有操作（索引，查询，甚至配置）都可以通过HTTP接口进行 分布式：节点对外表现对等（每个节点都可以用来做入口）；加入节点，自动均衡 多租户：可以根据不同的用途分索引；可以同时操作多个索引 准实时：从文档索引到可以被检索只有轻微延时，约1s  安装  上一节使用docker run elasticsearch docker run -d -p 9200:9200 elasticsearch  使用测试  打开idea -&gt; tools -&gt; testRESTful Web Service 工具
+ 请求：请求参数及说明
+ :9200/index/type/id index -&gt; database type -&gt; table  GET  插入  查询   package persist import ( &quot;context&quot; &quot;errors&quot; &quot;log&quot; &quot;imooc/craw/engine&quot; &quot;gopkg.in/olivere/elastic.v5&quot; ) func ItemSaver(index string) (chan engine.</div>
 
   
   <footer>
@@ -292,7 +296,7 @@
     
 
     
-    <li><a href="http://blog.flywithme.top/post/paginator/2/">Next</a></li>
+    <li><a href="/post/page/2/">Next</a></li>
     
 
   </ul>
@@ -323,7 +327,7 @@
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
@@ -373,7 +377,7 @@
 
     <footer class="l-footer">
       <div class="container">
-        <p>Copyright (c) 2015. All rights reserved.</p>
+        <p><span class="h-logo">&copy; Fly With Bug</span></p>
         <aside>
           <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
           <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
