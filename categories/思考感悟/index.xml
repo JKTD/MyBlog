@@ -17,7 +17,10 @@
       <pubDate>Sun, 24 Feb 2019 08:40:50 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/02/24/gobin/</guid>
-      <description>因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， //只是在 .bash_profile文件里如此</description>
+      <description>因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用，
+//只是在 .bash_profile文件里如此设置 需要Source之后才能被命令行识别
+export GOBIN=/Users/ori/go/bin export PATH=$PATH:$GOBIN export PUB_HOSTED_URL=https://pub.flutter-io.cn export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn export PATH=~/code/flutter/flutter/bin:$PATH  最好的处理方式还是直接把${GOPATH}/bin目录下的执行文件移动到go的Root的bin目录中更好
+mv $GOPATH/bin/** /usr/local/go/bin</description>
     </item>
     
     <item>
@@ -26,7 +29,8 @@
       <pubDate>Tue, 15 Jan 2019 14:38:32 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/01/15/nginx/</guid>
-      <description>Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS 我的证书是在腾讯云上申请的地址 nginx.conf 配置内容 user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include</description>
+      <description>Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS
+我的证书是在腾讯云上申请的地址 nginx.conf 配置内容  user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include /etc/nginx/mime.types; default_type application/octet-stream; log_format main &#39;$remote_addr - $remote_user [$time_local] &amp;quot;$request&amp;quot; &#39; &#39;$status $body_bytes_sent &amp;quot;$http_referer&amp;quot; &#39; &#39;&amp;quot;$http_user_agent&amp;quot; &amp;quot;$http_x_forwarded_for&amp;quot;&#39;; access_log /var/log/nginx/access.log main; sendfile on; #tcp_nopush on; keepalive_timeout 65; #gzip on; upstream move{ server 127.0.0.1:9120; } server { listen 80; listen 443 ssl; ssl_certificate certificate_bundle.</description>
     </item>
     
     <item>
@@ -35,7 +39,8 @@
       <pubDate>Sun, 13 Jan 2019 10:45:59 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/01/13/mongodump/</guid>
-      <description>数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录 mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager 本地处</description>
+      <description>数据库迁移 把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录
+mongodump -u user -p pass -d doc_manager -o doc.dmp mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager  本地处理 // dump命令 数据库用户 密码 数据库名字 备份目录 /usr/local/mongodb/bin/mongodump -u user -p pass -d docmanager -o ../dump // restore命令 数据库用户名 密码 数据库名字 备份目录 覆盖 /usr/local/mongodb/bin/mongorestore -u 用户名 -p 密码 -d docmanager doc_manager --drop  创建数据库管理员 //进入mongo命令行 mongo db.auth(&amp;quot;use&amp;quot;,&amp;quot;pass&amp;quot;) use log db.createUser( { user: &amp;quot;user&amp;quot;, pwd: &amp;quot;pass&amp;quot;, roles: [{ role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;log&amp;quot; }] } )  错误处理 // mongodb非正常关闭后 about to fork child process, waiting until server is ready for connections.</description>
     </item>
     
     <item>
@@ -44,7 +49,8 @@
       <pubDate>Mon, 24 Dec 2018 07:14:17 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/12/24/vue_webserver/</guid>
-      <description>如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] }) 当你使用 ```history``` 模式时，</description>
+      <description>如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。  const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] })
+ 当你使用 ```history``` 模式时，URL 就像正常的 url，例如 ```http://yoursite.com/user/id```，也好看！ 不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 ```http://oursite.com/user/id``` 就会返回 404，这就不好看了。 所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 ```index.html``` 页面，这个页面就是你 app 依赖的页面。 #### **go gin框架配置示例** 由于我使用go的gin框架做服务器，示例代码如下 [源码地址](https://github.com/flywithbug-docmanager/docmanager)  func NoRoute(c *gin.Context) { path := strings.Split(c.Request.URL.Path, &amp;ldquo;/&amp;rdquo;) if (path[1] != &amp;ldquo;&amp;rdquo;) &amp;amp;&amp;amp; (path[1] == &amp;ldquo;api&amp;rdquo;) { aRes := model.NewResponse() aRes.Code = http.StatusNotFound aRes.Msg = &amp;ldquo;no route&amp;rdquo; c.</description>
     </item>
     
     <item>
@@ -53,7 +59,10 @@
       <pubDate>Sun, 23 Dec 2018 06:57:21 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/12/24/vue-element02/</guid>
-      <description>在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路</description>
+      <description>在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路由表之后 再刷新页面发现页面一片空白。
+hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+next({ ...to, replace: true })  //路由权限配置源码
+import router from &#39;@/router&#39; import store from &#39;@/store&#39; import { Message } from &#39;element-ui&#39; import NProgress from &#39;nprogress&#39; // progress bar import &#39;nprogress/nprogress.css&#39;// progress bar style import { getToken } from &#39;./utils/auth&#39; // getToken from cookie NProgress.configure({ showSpinner: false })// NProgress Configuration // permission judge function function hasPermission(roles, permissionRoles) { if (roles.</description>
     </item>
     
     <item>
@@ -62,16 +71,23 @@
       <pubDate>Sat, 22 Dec 2018 06:57:21 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/12/22/vue-element-admin01/</guid>
-      <description>vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模</description>
+      <description>vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型， 提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。
+通过vue-element-admin 的源代码学习掌握Vue的一些基础知识
+SVG 图片加载  src/components目录下创建文件夹结构如下 SvgIcon下创建index.vue文件内容如下：
+&amp;lt;template&amp;gt; &amp;lt;svg :class=&amp;quot;svgClass&amp;quot; aria-hidden=&amp;quot;true&amp;quot;&amp;gt; &amp;lt;use :xlink:href=&amp;quot;iconName&amp;quot;/&amp;gt; &amp;lt;/svg&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script&amp;gt; export default { name: &#39;SvgIcon&#39;, props: { iconClass: { type: String, required: true }, className: { type: String, default: &#39;&#39; } }, computed: { iconName() { return `#icon-${this.iconClass}` }, svgClass() { if (this.className) { return &#39;svg-icon &#39; + this.className } else { return &#39;svg-icon&#39; } } } } &amp;lt;/script&amp;gt; &amp;lt;style scoped&amp;gt; .</description>
     </item>
     
     <item>
       <title>gin api 跨域问题,cors</title>
-      <link>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</link>
+      <link>http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/</link>
       <pubDate>Tue, 18 Dec 2018 03:35:24 +0800</pubDate>
       
-      <guid>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</guid>
-      <description>当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。 出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求</description>
+      <guid>http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/</guid>
+      <description>当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。
+出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循同源策略。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。
+跨域资源共享标准：规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 GET 以外的 HTTP 请求，或者搭配某些 MIME 类型的 POST 请求），浏览器必须首先使用 OPTIONS 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）。
+gin
+package main import ( &amp;quot;time&amp;quot; &amp;quot;github.com/gin-contrib/cors&amp;quot; &amp;quot;github.com/gin-gonic/gin&amp;quot; ) func main() { router := gin.Default() // CORS for https://foo.com and https://github.com origins, allowing: // - PUT and PATCH methods // - Origin header // - Credentials share // - Preflight requests cached for 12 hours router.</description>
     </item>
     
     <item>
@@ -80,7 +96,12 @@
       <pubDate>Mon, 10 Dec 2018 06:53:01 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/12/10/mongodb/</guid>
-      <description>MongoDB authentication MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产</description>
+      <description>MongoDB authentication MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产生安全风险，被利用此配置漏洞，入侵数据库。
+容易遭受入侵的环境  使用默认 mongod 命令启动 Mongodb 机器可以被公网访问 在公网上开放了 Mongodb 端口   开启用户名和密码验证  终端启动数据库
+//参数默认可以不加，若有自定义参数，才要加上，下同 mongod --port 27017 --dbpath /data/db1  连接 mongo后创建用户
+mongo --port 27017 use admin db.createUser( { user: &amp;quot;adminUser&amp;quot;, pwd: &amp;quot;adminPass&amp;quot;, roles: [ { role: &amp;quot;userAdminAnyDatabase&amp;quot;, db: &amp;quot;admin&amp;quot; } ] } )  重启 mongod 数据库
+mongod --auth --port 27017 --dbpath /data/db1  连接数据库
+mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;quot; --authenticationDatabase &amp;quot;admin&amp;quot; mongo --port 27017 use admin db.</description>
     </item>
     
     <item>
@@ -98,7 +119,10 @@
       <pubDate>Mon, 02 Apr 2018 18:30:28 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/04/02/note_28/</guid>
-      <description>简介 为什么要使用Elasticsearch Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门</description>
+      <description>简介 为什么要使用Elasticsearch  Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、 可靠、快速，而且也具有良好的水平扩展能力，是专门为分布式环境设计的。
+  安装方便： 没有其他依赖，下载后安装很方便，只需修改几个参数就可以搭建一个集群 JSON: 输入\输出格式为JSON,不需要定义Schema,快捷方便 RESTful：基本所有操作（索引，查询，甚至配置）都可以通过HTTP接口进行 分布式：节点对外表现对等（每个节点都可以用来做入口）；加入节点，自动均衡 多租户：可以根据不同的用途分索引；可以同时操作多个索引 准实时：从文档索引到可以被检索只有轻微延时，约1s  安装  上一节使用docker run elasticsearch docker run -d -p 9200:9200 elasticsearch  使用测试  打开idea -&amp;gt; tools -&amp;gt; testRESTful Web Service 工具
+ 请求：请求参数及说明
+ :9200/index/type/id index -&amp;gt; database type -&amp;gt; table  GET  插入  查询   package persist import ( &amp;quot;context&amp;quot; &amp;quot;errors&amp;quot; &amp;quot;log&amp;quot; &amp;quot;imooc/craw/engine&amp;quot; &amp;quot;gopkg.in/olivere/elastic.v5&amp;quot; ) func ItemSaver(index string) (chan engine.</description>
     </item>
     
     <item>
@@ -107,7 +131,11 @@
       <pubDate>Mon, 02 Apr 2018 17:33:59 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/04/02/note_27/</guid>
-      <description>什么是Docker Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系</description>
+      <description> 什么是Docker  Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。 它的工作方式非常像虚拟机，包裹所有的东西（文件系统，进程管理，环境变量等） 在一个容器内。跟虚拟机有所不同，它是使用LXC（Linux kernel container） 来替代虚拟层。 LXC没有自己的内核，但是与主机和其他容器一起共享Linux内核的。 基于LXC，因此Docker是非常轻量级的， 因此在运行应用程序的时候几乎没有性能损失。
+ 安装方式  brew install docker 官网下载 Docker for mac 下载 docker 下载地址  加速器 配置地址  选择对应的配置，按照提示，添加镜像地址  查看docker info  运行命令 docker run hello-world 下载使用镜像
+ 启动docker nginx
+//把里面的端口映射到外面物理机的80端口 docker run -d -p 80:80 nginx  docker run -d -p 9200:9200 nginx
+  </description>
     </item>
     
   </channel>

@@ -629,10 +629,10 @@ plugins:
         
         <item>
             <title>gin api 跨域问题,cors</title>
-            <link>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</link>
+            <link>http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/</link>
             <pubDate>Tue, 18 Dec 2018 03:35:24 CST</pubDate>
             <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</guid>
+            <guid>http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/</guid>
             <description>&lt;p&gt;当一个资源从与该资源本身所在的服务器&lt;strong&gt;不同的域或端口&lt;/strong&gt;请求一个资源时，资源会发起一个跨域 HTTP 请求。&lt;/p&gt;
 
 &lt;p&gt;出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循&lt;strong&gt;同源策略&lt;/strong&gt;。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。&lt;/p&gt;

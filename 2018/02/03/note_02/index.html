@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go: 2-1 变量定义 - Fly With Bug</title>
     
-<meta name="description" content="变量声明 指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导">
+<meta name="description" content="变量声明  指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导致编译错误。（函数外部无法省略var关键字） ``` //默认 没有初值 func variableZeroValue() { var a int var s string fmt.Printf(&amp;ldquo;%d,%q\n&amp;rdquo;,a,s) }//赋予初值和类型 func variableInitialValue() { var a,b int = 3,4 var s string = &amp;ldquo;abc&amp;rdquo; fmt.Println(a,b,s) }//赋予初值 func variableTypeDeduction() { var a,b,c,s = 3,4,true,&amp;ldquo;def&amp;rdquo; fmt.Println(a,b,c,s) }func variableShorter() { a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo; b = 3 fmt.Println(a,b,c,s) } var( ss =&amp;ldquo;string&amp;rdquo; aa = 1 bb = 2 ) func euler() { //c := 3&#43;4i //fmt.">
 
 <meta property="og:title" content="Go: 2-1 变量定义 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/02/03/note_02/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="变量声明 指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导">
+<meta property="og:description" content="变量声明  指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导致编译错误。（函数外部无法省略var关键字） ``` //默认 没有初值 func variableZeroValue() { var a int var s string fmt.Printf(&amp;ldquo;%d,%q\n&amp;rdquo;,a,s) }//赋予初值和类型 func variableInitialValue() { var a,b int = 3,4 var s string = &amp;ldquo;abc&amp;rdquo; fmt.Println(a,b,s) }//赋予初值 func variableTypeDeduction() { var a,b,c,s = 3,4,true,&amp;ldquo;def&amp;rdquo; fmt.Println(a,b,c,s) }func variableShorter() { a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo; b = 3 fmt.Println(a,b,c,s) } var( ss =&amp;ldquo;string&amp;rdquo; aa = 1 bb = 2 ) func euler() { //c := 3&#43;4i //fmt.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/02/03/note_02/">
 <meta name="twitter:title" content="Go: 2-1 变量定义 - Fly With Bug">
-<meta name="twitter:description" content="变量声明 指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导">
+<meta name="twitter:description" content="变量声明  指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导致编译错误。（函数外部无法省略var关键字） ``` //默认 没有初值 func variableZeroValue() { var a int var s string fmt.Printf(&amp;ldquo;%d,%q\n&amp;rdquo;,a,s) }//赋予初值和类型 func variableInitialValue() { var a,b int = 3,4 var s string = &amp;ldquo;abc&amp;rdquo; fmt.Println(a,b,s) }//赋予初值 func variableTypeDeduction() { var a,b,c,s = 3,4,true,&amp;ldquo;def&amp;rdquo; fmt.Println(a,b,c,s) }func variableShorter() { a,b,c,s := 3,4,true,&amp;ldquo;def&amp;rdquo; b = 3 fmt.Println(a,b,c,s) } var( ss =&amp;ldquo;string&amp;rdquo; aa = 1 bb = 2 ) func euler() { //c := 3&#43;4i //fmt.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,10 @@
         "height": 60
       }
     },
-    "description": "变量声明 指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导"
+    "description": "变量声明  指定变量类型，声明后若不赋值，使用默认值。 根据值编译器自行判定变量类型。 省略var, 注意 :=左侧的变量不应该是已经声明过的，否则会导致编译错误。（函数外部无法省略var关键字） ``` //默认 没有初值 func variableZeroValue() { var a int var s string fmt.Printf(&ldquo;%d,%q\n&rdquo;,a,s) }
+//赋予初值和类型 func variableInitialValue() { var a,b int = 3,4 var s string = &ldquo;abc&rdquo; fmt.Println(a,b,s) }
+//赋予初值 func variableTypeDeduction() { var a,b,c,s = 3,4,true,&ldquo;def&rdquo; fmt.Println(a,b,c,s) }
+func variableShorter() { a,b,c,s := 3,4,true,&ldquo;def&rdquo; b = 3 fmt.Println(a,b,c,s) } var( ss =&ldquo;string&rdquo; aa = 1 bb = 2 ) func euler() { //c := 3+4i //fmt."
   }
 </script>
 
@@ -93,22 +96,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -330,7 +317,7 @@ const (
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

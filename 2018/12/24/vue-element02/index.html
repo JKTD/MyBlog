@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>vue 路由重载之后导致history页面刷新空白问题fix - Fly With Bug</title>
     
-<meta name="description" content="在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路">
+<meta name="description" content="在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路由表之后 再刷新页面发现页面一片空白。hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history recordnext({ ...to, replace: true })  //路由权限配置源码import router from &#39;@/router&#39; import store from &#39;@/store&#39; import { Message } from &#39;element-ui&#39; import NProgress from &#39;nprogress&#39; // progress bar import &#39;nprogress/nprogress.css&#39;// progress bar style import { getToken } from &#39;./utils/auth&#39; // getToken from cookie NProgress.configure({ showSpinner: false })// NProgress Configuration // permission judge function function hasPermission(roles, permissionRoles) { if (roles.">
 
 <meta property="og:title" content="vue 路由重载之后导致history页面刷新空白问题fix - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/12/24/vue-element02/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路">
+<meta property="og:description" content="在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路由表之后 再刷新页面发现页面一片空白。hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history recordnext({ ...to, replace: true })  //路由权限配置源码import router from &#39;@/router&#39; import store from &#39;@/store&#39; import { Message } from &#39;element-ui&#39; import NProgress from &#39;nprogress&#39; // progress bar import &#39;nprogress/nprogress.css&#39;// progress bar style import { getToken } from &#39;./utils/auth&#39; // getToken from cookie NProgress.configure({ showSpinner: false })// NProgress Configuration // permission judge function function hasPermission(roles, permissionRoles) { if (roles.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/12/24/vue-element02/">
 <meta name="twitter:title" content="vue 路由重载之后导致history页面刷新空白问题fix - Fly With Bug">
-<meta name="twitter:description" content="在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路">
+<meta name="twitter:description" content="在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路由表之后 再刷新页面发现页面一片空白。hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history recordnext({ ...to, replace: true })  //路由权限配置源码import router from &#39;@/router&#39; import store from &#39;@/store&#39; import { Message } from &#39;element-ui&#39; import NProgress from &#39;nprogress&#39; // progress bar import &#39;nprogress/nprogress.css&#39;// progress bar style import { getToken } from &#39;./utils/auth&#39; // getToken from cookie NProgress.configure({ showSpinner: false })// NProgress Configuration // permission judge function function hasPermission(roles, permissionRoles) { if (roles.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,10 @@
         "height": 60
       }
     },
-    "description": "在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路"
+    "description": "在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤， 在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置 但是在刷新完路由表之后 再刷新页面发现页面一片空白。
+hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+next({ ...to, replace: true })  //路由权限配置源码
+import router from '@/router' import store from '@/store' import { Message } from 'element-ui' import NProgress from 'nprogress' // progress bar import 'nprogress/nprogress.css'// progress bar style import { getToken } from './utils/auth' // getToken from cookie NProgress.configure({ showSpinner: false })// NProgress Configuration // permission judge function function hasPermission(roles, permissionRoles) { if (roles."
   }
 </script>
 
@@ -93,22 +96,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -277,7 +264,7 @@ router.afterEach(() =&gt; {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

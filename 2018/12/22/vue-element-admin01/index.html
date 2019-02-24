@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>vue-element-admin 踩坑日记 01 - Fly With Bug</title>
     
-<meta name="description" content="vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模">
+<meta name="description" content="vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型， 提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。通过vue-element-admin 的源代码学习掌握Vue的一些基础知识SVG 图片加载  src/components目录下创建文件夹结构如下 SvgIcon下创建index.vue文件内容如下：&amp;lt;template&amp;gt; &amp;lt;svg :class=&amp;quot;svgClass&amp;quot; aria-hidden=&amp;quot;true&amp;quot;&amp;gt; &amp;lt;use :xlink:href=&amp;quot;iconName&amp;quot;/&amp;gt; &amp;lt;/svg&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script&amp;gt; export default { name: &#39;SvgIcon&#39;, props: { iconClass: { type: String, required: true }, className: { type: String, default: &#39;&#39; } }, computed: { iconName() { return `#icon-${this.iconClass}` }, svgClass() { if (this.className) { return &#39;svg-icon &#39; &#43; this.className } else { return &#39;svg-icon&#39; } } } } &amp;lt;/script&amp;gt; &amp;lt;style scoped&amp;gt; .">
 
 <meta property="og:title" content="vue-element-admin 踩坑日记 01 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/12/22/vue-element-admin01/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模">
+<meta property="og:description" content="vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型， 提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。通过vue-element-admin 的源代码学习掌握Vue的一些基础知识SVG 图片加载  src/components目录下创建文件夹结构如下 SvgIcon下创建index.vue文件内容如下：&amp;lt;template&amp;gt; &amp;lt;svg :class=&amp;quot;svgClass&amp;quot; aria-hidden=&amp;quot;true&amp;quot;&amp;gt; &amp;lt;use :xlink:href=&amp;quot;iconName&amp;quot;/&amp;gt; &amp;lt;/svg&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script&amp;gt; export default { name: &#39;SvgIcon&#39;, props: { iconClass: { type: String, required: true }, className: { type: String, default: &#39;&#39; } }, computed: { iconName() { return `#icon-${this.iconClass}` }, svgClass() { if (this.className) { return &#39;svg-icon &#39; &#43; this.className } else { return &#39;svg-icon&#39; } } } } &amp;lt;/script&amp;gt; &amp;lt;style scoped&amp;gt; .">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/12/22/vue-element-admin01/">
 <meta name="twitter:title" content="vue-element-admin 踩坑日记 01 - Fly With Bug">
-<meta name="twitter:description" content="vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模">
+<meta name="twitter:description" content="vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型， 提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。通过vue-element-admin 的源代码学习掌握Vue的一些基础知识SVG 图片加载  src/components目录下创建文件夹结构如下 SvgIcon下创建index.vue文件内容如下：&amp;lt;template&amp;gt; &amp;lt;svg :class=&amp;quot;svgClass&amp;quot; aria-hidden=&amp;quot;true&amp;quot;&amp;gt; &amp;lt;use :xlink:href=&amp;quot;iconName&amp;quot;/&amp;gt; &amp;lt;/svg&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script&amp;gt; export default { name: &#39;SvgIcon&#39;, props: { iconClass: { type: String, required: true }, className: { type: String, default: &#39;&#39; } }, computed: { iconName() { return `#icon-${this.iconClass}` }, svgClass() { if (this.className) { return &#39;svg-icon &#39; &#43; this.className } else { return &#39;svg-icon&#39; } } } } &amp;lt;/script&amp;gt; &amp;lt;style scoped&amp;gt; .">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,10 @@
         "height": 60
       }
     },
-    "description": "vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模"
+    "description": "vue-element-admin 是一个后台集成解决方案， 它基于 vue 和 element。它使用了最新的前端技术栈， 内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型， 提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。
+通过vue-element-admin 的源代码学习掌握Vue的一些基础知识
+SVG 图片加载  src/components目录下创建文件夹结构如下 SvgIcon下创建index.vue文件内容如下：
+&lt;template&gt; &lt;svg :class=&quot;svgClass&quot; aria-hidden=&quot;true&quot;&gt; &lt;use :xlink:href=&quot;iconName&quot;/&gt; &lt;/svg&gt; &lt;/template&gt; &lt;script&gt; export default { name: 'SvgIcon', props: { iconClass: { type: String, required: true }, className: { type: String, default: '' } }, computed: { iconName() { return `#icon-${this.iconClass}` }, svgClass() { if (this.className) { return 'svg-icon ' + this.className } else { return 'svg-icon' } } } } &lt;/script&gt; &lt;style scoped&gt; ."
   }
 </script>
 
@@ -93,22 +96,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -343,7 +330,7 @@ plugins:
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Swift3-06 可选型 Optionals - Fly With Bug</title>
     
-<meta name="description" content="画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的">
+<meta name="description" content="画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。可选型不是表示 可以表示任意类型,而是可以表示一个指定数据类型 和 nil类型,错误代码示范var name: String = &amp;quot;loveway&amp;quot; name = nil //报错 error: Nil cannot be assigned to type &#39;String&#39;  Optionals的声明 var optionalInteger: Int? , var optionalInteger: Optional&amp;lt;Int&amp;gt;var name: String? = &amp;quot;loveway&amp;quot; print(name!) name = nil print(name as Any)  可选型的解包var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot; print(name!) name = nil print(name as Any ) name = &amp;quot;sam&amp;quot; //var string = &amp;quot;my name is &amp;quot; &#43; name //error 因为 ```name```是一个未解包的数据,不能直接使用。 var string = &amp;quot;my name is &amp;quot; &#43; name!">
 
 <meta property="og:title" content="Swift3-06 可选型 Optionals - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/02/20/swift06/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的">
+<meta property="og:description" content="画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。可选型不是表示 可以表示任意类型,而是可以表示一个指定数据类型 和 nil类型,错误代码示范var name: String = &amp;quot;loveway&amp;quot; name = nil //报错 error: Nil cannot be assigned to type &#39;String&#39;  Optionals的声明 var optionalInteger: Int? , var optionalInteger: Optional&amp;lt;Int&amp;gt;var name: String? = &amp;quot;loveway&amp;quot; print(name!) name = nil print(name as Any)  可选型的解包var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot; print(name!) name = nil print(name as Any ) name = &amp;quot;sam&amp;quot; //var string = &amp;quot;my name is &amp;quot; &#43; name //error 因为 ```name```是一个未解包的数据,不能直接使用。 var string = &amp;quot;my name is &amp;quot; &#43; name!">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/02/20/swift06/">
 <meta name="twitter:title" content="Swift3-06 可选型 Optionals - Fly With Bug">
-<meta name="twitter:description" content="画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的">
+<meta name="twitter:description" content="画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。可选型不是表示 可以表示任意类型,而是可以表示一个指定数据类型 和 nil类型,错误代码示范var name: String = &amp;quot;loveway&amp;quot; name = nil //报错 error: Nil cannot be assigned to type &#39;String&#39;  Optionals的声明 var optionalInteger: Int? , var optionalInteger: Optional&amp;lt;Int&amp;gt;var name: String? = &amp;quot;loveway&amp;quot; print(name!) name = nil print(name as Any)  可选型的解包var name: Optional&amp;lt;String&amp;gt; = &amp;quot;lazy&amp;quot; print(name!) name = nil print(name as Any ) name = &amp;quot;sam&amp;quot; //var string = &amp;quot;my name is &amp;quot; &#43; name //error 因为 ```name```是一个未解包的数据,不能直接使用。 var string = &amp;quot;my name is &amp;quot; &#43; name!">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,12 @@
         "height": 60
       }
     },
-    "description": "画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的"
+    "description": "画重点! Optionals 是 swift 新加入的类型,所以之前的 Objective-C 中是没有这个概念的。可选型 简单一些理解就是:有值的时候就有值,无值的时候 是 nil. 但是 swift 的 nil 和其他语言中的 nil 不一样,nil 本身也是一中类型,nil就是没有,不是任何一个值,是和其他类型严格区分开的。
+可选型不是表示 可以表示任意类型,而是可以表示一个指定数据类型 和 nil类型,
+错误代码示范
+var name: String = &quot;loveway&quot; name = nil //报错 error: Nil cannot be assigned to type 'String'  Optionals的声明 var optionalInteger: Int? , var optionalInteger: Optional&lt;Int&gt;
+var name: String? = &quot;loveway&quot; print(name!) name = nil print(name as Any)  可选型的解包
+var name: Optional&lt;String&gt; = &quot;lazy&quot; print(name!) name = nil print(name as Any ) name = &quot;sam&quot; //var string = &quot;my name is &quot; + name //error 因为 ```name```是一个未解包的数据,不能直接使用。 var string = &quot;my name is &quot; + name!"
   }
 </script>
 
@@ -93,22 +98,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -359,7 +348,7 @@ class001.showInfo()
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

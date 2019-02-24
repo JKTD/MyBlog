@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>swift3-10 数据集合小节 - Fly With Bug</title>
     
-<meta name="description" content="选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,">
+<meta name="description" content="选择合适的数据结构数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,唯一性,集合特有的操作,快速查找 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用 集合,获取共同喜好,共同兴趣等。快速查找这个是集合的一大优势,数组查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)), 例如一个100万的数据,如果是数组查找的话,最坏的情况是 查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。 字典: 键值数据对,这个就不说了,使用的很广泛。 回顾 for infor index in 1...10{ print(index) } for c in &amp;quot;hello&amp;quot;.characters{ print(c) } var arr = [&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] for str in arr{ print(str) } for (index ,str) in arr.enumerated(){ print(index, str) } var dic = [1:&amp;quot;a&amp;quot; , 2:&amp;quot;b&amp;quot;] for key in dic{ print(key) } for value in dic.">
 
 <meta property="og:title" content="swift3-10 数据集合小节 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/02/22/swift10/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,">
+<meta property="og:description" content="选择合适的数据结构数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,唯一性,集合特有的操作,快速查找 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用 集合,获取共同喜好,共同兴趣等。快速查找这个是集合的一大优势,数组查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)), 例如一个100万的数据,如果是数组查找的话,最坏的情况是 查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。 字典: 键值数据对,这个就不说了,使用的很广泛。 回顾 for infor index in 1...10{ print(index) } for c in &amp;quot;hello&amp;quot;.characters{ print(c) } var arr = [&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] for str in arr{ print(str) } for (index ,str) in arr.enumerated(){ print(index, str) } var dic = [1:&amp;quot;a&amp;quot; , 2:&amp;quot;b&amp;quot;] for key in dic{ print(key) } for value in dic.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/02/22/swift10/">
 <meta name="twitter:title" content="swift3-10 数据集合小节 - Fly With Bug">
-<meta name="twitter:description" content="选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,">
+<meta name="twitter:description" content="选择合适的数据结构数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,唯一性,集合特有的操作,快速查找 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用 集合,获取共同喜好,共同兴趣等。快速查找这个是集合的一大优势,数组查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)), 例如一个100万的数据,如果是数组查找的话,最坏的情况是 查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。 字典: 键值数据对,这个就不说了,使用的很广泛。 回顾 for infor index in 1...10{ print(index) } for c in &amp;quot;hello&amp;quot;.characters{ print(c) } var arr = [&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;,&amp;quot;c&amp;quot;] for str in arr{ print(str) } for (index ,str) in arr.enumerated(){ print(index, str) } var dic = [1:&amp;quot;a&amp;quot; , 2:&amp;quot;b&amp;quot;] for key in dic{ print(key) } for value in dic.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,15 @@
         "height": 60
       }
     },
-    "description": "选择合适的数据结构 数组: 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组 集合: 无序,"
+    "description": "选择合适的数据结构
+数组:
+ 有序,最大的特定就是有序,如果我们操作的元素是有序的话,使用数组是最方便的。如果需要排序,最好也选择数组
+ 集合:
+ 无序,唯一性,集合特有的操作,快速查找 如果需要做一些特殊的集合计算,就使用集合,比如在做用户特性分析的时候,分组的时候就可以使用 集合,获取共同喜好,共同兴趣等。快速查找这个是集合的一大优势,数组查找复杂度是 O(n), 而集合的复杂度是 O(log2(n)), 例如一个100万的数据,如果是数组查找的话,最坏的情况是 查找100万次,而集合的最大次数是 log2(1000000) 大约是20次。
+ 字典:
+ 键值数据对,这个就不说了,使用的很广泛。
+ 回顾 for in
+for index in 1...10{ print(index) } for c in &quot;hello&quot;.characters{ print(c) } var arr = [&quot;a&quot;, &quot;b&quot;,&quot;c&quot;] for str in arr{ print(str) } for (index ,str) in arr.enumerated(){ print(index, str) } var dic = [1:&quot;a&quot; , 2:&quot;b&quot;] for key in dic{ print(key) } for value in dic."
   }
 </script>
 
@@ -93,22 +101,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -261,7 +253,7 @@ for str in setA{
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

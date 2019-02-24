@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go: 7-1 资源管理与出错处理 - Fly With Bug</title>
     
-<meta name="description" content="defer的调用 确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter) func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。 defer 的作用就是把">
+<meta name="description" content="defer的调用  确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter)func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。  defer 的作用就是把关键字之后的函数执行压入一个栈中延迟执行 多个 defer 的执行顺序是后进先出 LIFOdefer func() { fmt.Println(&amp;quot;1&amp;quot;) }() defer func() { fmt.Println(&amp;quot;2&amp;quot;) }() defer func() { fmt.Println(&amp;quot;3&amp;quot;) }() //输出顺序是 321  常用在函数调用结束之后清理相关的资源 执行 recover 被 deferred 函数的参数在 defer 时确定func a() { i := 0 defer fmt.Println(i) i&#43;&#43; return } //a 执行输出的是 0 而不是 1，因为 defer 时，i 的值是 0， //此时被 defer 的函数参数已经进行执行计算并确定了  被 defer 的函数可以读取和修改带名称的返回值 ``` func c() (i int) { defer func() { i&#43;&#43; }() return 1 } //被 defer 的函数是在 return 之后执行，可以修改带名称的返回值，上面的函数 c 返回的是 2。">
 
 <meta property="og:title" content="Go: 7-1 资源管理与出错处理 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/02/24/note_12/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="defer的调用 确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter) func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。 defer 的作用就是把">
+<meta property="og:description" content="defer的调用  确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter)func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。  defer 的作用就是把关键字之后的函数执行压入一个栈中延迟执行 多个 defer 的执行顺序是后进先出 LIFOdefer func() { fmt.Println(&amp;quot;1&amp;quot;) }() defer func() { fmt.Println(&amp;quot;2&amp;quot;) }() defer func() { fmt.Println(&amp;quot;3&amp;quot;) }() //输出顺序是 321  常用在函数调用结束之后清理相关的资源 执行 recover 被 deferred 函数的参数在 defer 时确定func a() { i := 0 defer fmt.Println(i) i&#43;&#43; return } //a 执行输出的是 0 而不是 1，因为 defer 时，i 的值是 0， //此时被 defer 的函数参数已经进行执行计算并确定了  被 defer 的函数可以读取和修改带名称的返回值 ``` func c() (i int) { defer func() { i&#43;&#43; }() return 1 } //被 defer 的函数是在 return 之后执行，可以修改带名称的返回值，上面的函数 c 返回的是 2。">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/02/24/note_12/">
 <meta name="twitter:title" content="Go: 7-1 资源管理与出错处理 - Fly With Bug">
-<meta name="twitter:description" content="defer的调用 确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter) func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。 defer 的作用就是把">
+<meta name="twitter:description" content="defer的调用  确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter)func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。  defer 的作用就是把关键字之后的函数执行压入一个栈中延迟执行 多个 defer 的执行顺序是后进先出 LIFOdefer func() { fmt.Println(&amp;quot;1&amp;quot;) }() defer func() { fmt.Println(&amp;quot;2&amp;quot;) }() defer func() { fmt.Println(&amp;quot;3&amp;quot;) }() //输出顺序是 321  常用在函数调用结束之后清理相关的资源 执行 recover 被 deferred 函数的参数在 defer 时确定func a() { i := 0 defer fmt.Println(i) i&#43;&#43; return } //a 执行输出的是 0 而不是 1，因为 defer 时，i 的值是 0， //此时被 defer 的函数参数已经进行执行计算并确定了  被 defer 的函数可以读取和修改带名称的返回值 ``` func c() (i int) { defer func() { i&#43;&#43; }() return 1 } //被 defer 的函数是在 return 之后执行，可以修改带名称的返回值，上面的函数 c 返回的是 2。">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,13 @@
         "height": 60
       }
     },
-    "description": "defer的调用 确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter) func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。 defer 的作用就是把"
+    "description": "defer的调用  确保调用在函数结束时发生 (Open/Close,Lock/Unlock,PrintHeader/PrintFooter)
+func a() int { defer b() return 0 } //b 的执行是发生在 return 0 之后，注意 defer 的语法，关键字 defer 之后是函数的调用。  defer 的作用就是把关键字之后的函数执行压入一个栈中延迟执行
+ 多个 defer 的执行顺序是后进先出 LIFO
+defer func() { fmt.Println(&quot;1&quot;) }() defer func() { fmt.Println(&quot;2&quot;) }() defer func() { fmt.Println(&quot;3&quot;) }() //输出顺序是 321  常用在函数调用结束之后清理相关的资源
+ 执行 recover
+ 被 deferred 函数的参数在 defer 时确定
+func a() { i := 0 defer fmt.Println(i) i++ return } //a 执行输出的是 0 而不是 1，因为 defer 时，i 的值是 0， //此时被 defer 的函数参数已经进行执行计算并确定了  被 defer 的函数可以读取和修改带名称的返回值 ``` func c() (i int) { defer func() { i++ }() return 1 } //被 defer 的函数是在 return 之后执行，可以修改带名称的返回值，上面的函数 c 返回的是 2。"
   }
 </script>
 
@@ -93,22 +99,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -305,7 +295,7 @@ return 1
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

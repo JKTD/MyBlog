@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go: 11-1 http标准库 - Fly With Bug</title>
     
-<meta name="description" content="Server package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;) } func main() { http.HandleFunc(&amp;quot;/&amp;quot;, handler) http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil) } Client 使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil">
+<meta name="description" content="Server package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;) } func main() { http.HandleFunc(&amp;quot;/&amp;quot;, handler) http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil) }  Client  使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil简化工作 ``` package main  import ( &amp;ldquo;fmt&amp;rdquo; &amp;ldquo;net/http&amp;rdquo; &amp;ldquo;net/http/httputil&amp;rdquo; )func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://www.imooc.com&amp;quot;, nil) if err != nil { panic(err) } request.Header.Add(&amp;ldquo;User-Agent&amp;rdquo;, &amp;ldquo;Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.">
 
 <meta property="og:title" content="Go: 11-1 http标准库 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/03/07/note_20/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="Server package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;) } func main() { http.HandleFunc(&amp;quot;/&amp;quot;, handler) http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil) } Client 使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil">
+<meta property="og:description" content="Server package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;) } func main() { http.HandleFunc(&amp;quot;/&amp;quot;, handler) http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil) }  Client  使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil简化工作 ``` package main  import ( &amp;ldquo;fmt&amp;rdquo; &amp;ldquo;net/http&amp;rdquo; &amp;ldquo;net/http/httputil&amp;rdquo; )func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://www.imooc.com&amp;quot;, nil) if err != nil { panic(err) } request.Header.Add(&amp;ldquo;User-Agent&amp;rdquo;, &amp;ldquo;Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/03/07/note_20/">
 <meta name="twitter:title" content="Go: 11-1 http标准库 - Fly With Bug">
-<meta name="twitter:description" content="Server package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;) } func main() { http.HandleFunc(&amp;quot;/&amp;quot;, handler) http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil) } Client 使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil">
+<meta name="twitter:description" content="Server package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &amp;quot;Hello, world!&amp;quot;) } func main() { http.HandleFunc(&amp;quot;/&amp;quot;, handler) http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil) }  Client  使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil简化工作 ``` package main  import ( &amp;ldquo;fmt&amp;rdquo; &amp;ldquo;net/http&amp;rdquo; &amp;ldquo;net/http/httputil&amp;rdquo; )func main() { request, err := http.NewRequest(http.MethodGet, &amp;ldquo;http://www.imooc.com&amp;quot;, nil) if err != nil { panic(err) } request.Header.Add(&amp;ldquo;User-Agent&amp;rdquo;, &amp;ldquo;Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,8 @@
         "height": 60
       }
     },
-    "description": "Server package main import ( &quot;fmt&quot; &quot;net/http&quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &quot;Hello, world!&quot;) } func main() { http.HandleFunc(&quot;/&quot;, handler) http.ListenAndServe(&quot;:8080&quot;, nil) } Client 使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil"
+    "description": "Server package main import ( &quot;fmt&quot; &quot;net/http&quot; ) func handler(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, &quot;Hello, world!&quot;) } func main() { http.HandleFunc(&quot;/&quot;, handler) http.ListenAndServe(&quot;:8080&quot;, nil) }  Client  使用http客户端发送请求 使用http.Client 控制请求头部等 使用httputil简化工作 ``` package main  import ( &ldquo;fmt&rdquo; &ldquo;net/http&rdquo; &ldquo;net/http/httputil&rdquo; )
+func main() { request, err := http.NewRequest(http.MethodGet, &ldquo;http://www.imooc.com&quot;, nil) if err != nil { panic(err) } request.Header.Add(&ldquo;User-Agent&rdquo;, &ldquo;Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602."
   }
 </script>
 
@@ -93,22 +94,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -268,7 +253,7 @@ package main</li>
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

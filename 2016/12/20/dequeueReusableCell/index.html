@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/">
+<link rel="canonical" href="http://blog.flywithme.top/2016/12/20/dequeuereusablecell/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>TableView 中 Cell的重用机制分析 - Fly With Bug</title>
     
-<meta name="description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta name="description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢?[tableView dequeueReusableCellWithIdentifier:CellIdentifier]由于苹果并没有开源,所以我就对这个 ``的实现分析一下。UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell, 对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。 重用实现分析:UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源 NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;TableView 初始化之初,这两个数据都是空的。通过[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] 创建新的 cell,创建之后 数据会进入visiableCells 中 当屏幕上的Cell 够用之后,会有一个 Cell 使用 key CellIdentifier 存 reusableTableCels 中,比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的: 用[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空 tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。">
 
 <meta property="og:title" content="TableView 中 Cell的重用机制分析 - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/">
+<meta property="og:url" content="http://blog.flywithme.top/2016/12/20/dequeuereusablecell/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta property="og:description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢?[tableView dequeueReusableCellWithIdentifier:CellIdentifier]由于苹果并没有开源,所以我就对这个 ``的实现分析一下。UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell, 对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。 重用实现分析:UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源 NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;TableView 初始化之初,这两个数据都是空的。通过[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] 创建新的 cell,创建之后 数据会进入visiableCells 中 当屏幕上的Cell 够用之后,会有一个 Cell 使用 key CellIdentifier 存 reusableTableCels 中,比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的: 用[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空 tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2016/12/20/dequeueReusableCell/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2016/12/20/dequeuereusablecell/">
 <meta name="twitter:title" content="TableView 中 Cell的重用机制分析 - Fly With Bug">
-<meta name="twitter:description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe">
+<meta name="twitter:description" content="UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢?[tableView dequeueReusableCellWithIdentifier:CellIdentifier]由于苹果并没有开源,所以我就对这个 ``的实现分析一下。UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell, 对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。 重用实现分析:UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源 NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;TableView 初始化之初,这两个数据都是空的。通过[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] 创建新的 cell,创建之后 数据会进入visiableCells 中 当屏幕上的Cell 够用之后,会有一个 Cell 使用 key CellIdentifier 存 reusableTableCels 中,比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的: 用[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空 tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,16 @@
         "height": 60
       }
     },
-    "description": "UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢? [tableView dequeueReusableCe"
+    "description": "UItableView 是我们经常会用到的一个数据列表展示控件, 其 Cell 复用api更是我们要经常用到的 这个方法到底是怎么实现的呢?
+[tableView dequeueReusableCellWithIdentifier:CellIdentifier]由于苹果并没有开源,所以我就对这个 ``的实现分析一下。
+UITableView 的显示和数据是分离的。 列表的实现并不是为每一个数据创建一个 Cell。 而是只创建屏幕可显示的最大个数的 Cell ,然后重用这些 cell, 对 Cell 做单独的显示配置,来达到既不影响显示效果,又可以充分解约资源的目的。
+ 重用实现分析:
+UITableView.m 中,应该会有两个数据元。 屏幕上已显示的数据源 NSMutableArray* visiableCells, 和一个待使用的可重用数据源 NSMutableDictionary * reusableCels;
+TableView 初始化之初,这两个数据都是空的。
+通过[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] 创建新的 cell,创建之后 数据会进入visiableCells 中 当屏幕上的Cell 够用之后,会有一个 Cell 使用 key CellIdentifier 存 reusableTableCels 中,
+比如有20条数据,而屏幕上最多可以显示5条数据。 程序最开始的时候情况是这样的:
+ 用[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]创建5次cell，并给cell指定同样的重用标识(当然，可以为不同显示类型的cell指定不同的标识)。并且5个cell全部都加入到visiableCells数组，reusableCells为空
+ tableView向上滚动时,第一个 Cell1 会移出屏幕,并且第6个 Cell6 也初始化显示完成之后, 第一个 Cell1 会进入reusableCells中,而第6个 Cell6 会加入到 visiableCells中。"
   }
 </script>
 
@@ -93,22 +102,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -224,7 +217,7 @@
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

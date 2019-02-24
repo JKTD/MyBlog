@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>关于 Swift3-01 - Fly With Bug</title>
     
-<meta name="description" content="Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了">
+<meta name="description" content="Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。 Swift 的开发从很久之前就开始了。为了给 Swift 打好基础，苹果公司改进了编译器，调试器和框架结构，让 Swift 使用自动引用计数（Automatic Reference Counting, ARC）来简化内存管理。 Objective-C 开发者对于 Swift 并不会感到陌生。它采用了 Objective-C 的命名参数以及动态对象模型，可以无缝对接到现有的 Cocoa 框架，并且可以兼容 Objective-C 代码。在此基础之上，Swift 还有许多新特性，支持面向过程编程和面向对象编程。 Swift 对于初学者来说也很简单。Swift是一门既满足工业标准又像脚本语言一样充满表现力和趣味的编程语言。Swift支持代码预览，这个革命性的特性可以允许程序员在不编译和运行应用程序的前提下运行 Swift 代码并实时查看结果。 使用 Swift编写 iOS，watchOS,macOS,和 tvOS apps 是一个极佳的选择。 Swift 3.0 是自 Swift开源以来第一个大的版本更新。从语言角度不兼容之前的版本。  部分摘自：AppleLibrary">
 
 <meta property="og:title" content="关于 Swift3-01 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/02/09/swift01/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了">
+<meta property="og:description" content="Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。 Swift 的开发从很久之前就开始了。为了给 Swift 打好基础，苹果公司改进了编译器，调试器和框架结构，让 Swift 使用自动引用计数（Automatic Reference Counting, ARC）来简化内存管理。 Objective-C 开发者对于 Swift 并不会感到陌生。它采用了 Objective-C 的命名参数以及动态对象模型，可以无缝对接到现有的 Cocoa 框架，并且可以兼容 Objective-C 代码。在此基础之上，Swift 还有许多新特性，支持面向过程编程和面向对象编程。 Swift 对于初学者来说也很简单。Swift是一门既满足工业标准又像脚本语言一样充满表现力和趣味的编程语言。Swift支持代码预览，这个革命性的特性可以允许程序员在不编译和运行应用程序的前提下运行 Swift 代码并实时查看结果。 使用 Swift编写 iOS，watchOS,macOS,和 tvOS apps 是一个极佳的选择。 Swift 3.0 是自 Swift开源以来第一个大的版本更新。从语言角度不兼容之前的版本。  部分摘自：AppleLibrary">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/02/09/swift01/">
 <meta name="twitter:title" content="关于 Swift3-01 - Fly With Bug">
-<meta name="twitter:description" content="Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了">
+<meta name="twitter:description" content="Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。 Swift 的开发从很久之前就开始了。为了给 Swift 打好基础，苹果公司改进了编译器，调试器和框架结构，让 Swift 使用自动引用计数（Automatic Reference Counting, ARC）来简化内存管理。 Objective-C 开发者对于 Swift 并不会感到陌生。它采用了 Objective-C 的命名参数以及动态对象模型，可以无缝对接到现有的 Cocoa 框架，并且可以兼容 Objective-C 代码。在此基础之上，Swift 还有许多新特性，支持面向过程编程和面向对象编程。 Swift 对于初学者来说也很简单。Swift是一门既满足工业标准又像脚本语言一样充满表现力和趣味的编程语言。Swift支持代码预览，这个革命性的特性可以允许程序员在不编译和运行应用程序的前提下运行 Swift 代码并实时查看结果。 使用 Swift编写 iOS，watchOS,macOS,和 tvOS apps 是一个极佳的选择。 Swift 3.0 是自 Swift开源以来第一个大的版本更新。从语言角度不兼容之前的版本。  部分摘自：AppleLibrary">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,13 @@
         "height": 60
       }
     },
-    "description": "Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了"
+    "description": "Swift 是一门新的编程语言，用于编写 iOS、OS X 以及 watchOS 应用程序。Swift 结合了 C 和 Objective-C 的优点并且不受C兼容性的限制。 Swift 使用安全的编程模式并添加了很多新特性，这将使编程更简单，扩展性更强，也更有趣。Swift 支持 Cocoa 和 Cocoa Touch 框架。
+ Swift 的开发从很久之前就开始了。为了给 Swift 打好基础，苹果公司改进了编译器，调试器和框架结构，让 Swift 使用自动引用计数（Automatic Reference Counting, ARC）来简化内存管理。
+ Objective-C 开发者对于 Swift 并不会感到陌生。它采用了 Objective-C 的命名参数以及动态对象模型，可以无缝对接到现有的 Cocoa 框架，并且可以兼容 Objective-C 代码。在此基础之上，Swift 还有许多新特性，支持面向过程编程和面向对象编程。
+ Swift 对于初学者来说也很简单。Swift是一门既满足工业标准又像脚本语言一样充满表现力和趣味的编程语言。Swift支持代码预览，这个革命性的特性可以允许程序员在不编译和运行应用程序的前提下运行 Swift 代码并实时查看结果。
+ 使用 Swift编写 iOS，watchOS,macOS,和 tvOS apps 是一个极佳的选择。
+ Swift 3.0 是自 Swift开源以来第一个大的版本更新。从语言角度不兼容之前的版本。
+  部分摘自：AppleLibrary"
   }
 </script>
 
@@ -93,22 +99,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -214,7 +204,7 @@ Swift 使用安全的编程模式并添加了很多新特性，这将使编程�
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

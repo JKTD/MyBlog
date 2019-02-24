@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>swift3-21 析构过程 - Fly With Bug</title>
     
-<meta name="description" content="在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。 析构过程原理 Sw">
+<meta name="description" content="在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。析构过程原理 Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的 时候可能就需要额外的清理了。比如打开另一个文件写入数据，就需要在实例被释放前关闭该文件。语法：在类的定义中，每个类最多只有一个析构函数，析构函数不带任何参数，不带括号deinit{ //执行析构过程 }  示例：deinit的调用时机var counter = 0; class BaseClass { init() { counter &#43;= 1; } deinit { counter -= 1; } } var show: BaseClass? = BaseClass() print(counter) // 1 show = nil print(counter) // 0  ">
 
 <meta property="og:title" content="swift3-21 析构过程 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/04/13/swift21/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。 析构过程原理 Sw">
+<meta property="og:description" content="在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。析构过程原理 Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的 时候可能就需要额外的清理了。比如打开另一个文件写入数据，就需要在实例被释放前关闭该文件。语法：在类的定义中，每个类最多只有一个析构函数，析构函数不带任何参数，不带括号deinit{ //执行析构过程 }  示例：deinit的调用时机var counter = 0; class BaseClass { init() { counter &#43;= 1; } deinit { counter -= 1; } } var show: BaseClass? = BaseClass() print(counter) // 1 show = nil print(counter) // 0  ">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/04/13/swift21/">
 <meta name="twitter:title" content="swift3-21 析构过程 - Fly With Bug">
-<meta name="twitter:description" content="在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。 析构过程原理 Sw">
+<meta name="twitter:description" content="在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。析构过程原理 Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的 时候可能就需要额外的清理了。比如打开另一个文件写入数据，就需要在实例被释放前关闭该文件。语法：在类的定义中，每个类最多只有一个析构函数，析构函数不带任何参数，不带括号deinit{ //执行析构过程 }  示例：deinit的调用时机var counter = 0; class BaseClass { init() { counter &#43;= 1; } deinit { counter -= 1; } } var show: BaseClass? = BaseClass() print(counter) // 1 show = nil print(counter) // 0  ">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,11 @@
         "height": 60
       }
     },
-    "description": "在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。 析构过程原理 Sw"
+    "description": "在一个类的实例被释放之前，析构函数就被立即调用，用关键字 deinit 来表示析构函数， 类似与初始化使用 init 来标示。析构函数只适用于类类型。
+析构过程原理 Swift会自动释放不在需要的实例以释放资源。通过ARC处理实例的内存管理。通常实例被释放是不需要手动清理的。但是当使用到一些资源的 时候可能就需要额外的清理了。比如打开另一个文件写入数据，就需要在实例被释放前关闭该文件。
+语法：在类的定义中，每个类最多只有一个析构函数，析构函数不带任何参数，不带括号
+deinit{ //执行析构过程 }  示例：deinit的调用时机
+var counter = 0; class BaseClass { init() { counter += 1; } deinit { counter -= 1; } } var show: BaseClass? = BaseClass() print(counter) // 1 show = nil print(counter) // 0  "
   }
 </script>
 
@@ -93,22 +97,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -227,7 +215,7 @@ print(counter) // 0
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

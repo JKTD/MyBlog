@@ -32,7 +32,7 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</loc>
+        <loc>http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/</loc>
         <lastmod>2018-12-18T03:35:24+08:00</lastmod>
     </url>
     
@@ -202,7 +202,7 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2017/11/16/Jenkins/</loc>
+        <loc>http://blog.flywithme.top/2017/11/16/jenkins/</loc>
         <lastmod>2017-11-16T16:59:57+08:00</lastmod>
     </url>
     
@@ -212,7 +212,7 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2017/11/15/PlistBuddy/</loc>
+        <loc>http://blog.flywithme.top/2017/11/15/plistbuddy/</loc>
         <lastmod>2017-11-15T19:06:14+08:00</lastmod>
     </url>
     
@@ -227,7 +227,7 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2017/11/11/gin-mysql-Web/</loc>
+        <loc>http://blog.flywithme.top/2017/11/11/gin-mysql-web/</loc>
         <lastmod>2017-11-11T19:57:02+08:00</lastmod>
     </url>
     
@@ -242,12 +242,12 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt/</loc>
+        <loc>http://blog.flywithme.top/2017-09-30-ios11scrollview20pt/</loc>
         <lastmod>2017-09-30T14:58:00+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2017/08/03/bigFileUpload/</loc>
+        <loc>http://blog.flywithme.top/2017/08/03/bigfileupload/</loc>
         <lastmod>2017-08-03T13:44:56+08:00</lastmod>
     </url>
     
@@ -367,17 +367,17 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/12/26/golang-Gin-Https/</loc>
+        <loc>http://blog.flywithme.top/2016/12/26/golang-gin-https/</loc>
         <lastmod>2016-12-26T14:29:14+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/12/20/dequeueReusableCell/</loc>
+        <loc>http://blog.flywithme.top/2016/12/20/dequeuereusablecell/</loc>
         <lastmod>2016-12-20T11:41:34+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/12/19/clientType/</loc>
+        <loc>http://blog.flywithme.top/2016/12/19/clienttype/</loc>
         <lastmod>2016-12-19T14:30:21+08:00</lastmod>
     </url>
     
@@ -387,22 +387,22 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/06/30/Go-gin01/</loc>
+        <loc>http://blog.flywithme.top/2016/06/30/go-gin01/</loc>
         <lastmod>2016-06-30T18:16:12+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/05/15/ReactiveCocoa/</loc>
+        <loc>http://blog.flywithme.top/2016/05/15/reactivecocoa/</loc>
         <lastmod>2016-06-14T14:33:00+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/06/12/modelExt/</loc>
+        <loc>http://blog.flywithme.top/2016/06/12/modelext/</loc>
         <lastmod>2016-06-12T15:14:43+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/05/27/Dlog-Introduce/</loc>
+        <loc>http://blog.flywithme.top/2016/05/27/dlog-introduce/</loc>
         <lastmod>2016-05-27T10:46:06+08:00</lastmod>
     </url>
     
@@ -412,27 +412,27 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/05/03/UINavigationBar-Summary/</loc>
+        <loc>http://blog.flywithme.top/2016/05/03/uinavigationbar-summary/</loc>
         <lastmod>2016-05-03T11:49:19+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/04/28/ReactNativeRD/</loc>
+        <loc>http://blog.flywithme.top/2016/04/28/reactnativerd/</loc>
         <lastmod>2016-04-28T10:54:03+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/04/27/Multipeer-Connectivity/</loc>
+        <loc>http://blog.flywithme.top/2016/04/27/multipeer-connectivity/</loc>
         <lastmod>2016-04-27T16:47:13+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/31/golang-Mgo/</loc>
+        <loc>http://blog.flywithme.top/2016/03/31/golang-mgo/</loc>
         <lastmod>2016-03-31T13:56:29+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/29/golangGin/</loc>
+        <loc>http://blog.flywithme.top/2016/03/29/golanggin/</loc>
         <lastmod>2016-03-29T19:04:26+08:00</lastmod>
     </url>
     
@@ -442,42 +442,42 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/26/iOSRunloop/</loc>
+        <loc>http://blog.flywithme.top/2016/03/26/iosrunloop/</loc>
         <lastmod>2016-03-26T23:10:12+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/26/ResponderChain/</loc>
+        <loc>http://blog.flywithme.top/2016/03/26/responderchain/</loc>
         <lastmod>2016-03-26T22:28:03+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/25/iOSCategoryProperty/</loc>
+        <loc>http://blog.flywithme.top/2016/03/25/ioscategoryproperty/</loc>
         <lastmod>2016-03-25T16:52:16+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/24/loadAndinitialize/</loc>
+        <loc>http://blog.flywithme.top/2016/03/24/loadandinitialize/</loc>
         <lastmod>2016-03-24T19:20:35+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/24/OCRuntime/</loc>
+        <loc>http://blog.flywithme.top/2016/03/24/ocruntime/</loc>
         <lastmod>2016-03-24T10:58:29+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2016/03/20/iOSNSPredicateUse/</loc>
+        <loc>http://blog.flywithme.top/2016/03/20/iosnspredicateuse/</loc>
         <lastmod>2016-03-20T17:40:29+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2015/09/15/JScallOC/</loc>
+        <loc>http://blog.flywithme.top/2015/09/15/jscalloc/</loc>
         <lastmod>2015-09-15T18:12:45+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2015/09/15/OCCallJS/</loc>
+        <loc>http://blog.flywithme.top/2015/09/15/occalljs/</loc>
         <lastmod>2015-09-15T18:05:59+08:00</lastmod>
     </url>
     
@@ -487,27 +487,27 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2015/08/17/appUpdate/</loc>
+        <loc>http://blog.flywithme.top/2015/08/17/appupdate/</loc>
         <lastmod>2015-08-17T14:06:05+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2015/02/27/JKImageView/</loc>
+        <loc>http://blog.flywithme.top/2015/02/27/jkimageview/</loc>
         <lastmod>2015-02-27T16:42:11+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2015/02/25/NSThread/</loc>
+        <loc>http://blog.flywithme.top/2015/02/25/nsthread/</loc>
         <lastmod>2015-02-25T16:37:37+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2015/02/24/NSOperation/</loc>
+        <loc>http://blog.flywithme.top/2015/02/24/nsoperation/</loc>
         <lastmod>2015-02-24T15:57:21+08:00</lastmod>
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/2015/01/20/GCD/</loc>
+        <loc>http://blog.flywithme.top/2015/01/20/gcd/</loc>
         <lastmod>2015-01-20T14:16:48+08:00</lastmod>
     </url>
     
@@ -517,7 +517,7 @@
     </url>
     
     <url>
-        <loc>http://blog.flywithme.top/sources/localHtml/clientType01/</loc>
+        <loc>http://blog.flywithme.top/sources/localhtml/clienttype01/</loc>
         <lastmod>0001-01-01T00:00:00+00:00</lastmod>
     </url>
     

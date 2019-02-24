@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug</title>
     
-<meta name="description" content="如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] }) 当你使用 ```history``` 模式时，">
+<meta name="description" content="如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。  const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] }) 当你使用 ```history``` 模式时，URL 就像正常的 url，例如 ```http://yoursite.com/user/id```，也好看！ 不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 ```http://oursite.com/user/id``` 就会返回 404，这就不好看了。 所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 ```index.html``` 页面，这个页面就是你 app 依赖的页面。 #### **go gin框架配置示例** 由于我使用go的gin框架做服务器，示例代码如下 [源码地址](https://github.com/flywithbug-docmanager/docmanager)  func NoRoute(c *gin.Context) { path := strings.Split(c.Request.URL.Path, &amp;ldquo;/&amp;rdquo;) if (path[1] != &amp;ldquo;&amp;rdquo;) &amp;amp;&amp;amp; (path[1] == &amp;ldquo;api&amp;rdquo;) { aRes := model.NewResponse() aRes.Code = http.StatusNotFound aRes.Msg = &amp;ldquo;no route&amp;rdquo; c.">
 
 <meta property="og:title" content="Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/12/24/vue_webserver/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] }) 当你使用 ```history``` 模式时，">
+<meta property="og:description" content="如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。  const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] }) 当你使用 ```history``` 模式时，URL 就像正常的 url，例如 ```http://yoursite.com/user/id```，也好看！ 不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 ```http://oursite.com/user/id``` 就会返回 404，这就不好看了。 所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 ```index.html``` 页面，这个页面就是你 app 依赖的页面。 #### **go gin框架配置示例** 由于我使用go的gin框架做服务器，示例代码如下 [源码地址](https://github.com/flywithbug-docmanager/docmanager)  func NoRoute(c *gin.Context) { path := strings.Split(c.Request.URL.Path, &amp;ldquo;/&amp;rdquo;) if (path[1] != &amp;ldquo;&amp;rdquo;) &amp;amp;&amp;amp; (path[1] == &amp;ldquo;api&amp;rdquo;) { aRes := model.NewResponse() aRes.Code = http.StatusNotFound aRes.Msg = &amp;ldquo;no route&amp;rdquo; c.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/12/24/vue_webserver/">
 <meta name="twitter:title" content="Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug">
-<meta name="twitter:description" content="如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] }) 当你使用 ```history``` 模式时，">
+<meta name="twitter:description" content="如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。  const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] }) 当你使用 ```history``` 模式时，URL 就像正常的 url，例如 ```http://yoursite.com/user/id```，也好看！ 不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 ```http://oursite.com/user/id``` 就会返回 404，这就不好看了。 所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 ```index.html``` 页面，这个页面就是你 app 依赖的页面。 #### **go gin框架配置示例** 由于我使用go的gin框架做服务器，示例代码如下 [源码地址](https://github.com/flywithbug-docmanager/docmanager)  func NoRoute(c *gin.Context) { path := strings.Split(c.Request.URL.Path, &amp;ldquo;/&amp;rdquo;) if (path[1] != &amp;ldquo;&amp;rdquo;) &amp;amp;&amp;amp; (path[1] == &amp;ldquo;api&amp;rdquo;) { aRes := model.NewResponse() aRes.Code = http.StatusNotFound aRes.Msg = &amp;ldquo;no route&amp;rdquo; c.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,8 @@
         "height": 60
       }
     },
-    "description": "如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &lsquo;history&rsquo;, routes: [&hellip;] }) 当你使用 ```history``` 模式时，"
+    "description": "如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。  const router = new VueRouter({ mode: &lsquo;history&rsquo;, routes: [&hellip;] })
+ 当你使用 ```history``` 模式时，URL 就像正常的 url，例如 ```http://yoursite.com/user/id```，也好看！ 不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 ```http://oursite.com/user/id``` 就会返回 404，这就不好看了。 所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 ```index.html``` 页面，这个页面就是你 app 依赖的页面。 #### **go gin框架配置示例** 由于我使用go的gin框架做服务器，示例代码如下 [源码地址](https://github.com/flywithbug-docmanager/docmanager)  func NoRoute(c *gin.Context) { path := strings.Split(c.Request.URL.Path, &ldquo;/&rdquo;) if (path[1] != &ldquo;&rdquo;) &amp;&amp; (path[1] == &ldquo;api&rdquo;) { aRes := model.NewResponse() aRes.Code = http.StatusNotFound aRes.Msg = &ldquo;no route&rdquo; c."
   }
 </script>
 
@@ -93,22 +94,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -391,7 +376,7 @@ res.end(content)
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

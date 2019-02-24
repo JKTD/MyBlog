@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Go: 4-1 面向对象 - Fly With Bug</title>
     
-<meta name="description" content="Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量">
+<meta name="description" content="Go语言的面向对象  Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct  结构的创建  使用自定义工厂函数，需要返回局部变量的地址   type treeNode struct { value int left,right *treeNode } func CreatNode(value int)*treeNode { return &amp;amp;treeNode{value:value} } root := treeNode{value:3} root.right = CreatNode(3)   结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收 从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了 变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。  type struct T { xxx} func f() *T { var ret T return &amp;amp;ret }   Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆  const Width, Height = 640, 480 type Cursor struct { X, Y int } func Center(c *Cursor) { c.">
 
 <meta property="og:title" content="Go: 4-1 面向对象 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2018/02/08/note_08/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量">
+<meta property="og:description" content="Go语言的面向对象  Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct  结构的创建  使用自定义工厂函数，需要返回局部变量的地址   type treeNode struct { value int left,right *treeNode } func CreatNode(value int)*treeNode { return &amp;amp;treeNode{value:value} } root := treeNode{value:3} root.right = CreatNode(3)   结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收 从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了 变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。  type struct T { xxx} func f() *T { var ret T return &amp;amp;ret }   Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆  const Width, Height = 640, 480 type Cursor struct { X, Y int } func Center(c *Cursor) { c.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2018/02/08/note_08/">
 <meta name="twitter:title" content="Go: 4-1 面向对象 - Fly With Bug">
-<meta name="twitter:description" content="Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量">
+<meta name="twitter:description" content="Go语言的面向对象  Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct  结构的创建  使用自定义工厂函数，需要返回局部变量的地址   type treeNode struct { value int left,right *treeNode } func CreatNode(value int)*treeNode { return &amp;amp;treeNode{value:value} } root := treeNode{value:3} root.right = CreatNode(3)   结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收 从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了 变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。  type struct T { xxx} func f() *T { var ret T return &amp;amp;ret }   Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆  const Width, Height = 640, 480 type Cursor struct { X, Y int } func Center(c *Cursor) { c.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,9 @@
         "height": 60
       }
     },
-    "description": "Go语言的面向对象 Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct 结构的创建 使用自定义工厂函数，需要返回局部变量"
+    "description": "Go语言的面向对象  Go语言仅支持封装，不支持继承和多态 Go语言没有class，只有struct  结构的创建  使用自定义工厂函数，需要返回局部变量的地址   type treeNode struct { value int left,right *treeNode } func CreatNode(value int)*treeNode { return &amp;treeNode{value:value} } root := treeNode{value:3} root.right = CreatNode(3)   结构创建位置是在编译阶段由编译器决定，最后由go的GC垃圾回收器回收 从正确性的角度，用户不用关心内存在哪里分配的就是了。一般来说，如果有地方用到了那个地址，那么变量就会在堆上分配了
+ 变量ret的内存会在堆上分配的，Go的编译器会决定在哪(堆or栈)分配内存，保证程序的正确性。
+  type struct T { xxx} func f() *T { var ret T return &amp;ret }   Go的编译器很聪明(自作聪明)，它还会做逃逸分析(escape analysis)，如果它发现变量的作用域没有跑出太远，它就可以在栈上分配空间而不是堆  const Width, Height = 640, 480 type Cursor struct { X, Y int } func Center(c *Cursor) { c."
   }
 </script>
 
@@ -93,22 +95,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -305,7 +291,7 @@ func CenterCursor() {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

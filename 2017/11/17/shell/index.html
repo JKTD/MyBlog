@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Shell 小记，-文本操作 - Fly With Bug</title>
     
-<meta name="description" content="修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。">
+<meta name="description" content="修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。  最开始想使用 sed 这个命令，但是mac上-i命令无法使用，使用-e sed -e &amp;quot;4d&amp;quot; Pod/Resources/MCICheckTime 命令可以修改， 但是无法输出修改内容到文件上。一直提示no such file. 无法，只得另找办法awk 更换到使用awk命令的方式在文件的当前目录下操作 cmms=`date &#39;&#43;%y.%m.%d.%H&#39;` export version=&amp;quot; s.version = \&amp;quot;$cmms\&amp;quot;&amp;quot; awk &#39;NR==4{$0=ENVIRON[&amp;quot;version&amp;quot;]}{print}&#39; MTAForMCICodeInspect_backup.podspec &amp;gt; MTAForMCICodeInspect.podspec  我知道肯定有更简单直接的方法，但是因为不熟悉shell脚本，走了很多弯路，这个是我一个下午折腾出来可以实现的路径，某些路过的同学可以少走些弯路，如果知道更方便的方法，好请邮件（flywithme.top@gmail.com）告知下啊。非常感谢">
 
 <meta property="og:title" content="Shell 小记，-文本操作 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/11/17/shell/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。">
+<meta property="og:description" content="修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。  最开始想使用 sed 这个命令，但是mac上-i命令无法使用，使用-e sed -e &amp;quot;4d&amp;quot; Pod/Resources/MCICheckTime 命令可以修改， 但是无法输出修改内容到文件上。一直提示no such file. 无法，只得另找办法awk 更换到使用awk命令的方式在文件的当前目录下操作 cmms=`date &#39;&#43;%y.%m.%d.%H&#39;` export version=&amp;quot; s.version = \&amp;quot;$cmms\&amp;quot;&amp;quot; awk &#39;NR==4{$0=ENVIRON[&amp;quot;version&amp;quot;]}{print}&#39; MTAForMCICodeInspect_backup.podspec &amp;gt; MTAForMCICodeInspect.podspec  我知道肯定有更简单直接的方法，但是因为不熟悉shell脚本，走了很多弯路，这个是我一个下午折腾出来可以实现的路径，某些路过的同学可以少走些弯路，如果知道更方便的方法，好请邮件（flywithme.top@gmail.com）告知下啊。非常感谢">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/11/17/shell/">
 <meta name="twitter:title" content="Shell 小记，-文本操作 - Fly With Bug">
-<meta name="twitter:description" content="修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。">
+<meta name="twitter:description" content="修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。  最开始想使用 sed 这个命令，但是mac上-i命令无法使用，使用-e sed -e &amp;quot;4d&amp;quot; Pod/Resources/MCICheckTime 命令可以修改， 但是无法输出修改内容到文件上。一直提示no such file. 无法，只得另找办法awk 更换到使用awk命令的方式在文件的当前目录下操作 cmms=`date &#39;&#43;%y.%m.%d.%H&#39;` export version=&amp;quot; s.version = \&amp;quot;$cmms\&amp;quot;&amp;quot; awk &#39;NR==4{$0=ENVIRON[&amp;quot;version&amp;quot;]}{print}&#39; MTAForMCICodeInspect_backup.podspec &amp;gt; MTAForMCICodeInspect.podspec  我知道肯定有更简单直接的方法，但是因为不熟悉shell脚本，走了很多弯路，这个是我一个下午折腾出来可以实现的路径，某些路过的同学可以少走些弯路，如果知道更方便的方法，好请邮件（flywithme.top@gmail.com）告知下啊。非常感谢">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,11 @@
         "height": 60
       }
     },
-    "description": "修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。"
+    "description": "修改文件的某一行内容 做自动的git提交和PodSpec发布脚本 需要在提交之前使用shell脚本修改podSpec文件的Version版本号。  最开始想使用 sed 这个命令，但是mac上-i命令无法使用，使用-e sed -e &quot;4d&quot; Pod/Resources/MCICheckTime 命令可以修改， 但是无法输出修改内容到文件上。一直提示no such file. 无法，只得另找办法
+awk 更换到使用awk命令的方式
+在文件的当前目录下操作
+ cmms=`date '+%y.%m.%d.%H'` export version=&quot; s.version = \&quot;$cmms\&quot;&quot; awk 'NR==4{$0=ENVIRON[&quot;version&quot;]}{print}' MTAForMCICodeInspect_backup.podspec &gt; MTAForMCICodeInspect.podspec  我知道肯定有更简单直接的方法，但是因为不熟悉shell脚本，走了很多弯路，这个是我一个下午折腾出来可以实现的路径，某些路过的同学可以少走些弯路，
+如果知道更方便的方法，好请邮件（flywithme.top@gmail.com）告知下啊。非常感谢"
   }
 </script>
 
@@ -93,22 +97,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -219,7 +207,7 @@
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

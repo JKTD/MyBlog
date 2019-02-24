@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>swift3-16 属性 - Fly With Bug</title>
     
-<meta name="description" content="Swift 属性将值跟特定的类、结构或枚举关联 属性可分为存储属性和计算属性: 存储属性 计算属性 存储常量或变量作为实例的一部分 计算（而不是存储）一个值 用于">
+<meta name="description" content="Swift 属性将值跟特定的类、结构或枚举关联属性可分为存储属性和计算属性:   存储属性 计算属性     存储常量或变量作为实例的一部分 计算（而不是存储）一个值   用于类和结构体 用于类、结构体和枚举    存储属性 可以在定义存储属性的时候指定默认值 在构造过程中设置或修改存储值属性的值，身子修改常量存储属性的值   延迟存储属性 lazy property 延迟对象的创建 当属性的值依赖于其他未知类class CloseRange{ var start: Int var end:Int var width:Int{ return end - start &#43; 1 } lazy var sum: Int = { var res = 0 for i in self.start&amp;hellip;self.end{ res &#43;= 1 } return res }() var sum1: Int { var res = 0 for i in start&amp;hellip;end{ res &#43;= 1 } return res } init?">
 
 <meta property="og:title" content="swift3-16 属性 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/03/30/swift16/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="Swift 属性将值跟特定的类、结构或枚举关联 属性可分为存储属性和计算属性: 存储属性 计算属性 存储常量或变量作为实例的一部分 计算（而不是存储）一个值 用于">
+<meta property="og:description" content="Swift 属性将值跟特定的类、结构或枚举关联属性可分为存储属性和计算属性:   存储属性 计算属性     存储常量或变量作为实例的一部分 计算（而不是存储）一个值   用于类和结构体 用于类、结构体和枚举    存储属性 可以在定义存储属性的时候指定默认值 在构造过程中设置或修改存储值属性的值，身子修改常量存储属性的值   延迟存储属性 lazy property 延迟对象的创建 当属性的值依赖于其他未知类class CloseRange{ var start: Int var end:Int var width:Int{ return end - start &#43; 1 } lazy var sum: Int = { var res = 0 for i in self.start&amp;hellip;self.end{ res &#43;= 1 } return res }() var sum1: Int { var res = 0 for i in start&amp;hellip;end{ res &#43;= 1 } return res } init?">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/03/30/swift16/">
 <meta name="twitter:title" content="swift3-16 属性 - Fly With Bug">
-<meta name="twitter:description" content="Swift 属性将值跟特定的类、结构或枚举关联 属性可分为存储属性和计算属性: 存储属性 计算属性 存储常量或变量作为实例的一部分 计算（而不是存储）一个值 用于">
+<meta name="twitter:description" content="Swift 属性将值跟特定的类、结构或枚举关联属性可分为存储属性和计算属性:   存储属性 计算属性     存储常量或变量作为实例的一部分 计算（而不是存储）一个值   用于类和结构体 用于类、结构体和枚举    存储属性 可以在定义存储属性的时候指定默认值 在构造过程中设置或修改存储值属性的值，身子修改常量存储属性的值   延迟存储属性 lazy property 延迟对象的创建 当属性的值依赖于其他未知类class CloseRange{ var start: Int var end:Int var width:Int{ return end - start &#43; 1 } lazy var sum: Int = { var res = 0 for i in self.start&amp;hellip;self.end{ res &#43;= 1 } return res }() var sum1: Int { var res = 0 for i in start&amp;hellip;end{ res &#43;= 1 } return res } init?">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,12 @@
         "height": 60
       }
     },
-    "description": "Swift 属性将值跟特定的类、结构或枚举关联 属性可分为存储属性和计算属性: 存储属性 计算属性 存储常量或变量作为实例的一部分 计算（而不是存储）一个值 用于"
+    "description": "Swift 属性将值跟特定的类、结构或枚举关联
+属性可分为存储属性和计算属性:
+   存储属性 计算属性     存储常量或变量作为实例的一部分 计算（而不是存储）一个值   用于类和结构体 用于类、结构体和枚举    存储属性
+ 可以在定义存储属性的时候指定默认值 在构造过程中设置或修改存储值属性的值，身子修改常量存储属性的值   延迟存储属性 lazy property
+ 延迟对象的创建 当属性的值依赖于其他未知类
+class CloseRange{ var start: Int var end:Int var width:Int{ return end - start + 1 } lazy var sum: Int = { var res = 0 for i in self.start&hellip;self.end{ res += 1 } return res }() var sum1: Int { var res = 0 for i in start&hellip;end{ res += 1 } return res } init?"
   }
 </script>
 
@@ -93,22 +98,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -453,7 +442,7 @@ ui.backGroundColor
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

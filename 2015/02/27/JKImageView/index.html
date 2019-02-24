@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2015/02/27/JKImageView/">
+<link rel="canonical" href="http://blog.flywithme.top/2015/02/27/jkimageview/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>JKImageView - Fly With Bug</title>
     
-<meta name="description" content="项目地址:https://github.com/brasbug/JKImageView-- 第一步：拿到网络图片并显示出来 首先重网络拿到图片资">
+<meta name="description" content="项目地址:https://github.com/brasbug/JKImageView--  第一步：拿到网络图片并显示出来 首先重网络拿到图片资源  代码   把拿到的图片资源给相应的控件来展示&amp;nbsp;soeasy !!  代码然而因为没有考虑线程阻塞问题，一张图片还好，如果有多张网络图片或者列表里需要展示一系列网络图片，这样做的结果就是被自己蠢哭！  &amp;nbsp;  第二步：怎么做才能让我拿到图片的时候不卡 这个时候就需要借助于多线程技术了  多线程是什么玩意儿：iOS程序在启动的时候会创建一个主线程。因为一个线程只能执行一件事情，如果主线程执行某些耗时操作，比如我之前遇到的问题加载图片，或者是下载资源文件等就会阻塞主线程(导致界面卡死现象)，所以就需要使用多线程技术避免这类情况。iOS中有三种多线程技术，NSThread，NSOperation，GCD，这3种技术随着iOS的发展引入，抽象层次由低到高，使用也越来越简单。 多线程一些必要知识点  多线程使用并不是无节制的：iOS主线程堆栈大小是1M左右点击打开链接，从第二个线程开始都是512KB（官方文档）只有主线程可以修改UI（显示图片，更改显示文字等）,因为其余线程都是独立于Cocao Touch的，虽然有时在异步线程中可以实现界面修改，但是强烈不建议这么做。多线程并不能提高程序的运行效率，而是通过并发任务提高资源使用率来提高系统的整体性能。就单核而言，两个线程可以解决线程阻塞问题，但是执行效率比起一个线程执行是差不多的，并且再创建一个新线程的时候会消耗一定的内存和CPU时间。多线程只是葱粉发挥系统多核处理器的优势，并发执行任务以提高效率。但是哪个CPU上执行任务都是由系统调度的，开发者不需要纠结有几个CPU，只需要关系线程的使用以及线程间的关系就可以了。尽量不要多个线程去抢夺共享资源，如果必须要这样做，需要注意线程安全。   So 现在开始考虑到底选用哪一种方法来完成我的功能。  NSThreadNSOperationGCD（全称：Grand Central Dispatch）（&amp;nbsp;是基于C语言的框架，可以充分利用多核，是苹果推荐使用的多线程技术）  选哪一种技术来完成我的图片异步加载  NSThread 不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期（我要做的太多）GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）（我能做的太少，如果是一个用时非常长的操作，我无法取消）NSOperation 我不想做的和我想自己做的都给我预留。 看来只能选你啦。（可以很方便的取消一个线程，可以很容易的添加依赖关系，可以设置最大并发数，提供了任务状态。）   第三步：新建一个UIImageView的Category &amp;nbsp;UIImageView&amp;#43;JKWebCache&amp;nbsp; 写出异步方法并用来加载网络图片  加载代码结果：图片加载成功，而且没有卡主线程。 但是列表每次重载图片的时候都会重新请求网络图片，效果没达到预期。 看来需要把图片缓存下来，以便下次重载的时候调用。  JKImageCache &amp;nbsp; 这个类是我用来处理缓存数据的。有一个单例方法 &amp;#43;(instancetype)shareInstance &amp;nbsp; &amp;nbsp; &amp;nbsp;我选择用NSCache 来存储下载的图片数据 但是有一个问题关闭应用或者内存报警之后NSCache会清除一部分数据或者清空，再次加载同一张照片的时候还是会再下载一次。SO：我打算把下载的图片缓存到disk中,下次加载的时候先从内存拿，拿不到再去disk拿，也拿不到就去下载。下载成功之后会缓存到内存和disk中。     但是当我再重本地拿图片的时候发现了一个Bug &amp;nbsp;之前加载的GIF图片不会动了。  经查找原因 ，应该是存储是时候损失了一些图片信息 判断data是不是空， 非空就不再做图片转换。 加上占位图功能 过期图片自动清理（每次当应用退出到后天的时候会调用cleanDiskFile方法清理过期图片）  判断缓存和内存中没有改地址图片的的时候使用占位图展示。   一个最基本的 网络图片加载工具完成了。    &amp;nbsp; &amp;nbsp; &amp;nbsp; 第四步：优化一些细节 图片下载方法过于简单， 会遇到很多无法下载的情况，而无法查找原因把下载抽出来做管理">
 
 <meta property="og:title" content="JKImageView - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2015/02/27/JKImageView/">
+<meta property="og:url" content="http://blog.flywithme.top/2015/02/27/jkimageview/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="项目地址:https://github.com/brasbug/JKImageView-- 第一步：拿到网络图片并显示出来 首先重网络拿到图片资">
+<meta property="og:description" content="项目地址:https://github.com/brasbug/JKImageView--  第一步：拿到网络图片并显示出来 首先重网络拿到图片资源  代码   把拿到的图片资源给相应的控件来展示&amp;nbsp;soeasy !!  代码然而因为没有考虑线程阻塞问题，一张图片还好，如果有多张网络图片或者列表里需要展示一系列网络图片，这样做的结果就是被自己蠢哭！  &amp;nbsp;  第二步：怎么做才能让我拿到图片的时候不卡 这个时候就需要借助于多线程技术了  多线程是什么玩意儿：iOS程序在启动的时候会创建一个主线程。因为一个线程只能执行一件事情，如果主线程执行某些耗时操作，比如我之前遇到的问题加载图片，或者是下载资源文件等就会阻塞主线程(导致界面卡死现象)，所以就需要使用多线程技术避免这类情况。iOS中有三种多线程技术，NSThread，NSOperation，GCD，这3种技术随着iOS的发展引入，抽象层次由低到高，使用也越来越简单。 多线程一些必要知识点  多线程使用并不是无节制的：iOS主线程堆栈大小是1M左右点击打开链接，从第二个线程开始都是512KB（官方文档）只有主线程可以修改UI（显示图片，更改显示文字等）,因为其余线程都是独立于Cocao Touch的，虽然有时在异步线程中可以实现界面修改，但是强烈不建议这么做。多线程并不能提高程序的运行效率，而是通过并发任务提高资源使用率来提高系统的整体性能。就单核而言，两个线程可以解决线程阻塞问题，但是执行效率比起一个线程执行是差不多的，并且再创建一个新线程的时候会消耗一定的内存和CPU时间。多线程只是葱粉发挥系统多核处理器的优势，并发执行任务以提高效率。但是哪个CPU上执行任务都是由系统调度的，开发者不需要纠结有几个CPU，只需要关系线程的使用以及线程间的关系就可以了。尽量不要多个线程去抢夺共享资源，如果必须要这样做，需要注意线程安全。   So 现在开始考虑到底选用哪一种方法来完成我的功能。  NSThreadNSOperationGCD（全称：Grand Central Dispatch）（&amp;nbsp;是基于C语言的框架，可以充分利用多核，是苹果推荐使用的多线程技术）  选哪一种技术来完成我的图片异步加载  NSThread 不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期（我要做的太多）GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）（我能做的太少，如果是一个用时非常长的操作，我无法取消）NSOperation 我不想做的和我想自己做的都给我预留。 看来只能选你啦。（可以很方便的取消一个线程，可以很容易的添加依赖关系，可以设置最大并发数，提供了任务状态。）   第三步：新建一个UIImageView的Category &amp;nbsp;UIImageView&amp;#43;JKWebCache&amp;nbsp; 写出异步方法并用来加载网络图片  加载代码结果：图片加载成功，而且没有卡主线程。 但是列表每次重载图片的时候都会重新请求网络图片，效果没达到预期。 看来需要把图片缓存下来，以便下次重载的时候调用。  JKImageCache &amp;nbsp; 这个类是我用来处理缓存数据的。有一个单例方法 &amp;#43;(instancetype)shareInstance &amp;nbsp; &amp;nbsp; &amp;nbsp;我选择用NSCache 来存储下载的图片数据 但是有一个问题关闭应用或者内存报警之后NSCache会清除一部分数据或者清空，再次加载同一张照片的时候还是会再下载一次。SO：我打算把下载的图片缓存到disk中,下次加载的时候先从内存拿，拿不到再去disk拿，也拿不到就去下载。下载成功之后会缓存到内存和disk中。     但是当我再重本地拿图片的时候发现了一个Bug &amp;nbsp;之前加载的GIF图片不会动了。  经查找原因 ，应该是存储是时候损失了一些图片信息 判断data是不是空， 非空就不再做图片转换。 加上占位图功能 过期图片自动清理（每次当应用退出到后天的时候会调用cleanDiskFile方法清理过期图片）  判断缓存和内存中没有改地址图片的的时候使用占位图展示。   一个最基本的 网络图片加载工具完成了。    &amp;nbsp; &amp;nbsp; &amp;nbsp; 第四步：优化一些细节 图片下载方法过于简单， 会遇到很多无法下载的情况，而无法查找原因把下载抽出来做管理">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2015/02/27/JKImageView/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2015/02/27/jkimageview/">
 <meta name="twitter:title" content="JKImageView - Fly With Bug">
-<meta name="twitter:description" content="项目地址:https://github.com/brasbug/JKImageView-- 第一步：拿到网络图片并显示出来 首先重网络拿到图片资">
+<meta name="twitter:description" content="项目地址:https://github.com/brasbug/JKImageView--  第一步：拿到网络图片并显示出来 首先重网络拿到图片资源  代码   把拿到的图片资源给相应的控件来展示&amp;nbsp;soeasy !!  代码然而因为没有考虑线程阻塞问题，一张图片还好，如果有多张网络图片或者列表里需要展示一系列网络图片，这样做的结果就是被自己蠢哭！  &amp;nbsp;  第二步：怎么做才能让我拿到图片的时候不卡 这个时候就需要借助于多线程技术了  多线程是什么玩意儿：iOS程序在启动的时候会创建一个主线程。因为一个线程只能执行一件事情，如果主线程执行某些耗时操作，比如我之前遇到的问题加载图片，或者是下载资源文件等就会阻塞主线程(导致界面卡死现象)，所以就需要使用多线程技术避免这类情况。iOS中有三种多线程技术，NSThread，NSOperation，GCD，这3种技术随着iOS的发展引入，抽象层次由低到高，使用也越来越简单。 多线程一些必要知识点  多线程使用并不是无节制的：iOS主线程堆栈大小是1M左右点击打开链接，从第二个线程开始都是512KB（官方文档）只有主线程可以修改UI（显示图片，更改显示文字等）,因为其余线程都是独立于Cocao Touch的，虽然有时在异步线程中可以实现界面修改，但是强烈不建议这么做。多线程并不能提高程序的运行效率，而是通过并发任务提高资源使用率来提高系统的整体性能。就单核而言，两个线程可以解决线程阻塞问题，但是执行效率比起一个线程执行是差不多的，并且再创建一个新线程的时候会消耗一定的内存和CPU时间。多线程只是葱粉发挥系统多核处理器的优势，并发执行任务以提高效率。但是哪个CPU上执行任务都是由系统调度的，开发者不需要纠结有几个CPU，只需要关系线程的使用以及线程间的关系就可以了。尽量不要多个线程去抢夺共享资源，如果必须要这样做，需要注意线程安全。   So 现在开始考虑到底选用哪一种方法来完成我的功能。  NSThreadNSOperationGCD（全称：Grand Central Dispatch）（&amp;nbsp;是基于C语言的框架，可以充分利用多核，是苹果推荐使用的多线程技术）  选哪一种技术来完成我的图片异步加载  NSThread 不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期（我要做的太多）GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）（我能做的太少，如果是一个用时非常长的操作，我无法取消）NSOperation 我不想做的和我想自己做的都给我预留。 看来只能选你啦。（可以很方便的取消一个线程，可以很容易的添加依赖关系，可以设置最大并发数，提供了任务状态。）   第三步：新建一个UIImageView的Category &amp;nbsp;UIImageView&amp;#43;JKWebCache&amp;nbsp; 写出异步方法并用来加载网络图片  加载代码结果：图片加载成功，而且没有卡主线程。 但是列表每次重载图片的时候都会重新请求网络图片，效果没达到预期。 看来需要把图片缓存下来，以便下次重载的时候调用。  JKImageCache &amp;nbsp; 这个类是我用来处理缓存数据的。有一个单例方法 &amp;#43;(instancetype)shareInstance &amp;nbsp; &amp;nbsp; &amp;nbsp;我选择用NSCache 来存储下载的图片数据 但是有一个问题关闭应用或者内存报警之后NSCache会清除一部分数据或者清空，再次加载同一张照片的时候还是会再下载一次。SO：我打算把下载的图片缓存到disk中,下次加载的时候先从内存拿，拿不到再去disk拿，也拿不到就去下载。下载成功之后会缓存到内存和disk中。     但是当我再重本地拿图片的时候发现了一个Bug &amp;nbsp;之前加载的GIF图片不会动了。  经查找原因 ，应该是存储是时候损失了一些图片信息 判断data是不是空， 非空就不再做图片转换。 加上占位图功能 过期图片自动清理（每次当应用退出到后天的时候会调用cleanDiskFile方法清理过期图片）  判断缓存和内存中没有改地址图片的的时候使用占位图展示。   一个最基本的 网络图片加载工具完成了。    &amp;nbsp; &amp;nbsp; &amp;nbsp; 第四步：优化一些细节 图片下载方法过于简单， 会遇到很多无法下载的情况，而无法查找原因把下载抽出来做管理">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,8 @@
         "height": 60
       }
     },
-    "description": "项目地址:https://github.com/brasbug/JKImageView-- 第一步：拿到网络图片并显示出来 首先重网络拿到图片资"
+    "description": "项目地址:https://github.com/brasbug/JKImageView--  第一步：拿到网络图片并显示出来 首先重网络拿到图片资源  代码   把拿到的图片资源给相应的控件来展示&nbsp;soeasy !!  代码然而因为没有考虑线程阻塞问题，一张图片还好，如果有多张网络图片或者列表里需要展示一系列网络图片，这样做的结果就是被自己蠢哭！  &nbsp;  第二步：怎么做才能让我拿到图片的时候不卡 这个时候就需要借助于多线程技术了  多线程是什么玩意儿：iOS程序在启动的时候会创建一个主线程。因为一个线程只能执行一件事情，如果主线程执行某些耗时操作，比如我之前遇到的问题加载图片，或者是下载资源文件等就会阻塞主线程(导致界面卡死现象)，所以就需要使用多线程技术避免这类情况。iOS中有三种多线程技术，NSThread，NSOperation，GCD，这3种技术随着iOS的发展引入，抽象层次由低到高，使用也越来越简单。 多线程一些必要知识点  多线程使用并不是无节制的：iOS主线程堆栈大小是1M左右点击打开链接，从第二个线程开始都是512KB（官方文档）只有主线程可以修改UI（显示图片，更改显示文字等）,因为其余线程都是独立于Cocao Touch的，虽然有时在异步线程中可以实现界面修改，但是强烈不建议这么做。多线程并不能提高程序的运行效率，而是通过并发任务提高资源使用率来提高系统的整体性能。就单核而言，两个线程可以解决线程阻塞问题，但是执行效率比起一个线程执行是差不多的，并且再创建一个新线程的时候会消耗一定的内存和CPU时间。多线程只是葱粉发挥系统多核处理器的优势，并发执行任务以提高效率。但是哪个CPU上执行任务都是由系统调度的，开发者不需要纠结有几个CPU，只需要关系线程的使用以及线程间的关系就可以了。尽量不要多个线程去抢夺共享资源，如果必须要这样做，需要注意线程安全。   So 现在开始考虑到底选用哪一种方法来完成我的功能。  NSThreadNSOperationGCD（全称：Grand Central Dispatch）（&nbsp;是基于C语言的框架，可以充分利用多核，是苹果推荐使用的多线程技术）  选哪一种技术来完成我的图片异步加载  NSThread 不能控制线程执行顺序，不能控制线程并发数，需要自己管理线程生命周期（我要做的太多）GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）（我能做的太少，如果是一个用时非常长的操作，我无法取消）NSOperation 我不想做的和我想自己做的都给我预留。 看来只能选你啦。（可以很方便的取消一个线程，可以很容易的添加依赖关系，可以设置最大并发数，提供了任务状态。）   第三步：新建一个UIImageView的Category &nbsp;UIImageView&#43;JKWebCache&nbsp; 写出异步方法并用来加载网络图片  加载代码结果：图片加载成功，而且没有卡主线程。 但是列表每次重载图片的时候都会重新请求网络图片，效果没达到预期。 看来需要把图片缓存下来，以便下次重载的时候调用。  JKImageCache &nbsp; 这个类是我用来处理缓存数据的。有一个单例方法 &#43;(instancetype)shareInstance &nbsp; &nbsp; &nbsp;我选择用NSCache 来存储下载的图片数据
+ 但是有一个问题关闭应用或者内存报警之后NSCache会清除一部分数据或者清空，再次加载同一张照片的时候还是会再下载一次。SO：我打算把下载的图片缓存到disk中,下次加载的时候先从内存拿，拿不到再去disk拿，也拿不到就去下载。下载成功之后会缓存到内存和disk中。     但是当我再重本地拿图片的时候发现了一个Bug &nbsp;之前加载的GIF图片不会动了。  经查找原因 ，应该是存储是时候损失了一些图片信息 判断data是不是空， 非空就不再做图片转换。 加上占位图功能 过期图片自动清理（每次当应用退出到后天的时候会调用cleanDiskFile方法清理过期图片）  判断缓存和内存中没有改地址图片的的时候使用占位图展示。   一个最基本的 网络图片加载工具完成了。    &nbsp; &nbsp; &nbsp; 第四步：优化一些细节 图片下载方法过于简单， 会遇到很多无法下载的情况，而无法查找原因把下载抽出来做管理"
   }
 </script>
 
@@ -93,22 +94,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -286,7 +271,7 @@
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

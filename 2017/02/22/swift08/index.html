@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Swift3-08 字典 - Fly With Bug</title>
     
-<meta name="description" content="字典是存储 键-值 数据对的无序数据集合 基本方法 var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型 value = dic[&amp;quot;daaaa&amp;quot;] dict.isEmpty dict.count if let value = dic[&amp;quot;key&amp;quot;]{ print(value) } var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2] dict[&amp;quot;1&amp;quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;]">
+<meta name="description" content="字典是存储 键-值 数据对的无序数据集合 基本方法var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型 value = dic[&amp;quot;daaaa&amp;quot;] dict.isEmpty dict.count if let value = dic[&amp;quot;key&amp;quot;]{ print(value) } var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2] dict[&amp;quot;1&amp;quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;] dict02[1] //遍历 for (key, value) in dict{ print(key,value) } //比较 var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var dic2 = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic2[&amp;quot;key&amp;quot;]dict == dict01 dic == dic2 //true 如果 元素类型不同,比较会抛错  增删改查">
 
 <meta property="og:title" content="Swift3-08 字典 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2017/02/22/swift08/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="字典是存储 键-值 数据对的无序数据集合 基本方法 var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型 value = dic[&amp;quot;daaaa&amp;quot;] dict.isEmpty dict.count if let value = dic[&amp;quot;key&amp;quot;]{ print(value) } var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2] dict[&amp;quot;1&amp;quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;]">
+<meta property="og:description" content="字典是存储 键-值 数据对的无序数据集合 基本方法var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型 value = dic[&amp;quot;daaaa&amp;quot;] dict.isEmpty dict.count if let value = dic[&amp;quot;key&amp;quot;]{ print(value) } var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2] dict[&amp;quot;1&amp;quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;] dict02[1] //遍历 for (key, value) in dict{ print(key,value) } //比较 var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var dic2 = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic2[&amp;quot;key&amp;quot;]dict == dict01 dic == dic2 //true 如果 元素类型不同,比较会抛错  增删改查">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2017/02/22/swift08/">
 <meta name="twitter:title" content="Swift3-08 字典 - Fly With Bug">
-<meta name="twitter:description" content="字典是存储 键-值 数据对的无序数据集合 基本方法 var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型 value = dic[&amp;quot;daaaa&amp;quot;] dict.isEmpty dict.count if let value = dic[&amp;quot;key&amp;quot;]{ print(value) } var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2] dict[&amp;quot;1&amp;quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;]">
+<meta name="twitter:description" content="字典是存储 键-值 数据对的无序数据集合 基本方法var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var value = dic[&amp;quot;key&amp;quot;] //返回的 value 是一个可选型 value = dic[&amp;quot;daaaa&amp;quot;] dict.isEmpty dict.count if let value = dic[&amp;quot;key&amp;quot;]{ print(value) } var dict:[String:Int] = [&amp;quot;1&amp;quot;:1,&amp;quot;2&amp;quot;:2] dict[&amp;quot;1&amp;quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&amp;quot;a&amp;quot;] dict02[1] //遍历 for (key, value) in dict{ print(key,value) } //比较 var dic = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic[&amp;quot;key&amp;quot;] var dic2 = [&amp;quot;key&amp;quot;:&amp;quot;value&amp;quot;, &amp;quot;a&amp;quot;:&amp;quot;b&amp;quot;] dic2[&amp;quot;key&amp;quot;]dict == dict01 dic == dic2 //true 如果 元素类型不同,比较会抛错  增删改查">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,9 @@
         "height": 60
       }
     },
-    "description": "字典是存储 键-值 数据对的无序数据集合 基本方法 var dic = [&quot;key&quot;:&quot;value&quot;, &quot;a&quot;:&quot;b&quot;] dic[&quot;key&quot;] var value = dic[&quot;key&quot;] //返回的 value 是一个可选型 value = dic[&quot;daaaa&quot;] dict.isEmpty dict.count if let value = dic[&quot;key&quot;]{ print(value) } var dict:[String:Int] = [&quot;1&quot;:1,&quot;2&quot;:2] dict[&quot;1&quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&quot;a&quot;]"
+    "description": "字典是存储 键-值 数据对的无序数据集合
+ 基本方法
+var dic = [&quot;key&quot;:&quot;value&quot;, &quot;a&quot;:&quot;b&quot;] dic[&quot;key&quot;] var value = dic[&quot;key&quot;] //返回的 value 是一个可选型 value = dic[&quot;daaaa&quot;] dict.isEmpty dict.count if let value = dic[&quot;key&quot;]{ print(value) } var dict:[String:Int] = [&quot;1&quot;:1,&quot;2&quot;:2] dict[&quot;1&quot;] var dict01:[Int:Int] = [1:1,2:2] dict01[1] var dict02:[Int:Any] = [1:1,2:&quot;a&quot;] dict02[1] //遍历 for (key, value) in dict{ print(key,value) } //比较 var dic = [&quot;key&quot;:&quot;value&quot;, &quot;a&quot;:&quot;b&quot;] dic[&quot;key&quot;] var dic2 = [&quot;key&quot;:&quot;value&quot;, &quot;a&quot;:&quot;b&quot;] dic2[&quot;key&quot;]dict == dict01 dic == dic2 //true 如果 元素类型不同,比较会抛错  增删改查"
   }
 </script>
 
@@ -93,22 +95,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -269,7 +255,7 @@ var str =  dic.updateValue(&quot;value&quot;, forKey: &quot;key&quot;) //返回�
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

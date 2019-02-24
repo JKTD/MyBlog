@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>Nginx 配置 HTTPS 服务器 - Fly With Bug</title>
     
-<meta name="description" content="Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS 我的证书是在腾讯云上申请的地址 nginx.conf 配置内容 user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include">
+<meta name="description" content="Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS我的证书是在腾讯云上申请的地址 nginx.conf 配置内容  user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include /etc/nginx/mime.types; default_type application/octet-stream; log_format main &#39;$remote_addr - $remote_user [$time_local] &amp;quot;$request&amp;quot; &#39; &#39;$status $body_bytes_sent &amp;quot;$http_referer&amp;quot; &#39; &#39;&amp;quot;$http_user_agent&amp;quot; &amp;quot;$http_x_forwarded_for&amp;quot;&#39;; access_log /var/log/nginx/access.log main; sendfile on; #tcp_nopush on; keepalive_timeout 65; #gzip on; upstream move{ server 127.0.0.1:9120; } server { listen 80; listen 443 ssl; ssl_certificate certificate_bundle.">
 
 <meta property="og:title" content="Nginx 配置 HTTPS 服务器 - Fly With Bug">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2019/01/15/nginx/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS 我的证书是在腾讯云上申请的地址 nginx.conf 配置内容 user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include">
+<meta property="og:description" content="Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS我的证书是在腾讯云上申请的地址 nginx.conf 配置内容  user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include /etc/nginx/mime.types; default_type application/octet-stream; log_format main &#39;$remote_addr - $remote_user [$time_local] &amp;quot;$request&amp;quot; &#39; &#39;$status $body_bytes_sent &amp;quot;$http_referer&amp;quot; &#39; &#39;&amp;quot;$http_user_agent&amp;quot; &amp;quot;$http_x_forwarded_for&amp;quot;&#39;; access_log /var/log/nginx/access.log main; sendfile on; #tcp_nopush on; keepalive_timeout 65; #gzip on; upstream move{ server 127.0.0.1:9120; } server { listen 80; listen 443 ssl; ssl_certificate certificate_bundle.">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
 <meta name="twitter:url" content="http://blog.flywithme.top/2019/01/15/nginx/">
 <meta name="twitter:title" content="Nginx 配置 HTTPS 服务器 - Fly With Bug">
-<meta name="twitter:description" content="Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS 我的证书是在腾讯云上申请的地址 nginx.conf 配置内容 user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include">
+<meta name="twitter:description" content="Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS我的证书是在腾讯云上申请的地址 nginx.conf 配置内容  user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include /etc/nginx/mime.types; default_type application/octet-stream; log_format main &#39;$remote_addr - $remote_user [$time_local] &amp;quot;$request&amp;quot; &#39; &#39;$status $body_bytes_sent &amp;quot;$http_referer&amp;quot; &#39; &#39;&amp;quot;$http_user_agent&amp;quot; &amp;quot;$http_x_forwarded_for&amp;quot;&#39;; access_log /var/log/nginx/access.log main; sendfile on; #tcp_nopush on; keepalive_timeout 65; #gzip on; upstream move{ server 127.0.0.1:9120; } server { listen 80; listen 443 ssl; ssl_certificate certificate_bundle.">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,8 @@
         "height": 60
       }
     },
-    "description": "Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS 我的证书是在腾讯云上申请的地址 nginx.conf 配置内容 user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include"
+    "description": "Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS
+我的证书是在腾讯云上申请的地址 nginx.conf 配置内容  user nginx; worker_processes 1; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { worker_connections 1024; } http { include /etc/nginx/mime.types; default_type application/octet-stream; log_format main '$remote_addr - $remote_user [$time_local] &quot;$request&quot; ' '$status $body_bytes_sent &quot;$http_referer&quot; ' '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;'; access_log /var/log/nginx/access.log main; sendfile on; #tcp_nopush on; keepalive_timeout 65; #gzip on; upstream move{ server 127.0.0.1:9120; } server { listen 80; listen 443 ssl; ssl_certificate certificate_bundle."
   }
 </script>
 
@@ -93,22 +94,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -286,7 +271,7 @@ http {
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       

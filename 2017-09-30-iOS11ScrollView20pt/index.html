@@ -8,7 +8,7 @@
 
 
 
-<link rel="canonical" href="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt/">
+<link rel="canonical" href="http://blog.flywithme.top/2017-09-30-ios11scrollview20pt/">
 
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>iOS11 ScrollView 页面下移问题 - Fly With Bug</title>
     
-<meta name="description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、">
+<meta name="description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、什么情况下的tableView会发生上述问题 四、这个问题的解决方法有哪些？ 五、遇到的另外一个与安全区域无关的tableView内容下移的问题        scorllView contentOffset变动问题一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 问题如下图所示：1. 原因分析原因是iOS 11中UIViweController的automaticallyAdjustsScrollViewInsets属性被废弃了，所以当scrollView超出安全区域时系统自动调整了SafeAreaInsets值，进而影响adjustedContentInset值，在iOS 11中决定tableView的内容与边缘距离的是adjustedContentInset属性，而不是contentInset。adjustedContentInset的计算方式见本文第二部分内容。因为系统对adjustedContentInset值进行了调整，所以导致tableView的内容到边缘的距离发生了变化，导致tableView下移了20pt（statusbar高度）或64pt（navigationbar高度）。如果你的APP中使用的是自定义的navigationbar，隐藏掉系统的navigationbar，并且tableView的frame为(0,0,SCREEN_WIDTH, SCREEN_HEIGHT)开始，那么系统会自动调整SafeAreaInsets值为(20,0,0,0)，如果使用了系统的navigationbar，那么SafeAreaInsets值为(64,0,0,0)，如果也使用了系统的tabbar，那么SafeAreaInsets值为(64,0,49,0)。关于什么情况下会发生内容下移的问题，本文第三部分有介绍。2. 安全区域的概念系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用additionalSafeAreaInsets去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。safeAreaInsets属性反映了一个view距离该view的安全区域的边距。对于一个Controller的根视图而言，SafeAreaInsets值包括了被statusbar和其他可视的bars覆盖的区域和其他通过additionalSafeAreaInsets自定义的insets值。对于view层次中得其他view，SafeAreaInsets值反映了view被覆盖的部分。如果一个view全部在它父视图的安全区域内，则SafeAreaInsets值为(0,0,0,0)。二、 adjustContentInset属性的计算方式 首先看scrollView在iOS11新增的两个属性：adjustContentInset 和 contentInsetAdjustmentBehavior。/* Configure the behavior of adjustedContentInset. Default is UIScrollViewContentInsetAdjustmentAutomatic. */ @property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior adjustContentInset表示contentView.frame.origin偏移了scrollview.frame.origin多少；是系统计算得来的，计算方式由contentInsetAdjustmentBehavior决定。有以下几种计算方式： UIScrollViewContentInsetAdjustmentAutomatic：如果scrollview在一个automaticallyAdjustsScrollViewInsets = YES的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top &amp;amp; bottom上 adjustedContentInset = safeAreaInset &#43; contentInset不管是否滚动。其他情况下与UIScrollViewContentInsetAdjustmentScrollableAxes相同 UIScrollViewContentInsetAdjustmentScrollableAxes: 在可滚动方向上adjustedContentInset = safeAreaInset &#43; contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset &#43; contentInset UIScrollViewContentInsetAdjustmentNever: adjustedContentInset = contentInset UIScrollViewContentInsetAdjustmentAlways: adjustedContentInset = safeAreaInset &#43; contentInset  当contentInsetAdjustmentBehavior设置为UIScrollViewContentInsetAdjustmentNever的时候，adjustContentInset值不受SafeAreaInset值的影响。">
 
 <meta property="og:title" content="iOS11 ScrollView 页面下移问题 - Fly With Bug">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt/">
+<meta property="og:url" content="http://blog.flywithme.top/2017-09-30-ios11scrollview20pt/">
 <meta property="og:image" content="http://blog.flywithme.topimages/default.png">
 <meta property="og:site_name" content="Fly With Bug">
-<meta property="og:description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、">
+<meta property="og:description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、什么情况下的tableView会发生上述问题 四、这个问题的解决方法有哪些？ 五、遇到的另外一个与安全区域无关的tableView内容下移的问题        scorllView contentOffset变动问题一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 问题如下图所示：1. 原因分析原因是iOS 11中UIViweController的automaticallyAdjustsScrollViewInsets属性被废弃了，所以当scrollView超出安全区域时系统自动调整了SafeAreaInsets值，进而影响adjustedContentInset值，在iOS 11中决定tableView的内容与边缘距离的是adjustedContentInset属性，而不是contentInset。adjustedContentInset的计算方式见本文第二部分内容。因为系统对adjustedContentInset值进行了调整，所以导致tableView的内容到边缘的距离发生了变化，导致tableView下移了20pt（statusbar高度）或64pt（navigationbar高度）。如果你的APP中使用的是自定义的navigationbar，隐藏掉系统的navigationbar，并且tableView的frame为(0,0,SCREEN_WIDTH, SCREEN_HEIGHT)开始，那么系统会自动调整SafeAreaInsets值为(20,0,0,0)，如果使用了系统的navigationbar，那么SafeAreaInsets值为(64,0,0,0)，如果也使用了系统的tabbar，那么SafeAreaInsets值为(64,0,49,0)。关于什么情况下会发生内容下移的问题，本文第三部分有介绍。2. 安全区域的概念系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用additionalSafeAreaInsets去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。safeAreaInsets属性反映了一个view距离该view的安全区域的边距。对于一个Controller的根视图而言，SafeAreaInsets值包括了被statusbar和其他可视的bars覆盖的区域和其他通过additionalSafeAreaInsets自定义的insets值。对于view层次中得其他view，SafeAreaInsets值反映了view被覆盖的部分。如果一个view全部在它父视图的安全区域内，则SafeAreaInsets值为(0,0,0,0)。二、 adjustContentInset属性的计算方式 首先看scrollView在iOS11新增的两个属性：adjustContentInset 和 contentInsetAdjustmentBehavior。/* Configure the behavior of adjustedContentInset. Default is UIScrollViewContentInsetAdjustmentAutomatic. */ @property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior adjustContentInset表示contentView.frame.origin偏移了scrollview.frame.origin多少；是系统计算得来的，计算方式由contentInsetAdjustmentBehavior决定。有以下几种计算方式： UIScrollViewContentInsetAdjustmentAutomatic：如果scrollview在一个automaticallyAdjustsScrollViewInsets = YES的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top &amp;amp; bottom上 adjustedContentInset = safeAreaInset &#43; contentInset不管是否滚动。其他情况下与UIScrollViewContentInsetAdjustmentScrollableAxes相同 UIScrollViewContentInsetAdjustmentScrollableAxes: 在可滚动方向上adjustedContentInset = safeAreaInset &#43; contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset &#43; contentInset UIScrollViewContentInsetAdjustmentNever: adjustedContentInset = contentInset UIScrollViewContentInsetAdjustmentAlways: adjustedContentInset = safeAreaInset &#43; contentInset  当contentInsetAdjustmentBehavior设置为UIScrollViewContentInsetAdjustmentNever的时候，adjustContentInset值不受SafeAreaInset值的影响。">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Bug">
-<meta name="twitter:url" content="http://blog.flywithme.top/2017-09-30-iOS11ScrollView20pt/">
+<meta name="twitter:url" content="http://blog.flywithme.top/2017-09-30-ios11scrollview20pt/">
 <meta name="twitter:title" content="iOS11 ScrollView 页面下移问题 - Fly With Bug">
-<meta name="twitter:description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、">
+<meta name="twitter:description" content="一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、什么情况下的tableView会发生上述问题 四、这个问题的解决方法有哪些？ 五、遇到的另外一个与安全区域无关的tableView内容下移的问题        scorllView contentOffset变动问题一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 问题如下图所示：1. 原因分析原因是iOS 11中UIViweController的automaticallyAdjustsScrollViewInsets属性被废弃了，所以当scrollView超出安全区域时系统自动调整了SafeAreaInsets值，进而影响adjustedContentInset值，在iOS 11中决定tableView的内容与边缘距离的是adjustedContentInset属性，而不是contentInset。adjustedContentInset的计算方式见本文第二部分内容。因为系统对adjustedContentInset值进行了调整，所以导致tableView的内容到边缘的距离发生了变化，导致tableView下移了20pt（statusbar高度）或64pt（navigationbar高度）。如果你的APP中使用的是自定义的navigationbar，隐藏掉系统的navigationbar，并且tableView的frame为(0,0,SCREEN_WIDTH, SCREEN_HEIGHT)开始，那么系统会自动调整SafeAreaInsets值为(20,0,0,0)，如果使用了系统的navigationbar，那么SafeAreaInsets值为(64,0,0,0)，如果也使用了系统的tabbar，那么SafeAreaInsets值为(64,0,49,0)。关于什么情况下会发生内容下移的问题，本文第三部分有介绍。2. 安全区域的概念系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用additionalSafeAreaInsets去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。safeAreaInsets属性反映了一个view距离该view的安全区域的边距。对于一个Controller的根视图而言，SafeAreaInsets值包括了被statusbar和其他可视的bars覆盖的区域和其他通过additionalSafeAreaInsets自定义的insets值。对于view层次中得其他view，SafeAreaInsets值反映了view被覆盖的部分。如果一个view全部在它父视图的安全区域内，则SafeAreaInsets值为(0,0,0,0)。二、 adjustContentInset属性的计算方式 首先看scrollView在iOS11新增的两个属性：adjustContentInset 和 contentInsetAdjustmentBehavior。/* Configure the behavior of adjustedContentInset. Default is UIScrollViewContentInsetAdjustmentAutomatic. */ @property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior adjustContentInset表示contentView.frame.origin偏移了scrollview.frame.origin多少；是系统计算得来的，计算方式由contentInsetAdjustmentBehavior决定。有以下几种计算方式： UIScrollViewContentInsetAdjustmentAutomatic：如果scrollview在一个automaticallyAdjustsScrollViewInsets = YES的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top &amp;amp; bottom上 adjustedContentInset = safeAreaInset &#43; contentInset不管是否滚动。其他情况下与UIScrollViewContentInsetAdjustmentScrollableAxes相同 UIScrollViewContentInsetAdjustmentScrollableAxes: 在可滚动方向上adjustedContentInset = safeAreaInset &#43; contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset &#43; contentInset UIScrollViewContentInsetAdjustmentNever: adjustedContentInset = contentInset UIScrollViewContentInsetAdjustmentAlways: adjustedContentInset = safeAreaInset &#43; contentInset  当contentInsetAdjustmentBehavior设置为UIScrollViewContentInsetAdjustmentNever的时候，adjustContentInset值不受SafeAreaInset值的影响。">
 <meta name="twitter:image" content="http://blog.flywithme.topimages/default.png">
 
 
@@ -65,7 +65,18 @@
         "height": 60
       }
     },
-    "description": "一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、"
+    "description": "一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 二、 adjustContentInset属性的计算方式 三、什么情况下的tableView会发生上述问题 四、这个问题的解决方法有哪些？ 五、遇到的另外一个与安全区域无关的tableView内容下移的问题        scorllView contentOffset变动问题
+一、iOS 11下APP中tableView内容下移20pt或下移64pt的原因分析 问题如下图所示：
+1. 原因分析
+原因是iOS 11中UIViweController的automaticallyAdjustsScrollViewInsets属性被废弃了，所以当scrollView超出安全区域时系统自动调整了SafeAreaInsets值，进而影响adjustedContentInset值，
+在iOS 11中决定tableView的内容与边缘距离的是adjustedContentInset属性，而不是contentInset。adjustedContentInset的计算方式见本文第二部分内容。因为系统对adjustedContentInset值进行了调整，所以导致tableView的内容到边缘的距离发生了变化，导致tableView下移了20pt（statusbar高度）或64pt（navigationbar高度）。
+如果你的APP中使用的是自定义的navigationbar，隐藏掉系统的navigationbar，并且tableView的frame为(0,0,SCREEN_WIDTH, SCREEN_HEIGHT)开始，那么系统会自动调整SafeAreaInsets值为(20,0,0,0)，如果使用了系统的navigationbar，那么SafeAreaInsets值为(64,0,0,0)，如果也使用了系统的tabbar，那么SafeAreaInsets值为(64,0,49,0)。关于什么情况下会发生内容下移的问题，本文第三部分有介绍。
+2. 安全区域的概念
+系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：
+安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用additionalSafeAreaInsets去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。
+safeAreaInsets属性反映了一个view距离该view的安全区域的边距。对于一个Controller的根视图而言，SafeAreaInsets值包括了被statusbar和其他可视的bars覆盖的区域和其他通过additionalSafeAreaInsets自定义的insets值。对于view层次中得其他view，SafeAreaInsets值反映了view被覆盖的部分。如果一个view全部在它父视图的安全区域内，则SafeAreaInsets值为(0,0,0,0)。
+二、 adjustContentInset属性的计算方式 首先看scrollView在iOS11新增的两个属性：adjustContentInset 和 contentInsetAdjustmentBehavior。
+/* Configure the behavior of adjustedContentInset. Default is UIScrollViewContentInsetAdjustmentAutomatic. */ @property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior adjustContentInset表示contentView.frame.origin偏移了scrollview.frame.origin多少；是系统计算得来的，计算方式由contentInsetAdjustmentBehavior决定。有以下几种计算方式： UIScrollViewContentInsetAdjustmentAutomatic：如果scrollview在一个automaticallyAdjustsScrollViewInsets = YES的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top &amp; bottom上 adjustedContentInset = safeAreaInset + contentInset不管是否滚动。其他情况下与UIScrollViewContentInsetAdjustmentScrollableAxes相同 UIScrollViewContentInsetAdjustmentScrollableAxes: 在可滚动方向上adjustedContentInset = safeAreaInset + contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset + contentInset UIScrollViewContentInsetAdjustmentNever: adjustedContentInset = contentInset UIScrollViewContentInsetAdjustmentAlways: adjustedContentInset = safeAreaInset + contentInset  当contentInsetAdjustmentBehavior设置为UIScrollViewContentInsetAdjustmentNever的时候，adjustContentInset值不受SafeAreaInset值的影响。"
   }
 </script>
 
@@ -93,22 +104,6 @@
             <a class="navbar-brand" href="http://blog.flywithme.top">Fly With Bug</a>
           </div>
 
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
           
 
         </div>
@@ -175,7 +170,7 @@
 
 <p>问题如下图所示：</p>
 
-<p><img src="http://blog.flywithme.top/sources/scrollview/92.png" alt="sss" /></p>
+<p><img src="/sources/scrollview/92.png" alt="sss" /></p>
 
 <p><strong>1. 原因分析</strong></p>
 
@@ -188,7 +183,7 @@
 
 <p>系统自动调整tableView内容偏移量，是根据安全区域来调整的。安全区域是iOS 11新提出的，如下图所示：</p>
 
-<p><img src="http://blog.flywithme.top/sources/scrollview/32.png" alt="sssa" /></p>
+<p><img src="/sources/scrollview/32.png" alt="sssa" /></p>
 
 <p>安全区域帮助我们将view放置在整个屏幕的可视的部分。即使把navigationbar设置为透明的，系统也认为安全区域是从navigationbar的bottom开始的。
 安全区域定义了view中可视区域的部分，保证不被系统的状态栏、或父视图提供的view如导航栏覆盖。可以使用<code>additionalSafeAreaInsets</code>去扩展安全区域去包括自定义的content在你的界面。每个view都可以改变安全区域嵌入的大小，Controller也可以。</p>
@@ -334,7 +329,7 @@ self.tableView.estimatedSectionFooterHeight = 0;
       
       <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
       
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
+      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-cors-policy/" class="list-group-item">gin api 跨域问题,cors</a>
       
       <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
       
