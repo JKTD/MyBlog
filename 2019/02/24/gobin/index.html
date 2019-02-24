@@ -16,21 +16,21 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
     <title>go bin执行问题记录 - Fly With Me</title>
     
-<meta name="description" content="因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， //只是在 .bash_profile文件里如此">
+<meta name="description" content="因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， 只是在 .bash_profile文件里如此设置">
 
 <meta property="og:title" content="go bin执行问题记录 - Fly With Me">
 <meta property="og:type" content="article">
 <meta property="og:url" content="http://blog.flywithme.top/2019/02/24/gobin/">
 <meta property="og:image" content="http://blog.flywithme.top/images/default.png">
 <meta property="og:site_name" content="Fly With Me">
-<meta property="og:description" content="因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， //只是在 .bash_profile文件里如此">
+<meta property="og:description" content="因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， 只是在 .bash_profile文件里如此设置">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="Fly With Me">
 <meta name="twitter:url" content="http://blog.flywithme.top/2019/02/24/gobin/">
 <meta name="twitter:title" content="go bin执行问题记录 - Fly With Me">
-<meta name="twitter:description" content="因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， //只是在 .bash_profile文件里如此">
+<meta name="twitter:description" content="因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， 只是在 .bash_profile文件里如此设置">
 <meta name="twitter:image" content="http://blog.flywithme.top/images/default.png">
 
 
@@ -65,7 +65,7 @@
         "height": 60
       }
     },
-    "description": "因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， //只是在 .bash_profile文件里如此"
+    "description": "因为${GOPATH}/bin目录下的执行文件无法被中断直接执行 需要Source之后才能使用， 只是在 .bash_profile文件里如此设置"
   }
 </script>
 
@@ -144,9 +144,8 @@
 
   
 
-  <div class="article-body"><p>因为<code>${GOPATH}/bin</code>目录下的执行文件无法被中断直接执行 需要Source之后才能使用，</p>
-
-<p>//只是在 <code>.bash_profile</code>文件里如此设置 需要Source之后才能被命令行识别</p>
+  <div class="article-body"><p>因为<code>${GOPATH}/bin</code>目录下的执行文件无法被中断直接执行 需要Source之后才能使用，
+只是在 <code>.bash_profile</code>文件里如此设置 需要Source之后才能被命令行识别</p>
 
 <pre><code>export GOBIN=/Users/ori/go/bin
 export PATH=$PATH:$GOBIN
