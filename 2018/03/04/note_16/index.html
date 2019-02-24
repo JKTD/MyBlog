@@ -1,150 +1,59 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-<meta name="pinterest" content="nopin">
-<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.54.0" />
-
-
-
-<link rel="canonical" href="http://blog.flywithme.top/2018/03/04/note_16/">
-
-
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_dark.min.css">
-    <title>Go: 8-2 生成文档和示例代码 - Fly With Me</title>
-    
-<meta name="description" content="文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &amp;quot;fmt&amp;quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q =">
-
-<meta property="og:title" content="Go: 8-2 生成文档和示例代码 - Fly With Me">
-<meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.flywithme.top/2018/03/04/note_16/">
-<meta property="og:image" content="http://blog.flywithme.top/images/default.png">
-<meta property="og:site_name" content="Fly With Me">
-<meta property="og:description" content="文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &amp;quot;fmt&amp;quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q =">
-<meta property="og:locale" content="ja_JP">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="Fly With Me">
-<meta name="twitter:url" content="http://blog.flywithme.top/2018/03/04/note_16/">
-<meta name="twitter:title" content="Go: 8-2 生成文档和示例代码 - Fly With Me">
-<meta name="twitter:description" content="文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &amp;quot;fmt&amp;quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q =">
-<meta name="twitter:image" content="http://blog.flywithme.top/images/default.png">
-
-
-<script type="application/ld+json">
-  {
-    "@context": "http://schema.org",
-    "@type": "NewsArticle",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id":"http://blog.flywithme.top/"
-    },
-    "headline": "Go: 8-2 生成文档和示例代码 - Fly With Me",
-    "image": {
-      "@type": "ImageObject",
-      "url": "http://blog.flywithme.top/images/default.png",
-      "height": 800,
-      "width": 800
-    },
-    "datePublished": "2018-03-04T13:05:35JST",
-    "dateModified": "2018-03-04T13:05:35JST",
-    "author": {
-      "@type": "Person",
-      "name": "Fly With Me"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Fly With Me",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "http://blog.flywithme.top/images/logo.png",
-        "width": 600,
-        "height": 60
-      }
-    },
-    "description": "文档 用注释写文档 在测试中加入Example 使用go doc/godoc 生成文档 package queue import ( &quot;fmt&quot; ) //A FIFO queue. type Queue []interface{} func (q *Queue) Push(v int) { fmt.Println(q) *q = append(*q, v) } // Pops element from head. func (q *Queue) Pop() int { head := (*q)[0] *q ="
-  }
-</script>
-
-
-    <link href="http://blog.flywithme.top/css/styles.css" rel="stylesheet">
-    
-
-  </head>
-
-  <body>
-    
-    
-    
-
-    <header class="l-header">
-      <nav class="navbar navbar-default">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="http://blog.flywithme.top/">Fly With Me</a>
-          </div>
-
-          
-          <div id="navbar" class="collapse navbar-collapse">
-            
-            <ul class="nav navbar-nav navbar-right">
-              
-              
-              <li><a href="http://blog.flywithme.top/post/">归档</a></li>
-              
-              
-              
-              <li><a href="http://blog.flywithme.top/about/">关于我</a></li>
-              
-              
-            </ul>
-            
-          </div>
-          
-
-        </div>
-      </nav>
-    </header>
-
-    <main>
-      <div class="container">
-        
-<div class="row">
-  <div class="col-md-8">
-
-    <nav class="p-crumb">
-      <ol class="breadcrumb">
-        <li><a href="http://blog.flywithme.top/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
-        
-        <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="http://blog.flywithme.top/post/" itemprop="url"><span itemprop="title">post</span></a></li>
-        
-        <li class="active">Go: 8-2 生成文档和示例代码</li>
-      </ol>
-    </nav>
-
-    <article class="single">
-  <header>
-    <ul class="p-facts">
-      <li><i class="fa fa-calendar" aria-hidden="true"></i><time datetime="2018-03-04T13:05:35JST">Mar 4, 2018</time></li>
-      <li><i class="fa fa-bookmark" aria-hidden="true"></i><a href="http://blog.flywithme.top/post/">post</a></li>
-      
-    </ul>
-
-    <h1 class="title">Go: 8-2 生成文档和示例代码</h1>
-  </header>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.54.0" />
 
   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <div class="article-body">
+  <title>Go: 8-2 生成文档和示例代码 &middot; Fly With Me</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.flywithme.top/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blog.flywithme.top/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Fly With Me" />
+
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://blog.flywithme.top/"><h1>Fly With Me</h1></a>
+      <p class="lead">
+       漫步走在沙滩上 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://blog.flywithme.top/">Home</a> </li>
+        <li><a href="http://blog.flywithme.top/post/"> 归档 </a></li><li><a href="http://blog.flywithme.top/about/"> 关于我 </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2019. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>Go: 8-2 生成文档和示例代码</h1>
+  <time datetime=2018-03-04T13:05:35&#43;0800 class="post-date">Sun, Mar 4, 2018</time>
+  
 
 <h5 id="文档">文档</h5>
 
@@ -228,122 +137,12 @@ go doc package function 获取某个函数在某个包中的文档注释，例�
 <li>http测试</li>
 <li>文档以及示例代码</li>
 </ul>
+
 </div>
 
-  <footer class="article-footer">
-    
-    
-    
-    <section class="bordered">
-      <header>
-        <div class="panel-title">CATEGORIES</div>
-      </header>
-      <div>
-        <ul class="p-terms">
-          
-          <li><a href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
-          
-          <li><a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
-          
-        </ul>
-      </div>
-    </section>
-    
-    
-    
-    
-  </footer>
 
-</article>
-
-
-    
-  </div>
-
-  <div class="col-md-4">
-    
-<aside class="l-sidebar">
-
-  <section class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">LATESTS</div>
-    </div>
-    <div class="list-group">
-      
-      <a href="http://blog.flywithme.top/2019/02/24/gobin/" class="list-group-item">go bin执行问题记录</a>
-      
-      <a href="http://blog.flywithme.top/2019/01/15/nginx/" class="list-group-item">Nginx 配置 HTTPS 服务器</a>
-      
-      <a href="http://blog.flywithme.top/2019/01/13/mongodump/" class="list-group-item">mongodb 维护小记</a>
-      
-      <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/" class="list-group-item">Vue上线后，history页面点击刷新按钮报错404问题</a>
-      
-      <a href="http://blog.flywithme.top/2018/12/24/vue-element02/" class="list-group-item">vue 路由重载之后导致history页面刷新空白问题fix</a>
-      
-      <a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" class="list-group-item">vue-element-admin 踩坑日记 01</a>
-      
-      <a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" class="list-group-item">gin api 跨域问题,cors</a>
-      
-      <a href="http://blog.flywithme.top/2018/12/10/mongodb/" class="list-group-item">MongoDB 用户名密码登录</a>
-      
-      <a href="http://blog.flywithme.top/2018/08/31/nat/" class="list-group-item">nat</a>
-      
-      <a href="http://blog.flywithme.top/2018/04/02/note_28/" class="list-group-item">Elasticsearch 入门</a>
-      
-    </div>
-  </section>
-
-  
-  <section class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">CATEGORY</div>
-    </div>
-    <div class="list-group">
-      
-      <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0" class="list-group-item">技术文章</a>
-      
-      <a href="http://blog.flywithme.top/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0" class="list-group-item">学习笔记</a>
-      
-      <a href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F" class="list-group-item">思考感悟</a>
-      
-      <a href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0" class="list-group-item">读书笔记</a>
-      
-    </div>
-  </section>
-  
-  <section class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">TAG</div>
-    </div>
-    <div class="list-group">
-      
-    </div>
-  </section>
-  
-
-</aside>
-
-
-  </div>
-</div>
-
-      </div>
     </main>
 
-    <footer class="l-footer">
-      <div class="container">
-        <p>Copyright (c) 2016. All rights reserved.</p>
-        <aside>
-          <p>Powered by <a href="https://gohugo.io/">Hugo</a>.</p>
-          <p><a href="https://github.com/dim0627/hugo_theme_beg">Beg</a> designed by <a href="http://yet.unresolved.xyz/">Daisuke Tsuji</a>.</p>
-        </aside>
-      </div>
-    </footer>
-
-    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+    
   </body>
 </html>
-
