@@ -1,0 +1,1248 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Fly With Bug on Fly With Bug</title>
+        <link>http://blog.flywithme.top/</link>
+        <language>zh-CN</language>
+        <author>Brasbug</author>
+        <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
+        <updated>Sun, 24 Feb 2019 08:40:50 CST</updated>
+        
+        <item>
+            <title>go bin执行问题记录</title>
+            <link>http://blog.flywithme.top/2019/02/24/gobin/</link>
+            <pubDate>Sun, 24 Feb 2019 08:40:50 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/02/24/gobin/</guid>
+            <description>&lt;p&gt;因为&lt;code&gt;${GOPATH}/bin&lt;/code&gt;目录下的执行文件无法被中断直接执行 需要Source之后才能使用，&lt;/p&gt;
+
+&lt;p&gt;//只是在 &lt;code&gt;.bash_profile&lt;/code&gt;文件里如此设置 需要Source之后才能被命令行识别&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export GOBIN=/Users/ori/go/bin
+export PATH=$PATH:$GOBIN
+
+export PUB_HOSTED_URL=https://pub.flutter-io.cn
+export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+export  PATH=~/code/flutter/flutter/bin:$PATH
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最好的处理方式还是直接把&lt;code&gt;${GOPATH}/bin&lt;/code&gt;目录下的执行文件移动到go的Root的bin目录中更好&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;mv $GOPATH/bin/** /usr/local/go/bin&lt;/code&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Nginx 配置 HTTPS 服务器</title>
+            <link>http://blog.flywithme.top/2019/01/15/nginx/</link>
+            <pubDate>Tue, 15 Jan 2019 14:38:32 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/01/15/nginx/</guid>
+            <description>
+
+&lt;p&gt;Nginx 配置 HTTPS 并不复杂，主要有两个步骤：签署第三方可信任的 SSL 证书 和 配置 HTTPS&lt;/p&gt;
+
+&lt;p&gt;我的证书是在腾讯云上申请的&lt;a href=&#34;https://console.cloud.tencent.com/ssl&#34;&gt;地址&lt;/a&gt;
+ &lt;img src=&#34;sources/nginx/FF1BD64F-62AD-4FDB-AE5A-B51C5FBB125C.png&#34; alt=&#34;cer&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;nginx-conf-配置内容&#34;&gt;nginx.conf 配置内容&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;
+user  nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &amp;quot;$request&amp;quot; &#39;
+                      &#39;$status $body_bytes_sent &amp;quot;$http_referer&amp;quot; &#39;
+                      &#39;&amp;quot;$http_user_agent&amp;quot; &amp;quot;$http_x_forwarded_for&amp;quot;&#39;;
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+	
+   upstream move{
+        server 127.0.0.1:9120;
+   }
+
+
+   server {
+        listen       80;
+        listen       443 ssl;
+	ssl_certificate   certificate_bundle.crt;
+	ssl_certificate_key  certificate.key;
+
+	client_max_body_size 20M;
+    client_body_buffer_size 1M;
+    #charset koi8-r;
+
+    #access_log  logs/host.access.log  main;
+        
+
+	location /(css|js|fonts|img)/ {
+        	access_log off;
+        	expires 1d;
+       	 	root &amp;quot;/root/vue-admin/dist&amp;quot;;
+        	try_files $uri @backend;
+	}
+
+	location / {
+        	try_files /_not_exists_ @backend;
+	}
+
+	location @backend {
+        	proxy_set_header X-Forwarded-For $remote_addr;
+       	 	proxy_set_header Host            $http_host;
+        	proxy_pass http://127.0.0.1:9801;
+    	}	
+
+	location /im/ {
+    		client_max_body_size 20M;
+   		proxy_pass http://127.0.0.1:9002;
+	}
+
+  }
+ 
+
+    include /etc/nginx/conf.d/*.conf;
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>mongodb 维护小记</title>
+            <link>http://blog.flywithme.top/2019/01/13/mongodump/</link>
+            <pubDate>Sun, 13 Jan 2019 10:45:59 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/01/13/mongodump/</guid>
+            <description>
+
+&lt;h3 id=&#34;数据库迁移&#34;&gt;数据库迁移&lt;/h3&gt;
+
+&lt;p&gt;把当前服务器备份下来的数据迁移到另一个host服务器上，目录Path是当前备份的根目录&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mongodump -u user -p pass -d doc_manager -o doc.dmp
+mongorestore -h host ./doc.dmp/doc_manager -u auth -p pass -d docmanager
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;本地处理&#34;&gt;本地处理&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;//              dump命令             数据库用户 密码     数据库名字      备份目录
+/usr/local/mongodb/bin/mongodump -u user -p pass -d docmanager  -o ../dump
+
+//              restore命令             数据库用户名 密码   数据库名字   备份目录      覆盖
+/usr/local/mongodb/bin/mongorestore -u 用户名 -p 密码 -d docmanager doc_manager --drop
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;创建数据库管理员&#34;&gt;创建数据库管理员&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//进入mongo命令行
+mongo
+db.auth(&amp;quot;use&amp;quot;,&amp;quot;pass&amp;quot;)
+
+use log
+db.createUser(
+		{
+			user: &amp;quot;user&amp;quot;,
+			pwd: &amp;quot;pass&amp;quot;,
+			roles: [{ role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;log&amp;quot; }]
+		}
+	)
+
+
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;错误处理&#34;&gt;错误处理&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//   mongodb非正常关闭后
+about to fork child process, waiting until server is ready for connections.
+forked process: 9936
+ERROR: child process failed, exited with error number 48
+
+//处理方式
+//删除mongo数据库文件夹中的 
+killall mongod
+rm /data/mongo/mongod.lock
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Vue上线后，history页面点击刷新按钮报错404问题</title>
+            <link>http://blog.flywithme.top/2018/12/24/vue_webserver/</link>
+            <pubDate>Mon, 24 Dec 2018 07:14:17 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/12/24/vue_webserver/</guid>
+            <description>&lt;pre&gt;&lt;code class=&#34;language-vue-router```&#34;&gt;如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;const router = new VueRouter({
+  mode: &amp;lsquo;history&amp;rsquo;,
+  routes: [&amp;hellip;]
+})&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+当你使用 ```history``` 模式时，URL 就像正常的 url，例如 ```http://yoursite.com/user/id```，也好看！
+不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 ```http://oursite.com/user/id``` 就会返回 404，这就不好看了。
+所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 ```index.html``` 页面，这个页面就是你 app 依赖的页面。
+
+#### **go gin框架配置示例**
+由于我使用go的gin框架做服务器，示例代码如下
+[源码地址](https://github.com/flywithbug-docmanager/docmanager) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;func NoRoute(c *gin.Context) {
+    path := strings.Split(c.Request.URL.Path, &amp;ldquo;/&amp;rdquo;)
+    if (path[1] != &amp;ldquo;&amp;rdquo;) &amp;amp;&amp;amp; (path[1] == &amp;ldquo;api&amp;rdquo;) {
+        aRes := model.NewResponse()
+        aRes.Code = http.StatusNotFound
+        aRes.Msg = &amp;ldquo;no route&amp;rdquo;
+        c.JSON(http.StatusNotFound, aRes)
+    } else {
+        c.HTML(http.StatusOK, &amp;ldquo;index.html&amp;rdquo;, &amp;ldquo;&amp;rdquo;)
+    }
+}&lt;/p&gt;
+
+&lt;p&gt;r := gin.New()
+r.Use(middleware.Logger(), gin.Recovery())
+r.Use(static.Serve(&amp;ldquo;/&amp;rdquo;, static.LocalFile(staticPath, true)))
+r.LoadHTMLGlob(staticPath + &amp;ldquo;/index.html&amp;rdquo;)
+r.NoRoute(handler.NoRoute)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+----------------------------------------------------
+
+### [官网配置例](https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90) 
+
+##### Apache
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;IfModule mod_rewrite.c&gt;
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+&lt;/IfModule&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+除了 ```mod_rewrite```，你也可以使用 ```FallbackResource```。
+
+##### nginx
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;location / {
+  try_files $uri $uri/ /index.html;
+}&lt;/p&gt;
+
+&lt;p&gt;一、
+location /{
+    root   /data/nginx/html;
+    index  index.html index.htm;
+    error_page 404 /index.html;
+}&lt;/p&gt;
+
+&lt;p&gt;二、
+location /{
+    root   /data/nginx/html;
+    index  index.html index.htm;
+    if (!-e $request_filename) {
+        rewrite ^/(.*) /index.html last;
+        break;
+    }
+}&lt;/p&gt;
+
+&lt;p&gt;三、
+server {
+    listen       8888;#默认端口是80，如果端口没被占用可以不用修改
+    server_name  localhost;
+    root        E:/vue/my_project/dist;#vue项目的打包后的dist
+    location / {
+        try_files $uri $uri/ @router;#需要指向下面的@router否则会出现vue的路由在nginx中刷新出现404
+        index  index.html index.htm;
+    }
+    #对应上面的@router，主要原因是路由的路径资源并不是一个真实的路径，所以无法找到具体的文件
+    #因此需要rewrite到index.html中，然后交给路由在处理请求资源
+    location @router {
+        rewrite ^.*$ /index.html last;
+    }
+    #&amp;hellip;&amp;hellip;.其他部分省略
+}&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+##### 原生 Node.js
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;const http = require(&amp;lsquo;http&amp;rsquo;)
+const fs = require(&amp;lsquo;fs&amp;rsquo;)
+const httpPort = 80&lt;/p&gt;
+
+&lt;p&gt;http.createServer((req, res) =&amp;gt; {
+  fs.readFile(&amp;lsquo;index.htm&amp;rsquo;, &amp;lsquo;utf-8&amp;rsquo;, (err, content) =&amp;gt; {
+    if (err) {
+      console.log(&amp;lsquo;We cannot open &amp;ldquo;index.htm&amp;rdquo; file.&amp;rsquo;)
+    }&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;res.writeHead(200, {
+  &#39;Content-Type&#39;: &#39;text/html; charset=utf-8&#39;
+})
+
+res.end(content)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;})
+}).listen(httpPort, () =&amp;gt; {
+  console.log(&amp;lsquo;Server listening on: &lt;a href=&#34;http://localhost:%s&#39;&#34;&gt;http://localhost:%s&#39;&lt;/a&gt;, httpPort)
+})&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+##### 基于 Node.js 的 Express
+对于 Node.js/Express，请考虑使用 [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback) 中间件。
+
+##### Internet Information Services (IIS)
+安装 IIS UrlRewrite
+在你的网站根目录中创建一个 ``` web.config```  文件，内容如下：
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;lt;?xml version=&amp;ldquo;1.0&amp;rdquo; encoding=&amp;ldquo;UTF-8&amp;rdquo;?&amp;gt;
+&lt;configuration&gt;
+  &lt;system.webServer&gt;
+    &lt;rewrite&gt;
+      &lt;rules&gt;
+        &lt;rule name=&#34;Handle History Mode and custom 404/500&#34; stopProcessing=&#34;true&#34;&gt;
+          &lt;match url=&#34;(.*)&#34; /&gt;
+          &lt;conditions logicalGrouping=&#34;MatchAll&#34;&gt;
+            &lt;add input=&#34;{REQUEST_FILENAME}&#34; matchType=&#34;IsFile&#34; negate=&#34;true&#34; /&gt;
+            &lt;add input=&#34;{REQUEST_FILENAME}&#34; matchType=&#34;IsDirectory&#34; negate=&#34;true&#34; /&gt;
+          &lt;/conditions&gt;
+          &lt;action type=&#34;Rewrite&#34; url=&#34;/&#34; /&gt;
+        &lt;/rule&gt;
+      &lt;/rules&gt;
+    &lt;/rewrite&gt;
+  &lt;/system.webServer&gt;
+&lt;/configuration&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+##### Caddy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;rewrite {
+    regexp .*
+    to {path} /
+}&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+##### Firebase 主机
+在你的 ``` firebase.json```  中加入：
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;{
+  &amp;ldquo;hosting&amp;rdquo;: {
+    &amp;ldquo;public&amp;rdquo;: &amp;ldquo;dist&amp;rdquo;,
+    &amp;ldquo;rewrites&amp;rdquo;: [
+      {
+        &amp;ldquo;source&amp;rdquo;: &amp;ldquo;**&amp;ldquo;,
+        &amp;ldquo;destination&amp;rdquo;: &amp;ldquo;/index.html&amp;rdquo;
+      }
+    ]
+  }
+}&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+##### 警告
+给个警告，因为这么做以后，你的服务器就不再返回 404 错误页面，因为对于所有路径都会返回 index.html 文件。为了避免这种情况，你应该在 Vue 应用里面覆盖所有的路由情况，然后在给出一个 404 页面。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;const router = new VueRouter({
+  mode: &amp;lsquo;history&amp;rsquo;,
+  routes: [
+    { path: &amp;lsquo;*&amp;lsquo;, component: NotFoundComponent }
+  ]
+})
+```&lt;/p&gt;
+
+&lt;p&gt;或者，如果你使用 Node.js 服务器，你可以用服务端路由匹配到来的 URL，并在没有匹配到路由的时候返回 404，以实现回退。更多详情请查阅 &lt;a href=&#34;https://ssr.vuejs.org/zh/&#34;&gt;Vue 服务端渲染文档&lt;/a&gt;。&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>vue 路由重载之后导致history页面刷新空白问题fix</title>
+            <link>http://blog.flywithme.top/2018/12/24/vue-element02/</link>
+            <pubDate>Sun, 23 Dec 2018 06:57:21 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/12/24/vue-element02/</guid>
+            <description>&lt;p&gt;在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤，
+在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置
+但是在刷新完路由表之后 再刷新页面发现页面一片空白。&lt;/p&gt;
+
+&lt;p&gt;hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;next({ ...to, replace: true })  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;//路由权限配置源码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import router from &#39;@/router&#39;
+import store from &#39;@/store&#39;
+import { Message } from &#39;element-ui&#39;
+import NProgress from &#39;nprogress&#39; // progress bar
+import &#39;nprogress/nprogress.css&#39;// progress bar style
+import { getToken } from &#39;./utils/auth&#39; // getToken from cookie
+
+NProgress.configure({ showSpinner: false })// NProgress Configuration
+
+// permission judge function
+function hasPermission(roles, permissionRoles) {
+  if (roles.indexOf(&#39;admin&#39;) &amp;gt;= 0) return true // admin permission passed directly
+  if (!permissionRoles) return true
+  return roles.some(role =&amp;gt; permissionRoles.indexOf(role) &amp;gt;= 0)
+}
+
+
+const whiteList = [&#39;/login&#39;,&#39;/auth-redirect&#39;]
+
+router.beforeEach((to, from ,next) =&amp;gt; {
+  NProgress.start()
+  if (getToken()){  //判断是否登录
+    if (to.path === &#39;/login&#39;){
+      next({path:&#39;/&#39;})
+      NProgress.done()
+    }else {
+      if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
+        store.dispatch(&#39;GetUserInfo&#39;).then(user =&amp;gt; {
+          store.dispatch(&#39;GenerateRoutes&#39;,user.roles).then(() =&amp;gt; {
+            router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
+            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+          })
+        }).catch((err) =&amp;gt; {
+          store.dispatch(&#39;FedLogOut&#39;).then(() =&amp;gt; {
+            Message.error(err || &#39;Verification failed, please login again&#39;)
+            next({ path: &#39;/&#39; })
+          })
+        })
+      } else {
+        // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
+        if (hasPermission(store.getters.roles, to.meta.roles)) {
+          next()
+        } else {
+          next({ path: &#39;/401&#39;, replace: true, query: { noGoBack: true }})
+        }
+      }
+    }
+  }else {
+    /* has no token*/
+    if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
+      next()
+    } else {
+      next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
+      NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
+    }
+  }
+})
+
+
+
+router.afterEach(() =&amp;gt; {
+  NProgress.done() // finish progress bar
+})
+    
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>vue-element-admin 踩坑日记 01</title>
+            <link>http://blog.flywithme.top/2018/12/22/vue-element-admin01/</link>
+            <pubDate>Sat, 22 Dec 2018 06:57:21 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/12/22/vue-element-admin01/</guid>
+            <description>
+
+&lt;p&gt;&lt;a href=&#34;http://panjiachen.github.io/vue-element-admin&#34;&gt;vue-element-admin&lt;/a&gt; 是一个后台集成解决方案，
+它基于 vue 和 element。它使用了最新的前端技术栈，
+内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型，
+提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。&lt;/p&gt;
+
+&lt;p&gt;通过vue-element-admin 的源代码学习掌握Vue的一些基础知识&lt;/p&gt;
+
+&lt;h5 id=&#34;svg-图片加载&#34;&gt;SVG 图片加载&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;src/components目录下创建文件夹结构如下
+  &lt;img src=&#34;sources/vue/1458ED9C-2172-42AE-B350-131FDD080B19.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;br /&gt;
+SvgIcon下创建index.vue文件内容如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;template&amp;gt;
+  &amp;lt;svg :class=&amp;quot;svgClass&amp;quot; aria-hidden=&amp;quot;true&amp;quot;&amp;gt;
+    &amp;lt;use :xlink:href=&amp;quot;iconName&amp;quot;/&amp;gt;
+  &amp;lt;/svg&amp;gt;
+&amp;lt;/template&amp;gt;
+    
+&amp;lt;script&amp;gt;
+export default {
+  name: &#39;SvgIcon&#39;,
+  props: {
+    iconClass: {
+      type: String,
+      required: true
+    },
+    className: {
+      type: String,
+      default: &#39;&#39;
+    }
+  },
+  computed: {
+    iconName() {
+      return `#icon-${this.iconClass}`
+    },
+    svgClass() {
+      if (this.className) {
+        return &#39;svg-icon &#39; + this.className
+      } else {
+        return &#39;svg-icon&#39;
+      }
+    }
+  }
+}
+&amp;lt;/script&amp;gt;
+    
+&amp;lt;style scoped&amp;gt;
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+&amp;lt;/style&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在src目录下创建文件夹结构如图&lt;br /&gt;
+ &lt;img src=&#34;sources/vue/C4C47129-A335-4E5C-B076-2C1167B78492.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;br /&gt;
+svg 文件夹下放icon表情文件(.svg格式的文件)&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;index.js文件内容如下&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    import Vue from &#39;vue&#39;
+    import SvgIcon from &#39;@/components/SvgIcon&#39;// svg组件
+    
+    // register globally
+    Vue.component(&#39;svg-icon&#39;, SvgIcon)
+    
+    const req = require.context(&#39;./svg&#39;, false, /\.svg$/)
+    const requireAll = requireContext =&amp;gt; requireContext.keys().map(requireContext)
+    requireAll(req)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;svgo.yml文件内容如下&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# replace default config
+
+# multipass: true
+# full: true
+
+plugins:
+
+  # - name
+  #
+  # or:
+  # - name: false
+  # - name: true
+  #
+  # or:
+  # - name:
+  #     param1: 1
+  #     param2: 2
+
+- removeAttrs:
+    attrs:
+      - &#39;fill&#39;
+      - &#39;fill-rule&#39;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;修改配置文件 package.json文件
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;在scriptes 属性下添加一行&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;quot;svgo&amp;quot;: &amp;quot;svgo -f src/icons/svg --config=src/icons/svgo.yml&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;修改build目录下webpack.base.conf.js文件&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;修改module-&amp;gt;rules下元素&lt;/strong&gt;
+  如图示修改
+ &lt;img src=&#34;sources/vue/90A23CD9-00AD-4A94-A9E6-7F0C088E7B16.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    {
+      test: /\.svg$/,
+      loader: &#39;svg-sprite-loader&#39;,
+      include: [resolve(&#39;src/icons&#39;)],
+      options: {
+        symbolId: &#39;icon-[name]&#39;
+      }
+    },
+    {
+      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      loader: &#39;url-loader&#39;,
+      exclude: [resolve(&#39;src/icons&#39;)],
+      options: {
+        limit: 10000,
+        name: utils.assetsPath(&#39;img/[name].[hash:7].[ext]&#39;)
+      }
+    },
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>gin api 跨域问题,cors</title>
+            <link>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</link>
+            <pubDate>Tue, 18 Dec 2018 03:35:24 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</guid>
+            <description>&lt;p&gt;当一个资源从与该资源本身所在的服务器&lt;strong&gt;不同的域或端口&lt;/strong&gt;请求一个资源时，资源会发起一个跨域 HTTP 请求。&lt;/p&gt;
+
+&lt;p&gt;出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循&lt;strong&gt;同源策略&lt;/strong&gt;。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。&lt;/p&gt;
+
+&lt;p&gt;跨域资源共享标准：规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 GET 以外的 HTTP 请求，或者搭配某些 MIME 类型的 POST 请求），浏览器必须首先使用 &lt;code&gt;OPTIONS&lt;/code&gt; 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/gin-gonic/gin&#34;&gt;gin&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;time&amp;quot;
+
+	&amp;quot;github.com/gin-contrib/cors&amp;quot;
+	&amp;quot;github.com/gin-gonic/gin&amp;quot;
+)
+
+func main() {
+	router := gin.Default()
+	// CORS for https://foo.com and https://github.com origins, allowing:
+	// - PUT and PATCH methods
+	// - Origin header
+	// - Credentials share
+	// - Preflight requests cached for 12 hours
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{&amp;quot;https://foo.com&amp;quot;},
+		AllowMethods:     []string{&amp;quot;PUT&amp;quot;, &amp;quot;PATCH&amp;quot;},
+		AllowHeaders:     []string{&amp;quot;Origin&amp;quot;},
+		ExposeHeaders:    []string{&amp;quot;Content-Length&amp;quot;},
+		AllowCredentials: true,
+		AllowOriginFunc: func(origin string) bool {
+			return origin == &amp;quot;https://github.com&amp;quot;
+		},
+		MaxAge: 12 * time.Hour,
+	}))
+	router.Run()
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>MongoDB 用户名密码登录</title>
+            <link>http://blog.flywithme.top/2018/12/10/mongodb/</link>
+            <pubDate>Mon, 10 Dec 2018 06:53:01 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/12/10/mongodb/</guid>
+            <description>
+
+&lt;h5 id=&#34;mongodb-authentication&#34;&gt;MongoDB authentication&lt;/h5&gt;
+
+&lt;p&gt;MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产生安全风险，被利用此配置漏洞，入侵数据库。&lt;/p&gt;
+
+&lt;h5 id=&#34;容易遭受入侵的环境&#34;&gt;容易遭受入侵的环境&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用默认 mongod 命令启动 Mongodb&lt;/li&gt;
+&lt;li&gt;机器可以被公网访问&lt;/li&gt;
+&lt;li&gt;在公网上开放了 Mongodb 端口
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;开启用户名和密码验证&#34;&gt;开启用户名和密码验证&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;终端启动数据库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//参数默认可以不加，若有自定义参数，才要加上，下同
+mongod --port 27017 --dbpath /data/db1  
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;连接 mongo后创建用户&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mongo --port 27017
+use admin
+db.createUser(
+  {
+    user: &amp;quot;adminUser&amp;quot;,
+    pwd: &amp;quot;adminPass&amp;quot;,
+    roles: [ { role: &amp;quot;userAdminAnyDatabase&amp;quot;, db: &amp;quot;admin&amp;quot; } ]
+  }
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;重启 mongod 数据库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mongod --auth --port 27017 --dbpath /data/db1
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;连接数据库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;quot; --authenticationDatabase &amp;quot;admin&amp;quot;
+
+mongo --port 27017
+    
+use admin
+db.auth(&amp;quot;adminUser&amp;quot;, &amp;quot;adminPass&amp;quot;)
+    
+// 输出 1 表示验证成功
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;创建普通用户&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;use foo
+    
+db.createUser(
+  {
+    user: &amp;quot;simpleUser&amp;quot;,
+    pwd: &amp;quot;simplePass&amp;quot;,
+    roles: [ { role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;foo&amp;quot; },
+             { role: &amp;quot;read&amp;quot;, db: &amp;quot;bar&amp;quot; } ]
+  }
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用普通用户连接数据库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>nat</title>
+            <link>http://blog.flywithme.top/2018/08/31/nat/</link>
+            <pubDate>Fri, 31 Aug 2018 15:30:44 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/08/31/nat/</guid>
+            <description></description>
+        </item>
+        
+        <item>
+            <title>Elasticsearch 入门</title>
+            <link>http://blog.flywithme.top/2018/04/02/note_28/</link>
+            <pubDate>Mon, 02 Apr 2018 18:30:28 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/04/02/note_28/</guid>
+            <description>
+
+&lt;h5 id=&#34;简介-为什么要使用elasticsearch&#34;&gt;简介 为什么要使用Elasticsearch&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Elasticsearch （ES）是一个基于 Lucene 的开源搜索引擎，它不但稳定、
+ 可靠、快速，而且也具有良好的水平扩展能力，是专门为分布式环境设计的。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;安装方便&lt;/strong&gt;： 没有其他依赖，下载后安装很方便，只需修改几个参数就可以搭建一个集群&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;JSON&lt;/strong&gt;: 输入\输出格式为JSON,不需要定义Schema,快捷方便&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RESTful&lt;/strong&gt;：基本所有操作（索引，查询，甚至配置）都可以通过HTTP接口进行&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;分布式&lt;/strong&gt;：节点对外表现对等（每个节点都可以用来做入口）；加入节点，自动均衡&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;多租户&lt;/strong&gt;：可以根据不同的用途分索引；可以同时操作多个索引&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;准实时&lt;/strong&gt;：从文档索引到可以被检索只有轻微延时，约1s&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;安装&#34;&gt;安装&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;上一节使用docker run elasticsearch
+docker run -d -p 9200:9200 elasticsearch&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;使用测试&#34;&gt;使用测试&lt;/h5&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/elasticsearch/1522727510567.jpg&#34;  /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;打开idea -&amp;gt; tools -&amp;gt; testRESTful Web Service 工具&lt;/p&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/elasticsearch/1522668735966.jpg&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;请求：请求参数及说明&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;server&gt;:9200/index/type/id&lt;/li&gt;
+&lt;li&gt;index -&amp;gt; database&lt;/li&gt;
+&lt;li&gt;type -&amp;gt; table&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;GET
+&lt;image  src=&#34;sources/elasticsearch/1522726889411.jpg&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;插入
+&lt;image  src=&#34;sources/elasticsearch/1522727255830.jpg&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;查询
+&lt;image  src=&#34;sources/elasticsearch/1522727299952.jpg&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;package persist
+
+import (
+	&amp;quot;context&amp;quot;
+	&amp;quot;errors&amp;quot;
+	&amp;quot;log&amp;quot;
+
+	&amp;quot;imooc/craw/engine&amp;quot;
+
+	&amp;quot;gopkg.in/olivere/elastic.v5&amp;quot;
+)
+
+func ItemSaver(index string) (chan engine.Item, error) {
+	client, err := elastic.NewClient(
+		//Must turn off sniff in docker
+		elastic.SetSniff(false),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	out := make(chan engine.Item)
+	go func() {
+		itemCount := 0
+		for {
+			itemCount++
+			item := &amp;lt;-out
+			log.Printf(&amp;quot;ItemSaver got Item: #%d:%v&amp;quot;, itemCount, item)
+			err := save(client, index, item)
+			if err != nil {
+				log.Printf(&amp;quot;Item saver :error saving item %v:%v&amp;quot;, item, err)
+			}
+
+		}
+	}()
+	return out, nil
+}
+
+func save(client *elastic.Client, index string, item engine.Item) error {
+
+	if item.Type == &amp;quot;&amp;quot; {
+		return errors.New(&amp;quot;must suplly type&amp;quot;)
+	}
+	indexService := client.Index().Index(index).Type(item.Type).BodyJson(item)
+	if item.Id != &amp;quot;&amp;quot; {
+		indexService.Id(item.Id)
+	}
+	_, err := indexService.Do(context.Background())
+	if err != nil {
+		return err
+	}
+	//fmt.Printf(&amp;quot;%+v&amp;quot;, resp)
+	return nil
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Docker 入门</title>
+            <link>http://blog.flywithme.top/2018/04/02/note_27/</link>
+            <pubDate>Mon, 02 Apr 2018 17:33:59 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/04/02/note_27/</guid>
+            <description>
+
+&lt;h5 id=&#34;什么是docker&#34;&gt;什么是Docker&lt;/h5&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Docker是一个用来打包，装载和运行应用程序的一个轻量级容器的开源项目。
+ 它的工作方式非常像虚拟机，包裹所有的东西（文件系统，进程管理，环境变量等）
+ 在一个容器内。跟虚拟机有所不同，它是使用LXC（Linux kernel container）
+ 来替代虚拟层。 LXC没有自己的内核，但是与主机和其他容器一起共享Linux内核的。
+ 基于LXC，因此Docker是非常轻量级的，
+ 因此在运行应用程序的时候几乎没有性能损失。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&#34;安装方式&#34;&gt;安装方式&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;brew install docker&lt;/li&gt;
+&lt;li&gt;官网下载 Docker for mac 下载 &lt;a href=&#34;https://store.docker.com/editions/community/docker-ce-desktop-mac&#34;&gt;docker 下载地址&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;加速器-配置地址-http-www-daocloud-io-mirror-accelerator-doc&#34;&gt;加速器 &lt;a href=&#34;http://www.daocloud.io/mirror#accelerator-doc&#34;&gt;配置地址&lt;/a&gt;&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;选择对应的配置，按照提示，添加镜像地址
+&lt;image  src=&#34;sources/docker/1522665847954.jpg&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;查看docker info
+&lt;image  src=&#34;sources/docker/1522665979813.jpg&#34;  /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;运行命令 &lt;code&gt;docker run hello-world&lt;/code&gt;  下载使用镜像&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;启动docker nginx&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//把里面的端口映射到外面物理机的80端口
+docker run -d -p 80:80 nginx
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;docker run -d -p 9200:9200 nginx&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 14-3 多任务版爬虫</title>
+            <link>http://blog.flywithme.top/2018/03/16/note_26/</link>
+            <pubDate>Fri, 16 Mar 2018 16:02:01 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/16/note_26/</guid>
+            <description>
+
+&lt;h5 id=&#34;并发调度器&#34;&gt;并发调度器&lt;/h5&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/go/1521197187281.jpg&#34;  /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//engine 
+package engine
+
+import (
+	&amp;quot;log&amp;quot;
+)
+
+type ConcurrentEngine struct {
+	Scheduler   Scheduler
+	WorkerCount int
+}
+
+type Scheduler interface {
+	ReadyNotifier
+	Submit(Request)
+	WorkerChan() chan Request
+	Run()
+}
+
+type ReadyNotifier interface {
+	WokerReady(chan Request)
+}
+
+func (e *ConcurrentEngine) Run(seeds ...Request) {
+	out := make(chan ParseResult)
+	e.Scheduler.Run()
+	for i := 0; i &amp;lt; e.WorkerCount; i++ {
+		createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
+	}
+
+	for _, r := range seeds {
+		e.Scheduler.Submit(r)
+	}
+	itemCount := 0
+	for {
+		result := &amp;lt;-out
+		for _, item := range result.Items {
+			itemCount++
+			log.Printf(&amp;quot;Got item #%d: %v&amp;quot;, itemCount, item)
+		}
+		for _, request := range result.Requests {
+			e.Scheduler.Submit(request)
+		}
+	}
+}
+
+func createWorker(in chan Request, out chan ParseResult, ready ReadyNotifier) {
+	go func() {
+		for {
+			ready.WokerReady(in)
+			request := &amp;lt;-in
+			result, err := worker(request)
+			if err != nil {
+				continue
+			}
+			out &amp;lt;- result
+		}
+	}()
+}
+
+--------------------------------------
+//scheduler queued
+
+package scheduler
+
+import (
+	&amp;quot;imooc/craw/engine&amp;quot;
+)
+
+type QueuedScheduler struct {
+	requestChan chan engine.Request
+	workerChan  chan chan engine.Request
+}
+
+func (s *QueuedScheduler) WorkerChan() chan engine.Request {
+	return make(chan engine.Request)
+}
+
+func (s *QueuedScheduler) Submit(r engine.Request) {
+	s.requestChan &amp;lt;- r
+}
+
+func (s *QueuedScheduler) WokerReady(w chan engine.Request) {
+	s.workerChan &amp;lt;- w
+}
+
+func (s *QueuedScheduler) Run() {
+	s.workerChan = make(chan chan engine.Request)
+	s.requestChan = make(chan engine.Request)
+	go func() {
+		var requestQ []engine.Request
+		var workerQ []chan engine.Request
+		for {
+			var activeRequest engine.Request
+			var activeWorker chan engine.Request
+			if len(requestQ) &amp;gt; 0 &amp;amp;&amp;amp; len(workerQ) &amp;gt; 0 {
+				activeWorker = workerQ[0]
+				activeRequest = requestQ[0]
+			}
+
+			select {
+			case r := &amp;lt;-s.requestChan:
+				requestQ = append(requestQ, r)
+			case w := &amp;lt;-s.workerChan:
+				workerQ = append(workerQ, w)
+			case activeWorker &amp;lt;- activeRequest:
+				workerQ = workerQ[1:]
+				requestQ = requestQ[1:]
+			}
+		}
+
+	}()
+
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 14-2 单任务版爬虫</title>
+            <link>http://blog.flywithme.top/2018/03/14/note_25/</link>
+            <pubDate>Wed, 14 Mar 2018 16:54:13 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/14/note_25/</guid>
+            <description>
+
+&lt;h5 id=&#34;总体的算法步骤&#34;&gt;总体的算法步骤&lt;/h5&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/go/1521017696913.jpg&#34;  /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;解析器-parser&#34;&gt;解析器 Parser&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;输入： utf-8 编码的文本&lt;/li&gt;
+&lt;li&gt;输出： Request{URL,对应的Parser} 列表，Item列表&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;单任务版爬虫架构&#34;&gt;单任务版爬虫架构&lt;/h5&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/go/1521018347601.jpg&#34;  /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;获取并打印所有城市第一页用户的详细信息
+
+&lt;ul&gt;
+&lt;li&gt;使用http.Get获取内容&lt;/li&gt;
+&lt;li&gt;使用Encodeing来转换编码：gbk-&amp;gt;utf-8&lt;/li&gt;
+&lt;li&gt;使用charset.DetermineEncoding来判断编码&lt;/li&gt;
+&lt;li&gt;使用正则表达式筛选需要的内容&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;code &lt;a href=&#34;https://github.com/flywithbug/imooc/tree/release/0.0.1/craw&#34;&gt;单任务爬虫分支&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 14-1 爬虫实现</title>
+            <link>http://blog.flywithme.top/2018/03/09/note_24/</link>
+            <pubDate>Fri, 09 Mar 2018 16:05:38 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/09/note_24/</guid>
+            <description>
+
+&lt;h5 id=&#34;获取初始页面内容&#34;&gt;获取初始页面内容&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;使用相亲网站做目标&lt;/li&gt;
+&lt;li&gt;编码格式自动识别转换&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;获取有价值信息&#34;&gt;获取有价值信息&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;获取城市名称和链接
+
+&lt;ul&gt;
+&lt;li&gt;使用css选择器&lt;/li&gt;
+&lt;li&gt;使用xpath&lt;/li&gt;
+&lt;li&gt;使用正则表达式
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;io/ioutil&amp;quot;
+	&amp;quot;net/http&amp;quot;
+
+	&amp;quot;bufio&amp;quot;
+	&amp;quot;io&amp;quot;
+
+	&amp;quot;regexp&amp;quot;
+
+	&amp;quot;golang.org/x/net/html/charset&amp;quot;
+	&amp;quot;golang.org/x/text/encoding&amp;quot;
+	&amp;quot;golang.org/x/text/transform&amp;quot;
+)
+
+//网站编码识别转换
+func determineEncoder(r io.Reader) encoding.Encoding {
+	bytes, err := bufio.NewReader(r).Peek(1024)
+	if err != nil {
+		panic(err)
+	}
+	e, _, _ := charset.DetermineEncoding(bytes, &amp;quot;&amp;quot;)
+	return e
+}
+
+const regextstr = `&amp;lt;a href=&amp;quot;http://www.zhenai.com/zhenghun/[0-9a-z]+&amp;quot;[^&amp;gt;]*&amp;gt;[^&amp;lt;]+&amp;lt;/a&amp;gt;`
+
+const regextstr1 = `&amp;lt;a href=&amp;quot;(http://www.zhenai.com/zhenghun/[0-9a-z]+)&amp;quot;[^&amp;gt;]*&amp;gt;([^&amp;lt;]+)&amp;lt;/a&amp;gt;`
+
+func printCityList(contents []byte) {
+	re := regexp.MustCompile(regextstr1)
+	//matchs := re.FindAll(contents, -1)
+	amtch := re.FindAllSubmatch(contents, -1)
+
+	for _, m := range amtch {
+		fmt.Printf(&amp;quot;%s\n %s \n&amp;quot;, m[1], m[2])
+	}
+}
+
+func main() {
+	resp, err := http.Get(&amp;quot;http://www.zhenai.com/zhenghun&amp;quot;)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		fmt.Println(&amp;quot;Error: status code &amp;quot;, resp.StatusCode)
+		return
+	}
+	e := determineEncoder(resp.Body)
+	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
+	result, err := ioutil.ReadAll(utf8Reader)
+	if err != nil {
+		panic(err)
+	}
+	printCityList(result)
+	//fmt.Printf(&amp;quot;%s\n&amp;quot;, result)
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>Go: 13-1 爬虫简介</title>
+            <link>http://blog.flywithme.top/2018/03/08/note_23/</link>
+            <pubDate>Thu, 08 Mar 2018 17:13:27 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2018/03/08/note_23/</guid>
+            <description>
+
+&lt;h5 id=&#34;网络爬虫分类&#34;&gt;网络爬虫分类&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;通用爬虫：如baidu,google&lt;/li&gt;
+&lt;li&gt;聚焦爬虫：从互联网获取结构化数据&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;项目总体结构&#34;&gt;项目总体结构&lt;/h5&gt;
+
+&lt;p&gt;&lt;image  src=&#34;sources/go/1517564741602.jpg&#34;  /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;go语言的爬虫库-框架&#34;&gt;go语言的爬虫库/框架&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;henrylee2cn/pholcus&lt;/li&gt;
+&lt;li&gt;gocrawl&lt;/li&gt;
+&lt;li&gt;colly&lt;/li&gt;
+&lt;li&gt;hu17889/go_spider&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;重新开发一个爬虫库&#34;&gt;重新开发一个爬虫库&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;不适用现成的爬虫库/框架&lt;/li&gt;
+&lt;li&gt;使用ElasticSearch作为数据存储&lt;/li&gt;
+&lt;li&gt;使用Go语言标准模板库实现http数据展示部分&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;实现步骤&#34;&gt;实现步骤&lt;/h5&gt;
+
+&lt;ul&gt;
+&lt;li&gt;单任务&lt;/li&gt;
+&lt;li&gt;并发版&lt;/li&gt;
+&lt;li&gt;分布式&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

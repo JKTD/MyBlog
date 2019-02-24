@@ -1,274 +1,130 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
-  <base href="http://blog.flywithme.top/">
-  <script>
-    document._writeOriginal = document.write;
-    document.write = function(str) {
-        if (str.indexOf('livereload.js') > -1) {
-            document._writeOriginal(str);
-        } else {
-            document._writeOriginal('<!-- Be Hijack!! -->');
-        }
-    }
-  </script>
-  <title>Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="keywords" content="xxx,">
-<meta name="description" content="vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充">
-<meta name="author" content="coderzh">
-<meta name="publisher" content="coderzh">
-<meta name="generator" content="http://gohugo.io/"/>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.54.0" />
 
-<meta itemprop="name" content="Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug">
-<meta itemprop="description" content="vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充">
-<meta itemprop="image" content="http://blog.flywithme.top/public/coderzh.jpg">
-
-<meta property="og:title" content="Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/2018/12/24/vue_webserver/" />
-<meta property="og:image" content="http://blog.flywithme.top/public/coderzh.jpg" />
-<meta property="og:description" content="vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充">
-
-<meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="@coderzh">
-<meta name="twitter:title" content="Vue上线后，history页面点击刷新按钮报错404问题 - Fly With Bug">
-<meta name="twitter:description" content="vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充">
-<meta name="twitter:creator" content="@coderzh">
-<meta name="twitter:image" content="http://blog.flywithme.top/public/coderzh.jpg">
-
-  <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/2018/12/24/vue_webserver/">
-  <link rel='shortlink' href="http://blog.flywithme.top/2018/12/24/vue_webserver/"/>
-  <link rel="shortcut icon" href="http://blog.flywithme.top/public/favicon.ico"/>
   
-<link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="font-awesome-css" href="http://blog.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
-<link rel="stylesheet" href="http://blog.flywithme.top/public/highlight/styles/github.css">
-<script src="http://blog.flywithme.top/public/highlight/highlight.pack.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-<link rel="stylesheet" id="human-style-css3" href="http://blog.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
-<link rel="stylesheet" href="public/font/hack/css/hack.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script type="text/javascript" src="assets/js/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="wp-content/themes/hueman/js/jquery.jplayer.min.js"></script>
-<script type="text/javascript" src="wp-content/themes/hueman/js/scripts.js"></script>
-<script type="text/javascript" src="assets/picturefill/picturefill.min.js"></script>
-<script type="text/javascript" src="assets/js/jquery.matchHeight-min.js"></script>
-<script type="text/javascript" async defer src="assets/js/myblog.js"></script>
+  <title>Vue上线后，history页面点击刷新按钮报错404问题 &middot; Fly With Bug</title>
 
+  
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.flywithme.top/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blog.flywithme.top/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Fly With Bug" />
+
+  
 </head>
 
-<body class="single single-post single-format-standard col-3cm full-width topbar-enabled chrome">
-<div id="wrapper">
-  <header id="header">
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://blog.flywithme.top"><h1>Fly With Bug</h1></a>
+      <p class="lead">
+       漫步走在沙滩上 
+      </p>
+    </div>
 
-  <nav class="nav-container group" id="nav-topbar">
-    <div class="nav-toggle"><i class="fa fa-bars"></i></div>
-    <div class="nav-text"></div>
-    <div class="nav-wrap container">
-      <a rel="nofollow" href="http://blog.flywithme.top/" class="nav-cs-icon">
-        <img width="40" height="40" src="http://blog.flywithme.top/public/coderjk.jpg" alt="coderjk" title="Home">
-      </a>
-      <ul id="menu-default-menu" class="nav container-inner group">
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
-        </li>
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
-        </li>
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-        </li>
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/post/">归档</a>
-        </li>
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/about/">关于我</a>
-        </li>
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="" type="application/rss+xml" target="_blank">订阅</a>
-        </li>
-        <li class="menu-item menu-item-type-post_type menu-item-text">
-        浪尖一滴水,引领一片潮
-        </li>
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://blog.flywithme.top">Home</a> </li>
+        <li><a href="http://blog.flywithme.top/post/"> 归档 </a></li><li><a href="http://blog.flywithme.top/about/"> 关于我 </a></li>
       </ul>
-    </div>
+    </nav>
 
-    <div class="container">
-      <div class="container-inner">
-        <div class="toggle-search"><i class="fa fa-search"></i></div>
-        <div class="search-expand">
-          <div class="search-expand-inner">
-            <form method="get" class="searchform themeform" action="https://www.google.com/search">
-              <div>
-                <input type="text" class="search" name="q" placeholder="Press enter to start searching">
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-    
-
-  </nav>
-  
-
-  <div class="container group">
-    <div class="container-inner">
-
-      <div class="group pad">
-
-        <div class="group pad">
-          <h1 class="site-title">
-            <a rel="nofollow" href="http://blog.flywithme.top/" rel="home">
-              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="coderzh" src="http://blog.flywithme.top/public/coderzh.jpg"></img>
-              Fly With Bug
-            </a>
-          </h1>
-          <p class="site-description"> 漫步走在沙滩上 </p>
-        </div>
-
-      </div>
-    </div>
-    
+    <p>&copy; 2019. All rights reserved. </p>
   </div>
-  
+</aside>
 
-</header>
+    <main class="content container">
+    <div class="post">
+  <h1>Vue上线后，history页面点击刷新按钮报错404问题</h1>
+  <time datetime=2018-12-24T07:14:17&#43;0800 class="post-date">Mon, Dec 24, 2018</time>
+  <pre><code class="language-vue-router```">如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。
 
-
-
-  <div class="container" id="page">
-    <div class="container-inner">
-      <div class="main">
-        <div class="main-inner group">
-          <section class="content">
-            <div class="page-title pad group">
-              <ul class="meta-single group">
-                
-                <li class="category">
-                  <a href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="category tag">读书笔记</a>
-                </li>
-                
-                <li class="category">
-                  <a href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/" rel="category tag">技术文章</a>
-                </li>
-                
-                <li class="category">
-                  <a href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/" rel="category tag">思考感悟</a>
-                </li>
-                
-              </ul>
-            </div>
-
-            <div class="pad group">
-
-              <article
-                  class="post type-post status-publish format-standard has-post-thumbnail hentry category-australien tag-bondi-beach tag-city2surf tag-sydney">
-                <div class="post-inner group">
-
-                  <h1 class="post-title">Vue上线后，history页面点击刷新按钮报错404问题</h1>
-
-                  <p class="post-byline">
-                    by  · 2018年12月24日 · 1094 Words ·
-                    ~3min reading time |
-                    <a href="https://github.com/coderzh/coderzh-hugo-blog/blob/master/content/post/2018/2018-12-24-vue_webserver.md"
-                       target="_blank">Improve on <i class="fa fa-github"></i></a>
-                  </p>
-
-                  <div class="clear"></div>
-
-                  <div class="entry">
-                    <div class="entry-inner">
-                      
-                      
-
-<p><code>vue-router</code> 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。
-如果不想要很丑的 hash，可以用路由的 <strong>history 模式</strong> ，这种模式充分利用 <code>history.pushState</code> API 来完成 URL 跳转而无须重新加载页面。</p>
-
-<pre><code>const router = new VueRouter({
-  mode: 'history',
-  routes: [...]
-})
 </code></pre>
 
-<p>当你使用 <code>history</code> 模式时，URL 就像正常的 url，例如 <code>http://yoursite.com/user/id</code>，也好看！
-不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 <code>http://oursite.com/user/id</code> 就会返回 404，这就不好看了。
-所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 <code>index.html</code> 页面，这个页面就是你 app 依赖的页面。</p>
+<p>const router = new VueRouter({
+  mode: &lsquo;history&rsquo;,
+  routes: [&hellip;]
+})</p>
 
-<h4 id="go-gin框架配置示例"><strong>go gin框架配置示例</strong></h4>
+<pre><code>
+当你使用 ```history``` 模式时，URL 就像正常的 url，例如 ```http://yoursite.com/user/id```，也好看！
+不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 ```http://oursite.com/user/id``` 就会返回 404，这就不好看了。
+所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 ```index.html``` 页面，这个页面就是你 app 依赖的页面。
 
-<p>由于我使用go的gin框架做服务器，示例代码如下
-<a href="https://github.com/flywithbug-docmanager/docmanager">源码地址</a></p>
+#### **go gin框架配置示例**
+由于我使用go的gin框架做服务器，示例代码如下
+[源码地址](https://github.com/flywithbug-docmanager/docmanager) 
+</code></pre>
 
-<pre><code>func NoRoute(c *gin.Context) {
-	path := strings.Split(c.Request.URL.Path, &quot;/&quot;)
-	if (path[1] != &quot;&quot;) &amp;&amp; (path[1] == &quot;api&quot;) {
-		aRes := model.NewResponse()
-		aRes.Code = http.StatusNotFound
-		aRes.Msg = &quot;no route&quot;
-		c.JSON(http.StatusNotFound, aRes)
-	} else {
-		c.HTML(http.StatusOK, &quot;index.html&quot;, &quot;&quot;)
-	}
-}
+<p>func NoRoute(c *gin.Context) {
+    path := strings.Split(c.Request.URL.Path, &ldquo;/&rdquo;)
+    if (path[1] != &ldquo;&rdquo;) &amp;&amp; (path[1] == &ldquo;api&rdquo;) {
+        aRes := model.NewResponse()
+        aRes.Code = http.StatusNotFound
+        aRes.Msg = &ldquo;no route&rdquo;
+        c.JSON(http.StatusNotFound, aRes)
+    } else {
+        c.HTML(http.StatusOK, &ldquo;index.html&rdquo;, &ldquo;&rdquo;)
+    }
+}</p>
 
-r := gin.New()
+<p>r := gin.New()
 r.Use(middleware.Logger(), gin.Recovery())
-r.Use(static.Serve(&quot;/&quot;, static.LocalFile(staticPath, true)))
-r.LoadHTMLGlob(staticPath + &quot;/index.html&quot;)
-r.NoRoute(handler.NoRoute)
+r.Use(static.Serve(&ldquo;/&rdquo;, static.LocalFile(staticPath, true)))
+r.LoadHTMLGlob(staticPath + &ldquo;/index.html&rdquo;)
+r.NoRoute(handler.NoRoute)</p>
 
+<pre><code>
+----------------------------------------------------
+
+### [官网配置例](https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90) 
+
+##### Apache
 </code></pre>
 
-<hr />
-
-<h3 id="官网配置例-https-router-vuejs-org-zh-guide-essentials-history-mode-html-e5-90-8e-e7-ab-af-e9-85-8d-e7-bd-ae-e4-be-8b-e5-ad-90"><a href="https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90">官网配置例</a></h3>
-
-<h5 id="apache">Apache</h5>
-
-<pre><code>&lt;IfModule mod_rewrite.c&gt;
+<p><IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index\.html$ - [L]
+  RewriteRule ^index.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
-&lt;/IfModule&gt;
+</IfModule></p>
+
+<pre><code>
+除了 ```mod_rewrite```，你也可以使用 ```FallbackResource```。
+
+##### nginx
 </code></pre>
 
-<p>除了 <code>mod_rewrite</code>，你也可以使用 <code>FallbackResource</code>。</p>
-
-<h5 id="nginx">nginx</h5>
-
-<pre><code>location / {
+<p>location / {
   try_files $uri $uri/ /index.html;
-}
+}</p>
 
-一、
+<p>一、
 location /{
     root   /data/nginx/html;
     index  index.html index.htm;
     error_page 404 /index.html;
-}
+}</p>
 
-二、
+<p>二、
 location /{
     root   /data/nginx/html;
     index  index.html index.htm;
@@ -276,9 +132,9 @@ location /{
         rewrite ^/(.*) /index.html last;
         break;
     }
-}
-    
-三、
+}</p>
+
+<p>三、
 server {
     listen       8888;#默认端口是80，如果端口没被占用可以不用修改
     server_name  localhost;
@@ -292,271 +148,108 @@ server {
     location @router {
         rewrite ^.*$ /index.html last;
     }
-    #.......其他部分省略
-}
+    #&hellip;&hellip;.其他部分省略
+}</p>
 
+<pre><code>
+##### 原生 Node.js
 </code></pre>
 
-<h5 id="原生-node-js">原生 Node.js</h5>
+<p>const http = require(&lsquo;http&rsquo;)
+const fs = require(&lsquo;fs&rsquo;)
+const httpPort = 80</p>
 
-<pre><code>const http = require('http')
-const fs = require('fs')
-const httpPort = 80
-
-http.createServer((req, res) =&gt; {
-  fs.readFile('index.htm', 'utf-8', (err, content) =&gt; {
+<p>http.createServer((req, res) =&gt; {
+  fs.readFile(&lsquo;index.htm&rsquo;, &lsquo;utf-8&rsquo;, (err, content) =&gt; {
     if (err) {
-      console.log('We cannot open &quot;index.htm&quot; file.')
-    }
+      console.log(&lsquo;We cannot open &ldquo;index.htm&rdquo; file.&rsquo;)
+    }</p>
 
-    res.writeHead(200, {
-      'Content-Type': 'text/html; charset=utf-8'
-    })
-
-    res.end(content)
-  })
-}).listen(httpPort, () =&gt; {
-  console.log('Server listening on: http://localhost:%s', httpPort)
+<pre><code>res.writeHead(200, {
+  'Content-Type': 'text/html; charset=utf-8'
 })
+
+res.end(content)
 </code></pre>
 
-<h5 id="基于-node-js-的-express">基于 Node.js 的 Express</h5>
+<p>})
+}).listen(httpPort, () =&gt; {
+  console.log(&lsquo;Server listening on: <a href="http://localhost:%s'">http://localhost:%s'</a>, httpPort)
+})</p>
 
-<p>对于 Node.js/Express，请考虑使用 <a href="https://github.com/bripkens/connect-history-api-fallback">connect-history-api-fallback</a> 中间件。</p>
+<pre><code>
+##### 基于 Node.js 的 Express
+对于 Node.js/Express，请考虑使用 [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback) 中间件。
 
-<h5 id="internet-information-services-iis">Internet Information Services (IIS)</h5>
-
-<p>安装 IIS UrlRewrite
-在你的网站根目录中创建一个 <code>web.config</code>  文件，内容如下：</p>
-
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;configuration&gt;
-  &lt;system.webServer&gt;
-    &lt;rewrite&gt;
-      &lt;rules&gt;
-        &lt;rule name=&quot;Handle History Mode and custom 404/500&quot; stopProcessing=&quot;true&quot;&gt;
-          &lt;match url=&quot;(.*)&quot; /&gt;
-          &lt;conditions logicalGrouping=&quot;MatchAll&quot;&gt;
-            &lt;add input=&quot;{REQUEST_FILENAME}&quot; matchType=&quot;IsFile&quot; negate=&quot;true&quot; /&gt;
-            &lt;add input=&quot;{REQUEST_FILENAME}&quot; matchType=&quot;IsDirectory&quot; negate=&quot;true&quot; /&gt;
-          &lt;/conditions&gt;
-          &lt;action type=&quot;Rewrite&quot; url=&quot;/&quot; /&gt;
-        &lt;/rule&gt;
-      &lt;/rules&gt;
-    &lt;/rewrite&gt;
-  &lt;/system.webServer&gt;
-&lt;/configuration&gt;
+##### Internet Information Services (IIS)
+安装 IIS UrlRewrite
+在你的网站根目录中创建一个 ``` web.config```  文件，内容如下：
 </code></pre>
 
-<h5 id="caddy">Caddy</h5>
+<p>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?&gt;
+<configuration>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="Handle History Mode and custom 404/500" stopProcessing="true">
+          <match url="(.*)" />
+          <conditions logicalGrouping="MatchAll">
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+          </conditions>
+          <action type="Rewrite" url="/" />
+        </rule>
+      </rules>
+    </rewrite>
+  </system.webServer>
+</configuration></p>
 
-<pre><code>rewrite {
+<pre><code>
+##### Caddy
+</code></pre>
+
+<p>rewrite {
     regexp .*
     to {path} /
-}
+}</p>
+
+<pre><code>
+##### Firebase 主机
+在你的 ``` firebase.json```  中加入：
 </code></pre>
 
-<h5 id="firebase-主机">Firebase 主机</h5>
-
-<p>在你的 <code>firebase.json</code>  中加入：</p>
-
-<pre><code>{
-  &quot;hosting&quot;: {
-    &quot;public&quot;: &quot;dist&quot;,
-    &quot;rewrites&quot;: [
+<p>{
+  &ldquo;hosting&rdquo;: {
+    &ldquo;public&rdquo;: &ldquo;dist&rdquo;,
+    &ldquo;rewrites&rdquo;: [
       {
-        &quot;source&quot;: &quot;**&quot;,
-        &quot;destination&quot;: &quot;/index.html&quot;
+        &ldquo;source&rdquo;: &ldquo;**&ldquo;,
+        &ldquo;destination&rdquo;: &ldquo;/index.html&rdquo;
       }
     ]
   }
-}
+}</p>
+
+<pre><code>
+##### 警告
+给个警告，因为这么做以后，你的服务器就不再返回 404 错误页面，因为对于所有路径都会返回 index.html 文件。为了避免这种情况，你应该在 Vue 应用里面覆盖所有的路由情况，然后在给出一个 404 页面。
 </code></pre>
 
-<h5 id="警告">警告</h5>
-
-<p>给个警告，因为这么做以后，你的服务器就不再返回 404 错误页面，因为对于所有路径都会返回 index.html 文件。为了避免这种情况，你应该在 Vue 应用里面覆盖所有的路由情况，然后在给出一个 404 页面。</p>
-
-<pre><code>const router = new VueRouter({
-  mode: 'history',
+<p>const router = new VueRouter({
+  mode: &lsquo;history&rsquo;,
   routes: [
-    { path: '*', component: NotFoundComponent }
+    { path: &lsquo;*&lsquo;, component: NotFoundComponent }
   ]
 })
-</code></pre>
+```</p>
 
 <p>或者，如果你使用 Node.js 服务器，你可以用服务端路由匹配到来的 URL，并在没有匹配到路由的时候返回 404，以实现回退。更多详情请查阅 <a href="https://ssr.vuejs.org/zh/">Vue 服务端渲染文档</a>。</p>
 
-                      
-                    </div>
-                    <div style="border: 1px dashed #e0e0e0; padding: 10px 10px 10px 10px; background-color: #fffeee; background-repeat: no-repeat; background-attachment: scroll; background-position: 1% 50%; -moz-background-size: auto auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
-                        <div style="float:left;margin-top:0px;">
-                        <img src="http://blog.flywithme.top/public/qrcode.png" width="129px" height="129px"/>
-                        <div style="text-align:center;">微信扫一扫交流</div>
-                        </div>
-                        <div>
-                            <p style="margin-top:0px;">作者：<a target="_blank" href="http://blog.flywithme.top/">Flywithbug</a>
-                            <br />微信关注：我再案发现场
-                            <br />本文出处：<a target="_blank" href="http://blog.flywithme.top/2018/12/24/vue_webserver/">http://blog.flywithme.top/2018/12/24/vue_webserver/</a>
-                            <br />
-                            文章版权归本人所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。 </p>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                  </div>
-                  
-
-                </div>
-                
-              </article>
-              
-              <div class="clear"></div>
-              
-              
-              
-            </div>
-          </section>
-          <div class="sidebar s1">
-  <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
-  <div class="sidebar-content">
-    <div class="sidebar-top group">
-      <p>Follow:</p>
-      <ul class="social-links">
-    
-    
-        
-        
-    
-    
-    
-    
-        
-        
-    
-    
-    <li>
-    <a class="social-tooltip" title="On GitHub"
-        href="https://github.com/flywithbug" target="_blank">
-        <i class="fa fa-github"></i>
-    </a>
-    </li>
-</ul>
-
-    </div>
-    <div class="widget qrcode">
-    <img src="http://blog.flywithme.top/public/qrcode.png" alt="qrcode" width="172px" height="172px"/>
-    <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
 </div>
 
-    <ul class="post-nav group">
-      <li class="next">
-        
-        <a href="http://blog.flywithme.top/2018/12/24/vue-element02/" rel="next">
-          <i class="fa fa-chevron-right"></i>
-          <strong>Next post</strong>
-          <span>vue 路由重载之后导致history页面刷新空白问题fix</span>
-        </a>
-        
-      </li>
-      <li class="previous">
-        
-        <a href="http://blog.flywithme.top/2019/01/13/mongodump/" rel="prev">
-          <i class="fa fa-chevron-left"></i>
-          <strong>Previous Post</strong>
-          <span>mongodb 维护小记</span>
-        </a>
-        
-      </li>
-    </ul>
-    <div id="search-2" class="widget widget_search"><h3>Search</h3>
-      <form method="get" class="searchform themeform" action="https://www.google.com/search">
-        <div>
-          <input type="text" class="search" name="q" placeholder="Press enter to start searching">
-        </div>
-      </form>
-    </div>
-  </div>
-  
-</div>
 
-          <div class="sidebar s2">
-  <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
-  <div class="sidebar-content">
-    <div class="sidebar-top group">
-      <p>More</p>
-    </div>
-    <div id="categories-2" class="widget widget_categories"><h3>Categories</h3>
-      <ul>
-        
-          <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
-          </li>
-        
-          <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-          </li>
-        
-          <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</div>
+    </main>
 
-        </div>
-      </div>
-    </div>
-  </div>
-  <footer id="footer">
-  <section class="container" id="footer-bottom">
-    <div class="container-inner">
-      <a id="back-to-top" href="#"><i class="fa fa-angle-up"></i></a>
-      <div class="pad group">
-        <div class="grid one-half">
-          <div id="copyright">
-              <p>Copyright (c) 2015. All rights reserved.<br>Powered by
-              <a rel="nofollow" href="http://gohugo.io/" target="_blank">Hugo - the static site generator</a>.
-              <a rel="nofollow" href="http://golang.org" target="_blank">#golang</a>.
-            </p>
-          </div>
-          
-        </div>
-        
-        <div class="grid one-half last">
-          <ul class="social-links">
     
-    
-        
-        
-    
-    
-    
-    
-        
-        
-    
-    
-    <li>
-    <a class="social-tooltip" title="On GitHub"
-        href="https://github.com/flywithbug" target="_blank">
-        <i class="fa fa-github"></i>
-    </a>
-    </li>
-</ul>
-
-        </div>
-      </div>
-
-    </div>
-    
-  </section>
-  
-</footer>
-
-</div>
-
-</body>
+  </body>
 </html>
-

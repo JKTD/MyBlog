@@ -1,468 +1,82 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
-  <base href="http://blog.flywithme.top/">
-  <script>
-    document._writeOriginal = document.write;
-    document.write = function(str) {
-        if (str.indexOf('livereload.js') > -1) {
-            document._writeOriginal(str);
-        } else {
-            document._writeOriginal('<!-- Be Hijack!! -->');
-        }
-    }
-  </script>
-  <title>读书笔记 - Fly With Bug</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.54.0" />
 
-<meta name="description" content="读书笔记">
-<meta name="author" content="coderzh">
-<meta name="publisher" content="coderzh">
-<meta name="generator" content="http://gohugo.io/"/>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta itemprop="name" content="读书笔记 - Fly With Bug">
-<meta itemprop="description" content="读书笔记">
-<meta itemprop="image" content="http://blog.flywithme.top/public/coderzh.jpg">
+  <title>读书笔记 &middot; Fly With Bug</title>
 
-<meta property="og:title" content="读书笔记 - Fly With Bug" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" />
-<meta property="og:image" content="http://blog.flywithme.top/public/coderzh.jpg" />
-<meta property="og:description" content="读书笔记">
+  
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.topcss/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
-<meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="@coderzh">
-<meta name="twitter:title" content="读书笔记 - Fly With Bug">
-<meta name="twitter:description" content="读书笔记">
-<meta name="twitter:creator" content="@coderzh">
-<meta name="twitter:image" content="http://blog.flywithme.top/public/coderzh.jpg">
 
-  <script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
-  <link rel="canonical" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
-  <link rel='shortlink' href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-  <link rel="shortcut icon" href="http://blog.flywithme.top/public/favicon.ico"/>
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.flywithme.top/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blog.flywithme.top/favicon.png">
+
   
   <link href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.xml" rel="alternate" type="application/rss+xml" title="Fly With Bug" />
-  <link href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.xml" rel="feed" type="application/rss+xml" title="Fly With Bug" />
 
-<link rel="stylesheet" id="human-style-css" href="http://blog.flywithme.top/wp-content/themes/hueman/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="human-style-css2" href="http://blog.flywithme.top/wp-content/themes/hueman-child/style.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="responsive-css" href="http://blog.flywithme.top/wp-content/themes/hueman/responsive.css" type="text/css" media="all"/>
-<link rel="stylesheet" id="font-awesome-css" href="http://blog.flywithme.top/wp-content/themes/hueman/fonts/font-awesome.min.css" type="text/css" media="all"/>
-<link rel="stylesheet" href="http://blog.flywithme.top/public/highlight/styles/github.css">
-<script src="http://blog.flywithme.top/public/highlight/highlight.pack.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-<link rel="stylesheet" id="human-style-css3" href="http://blog.flywithme.top/wp-content/themes/hueman-child/user.css" type="text/css" media="all"/>
-<link rel="stylesheet" href="public/font/hack/css/hack.min.css">
-
-<script type="text/javascript" src="assets/js/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="wp-content/themes/hueman/js/jquery.jplayer.min.js"></script>
-<script type="text/javascript" src="wp-content/themes/hueman/js/scripts.js"></script>
-<script type="text/javascript" src="assets/picturefill/picturefill.min.js"></script>
-<script type="text/javascript" src="assets/js/jquery.matchHeight-min.js"></script>
-<script type="text/javascript" async defer src="assets/js/myblog.js"></script>
-
+  
 </head>
 
-<body class="archive category col-3cm full-width topbar-enabled chrome">
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://blog.flywithme.top"><h1>Fly With Bug</h1></a>
+      <p class="lead">
+       漫步走在沙滩上 
+      </p>
+    </div>
 
-<div id="wrapper">
-  <header id="header">
-
-  <nav class="nav-container group" id="nav-topbar">
-    <div class="nav-toggle"><i class="fa fa-bars"></i></div>
-    <div class="nav-text"></div>
-    <div class="nav-wrap container">
-      <a rel="nofollow" href="http://blog.flywithme.top/" class="nav-cs-icon">
-        <img width="40" height="40" src="http://blog.flywithme.top/public/coderjk.jpg" alt="coderjk" title="Home">
-      </a>
-      <ul id="menu-default-menu" class="nav container-inner group">
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/">首页</a>
-        </li>
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
-        </li>
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-        </li>
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
-        </li>
-        
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/post/">归档</a>
-        </li>
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/about/">关于我</a>
-        </li>
-        
-        <li class="menu-item menu-item-type-post_type menu-item-object-page">
-          <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.xml" type="application/rss+xml" target="_blank">订阅</a>
-        </li>
-        <li class="menu-item menu-item-type-post_type menu-item-text">
-        浪尖一滴水,引领一片潮
-        </li>
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://blog.flywithme.top">Home</a> </li>
+        <li><a href="http://blog.flywithme.top/post/"> 归档 </a></li><li><a href="http://blog.flywithme.top/about/"> 关于我 </a></li>
       </ul>
-    </div>
+    </nav>
 
-    <div class="container">
-      <div class="container-inner">
-        <div class="toggle-search"><i class="fa fa-search"></i></div>
-        <div class="search-expand">
-          <div class="search-expand-inner">
-            <form method="get" class="searchform themeform" action="https://www.google.com/search">
-              <div>
-                <input type="text" class="search" name="q" placeholder="Press enter to start searching">
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-    
-
-  </nav>
-  
-
-  <div class="container group">
-    <div class="container-inner">
-
-      <div class="group pad">
-
-        <div class="group pad">
-          <h1 class="site-title">
-            <a rel="nofollow" href="http://blog.flywithme.top/" rel="home">
-              <img style="border-radius: 50%;width:72px;height:72px;margin:0 auto;" alt="coderzh" src="http://blog.flywithme.top/public/coderzh.jpg"></img>
-              Fly With Bug
-            </a>
-          </h1>
-          <p class="site-description"> 漫步走在沙滩上 </p>
-        </div>
-
-      </div>
-    </div>
-    
+    <p>&copy; 2019. All rights reserved. </p>
   </div>
-  
+</aside>
 
-</header>
-
-
-
-  <div class="container" id="page">
-    <div class="container-inner">
-      <div class="main">
-        <div class="main-inner group">
-          <section class="content">
-            <div class="page-title pad group">
-              <h1><i class="fa fa-folder-open"></i>Category: <span>读书笔记</span></h1>
-            </div>
-            <div class="pad group">
-              
-                
-                
-                
-              
-              <div class="post-list group">
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2019年02月24日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2019/02/24/gobin/" rel="bookmark" title="go bin执行问题记录">go bin执行问题记录</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2019年01月15日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2019/01/15/nginx/" rel="bookmark" title="Nginx 配置 HTTPS 服务器">Nginx 配置 HTTPS 服务器</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2019年01月13日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2019/01/13/mongodump/" rel="bookmark" title="mongodb 维护小记">mongodb 维护小记</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年12月24日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/12/24/vue_webserver/" rel="bookmark" title="Vue上线后，history页面点击刷新按钮报错404问题">Vue上线后，history页面点击刷新按钮报错404问题</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年12月23日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/12/24/vue-element02/" rel="bookmark" title="vue 路由重载之后导致history页面刷新空白问题fix">vue 路由重载之后导致history页面刷新空白问题fix</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年12月22日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/" rel="bookmark" title="vue-element-admin 踩坑日记 01">vue-element-admin 踩坑日记 01</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年12月18日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/" rel="bookmark" title="gin api 跨域问题,cors">gin api 跨域问题,cors</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年12月10日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/12/10/mongodb/" rel="bookmark" title="MongoDB 用户名密码登录">MongoDB 用户名密码登录</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年08月31日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/08/31/nat/" rel="bookmark" title="nat">nat</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年04月02日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/04/02/note_28/" rel="bookmark" title="Elasticsearch 入门">Elasticsearch 入门</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-  <div class="post-row">
-    <article class="post-row type-post status-publish format-standard has-post-thumbnail hentry group">
-  <div class="post-inner post-hover">
-    <div class="post-meta group">
-  <p class="post-date">2018年04月02日</p>
-  <p class="post-title-small"><a href="http://blog.flywithme.top/2018/04/02/note_27/" rel="bookmark" title="Docker 入门">Docker 入门</a></p>
-</div>
-
-  </div>
-  
-</article>
-
-
-  </div>
-  
-</div>
-
-            </div>
-          </section>
-          <div class="sidebar s1">
-  <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
-  <div class="sidebar-content">
-    <div class="sidebar-top group">
-      <p>Follow:</p>
-      <ul class="social-links">
-    
-    
-        
-        
-    
-    
-    
-    
-        
-        
-    
-    
-    <li>
-    <a class="social-tooltip" title="On GitHub"
-        href="https://github.com/flywithbug" target="_blank">
-        <i class="fa fa-github"></i>
-    </a>
-    </li>
+    <main class="content container">
+    <ul class="posts">
+<li>
+    <span><a href="http://blog.flywithme.top/2019/02/24/gobin/">go bin执行问题记录</a> <time class="pull-right post-list" datetime="2019-02-24T08:40:50&#43;0800">Sun, Feb 24, 2019</time></span>
+  </li><li>
+    <span><a href="http://blog.flywithme.top/2019/01/15/nginx/">Nginx 配置 HTTPS 服务器</a> <time class="pull-right post-list" datetime="2019-01-15T14:38:32&#43;0800">Tue, Jan 15, 2019</time></span>
+  </li><li>
+    <span><a href="http://blog.flywithme.top/2019/01/13/mongodump/">mongodb 维护小记</a> <time class="pull-right post-list" datetime="2019-01-13T10:45:59&#43;0800">Sun, Jan 13, 2019</time></span>
+  </li><li>
+    <span><a href="http://blog.flywithme.top/2018/12/24/vue_webserver/">Vue上线后，history页面点击刷新按钮报错404问题</a> <time class="pull-right post-list" datetime="2018-12-24T07:14:17&#43;0800">Mon, Dec 24, 2018</time></span>
+  </li><li>
+    <span><a href="http://blog.flywithme.top/2018/12/24/vue-element02/">vue 路由重载之后导致history页面刷新空白问题fix</a> <time class="pull-right post-list" datetime="2018-12-23T06:57:21&#43;0800">Sun, Dec 23, 2018</time></span>
+  </li><li>
+    <span><a href="http://blog.flywithme.top/2018/12/22/vue-element-admin01/">vue-element-admin 踩坑日记 01</a> <time class="pull-right post-list" datetime="2018-12-22T06:57:21&#43;0800">Sat, Dec 22, 2018</time></span>
+  </li><li>
+    <span><a href="http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/">gin api 跨域问题,cors</a> <time class="pull-right post-list" datetime="2018-12-18T03:35:24&#43;0800">Tue, Dec 18, 2018</time></span>
+  </li><li>
+    <span><a href="http://blog.flywithme.top/2018/12/10/mongodb/">MongoDB 用户名密码登录</a> <time class="pull-right post-list" datetime="2018-12-10T06:53:01&#43;0800">Mon, Dec 10, 2018</time></span>
+  </li><li>
+    <span><a href="http://blog.flywithme.top/2018/08/31/nat/">nat</a> <time class="pull-right post-list" datetime="2018-08-31T15:30:44&#43;0800">Fri, Aug 31, 2018</time></span>
+  </li><li>
+    <span><a href="http://blog.flywithme.top/2018/04/02/note_28/">Elasticsearch 入门</a> <time class="pull-right post-list" datetime="2018-04-02T18:30:28&#43;0800">Mon, Apr 2, 2018</time></span>
+  </li><li>
+    <span><a href="http://blog.flywithme.top/2018/04/02/note_27/">Docker 入门</a> <time class="pull-right post-list" datetime="2018-04-02T17:33:59&#43;0800">Mon, Apr 2, 2018</time></span>
+  </li>
 </ul>
+    </main>
 
-    </div>
-    <div class="widget qrcode">
-    <img src="http://blog.flywithme.top/public/qrcode.png" alt="qrcode" width="172px" height="172px"/>
-    <p> 微信扫一扫：<br/> 关注我的公众号： <br /> Crime_Scene <br /> 交流QQ群：185198503 </p>
-</div>
-
-    <div id="search-2" class="widget widget_search"><h3>Search</h3>
-      <form method="get" class="searchform themeform" action="https://www.google.com/search">
-        <div>
-          <input type="text" class="search" name="q" placeholder="Press enter to start searching">
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-          <div class="sidebar s2">
-  <a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
-  <div class="sidebar-content">
-    <div class="sidebar-top group">
-      <p>More</p>
-    </div>
-    <div id="categories-2" class="widget widget_categories"><h3>Categories</h3>
-      <ul>
-        
-          <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
-          </li>
-        
-          <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-          </li>
-        
-          <li class="cat-item cat-item-1">
-            <a rel="nofollow" href="http://blog.flywithme.top/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/">思考感悟</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-  <footer id="footer">
-  <section class="container" id="footer-bottom">
-    <div class="container-inner">
-      <a id="back-to-top" href="#"><i class="fa fa-angle-up"></i></a>
-      <div class="pad group">
-        <div class="grid one-half">
-          <div id="copyright">
-              <p>Copyright (c) 2015. All rights reserved.<br>Powered by
-              <a rel="nofollow" href="http://gohugo.io/" target="_blank">Hugo - the static site generator</a>.
-              <a rel="nofollow" href="http://golang.org" target="_blank">#golang</a>.
-            </p>
-          </div>
-          
-        </div>
-        
-        <div class="grid one-half last">
-          <ul class="social-links">
     
-    
-        
-        
-    
-    
-    
-    
-        
-        
-    
-    
-    <li>
-    <a class="social-tooltip" title="On GitHub"
-        href="https://github.com/flywithbug" target="_blank">
-        <i class="fa fa-github"></i>
-    </a>
-    </li>
-</ul>
-
-        </div>
-      </div>
-
-    </div>
-    
-  </section>
-  
-</footer>
-
-</div>
-
-</body>
+  </body>
 </html>
-
