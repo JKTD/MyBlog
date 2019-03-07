@@ -9,12 +9,60 @@
         <updated>Thu, 07 Mar 2019 18:12:46 CST</updated>
         
         <item>
-            <title>two_sum</title>
+            <title>Two Sum 两数之和</title>
             <link>http://blog.flywithme.top/2019/03-07/leetcode_twosum/</link>
             <pubDate>Thu, 07 Mar 2019 18:12:46 CST</pubDate>
             <author>Brasbug</author>
             <guid>http://blog.flywithme.top/2019/03-07/leetcode_twosum/</guid>
-            <description></description>
+            <description>&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt;:Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+You may assume that each input would have exactly one solution, and you may not use the same element twice.&lt;/p&gt;
+
+&lt;p&gt;给一个整数数组，和一个目标值，查询数组中两个数之和为目标值的数据位置。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; Given nums = [2, 7, 11, 15], target = 9,
+ Because nums[0] + nums[1] = 2 + 7 = 9,
+ return [0, 1].
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 
+ //双重遍历数组，拿数组中元素进行运算
+ //耗时较多
+ func twoSum(nums []int, target int) []int {
+    for i := 0; i &amp;lt; len(nums);i ++ {
+ 		for j := i +1; j &amp;lt; len(nums); j ++{
+ 			if nums[i] + nums[j] == target {
+ 				return []int{i,j}
+ 			}
+ 		}
+ 	}
+ 	return nil
+ }
+ 
+ 
+ //使用空间换时间，查询之后放入map中，可以减少时间复杂度
+func TwoSumMap1(nums []int,target int)[]int   {
+	maps := map[int]int{}
+	for i ,value := range  nums {
+		member := target - value
+		if j,ok := maps[member];ok  {
+			return []int{j,i}
+		}
+		maps[value] = i
+	}
+	return nil
+}
+
+
+
+ 
+ 
+&lt;/code&gt;&lt;/pre&gt;
+</description>
         </item>
         
         <item>

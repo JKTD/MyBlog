@@ -13,12 +13,12 @@
     
     
     <item>
-      <title>two_sum</title>
+      <title>Two Sum 两数之和</title>
       <link>http://blog.flywithme.top/2019/03-07/leetcode_twosum/</link>
       <pubDate>Thu, 07 Mar 2019 18:12:46 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/03-07/leetcode_twosum/</guid>
-      <description></description>
+      <description>Description:Given an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use the same element twice. 给一个整数数组，和一个目标值，查询数组中两个数之和为目标值的</description>
     </item>
     
     <item>
