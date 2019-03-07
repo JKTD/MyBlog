@@ -6,7 +6,62 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Thu, 07 Mar 2019 18:12:46 CST</updated>
+        <updated>Thu, 07 Mar 2019 18:24:19 CST</updated>
+        
+        <item>
+            <title>Add Two Numbers 两个数字相加</title>
+            <link>http://blog.flywithme.top/2019/03-07/addtwonum/</link>
+            <pubDate>Thu, 07 Mar 2019 18:24:19 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-07/addtwonum/</guid>
+            <description>&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt;:You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero, except the number 0 itself.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Input: (2 -&amp;gt; 4 -&amp;gt; 3) + (5 -&amp;gt; 6 -&amp;gt; 4)
+Output: 7 -&amp;gt; 0 -&amp;gt; 8
+Explanation: 342 + 465 = 807.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+
+type ListNode struct {
+    Val  int
+    Next *ListNode
+}
+
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+    head := &amp;amp;ListNode{0,nil}
+    current := head
+    carry := 0
+    for l1 != nil || l2 != nil || carry &amp;gt; 0 {
+        sum := carry
+        if l1 != nil {
+            sum += l1.Val
+            l1 = l1.Next
+        }
+        if l2 != nil {
+            sum += l2.Val
+            l2 = l2.Next
+        }
+        carry = sum/10
+        current.Next = new(ListNode)
+        current.Next.Val = sum%10
+        current = current.Next
+    }
+    return head.Next
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
         
         <item>
             <title>Two Sum 两数之和</title>
@@ -1148,101 +1203,6 @@ func (s *QueuedScheduler) Run() {
 &lt;/ul&gt;
 
 &lt;p&gt;code &lt;a href=&#34;https://github.com/flywithbug/imooc/tree/release/0.0.1/craw&#34;&gt;单任务爬虫分支&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 14-1 爬虫实现</title>
-            <link>http://blog.flywithme.top/2018/03/09/note_24/</link>
-            <pubDate>Fri, 09 Mar 2018 16:05:38 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/03/09/note_24/</guid>
-            <description>
-
-&lt;h5 id=&#34;获取初始页面内容&#34;&gt;获取初始页面内容&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;使用相亲网站做目标&lt;/li&gt;
-&lt;li&gt;编码格式自动识别转换&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;获取有价值信息&#34;&gt;获取有价值信息&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;获取城市名称和链接
-
-&lt;ul&gt;
-&lt;li&gt;使用css选择器&lt;/li&gt;
-&lt;li&gt;使用xpath&lt;/li&gt;
-&lt;li&gt;使用正则表达式
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;io/ioutil&amp;quot;
-	&amp;quot;net/http&amp;quot;
-
-	&amp;quot;bufio&amp;quot;
-	&amp;quot;io&amp;quot;
-
-	&amp;quot;regexp&amp;quot;
-
-	&amp;quot;golang.org/x/net/html/charset&amp;quot;
-	&amp;quot;golang.org/x/text/encoding&amp;quot;
-	&amp;quot;golang.org/x/text/transform&amp;quot;
-)
-
-//网站编码识别转换
-func determineEncoder(r io.Reader) encoding.Encoding {
-	bytes, err := bufio.NewReader(r).Peek(1024)
-	if err != nil {
-		panic(err)
-	}
-	e, _, _ := charset.DetermineEncoding(bytes, &amp;quot;&amp;quot;)
-	return e
-}
-
-const regextstr = `&amp;lt;a href=&amp;quot;http://www.zhenai.com/zhenghun/[0-9a-z]+&amp;quot;[^&amp;gt;]*&amp;gt;[^&amp;lt;]+&amp;lt;/a&amp;gt;`
-
-const regextstr1 = `&amp;lt;a href=&amp;quot;(http://www.zhenai.com/zhenghun/[0-9a-z]+)&amp;quot;[^&amp;gt;]*&amp;gt;([^&amp;lt;]+)&amp;lt;/a&amp;gt;`
-
-func printCityList(contents []byte) {
-	re := regexp.MustCompile(regextstr1)
-	//matchs := re.FindAll(contents, -1)
-	amtch := re.FindAllSubmatch(contents, -1)
-
-	for _, m := range amtch {
-		fmt.Printf(&amp;quot;%s\n %s \n&amp;quot;, m[1], m[2])
-	}
-}
-
-func main() {
-	resp, err := http.Get(&amp;quot;http://www.zhenai.com/zhenghun&amp;quot;)
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		fmt.Println(&amp;quot;Error: status code &amp;quot;, resp.StatusCode)
-		return
-	}
-	e := determineEncoder(resp.Body)
-	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
-	result, err := ioutil.ReadAll(utf8Reader)
-	if err != nil {
-		panic(err)
-	}
-	printCityList(result)
-	//fmt.Printf(&amp;quot;%s\n&amp;quot;, result)
-}
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         
