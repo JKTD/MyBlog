@@ -6,7 +6,16 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sun, 24 Feb 2019 08:40:50 CST</updated>
+        <updated>Thu, 07 Mar 2019 18:12:46 CST</updated>
+        
+        <item>
+            <title>two_sum</title>
+            <link>http://blog.flywithme.top/2019/03-07/leetcode_twosum/</link>
+            <pubDate>Thu, 07 Mar 2019 18:12:46 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-07/leetcode_twosum/</guid>
+            <description></description>
+        </item>
         
         <item>
             <title>go bin执行问题记录</title>
@@ -1194,52 +1203,6 @@ func main() {
 	//fmt.Printf(&amp;quot;%s\n&amp;quot;, result)
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Go: 13-1 爬虫简介</title>
-            <link>http://blog.flywithme.top/2018/03/08/note_23/</link>
-            <pubDate>Thu, 08 Mar 2018 17:13:27 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/03/08/note_23/</guid>
-            <description>
-
-&lt;h5 id=&#34;网络爬虫分类&#34;&gt;网络爬虫分类&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;通用爬虫：如baidu,google&lt;/li&gt;
-&lt;li&gt;聚焦爬虫：从互联网获取结构化数据&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;项目总体结构&#34;&gt;项目总体结构&lt;/h5&gt;
-
-&lt;p&gt;&lt;image  src=&#34;sources/go/1517564741602.jpg&#34;  /&gt;&lt;/p&gt;
-
-&lt;h5 id=&#34;go语言的爬虫库-框架&#34;&gt;go语言的爬虫库/框架&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;henrylee2cn/pholcus&lt;/li&gt;
-&lt;li&gt;gocrawl&lt;/li&gt;
-&lt;li&gt;colly&lt;/li&gt;
-&lt;li&gt;hu17889/go_spider&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;重新开发一个爬虫库&#34;&gt;重新开发一个爬虫库&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;不适用现成的爬虫库/框架&lt;/li&gt;
-&lt;li&gt;使用ElasticSearch作为数据存储&lt;/li&gt;
-&lt;li&gt;使用Go语言标准模板库实现http数据展示部分&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;实现步骤&#34;&gt;实现步骤&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;单任务&lt;/li&gt;
-&lt;li&gt;并发版&lt;/li&gt;
-&lt;li&gt;分布式&lt;/li&gt;
-&lt;/ul&gt;
 </description>
         </item>
         
