@@ -21,46 +21,38 @@ You may assume that each input would have exactly one solution, and you may not 
 
 &lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt; Given nums = [2, 7, 11, 15], target = 9,
- Because nums[0] + nums[1] = 2 + 7 = 9,
- return [0, 1].
-
+&lt;pre&gt;&lt;code&gt;Given nums = [2, 7, 11, 15], target = 9,
+Because nums[0] + nums[1] = 2 + 7 = 9,
+return [0, 1].
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt; 
- //双重遍历数组，拿数组中元素进行运算
+&lt;pre&gt;&lt;code&gt; //使用空间换时间，查询之后放入map中，可以减少时间复杂度
+func TwoSumMap1(nums []int,target int)[]int   {
+    maps := map[int]int{}
+    for i ,value := range  nums {
+        member := target - value
+        if j,ok := maps[member];ok  {
+            return []int{j,i}
+        }
+        maps[value] = i
+    }
+    return nil
+}
+
+//双重遍历数组，拿数组中元素进行运算
  //耗时较多
  func twoSum(nums []int, target int) []int {
     for i := 0; i &amp;lt; len(nums);i ++ {
- 		for j := i +1; j &amp;lt; len(nums); j ++{
- 			if nums[i] + nums[j] == target {
- 				return []int{i,j}
- 			}
- 		}
- 	}
- 	return nil
+        for j := i +1; j &amp;lt; len(nums); j ++{
+            if nums[i] + nums[j] == target {
+                return []int{i,j}
+            }
+        }
+    }
+    return nil
  }
- 
- 
- //使用空间换时间，查询之后放入map中，可以减少时间复杂度
-func TwoSumMap1(nums []int,target int)[]int   {
-	maps := map[int]int{}
-	for i ,value := range  nums {
-		member := target - value
-		if j,ok := maps[member];ok  {
-			return []int{j,i}
-		}
-		maps[value] = i
-	}
-	return nil
-}
-
-
-
- 
- 
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
