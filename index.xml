@@ -43,7 +43,7 @@
 &lt;h6 id=&#34;description&#34;&gt;Description&lt;/h6&gt;
 
 &lt;p&gt;Given two non-negative integers num1 and num2 represented as string,
-   return the sum of num1 and num2.
+   return the sum of num1 and num2.&lt;br /&gt;
    给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。&lt;/p&gt;
 
 &lt;h6 id=&#34;note&#34;&gt;Note&lt;/h6&gt;
