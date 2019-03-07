@@ -18,7 +18,7 @@
       <pubDate>Thu, 07 Mar 2019 18:24:19 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/03-07/addtwonum/</guid>
-      <description>Description:You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero, except the number 0 itself. Example: Input: (2 -&amp;gt; 4 -&amp;gt; 3) + (5 -&amp;gt; 6 -&amp;gt; 4) Output: 7 -&amp;gt;</description>
+      <description>Description:You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero, except the number 0 itself. 给两个非空链表，表示两个非负的证</description>
     </item>
     
     <item>
