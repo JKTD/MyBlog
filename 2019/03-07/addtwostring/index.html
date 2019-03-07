@@ -53,31 +53,63 @@
     <div class="post">
   <h1>Add Strings 字符串相加</h1>
   <time datetime=2019-03-07T21:21:38&#43;0800 class="post-date">Thu, Mar 7, 2019</time>
-  <p><strong>Description</strong>:Given two non-negative integers num1 and num2 represented as string,
-                return the sum of num1 and num2.</p>
+  <nav>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#note">Note</a></li>
+<li><a href="#注意">注意</a></li>
+<li><a href="#example">Example</a></li>
+<li><a href="#solution">Solution</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
 
-<p>给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。</p>
+<h6 id="description">Description</h6>
 
-<p>Note:
-  1. The length of both num1 and num2 is &lt; 5100.
-  2. Both num1 and num2 contains only digits 0-9.
-  3. both num1 and num2 does not contain any leading zero.
-  4. You must not use any built-in BigInteger library or convert the inputs to integer directly.</p>
+<p>Given two non-negative integers num1 and num2 represented as string,
+   return the sum of num1 and num2.
+   给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。</p>
 
-<p>注意：
-  1. num1 和num2 的长度都小于 5100.
-  2. num1 和num2 都只包含数字 0-9.
-  3. num1 和num2 都不包含任何前导零。
-  4. 你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式。</p>
+<h6 id="note">Note</h6>
 
-<p><strong>Example</strong>:</p>
+<ol>
+<li>The length of both num1 and num2 is &lt; 5100.<br /></li>
+<li>Both num1 and num2 contains only digits 0-9.<br /></li>
+<li>both num1 and num2 does not contain any leading zero.<br /></li>
+<li>You must not use any built-in BigInteger library or convert the inputs to integer directly.</li>
+</ol>
+
+<h6 id="注意">注意</h6>
+
+<ol>
+<li>num1 和num2 的长度都小于 5100.<br /></li>
+<li>num1 和num2 都只包含数字 0-9.<br /></li>
+<li>num1 和num2 都不包含任何前导零。<br /></li>
+<li>你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式。<br /></li>
+</ol>
+
+<h6 id="example">Example</h6>
 
 <pre><code>Input: num1 = &quot;123&quot;, num2 = &quot;456&quot;
 Output: 579
 Explanation: &quot;123 + &quot;456&quot; = &quot;579&quot;.
 </code></pre>
 
-<p><strong>Solution</strong></p>
+<h6 id="solution">Solution</h6>
 
 <pre><code>type ListNode struct {
     Val  int

@@ -18,7 +18,7 @@
       <pubDate>Thu, 07 Mar 2019 21:21:38 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/03-07/addtwostring/</guid>
-      <description>Description:Given two non-negative integers num1 and num2 represented as string, return the sum of num1 and num2. 给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。 Note: 1. The length of both num1 and num2 is &amp;lt; 5100. 2. Both num1 and num2 contains only digits 0-9. 3. both num1 and</description>
+      <description>Description Note 注意 Example Solution Description Given two non-negative integers num1 and num2 represented as string, return the sum of num1 and num2. 给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。 Note The length of both num1 and num2 is &amp;lt; 5100. Both num1 and num2 contains only digits</description>
     </item>
     
     <item>

@@ -14,31 +14,63 @@
             <pubDate>Thu, 07 Mar 2019 21:21:38 CST</pubDate>
             <author>Brasbug</author>
             <guid>http://blog.flywithme.top/2019/03-07/addtwostring/</guid>
-            <description>&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt;:Given two non-negative integers num1 and num2 represented as string,
-                return the sum of num1 and num2.&lt;/p&gt;
+            <description>&lt;nav&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#description&#34;&gt;Description&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#note&#34;&gt;Note&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#注意&#34;&gt;注意&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#example&#34;&gt;Example&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#solution&#34;&gt;Solution&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;
 
-&lt;p&gt;给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。&lt;/p&gt;
+&lt;h6 id=&#34;description&#34;&gt;Description&lt;/h6&gt;
 
-&lt;p&gt;Note:
-  1. The length of both num1 and num2 is &amp;lt; 5100.
-  2. Both num1 and num2 contains only digits 0-9.
-  3. both num1 and num2 does not contain any leading zero.
-  4. You must not use any built-in BigInteger library or convert the inputs to integer directly.&lt;/p&gt;
+&lt;p&gt;Given two non-negative integers num1 and num2 represented as string,
+   return the sum of num1 and num2.
+   给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。&lt;/p&gt;
 
-&lt;p&gt;注意：
-  1. num1 和num2 的长度都小于 5100.
-  2. num1 和num2 都只包含数字 0-9.
-  3. num1 和num2 都不包含任何前导零。
-  4. 你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式。&lt;/p&gt;
+&lt;h6 id=&#34;note&#34;&gt;Note&lt;/h6&gt;
 
-&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The length of both num1 and num2 is &amp;lt; 5100.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Both num1 and num2 contains only digits 0-9.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;both num1 and num2 does not contain any leading zero.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;You must not use any built-in BigInteger library or convert the inputs to integer directly.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h6 id=&#34;注意&#34;&gt;注意&lt;/h6&gt;
+
+&lt;ol&gt;
+&lt;li&gt;num1 和num2 的长度都小于 5100.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;num1 和num2 都只包含数字 0-9.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;num1 和num2 都不包含任何前导零。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式。&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h6 id=&#34;example&#34;&gt;Example&lt;/h6&gt;
 
 &lt;pre&gt;&lt;code&gt;Input: num1 = &amp;quot;123&amp;quot;, num2 = &amp;quot;456&amp;quot;
 Output: 579
 Explanation: &amp;quot;123 + &amp;quot;456&amp;quot; = &amp;quot;579&amp;quot;.
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;&lt;/p&gt;
+&lt;h6 id=&#34;solution&#34;&gt;Solution&lt;/h6&gt;
 
 &lt;pre&gt;&lt;code&gt;type ListNode struct {
     Val  int
