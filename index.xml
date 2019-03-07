@@ -31,6 +31,7 @@
 &lt;li&gt;&lt;a href=&#34;#注意&#34;&gt;注意&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#example&#34;&gt;Example&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#solution&#34;&gt;Solution&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#solution-02&#34;&gt;Solution 02&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
@@ -71,6 +72,35 @@ Explanation: &amp;quot;123 + &amp;quot;456&amp;quot; = &amp;quot;579&amp;quot;.
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h6 id=&#34;solution&#34;&gt;Solution&lt;/h6&gt;
+
+&lt;pre&gt;&lt;code&gt;//直接处理字符串相加
+func addTwoString1(num1 string,num2 string)string  {
+    carry := 0
+    maxLen := maxInt(len(num2),len(num1))
+    result := make([]byte,maxLen+1)
+    for i := 0 ; i &amp;lt; maxLen; i ++ {
+        sum := carry
+        if len(num1) &amp;gt; i {
+            v1 ,_ := strconv.Atoi(string(num1[len(num1) -i -1]))
+            sum += v1
+        }
+        if len(num2) &amp;gt; i {
+            v2 ,_ := strconv.Atoi(string(num2[len(num2) -i -1]))
+            sum += v2
+        }
+        carry = sum/10
+        result[maxLen - i] = []byte(strconv.Itoa(sum%10))[0]
+    }
+    if carry &amp;gt; 0 {
+        result[0] = []byte(strconv.Itoa(carry))[0]
+    }else {
+        return string(result[1:])
+    }
+    return  string(result)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;solution-02&#34;&gt;Solution 02&lt;/h6&gt;
 
 &lt;pre&gt;&lt;code&gt;type ListNode struct {
     Val  int

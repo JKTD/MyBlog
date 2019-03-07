@@ -70,6 +70,7 @@
 <li><a href="#注意">注意</a></li>
 <li><a href="#example">Example</a></li>
 <li><a href="#solution">Solution</a></li>
+<li><a href="#solution-02">Solution 02</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -110,6 +111,35 @@ Explanation: &quot;123 + &quot;456&quot; = &quot;579&quot;.
 </code></pre>
 
 <h6 id="solution">Solution</h6>
+
+<pre><code>//直接处理字符串相加
+func addTwoString1(num1 string,num2 string)string  {
+    carry := 0
+    maxLen := maxInt(len(num2),len(num1))
+    result := make([]byte,maxLen+1)
+    for i := 0 ; i &lt; maxLen; i ++ {
+        sum := carry
+        if len(num1) &gt; i {
+            v1 ,_ := strconv.Atoi(string(num1[len(num1) -i -1]))
+            sum += v1
+        }
+        if len(num2) &gt; i {
+            v2 ,_ := strconv.Atoi(string(num2[len(num2) -i -1]))
+            sum += v2
+        }
+        carry = sum/10
+        result[maxLen - i] = []byte(strconv.Itoa(sum%10))[0]
+    }
+    if carry &gt; 0 {
+        result[0] = []byte(strconv.Itoa(carry))[0]
+    }else {
+        return string(result[1:])
+    }
+    return  string(result)
+}
+</code></pre>
+
+<h6 id="solution-02">Solution 02</h6>
 
 <pre><code>type ListNode struct {
     Val  int
