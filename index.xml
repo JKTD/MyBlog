@@ -33,6 +33,40 @@
 
 &lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
 
+&lt;pre&gt;&lt;code&gt;func longestPalindrome(s string) string {
+    if s == &amp;quot;&amp;quot; {
+        return &amp;quot;&amp;quot;
+    }
+    start,end := 0,0
+    for i := 0; i &amp;lt; len(s); i ++ {
+        len1 := expandAroundCenter(s,i,i)
+        len2 := expandAroundCenter(s,i, i +1)
+        len := maxInt(len1,len2)
+        if len &amp;gt; end-start{
+            start = i - (len - 1)/2
+            end = i + len/2
+        }
+    }
+    return s[start:end+1]
+}
+
+func expandAroundCenter(s string,left,right int)int  {
+    L,R := left,right
+    for L &amp;gt;= 0 &amp;amp;&amp;amp; R &amp;lt; len(s) &amp;amp;&amp;amp; s[L] == s[R]{
+        L--
+        R++
+    }
+    return R-L-1
+}
+
+func maxInt(a,b int)int  {
+    if a &amp;gt; b {
+        return a
+    }
+    return b
+}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;leetCode地址&lt;br /&gt;
 &lt;a href=&#34;https://leetcode.com/problems/longest-palindromic-substring/&#34;&gt;Longest Palindromic Substring&lt;/a&gt;&lt;/p&gt;
 </description>

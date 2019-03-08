@@ -72,6 +72,40 @@
 
 <h5 id="solution">Solution</h5>
 
+<pre><code>func longestPalindrome(s string) string {
+    if s == &quot;&quot; {
+        return &quot;&quot;
+    }
+    start,end := 0,0
+    for i := 0; i &lt; len(s); i ++ {
+        len1 := expandAroundCenter(s,i,i)
+        len2 := expandAroundCenter(s,i, i +1)
+        len := maxInt(len1,len2)
+        if len &gt; end-start{
+            start = i - (len - 1)/2
+            end = i + len/2
+        }
+    }
+    return s[start:end+1]
+}
+
+func expandAroundCenter(s string,left,right int)int  {
+    L,R := left,right
+    for L &gt;= 0 &amp;&amp; R &lt; len(s) &amp;&amp; s[L] == s[R]{
+        L--
+        R++
+    }
+    return R-L-1
+}
+
+func maxInt(a,b int)int  {
+    if a &gt; b {
+        return a
+    }
+    return b
+}
+</code></pre>
+
 <p>leetCode地址<br />
 <a href="https://leetcode.com/problems/longest-palindromic-substring/">Longest Palindromic Substring</a></p>
 
