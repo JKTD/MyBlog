@@ -18,7 +18,8 @@
 
 &lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
 
-&lt;p&gt;给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。&lt;/p&gt;
+&lt;p&gt;给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
+   回文是一个正读和反读都相同的字符串，例如，&amp;rdquo;aba&amp;rdquo; 是回文，而 &amp;ldquo;abc&amp;rdquo; 不是。&lt;/p&gt;
 
 &lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
 
@@ -506,6 +507,68 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
         current = current.Next
     }
     return head.Next
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Solution2&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//转为链表相加
+func addTwoString(num1 string,num2 string)string  {
+    l1 := makeListNode(num1)
+    l2 := makeListNode(num2)
+    l3 := addTwoNumbers(l1,l2)
+    return  listNodeToString(l3)
+}
+
+func makeListNode(s string)*ListNode  {
+    node := new(ListNode)
+    current := node
+    for i := len(s) - 1; i &amp;gt;=0; i -- {
+        current.Next = new(ListNode)
+        current.Val ,_ = strconv.Atoi(string(s[i]))
+        current = current.Next
+    }
+    return node
+}
+
+func listNodeToString(l *ListNode)string  {
+    result := &amp;quot;&amp;quot;
+    for l != nil {
+        if l.Next != nil || l.Val != 0 {
+            result  = fmt.Sprintf(&amp;quot;%d%s&amp;quot;,l.Val,result)
+        }
+        l = l.Next
+    }
+    return result
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Solution3&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//字符串 数字相加
+func addTwoString1(num1 string,num2 string)string  {
+    carry := 0
+    maxLen := maxInt(len(num2),len(num1))
+    result := make([]byte,maxLen+1)
+    for i := 0 ; i &amp;lt; maxLen; i ++ {
+        sum := carry
+        if len(num1) &amp;gt; i {
+            v1 ,_ := strconv.Atoi(string(num1[len(num1) -i -1]))
+            sum += v1
+        }
+        if len(num2) &amp;gt; i {
+            v2 ,_ := strconv.Atoi(string(num2[len(num2) -i -1]))
+            sum += v2
+        }
+        carry = sum/10
+        result[maxLen - i] = []byte(strconv.Itoa(sum%10))[0]
+    }
+    if carry &amp;gt; 0 {
+        result[0] = []byte(strconv.Itoa(carry))[0]
+    }else {
+        return string(result[1:])
+    }
+    return  string(result)
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>

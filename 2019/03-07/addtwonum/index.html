@@ -106,6 +106,68 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 }
 </code></pre>
 
+<p><strong>Solution2</strong></p>
+
+<pre><code>//转为链表相加
+func addTwoString(num1 string,num2 string)string  {
+    l1 := makeListNode(num1)
+    l2 := makeListNode(num2)
+    l3 := addTwoNumbers(l1,l2)
+    return  listNodeToString(l3)
+}
+
+func makeListNode(s string)*ListNode  {
+    node := new(ListNode)
+    current := node
+    for i := len(s) - 1; i &gt;=0; i -- {
+        current.Next = new(ListNode)
+        current.Val ,_ = strconv.Atoi(string(s[i]))
+        current = current.Next
+    }
+    return node
+}
+
+func listNodeToString(l *ListNode)string  {
+    result := &quot;&quot;
+    for l != nil {
+        if l.Next != nil || l.Val != 0 {
+            result  = fmt.Sprintf(&quot;%d%s&quot;,l.Val,result)
+        }
+        l = l.Next
+    }
+    return result
+}
+</code></pre>
+
+<p><strong>Solution3</strong></p>
+
+<pre><code>//字符串 数字相加
+func addTwoString1(num1 string,num2 string)string  {
+    carry := 0
+    maxLen := maxInt(len(num2),len(num1))
+    result := make([]byte,maxLen+1)
+    for i := 0 ; i &lt; maxLen; i ++ {
+        sum := carry
+        if len(num1) &gt; i {
+            v1 ,_ := strconv.Atoi(string(num1[len(num1) -i -1]))
+            sum += v1
+        }
+        if len(num2) &gt; i {
+            v2 ,_ := strconv.Atoi(string(num2[len(num2) -i -1]))
+            sum += v2
+        }
+        carry = sum/10
+        result[maxLen - i] = []byte(strconv.Itoa(sum%10))[0]
+    }
+    if carry &gt; 0 {
+        result[0] = []byte(strconv.Itoa(carry))[0]
+    }else {
+        return string(result[1:])
+    }
+    return  string(result)
+}
+</code></pre>
+
 </div>
 
 
