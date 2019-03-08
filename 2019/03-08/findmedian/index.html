@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.54.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>寻找两个有序数组的中位数 &middot; Fly With Me</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.flywithme.top/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blog.flywithme.top/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Fly With Me" />
+
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://blog.flywithme.top/"><h1>Fly With Me</h1></a>
+      <p class="lead">
+       漫步走在沙滩上 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://blog.flywithme.top/">Home</a> </li>
+        <li><a href="http://blog.flywithme.top/post/"> 归档 </a></li><li><a href="http://blog.flywithme.top/about/"> 关于我 </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2019. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>寻找两个有序数组的中位数</h1>
+  <time datetime=2019-03-08T16:12:21&#43;0800 class="post-date">Fri, Mar 8, 2019</time>
+  
+
+<h5 id="description">Description</h5>
+
+<p>给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
+   请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+   你可以假设 nums1 和 nums2 不会同时为空。</p>
+
+<h5 id="example">Example</h5>
+
+<pre><code>Input:nums1 = [1, 3]
+      nums2 = [2]
+Output: 2.0
+
+Input: nums1 = [1, 2]
+       nums2 = [3, 4]
+Output:  (2 + 3)/2 = 2.5
+
+
+Input: nums1 = [1,2,3,7,8,9,10]
+       nums2 = [-2,-1,4,5,7,9]
+Output:  5
+</code></pre>
+
+<h5 id="solution">Solution</h5>
+
+<p>分割两个数组，分为leftA,rightA, leftB,rightB,
+ leftA+leftB的长度等于rightA+rightB
+ 左边数组的最大值等于右边数组的最小值时，就找到了中间值</p>
+
+<pre><code>func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
+    m := len(nums1)
+    n := len(nums2)
+    if m == 0 {
+        return medianof(nums2)
+    }
+    if n == 0 {
+        return medianof(nums1)
+    }
+    if m &gt; n { //确保nums1数组长度比nums2边短
+        findMedianSortedArrays(nums2,nums1)
+    }
+    halflen := (m + n +1)/2
+    iMin := 0 //nums1的起始分割点 iMin &lt; m的总长
+    iMax := m
+
+    //使用二分法查找分割点
+    for iMin &lt;= iMax {
+        i := (iMin + iMax)/2
+        j := halflen - i
+        if i &lt; iMax &amp;&amp; nums2[j - 1] &gt; nums1[i] {
+            //取值位置偏小，需要右移最小位置
+            iMin =  i + 1
+        }else if i &gt; iMin &amp;&amp;  nums1[i -1] &gt; nums2[j] {
+            iMax = i -1   //i的位置太大
+        }else {
+            maxLeft := 0
+            if i == 0 {
+                maxLeft = nums2[j - 1]
+            }else if j == 0 {
+                maxLeft = nums1[i -1]
+            }else {
+                maxLeft = maxInt(nums1[i-1],nums2[j-1])
+            }
+            if (m + n)%2 ==1 {
+                return float64(maxLeft)
+            }
+
+            minRight := 0
+            if i == m {
+                minRight = nums2[j]
+            }else if j == n {
+                minRight = nums1[i]
+            }else {
+                minRight = minInt(nums1[i],nums2[j])
+            }
+            return float64(maxLeft +minRight)/2.0
+        }
+    }
+    return 0.0
+}
+
+func medianof(nums []int)float64  {
+    l := len(nums)
+    if l == 0 {
+        return 0
+    }
+    if l%2 == 0 {
+        return float64(nums[l/2-1]+nums[l/2])/2.0
+    }
+    return float64(nums[l/2])
+}
+
+func minInt(a,b int)int  {
+    if a &gt; b {
+        return b
+    }
+    return a
+}
+
+func maxInt(a,b int)int  {
+    if a &gt; b {
+        return a
+    }
+    return b
+}
+</code></pre>
+
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>
