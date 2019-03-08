@@ -55,7 +55,7 @@
   <time datetime=2018-01-30T15:02:26&#43;0800 class="post-date">Tue, Jan 30, 2018</time>
   
 
-<p>前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力）</p>
+<p>前言：（搭建并行管道，感受GO语言魅力）</p>
 
 <h5 id="go-归类总结">Go 归类总结</h5>
 
@@ -125,10 +125,9 @@ func main() {
 </ul>
 
 <p>拆分数据源
-<img src="sources/go/1517300935152.jpg" width = "100%" /></p>
-
-<p>按节点归并 （k路归并）
-<img src="sources/go/1517302277060.jpg" width = "100%" /></p>
+ <img src="http://blog.flywithme.top/sources/go/1517300935152.jpg" alt="log1" />
+按节点归并 （k路归并）
+ <img src="http://blog.flywithme.top/sources/go/1517302277060.jpg" alt="log1" /></p>
 
 <pre><code>func Merge(in1, in2 &lt;-chan int)&lt;- chan int  {
 
@@ -154,28 +153,25 @@ func main() {
 </code></pre>
 
 <p>通道
-<img src="sources/go/1517302401765.jpg" width = "100%" /></p>
+ <img src="http://blog.flywithme.top/sources/go/1517302401765.jpg" alt="log1" /></p>
 
 <p>节点
-<img src="sources/go/1517302488042.jpg" width = "100%" /></p>
+ <img src="http://blog.flywithme.top/sources/go/1517302488042.jpg" alt="log1" /></p>
 
 <p>节点组装
-<img src="sources/go/1517302577852.jpg" width = "100%" /></p>
+ <img src="http://blog.flywithme.top/sources/go/1517302577852.jpg" alt="log1" /></p>
 
 <h5 id="外部排序-单机版-pipeline-搭建">外部排序 -单机版 Pipeline 搭建</h5>
 
 <p>示意图
-<img src="sources/go/1517302752446.jpg" width = "100%" /></p>
-
-<ul>
-<li>ReaderSource 节点-支持分块</li>
-<li>MergeN - 搭建归并节点组</li>
-<li>pipeline的搭建及运行 - 观察CPU及线程数量上的使用情况</li>
-</ul>
+ <img src="http://blog.flywithme.top/sources/go/1517302752446.jpg" alt="log1" />
+ - ReaderSource 节点-支持分块
+ - MergeN - 搭建归并节点组
+ - pipeline的搭建及运行 - 观察CPU及线程数量上的使用情况</p>
 
 <h5 id="外部排序-网络扩展">外部排序 -网络扩展</h5>
 
-<p><img src="sources/go/1517468528492.jpg" width = "100%" /></p>
+<p><img src="http://blog.flywithme.top/sources/go/1517468528492.jpg" alt="log1" /></p>
 
 </div>
 

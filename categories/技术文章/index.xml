@@ -351,7 +351,7 @@
       <pubDate>Tue, 30 Jan 2018 15:02:26 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/01/30/go/</guid>
-      <description>前言：本篇文章整理自 ccmouse 发布的视频（搭建并行管道，感受GO语言魅力） Go 归类总结 类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：</description>
+      <description>前言：（搭建并行管道，感受GO语言魅力） Go 归类总结 类型检查：编译时 运行环境：编译成机器代码直接运行 GO语言的特色：面向接口，函数式编程，并发</description>
     </item>
     
     <item>
