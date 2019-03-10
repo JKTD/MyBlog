@@ -125,6 +125,35 @@ func convertFormat(s string, numRows int) string {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;h5 id=&#34;solution-02&#34;&gt;Solution 02&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func convert1(s string, numRows int) string {
+    if numRows == 1 {
+        return s
+    }
+    bLen := math.Min(float64(numRows),float64(len(s)))
+    bytes := make([][]byte,int(bLen))
+    goingDownFlag := false
+    curRow := 0
+    for _,v := range s {
+        bytes[curRow] =  append(bytes[curRow],byte(v))
+        if curRow == 0 || curRow == numRows - 1 {
+            goingDownFlag = !goingDownFlag
+        }
+        if goingDownFlag {
+            curRow++
+        }else {
+            curRow--
+        }
+    }
+    result := &amp;quot;&amp;quot;
+    for _,v := range bytes {
+        result += string(v)
+    }
+    return result
+}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;leetCode地址&lt;br /&gt;
 &lt;a href=&#34;https://leetcode.com/problems/zigzag-conversion/&#34;&gt;Longest Palindromic Substring&lt;/a&gt;&lt;/p&gt;
 </description>
