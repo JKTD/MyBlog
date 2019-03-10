@@ -85,6 +85,44 @@ T     S     G
     }
     return strings.Join(list,&amp;quot;&amp;quot;)
 }
+
+格式化输出
+func convertFormat(s string, numRows int) string {
+    if numRows == 1 {
+        return s
+    }
+    if len(s) &amp;lt;= numRows {
+        return s
+    }
+    list := make([]string,numRows)
+    index := 0
+    left := 0
+    for left &amp;lt; len(s){
+        for i := 0;i &amp;lt; numRows; i ++ {
+            if left &amp;gt;= len(s) {
+                break
+            }
+            j := index%(numRows - 1)
+            if j == 0 {
+                item := list[i]
+                item = item + string(s[left])
+                left++
+                list[i] = item
+            }else if i == numRows - 1 - j{
+                item := list[i]
+                item = item + string(s[left])
+                left++
+                list[i] = item
+            }else {
+                item := list[i]
+                item = item + &amp;quot; &amp;quot;
+                list[i] = item
+            }
+        }
+        index++
+    }
+    return strings.Join(list,&amp;quot;\n&amp;quot;)
+}
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;leetCode地址&lt;br /&gt;

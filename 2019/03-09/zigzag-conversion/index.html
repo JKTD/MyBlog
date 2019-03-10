@@ -124,6 +124,44 @@ T     S     G
     }
     return strings.Join(list,&quot;&quot;)
 }
+
+格式化输出
+func convertFormat(s string, numRows int) string {
+    if numRows == 1 {
+        return s
+    }
+    if len(s) &lt;= numRows {
+        return s
+    }
+    list := make([]string,numRows)
+    index := 0
+    left := 0
+    for left &lt; len(s){
+        for i := 0;i &lt; numRows; i ++ {
+            if left &gt;= len(s) {
+                break
+            }
+            j := index%(numRows - 1)
+            if j == 0 {
+                item := list[i]
+                item = item + string(s[left])
+                left++
+                list[i] = item
+            }else if i == numRows - 1 - j{
+                item := list[i]
+                item = item + string(s[left])
+                left++
+                list[i] = item
+            }else {
+                item := list[i]
+                item = item + &quot; &quot;
+                list[i] = item
+            }
+        }
+        index++
+    }
+    return strings.Join(list,&quot;\n&quot;)
+}
 </code></pre>
 
 <p>leetCode地址<br />
