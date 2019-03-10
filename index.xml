@@ -6,7 +6,171 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sun, 10 Mar 2019 17:42:21 CST</updated>
+        <updated>Sun, 10 Mar 2019 20:35:51 CST</updated>
+        
+        <item>
+            <title>回文数</title>
+            <link>http://blog.flywithme.top/2019/03-10/palindromeNumber/</link>
+            <pubDate>Sun, 10 Mar 2019 20:35:51 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-10/palindromeNumber/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: 121
+输出: true
+
+
+输入: -121
+输出: false
+解释: 从左向右读, 为 -121 。 从右向左读, 为 121- 。因此它不是一个回文数。
+
+输入: 10
+输出: false
+解释: 从右向左读, 为 01 。因此它不是一个回文数。  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func isPalindrome(x int) bool {
+    if x &amp;lt; 0  {
+        return false
+    }
+    if x %10 == 0 &amp;amp;&amp;amp; x != 0 {
+        return false
+    }
+    result := 0
+
+    for x &amp;gt; result {
+        result = result*10 + x%10
+        x = x/10
+    }
+    if result == x || x == result/10{
+         return true
+    }
+    return false
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/string-to-integer-atoi/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>字符串转换整数 (atoi)</title>
+            <link>http://blog.flywithme.top/2019/03-10/atoi/</link>
+            <pubDate>Sun, 10 Mar 2019 17:53:22 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-10/atoi/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;请你来实现一个 atoi 函数，使其能将字符串转换成整数。
+   首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。
+   当我们寻找到的第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字组合起来，作为该整数的正负号；假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。
+   该字符串除了有效的整数部分之后也可能会存在多余的字符，这些字符可以被忽略，它们对于函数不应该造成影响。
+   注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换。
+   在任何情况下，若函数不能进行有效的转换时，请返回 0。&lt;/p&gt;
+
+&lt;h5 id=&#34;note&#34;&gt;NOTE&lt;/h5&gt;
+
+&lt;p&gt;假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231,  231 − 1]。如果数值超过这个范围，qing返回  INT_MAX (231 − 1) 或 INT_MIN (−231) 。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;leetCode的题目测试用例有问题。不要太在意&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: &amp;quot;42&amp;quot;
+输出: 42
+
+
+输入: &amp;quot;   -42&amp;quot;
+输出: -42
+解释: 第一个非空白字符为 &#39;-&#39;, 它是一个负号。
+     我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。
+
+输入: &amp;quot;4193 with words&amp;quot;
+输出: 4193
+解释: 转换截止于数字 &#39;3&#39; ，因为它的下一个字符不为数字。
+
+输入: &amp;quot;words and 987&amp;quot;
+输出: 0
+解释: 第一个非空字符是 &#39;w&#39;, 但它不是数字或正、负号。
+     因此无法执行有效的转换。
+
+输入: &amp;quot;-91283472332&amp;quot;
+输出: -2147483648
+解释: 数字 &amp;quot;-91283472332&amp;quot; 超过 32 位有符号整数范围。 
+     因此返回 INT_MIN (−231) 。    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//去除空格，判断首字母是否是-，然后开始遍历字符串，是数字串则转换，否则退出
+
+
+func myAtoi(str string) int {
+    negative := 1
+    str = strings.TrimSpace(str)
+    if strings.HasPrefix(str,&amp;quot;-&amp;quot;){
+        negative = -1
+        str = str[1:]
+    }
+    if str == &amp;quot;&amp;quot; {
+        return 0
+    }
+
+    result := 0
+    for _,v := range str {
+        value := 0
+        switch v {
+        case &#39;0&#39;:
+            value = 0
+        case &#39;1&#39;:
+            value = 1
+        case &#39;2&#39;:
+            value = 2
+        case &#39;3&#39;:
+            value = 3
+        case &#39;4&#39;:
+            value = 4
+        case &#39;5&#39;:
+            value = 5
+        case &#39;6&#39;:
+            value = 6
+        case &#39;7&#39;:
+            value = 7
+        case &#39;8&#39;:
+            value = 8
+        case &#39;9&#39;:
+            value = 9
+        default:
+            break
+        }
+        if result &amp;gt; math.MaxInt32/10 {
+            if negative == -1{
+                result = math.MinInt32
+                negative = 1
+            }else {
+                result = math.MaxInt32
+            }
+            break
+        }
+        result = 10*result + value
+    }
+    return result*negative
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/string-to-integer-atoi/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>Reverse Integer 整数反转</title>
@@ -1241,244 +1405,6 @@ res.end(content)
 ```&lt;/p&gt;
 
 &lt;p&gt;或者，如果你使用 Node.js 服务器，你可以用服务端路由匹配到来的 URL，并在没有匹配到路由的时候返回 404，以实现回退。更多详情请查阅 &lt;a href=&#34;https://ssr.vuejs.org/zh/&#34;&gt;Vue 服务端渲染文档&lt;/a&gt;。&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>vue 路由重载之后导致history页面刷新空白问题fix</title>
-            <link>http://blog.flywithme.top/2018/12/24/vue-element02/</link>
-            <pubDate>Sun, 23 Dec 2018 06:57:21 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/12/24/vue-element02/</guid>
-            <description>&lt;p&gt;在vue项目的实际操作中，路由表配置需要根据用户角色进行动态过滤，
-在每次刷新页面之后 更新用户权限表，然后根据权限表刷新动态配置
-但是在刷新完路由表之后 再刷新页面发现页面一片空白。&lt;/p&gt;
-
-&lt;p&gt;hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;next({ ...to, replace: true })  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;//路由权限配置源码&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;import router from &#39;@/router&#39;
-import store from &#39;@/store&#39;
-import { Message } from &#39;element-ui&#39;
-import NProgress from &#39;nprogress&#39; // progress bar
-import &#39;nprogress/nprogress.css&#39;// progress bar style
-import { getToken } from &#39;./utils/auth&#39; // getToken from cookie
-
-NProgress.configure({ showSpinner: false })// NProgress Configuration
-
-// permission judge function
-function hasPermission(roles, permissionRoles) {
-  if (roles.indexOf(&#39;admin&#39;) &amp;gt;= 0) return true // admin permission passed directly
-  if (!permissionRoles) return true
-  return roles.some(role =&amp;gt; permissionRoles.indexOf(role) &amp;gt;= 0)
-}
-
-
-const whiteList = [&#39;/login&#39;,&#39;/auth-redirect&#39;]
-
-router.beforeEach((to, from ,next) =&amp;gt; {
-  NProgress.start()
-  if (getToken()){  //判断是否登录
-    if (to.path === &#39;/login&#39;){
-      next({path:&#39;/&#39;})
-      NProgress.done()
-    }else {
-      if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch(&#39;GetUserInfo&#39;).then(user =&amp;gt; {
-          store.dispatch(&#39;GenerateRoutes&#39;,user.roles).then(() =&amp;gt; {
-            router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
-          })
-        }).catch((err) =&amp;gt; {
-          store.dispatch(&#39;FedLogOut&#39;).then(() =&amp;gt; {
-            Message.error(err || &#39;Verification failed, please login again&#39;)
-            next({ path: &#39;/&#39; })
-          })
-        })
-      } else {
-        // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
-        if (hasPermission(store.getters.roles, to.meta.roles)) {
-          next()
-        } else {
-          next({ path: &#39;/401&#39;, replace: true, query: { noGoBack: true }})
-        }
-      }
-    }
-  }else {
-    /* has no token*/
-    if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
-      next()
-    } else {
-      next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
-      NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
-    }
-  }
-})
-
-
-
-router.afterEach(() =&amp;gt; {
-  NProgress.done() // finish progress bar
-})
-    
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>vue-element-admin 踩坑日记 01</title>
-            <link>http://blog.flywithme.top/2018/12/22/vue-element-admin01/</link>
-            <pubDate>Sat, 22 Dec 2018 06:57:21 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/12/22/vue-element-admin01/</guid>
-            <description>
-
-&lt;p&gt;&lt;a href=&#34;http://panjiachen.github.io/vue-element-admin&#34;&gt;vue-element-admin&lt;/a&gt; 是一个后台集成解决方案，
-它基于 vue 和 element。它使用了最新的前端技术栈，
-内置了 i18 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型，
-提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。&lt;/p&gt;
-
-&lt;p&gt;通过vue-element-admin 的源代码学习掌握Vue的一些基础知识&lt;/p&gt;
-
-&lt;h5 id=&#34;svg-图片加载&#34;&gt;SVG 图片加载&lt;/h5&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;src/components目录下创建文件夹结构如下
-  &lt;img src=&#34;http://blog.flywithme.top/sources/vue/1458ED9C-2172-42AE-B350-131FDD080B19.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;br /&gt;
-SvgIcon下创建index.vue文件内容如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;template&amp;gt;
-  &amp;lt;svg :class=&amp;quot;svgClass&amp;quot; aria-hidden=&amp;quot;true&amp;quot;&amp;gt;
-    &amp;lt;use :xlink:href=&amp;quot;iconName&amp;quot;/&amp;gt;
-  &amp;lt;/svg&amp;gt;
-&amp;lt;/template&amp;gt;
-    
-&amp;lt;script&amp;gt;
-export default {
-  name: &#39;SvgIcon&#39;,
-  props: {
-    iconClass: {
-      type: String,
-      required: true
-    },
-    className: {
-      type: String,
-      default: &#39;&#39;
-    }
-  },
-  computed: {
-    iconName() {
-      return `#icon-${this.iconClass}`
-    },
-    svgClass() {
-      if (this.className) {
-        return &#39;svg-icon &#39; + this.className
-      } else {
-        return &#39;svg-icon&#39;
-      }
-    }
-  }
-}
-&amp;lt;/script&amp;gt;
-    
-&amp;lt;style scoped&amp;gt;
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-}
-&amp;lt;/style&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;在src目录下创建文件夹结构如图&lt;br /&gt;
- &lt;img src=&#34;http://blog.flywithme.top/sources/vue/C4C47129-A335-4E5C-B076-2C1167B78492.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;br /&gt;
-svg 文件夹下放icon表情文件(.svg格式的文件)&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;index.js文件内容如下&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    import Vue from &#39;vue&#39;
-    import SvgIcon from &#39;@/components/SvgIcon&#39;// svg组件
-    
-    // register globally
-    Vue.component(&#39;svg-icon&#39;, SvgIcon)
-    
-    const req = require.context(&#39;./svg&#39;, false, /\.svg$/)
-    const requireAll = requireContext =&amp;gt; requireContext.keys().map(requireContext)
-    requireAll(req)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;svgo.yml文件内容如下&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# replace default config
-
-# multipass: true
-# full: true
-
-plugins:
-
-  # - name
-  #
-  # or:
-  # - name: false
-  # - name: true
-  #
-  # or:
-  # - name:
-  #     param1: 1
-  #     param2: 2
-
-- removeAttrs:
-    attrs:
-      - &#39;fill&#39;
-      - &#39;fill-rule&#39;
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ol&gt;
-&lt;li&gt;修改配置文件 package.json文件
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;在scriptes 属性下添加一行&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;  &amp;quot;svgo&amp;quot;: &amp;quot;svgo -f src/icons/svg --config=src/icons/svgo.yml&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ol&gt;
-&lt;li&gt;修改build目录下webpack.base.conf.js文件&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;修改module-&amp;gt;rules下元素&lt;/strong&gt;
-  如图示修改
- &lt;img src=&#34;http://blog.flywithme.top/sources/vue/90A23CD9-00AD-4A94-A9E6-7F0C088E7B16.png&#34; alt=&#34;文件结构&#34; /&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    {
-      test: /\.svg$/,
-      loader: &#39;svg-sprite-loader&#39;,
-      include: [resolve(&#39;src/icons&#39;)],
-      options: {
-        symbolId: &#39;icon-[name]&#39;
-      }
-    },
-    {
-      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-      loader: &#39;url-loader&#39;,
-      exclude: [resolve(&#39;src/icons&#39;)],
-      options: {
-        limit: 10000,
-        name: utils.assetsPath(&#39;img/[name].[hash:7].[ext]&#39;)
-      }
-    },
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         

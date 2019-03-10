@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://blog.flywithme.top/2019/03-10/palindromeNumber/</loc>
+        <lastmod>2019-03-10T20:35:51+08:00</lastmod>
+    </url>
+    
+    <url>
+        <loc>http://blog.flywithme.top/2019/03-10/atoi/</loc>
+        <lastmod>2019-03-10T17:53:22+08:00</lastmod>
+    </url>
+    
+    <url>
         <loc>http://blog.flywithme.top/2019/03-10/Reverse-Integer/</loc>
         <lastmod>2019-03-10T17:42:21+08:00</lastmod>
     </url>
@@ -569,13 +579,13 @@
     
     <url>
         <loc>http://blog.flywithme.top/</loc>
-        <lastmod>2019-03-10T17:42:21+08:00</lastmod>
+        <lastmod>2019-03-10T20:35:51+08:00</lastmod>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>http://blog.flywithme.top/post/</loc>
-        <lastmod>2019-03-10T17:42:21+08:00</lastmod>
+        <lastmod>2019-03-10T20:35:51+08:00</lastmod>
         <priority>0</priority>
     </url>
     

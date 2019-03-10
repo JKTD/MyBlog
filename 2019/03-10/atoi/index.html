@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.54.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>字符串转换整数 (atoi) &middot; Fly With Me</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.flywithme.top/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blog.flywithme.top/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Fly With Me" />
+
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://blog.flywithme.top/"><h1>Fly With Me</h1></a>
+      <p class="lead">
+       漫步走在沙滩上 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://blog.flywithme.top/">Home</a> </li>
+        <li><a href="http://blog.flywithme.top/post/"> 归档 </a></li><li><a href="http://blog.flywithme.top/about/"> 关于我 </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2019. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>字符串转换整数 (atoi)</h1>
+  <time datetime=2019-03-10T17:53:22&#43;0800 class="post-date">Sun, Mar 10, 2019</time>
+  
+
+<h5 id="description">Description</h5>
+
+<p>请你来实现一个 atoi 函数，使其能将字符串转换成整数。
+   首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。
+   当我们寻找到的第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字组合起来，作为该整数的正负号；假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。
+   该字符串除了有效的整数部分之后也可能会存在多余的字符，这些字符可以被忽略，它们对于函数不应该造成影响。
+   注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换。
+   在任何情况下，若函数不能进行有效的转换时，请返回 0。</p>
+
+<h5 id="note">NOTE</h5>
+
+<p>假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231,  231 − 1]。如果数值超过这个范围，qing返回  INT_MAX (231 − 1) 或 INT_MIN (−231) 。</p>
+
+<p><strong>leetCode的题目测试用例有问题。不要太在意</strong></p>
+
+<h5 id="example">Example</h5>
+
+<pre><code>输入: &quot;42&quot;
+输出: 42
+
+
+输入: &quot;   -42&quot;
+输出: -42
+解释: 第一个非空白字符为 '-', 它是一个负号。
+     我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。
+
+输入: &quot;4193 with words&quot;
+输出: 4193
+解释: 转换截止于数字 '3' ，因为它的下一个字符不为数字。
+
+输入: &quot;words and 987&quot;
+输出: 0
+解释: 第一个非空字符是 'w', 但它不是数字或正、负号。
+     因此无法执行有效的转换。
+
+输入: &quot;-91283472332&quot;
+输出: -2147483648
+解释: 数字 &quot;-91283472332&quot; 超过 32 位有符号整数范围。 
+     因此返回 INT_MIN (−231) 。    
+</code></pre>
+
+<h5 id="solution">Solution</h5>
+
+<pre><code>//去除空格，判断首字母是否是-，然后开始遍历字符串，是数字串则转换，否则退出
+
+
+func myAtoi(str string) int {
+    negative := 1
+    str = strings.TrimSpace(str)
+    if strings.HasPrefix(str,&quot;-&quot;){
+        negative = -1
+        str = str[1:]
+    }
+    if str == &quot;&quot; {
+        return 0
+    }
+
+    result := 0
+    for _,v := range str {
+        value := 0
+        switch v {
+        case '0':
+            value = 0
+        case '1':
+            value = 1
+        case '2':
+            value = 2
+        case '3':
+            value = 3
+        case '4':
+            value = 4
+        case '5':
+            value = 5
+        case '6':
+            value = 6
+        case '7':
+            value = 7
+        case '8':
+            value = 8
+        case '9':
+            value = 9
+        default:
+            break
+        }
+        if result &gt; math.MaxInt32/10 {
+            if negative == -1{
+                result = math.MinInt32
+                negative = 1
+            }else {
+                result = math.MaxInt32
+            }
+            break
+        }
+        result = 10*result + value
+    }
+    return result*negative
+}
+</code></pre>
+
+<p><a href="https://leetcode.com/problems/string-to-integer-atoi/">leetCode地址</a></p>
+
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>
