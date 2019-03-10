@@ -6,7 +6,91 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Fri, 08 Mar 2019 19:25:15 CST</updated>
+        <updated>Sat, 09 Mar 2019 14:57:21 CST</updated>
+        
+        <item>
+            <title>Z 字形变换</title>
+            <link>http://blog.flywithme.top/2019/03-09/zigzag-conversion/</link>
+            <pubDate>Sat, 09 Mar 2019 14:57:21 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-09/zigzag-conversion/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。
+   比如输入字符串为 &amp;ldquo;LEETCODEISHIRING&amp;rdquo; 行数为 3 时，排列如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;L   C   I   R
+E T O E S I I G
+E   D   H   N
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如：&amp;rdquo;LCIRETOESIIGEDHN&amp;rdquo;。&lt;/p&gt;
+
+&lt;p&gt;请你实现这个将字符串进行指定行数变换的函数：&lt;/p&gt;
+
+&lt;p&gt;string convert(string s, int numRows);&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: s = &amp;quot;LEETCODEISHIRING&amp;quot;, numRows = 3
+输出: &amp;quot;LCIRETOESIIGEDHN&amp;quot;
+
+
+输入: s = &amp;quot;LEETCODEISHIRING&amp;quot;, numRows = 4
+输出: &amp;quot;LDREOEIIECIHNTSG&amp;quot;
+解释:
+
+L     D     R
+E   O E   I I
+E C   I H   N
+T     S     G
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;p&gt;解题时把结果看成一个长度为numRows的字符串数组，根据Z字结构，判断插入条件，取模为0时必插入，
+  不为0时，需要在line和row之和等于numRows-1时插入&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func convert(s string, numRows int) string {
+    if numRows == 1 {
+        return s
+    }
+    if len(s) &amp;lt;= numRows {
+        return s
+    }
+    list := make([]string,numRows)
+    index := 0
+    left := 0
+    for left &amp;lt; len(s){
+        for i := 0;i &amp;lt; numRows; i ++ {
+            if left &amp;gt;= len(s) {
+                break
+            }
+            j := index%(numRows - 1)
+            if j == 0 {
+                item := list[i]
+                item = item + string(s[left])
+                left++
+                list[i] = item
+            }else if i == numRows - 1 - j{
+                item := list[i]
+                item = item + string(s[left])
+                left++
+                list[i] = item
+            }
+        }
+        index++
+    }
+    return strings.Join(list,&amp;quot;&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;leetCode地址&lt;br /&gt;
+&lt;a href=&#34;https://leetcode.com/problems/zigzag-conversion/&#34;&gt;Longest Palindromic Substring&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>Longest Palindromic Substring 最长回文子串</title>
@@ -1319,90 +1403,6 @@ func main() {
 	router.Run()
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>MongoDB 用户名密码登录</title>
-            <link>http://blog.flywithme.top/2018/12/10/mongodb/</link>
-            <pubDate>Mon, 10 Dec 2018 06:53:01 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/12/10/mongodb/</guid>
-            <description>
-
-&lt;h5 id=&#34;mongodb-authentication&#34;&gt;MongoDB authentication&lt;/h5&gt;
-
-&lt;p&gt;MongoDB 默认直接连接，无须身份验证，如果当前机器可以公网访问，且不注意Mongodb 端口（默认 27017）的开放状态，那么Mongodb就会产生安全风险，被利用此配置漏洞，入侵数据库。&lt;/p&gt;
-
-&lt;h5 id=&#34;容易遭受入侵的环境&#34;&gt;容易遭受入侵的环境&lt;/h5&gt;
-
-&lt;ul&gt;
-&lt;li&gt;使用默认 mongod 命令启动 Mongodb&lt;/li&gt;
-&lt;li&gt;机器可以被公网访问&lt;/li&gt;
-&lt;li&gt;在公网上开放了 Mongodb 端口
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;开启用户名和密码验证&#34;&gt;开启用户名和密码验证&lt;/h5&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;终端启动数据库&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//参数默认可以不加，若有自定义参数，才要加上，下同
-mongod --port 27017 --dbpath /data/db1  
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;连接 mongo后创建用户&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;mongo --port 27017
-use admin
-db.createUser(
-  {
-    user: &amp;quot;adminUser&amp;quot;,
-    pwd: &amp;quot;adminPass&amp;quot;,
-    roles: [ { role: &amp;quot;userAdminAnyDatabase&amp;quot;, db: &amp;quot;admin&amp;quot; } ]
-  }
-)
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;重启 mongod 数据库&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;mongod --auth --port 27017 --dbpath /data/db1
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;连接数据库&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;mongo --port 27017 -u &amp;quot;adminUser&amp;quot; -p &amp;quot;adminPass&amp;quot; --authenticationDatabase &amp;quot;admin&amp;quot;
-
-mongo --port 27017
-    
-use admin
-db.auth(&amp;quot;adminUser&amp;quot;, &amp;quot;adminPass&amp;quot;)
-    
-// 输出 1 表示验证成功
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;创建普通用户&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;use foo
-    
-db.createUser(
-  {
-    user: &amp;quot;simpleUser&amp;quot;,
-    pwd: &amp;quot;simplePass&amp;quot;,
-    roles: [ { role: &amp;quot;readWrite&amp;quot;, db: &amp;quot;foo&amp;quot; },
-             { role: &amp;quot;read&amp;quot;, db: &amp;quot;bar&amp;quot; } ]
-  }
-)
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;使用普通用户连接数据库&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; 
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
 </description>
         </item>
         
