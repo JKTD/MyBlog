@@ -6,7 +6,64 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sat, 09 Mar 2019 14:57:21 CST</updated>
+        <updated>Sun, 10 Mar 2019 17:42:21 CST</updated>
+        
+        <item>
+            <title>Reverse Integer</title>
+            <link>http://blog.flywithme.top/2019/03-10/Reverse-Integer/</link>
+            <pubDate>Sun, 10 Mar 2019 17:42:21 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-10/Reverse-Integer/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。&lt;/p&gt;
+
+&lt;h5 id=&#34;note&#34;&gt;NOTE&lt;/h5&gt;
+
+&lt;p&gt;假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231,  231 − 1]。
+ 请根据这个假设，如果反转后整数溢出那么就返回 0。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: 123
+输出: 321
+
+
+输入: -123
+输出: -321
+
+输入: 1534236469
+输出: 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func reverse(x int) int {
+    result := 0
+    negative := false
+    if x &amp;lt; 0 {
+        negative = true
+        x = -x
+    }
+    for  x &amp;gt; 0 {
+        result = result * 10 + x%10
+        x = x/10
+    }
+    if negative {
+        result = - result
+    }
+    if result &amp;gt; math.MaxInt32 || result &amp;lt; math.MinInt32 {
+        return 0
+    }
+    return result
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/reverse-integer/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>Z 字形变换</title>
@@ -154,8 +211,7 @@ func convertFormat(s string, numRows int) string {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;leetCode地址&lt;br /&gt;
-&lt;a href=&#34;https://leetcode.com/problems/zigzag-conversion/&#34;&gt;Longest Palindromic Substring&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/zigzag-conversion&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
@@ -1422,53 +1478,6 @@ plugins:
         name: utils.assetsPath(&#39;img/[name].[hash:7].[ext]&#39;)
       }
     },
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>gin api 跨域问题,cors</title>
-            <link>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</link>
-            <pubDate>Tue, 18 Dec 2018 03:35:24 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2018/12/18/blocked-by-CORS-policy/</guid>
-            <description>&lt;p&gt;当一个资源从与该资源本身所在的服务器&lt;strong&gt;不同的域或端口&lt;/strong&gt;请求一个资源时，资源会发起一个跨域 HTTP 请求。&lt;/p&gt;
-
-&lt;p&gt;出于安全原因，浏览器限制从脚本内发起的跨域 HTTP 请求。例如，XMLHttpRequest 和 Fetch API 遵循&lt;strong&gt;同源策略&lt;/strong&gt;。这意味着使用这些 API 的 Web 应用程序只能从加载应用程序的同一个域请求 HTTP 资源，除非使用 CORS 头文件。&lt;/p&gt;
-
-&lt;p&gt;跨域资源共享标准：规范要求，对那些可能对服务器数据产生副作用的 HTTP 请求方法（特别是 GET 以外的 HTTP 请求，或者搭配某些 MIME 类型的 POST 请求），浏览器必须首先使用 &lt;code&gt;OPTIONS&lt;/code&gt; 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求。服务器确认允许之后，才发起实际的 HTTP 请求。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/gin-gonic/gin&#34;&gt;gin&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;time&amp;quot;
-
-	&amp;quot;github.com/gin-contrib/cors&amp;quot;
-	&amp;quot;github.com/gin-gonic/gin&amp;quot;
-)
-
-func main() {
-	router := gin.Default()
-	// CORS for https://foo.com and https://github.com origins, allowing:
-	// - PUT and PATCH methods
-	// - Origin header
-	// - Credentials share
-	// - Preflight requests cached for 12 hours
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{&amp;quot;https://foo.com&amp;quot;},
-		AllowMethods:     []string{&amp;quot;PUT&amp;quot;, &amp;quot;PATCH&amp;quot;},
-		AllowHeaders:     []string{&amp;quot;Origin&amp;quot;},
-		ExposeHeaders:    []string{&amp;quot;Content-Length&amp;quot;},
-		AllowCredentials: true,
-		AllowOriginFunc: func(origin string) bool {
-			return origin == &amp;quot;https://github.com&amp;quot;
-		},
-		MaxAge: 12 * time.Hour,
-	}))
-	router.Run()
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
