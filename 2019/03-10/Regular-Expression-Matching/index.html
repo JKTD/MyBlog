@@ -105,6 +105,40 @@ p = &quot;mis*is*p*.&quot;
 
 <h5 id="solution">Solution</h5>
 
+<pre><code>func isMatch(s string, p string) bool {
+    if p == &quot;.*&quot; {
+        return true
+    }
+    if s == p {
+        return true
+    }
+    if p == &quot;&quot; {
+        return false
+    }
+    return match(s, p, 0, 0)
+}
+
+func match(s, p string, strIndex, patIndex int) bool {
+    if patIndex == len(p) {
+        return strIndex == len(s)
+    }else {
+        //第二个字符为*
+        if patIndex &lt; len(p) -1 &amp;&amp; p[patIndex+1:patIndex+2]== &quot;*&quot;{
+            //若第一个字符匹配，则继续匹配后续；若第一个字符不匹配，正则后移两位
+            if strIndex &lt; len(s) &amp;&amp;
+                (p[patIndex:patIndex+1] == &quot;.&quot;||s[strIndex:strIndex+1]==p[patIndex:patIndex+1]) {
+                return match(s,p,strIndex,patIndex+2) || match(s,p,strIndex+1,patIndex)|| match(s,p,strIndex+1,patIndex+2)
+            }else {
+                return match(s,p,strIndex,patIndex+2)
+            }
+        }else if strIndex&lt; len(s) &amp;&amp; (p[patIndex:patIndex+1]==&quot;.&quot; || s[strIndex:strIndex+1]==p[patIndex:patIndex+1]){
+            return match(s, p, strIndex+1, patIndex+1)
+        }
+    }
+    return false
+}
+</code></pre>
+
 <p><a href="https://leetcode.com/problems/regular-expression-matching/">leetCode地址</a></p>
 
 </div>

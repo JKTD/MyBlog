@@ -66,6 +66,40 @@ p = &amp;quot;mis*is*p*.&amp;quot;
 
 &lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
 
+&lt;pre&gt;&lt;code&gt;func isMatch(s string, p string) bool {
+    if p == &amp;quot;.*&amp;quot; {
+        return true
+    }
+    if s == p {
+        return true
+    }
+    if p == &amp;quot;&amp;quot; {
+        return false
+    }
+    return match(s, p, 0, 0)
+}
+
+func match(s, p string, strIndex, patIndex int) bool {
+    if patIndex == len(p) {
+        return strIndex == len(s)
+    }else {
+        //第二个字符为*
+        if patIndex &amp;lt; len(p) -1 &amp;amp;&amp;amp; p[patIndex+1:patIndex+2]== &amp;quot;*&amp;quot;{
+            //若第一个字符匹配，则继续匹配后续；若第一个字符不匹配，正则后移两位
+            if strIndex &amp;lt; len(s) &amp;amp;&amp;amp;
+                (p[patIndex:patIndex+1] == &amp;quot;.&amp;quot;||s[strIndex:strIndex+1]==p[patIndex:patIndex+1]) {
+                return match(s,p,strIndex,patIndex+2) || match(s,p,strIndex+1,patIndex)|| match(s,p,strIndex+1,patIndex+2)
+            }else {
+                return match(s,p,strIndex,patIndex+2)
+            }
+        }else if strIndex&amp;lt; len(s) &amp;amp;&amp;amp; (p[patIndex:patIndex+1]==&amp;quot;.&amp;quot; || s[strIndex:strIndex+1]==p[patIndex:patIndex+1]){
+            return match(s, p, strIndex+1, patIndex+1)
+        }
+    }
+    return false
+}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/regular-expression-matching/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
