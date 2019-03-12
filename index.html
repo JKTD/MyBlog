@@ -221,7 +221,7 @@
     <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/">Vue上线后，history页面点击刷新按钮报错404问题</a>
   </h1>
   <time datetime="2018-12-24T07:14:17&#43;0800" class="post-date">Mon, Dec 24, 2018</time>
-  如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &lsquo;history&rsquo;, routes: [&hellip;] }) 当你使用 ```history``` 模式时，
+  vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充
   
   <div class="read-more-link">
     <a href="http://blog.flywithme.top/2018/12/24/vue_webserver/">Read More…</a>

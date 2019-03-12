@@ -45,7 +45,7 @@
       <pubDate>Mon, 24 Dec 2018 07:14:17 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2018/12/24/vue_webserver/</guid>
-      <description>如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。 const router = new VueRouter({ mode: &amp;lsquo;history&amp;rsquo;, routes: [&amp;hellip;] }) 当你使用 ```history``` 模式时，</description>
+      <description>vue-router 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。 如果不想要很丑的 hash，可以用路由的 history 模式 ，这种模式充</description>
     </item>
     
     <item>

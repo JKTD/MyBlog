@@ -53,78 +53,79 @@
     <div class="post">
   <h1>Vue上线后，history页面点击刷新按钮报错404问题</h1>
   <time datetime=2018-12-24T07:14:17&#43;0800 class="post-date">Mon, Dec 24, 2018</time>
-  <pre><code class="language-vue-router```">如果不想要很丑的 hash，可以用路由的 **history 模式** ，这种模式充分利用 ```history.pushState``` API 来完成 URL 跳转而无须重新加载页面。
+  
 
+<p><strong>vue-router</strong> 默认 hash 模式 —— 使用 URL 的 hash 来模拟一个完整的 URL，于是当 URL 改变时，页面不会重新加载。</p>
+
+<p>如果不想要很丑的 hash，可以用路由的 <strong>history 模式</strong> ，这种模式充分利用 <code>history.pushState</code> API 来完成 URL 跳转而无须重新加载页面。</p>
+
+<pre><code>const router = new VueRouter({
+  mode: 'history',
+  routes: [...]
+})
 </code></pre>
 
-<p>const router = new VueRouter({
-  mode: &lsquo;history&rsquo;,
-  routes: [&hellip;]
-})</p>
+<p>当你使用 <code>history</code> 模式时，URL 就像正常的 url，例如 <code>http://yoursite.com/user/id</code>，也好看！
+不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 <code>http://oursite.com/user/id</code> 就会返回 404，这就不好看了。
+所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 <code>index.html</code> 页面，这个页面就是你 app 依赖的页面。</p>
 
-<pre><code>
-当你使用 ```history``` 模式时，URL 就像正常的 url，例如 ```http://yoursite.com/user/id```，也好看！
-不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，当用户在浏览器直接访问 ```http://oursite.com/user/id``` 就会返回 404，这就不好看了。
-所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 ```index.html``` 页面，这个页面就是你 app 依赖的页面。
+<h4 id="go-gin框架配置示例"><strong>go gin框架配置示例</strong></h4>
 
-#### **go gin框架配置示例**
-由于我使用go的gin框架做服务器，示例代码如下
-[源码地址](https://github.com/flywithbug-docmanager/docmanager) 
-</code></pre>
+<p>由于我使用go的gin框架做服务器，示例代码如下
+<a href="https://github.com/flywithbug-docmanager/docmanager">源码地址</a></p>
 
-<p>func NoRoute(c *gin.Context) {
-    path := strings.Split(c.Request.URL.Path, &ldquo;/&rdquo;)
-    if (path[1] != &ldquo;&rdquo;) &amp;&amp; (path[1] == &ldquo;api&rdquo;) {
-        aRes := model.NewResponse()
-        aRes.Code = http.StatusNotFound
-        aRes.Msg = &ldquo;no route&rdquo;
-        c.JSON(http.StatusNotFound, aRes)
-    } else {
-        c.HTML(http.StatusOK, &ldquo;index.html&rdquo;, &ldquo;&rdquo;)
-    }
-}</p>
+<pre><code>func NoRoute(c *gin.Context) {
+	path := strings.Split(c.Request.URL.Path, &quot;/&quot;)
+	if (path[1] != &quot;&quot;) &amp;&amp; (path[1] == &quot;api&quot;) {
+		aRes := model.NewResponse()
+		aRes.Code = http.StatusNotFound
+		aRes.Msg = &quot;no route&quot;
+		c.JSON(http.StatusNotFound, aRes)
+	} else {
+		c.HTML(http.StatusOK, &quot;index.html&quot;, &quot;&quot;)
+	}
+}
 
-<p>r := gin.New()
+r := gin.New()
 r.Use(middleware.Logger(), gin.Recovery())
-r.Use(static.Serve(&ldquo;/&rdquo;, static.LocalFile(staticPath, true)))
-r.LoadHTMLGlob(staticPath + &ldquo;/index.html&rdquo;)
-r.NoRoute(handler.NoRoute)</p>
+r.Use(static.Serve(&quot;/&quot;, static.LocalFile(staticPath, true)))
+r.LoadHTMLGlob(staticPath + &quot;/index.html&quot;)
+r.NoRoute(handler.NoRoute)
 
-<pre><code>
-----------------------------------------------------
-
-### [官网配置例](https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90) 
-
-##### Apache
 </code></pre>
 
-<p><IfModule mod_rewrite.c>
+<hr />
+
+<h3 id="官网配置例-https-router-vuejs-org-zh-guide-essentials-history-mode-html-e5-90-8e-e7-ab-af-e9-85-8d-e7-bd-ae-e4-be-8b-e5-ad-90"><a href="https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90">官网配置例</a></h3>
+
+<h5 id="apache">Apache</h5>
+
+<pre><code>&lt;IfModule mod_rewrite.c&gt;
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index.html$ - [L]
+  RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
-</IfModule></p>
-
-<pre><code>
-除了 ```mod_rewrite```，你也可以使用 ```FallbackResource```。
-
-##### nginx
+&lt;/IfModule&gt;
 </code></pre>
 
-<p>location / {
-  try_files $uri $uri/ /index.html;
-}</p>
+<p>除了 <code>mod_rewrite</code>，你也可以使用 <code>FallbackResource</code>。</p>
 
-<p>一、
+<h5 id="nginx">nginx</h5>
+
+<pre><code>location / {
+  try_files $uri $uri/ /index.html;
+}
+
+一、
 location /{
     root   /data/nginx/html;
     index  index.html index.htm;
     error_page 404 /index.html;
-}</p>
+}
 
-<p>二、
+二、
 location /{
     root   /data/nginx/html;
     index  index.html index.htm;
@@ -132,9 +133,9 @@ location /{
         rewrite ^/(.*) /index.html last;
         break;
     }
-}</p>
-
-<p>三、
+}
+    
+三、
 server {
     listen       8888;#默认端口是80，如果端口没被占用可以不用修改
     server_name  localhost;
@@ -148,100 +149,98 @@ server {
     location @router {
         rewrite ^.*$ /index.html last;
     }
-    #&hellip;&hellip;.其他部分省略
-}</p>
+    #.......其他部分省略
+}
 
-<pre><code>
-##### 原生 Node.js
 </code></pre>
 
-<p>const http = require(&lsquo;http&rsquo;)
-const fs = require(&lsquo;fs&rsquo;)
-const httpPort = 80</p>
+<h5 id="原生-node-js">原生 Node.js</h5>
 
-<p>http.createServer((req, res) =&gt; {
-  fs.readFile(&lsquo;index.htm&rsquo;, &lsquo;utf-8&rsquo;, (err, content) =&gt; {
+<pre><code>const http = require('http')
+const fs = require('fs')
+const httpPort = 80
+
+http.createServer((req, res) =&gt; {
+  fs.readFile('index.htm', 'utf-8', (err, content) =&gt; {
     if (err) {
-      console.log(&lsquo;We cannot open &ldquo;index.htm&rdquo; file.&rsquo;)
-    }</p>
+      console.log('We cannot open &quot;index.htm&quot; file.')
+    }
 
-<pre><code>res.writeHead(200, {
-  'Content-Type': 'text/html; charset=utf-8'
-})
+    res.writeHead(200, {
+      'Content-Type': 'text/html; charset=utf-8'
+    })
 
-res.end(content)
-</code></pre>
-
-<p>})
+    res.end(content)
+  })
 }).listen(httpPort, () =&gt; {
-  console.log(&lsquo;Server listening on: <a href="http://localhost:%s'">http://localhost:%s'</a>, httpPort)
-})</p>
-
-<pre><code>
-##### 基于 Node.js 的 Express
-对于 Node.js/Express，请考虑使用 [connect-history-api-fallback](https://github.com/bripkens/connect-history-api-fallback) 中间件。
-
-##### Internet Information Services (IIS)
-安装 IIS UrlRewrite
-在你的网站根目录中创建一个 ``` web.config```  文件，内容如下：
+  console.log('Server listening on: http://localhost:%s', httpPort)
+})
 </code></pre>
 
-<p>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?&gt;
-<configuration>
-  <system.webServer>
-    <rewrite>
-      <rules>
-        <rule name="Handle History Mode and custom 404/500" stopProcessing="true">
-          <match url="(.*)" />
-          <conditions logicalGrouping="MatchAll">
-            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
-            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
-          </conditions>
-          <action type="Rewrite" url="/" />
-        </rule>
-      </rules>
-    </rewrite>
-  </system.webServer>
-</configuration></p>
+<h5 id="基于-node-js-的-express">基于 Node.js 的 Express</h5>
 
-<pre><code>
-##### Caddy
+<p>对于 Node.js/Express，请考虑使用 <a href="https://github.com/bripkens/connect-history-api-fallback">connect-history-api-fallback</a> 中间件。</p>
+
+<h5 id="internet-information-services-iis">Internet Information Services (IIS)</h5>
+
+<p>安装 IIS UrlRewrite
+在你的网站根目录中创建一个 <code>web.config</code>  文件，内容如下：</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration&gt;
+  &lt;system.webServer&gt;
+    &lt;rewrite&gt;
+      &lt;rules&gt;
+        &lt;rule name=&quot;Handle History Mode and custom 404/500&quot; stopProcessing=&quot;true&quot;&gt;
+          &lt;match url=&quot;(.*)&quot; /&gt;
+          &lt;conditions logicalGrouping=&quot;MatchAll&quot;&gt;
+            &lt;add input=&quot;{REQUEST_FILENAME}&quot; matchType=&quot;IsFile&quot; negate=&quot;true&quot; /&gt;
+            &lt;add input=&quot;{REQUEST_FILENAME}&quot; matchType=&quot;IsDirectory&quot; negate=&quot;true&quot; /&gt;
+          &lt;/conditions&gt;
+          &lt;action type=&quot;Rewrite&quot; url=&quot;/&quot; /&gt;
+        &lt;/rule&gt;
+      &lt;/rules&gt;
+    &lt;/rewrite&gt;
+  &lt;/system.webServer&gt;
+&lt;/configuration&gt;
 </code></pre>
 
-<p>rewrite {
+<h5 id="caddy">Caddy</h5>
+
+<pre><code>rewrite {
     regexp .*
     to {path} /
-}</p>
-
-<pre><code>
-##### Firebase 主机
-在你的 ``` firebase.json```  中加入：
+}
 </code></pre>
 
-<p>{
-  &ldquo;hosting&rdquo;: {
-    &ldquo;public&rdquo;: &ldquo;dist&rdquo;,
-    &ldquo;rewrites&rdquo;: [
+<h5 id="firebase-主机">Firebase 主机</h5>
+
+<p>在你的 <code>firebase.json</code>  中加入：</p>
+
+<pre><code>{
+  &quot;hosting&quot;: {
+    &quot;public&quot;: &quot;dist&quot;,
+    &quot;rewrites&quot;: [
       {
-        &ldquo;source&rdquo;: &ldquo;**&ldquo;,
-        &ldquo;destination&rdquo;: &ldquo;/index.html&rdquo;
+        &quot;source&quot;: &quot;**&quot;,
+        &quot;destination&quot;: &quot;/index.html&quot;
       }
     ]
   }
-}</p>
-
-<pre><code>
-##### 警告
-给个警告，因为这么做以后，你的服务器就不再返回 404 错误页面，因为对于所有路径都会返回 index.html 文件。为了避免这种情况，你应该在 Vue 应用里面覆盖所有的路由情况，然后在给出一个 404 页面。
+}
 </code></pre>
 
-<p>const router = new VueRouter({
-  mode: &lsquo;history&rsquo;,
+<h5 id="警告">警告</h5>
+
+<p>给个警告，因为这么做以后，你的服务器就不再返回 404 错误页面，因为对于所有路径都会返回 index.html 文件。为了避免这种情况，你应该在 Vue 应用里面覆盖所有的路由情况，然后在给出一个 404 页面。</p>
+
+<pre><code>const router = new VueRouter({
+  mode: 'history',
   routes: [
-    { path: &lsquo;*&lsquo;, component: NotFoundComponent }
+    { path: '*', component: NotFoundComponent }
   ]
 })
-```</p>
+</code></pre>
 
 <p>或者，如果你使用 Node.js 服务器，你可以用服务端路由匹配到来的 URL，并在没有匹配到路由的时候返回 404，以实现回退。更多详情请查阅 <a href="https://ssr.vuejs.org/zh/">Vue 服务端渲染文档</a>。</p>
 
