@@ -6,7 +6,89 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Wed, 13 Mar 2019 22:08:04 CST</updated>
+        <updated>Wed, 13 Mar 2019 23:38:57 CST</updated>
+        
+        <item>
+            <title>合并K个排序链表 Merge k Sorted Lists</title>
+            <link>http://blog.flywithme.top/2019/03-13/Merge-k-Sorted-Lists/</link>
+            <pubDate>Wed, 13 Mar 2019 23:38:57 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-13/Merge-k-Sorted-Lists/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入:
+[
+  1-&amp;gt;4-&amp;gt;5,
+  1-&amp;gt;3-&amp;gt;4,
+  2-&amp;gt;6
+]
+输出: 1-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;4-&amp;gt;5-&amp;gt;6
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;type ListNode struct {
+    Val int
+    Next *ListNode
+}
+
+
+func mergeKLists(lists []*ListNode) *ListNode {
+    if len(lists) == 0 {
+        return nil
+    }
+    if len(lists) == 1 {
+        return lists[0]
+    }
+    result := lists[0]
+    for i := 1; i &amp;lt; len(lists);i ++ {
+        result = mergeTwoList(result,lists[i])
+    }
+    return result
+}
+
+func mergeTwoList(left *ListNode,right *ListNode)*ListNode  {
+    if left == nil{
+        return right
+    }
+    if right == nil {
+        return left
+    }
+    result := new(ListNode)
+    if left.Val &amp;gt; right.Val {
+        result = right
+        result.Next = mergeTwoList(left,right.Next)
+    }else  {
+        result = left
+        result.Next = mergeTwoList(left.Next,right)
+    }
+    return result
+}
+
+
+
+
+func formatList2Node(list []int)*ListNode  {
+    head := new(ListNode)
+    current := head
+    for i := range list{
+        current.Next = new(ListNode)
+        current.Next.Val = list[i]
+        current = current.Next
+    }
+    return head.Next
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/merge-k-sorted-lists/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>括号生成</title>
@@ -1054,117 +1136,6 @@ func match(s, p string, strIndex, patIndex int) bool {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/palindrome-number/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>字符串转换整数 (atoi)</title>
-            <link>http://blog.flywithme.top/2019/03-10/atoi/</link>
-            <pubDate>Sun, 10 Mar 2019 17:53:22 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-10/atoi/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;请你来实现一个 atoi 函数，使其能将字符串转换成整数。
-   首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。
-   当我们寻找到的第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字组合起来，作为该整数的正负号；假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。
-   该字符串除了有效的整数部分之后也可能会存在多余的字符，这些字符可以被忽略，它们对于函数不应该造成影响。
-   注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换。
-   在任何情况下，若函数不能进行有效的转换时，请返回 0。&lt;/p&gt;
-
-&lt;h5 id=&#34;note&#34;&gt;NOTE&lt;/h5&gt;
-
-&lt;p&gt;假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231,  231 − 1]。如果数值超过这个范围，qing返回  INT_MAX (231 − 1) 或 INT_MIN (−231) 。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;leetCode的题目测试用例有问题。不要太在意&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;输入: &amp;quot;42&amp;quot;
-输出: 42
-
-
-输入: &amp;quot;   -42&amp;quot;
-输出: -42
-解释: 第一个非空白字符为 &#39;-&#39;, 它是一个负号。
-     我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。
-
-输入: &amp;quot;4193 with words&amp;quot;
-输出: 4193
-解释: 转换截止于数字 &#39;3&#39; ，因为它的下一个字符不为数字。
-
-输入: &amp;quot;words and 987&amp;quot;
-输出: 0
-解释: 第一个非空字符是 &#39;w&#39;, 但它不是数字或正、负号。
-     因此无法执行有效的转换。
-
-输入: &amp;quot;-91283472332&amp;quot;
-输出: -2147483648
-解释: 数字 &amp;quot;-91283472332&amp;quot; 超过 32 位有符号整数范围。 
-     因此返回 INT_MIN (−231) 。    
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;//去除空格，判断首字母是否是-，然后开始遍历字符串，是数字串则转换，否则退出
-
-
-func myAtoi(str string) int {
-    negative := 1
-    str = strings.TrimSpace(str)
-    if strings.HasPrefix(str,&amp;quot;-&amp;quot;){
-        negative = -1
-        str = str[1:]
-    }
-    if str == &amp;quot;&amp;quot; {
-        return 0
-    }
-
-    result := 0
-    for _,v := range str {
-        value := 0
-        switch v {
-        case &#39;0&#39;:
-            value = 0
-        case &#39;1&#39;:
-            value = 1
-        case &#39;2&#39;:
-            value = 2
-        case &#39;3&#39;:
-            value = 3
-        case &#39;4&#39;:
-            value = 4
-        case &#39;5&#39;:
-            value = 5
-        case &#39;6&#39;:
-            value = 6
-        case &#39;7&#39;:
-            value = 7
-        case &#39;8&#39;:
-            value = 8
-        case &#39;9&#39;:
-            value = 9
-        default:
-            break
-        }
-        if result &amp;gt; math.MaxInt32/10 {
-            if negative == -1{
-                result = math.MinInt32
-                negative = 1
-            }else {
-                result = math.MaxInt32
-            }
-            break
-        }
-        result = 10*result + value
-    }
-    return result*negative
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/string-to-integer-atoi/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
