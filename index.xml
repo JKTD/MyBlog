@@ -6,7 +6,93 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Wed, 13 Mar 2019 20:35:50 CST</updated>
+        <updated>Wed, 13 Mar 2019 22:08:04 CST</updated>
+        
+        <item>
+            <title>括号生成</title>
+            <link>http://blog.flywithme.top/2019/03-13/generate-parenthesses/</link>
+            <pubDate>Wed, 13 Mar 2019 22:08:04 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-13/generate-parenthesses/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;给出 n = 3，生成结果为：
+[
+  &amp;quot;((()))&amp;quot;,
+  &amp;quot;(()())&amp;quot;,
+  &amp;quot;(())()&amp;quot;,
+  &amp;quot;()(())&amp;quot;,
+  &amp;quot;()()()&amp;quot;
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+func generateParenthesis1(n int) []string {
+    var result  []string
+    addparents(&amp;amp;result,n,n,&amp;quot;&amp;quot;)
+    return result
+}
+
+func addparents(result *[]string,left,right int,str string)  {
+    if left == 0 &amp;amp;&amp;amp; right == 0 {
+        *result = append(*result,str)
+    }
+    if left  &amp;gt; 0{
+         addparents(result,left-1,right,str+ &amp;quot;(&amp;quot;)
+    }
+    if right &amp;gt; 0 &amp;amp;&amp;amp; left &amp;lt; right {
+        addparents(result,left,right-1,str+ &amp;quot;)&amp;quot;)
+    }
+}
+
+
+
+
+//暴力遍历
+func generateParenthesis(n int) []string {
+    var result []string
+    para := &amp;quot;()&amp;quot;
+    for i := 0 ;i &amp;lt; n ;i ++ {
+        result = generationPar(result,para)
+    }
+    maps := map[string]bool{}
+    list := make([]string,0)
+    for _,item := range result {
+        if !maps[item] {
+            list = append(list, item)
+            maps[item] = true
+        }
+    }
+    return list
+}
+
+func generationPar(seeds []string ,para string)[]string  {
+    if len(seeds) == 0 {
+        return []string{para}
+    }
+    var result []string
+    for _,item := range seeds {
+        for i := 0 ;i &amp;lt; len(item) ; i ++ {
+            left := item[0:i]
+            right := item[i:]
+            result = append(result, left+para+right)
+        }
+    }
+    return result
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/generate-parentheses/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>合并两个有序链表</title>
@@ -1079,63 +1165,6 @@ func myAtoi(str string) int {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/string-to-integer-atoi/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Reverse Integer 整数反转</title>
-            <link>http://blog.flywithme.top/2019/03-10/Reverse-Integer/</link>
-            <pubDate>Sun, 10 Mar 2019 17:42:21 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-10/Reverse-Integer/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。&lt;/p&gt;
-
-&lt;h5 id=&#34;note&#34;&gt;NOTE&lt;/h5&gt;
-
-&lt;p&gt;假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231,  231 − 1]。
- 请根据这个假设，如果反转后整数溢出那么就返回 0。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;输入: 123
-输出: 321
-
-
-输入: -123
-输出: -321
-
-输入: 1534236469
-输出: 0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;func reverse(x int) int {
-    result := 0
-    negative := false
-    if x &amp;lt; 0 {
-        negative = true
-        x = -x
-    }
-    for  x &amp;gt; 0 {
-        result = result * 10 + x%10
-        x = x/10
-    }
-    if negative {
-        result = - result
-    }
-    if result &amp;gt; math.MaxInt32 || result &amp;lt; math.MinInt32 {
-        return 0
-    }
-    return result
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/reverse-integer/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         

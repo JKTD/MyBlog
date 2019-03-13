@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://blog.flywithme.top/2019/03-13/generate-parenthesses/</loc>
+        <lastmod>2019-03-13T22:08:04+08:00</lastmod>
+    </url>
+    
+    <url>
         <loc>http://blog.flywithme.top/2019/03-13/merge-two-sorted-list/</loc>
         <lastmod>2019-03-13T20:35:50+08:00</lastmod>
     </url>
@@ -639,13 +644,13 @@
     
     <url>
         <loc>http://blog.flywithme.top/</loc>
-        <lastmod>2019-03-13T20:35:50+08:00</lastmod>
+        <lastmod>2019-03-13T22:08:04+08:00</lastmod>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>http://blog.flywithme.top/post/</loc>
-        <lastmod>2019-03-13T20:35:50+08:00</lastmod>
+        <lastmod>2019-03-13T22:08:04+08:00</lastmod>
         <priority>0</priority>
     </url>
     
