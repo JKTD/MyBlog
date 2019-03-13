@@ -6,7 +6,87 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Wed, 13 Mar 2019 01:23:07 CST</updated>
+        <updated>Wed, 13 Mar 2019 01:42:44 CST</updated>
+        
+        <item>
+            <title>三数之和 3Sum</title>
+            <link>http://blog.flywithme.top/2019/03-13/3sum/</link>
+            <pubDate>Wed, 13 Mar 2019 01:42:44 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-13/3sum/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，
+使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。&lt;/p&gt;
+
+&lt;h5 id=&#34;note&#34;&gt;Note&lt;/h5&gt;
+
+&lt;p&gt;注意：答案中不可以包含重复的三元组。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+
+满足要求的三元组集合为：
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func threeSum(nums []int) [][]int {
+    return threeSum1(nums,0)
+}
+
+func sortNums(nums []int)  {
+    for i := 0;i &amp;lt; len(nums);i ++ {
+        for j := i +1 ; j &amp;lt; len(nums);j ++ {
+            if nums[i] &amp;gt; nums[j] {
+                nums[i],nums[j] = nums[j],nums[i]
+            }
+        }
+    }
+}
+
+func threeSum1(nums []int ,target int) [][]int {
+    sortNums(nums)
+    var list [][]int
+    maps := make(map[int]int,len(nums))
+    for i,v := range nums{
+        maps[v] = i
+    }
+    valuess := make([]int,3)
+    maps2 := map[string]bool{}
+    for i := 0 ; i &amp;lt; len(nums); i ++ {
+        if nums[i] &amp;gt; target {
+            break
+        }
+        for j := i + 1; j &amp;lt; len(nums); j ++ {
+            member := target - nums[i] - nums[j]
+            if k,ok := maps[member];ok &amp;amp;&amp;amp; k != i &amp;amp;&amp;amp; k != j {
+                valuess = []int{member,nums[i],nums[j]}
+                sortNums(valuess)
+                key := fmt.Sprintf(&amp;quot;%d%d%d&amp;quot;,valuess[0],valuess[1],valuess[2])
+                if _,ok := maps2[key];ok {
+                    continue
+                }else {
+                    maps2[key] = true
+                    list = append(list, []int{valuess[0],valuess[1],valuess[2]})
+                }
+            }
+        }
+    }
+    return list
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/3sum/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>最长公共前缀</title>
@@ -1246,129 +1326,6 @@ func lengthOfLongestRunSubString(s string)int  {
         lastOccurred[ch] = i
     }
     return maxLen
-}
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Add Two Numbers 两个数字相加</title>
-            <link>http://blog.flywithme.top/2019/03-07/addtwonum/</link>
-            <pubDate>Thu, 07 Mar 2019 18:24:19 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-07/addtwonum/</guid>
-            <description>&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt;:You are given two non-empty linked lists representing two non-negative integers.
-The digits are stored in reverse order and each of their nodes contain a single digit.
-Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero,
-except the number 0 itself.&lt;/p&gt;
-
-&lt;p&gt;给两个非空链表，表示两个非负的整数，数字是以相反的顺序存储，每个节点包含一个数字。
-求两个数字的和，并以链表的形式返回。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Input: (2 -&amp;gt; 4 -&amp;gt; 3) + (5 -&amp;gt; 6 -&amp;gt; 4)
-Output: 7 -&amp;gt; 0 -&amp;gt; 8
-Explanation: 342 + 465 = 807.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-
-type ListNode struct {
-    Val  int
-    Next *ListNode
-}
-
-func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-    head := &amp;amp;ListNode{0,nil}
-    current := head
-    carry := 0
-    for l1 != nil || l2 != nil || carry &amp;gt; 0 {
-        sum := carry
-        if l1 != nil {
-            sum += l1.Val
-            l1 = l1.Next
-        }
-        if l2 != nil {
-            sum += l2.Val
-            l2 = l2.Next
-        }
-        carry = sum/10
-        current.Next = new(ListNode)
-        current.Next.Val = sum%10
-        current = current.Next
-    }
-    return head.Next
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;两个数字字符串相加&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//转为链表相加
-func addTwoString(num1 string,num2 string)string  {
-    l1 := makeListNode(num1)
-    l2 := makeListNode(num2)
-    l3 := addTwoNumbers(l1,l2)
-    return  listNodeToString(l3)
-}
-
-func makeListNode(s string)*ListNode  {
-    node := new(ListNode)
-    current := node
-    for i := len(s) - 1; i &amp;gt;=0; i -- {
-        current.Next = new(ListNode)
-        current.Val ,_ = strconv.Atoi(string(s[i]))
-        current = current.Next
-    }
-    return node
-}
-
-func listNodeToString(l *ListNode)string  {
-    result := &amp;quot;&amp;quot;
-    for l != nil {
-        if l.Next != nil || l.Val != 0 {
-            result  = fmt.Sprintf(&amp;quot;%d%s&amp;quot;,l.Val,result)
-        }
-        l = l.Next
-    }
-    return result
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;两个数字字符串相加2&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//字符串 数字相加
-func addTwoString1(num1 string,num2 string)string  {
-    carry := 0
-    maxLen := maxInt(len(num2),len(num1))
-    result := make([]byte,maxLen+1)
-    for i := 0 ; i &amp;lt; maxLen; i ++ {
-        sum := carry
-        if len(num1) &amp;gt; i {
-            v1 ,_ := strconv.Atoi(string(num1[len(num1) -i -1]))
-            sum += v1
-        }
-        if len(num2) &amp;gt; i {
-            v2 ,_ := strconv.Atoi(string(num2[len(num2) -i -1]))
-            sum += v2
-        }
-        carry = sum/10
-        result[maxLen - i] = []byte(strconv.Itoa(sum%10))[0]
-    }
-    if carry &amp;gt; 0 {
-        result[0] = []byte(strconv.Itoa(carry))[0]
-    }else {
-        return string(result[1:])
-    }
-    return  string(result)
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
