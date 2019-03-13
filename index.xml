@@ -6,7 +6,67 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Wed, 13 Mar 2019 01:42:44 CST</updated>
+        <updated>Wed, 13 Mar 2019 13:27:30 CST</updated>
+        
+        <item>
+            <title>最接近的三数之和</title>
+            <link>http://blog.flywithme.top/2019/03-13/3sumclosest/</link>
+            <pubDate>Wed, 13 Mar 2019 13:27:30 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-13/3sumclosest/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给定一个包括 n 个整数的数组 &lt;code&gt;nums&lt;/code&gt; 和 一个目标值 &lt;code&gt;target&lt;/code&gt;。找出 &lt;code&gt;nums&lt;/code&gt; 中的三个整数，
+使得它们的和与 &lt;code&gt;target&lt;/code&gt; 最接近。
+返回这三个数的和。假定每组输入只存在唯一答案。&lt;/p&gt;
+
+&lt;h5 id=&#34;note&#34;&gt;Note&lt;/h5&gt;
+
+&lt;p&gt;注意：答案中不可以包含重复的三元组。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;例如，给定数组 nums = [-1，2，1，-4], 和 target = 1.
+与 target 最接近的三个数的和为 2. (-1 + 2 + 1 = 2).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func threeSumClosest(nums []int, target int) int {
+    closestSum := math.MaxInt32
+    sort.Ints(nums)
+    for i := 0;i &amp;lt; len(nums)-2;i ++ {
+        left,right := i +1,len(nums)-1
+        for left &amp;lt; right {
+            sum := nums[i] + nums[left] + nums[right]
+            if numAbs(closestSum,target) &amp;gt; numAbs(sum,target) {
+                closestSum = sum
+            }
+            if sum &amp;lt; target {
+                left++
+            }else if sum &amp;gt; target {
+                right--
+            }else {
+                return sum
+            }
+        }
+    }
+    return closestSum
+}
+
+func numAbs(a,b int)int  {
+    if a &amp;gt; b {
+        return a - b
+    }
+    return b - a
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/3sum-closest/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>三数之和 3Sum</title>
@@ -1228,106 +1288,6 @@ Output: &amp;quot;56088&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;:&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>最长无重复字符的子串</title>
-            <link>http://blog.flywithme.top/2019/03-07/Longest-Substring-Without-Repeating-Characters-/</link>
-            <pubDate>Thu, 07 Mar 2019 18:32:33 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-07/Longest-Substring-Without-Repeating-Characters-/</guid>
-            <description>&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt;:Given a string, find the length of the longest substring without repeating characters.&lt;/p&gt;
-
-&lt;p&gt;给一个字符串，找出最长的非重复字段&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Input: &amp;quot;abcabcbb&amp;quot;
-Output: 3 
-Explanation: The answer is &amp;quot;abc&amp;quot;, with the length of 3. 
-
-Input: &amp;quot;bbbbb&amp;quot;
-Output: 1
-Explanation: The answer is &amp;quot;b&amp;quot;, with the length of 1.
-
-Input: &amp;quot;pwwkew&amp;quot;
-Output: 3
-Explanation: The answer is &amp;quot;wke&amp;quot;, with the length of 3. 
-             Note that the answer must be a substring, 
-             &amp;quot;pwke&amp;quot; is a subsequence and not a substring.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func lengthOfLongestSubstring(s string) int {
-    location := [256]int{} 
-    for i := range location {
-        location[i] = -1 
-    }
-    maxLen, left := 0, -1
-    for i := 0; i &amp;lt; len(s); i++ {
-        if location[s[i]] &amp;gt;= left {
-            left = location[s[i]] +1
-        } else if i + 1-left &amp;gt; maxLen {
-            maxLen = i + 1 - left
-        }
-        location[s[i]] = i
-    }
-
-    return maxLen
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;pre&gt;&lt;code&gt;func lengthOfLongestSubstring(s string) int {
-    max ,left := 0,-1
-    c := [256]int{}
-    for i := range c{
-        c[i]= -1
-    }
-    for i := 0; i &amp;lt; len(s); i ++ {
-        left = maxInt(left, c[s[i]])
-        c[s[i]] = i
-        max = maxInt(max,i-left)
-    }
-    return max
-}
-
-func maxInt(a, b int) int {
-    if a &amp;gt; b {
-        return a
-    }
-    return b
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Example 2&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Input: &amp;quot;汉字要怎么处理是怎么样的&amp;quot;
-Output: 8 
-Explanation: The answer is &amp;quot;汉字要怎么处理是&amp;quot;, with the length of 8. 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;  &lt;font size=3&gt;查询包含汉字的字符串需要使用golang的 &lt;code&gt;rune&lt;/code&gt; 关键字&lt;/font&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//带有汉字的最长不重复字符
-func lengthOfLongestRunSubString(s string)int  {
-    maxLen,left := 0,-1
-    lastOccurred := make(map[rune]int)
-    for i, ch := range []rune(s) {
-        if lastI,ok := lastOccurred[ch];ok &amp;amp;&amp;amp; lastI &amp;gt;= left {
-            left = lastOccurred[ch]
-        }
-        if i - left &amp;gt; maxLen {
-            maxLen = i - left
-        }
-        lastOccurred[ch] = i
-    }
-    return maxLen
-}
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         
