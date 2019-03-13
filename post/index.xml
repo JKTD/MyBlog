@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Wed, 13 Mar 2019 18:23:53 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 13 Mar 2019 20:31:26 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>有效的括号</title>
+      <link>http://blog.flywithme.top/2019/03-13/validparentheses/</link>
+      <pubDate>Wed, 13 Mar 2019 20:31:26 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-13/validparentheses/</guid>
+      <description>Description 给定一个只包括 &#39;(&#39;，&#39;)&#39;，&#39;{&#39;，&#39;}&#39;，&#39;[&#39;，&#39;]&#39; 的字符串，判断字符串是否有效。 有效字符串需满足： 左括号必须用相同类型的右括号闭</description>
+    </item>
     
     <item>
       <title>删除链表的倒数第N个节点</title>
