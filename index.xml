@@ -6,7 +6,86 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Wed, 13 Mar 2019 13:27:30 CST</updated>
+        <updated>Wed, 13 Mar 2019 16:01:16 CST</updated>
+        
+        <item>
+            <title>电话号码的字母组合</title>
+            <link>http://blog.flywithme.top/2019/03-13/lettercombphone/</link>
+            <pubDate>Wed, 13 Mar 2019 16:01:16 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-13/lettercombphone/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
+给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+ &lt;img src=&#34;http://blog.flywithme.top/sources/leetcode/WechatIMG97.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入：&amp;quot;23&amp;quot;
+输出：[&amp;quot;ad&amp;quot;, &amp;quot;ae&amp;quot;, &amp;quot;af&amp;quot;, &amp;quot;bd&amp;quot;, &amp;quot;be&amp;quot;, &amp;quot;bf&amp;quot;, &amp;quot;cd&amp;quot;, &amp;quot;ce&amp;quot;, &amp;quot;cf&amp;quot;].
+说明:
+ 尽管上面的答案是按字典序排列的，但是你可以任意选择答案输出的顺序。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;var (
+    padMaps = map[int][]int{
+        &#39;2&#39;:{&#39;a&#39;,&#39;b&#39;,&#39;c&#39;},
+        &#39;3&#39;:{&#39;d&#39;,&#39;e&#39;,&#39;f&#39;},
+        &#39;4&#39;:{&#39;g&#39;,&#39;h&#39;,&#39;i&#39;},
+        &#39;5&#39;:{&#39;j&#39;,&#39;k&#39;,&#39;l&#39;},
+        &#39;6&#39;:{&#39;m&#39;,&#39;n&#39;,&#39;o&#39;},
+        &#39;7&#39;:{&#39;p&#39;,&#39;q&#39;,&#39;r&#39;,&#39;s&#39;},
+        &#39;8&#39;:{&#39;t&#39;,&#39;u&#39;,&#39;v&#39;},
+        &#39;9&#39;:{&#39;w&#39;,&#39;x&#39;,&#39;y&#39;,&#39;z&#39;},
+    }
+)
+
+
+func letterCombinations(digits string) []string {
+    if len(digits) == 0 {
+        return nil
+    }
+    var list [][]int
+    for i := range digits{
+        if value,ok := padMaps[int(digits[i])];ok  {
+            list = append(list, value)
+        }
+    }
+    var results []string
+    for i := 0 ;i &amp;lt; len(list);i ++ {
+        results = combinations(results,list[i])
+    }
+    return results
+}
+//字符串组合
+func combinations(left []string,right []int)[]string  {
+    if len(right) == 0 {
+        return left
+    }
+    var result  []string
+    if len(left) == 0 {
+        for i := range right {
+            result = append(result, string(right[i]))
+        }
+    }else {
+        for i := range left{
+            for j := range right {
+                result = append(result, left[i]+string(right[j]))
+            }
+        }
+    }
+    return result
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/letter-combinations-of-a-phone-number/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>最接近的三数之和</title>
@@ -1253,41 +1332,6 @@ func addTwoNumbers(l1 *ListNode,l2 *ListNode) *ListNode  {
     return head.Next
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>字符串相乘</title>
-            <link>http://blog.flywithme.top/2019/03-07/multiplystrings/</link>
-            <pubDate>Thu, 07 Mar 2019 19:29:50 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-07/multiplystrings/</guid>
-            <description>&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt;:Given two non-negative integers num1 and num2 represented as strings,
-return the product of num1 and num2, also represented as a string..
-  Note:
-  The length of both num1 and num2 is &amp;lt; 110.
-  Both num1 and num2 contain only digits 0-9.
-  Both num1 and num2 do not contain any leading zero, except the number 0 itself.
-  You must not use any built-in BigInteger library or convert the inputs to integer directly.&lt;/p&gt;
-
-&lt;p&gt;给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。&lt;/p&gt;
-
-&lt;p&gt;说明：
-  num1 和 num2 的长度小于110。
-  num1 和 num2 只包含数字 0-9。
-  num1 和 num2 均不以零开头，除非是数字 0 本身。
-  不能使用任何标准库的大数类型（比如 BigInteger）或直接将输入转换为整数来处理。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Input: num1 = &amp;quot;2&amp;quot;, num2 = &amp;quot;3&amp;quot;
-Output: &amp;quot;6&amp;quot;
-
-Input: num1 = &amp;quot;123&amp;quot;, num2 = &amp;quot;456&amp;quot;
-Output: &amp;quot;56088&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;:&lt;/p&gt;
 </description>
         </item>
         

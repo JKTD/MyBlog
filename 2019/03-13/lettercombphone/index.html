@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.54.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>电话号码的字母组合 &middot; Fly With Me</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.flywithme.top/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blog.flywithme.top/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Fly With Me" />
+
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://blog.flywithme.top/"><h1>Fly With Me</h1></a>
+      <p class="lead">
+       漫步走在沙滩上 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://blog.flywithme.top/">Home</a> </li>
+        <li><a href="http://blog.flywithme.top/post/"> 归档 </a></li><li><a href="http://blog.flywithme.top/about/"> 关于我 </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2019. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>电话号码的字母组合</h1>
+  <time datetime=2019-03-13T16:01:16&#43;0800 class="post-date">Wed, Mar 13, 2019</time>
+  
+
+<h5 id="description">Description</h5>
+
+<p>给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
+给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+ <img src="http://blog.flywithme.top/sources/leetcode/WechatIMG97.jpeg" alt="image" /></p>
+
+<h5 id="example">Example</h5>
+
+<pre><code>输入：&quot;23&quot;
+输出：[&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;].
+说明:
+ 尽管上面的答案是按字典序排列的，但是你可以任意选择答案输出的顺序。
+</code></pre>
+
+<h5 id="solution">Solution</h5>
+
+<pre><code>var (
+    padMaps = map[int][]int{
+        '2':{'a','b','c'},
+        '3':{'d','e','f'},
+        '4':{'g','h','i'},
+        '5':{'j','k','l'},
+        '6':{'m','n','o'},
+        '7':{'p','q','r','s'},
+        '8':{'t','u','v'},
+        '9':{'w','x','y','z'},
+    }
+)
+
+
+func letterCombinations(digits string) []string {
+    if len(digits) == 0 {
+        return nil
+    }
+    var list [][]int
+    for i := range digits{
+        if value,ok := padMaps[int(digits[i])];ok  {
+            list = append(list, value)
+        }
+    }
+    var results []string
+    for i := 0 ;i &lt; len(list);i ++ {
+        results = combinations(results,list[i])
+    }
+    return results
+}
+//字符串组合
+func combinations(left []string,right []int)[]string  {
+    if len(right) == 0 {
+        return left
+    }
+    var result  []string
+    if len(left) == 0 {
+        for i := range right {
+            result = append(result, string(right[i]))
+        }
+    }else {
+        for i := range left{
+            for j := range right {
+                result = append(result, left[i]+string(right[j]))
+            }
+        }
+    }
+    return result
+}
+</code></pre>
+
+<p><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/">leetCode地址</a></p>
+
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>
