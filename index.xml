@@ -6,7 +6,68 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Wed, 13 Mar 2019 16:01:16 CST</updated>
+        <updated>Wed, 13 Mar 2019 17:13:18 CST</updated>
+        
+        <item>
+            <title>四数之和 4Sum</title>
+            <link>http://blog.flywithme.top/2019/03-13/4sum/</link>
+            <pubDate>Wed, 13 Mar 2019 17:13:18 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-13/4sum/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给定一个包含 n 个整数的数组 nums 和一个目标值 target，判断 nums 中是否存在四个元素 a，b，c 和 d ，
+使得 a + b + c + d 的值与 target 相等？找出所有满足条件且不重复的四元组。
+ 注意：
+ 答案中不可以包含重复的四元组。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;给定数组 nums = [1, 0, -1, 0, -2, 2]，和 target = 0。
+
+满足要求的四元组集合为：
+[
+  [-1,  0, 0, 1],
+  [-2, -1, 1, 2],
+  [-2,  0, 0, 2]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func fourSum(nums []int, target int) [][]int {
+    sort.Ints(nums)
+    maps := map[int]int{}
+    maps2 := map[string]bool{}
+    for i,v := range nums {
+        maps[v] = i
+    }
+    var list  [][]int
+    for i := 0 ; i &amp;lt; len(nums) ; i ++ {
+        for j := i +1;j &amp;lt; len(nums); j ++ {
+            for k := j +1 ; k &amp;lt; len(nums); k ++ {
+                member := target - nums[i] - nums[j] - nums[k]
+                if index,ok := maps[member];ok &amp;amp;&amp;amp; index != i &amp;amp;&amp;amp; index != j &amp;amp;&amp;amp; index != k {
+                    valuess := []int{nums[i],nums[j],nums[k],member}
+                    sort.Ints(valuess)
+                    key := strconv.Itoa(valuess[0]) + strconv.Itoa(valuess[1])+strconv.Itoa(valuess[2])+strconv.Itoa(valuess[3])
+                    if _,ok := maps2[key];!ok {
+                        list = append(list, valuess)
+                        maps2[key] = true
+                    }
+                }
+            }
+        }
+    }
+    return list
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/4sum/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>电话号码的字母组合</title>
@@ -1174,164 +1235,6 @@ func maxInt(a,b int)int  {
 
 &lt;p&gt;leetCode地址&lt;br /&gt;
 &lt;a href=&#34;https://leetcode.com/problems/median-of-two-sorted-arrays/&#34;&gt; Median of Two Sorted Arrays&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Add Strings 字符串相加</title>
-            <link>http://blog.flywithme.top/2019/03-07/addtwostring/</link>
-            <pubDate>Thu, 07 Mar 2019 21:21:38 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-07/addtwostring/</guid>
-            <description>&lt;nav&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#description&#34;&gt;Description&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#note&#34;&gt;Note&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#注意&#34;&gt;注意&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#example&#34;&gt;Example&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#solution&#34;&gt;Solution&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#solution-02&#34;&gt;Solution 02&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/nav&gt;
-
-&lt;h6 id=&#34;description&#34;&gt;Description&lt;/h6&gt;
-
-&lt;p&gt;Given two non-negative integers num1 and num2 represented as string,
-   return the sum of num1 and num2.&lt;br /&gt;
-   给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。&lt;/p&gt;
-
-&lt;h6 id=&#34;note&#34;&gt;Note&lt;/h6&gt;
-
-&lt;ol&gt;
-&lt;li&gt;The length of both num1 and num2 is &amp;lt; 5100.&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;Both num1 and num2 contains only digits 0-9.&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;both num1 and num2 does not contain any leading zero.&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;You must not use any built-in BigInteger library or convert the inputs to integer directly.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h6 id=&#34;注意&#34;&gt;注意&lt;/h6&gt;
-
-&lt;ol&gt;
-&lt;li&gt;num1 和num2 的长度都小于 5100.&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;num1 和num2 都只包含数字 0-9.&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;num1 和num2 都不包含任何前导零。&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式。&lt;br /&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h6 id=&#34;example&#34;&gt;Example&lt;/h6&gt;
-
-&lt;pre&gt;&lt;code&gt;Input: num1 = &amp;quot;123&amp;quot;, num2 = &amp;quot;456&amp;quot;
-Output: 579
-Explanation: &amp;quot;123 + &amp;quot;456&amp;quot; = &amp;quot;579&amp;quot;.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h6 id=&#34;solution&#34;&gt;Solution&lt;/h6&gt;
-
-&lt;pre&gt;&lt;code&gt;//直接处理字符串相加
-func addTwoString1(num1 string,num2 string)string  {
-    carry := 0
-    maxLen := maxInt(len(num2),len(num1))
-    result := make([]byte,maxLen+1)
-    for i := 0 ; i &amp;lt; maxLen; i ++ {
-        sum := carry
-        if len(num1) &amp;gt; i {
-            v1 ,_ := strconv.Atoi(string(num1[len(num1) -i -1]))
-            sum += v1
-        }
-        if len(num2) &amp;gt; i {
-            v2 ,_ := strconv.Atoi(string(num2[len(num2) -i -1]))
-            sum += v2
-        }
-        carry = sum/10
-        result[maxLen - i] = []byte(strconv.Itoa(sum%10))[0]
-    }
-    if carry &amp;gt; 0 {
-        result[0] = []byte(strconv.Itoa(carry))[0]
-    }else {
-        return string(result[1:])
-    }
-    return  string(result)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h6 id=&#34;solution-02&#34;&gt;Solution 02&lt;/h6&gt;
-
-&lt;pre&gt;&lt;code&gt;type ListNode struct {
-    Val  int
-    Next *ListNode
-}
-
-
-//两字符串相加
-func addTwoString(num1 string,num2 string)string  {
-    l1 := makeListNode(num1)
-    l2 := makeListNode(num2)
-    l3 := addTwoNumbers(l1,l2)
-    return  listNodeToString(l3)
-}
-
-//字符串转换为数字链表
-func makeListNode(s string)*ListNode  {
-    node := new(ListNode)
-    current := node
-    for i := len(s) - 1; i &amp;gt;=0; i -- {
-        current.Next = new(ListNode)
-        current.Val ,_ = strconv.Atoi(string(s[i]))
-        current = current.Next
-    }
-    return node
-}
-
-//数字链表转为字符串
-func listNodeToString(l *ListNode)string  {
-    result := &amp;quot;&amp;quot;
-    for l != nil {
-        if l.Next != nil || l.Val != 0 {
-            result  = fmt.Sprintf(&amp;quot;%d%s&amp;quot;,l.Val,result)
-        }
-        l = l.Next
-    }
-    return result
-}
-
- //计算结果   
-func addTwoNumbers(l1 *ListNode,l2 *ListNode) *ListNode  {
-    head := &amp;amp;ListNode{0,nil}
-    current := head
-    carry := 0
-    for l1 != nil || l2 != nil || carry &amp;gt; 0 {
-        sum := carry
-        if l1 != nil {
-            sum += l1.Val
-            l1 = l1.Next
-        }
-        if l2 != nil {
-            sum += l2.Val
-            l2 = l2.Next
-        }
-        carry = sum /10
-        current.Next = new(ListNode)
-        current.Next.Val = sum%10
-        current = current.Next
-    }
-    return head.Next
-}
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
         
