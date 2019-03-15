@@ -6,7 +6,75 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Fri, 15 Mar 2019 19:47:35 CST</updated>
+        <updated>Fri, 15 Mar 2019 20:02:23 CST</updated>
+        
+        <item>
+            <title>027_移除元素</title>
+            <link>http://blog.flywithme.top/2019/03-15/027_remove_element/</link>
+            <pubDate>Fri, 15 Mar 2019 20:02:23 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-15/027_remove_element/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给定一个数组 nums 和一个值 val，你需要原地移除所有数值等于 val 的元素，返回移除后数组的新长度。
+不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
+元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;说明 :&lt;/strong&gt;
+你的算法只能使用常数的额外空间。
+你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;p&gt;示例1：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;给定 nums = [3,2,2,3], val = 3,
+函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。
+你不需要考虑数组中超出新长度后面的元素。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;示例2：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;给定 nums = [0,1,2,2,3,0,4,2], val = 2,
+函数应该返回新的长度 5, 并且 nums 中的前五个元素为 0, 1, 3, 0, 4。
+注意这五个元素可为任意顺序。
+你不需要考虑数组中超出新长度后面的元素。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;说明:&lt;/strong&gt;&lt;br /&gt;
+    为什么返回数值是整数，但输出的答案是数组呢?
+    请注意，输入数组是以“引用”方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。
+    你可以想象内部操作如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// nums 是以“引用”方式传递的。也就是说，不对实参作任何拷贝
+int len = removeElement(nums, val);
+
+// 在函数里修改输入数组对于调用者是可见的。
+// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。
+for (int i = 0; i &amp;lt; len; i++) {
+    print(nums[i]);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func removeElement(nums []int, val int) int {
+      index := 0
+    for i := 0; i &amp;lt; len(nums);i ++ {
+        if nums[i]!= val {
+            nums[index] = nums[i]
+            index++
+        }
+    }
+    return index
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/remove-element/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>026-删除排序数组中的重复项</title>
@@ -1016,86 +1084,6 @@ func romanToInt(s string) int {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/roman-to-integer&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>012-整数转罗马数字</title>
-            <link>http://blog.flywithme.top/2019/03-12/int2roman/</link>
-            <pubDate>Tue, 12 Mar 2019 23:32:01 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-12/int2roman/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;罗马数字包含以下七种字符： I， V， X， L，C，D 和 M。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;字符          数值
-I             1
-V             5
-X             10
-L             50
-C             100
-D             500
-M             1000
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。
-通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。
-数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。
-同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况：
- - I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。
- - X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。
- - C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。&lt;/p&gt;
-
-&lt;p&gt;给定一个整数，将其转为罗马数字。输入确保在 1 到 3999 的范围内。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;输入: 3
-输出: &amp;quot;III&amp;quot;
-
-输入: 4
-输出: &amp;quot;IV&amp;quot;
-
-输入: 58
-输出: &amp;quot;LVIII&amp;quot;
-解释: L = 50, V = 5, III = 3.
-
-输入: 1994
-输出: &amp;quot;MCMXCIV&amp;quot;
-解释: M = 1000, CM = 900, XC = 90, IV = 4.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;//遍历出1-10，10—100，100-1000的特殊点
-var (
-    romanMap = map[int]string{
-        1:&amp;quot;I&amp;quot;,2:&amp;quot;II&amp;quot;,3:&amp;quot;III&amp;quot;,4:&amp;quot;IV&amp;quot;,5:&amp;quot;V&amp;quot;,6:&amp;quot;VI&amp;quot;,7:&amp;quot;VII&amp;quot;,8:&amp;quot;VIII&amp;quot;,9:&amp;quot;IX&amp;quot;,
-        10:&amp;quot;X&amp;quot;,20:&amp;quot;XX&amp;quot;,30:&amp;quot;XXX&amp;quot;,40:&amp;quot;XL&amp;quot;,50:&amp;quot;L&amp;quot;,60:&amp;quot;LX&amp;quot;,70:&amp;quot;LXX&amp;quot;,80:&amp;quot;LXXX&amp;quot;,90:&amp;quot;XC&amp;quot;,
-        100:&amp;quot;C&amp;quot;,200:&amp;quot;CC&amp;quot;,300:&amp;quot;CCC&amp;quot;,400:&amp;quot;CD&amp;quot;,500:&amp;quot;D&amp;quot;,600:&amp;quot;DC&amp;quot;,700:&amp;quot;DCC&amp;quot;,800:&amp;quot;DCCC&amp;quot;,900:&amp;quot;CM&amp;quot;,
-        1000:&amp;quot;M&amp;quot;,2000:&amp;quot;MM&amp;quot;,3000:&amp;quot;MMM&amp;quot;}
-)
-
-func intToRoman(num int) string {
-    if num &amp;gt;3999 || num &amp;lt; 1 {
-        return &amp;quot;&amp;quot;
-    }
-    result := &amp;quot;&amp;quot;
-    flag := 1
-
-    for num &amp;gt; 0 {
-        value := num%10
-        result = romanMap[value*flag] + result
-        num,flag = num/10,flag*10
-    }
-    return result
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/integer-to-roman/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
