@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 15 Mar 2019 20:02:23 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 15 Mar 2019 20:15:55 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>028_实现strStr()</title>
+      <link>http://blog.flywithme.top/2019/03-15/028_implementstr/</link>
+      <pubDate>Fri, 15 Mar 2019 20:15:55 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-15/028_implementstr/</guid>
+      <description>Description 实现 strStr() 函数。 给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回 -1。 Example 输入: haystack = &amp;quot;hello&amp;quot;, needle</description>
+    </item>
     
     <item>
       <title>027_移除元素</title>
