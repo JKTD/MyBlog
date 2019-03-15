@@ -13,12 +13,12 @@
     
     
     <item>
-      <title>030_substring</title>
+      <title>030_串联所有单词的子串</title>
       <link>http://blog.flywithme.top/2019/03-15/030_substring/</link>
       <pubDate>Fri, 15 Mar 2019 21:21:17 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/03-15/030_substring/</guid>
-      <description></description>
+      <description>Description 给定一个字符串 s 和一些长度相同的单词 words。找出 s 中恰好可以由 words 中所有单词串联形成的子串的起始位置。 注意子串要与 words 中的单词完全匹配，中</description>
     </item>
     
     <item>
