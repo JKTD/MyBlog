@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>024-两两交换链表中的节点 Swap Nodes in Pairs &middot; Fly With Me</title>
+  <title>025-k个一组翻转链表 &middot; Fly With Me</title>
 
   
   <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
@@ -51,20 +51,26 @@
 
     <main class="content container">
     <div class="post">
-  <h1>024-两两交换链表中的节点 Swap Nodes in Pairs</h1>
-  <time datetime=2019-03-14T14:33:24&#43;0800 class="post-date">Thu, Mar 14, 2019</time>
+  <h1>025-k个一组翻转链表</h1>
+  <time datetime=2019-03-15T14:00:23&#43;0800 class="post-date">Fri, Mar 15, 2019</time>
   
 
 <h5 id="description">Description</h5>
 
-<p>给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。</p>
+<p>给出一个链表，每 k 个节点一组进行翻转，并返回翻转后的链表。
+k 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 k 的整数倍，那么将最后剩余节点保持原有顺序。</p>
 
-<p>你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
+<p><strong>说明 :</strong>
+你的算法只能使用常数的额外空间。
+你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
 
 <h5 id="example">Example</h5>
 
-<pre><code>给定 1-&gt;2-&gt;3-&gt;4, 
-返回 2-&gt;1-&gt;4-&gt;3.
+<pre><code>给定这个链表：1-&gt;2-&gt;3-&gt;4-&gt;5
+
+当 k = 2 时，应当返回: 2-&gt;1-&gt;4-&gt;3-&gt;5
+
+当 k = 3 时，应当返回: 3-&gt;2-&gt;1-&gt;4-&gt;5
 </code></pre>
 
 <h5 id="solution">Solution</h5>
@@ -74,18 +80,48 @@
     Next *ListNode
 }
 
-func swapPairs(head *ListNode) *ListNode {
-    if head == nil || head.Next == nil {
+func reverseKGroup(head *ListNode, k int) *ListNode {
+    if k &lt;= 0 {
         return head
     }
-    next := head.Next
-    head.Next = swapPairs(next.Next)
-    next.Next = head
-    return next
+    pre,end,next := reverseNode(head,k)
+    for next != nil {
+        end.Next,end,next = reverseNode(next,k)
+    }
+    return pre
+}
+
+func lenNode(head *ListNode)int  {
+    count := 0
+    node := head
+    for node!= nil{
+        count++
+        node = node.Next
+    }
+    return count
+}
+
+
+func reverseNode(head *ListNode,k int)(pre*ListNode,end *ListNode,next *ListNode)  {
+    if lenNode(head) &lt; k {
+        return head,nil,nil
+    }
+    i := 0
+    //翻转，头变尾巴
+    end = head
+    for head != nil &amp;&amp; i &lt; k {
+        next = head.Next
+        head.Next = pre
+        pre = head
+        head = next
+        i ++
+    }
+    end.Next = next
+    return
 }
 </code></pre>
 
-<p><a href="https://leetcode.com/problems/swap-nodes-in-pairs/">leetCode地址</a></p>
+<p><a href="https://leetcode.com/problems/reverse-nodes-in-k-group/">leetCode地址</a></p>
 
 </div>
 

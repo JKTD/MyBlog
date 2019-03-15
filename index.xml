@@ -6,10 +6,88 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Thu, 14 Mar 2019 14:33:24 CST</updated>
+        <updated>Fri, 15 Mar 2019 14:00:23 CST</updated>
         
         <item>
-            <title>两两交换链表中的节点 Swap Nodes in Pairs</title>
+            <title>025-k个一组翻转链表</title>
+            <link>http://blog.flywithme.top/2019/03-15/reverse-node/</link>
+            <pubDate>Fri, 15 Mar 2019 14:00:23 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-15/reverse-node/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给出一个链表，每 k 个节点一组进行翻转，并返回翻转后的链表。
+k 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 k 的整数倍，那么将最后剩余节点保持原有顺序。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;说明 :&lt;/strong&gt;
+你的算法只能使用常数的额外空间。
+你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;给定这个链表：1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5
+
+当 k = 2 时，应当返回: 2-&amp;gt;1-&amp;gt;4-&amp;gt;3-&amp;gt;5
+
+当 k = 3 时，应当返回: 3-&amp;gt;2-&amp;gt;1-&amp;gt;4-&amp;gt;5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;type ListNode struct {
+    Val int
+    Next *ListNode
+}
+
+func reverseKGroup(head *ListNode, k int) *ListNode {
+    if k &amp;lt;= 0 {
+        return head
+    }
+    pre,end,next := reverseNode(head,k)
+    for next != nil {
+        end.Next,end,next = reverseNode(next,k)
+    }
+    return pre
+}
+
+func lenNode(head *ListNode)int  {
+    count := 0
+    node := head
+    for node!= nil{
+        count++
+        node = node.Next
+    }
+    return count
+}
+
+
+func reverseNode(head *ListNode,k int)(pre*ListNode,end *ListNode,next *ListNode)  {
+    if lenNode(head) &amp;lt; k {
+        return head,nil,nil
+    }
+    i := 0
+    //翻转，头变尾巴
+    end = head
+    for head != nil &amp;amp;&amp;amp; i &amp;lt; k {
+        next = head.Next
+        head.Next = pre
+        pre = head
+        head = next
+        i ++
+    }
+    end.Next = next
+    return
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/reverse-nodes-in-k-group/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>024-两两交换链表中的节点 Swap Nodes in Pairs</title>
             <link>http://blog.flywithme.top/2019/03-14/swap-nodes-in-pairs/</link>
             <pubDate>Thu, 14 Mar 2019 14:33:24 CST</pubDate>
             <author>Brasbug</author>
@@ -35,7 +113,6 @@
     Next *ListNode
 }
 
-
 func swapPairs(head *ListNode) *ListNode {
     if head == nil || head.Next == nil {
         return head
@@ -52,7 +129,7 @@ func swapPairs(head *ListNode) *ListNode {
         </item>
         
         <item>
-            <title>合并K个排序链表 Merge k Sorted Lists</title>
+            <title>023-合并K个排序链表 Merge k Sorted Lists</title>
             <link>http://blog.flywithme.top/2019/03-13/Merge-k-Sorted-Lists/</link>
             <pubDate>Wed, 13 Mar 2019 23:38:57 CST</pubDate>
             <author>Brasbug</author>
@@ -134,7 +211,7 @@ func formatList2Node(list []int)*ListNode  {
         </item>
         
         <item>
-            <title>括号生成</title>
+            <title>022-括号生成</title>
             <link>http://blog.flywithme.top/2019/03-13/generate-parenthesses/</link>
             <pubDate>Wed, 13 Mar 2019 22:08:04 CST</pubDate>
             <author>Brasbug</author>
@@ -220,7 +297,7 @@ func generationPar(seeds []string ,para string)[]string  {
         </item>
         
         <item>
-            <title>合并两个有序链表</title>
+            <title>021-合并两个有序链表</title>
             <link>http://blog.flywithme.top/2019/03-13/merge-two-sorted-list/</link>
             <pubDate>Wed, 13 Mar 2019 20:35:50 CST</pubDate>
             <author>Brasbug</author>
@@ -308,7 +385,7 @@ func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
         </item>
         
         <item>
-            <title>有效的括号</title>
+            <title>020-有效的括号</title>
             <link>http://blog.flywithme.top/2019/03-13/validparentheses/</link>
             <pubDate>Wed, 13 Mar 2019 20:31:26 CST</pubDate>
             <author>Brasbug</author>
@@ -375,7 +452,7 @@ func isValid(s string) bool {
         </item>
         
         <item>
-            <title>删除链表的倒数第N个节点</title>
+            <title>019-删除链表的倒数第N个节点</title>
             <link>http://blog.flywithme.top/2019/03-13/removenthend/</link>
             <pubDate>Wed, 13 Mar 2019 18:23:53 CST</pubDate>
             <author>Brasbug</author>
@@ -455,7 +532,7 @@ func TestRemoveNNode(t *testing.T)  {
         </item>
         
         <item>
-            <title>四数之和 4Sum</title>
+            <title>018-四数之和 4Sum</title>
             <link>http://blog.flywithme.top/2019/03-13/4sum/</link>
             <pubDate>Wed, 13 Mar 2019 17:13:18 CST</pubDate>
             <author>Brasbug</author>
@@ -516,7 +593,7 @@ func TestRemoveNNode(t *testing.T)  {
         </item>
         
         <item>
-            <title>电话号码的字母组合</title>
+            <title>017-电话号码的字母组合</title>
             <link>http://blog.flywithme.top/2019/03-13/lettercombphone/</link>
             <pubDate>Wed, 13 Mar 2019 16:01:16 CST</pubDate>
             <author>Brasbug</author>
@@ -595,7 +672,7 @@ func combinations(left []string,right []int)[]string  {
         </item>
         
         <item>
-            <title>最接近的三数之和</title>
+            <title>016-最接近的三数之和</title>
             <link>http://blog.flywithme.top/2019/03-13/3sumclosest/</link>
             <pubDate>Wed, 13 Mar 2019 13:27:30 CST</pubDate>
             <author>Brasbug</author>
@@ -655,7 +732,7 @@ func numAbs(a,b int)int  {
         </item>
         
         <item>
-            <title>三数之和 3Sum</title>
+            <title>015-三数之和 3Sum</title>
             <link>http://blog.flywithme.top/2019/03-13/3sum/</link>
             <pubDate>Wed, 13 Mar 2019 01:42:44 CST</pubDate>
             <author>Brasbug</author>
@@ -735,7 +812,7 @@ func threeSum1(nums []int ,target int) [][]int {
         </item>
         
         <item>
-            <title>最长公共前缀</title>
+            <title>010-最长公共前缀</title>
             <link>http://blog.flywithme.top/2019/03-13/longestCommonPrefix/</link>
             <pubDate>Wed, 13 Mar 2019 01:23:07 CST</pubDate>
             <author>Brasbug</author>
@@ -791,7 +868,7 @@ func comparePrefix(left ,right string)string  {
         </item>
         
         <item>
-            <title>罗马数字转整数</title>
+            <title>013-罗马数字转整数</title>
             <link>http://blog.flywithme.top/2019/03-13/roman2int/</link>
             <pubDate>Wed, 13 Mar 2019 00:57:51 CST</pubDate>
             <author>Brasbug</author>
@@ -879,7 +956,7 @@ func romanToInt(s string) int {
         </item>
         
         <item>
-            <title>整数转罗马数字</title>
+            <title>012-整数转罗马数字</title>
             <link>http://blog.flywithme.top/2019/03-12/int2roman/</link>
             <pubDate>Tue, 12 Mar 2019 23:32:01 CST</pubDate>
             <author>Brasbug</author>
@@ -959,7 +1036,7 @@ func intToRoman(num int) string {
         </item>
         
         <item>
-            <title>盛最多水的容器 Container With Most Water</title>
+            <title>011-盛最多水的容器 Container With Most Water</title>
             <link>http://blog.flywithme.top/2019/03-12/containermostwater/</link>
             <pubDate>Tue, 12 Mar 2019 18:23:25 CST</pubDate>
             <author>Brasbug</author>
@@ -1027,105 +1104,6 @@ func maxArea1(height []int) int {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/container-with-most-water/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>Regular Expression Matching</title>
-            <link>http://blog.flywithme.top/2019/03-10/Regular-Expression-Matching/</link>
-            <pubDate>Sun, 10 Mar 2019 20:52:09 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-10/Regular-Expression-Matching/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;给定一个字符串 (s) 和一个字符模式 (p)。实现支持 &amp;lsquo;.&amp;rsquo; 和 &amp;lsquo;*&amp;rsquo; 的正则表达式匹配。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&#39;.&#39; 匹配任意单个字符。
-&#39;*&#39; 匹配零个或多个前面的元素。
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;匹配应该覆盖整个字符串 (s) ，而不是部分字符串。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;说明&lt;/strong&gt;:
-   s 可能为空，且只包含从 a-z 的小写字母。
-   p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;输入:
-s = &amp;quot;aa&amp;quot;
-p = &amp;quot;a&amp;quot;
-输出: false
-解释: &amp;quot;a&amp;quot; 无法匹配 &amp;quot;aa&amp;quot; 整个字符串。
-
-
-输入:
-s = &amp;quot;aa&amp;quot;
-p = &amp;quot;a*&amp;quot;
-输出: true
-解释: &#39;*&#39; 代表可匹配零个或多个前面的元素, 即可以匹配 &#39;a&#39; 。因此, 重复 &#39;a&#39; 一次, 字符串可变为 &amp;quot;aa&amp;quot;。
-
-输入:
-s = &amp;quot;ab&amp;quot;
-p = &amp;quot;.*&amp;quot;
-输出: true
-解释: &amp;quot;.*&amp;quot; 表示可匹配零个或多个(&#39;*&#39;)任意字符(&#39;.&#39;)。
-
-输入:
-s = &amp;quot;aab&amp;quot;
-p = &amp;quot;c*a*b&amp;quot;
-输出: true
-解释: &#39;c&#39; 可以不被重复, &#39;a&#39; 可以被重复一次。因此可以匹配字符串 &amp;quot;aab&amp;quot;。
-
-
-输入:
-s = &amp;quot;mississippi&amp;quot;
-p = &amp;quot;mis*is*p*.&amp;quot;
-输出: false
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;func isMatch(s string, p string) bool {
-    if p == &amp;quot;.*&amp;quot; {
-        return true
-    }
-    if s == p {
-        return true
-    }
-    if p == &amp;quot;&amp;quot; {
-        return false
-    }
-    return match(s, p, 0, 0)
-}
-
-func match(s, p string, strIndex, patIndex int) bool {
-    if patIndex == len(p) {
-        return strIndex == len(s)
-    }else {
-        //第二个字符为*
-        if patIndex &amp;lt; len(p) -1 &amp;amp;&amp;amp; p[patIndex+1:patIndex+2]== &amp;quot;*&amp;quot;{
-            //若第一个字符匹配，则继续匹配后续；若第一个字符不匹配，正则后移两位
-            if strIndex &amp;lt; len(s) &amp;amp;&amp;amp;
-                (p[patIndex:patIndex+1] == &amp;quot;.&amp;quot;||s[strIndex:strIndex+1]==p[patIndex:patIndex+1]) {
-                return match(s,p,strIndex,patIndex+2) || 
-                       match(s,p,strIndex+1,patIndex)|| 
-                       match(s,p,strIndex+1,patIndex+2)
-            }else {
-                return match(s,p,strIndex,patIndex+2)
-            }
-        }else if strIndex&amp;lt; len(s) &amp;amp;&amp;amp; 
-        (p[patIndex:patIndex+1]==&amp;quot;.&amp;quot; || s[strIndex:strIndex+1]==p[patIndex:patIndex+1]){
-            return match(s, p, strIndex+1, patIndex+1)
-        }
-    }
-    return false
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/regular-expression-matching/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         

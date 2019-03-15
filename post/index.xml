@@ -7,13 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Thu, 14 Mar 2019 14:33:24 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 15 Mar 2019 14:00:23 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>两两交换链表中的节点 Swap Nodes in Pairs</title>
+      <title>025-k个一组翻转链表</title>
+      <link>http://blog.flywithme.top/2019/03-15/reverse-node/</link>
+      <pubDate>Fri, 15 Mar 2019 14:00:23 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-15/reverse-node/</guid>
+      <description>Description 给出一个链表，每 k 个节点一组进行翻转，并返回翻转后的链表。 k 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 k 的整数倍，那么将最</description>
+    </item>
+    
+    <item>
+      <title>024-两两交换链表中的节点 Swap Nodes in Pairs</title>
       <link>http://blog.flywithme.top/2019/03-14/swap-nodes-in-pairs/</link>
       <pubDate>Thu, 14 Mar 2019 14:33:24 +0800</pubDate>
       
@@ -22,7 +31,7 @@
     </item>
     
     <item>
-      <title>合并K个排序链表 Merge k Sorted Lists</title>
+      <title>023-合并K个排序链表 Merge k Sorted Lists</title>
       <link>http://blog.flywithme.top/2019/03-13/Merge-k-Sorted-Lists/</link>
       <pubDate>Wed, 13 Mar 2019 23:38:57 +0800</pubDate>
       
@@ -31,7 +40,7 @@
     </item>
     
     <item>
-      <title>括号生成</title>
+      <title>022-括号生成</title>
       <link>http://blog.flywithme.top/2019/03-13/generate-parenthesses/</link>
       <pubDate>Wed, 13 Mar 2019 22:08:04 +0800</pubDate>
       
@@ -40,7 +49,7 @@
     </item>
     
     <item>
-      <title>合并两个有序链表</title>
+      <title>021-合并两个有序链表</title>
       <link>http://blog.flywithme.top/2019/03-13/merge-two-sorted-list/</link>
       <pubDate>Wed, 13 Mar 2019 20:35:50 +0800</pubDate>
       
@@ -49,7 +58,7 @@
     </item>
     
     <item>
-      <title>有效的括号</title>
+      <title>020-有效的括号</title>
       <link>http://blog.flywithme.top/2019/03-13/validparentheses/</link>
       <pubDate>Wed, 13 Mar 2019 20:31:26 +0800</pubDate>
       
@@ -58,7 +67,7 @@
     </item>
     
     <item>
-      <title>删除链表的倒数第N个节点</title>
+      <title>019-删除链表的倒数第N个节点</title>
       <link>http://blog.flywithme.top/2019/03-13/removenthend/</link>
       <pubDate>Wed, 13 Mar 2019 18:23:53 +0800</pubDate>
       
@@ -67,7 +76,7 @@
     </item>
     
     <item>
-      <title>四数之和 4Sum</title>
+      <title>018-四数之和 4Sum</title>
       <link>http://blog.flywithme.top/2019/03-13/4sum/</link>
       <pubDate>Wed, 13 Mar 2019 17:13:18 +0800</pubDate>
       
@@ -76,7 +85,7 @@
     </item>
     
     <item>
-      <title>电话号码的字母组合</title>
+      <title>017-电话号码的字母组合</title>
       <link>http://blog.flywithme.top/2019/03-13/lettercombphone/</link>
       <pubDate>Wed, 13 Mar 2019 16:01:16 +0800</pubDate>
       
@@ -85,7 +94,7 @@
     </item>
     
     <item>
-      <title>最接近的三数之和</title>
+      <title>016-最接近的三数之和</title>
       <link>http://blog.flywithme.top/2019/03-13/3sumclosest/</link>
       <pubDate>Wed, 13 Mar 2019 13:27:30 +0800</pubDate>
       
@@ -94,7 +103,7 @@
     </item>
     
     <item>
-      <title>三数之和 3Sum</title>
+      <title>015-三数之和 3Sum</title>
       <link>http://blog.flywithme.top/2019/03-13/3sum/</link>
       <pubDate>Wed, 13 Mar 2019 01:42:44 +0800</pubDate>
       
@@ -103,7 +112,7 @@
     </item>
     
     <item>
-      <title>最长公共前缀</title>
+      <title>010-最长公共前缀</title>
       <link>http://blog.flywithme.top/2019/03-13/longestCommonPrefix/</link>
       <pubDate>Wed, 13 Mar 2019 01:23:07 +0800</pubDate>
       
@@ -112,7 +121,7 @@
     </item>
     
     <item>
-      <title>罗马数字转整数</title>
+      <title>013-罗马数字转整数</title>
       <link>http://blog.flywithme.top/2019/03-13/roman2int/</link>
       <pubDate>Wed, 13 Mar 2019 00:57:51 +0800</pubDate>
       
@@ -121,7 +130,7 @@
     </item>
     
     <item>
-      <title>整数转罗马数字</title>
+      <title>012-整数转罗马数字</title>
       <link>http://blog.flywithme.top/2019/03-12/int2roman/</link>
       <pubDate>Tue, 12 Mar 2019 23:32:01 +0800</pubDate>
       
@@ -130,7 +139,7 @@
     </item>
     
     <item>
-      <title>盛最多水的容器 Container With Most Water</title>
+      <title>011-盛最多水的容器 Container With Most Water</title>
       <link>http://blog.flywithme.top/2019/03-12/containermostwater/</link>
       <pubDate>Tue, 12 Mar 2019 18:23:25 +0800</pubDate>
       
@@ -139,7 +148,7 @@
     </item>
     
     <item>
-      <title>Regular Expression Matching</title>
+      <title>010-Regular Expression Matching</title>
       <link>http://blog.flywithme.top/2019/03-10/Regular-Expression-Matching/</link>
       <pubDate>Sun, 10 Mar 2019 20:52:09 +0800</pubDate>
       
@@ -148,7 +157,7 @@
     </item>
     
     <item>
-      <title>回文数</title>
+      <title>009-回文数</title>
       <link>http://blog.flywithme.top/2019/03-10/palindromeNumber/</link>
       <pubDate>Sun, 10 Mar 2019 20:35:51 +0800</pubDate>
       
@@ -157,7 +166,7 @@
     </item>
     
     <item>
-      <title>字符串转换整数 (atoi)</title>
+      <title>008-字符串转换整数(atoi)</title>
       <link>http://blog.flywithme.top/2019/03-10/atoi/</link>
       <pubDate>Sun, 10 Mar 2019 17:53:22 +0800</pubDate>
       
@@ -166,7 +175,7 @@
     </item>
     
     <item>
-      <title>Reverse Integer 整数反转</title>
+      <title>007-Reverse Integer 整数反转</title>
       <link>http://blog.flywithme.top/2019/03-10/Reverse-Integer/</link>
       <pubDate>Sun, 10 Mar 2019 17:42:21 +0800</pubDate>
       
@@ -175,7 +184,7 @@
     </item>
     
     <item>
-      <title>Z 字形变换</title>
+      <title>006-Z 字形变换</title>
       <link>http://blog.flywithme.top/2019/03-09/zigzag-conversion/</link>
       <pubDate>Sat, 09 Mar 2019 14:57:21 +0800</pubDate>
       
@@ -184,7 +193,7 @@
     </item>
     
     <item>
-      <title>Longest Palindromic Substring 最长回文子串</title>
+      <title>005-Longest Palindromic Substring 最长回文子串</title>
       <link>http://blog.flywithme.top/2019/03-08/Palindromic/</link>
       <pubDate>Fri, 08 Mar 2019 19:25:15 +0800</pubDate>
       
@@ -193,7 +202,7 @@
     </item>
     
     <item>
-      <title>寻找两个有序数组的中位数</title>
+      <title>004-寻找两个有序数组的中位数</title>
       <link>http://blog.flywithme.top/2019/03-08/findmedian/</link>
       <pubDate>Fri, 08 Mar 2019 16:12:21 +0800</pubDate>
       
@@ -220,7 +229,7 @@
     </item>
     
     <item>
-      <title>最长无重复字符的子串</title>
+      <title>003-最长无重复字符的子串</title>
       <link>http://blog.flywithme.top/2019/03-07/Longest-Substring-Without-Repeating-Characters-/</link>
       <pubDate>Thu, 07 Mar 2019 18:32:33 +0800</pubDate>
       
@@ -229,7 +238,7 @@
     </item>
     
     <item>
-      <title>Add Two Numbers 两个数字相加</title>
+      <title>002-Add Two Numbers 两个数字相加</title>
       <link>http://blog.flywithme.top/2019/03-07/addtwonum/</link>
       <pubDate>Thu, 07 Mar 2019 18:24:19 +0800</pubDate>
       
@@ -238,7 +247,7 @@
     </item>
     
     <item>
-      <title>Two Sum 两数之和</title>
+      <title>001-Two Sum 两数之和</title>
       <link>http://blog.flywithme.top/2019/03-07/leetcode_twosum/</link>
       <pubDate>Thu, 07 Mar 2019 18:12:46 +0800</pubDate>
       
