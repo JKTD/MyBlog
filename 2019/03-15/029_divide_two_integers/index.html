@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.54.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>029_两数相除 Divide Two Integers &middot; Fly With Me</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.flywithme.top/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blog.flywithme.top/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Fly With Me" />
+
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://blog.flywithme.top/"><h1>Fly With Me</h1></a>
+      <p class="lead">
+       漫步走在沙滩上 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://blog.flywithme.top/">Home</a> </li>
+        <li><a href="http://blog.flywithme.top/post/"> 归档 </a></li><li><a href="http://blog.flywithme.top/about/"> 关于我 </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2019. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>029_两数相除 Divide Two Integers</h1>
+  <time datetime=2019-03-15T20:43:00&#43;0800 class="post-date">Fri, Mar 15, 2019</time>
+  
+
+<h5 id="description">Description</h5>
+
+<p>给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
+返回被除数 dividend 除以除数 divisor 得到的商。</p>
+
+<h5 id="example">Example</h5>
+
+<pre><code>输入: dividend = 10, divisor = 3
+输出: 3
+
+输入: dividend = 7, divisor = -3
+输出: -2
+</code></pre>
+
+<p><strong>说明:</strong><br />
+   - 被除数和除数均为 32 位有符号整数。
+   - 除数不为 0。
+   - 假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231,  231 − 1]。
+   本题中，如果除法结果溢出，则返回 231 − 1。</p>
+
+<h5 id="solution">Solution</h5>
+
+<pre><code>//使用加减法计算
+func divide(dividend int, divisor int) int {
+    if divisor == 0{
+        return 0
+    }
+
+    if dividend &lt;= math.MinInt32 &amp;&amp; divisor == -1{
+        return math.MaxInt32
+    }
+    negative := 1
+    if dividend &lt; 0 {
+        negative = -negative
+        dividend = -dividend
+    }
+    if divisor &lt; 0 {
+        negative = -negative
+        divisor = -divisor
+    }
+
+    count := 0
+    for dividend &gt;= divisor {
+        dividend = dividend - divisor
+        count ++
+    }
+    if negative &lt; 0 {
+        count = -count
+    }
+    return count
+}
+
+//位移，计算速度更快
+func divide1(dividend int, divisor int) int {
+    if divisor == 0{
+        return 0
+    }
+
+    if dividend &lt;= math.MinInt32 &amp;&amp; divisor == -1{
+        return math.MaxInt32
+    }
+    negative := 1
+    if dividend &lt; 0 {
+        negative = -negative
+        dividend = -dividend
+    }
+    if divisor &lt; 0 {
+        negative = -negative
+        divisor = -divisor
+    }
+
+    count := 0
+    for dividend &gt;= divisor {
+        temp,m := divisor,1
+        for dividend &gt;= temp&lt;&lt;1{
+            temp,m = temp&lt;&lt;1,m&lt;&lt;1
+        }
+        dividend -=temp
+        count +=m
+    }
+    if negative &lt; 0 {
+        count = -count
+    }
+    return count
+}
+</code></pre>
+
+<p><a href="https://leetcode.com/problems/divide-two-integers/">leetCode地址</a></p>
+
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>

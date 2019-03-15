@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 15 Mar 2019 20:15:55 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 15 Mar 2019 21:21:17 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>030_substring</title>
+      <link>http://blog.flywithme.top/2019/03-15/030_substring/</link>
+      <pubDate>Fri, 15 Mar 2019 21:21:17 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-15/030_substring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>029_两数相除 Divide Two Integers</title>
+      <link>http://blog.flywithme.top/2019/03-15/029_divide_two_integers/</link>
+      <pubDate>Fri, 15 Mar 2019 20:43:00 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-15/029_divide_two_integers/</guid>
+      <description>Description 给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。 返回被除数 dividend 除以除数 divisor 得到的商。 Example 输入: dividend = 10, divisor =</description>
+    </item>
     
     <item>
       <title>028_实现strStr()</title>

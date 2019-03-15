@@ -6,7 +6,115 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Fri, 15 Mar 2019 20:15:55 CST</updated>
+        <updated>Fri, 15 Mar 2019 21:21:17 CST</updated>
+        
+        <item>
+            <title>030_substring</title>
+            <link>http://blog.flywithme.top/2019/03-15/030_substring/</link>
+            <pubDate>Fri, 15 Mar 2019 21:21:17 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-15/030_substring/</guid>
+            <description></description>
+        </item>
+        
+        <item>
+            <title>029_两数相除 Divide Two Integers</title>
+            <link>http://blog.flywithme.top/2019/03-15/029_divide_two_integers/</link>
+            <pubDate>Fri, 15 Mar 2019 20:43:00 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-15/029_divide_two_integers/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
+返回被除数 dividend 除以除数 divisor 得到的商。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: dividend = 10, divisor = 3
+输出: 3
+
+输入: dividend = 7, divisor = -3
+输出: -2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;说明:&lt;/strong&gt;&lt;br /&gt;
+   - 被除数和除数均为 32 位有符号整数。
+   - 除数不为 0。
+   - 假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231,  231 − 1]。
+   本题中，如果除法结果溢出，则返回 231 − 1。&lt;/p&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//使用加减法计算
+func divide(dividend int, divisor int) int {
+    if divisor == 0{
+        return 0
+    }
+
+    if dividend &amp;lt;= math.MinInt32 &amp;amp;&amp;amp; divisor == -1{
+        return math.MaxInt32
+    }
+    negative := 1
+    if dividend &amp;lt; 0 {
+        negative = -negative
+        dividend = -dividend
+    }
+    if divisor &amp;lt; 0 {
+        negative = -negative
+        divisor = -divisor
+    }
+
+    count := 0
+    for dividend &amp;gt;= divisor {
+        dividend = dividend - divisor
+        count ++
+    }
+    if negative &amp;lt; 0 {
+        count = -count
+    }
+    return count
+}
+
+//位移，计算速度更快
+func divide1(dividend int, divisor int) int {
+    if divisor == 0{
+        return 0
+    }
+
+    if dividend &amp;lt;= math.MinInt32 &amp;amp;&amp;amp; divisor == -1{
+        return math.MaxInt32
+    }
+    negative := 1
+    if dividend &amp;lt; 0 {
+        negative = -negative
+        dividend = -dividend
+    }
+    if divisor &amp;lt; 0 {
+        negative = -negative
+        divisor = -divisor
+    }
+
+    count := 0
+    for dividend &amp;gt;= divisor {
+        temp,m := divisor,1
+        for dividend &amp;gt;= temp&amp;lt;&amp;lt;1{
+            temp,m = temp&amp;lt;&amp;lt;1,m&amp;lt;&amp;lt;1
+        }
+        dividend -=temp
+        count +=m
+    }
+    if negative &amp;lt; 0 {
+        count = -count
+    }
+    return count
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/divide-two-integers/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>028_实现strStr()</title>
@@ -933,142 +1041,6 @@ func numAbs(a,b int)int  {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/3sum-closest/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>015-三数之和 3Sum</title>
-            <link>http://blog.flywithme.top/2019/03-13/3sum/</link>
-            <pubDate>Wed, 13 Mar 2019 01:42:44 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-13/3sum/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，
-使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。&lt;/p&gt;
-
-&lt;h5 id=&#34;note&#34;&gt;Note&lt;/h5&gt;
-
-&lt;p&gt;注意：答案中不可以包含重复的三元组。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
-
-满足要求的三元组集合为：
-[
-  [-1, 0, 1],
-  [-1, -1, 2]
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;func threeSum(nums []int) [][]int {
-    return threeSum1(nums,0)
-}
-
-func sortNums(nums []int)  {
-    for i := 0;i &amp;lt; len(nums);i ++ {
-        for j := i +1 ; j &amp;lt; len(nums);j ++ {
-            if nums[i] &amp;gt; nums[j] {
-                nums[i],nums[j] = nums[j],nums[i]
-            }
-        }
-    }
-}
-
-func threeSum1(nums []int ,target int) [][]int {
-    sortNums(nums)
-    var list [][]int
-    maps := make(map[int]int,len(nums))
-    for i,v := range nums{
-        maps[v] = i
-    }
-    valuess := make([]int,3)
-    maps2 := map[string]bool{}
-    for i := 0 ; i &amp;lt; len(nums); i ++ {
-        if nums[i] &amp;gt; target {
-            break
-        }
-        for j := i + 1; j &amp;lt; len(nums); j ++ {
-            member := target - nums[i] - nums[j]
-            if k,ok := maps[member];ok &amp;amp;&amp;amp; k != i &amp;amp;&amp;amp; k != j {
-                valuess = []int{member,nums[i],nums[j]}
-                sortNums(valuess)
-                key := fmt.Sprintf(&amp;quot;%d%d%d&amp;quot;,valuess[0],valuess[1],valuess[2])
-                if _,ok := maps2[key];ok {
-                    continue
-                }else {
-                    maps2[key] = true
-                    list = append(list, []int{valuess[0],valuess[1],valuess[2]})
-                }
-            }
-        }
-    }
-    return list
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/3sum/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>010-最长公共前缀</title>
-            <link>http://blog.flywithme.top/2019/03-13/longestCommonPrefix/</link>
-            <pubDate>Wed, 13 Mar 2019 01:23:07 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-13/longestCommonPrefix/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;查找字符串数组中的最长公共前缀。
-如果不存在公共前缀，返回空字符串 &amp;ldquo;&amp;ldquo;。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;输入: [&amp;quot;dog&amp;quot;,&amp;quot;racecar&amp;quot;,&amp;quot;car&amp;quot;]
-输出: &amp;quot;&amp;quot;
-解释: 输入不存在公共前缀。
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;func longestCommonPrefix(strs []string) string {
-    if len(strs) == 0 {
-        return &amp;quot;&amp;quot;
-    }
-    prefix := strs[0]
-    for i := 1;i &amp;lt; len(strs);i ++ {
-        prefix = comparePrefix(prefix,strs[i])
-        if len(prefix) == 0 {
-            break
-        }
-    }
-    return prefix
-}
-
-func comparePrefix(left ,right string)string  {
-    if len(left)&amp;gt;len(right) {
-        left,right = right,left
-    }
-    value := &amp;quot;&amp;quot;
-    for i := range left {
-        if left[0:i+1] == right[0:i+1] {
-            value = left[0:i+1]
-        }else {
-            break
-        }
-    }
-    return value
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/longest-common-prefix/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
