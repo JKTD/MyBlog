@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 15 Mar 2019 21:21:17 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 16 Mar 2019 02:50:51 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>031_下一个排列</title>
+      <link>http://blog.flywithme.top/2019/03-16/031_Next-Permutation/</link>
+      <pubDate>Sat, 16 Mar 2019 02:50:51 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-16/031_Next-Permutation/</guid>
+      <description>Description 实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。 如果不存在下一个更大的排列，则将数字重新排列成最小的排</description>
+    </item>
     
     <item>
       <title>030_串联所有单词的子串</title>
