@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Wed, 13 Mar 2019 23:38:57 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 14 Mar 2019 14:33:24 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>两两交换链表中的节点 Swap Nodes in Pairs</title>
+      <link>http://blog.flywithme.top/2019/03-14/swap-nodes-in-pairs/</link>
+      <pubDate>Thu, 14 Mar 2019 14:33:24 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-14/swap-nodes-in-pairs/</guid>
+      <description>Description 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。 Example 给定 1-&amp;gt;2-&amp;gt;3-&amp;gt;4, 返回 2-&amp;gt;1-&amp;gt;4-&amp;gt;3. Solution type</description>
+    </item>
     
     <item>
       <title>合并K个排序链表 Merge k Sorted Lists</title>

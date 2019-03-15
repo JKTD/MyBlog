@@ -6,7 +6,50 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Wed, 13 Mar 2019 23:38:57 CST</updated>
+        <updated>Thu, 14 Mar 2019 14:33:24 CST</updated>
+        
+        <item>
+            <title>两两交换链表中的节点 Swap Nodes in Pairs</title>
+            <link>http://blog.flywithme.top/2019/03-14/swap-nodes-in-pairs/</link>
+            <pubDate>Thu, 14 Mar 2019 14:33:24 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-14/swap-nodes-in-pairs/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。&lt;/p&gt;
+
+&lt;p&gt;你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;给定 1-&amp;gt;2-&amp;gt;3-&amp;gt;4, 
+返回 2-&amp;gt;1-&amp;gt;4-&amp;gt;3.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;type ListNode struct {
+    Val int
+    Next *ListNode
+}
+
+
+func swapPairs(head *ListNode) *ListNode {
+    if head == nil || head.Next == nil {
+        return head
+    }
+    next := head.Next
+    head.Next = swapPairs(next.Next)
+    next.Next = head
+    return next
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/swap-nodes-in-pairs/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>合并K个排序链表 Merge k Sorted Lists</title>
@@ -1083,59 +1126,6 @@ func match(s, p string, strIndex, patIndex int) bool {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/regular-expression-matching/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>回文数</title>
-            <link>http://blog.flywithme.top/2019/03-10/palindromeNumber/</link>
-            <pubDate>Sun, 10 Mar 2019 20:35:51 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-10/palindromeNumber/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;输入: 121
-输出: true
-
-
-输入: -121
-输出: false
-解释: 从左向右读, 为 -121 。 从右向左读, 为 121- 。因此它不是一个回文数。
-
-输入: 10
-输出: false
-解释: 从右向左读, 为 01 。因此它不是一个回文数。  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;func isPalindrome(x int) bool {
-    if x &amp;lt; 0  {
-        return false
-    }
-    if x %10 == 0 &amp;amp;&amp;amp; x != 0 {
-        return false
-    }
-    result := 0
-
-    for x &amp;gt; result {
-        result = result*10 + x%10
-        x = x/10
-    }
-    if result == x || x == result/10{
-         return true
-    }
-    return false
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/palindrome-number/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
