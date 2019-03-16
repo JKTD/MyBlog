@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.54.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>033.搜索旋转排序数组 Search in Rotated Sorted Array &middot; Fly With Me</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.flywithme.top/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blog.flywithme.top/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Fly With Me" />
+
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://blog.flywithme.top/"><h1>Fly With Me</h1></a>
+      <p class="lead">
+       漫步走在沙滩上 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://blog.flywithme.top/">Home</a> </li>
+        <li><a href="http://blog.flywithme.top/post/"> 归档 </a></li><li><a href="http://blog.flywithme.top/about/"> 关于我 </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2019. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>033.搜索旋转排序数组 Search in Rotated Sorted Array</h1>
+  <time datetime=2019-03-16T20:26:01&#43;0800 class="post-date">Sat, Mar 16, 2019</time>
+  
+
+<h5 id="description">Description</h5>
+
+<p>假设按照升序排序的数组在预先未知的某个点上进行了旋转。
+( 例如，数组<code>[0,1,2,4,5,6,7]</code> 可能变为<code>[4,5,6,7,0,1,2]</code> )。
+搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+你可以假设数组中不存在重复的元素。
+你的算法时间复杂度必须是 O(log n) 级别。</p>
+
+<h5 id="example">Example</h5>
+
+<pre><code>输入: nums = [4,5,6,7,0,1,2], target = 0
+输出: 4
+
+输入: nums = [4,5,6,7,0,1,2], target = 3
+输出: -1
+</code></pre>
+
+<h5 id="solution">Solution</h5>
+
+<pre><code>//O(log n)复杂度
+func searchRange(nums []int, target int) []int {
+    result := []int{-1,-1}
+    if len(nums) == 0{
+        return result
+    }
+    left ,right := 0,len(nums)
+    for left &lt; right {
+        mid := (left+right)/2
+        if nums[mid] &gt;= target {
+            right = mid
+        }else {
+            left = mid+1
+        }
+    }
+    if left &gt;= len(nums) {
+        return result
+    }
+    if nums[left] != target {
+        return result
+    }
+    result[0] = left
+    right = len(nums)
+    for left &lt; right {
+        mid := (left + right)/2
+        if nums[mid] &gt; target {
+            right = mid
+        }else {
+            left = mid+1
+        }
+    }
+    result[1] = right-1
+    return result
+}
+
+
+//O(n)复杂度
+func searchRange1(nums []int, target int) []int {
+    result := []int{-1,-1}
+    for i :=0;i &lt; len(nums) ;i ++ {
+        if nums[i] == target {
+            result[0] = i
+            break
+        }
+    }
+    if result[0] == -1 {
+        return result
+    }
+
+    for i := len(nums)-1;i &gt;=0 ;i -- {
+        if nums[i] == target {
+            result[1] = i
+            break
+        }
+    }
+    return result
+}
+</code></pre>
+
+<p><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/">leetCode地址</a></p>
+
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>

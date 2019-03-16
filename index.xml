@@ -6,7 +6,97 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sat, 16 Mar 2019 18:46:53 CST</updated>
+        <updated>Sat, 16 Mar 2019 20:26:01 CST</updated>
+        
+        <item>
+            <title>033.搜索旋转排序数组 Search in Rotated Sorted Array</title>
+            <link>http://blog.flywithme.top/2019/03-16/033.-Search-in-Rotated-Sorted-Array/</link>
+            <pubDate>Sat, 16 Mar 2019 20:26:01 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-16/033.-Search-in-Rotated-Sorted-Array/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;假设按照升序排序的数组在预先未知的某个点上进行了旋转。
+( 例如，数组&lt;code&gt;[0,1,2,4,5,6,7]&lt;/code&gt; 可能变为&lt;code&gt;[4,5,6,7,0,1,2]&lt;/code&gt; )。
+搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+你可以假设数组中不存在重复的元素。
+你的算法时间复杂度必须是 O(log n) 级别。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: nums = [4,5,6,7,0,1,2], target = 0
+输出: 4
+
+输入: nums = [4,5,6,7,0,1,2], target = 3
+输出: -1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;//O(log n)复杂度
+func searchRange(nums []int, target int) []int {
+    result := []int{-1,-1}
+    if len(nums) == 0{
+        return result
+    }
+    left ,right := 0,len(nums)
+    for left &amp;lt; right {
+        mid := (left+right)/2
+        if nums[mid] &amp;gt;= target {
+            right = mid
+        }else {
+            left = mid+1
+        }
+    }
+    if left &amp;gt;= len(nums) {
+        return result
+    }
+    if nums[left] != target {
+        return result
+    }
+    result[0] = left
+    right = len(nums)
+    for left &amp;lt; right {
+        mid := (left + right)/2
+        if nums[mid] &amp;gt; target {
+            right = mid
+        }else {
+            left = mid+1
+        }
+    }
+    result[1] = right-1
+    return result
+}
+
+
+//O(n)复杂度
+func searchRange1(nums []int, target int) []int {
+    result := []int{-1,-1}
+    for i :=0;i &amp;lt; len(nums) ;i ++ {
+        if nums[i] == target {
+            result[0] = i
+            break
+        }
+    }
+    if result[0] == -1 {
+        return result
+    }
+
+    for i := len(nums)-1;i &amp;gt;=0 ;i -- {
+        if nums[i] == target {
+            result[1] = i
+            break
+        }
+    }
+    return result
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>032_最长有效括号</title>
@@ -119,7 +209,7 @@ func longestValidParentheses1(s string) int {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/next-permutation/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/longest-valid-parentheses/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
@@ -1168,67 +1258,6 @@ func TestRemoveNNode(t *testing.T)  {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/remove-nth-node-from-end-of-list/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>018-四数之和 4Sum</title>
-            <link>http://blog.flywithme.top/2019/03-13/4sum/</link>
-            <pubDate>Wed, 13 Mar 2019 17:13:18 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-13/4sum/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;给定一个包含 n 个整数的数组 nums 和一个目标值 target，判断 nums 中是否存在四个元素 a，b，c 和 d ，
-使得 a + b + c + d 的值与 target 相等？找出所有满足条件且不重复的四元组。
- 注意：
- 答案中不可以包含重复的四元组。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;给定数组 nums = [1, 0, -1, 0, -2, 2]，和 target = 0。
-
-满足要求的四元组集合为：
-[
-  [-1,  0, 0, 1],
-  [-2, -1, 1, 2],
-  [-2,  0, 0, 2]
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;func fourSum(nums []int, target int) [][]int {
-    sort.Ints(nums)
-    maps := map[int]int{}
-    maps2 := map[string]bool{}
-    for i,v := range nums {
-        maps[v] = i
-    }
-    var list  [][]int
-    for i := 0 ; i &amp;lt; len(nums) ; i ++ {
-        for j := i +1;j &amp;lt; len(nums); j ++ {
-            for k := j +1 ; k &amp;lt; len(nums); k ++ {
-                member := target - nums[i] - nums[j] - nums[k]
-                if index,ok := maps[member];ok &amp;amp;&amp;amp; index != i &amp;amp;&amp;amp; index != j &amp;amp;&amp;amp; index != k {
-                    valuess := []int{nums[i],nums[j],nums[k],member}
-                    sort.Ints(valuess)
-                    key := strconv.Itoa(valuess[0]) + strconv.Itoa(valuess[1])+strconv.Itoa(valuess[2])+strconv.Itoa(valuess[3])
-                    if _,ok := maps2[key];!ok {
-                        list = append(list, valuess)
-                        maps2[key] = true
-                    }
-                }
-            }
-        }
-    }
-    return list
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/4sum/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
