@@ -6,7 +6,16 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sun, 17 Mar 2019 00:35:52 CST</updated>
+        <updated>Sun, 17 Mar 2019 01:00:47 CST</updated>
+        
+        <item>
+            <title>036. Valid Sudoku</title>
+            <link>http://blog.flywithme.top/2019/03-17/036.-Valid-Sudoku/</link>
+            <pubDate>Sun, 17 Mar 2019 01:00:47 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-17/036.-Valid-Sudoku/</guid>
+            <description></description>
+        </item>
         
         <item>
             <title>034.在排序数组中查找元素的第一个和最后一个位置 Find First and Last Position of Element in Sorted Array</title>
@@ -18,11 +27,9 @@
 
 &lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
 
-&lt;p&gt;给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。&lt;/p&gt;
-
-&lt;p&gt;你的算法时间复杂度必须是 O(log n) 级别。&lt;/p&gt;
-
-&lt;p&gt;如果数组中不存在目标值，返回 &lt;code&gt;[-1, -1]&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
+你的算法时间复杂度必须是 O(log n) 级别。
+如果数组中不存在目标值，返回 &lt;code&gt;[-1, -1]&lt;/code&gt;。&lt;/p&gt;
 
 &lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
 
@@ -35,7 +42,7 @@
 
 &lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
 
-&lt;p&gt;//O(log n)复杂度
+&lt;pre&gt;&lt;code&gt;//O(log n)复杂度
 func searchRange(nums []int, target int) []int {
     result := []int{-1,-1}
     if len(nums) == 0{
@@ -68,9 +75,10 @@ func searchRange(nums []int, target int) []int {
     }
     result[1] = right-1
     return result
-}&lt;/p&gt;
+}
 
-&lt;p&gt;//O(n)复杂度
+
+//O(n)复杂度
 func searchRange1(nums []int, target int) []int {
     result := []int{-1,-1}
     for i :=0;i &amp;lt; len(nums) ;i ++ {
@@ -81,30 +89,94 @@ func searchRange1(nums []int, target int) []int {
     }
     if result[0] == -1 {
         return result
-    }&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;for i := len(nums)-1;i &amp;gt;=0 ;i -- {
-    if nums[i] == target {
-        result[1] = i
-        break
     }
-}
-return result
-&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;}&lt;/p&gt;
+    for i := len(nums)-1;i &amp;gt;=0 ;i -- {
+        if nums[i] == target {
+            result[1] = i
+            break
+        }
+    }
+    return result
+}
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
         <item>
-            <title>035. Search Insert Position</title>
+            <title>035.搜索插入位置 Search Insert Position</title>
             <link>http://blog.flywithme.top/2019/03-17/035.-Search-Insert-Position/</link>
             <pubDate>Sun, 17 Mar 2019 00:34:05 CST</pubDate>
             <author>Brasbug</author>
             <guid>http://blog.flywithme.top/2019/03-17/035.-Search-Insert-Position/</guid>
-            <description></description>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+你可以假设数组中无重复元素。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: [1,3,5,6], 5
+输出: 2
+
+输入: [1,3,5,6], 2
+输出: 1
+
+输入: [1,3,5,6], 7
+输出: 4
+
+输入: [1,3,5,6], 0
+输出: 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func searchInsert(nums []int, target int) int {
+    if len(nums) == 0 {
+        return 0
+    }
+    if target &amp;gt; nums[len(nums)-1] {
+        return len(nums)
+    }
+    if target &amp;lt; nums[0] {
+        return 0
+    }
+    left ,right := 0,len(nums)-1
+    for left &amp;lt;= right {
+        mid := (left+right)/2
+        if nums[mid] == target {
+            return mid
+        }
+        if nums[mid] &amp;lt; target {
+            left = mid +1
+        }else {
+            right = mid-1
+        }
+    }
+    return left
+}
+
+
+func searchInsert1(nums []int, target int) int {
+    if len(nums) == 0 {
+        return 0
+    }
+
+    for i := 0; i &amp;lt; len(nums);i ++ {
+        if nums[i] &amp;gt;= target {
+            return i
+        }
+    }
+    return len(nums)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/search-insert-position/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
         </item>
         
         <item>
@@ -1100,94 +1172,6 @@ func generationPar(seeds []string ,para string)[]string  {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/generate-parentheses/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>021-合并两个有序链表</title>
-            <link>http://blog.flywithme.top/2019/03-13/merge-two-sorted-list/</link>
-            <pubDate>Wed, 13 Mar 2019 20:35:50 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-13/merge-two-sorted-list/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;输入：1-&amp;gt;2-&amp;gt;4, 1-&amp;gt;3-&amp;gt;4
-输出：1-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;4
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;type ListNode struct {
-    Val int
-     Next *ListNode
-}
-
-
-func formatList2Node(list []int)*ListNode  {
-    head := new(ListNode)
-    current := head
-    for i := range list{
-        current.Next = new(ListNode)
-        current.Next.Val = list[i]
-        current = current.Next
-    }
-    return head.Next
-}
-
-
-//遍历
-func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-    head := new(ListNode)
-    current := head
-    for l1 != nil || l2 != nil {
-        if l1 == nil {
-            current.Next = l2
-            break
-        }
-        if l2 == nil {
-            current.Next = l1
-            break
-        }
-        if  l1.Val &amp;lt; l2.Val {
-            current.Next = l1
-            l1 = l1.Next
-        }else {
-            current.Next = l2
-            l2 = l2.Next
-        }
-        current = current.Next
-    }
-    return head.Next
-}
-
-
-//递归
-func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
-    if l1 == nil {
-        return l2
-    }
-    if l2 == nil {
-        return l1
-    }
-    result := new(ListNode)
-    if l1.Val &amp;gt; l2.Val {
-        result = l2
-        result.Next = mergeTwoLists(l1,l2.Next)
-    }else {
-        result = l1
-        result.Next = mergeTwoLists(l1.Next,l2)
-    }
-    return result
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/merge-two-sorted-lists/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>035.搜索插入位置 Search Insert Position &middot; Fly With Me</title>
+  <title>036. Valid Sudoku &middot; Fly With Me</title>
 
   
   <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
@@ -51,74 +51,9 @@
 
     <main class="content container">
     <div class="post">
-  <h1>035.搜索插入位置 Search Insert Position</h1>
-  <time datetime=2019-03-17T00:34:05&#43;0800 class="post-date">Sun, Mar 17, 2019</time>
+  <h1>036. Valid Sudoku</h1>
+  <time datetime=2019-03-17T01:00:47&#43;0800 class="post-date">Sun, Mar 17, 2019</time>
   
-
-<h5 id="description">Description</h5>
-
-<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
-你可以假设数组中无重复元素。</p>
-
-<h5 id="example">Example</h5>
-
-<pre><code>输入: [1,3,5,6], 5
-输出: 2
-
-输入: [1,3,5,6], 2
-输出: 1
-
-输入: [1,3,5,6], 7
-输出: 4
-
-输入: [1,3,5,6], 0
-输出: 0
-</code></pre>
-
-<h5 id="solution">Solution</h5>
-
-<pre><code>func searchInsert(nums []int, target int) int {
-    if len(nums) == 0 {
-        return 0
-    }
-    if target &gt; nums[len(nums)-1] {
-        return len(nums)
-    }
-    if target &lt; nums[0] {
-        return 0
-    }
-    left ,right := 0,len(nums)-1
-    for left &lt;= right {
-        mid := (left+right)/2
-        if nums[mid] == target {
-            return mid
-        }
-        if nums[mid] &lt; target {
-            left = mid +1
-        }else {
-            right = mid-1
-        }
-    }
-    return left
-}
-
-
-func searchInsert1(nums []int, target int) int {
-    if len(nums) == 0 {
-        return 0
-    }
-
-    for i := 0; i &lt; len(nums);i ++ {
-        if nums[i] &gt;= target {
-            return i
-        }
-    }
-    return len(nums)
-}
-</code></pre>
-
-<p><a href="https://leetcode.com/problems/search-insert-position/">leetCode地址</a></p>
-
 </div>
 
 
