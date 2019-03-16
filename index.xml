@@ -6,7 +6,67 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sun, 17 Mar 2019 01:00:47 CST</updated>
+        <updated>Sun, 17 Mar 2019 01:46:37 CST</updated>
+        
+        <item>
+            <title>037. 解数独 Sudoku Solver</title>
+            <link>http://blog.flywithme.top/2019/03-17/037.-Sudoku-Solver/</link>
+            <pubDate>Sun, 17 Mar 2019 01:46:37 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-17/037.-Sudoku-Solver/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;编写一个程序，通过已填充的空格来解决数独问题。&lt;/p&gt;
+
+&lt;p&gt;一个数独的解法需遵循如下规则：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;数字 1-9 在每一行只能出现一次。&lt;/li&gt;
+&lt;li&gt;数字 1-9 在每一列只能出现一次。&lt;/li&gt;
+&lt;li&gt;数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。&lt;/li&gt;
+&lt;li&gt;空白格用 &lt;code&gt;&#39;.&#39;&lt;/code&gt; 表示。&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/leetcode/sudo.png&#34; alt=&#34;sudo&#34; /&gt;
+&lt;font  size=2&gt;一个数独&lt;/font&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.flywithme.top/sources/leetcode/sudoku_solver.png&#34; alt=&#34;sudo&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;font  size=2&gt;&lt;strong&gt;答案被标称红色&lt;/strong&gt;&lt;/font&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;说明:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;一个有效的数独（部分已被填充）不一定是可解的。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;只需要根据以上规则，验证已经填入的数字是否有效即可。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;给定数独序列只包含数字 1-9 和字符 &amp;lsquo;.&amp;rsquo; 。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;给定数独永远是 9x9 形式的。&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入:
+[
+  [&amp;quot;5&amp;quot;,&amp;quot;3&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;7&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;],
+  [&amp;quot;6&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;1&amp;quot;,&amp;quot;9&amp;quot;,&amp;quot;5&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;],
+  [&amp;quot;.&amp;quot;,&amp;quot;9&amp;quot;,&amp;quot;8&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;6&amp;quot;,&amp;quot;.&amp;quot;],
+  [&amp;quot;8&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;6&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;3&amp;quot;],
+  [&amp;quot;4&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;8&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;3&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;1&amp;quot;],
+  [&amp;quot;7&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;2&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;6&amp;quot;],
+  [&amp;quot;.&amp;quot;,&amp;quot;6&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;2&amp;quot;,&amp;quot;8&amp;quot;,&amp;quot;.&amp;quot;],
+  [&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;4&amp;quot;,&amp;quot;1&amp;quot;,&amp;quot;9&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;5&amp;quot;],
+  [&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;8&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;.&amp;quot;,&amp;quot;7&amp;quot;,&amp;quot;9&amp;quot;]
+]
+输出: 把点换成数字
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/sudoku-solver/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>036.有效的数独 Valid Sudoku</title>
@@ -1173,92 +1233,6 @@ func formatList2Node(list []int)*ListNode  {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/merge-k-sorted-lists/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>022-括号生成</title>
-            <link>http://blog.flywithme.top/2019/03-13/generate-parenthesses/</link>
-            <pubDate>Wed, 13 Mar 2019 22:08:04 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-13/generate-parenthesses/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;给出 n = 3，生成结果为：
-[
-  &amp;quot;((()))&amp;quot;,
-  &amp;quot;(()())&amp;quot;,
-  &amp;quot;(())()&amp;quot;,
-  &amp;quot;()(())&amp;quot;,
-  &amp;quot;()()()&amp;quot;
-]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;//
-func generateParenthesis1(n int) []string {
-    var result  []string
-    addparents(&amp;amp;result,n,n,&amp;quot;&amp;quot;)
-    return result
-}
-
-func addparents(result *[]string,left,right int,str string)  {
-    if left == 0 &amp;amp;&amp;amp; right == 0 {
-        *result = append(*result,str)
-    }
-    if left  &amp;gt; 0{
-         addparents(result,left-1,right,str+ &amp;quot;(&amp;quot;)
-    }
-    if right &amp;gt; 0 &amp;amp;&amp;amp; left &amp;lt; right {
-        addparents(result,left,right-1,str+ &amp;quot;)&amp;quot;)
-    }
-}
-
-
-
-
-//暴力遍历
-func generateParenthesis(n int) []string {
-    var result []string
-    para := &amp;quot;()&amp;quot;
-    for i := 0 ;i &amp;lt; n ;i ++ {
-        result = generationPar(result,para)
-    }
-    maps := map[string]bool{}
-    list := make([]string,0)
-    for _,item := range result {
-        if !maps[item] {
-            list = append(list, item)
-            maps[item] = true
-        }
-    }
-    return list
-}
-
-func generationPar(seeds []string ,para string)[]string  {
-    if len(seeds) == 0 {
-        return []string{para}
-    }
-    var result []string
-    for _,item := range seeds {
-        for i := 0 ;i &amp;lt; len(item) ; i ++ {
-            left := item[0:i]
-            right := item[i:]
-            result = append(result, left+para+right)
-        }
-    }
-    return result
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/generate-parentheses/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         

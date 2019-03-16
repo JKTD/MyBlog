@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 17 Mar 2019 01:00:47 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 17 Mar 2019 01:46:37 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>037. 解数独 Sudoku Solver</title>
+      <link>http://blog.flywithme.top/2019/03-17/037.-Sudoku-Solver/</link>
+      <pubDate>Sun, 17 Mar 2019 01:46:37 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-17/037.-Sudoku-Solver/</guid>
+      <description>Description 编写一个程序，通过已填充的空格来解决数独问题。 一个数独的解法需遵循如下规则： 数字 1-9 在每一行只能出现一次。 数字 1-9 在每一列只能出现一次。 数字 1-9</description>
+    </item>
     
     <item>
       <title>036.有效的数独 Valid Sudoku</title>
