@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>036. Valid Sudoku &middot; Fly With Me</title>
+  <title>036.有效的数独 Valid Sudoku &middot; Fly With Me</title>
 
   
   <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
@@ -51,9 +51,96 @@
 
     <main class="content container">
     <div class="post">
-  <h1>036. Valid Sudoku</h1>
+  <h1>036.有效的数独 Valid Sudoku</h1>
   <time datetime=2019-03-17T01:00:47&#43;0800 class="post-date">Sun, Mar 17, 2019</time>
   
+
+<h5 id="description">Description</h5>
+
+<p>判断一个 9x9 的数独是否有效。只需要根据以下规则，验证已经填入的数字是否有效即可。</p>
+
+<ol>
+<li>数字 1-9 在每一行只能出现一次。<br /></li>
+<li>数字 1-9 在每一列只能出现一次。<br /></li>
+<li>数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。<br /></li>
+</ol>
+
+<p><img src="http://blog.flywithme.top/sources/leetcode/sudo.png" alt="sudo" /></p>
+
+<p>上图是一个部分填充的有效的数独。<br />
+数独部分空格内已填入了数字，空白格用 <code>'.'</code> 表示。</p>
+
+<p><strong>说明:</strong></p>
+
+<ul>
+<li>一个有效的数独（部分已被填充）不一定是可解的。<br /></li>
+<li>只需要根据以上规则，验证已经填入的数字是否有效即可。<br /></li>
+<li>给定数独序列只包含数字 1-9 和字符 &lsquo;.&rsquo; 。<br /></li>
+<li>给定数独永远是 9x9 形式的。<br /></li>
+</ul>
+
+<h5 id="example">Example</h5>
+
+<pre><code>输入:
+[
+  [&quot;5&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;9&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;],
+  [&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;3&quot;],
+  [&quot;4&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;],
+  [&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;],
+  [&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;8&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;.&quot;,&quot;.&quot;,&quot;5&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;9&quot;]
+]
+输出: true
+
+输入:
+[
+  [&quot;8&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;9&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;],
+  [&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;3&quot;],
+  [&quot;4&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;],
+  [&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;],
+  [&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;8&quot;,&quot;.&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;.&quot;,&quot;.&quot;,&quot;5&quot;],
+  [&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;9&quot;]
+]
+输出: false
+解释: 除了第一行的第一个数字从 5 改为 8 以外，空格内其他数字均与 示例1 相同。
+     但由于位于左上角的 3x3 宫内有两个 8 存在, 因此这个数独是无效的。
+</code></pre>
+
+<h5 id="solution">Solution</h5>
+
+<pre><code>func isValidSudoku(board [][]byte) bool {
+    rows,cols,boxes :=   make([]map[byte]bool,9),make([]map[byte]bool,9),make([]map[byte]bool,9)
+    for i := 0 ;i &lt; 9;i ++ {
+        rows[i] = make(map[byte]bool)
+        cols[i] = make(map[byte]bool)
+        boxes[i] = make(map[byte]bool)
+    }
+    for row := range  board {
+        for col ,num := range board[row] {
+            if num == '.' {
+                continue
+            }
+            boxIndex := (row/3)*3 +col/3
+            if rows[row][num] || cols[col][num] || boxes[boxIndex][num] {
+                return false
+            }
+            rows[row][num] = true
+            cols[col][num] = true
+            boxes[boxIndex][num] = true
+        }
+    }
+    return true
+}
+</code></pre>
+
+<p><a href="https://leetcode.com/problems/valid-sudoku/">leetCode地址</a></p>
+
 </div>
 
 
