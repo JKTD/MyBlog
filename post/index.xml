@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sat, 16 Mar 2019 02:50:51 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 16 Mar 2019 18:46:53 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>032_最长有效括号</title>
+      <link>http://blog.flywithme.top/2019/03-16/032_Longest-Valid-Parentheses/</link>
+      <pubDate>Sat, 16 Mar 2019 18:46:53 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-16/032_Longest-Valid-Parentheses/</guid>
+      <description>Description 给定一个只包含 &amp;lsquo;(&amp;rsquo; 和 &amp;lsquo;)&amp;rsquo; 的字符串，找出最长的包含有效括号的子串的长度。 Example 输入: &amp;quot;(()&amp;quot; 输出: 2 解释: 最长有效括号子串为 &amp;quot;()&amp;quot; 输入: &amp;quot;)()())&amp;quot; 输出: 4 解释: 最长有</description>
+    </item>
     
     <item>
       <title>031_下一个排列</title>

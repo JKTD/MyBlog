@@ -6,7 +6,122 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sat, 16 Mar 2019 02:50:51 CST</updated>
+        <updated>Sat, 16 Mar 2019 18:46:53 CST</updated>
+        
+        <item>
+            <title>032_最长有效括号</title>
+            <link>http://blog.flywithme.top/2019/03-16/032_Longest-Valid-Parentheses/</link>
+            <pubDate>Sat, 16 Mar 2019 18:46:53 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-16/032_Longest-Valid-Parentheses/</guid>
+            <description>
+
+&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+
+&lt;p&gt;给定一个只包含 &amp;lsquo;(&amp;rsquo; 和 &amp;lsquo;)&amp;rsquo; 的字符串，找出最长的包含有效括号的子串的长度。&lt;/p&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: &amp;quot;(()&amp;quot;
+输出: 2
+解释: 最长有效括号子串为 &amp;quot;()&amp;quot;
+
+输入: &amp;quot;)()())&amp;quot;
+输出: 4
+解释: 最长有效括号子串为 &amp;quot;()()&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func maxInt(a,b int)int  {
+    if a &amp;gt; b  {
+        return a
+    }
+    return b
+}
+
+//动态规划
+func longestValidParentheses(s string) int {
+    max := 0
+    dp := make([]int,len(s))
+    for i := 1;i &amp;lt;len(s); i ++ {
+        if s[i] == &#39;)&#39;{
+            if s[i-1] ==&#39;(&#39; {
+                if i &amp;gt;=2 {
+                    dp[i] = dp[i-2]+2
+                }else {
+                    dp[i] = 2
+                }
+            }else if i - dp[i -1] &amp;gt; 0 &amp;amp;&amp;amp; s[i - dp[i-1] -1]== &#39;(&#39; {
+                if  i - dp[i-1] &amp;gt;= 2 {
+                    dp[i] = dp[i - 1] + dp[i - dp[i - 1] - 2]  +2
+                }else {
+                    dp[i] = dp[i-1] + 2
+                }
+            }
+            max = maxInt(max,dp[i])
+        }
+    }
+    return max
+}
+
+//Using stack 栈，
+func longestValidParentheses2(s string) int {
+    var stack []int
+    max := 0
+    stack = append(stack,-1)
+    for i := 0; i &amp;lt; len(s);i ++ {
+        if s[i]==&#39;(&#39; {
+            stack = append(stack,i)
+        }else {
+            stack = stack[:len(stack)-1]
+            if len(stack) == 0 {
+                stack = append(stack,i)
+            }else {
+                max = maxInt(max,i - stack[len(stack)-1])
+            }
+        }
+    }
+    return max
+}
+func longestValidParentheses1(s string) int {
+    if len(s)&amp;lt;=1 {
+        return 0
+    }
+    help := make([]bool,len(s))
+    var stack  []int
+    for i := 0;i &amp;lt; len(s);i ++{
+        help[i] = false
+    }
+    for i := 0; i &amp;lt; len(s); i ++ {
+        if s[i] == &#39;(&#39;{
+            stack = append(stack,i)
+        }else {
+            if len(stack) &amp;gt; 0{
+                help[i] = true
+                help[stack[len(stack)-1]] = true
+                stack = stack[:len(stack)-1]
+            }
+        }
+    }
+    max,l := 0,0
+    for i := 0; i &amp;lt; len(s);i ++ {
+        if help[i] {
+            l++
+        }else {
+            if max &amp;lt; l {
+                max = l
+            }
+            l = 0
+        }
+    }
+    return maxInt(max,l)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/next-permutation/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>031_下一个排列</title>
@@ -1114,85 +1229,6 @@ func TestRemoveNNode(t *testing.T)  {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/4sum/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>017-电话号码的字母组合</title>
-            <link>http://blog.flywithme.top/2019/03-13/lettercombphone/</link>
-            <pubDate>Wed, 13 Mar 2019 16:01:16 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-13/lettercombphone/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
-给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
- &lt;img src=&#34;http://blog.flywithme.top/sources/leetcode/WechatIMG97.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;输入：&amp;quot;23&amp;quot;
-输出：[&amp;quot;ad&amp;quot;, &amp;quot;ae&amp;quot;, &amp;quot;af&amp;quot;, &amp;quot;bd&amp;quot;, &amp;quot;be&amp;quot;, &amp;quot;bf&amp;quot;, &amp;quot;cd&amp;quot;, &amp;quot;ce&amp;quot;, &amp;quot;cf&amp;quot;].
-说明:
- 尽管上面的答案是按字典序排列的，但是你可以任意选择答案输出的顺序。
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;var (
-    padMaps = map[int][]int{
-        &#39;2&#39;:{&#39;a&#39;,&#39;b&#39;,&#39;c&#39;},
-        &#39;3&#39;:{&#39;d&#39;,&#39;e&#39;,&#39;f&#39;},
-        &#39;4&#39;:{&#39;g&#39;,&#39;h&#39;,&#39;i&#39;},
-        &#39;5&#39;:{&#39;j&#39;,&#39;k&#39;,&#39;l&#39;},
-        &#39;6&#39;:{&#39;m&#39;,&#39;n&#39;,&#39;o&#39;},
-        &#39;7&#39;:{&#39;p&#39;,&#39;q&#39;,&#39;r&#39;,&#39;s&#39;},
-        &#39;8&#39;:{&#39;t&#39;,&#39;u&#39;,&#39;v&#39;},
-        &#39;9&#39;:{&#39;w&#39;,&#39;x&#39;,&#39;y&#39;,&#39;z&#39;},
-    }
-)
-
-
-func letterCombinations(digits string) []string {
-    if len(digits) == 0 {
-        return nil
-    }
-    var list [][]int
-    for i := range digits{
-        if value,ok := padMaps[int(digits[i])];ok  {
-            list = append(list, value)
-        }
-    }
-    var results []string
-    for i := 0 ;i &amp;lt; len(list);i ++ {
-        results = combinations(results,list[i])
-    }
-    return results
-}
-//字符串组合
-func combinations(left []string,right []int)[]string  {
-    if len(right) == 0 {
-        return left
-    }
-    var result  []string
-    if len(left) == 0 {
-        for i := range right {
-            result = append(result, string(right[i]))
-        }
-    }else {
-        for i := range left{
-            for j := range right {
-                result = append(result, left[i]+string(right[j]))
-            }
-        }
-    }
-    return result
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/letter-combinations-of-a-phone-number/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
