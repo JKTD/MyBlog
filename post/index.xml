@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sat, 16 Mar 2019 20:26:01 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 17 Mar 2019 00:34:05 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>035. Search Insert Position</title>
+      <link>http://blog.flywithme.top/2019/03-17/035.-Search-Insert-Position/</link>
+      <pubDate>Sun, 17 Mar 2019 00:34:05 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-17/035.-Search-Insert-Position/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>033.搜索旋转排序数组 Search in Rotated Sorted Array</title>

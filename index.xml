@@ -6,7 +6,16 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sat, 16 Mar 2019 20:26:01 CST</updated>
+        <updated>Sun, 17 Mar 2019 00:34:05 CST</updated>
+        
+        <item>
+            <title>035. Search Insert Position</title>
+            <link>http://blog.flywithme.top/2019/03-17/035.-Search-Insert-Position/</link>
+            <pubDate>Sun, 17 Mar 2019 00:34:05 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-17/035.-Search-Insert-Position/</guid>
+            <description></description>
+        </item>
         
         <item>
             <title>033.搜索旋转排序数组 Search in Rotated Sorted Array</title>
@@ -35,66 +44,44 @@
 
 &lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
 
-&lt;pre&gt;&lt;code&gt;//O(log n)复杂度
-func searchRange(nums []int, target int) []int {
-    result := []int{-1,-1}
-    if len(nums) == 0{
-        return result
+&lt;pre&gt;&lt;code&gt;func search(nums []int, target int) int {
+   low,high := 0,len(nums)-1
+    if len(nums) == 0 {
+        return -1
     }
-    left ,right := 0,len(nums)
-    for left &amp;lt; right {
-        mid := (left+right)/2
-        if nums[mid] &amp;gt;= target {
-            right = mid
+    if nums[0] ==  target {
+        return 0
+    }
+    for low &amp;lt; high {
+        mid := (low+high)/2
+        if nums[mid] == target {
+            return mid
+        }
+        if nums[low] == target {
+            return low
+        }
+        if nums[high] == target {
+            return high
+        }
+        if nums[low] &amp;lt; nums[mid] {
+            if nums[low] &amp;lt; target &amp;amp;&amp;amp; nums[mid] &amp;gt; target {
+                high = mid-1
+            }else {
+                low = mid+1
+            }
         }else {
-            left = mid+1
+            if nums[high] &amp;gt; target &amp;amp;&amp;amp; nums[mid] &amp;lt; target {
+                low = mid+1
+            }else {
+                high = mid-1
+            }
         }
     }
-    if left &amp;gt;= len(nums) {
-        return result
-    }
-    if nums[left] != target {
-        return result
-    }
-    result[0] = left
-    right = len(nums)
-    for left &amp;lt; right {
-        mid := (left + right)/2
-        if nums[mid] &amp;gt; target {
-            right = mid
-        }else {
-            left = mid+1
-        }
-    }
-    result[1] = right-1
-    return result
-}
-
-
-//O(n)复杂度
-func searchRange1(nums []int, target int) []int {
-    result := []int{-1,-1}
-    for i :=0;i &amp;lt; len(nums) ;i ++ {
-        if nums[i] == target {
-            result[0] = i
-            break
-        }
-    }
-    if result[0] == -1 {
-        return result
-    }
-
-    for i := len(nums)-1;i &amp;gt;=0 ;i -- {
-        if nums[i] == target {
-            result[1] = i
-            break
-        }
-    }
-    return result
+    return -1
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/submissions/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/search-in-rotated-sorted-array/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
@@ -1178,86 +1165,6 @@ func isValid(s string) bool {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/valid-parentheses/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>019-删除链表的倒数第N个节点</title>
-            <link>http://blog.flywithme.top/2019/03-13/removenthend/</link>
-            <pubDate>Wed, 13 Mar 2019 18:23:53 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-13/removenthend/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。&lt;/p&gt;
-
-&lt;p&gt;说明：
-给定的 n 保证是有效的。
-进阶：
-你能尝试使用一趟扫描实现吗？&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;给定一个链表: 1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5, 和 n = 2.
-
-当删除了倒数第二个节点后，链表变为 1-&amp;gt;2-&amp;gt;3-&amp;gt;5.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;type ListNode struct {
-    Val int
-    Next *ListNode
-}
-
-func formatList2Node(list []int)*ListNode  {
-    head := new(ListNode)
-    current := head
-    for i := range list{
-        current.Next = new(ListNode)
-        current.Next.Val = list[i]
-        current = current.Next
-    }
-    return head.Next
-}
-
-
-func removeNthFromEnd(head *ListNode, n int) *ListNode {
-    dummy := new(ListNode)
-    dummy.Next = head
-    left := dummy
-    right := dummy
-    for i := 0 ;i &amp;lt; n; i ++ {
-        if right.Next == nil {
-            return nil
-        }
-        right = right.Next
-    }
-    for right.Next != nil {
-        right = right.Next
-        left = left.Next
-    }
-    left.Next = left.Next.Next
-    return dummy.Next
-}
-
-
-//testing
-func TestRemoveNNode(t *testing.T)  {
-    list := []int{1,2,3,4,5}
-    node := formatList2Node(list)
-    newNode  := removeNthFromEnd(node,2)
-    for newNode != nil {
-        fmt.Println(newNode.Val)
-        newNode = newNode.Next
-    }
-
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/remove-nth-node-from-end-of-list/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
