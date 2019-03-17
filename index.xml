@@ -51,7 +51,6 @@
 
 &lt;pre&gt;&lt;code&gt;func combinationSum2(candidates []int, target int) [][]int {
     var rest  [][]int
-    //sort.Ints(candidates)
     maps := map[string]bool{}
     for i := 0;i &amp;lt; len(candidates);i ++ {
         if target - candidates[i] &amp;gt; 0 {

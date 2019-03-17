@@ -90,7 +90,6 @@
 
 <pre><code>func combinationSum2(candidates []int, target int) [][]int {
     var rest  [][]int
-    //sort.Ints(candidates)
     maps := map[string]bool{}
     for i := 0;i &lt; len(candidates);i ++ {
         if target - candidates[i] &gt; 0 {
