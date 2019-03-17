@@ -7,13 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 17 Mar 2019 16:27:17 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 17 Mar 2019 19:07:10 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>038. Count and Say</title>
+      <title>039.组合总和 Combination Sum</title>
+      <link>http://blog.flywithme.top/2019/03-17/039.-Combination-Sum/</link>
+      <pubDate>Sun, 17 Mar 2019 19:07:10 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-17/039.-Combination-Sum/</guid>
+      <description>Description easy 定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。 candidates 中的数字可以无限制重复被选取。 说明: 所有数字（包括 targ</description>
+    </item>
+    
+    <item>
+      <title>038.报数 Count and Say</title>
       <link>http://blog.flywithme.top/2019/03-17/038.-Count-and-Say/</link>
       <pubDate>Sun, 17 Mar 2019 16:27:17 +0800</pubDate>
       

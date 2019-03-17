@@ -6,10 +6,54 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sun, 17 Mar 2019 16:27:17 CST</updated>
+        <updated>Sun, 17 Mar 2019 19:07:10 CST</updated>
         
         <item>
-            <title>038. Count and Say</title>
+            <title>039.组合总和 Combination Sum</title>
+            <link>http://blog.flywithme.top/2019/03-17/039.-Combination-Sum/</link>
+            <pubDate>Sun, 17 Mar 2019 19:07:10 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-17/039.-Combination-Sum/</guid>
+            <description>
+
+&lt;h5 id=&#34;description-font-color-red-size-3-easy-font&#34;&gt;Description &lt;font color=red size=3&gt;easy&lt;/font&gt;&lt;/h5&gt;
+
+&lt;p&gt;定一个无重复元素的数组 &lt;code&gt;candidates&lt;/code&gt; 和一个目标数 &lt;code&gt;target&lt;/code&gt; ，找出 &lt;code&gt;candidates&lt;/code&gt; 中所有可以使数字和为 &lt;code&gt;target&lt;/code&gt; 的组合。
+&lt;code&gt;candidates&lt;/code&gt; 中的数字可以无限制重复被选取。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;说明:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;所有数字（包括 &lt;code&gt;target&lt;/code&gt;）都是正整数。&lt;/li&gt;
+&lt;li&gt;解集不能包含重复的组合。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: candidates = [2,3,6,7], target = 7,
+所求解集为:
+[
+  [7],
+  [2,2,3]
+]
+
+输入: candidates = [2,3,5], target = 8,
+所求解集为:
+[
+  [2,2,2,2],
+  [2,3,3],
+  [3,5]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/combination-sum/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>038.报数 Count and Say</title>
             <link>http://blog.flywithme.top/2019/03-17/038.-Count-and-Say/</link>
             <pubDate>Sun, 17 Mar 2019 16:27:17 CST</pubDate>
             <author>Brasbug</author>
@@ -1238,48 +1282,6 @@ func reverseNode(head *ListNode,k int)(pre*ListNode,end *ListNode,next *ListNode
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/reverse-nodes-in-k-group/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>024-两两交换链表中的节点 Swap Nodes in Pairs</title>
-            <link>http://blog.flywithme.top/2019/03-14/swap-nodes-in-pairs/</link>
-            <pubDate>Thu, 14 Mar 2019 14:33:24 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-14/swap-nodes-in-pairs/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。&lt;/p&gt;
-
-&lt;p&gt;你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;给定 1-&amp;gt;2-&amp;gt;3-&amp;gt;4, 
-返回 2-&amp;gt;1-&amp;gt;4-&amp;gt;3.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;type ListNode struct {
-    Val int
-    Next *ListNode
-}
-
-func swapPairs(head *ListNode) *ListNode {
-    if head == nil || head.Next == nil {
-        return head
-    }
-    next := head.Next
-    head.Next = swapPairs(next.Next)
-    next.Next = head
-    return next
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/swap-nodes-in-pairs/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         

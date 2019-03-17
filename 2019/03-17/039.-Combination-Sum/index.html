@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>038.报数 Count and Say &middot; Fly With Me</title>
+  <title>039.组合总和 Combination Sum &middot; Fly With Me</title>
 
   
   <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
@@ -51,76 +51,43 @@
 
     <main class="content container">
     <div class="post">
-  <h1>038.报数 Count and Say</h1>
-  <time datetime=2019-03-17T16:27:17&#43;0800 class="post-date">Sun, Mar 17, 2019</time>
+  <h1>039.组合总和 Combination Sum</h1>
+  <time datetime=2019-03-17T19:07:10&#43;0800 class="post-date">Sun, Mar 17, 2019</time>
   
 
 <h5 id="description-font-color-red-size-3-easy-font">Description <font color=red size=3>easy</font></h5>
 
-<p>报数序列是一个整数序列，按照其中的整数的顺序进行报数，得到下一个数。其前五项如下：</p>
+<p>定一个无重复元素的数组 <code>candidates</code> 和一个目标数 <code>target</code> ，找出 <code>candidates</code> 中所有可以使数字和为 <code>target</code> 的组合。
+<code>candidates</code> 中的数字可以无限制重复被选取。</p>
 
-<pre><code>1.     1
-2.     11
-3.     21
-4.     1211
-5.     111221 
+<p><strong>说明:</strong></p>
 
-1 被读作  &quot;one 1&quot;  (&quot;一个一&quot;) , 即 11。
-11 被读作 &quot;two 1s&quot; (&quot;两个一&quot;）, 即 21。
-21 被读作 &quot;one 2&quot;,  &quot;one 1&quot; （&quot;一个二&quot; ,  &quot;一个一&quot;) , 即 1211。
-</code></pre>
-
-<p>给定一个正整数 n（1 ≤ n ≤ 30），输出报数序列的第 n 项。</p>
-
-<p><strong>说明:</strong>
- 整数顺序将表示为一个字符串。</p>
+<ul>
+<li>所有数字（包括 <code>target</code>）都是正整数。</li>
+<li>解集不能包含重复的组合。</li>
+</ul>
 
 <h5 id="example">Example</h5>
 
-<pre><code>输入: 1
-输出: &quot;1&quot;
+<pre><code>输入: candidates = [2,3,6,7], target = 7,
+所求解集为:
+[
+  [7],
+  [2,2,3]
+]
 
-输入: 4
-输出: &quot;1211&quot;
+输入: candidates = [2,3,5], target = 8,
+所求解集为:
+[
+  [2,2,2,2],
+  [2,3,3],
+  [3,5]
+]
 </code></pre>
 
 <h5 id="solution">Solution</h5>
 
-<pre><code>func countAndSay(n int) string {
-    if n == 0 {
-        return &quot;&quot;
-    }
-    if n == 1 {
-        return strconv.Itoa(1)
-    }
-    result := &quot;1&quot;
-    for i := 0 ;i &lt; n-1 ;i ++ {
-        result = say(result)
-    }
-    return result
-}
-
-func say(str string)string  {
-    if str == &quot;&quot;{
-        return &quot;&quot;
-    }
-    var list []byte
-    count := 0
-    for i := range str{
-        if len(list) != 0 &amp;&amp; str[i] == list[len(list)-1]{
-            count++
-            list[len(list)-2] = byte(count + 48)
-        }else {
-            count = 1
-            list = append(list,  byte(count+ 48))
-            list = append(list,str[i])
-        }
-    }
-    return string(list)
-}
-</code></pre>
-
-<p><a href="https://leetcode.com/problems/count-and-say/">leetCode地址</a></p>
+<p><a href="https://leetcode.com/problems/combination-sum/">leetCode地址</a></p>
 
 </div>
 
