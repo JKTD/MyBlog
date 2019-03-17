@@ -7,18 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>Copyright (c) 2016. All rights reserved.</copyright>
-    <lastBuildDate>Sun, 17 Mar 2019 20:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 17 Mar 2019 22:06:49 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.flywithme.top/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>040. Combination Sum II</title>
+      <title>041.缺失的第一个正数 First Missing Positive</title>
+      <link>http://blog.flywithme.top/2019/03-17/041.-First-Missing-Positive/</link>
+      <pubDate>Sun, 17 Mar 2019 22:06:49 +0800</pubDate>
+      
+      <guid>http://blog.flywithme.top/2019/03-17/041.-First-Missing-Positive/</guid>
+      <description>Description Hard 给定一个未排序的整数数组，找出其中没有出现的最小的正整数。 说明: 你的算法的时间复杂度应为O(n)，并且只能使用常数级别的空间。 Example 输入: [1,2,0]</description>
+    </item>
+    
+    <item>
+      <title>040. Combination Sum II 组合总和 II</title>
       <link>http://blog.flywithme.top/2019/03-17/040.-Combination-Sum-II/</link>
       <pubDate>Sun, 17 Mar 2019 20:30:00 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/03-17/040.-Combination-Sum-II/</guid>
-      <description>Description easy 定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。 candidates 中的每个数字在每个组合中只能使用一次 说明: 所有数字（包括 t</description>
+      <description>Description Medium 定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。 candidates 中的每个数字在每个组合中只能使用一次 说明: 所有数字（包括 t</description>
     </item>
     
     <item>
@@ -27,7 +36,7 @@
       <pubDate>Sun, 17 Mar 2019 19:07:10 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/03-17/039.-Combination-Sum/</guid>
-      <description>Description easy 定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。 candidates 中的数字可以无限制重复被选取。 说明: 所有数字（包括 targ</description>
+      <description>Description Medium 定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。 candidates 中的数字可以无限制重复被选取。 说明: 所有数字（包括 targ</description>
     </item>
     
     <item>

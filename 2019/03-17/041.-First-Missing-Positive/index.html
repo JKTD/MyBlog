@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>039.组合总和 Combination Sum &middot; Fly With Me</title>
+  <title>041.缺失的第一个正数 First Missing Positive &middot; Fly With Me</title>
 
   
   <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
@@ -51,61 +51,57 @@
 
     <main class="content container">
     <div class="post">
-  <h1>039.组合总和 Combination Sum</h1>
-  <time datetime=2019-03-17T19:07:10&#43;0800 class="post-date">Sun, Mar 17, 2019</time>
+  <h1>041.缺失的第一个正数 First Missing Positive</h1>
+  <time datetime=2019-03-17T22:06:49&#43;0800 class="post-date">Sun, Mar 17, 2019</time>
   
 
-<h5 id="description-font-color-red-size-3-medium-font">Description <font color=red size=3>Medium</font></h5>
+<h5 id="description-font-color-red-size-3-hard-font">Description <font color=red size=3>Hard</font></h5>
 
-<p>定一个无重复元素的数组 <code>candidates</code> 和一个目标数 <code>target</code> ，找出 <code>candidates</code> 中所有可以使数字和为 <code>target</code> 的组合。
-<code>candidates</code> 中的数字可以无限制重复被选取。</p>
+<p>给定一个未排序的整数数组，找出其中没有出现的最小的正整数。</p>
 
 <p><strong>说明:</strong></p>
 
 <ul>
-<li>所有数字（包括 <code>target</code>）都是正整数。</li>
-<li>解集不能包含重复的组合。</li>
+<li>你的算法的时间复杂度应为O(n)，并且只能使用常数级别的空间。</li>
 </ul>
 
 <h5 id="example">Example</h5>
 
-<pre><code>输入: candidates = [2,3,6,7], target = 7,
-所求解集为:
-[
-  [7],
-  [2,2,3]
-]
+<pre><code>输入: [1,2,0]
+输出: 3
 
-输入: candidates = [2,3,5], target = 8,
-所求解集为:
-[
-  [2,2,2,2],
-  [2,3,3],
-  [3,5]
-]
+输入: [3,4,-1,1]
+输出: 2
+
+输入: [7,8,9,11,12]
+输出: 1
 </code></pre>
 
 <h5 id="solution">Solution</h5>
 
-<pre><code>func combinationSum(candidates []int, target int) [][]int {
-    var rest  [][]int
-    for i := 0;i &lt; len(candidates);i ++ {
-        if target - candidates[i] &gt; 0{
-            for _,rst_ := range combinationSum(candidates[i:],target-candidates[i]) {
-                tmp := make([]int,len(rst_)+1)
-                copy(tmp,rst_)
-                tmp[len(rst_)] = candidates[i]
-                rest = append(rest,tmp)
-            }
-        }else if target - candidates[i] == 0{
-            rest = append(rest,[]int{candidates[i]})
+<pre><code>func firstMissingPositive(nums []int) int {
+    if len(nums) == 0 {
+        return 1
+    }
+    lenth := len(nums)
+    for i := 0;i &lt; lenth; {
+        v := nums[i]
+        if v &gt; 0 &amp;&amp; v &lt; lenth &amp;&amp; v != nums[v-1] {
+            nums[i],nums[v-1]=  nums[v-1],nums[i]
+        }else {
+            i ++
         }
     }
-    return rest
+    for i := 0 ; i &lt; len(nums);i ++ {
+        if nums[i] != i +1 {
+            return i+1
+        }
+    }
+    return len(nums)+1
 }
 </code></pre>
 
-<p><a href="https://leetcode.com/problems/combination-sum/">leetCode地址</a></p>
+<p><a href="https://leetcode.com/problems/first-missing-positive/">leetCode地址</a></p>
 
 </div>
 
