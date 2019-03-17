@@ -6,7 +6,126 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Sun, 17 Mar 2019 19:07:10 CST</updated>
+        <updated>Sun, 17 Mar 2019 20:30:00 CST</updated>
+        
+        <item>
+            <title>040. Combination Sum II</title>
+            <link>http://blog.flywithme.top/2019/03-17/040.-Combination-Sum-II/</link>
+            <pubDate>Sun, 17 Mar 2019 20:30:00 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-17/040.-Combination-Sum-II/</guid>
+            <description>
+
+&lt;h5 id=&#34;description-font-color-red-size-3-easy-font&#34;&gt;Description &lt;font color=red size=3&gt;easy&lt;/font&gt;&lt;/h5&gt;
+
+&lt;p&gt;定一个无重复元素的数组 &lt;code&gt;candidates&lt;/code&gt; 和一个目标数 &lt;code&gt;target&lt;/code&gt; ，找出 &lt;code&gt;candidates&lt;/code&gt; 中所有可以使数字和为 &lt;code&gt;target&lt;/code&gt; 的组合。
+&lt;code&gt;candidates&lt;/code&gt; 中的每个数字在每个组合中只能使用一次&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;说明:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;所有数字（包括 &lt;code&gt;target&lt;/code&gt;）都是正整数。&lt;/li&gt;
+&lt;li&gt;解集不能包含重复的组合。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: candidates = [10,1,2,7,6,1,5], target = 8,
+所求解集为:
+[
+  [1, 7],
+  [1, 2, 5],
+  [2, 6],
+  [1, 1, 6]
+]
+
+输入: candidates = [2,5,2,1,2], target = 5,
+所求解集为:
+[
+  [1,2,2],
+  [5]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func combinationSum2(candidates []int, target int) [][]int {
+    var rest  [][]int
+    //sort.Ints(candidates)
+    maps := map[string]bool{}
+    for i := 0;i &amp;lt; len(candidates);i ++ {
+        if target - candidates[i] &amp;gt; 0 {
+            for _,rst_ := range combinationSum2(candidates[i+1:],target-candidates[i]) {
+                temp := make([]int,len(rst_)+1)
+                copy(temp,rst_)
+                temp[len(rst_)] = candidates[i]
+                key := string(toByte(temp))
+                if _,ok := maps[key];!ok {
+                    rest = append(rest,temp)
+                    maps[key] = true
+                }
+            }
+        }else if target - candidates[i] == 0{
+            temp := []int{candidates[i]}
+            key := string(toByte(temp))
+            if _,ok := maps[key];!ok {
+                rest = append(rest,temp)
+                maps[key] = true
+            }
+        }
+    }
+    return rest
+}
+
+func toByte(numbs []int)[]byte  {
+    sort.Ints(numbs)
+    bytes := make([]byte,len(numbs))
+    for i,v := range numbs{
+        bytes[i]=byte(v)
+    }
+    return bytes
+}
+
+
+
+
+
+
+//solution 2
+func combinationSum(candidates []int, target int) [][]int {
+    sort.Ints(candidates)
+    path := make([]int,len(candidates))
+    return find(candidates,path,target,0,0)
+}
+
+func find(candidates,path []int,target,index,pathIndx int)[][]int  {
+    var result [][]int
+    for i := index;i &amp;lt; len(candidates);i ++ {
+        v := candidates[i]
+        if i &amp;gt; index &amp;amp;&amp;amp; v == candidates[i-1] {
+            continue
+        }
+        if v == target {
+            found := make([]int,0,pathIndx+1)
+            found = append(found,path[0:pathIndx]...)
+            found = append(found,v)
+            result = append(result,found)
+        }else if v &amp;lt; target {
+            path[pathIndx] = v
+            found := find(candidates,path,target-v,i+1,pathIndx+1)
+            result = append(result,found...)
+        }else {
+            break
+        }
+    }
+    return result
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/combination-sum-ii/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>039.组合总和 Combination Sum</title>
@@ -1222,84 +1341,6 @@ for (int i = 0; i &amp;lt; len; i++) {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/remove-duplicates-from-sorted-array/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>025-k个一组翻转链表</title>
-            <link>http://blog.flywithme.top/2019/03-15/reverse-node/</link>
-            <pubDate>Fri, 15 Mar 2019 14:00:23 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-15/reverse-node/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;给出一个链表，每 k 个节点一组进行翻转，并返回翻转后的链表。
-k 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 k 的整数倍，那么将最后剩余节点保持原有顺序。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;说明 :&lt;/strong&gt;
-你的算法只能使用常数的额外空间。
-你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;给定这个链表：1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5
-
-当 k = 2 时，应当返回: 2-&amp;gt;1-&amp;gt;4-&amp;gt;3-&amp;gt;5
-
-当 k = 3 时，应当返回: 3-&amp;gt;2-&amp;gt;1-&amp;gt;4-&amp;gt;5
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;type ListNode struct {
-    Val int
-    Next *ListNode
-}
-
-func reverseKGroup(head *ListNode, k int) *ListNode {
-    if k &amp;lt;= 0 {
-        return head
-    }
-    pre,end,next := reverseNode(head,k)
-    for next != nil {
-        end.Next,end,next = reverseNode(next,k)
-    }
-    return pre
-}
-
-func lenNode(head *ListNode)int  {
-    count := 0
-    node := head
-    for node!= nil{
-        count++
-        node = node.Next
-    }
-    return count
-}
-
-
-func reverseNode(head *ListNode,k int)(pre*ListNode,end *ListNode,next *ListNode)  {
-    if lenNode(head) &amp;lt; k {
-        return head,nil,nil
-    }
-    i := 0
-    //翻转，头变尾巴
-    end = head
-    for head != nil &amp;amp;&amp;amp; i &amp;lt; k {
-        next = head.Next
-        head.Next = pre
-        pre = head
-        head = next
-        i ++
-    }
-    end.Next = next
-    return
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/reverse-nodes-in-k-group/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         

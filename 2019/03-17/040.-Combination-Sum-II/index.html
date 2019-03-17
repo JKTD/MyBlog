@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.54.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>040. Combination Sum II &middot; Fly With Me</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://blog.flywithme.top/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.flywithme.top/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="http://blog.flywithme.top/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Fly With Me" />
+
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://blog.flywithme.top/"><h1>Fly With Me</h1></a>
+      <p class="lead">
+       漫步走在沙滩上 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="http://blog.flywithme.top/">Home</a> </li>
+        <li><a href="http://blog.flywithme.top/post/"> 归档 </a></li><li><a href="http://blog.flywithme.top/about/"> 关于我 </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2019. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>040. Combination Sum II</h1>
+  <time datetime=2019-03-17T20:30:00&#43;0800 class="post-date">Sun, Mar 17, 2019</time>
+  
+
+<h5 id="description-font-color-red-size-3-easy-font">Description <font color=red size=3>easy</font></h5>
+
+<p>定一个无重复元素的数组 <code>candidates</code> 和一个目标数 <code>target</code> ，找出 <code>candidates</code> 中所有可以使数字和为 <code>target</code> 的组合。
+<code>candidates</code> 中的每个数字在每个组合中只能使用一次</p>
+
+<p><strong>说明:</strong></p>
+
+<ul>
+<li>所有数字（包括 <code>target</code>）都是正整数。</li>
+<li>解集不能包含重复的组合。</li>
+</ul>
+
+<h5 id="example">Example</h5>
+
+<pre><code>输入: candidates = [10,1,2,7,6,1,5], target = 8,
+所求解集为:
+[
+  [1, 7],
+  [1, 2, 5],
+  [2, 6],
+  [1, 1, 6]
+]
+
+输入: candidates = [2,5,2,1,2], target = 5,
+所求解集为:
+[
+  [1,2,2],
+  [5]
+]
+</code></pre>
+
+<h5 id="solution">Solution</h5>
+
+<pre><code>func combinationSum2(candidates []int, target int) [][]int {
+    var rest  [][]int
+    //sort.Ints(candidates)
+    maps := map[string]bool{}
+    for i := 0;i &lt; len(candidates);i ++ {
+        if target - candidates[i] &gt; 0 {
+            for _,rst_ := range combinationSum2(candidates[i+1:],target-candidates[i]) {
+                temp := make([]int,len(rst_)+1)
+                copy(temp,rst_)
+                temp[len(rst_)] = candidates[i]
+                key := string(toByte(temp))
+                if _,ok := maps[key];!ok {
+                    rest = append(rest,temp)
+                    maps[key] = true
+                }
+            }
+        }else if target - candidates[i] == 0{
+            temp := []int{candidates[i]}
+            key := string(toByte(temp))
+            if _,ok := maps[key];!ok {
+                rest = append(rest,temp)
+                maps[key] = true
+            }
+        }
+    }
+    return rest
+}
+
+func toByte(numbs []int)[]byte  {
+    sort.Ints(numbs)
+    bytes := make([]byte,len(numbs))
+    for i,v := range numbs{
+        bytes[i]=byte(v)
+    }
+    return bytes
+}
+
+
+
+
+
+
+//solution 2
+func combinationSum(candidates []int, target int) [][]int {
+    sort.Ints(candidates)
+    path := make([]int,len(candidates))
+    return find(candidates,path,target,0,0)
+}
+
+func find(candidates,path []int,target,index,pathIndx int)[][]int  {
+    var result [][]int
+    for i := index;i &lt; len(candidates);i ++ {
+        v := candidates[i]
+        if i &gt; index &amp;&amp; v == candidates[i-1] {
+            continue
+        }
+        if v == target {
+            found := make([]int,0,pathIndx+1)
+            found = append(found,path[0:pathIndx]...)
+            found = append(found,v)
+            result = append(result,found)
+        }else if v &lt; target {
+            path[pathIndx] = v
+            found := find(candidates,path,target-v,i+1,pathIndx+1)
+            result = append(result,found...)
+        }else {
+            break
+        }
+    }
+    return result
+
+}
+</code></pre>
+
+<p><a href="https://leetcode.com/problems/combination-sum-ii/">leetCode地址</a></p>
+
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>
