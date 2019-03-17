@@ -132,23 +132,24 @@ func helper(board [][]byte)bool  {
     return true
 }
 
-func isValid(board [][]byte,i,j ,c byte)bool  {
-    for row := 0 ;row &lt; 9; row ++ {
-        if board[row][j] == c {
+func isValid(board [][]byte,row,col int ,num byte)bool  {
+    //check row &amp; col
+    for i := 0;i &lt; 9 ; i  ++ {
+        if board[i][col] == num {
+            return false
+        }
+        if board[row][i] == num {
             return false
         }
     }
-    for col := 0; col &lt; 9 ; col ++ {
-        if board[i][col] == c {
-            return false
-        }
-    }
-    for row := (i/3)*3; row &lt; (i/3)*3 +3;row ++ {
-        for col := (j/3)*3; col &lt; (j/3)*3+3;col ++ {
-            if board[row][col] == c {
+    //check block
+    for  i := (row/3)*3;i &lt; (row/3)*3 +3;i ++ {
+        for j := (col/3)*3; j &lt; (col/3)*3 +3;j ++ {
+            if board[i][j] == num {
                 return false
             }
         }
+
     }
     return true
 }
