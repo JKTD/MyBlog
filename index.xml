@@ -65,23 +65,19 @@ func say(str string)string  {
     if str == &amp;quot;&amp;quot;{
         return &amp;quot;&amp;quot;
     }
-    var list []int
+    var list []byte
     count := 0
     for i := range str{
-        if len(list) != 0 &amp;amp;&amp;amp; int(str[i]) - 48 == list[len(list)-1]{
+        if len(list) != 0 &amp;amp;&amp;amp; str[i] == list[len(list)-1]{
             count++
-            list[len(list)-2] = count
+            list[len(list)-2] = byte(count + 48)
         }else {
             count = 1
-            list = append(list, count)
-            list = append(list,int(str[i]) - 48)
+            list = append(list,  byte(count+ 48))
+            list = append(list,str[i])
         }
     }
-    result := &amp;quot;&amp;quot;
-    for _,v := range list{
-        result += strconv.Itoa(v)
-    }
-    return result
+    return string(list)
 }
 &lt;/code&gt;&lt;/pre&gt;
 
