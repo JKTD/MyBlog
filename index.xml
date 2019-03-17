@@ -16,7 +16,7 @@
             <guid>http://blog.flywithme.top/2019/03-17/037.-Sudoku-Solver/</guid>
             <description>
 
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
+&lt;h5 id=&#34;description-font-color-red-size-3-hard-font&#34;&gt;Description &lt;font color=red size=3&gt;hard&lt;/font&gt;&lt;/h5&gt;
 
 &lt;p&gt;编写一个程序，通过已填充的空格来解决数独问题。&lt;/p&gt;
 
@@ -63,6 +63,57 @@
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func solveSudoku(board [][]byte)  {
+    if board == nil  || len(board) != 9 || len(board[0]) != 9  {
+        return
+    }
+    helper(board)
+}
+
+func helper(board [][]byte)bool  {
+    for row := range board {
+        for col := range board[row] {
+            if board[row][col] == &#39;.&#39; {
+                for num := &#39;1&#39;;num &amp;lt;= &#39;9&#39;;num ++ {
+                    if isValid(board,byte(row),byte(col),byte(num)) {
+                        board[row][col] = byte(num)
+                        if helper(board) {
+                            return true
+                        }else {
+                            board[row][col] = &#39;.&#39;
+                        }
+                    }
+                }
+                return false
+            }
+
+        }
+    }
+    return true
+}
+
+func isValid(board [][]byte,i,j ,c byte)bool  {
+    for row := 0 ;row &amp;lt; 9; row ++ {
+        if board[row][j] == c {
+            return false
+        }
+    }
+    for col := 0; col &amp;lt; 9 ; col ++ {
+        if board[i][col] == c {
+            return false
+        }
+    }
+    for row := (i/3)*3; row &amp;lt; (i/3)*3 +3;row ++ {
+        for col := (j/3)*3; col &amp;lt; (j/3)*3+3;col ++ {
+            if board[row][col] == c {
+                return false
+            }
+        }
+    }
+    return true
+}
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/sudoku-solver/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>

@@ -55,7 +55,7 @@
   <time datetime=2019-03-17T01:46:37&#43;0800 class="post-date">Sun, Mar 17, 2019</time>
   
 
-<h5 id="description">Description</h5>
+<h5 id="description-font-color-red-size-3-hard-font">Description <font color=red size=3>hard</font></h5>
 
 <p>编写一个程序，通过已填充的空格来解决数独问题。</p>
 
@@ -102,6 +102,57 @@
 </code></pre>
 
 <h5 id="solution">Solution</h5>
+
+<pre><code>func solveSudoku(board [][]byte)  {
+    if board == nil  || len(board) != 9 || len(board[0]) != 9  {
+        return
+    }
+    helper(board)
+}
+
+func helper(board [][]byte)bool  {
+    for row := range board {
+        for col := range board[row] {
+            if board[row][col] == '.' {
+                for num := '1';num &lt;= '9';num ++ {
+                    if isValid(board,byte(row),byte(col),byte(num)) {
+                        board[row][col] = byte(num)
+                        if helper(board) {
+                            return true
+                        }else {
+                            board[row][col] = '.'
+                        }
+                    }
+                }
+                return false
+            }
+
+        }
+    }
+    return true
+}
+
+func isValid(board [][]byte,i,j ,c byte)bool  {
+    for row := 0 ;row &lt; 9; row ++ {
+        if board[row][j] == c {
+            return false
+        }
+    }
+    for col := 0; col &lt; 9 ; col ++ {
+        if board[i][col] == c {
+            return false
+        }
+    }
+    for row := (i/3)*3; row &lt; (i/3)*3 +3;row ++ {
+        for col := (j/3)*3; col &lt; (j/3)*3+3;col ++ {
+            if board[row][col] == c {
+                return false
+            }
+        }
+    }
+    return true
+}
+</code></pre>
 
 <p><a href="https://leetcode.com/problems/sudoku-solver/">leetCode地址</a></p>
 

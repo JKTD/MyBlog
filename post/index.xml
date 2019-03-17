@@ -18,7 +18,7 @@
       <pubDate>Sun, 17 Mar 2019 01:46:37 +0800</pubDate>
       
       <guid>http://blog.flywithme.top/2019/03-17/037.-Sudoku-Solver/</guid>
-      <description>Description 编写一个程序，通过已填充的空格来解决数独问题。 一个数独的解法需遵循如下规则： 数字 1-9 在每一行只能出现一次。 数字 1-9 在每一列只能出现一次。 数字 1-9</description>
+      <description>Description hard 编写一个程序，通过已填充的空格来解决数独问题。 一个数独的解法需遵循如下规则： 数字 1-9 在每一行只能出现一次。 数字 1-9 在每一列只能出现一次。 数字</description>
     </item>
     
     <item>
