@@ -87,6 +87,24 @@
 
 <h5 id="solution">Solution</h5>
 
+<pre><code>func combinationSum(candidates []int, target int) [][]int {
+    var rest  [][]int
+    for i := 0;i &lt; len(candidates);i ++ {
+        if target - candidates[i] &gt; 0{
+            for _,rst_ := range combinationSum(candidates[i:],target-candidates[i]) {
+                tmp := make([]int,len(rst_)+1)
+                copy(tmp,rst_)
+                tmp[len(rst_)] = candidates[i]
+                rest = append(rest,tmp)
+            }
+        }else if target - candidates[i] == 0{
+            rest = append(rest,[]int{candidates[i]})
+        }
+    }
+    return rest
+}
+</code></pre>
+
 <p><a href="https://leetcode.com/problems/combination-sum/">leetCode地址</a></p>
 
 </div>
