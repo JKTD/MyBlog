@@ -391,15 +391,6 @@
     </item>
     
     <item>
-      <title>字符串相乘</title>
-      <link>http://blog.flywithme.top/2019/03-07/multiplystrings/</link>
-      <pubDate>Thu, 07 Mar 2019 19:29:50 +0800</pubDate>
-      
-      <guid>http://blog.flywithme.top/2019/03-07/multiplystrings/</guid>
-      <description>Description:Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.. Note: The length of both num1 and num2 is &amp;lt; 110. Both num1 and num2 contain only digits 0-9. Both num1 and num2 do not contain any leading zero, except the number 0 itself. You must not use any built-in BigInteger library or convert the inputs to integer</description>
-    </item>
-    
-    <item>
       <title>003-最长无重复字符的子串</title>
       <link>http://blog.flywithme.top/2019/03-07/Longest-Substring-Without-Repeating-Characters-/</link>
       <pubDate>Thu, 07 Mar 2019 18:32:33 +0800</pubDate>
