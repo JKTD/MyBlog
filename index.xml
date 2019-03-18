@@ -6,7 +6,70 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Mon, 18 Mar 2019 21:05:03 CST</updated>
+        <updated>Mon, 18 Mar 2019 22:40:00 CST</updated>
+        
+        <item>
+            <title>044. 通配符匹配 Wildcard Matching</title>
+            <link>http://blog.flywithme.top/2019/03-18/044.-Wildcard-Matching/</link>
+            <pubDate>Mon, 18 Mar 2019 22:40:00 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-18/044.-Wildcard-Matching/</guid>
+            <description>
+
+&lt;h5 id=&#34;description-font-color-red-size-3-hard-font&#34;&gt;Description &lt;font color=red size=3&gt;Hard&lt;/font&gt;&lt;/h5&gt;
+
+&lt;p&gt;给定一个字符串 (&lt;code&gt;s&lt;/code&gt;) 和一个字符模式 (&lt;code&gt;p``) ，实现一个支持&lt;/code&gt;&amp;rsquo;?&amp;rsquo;&lt;code&gt;和&lt;/code&gt;&amp;lsquo;*&amp;rsquo;``` 的通配符匹配。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&#39;?&#39; 可以匹配任何单个字符。
+&#39;*&#39; 可以匹配任意字符串（包括空字符串）。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;两个字符串完全匹配才算匹配成功。&lt;/p&gt;
+
+&lt;h5 id=&#34;说明&#34;&gt;说明：&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;s 可能为空，且只包含从 a-z 的小写字母。&lt;/li&gt;
+&lt;li&gt;p 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入:
+s = &amp;quot;aa&amp;quot;
+p = &amp;quot;a&amp;quot;
+输出: false
+解释: &amp;quot;a&amp;quot; 无法匹配 &amp;quot;aa&amp;quot; 整个字符串。
+
+输入:
+s = &amp;quot;aa&amp;quot;
+p = &amp;quot;*&amp;quot;
+输出: true
+解释: &#39;*&#39; 可以匹配任意字符串。
+
+输入:
+s = &amp;quot;cb&amp;quot;
+p = &amp;quot;?a&amp;quot;
+输出: false
+解释: &#39;?&#39; 可以匹配 &#39;c&#39;, 但第二个 &#39;a&#39; 无法匹配 &#39;b&#39;。
+
+输入:
+s = &amp;quot;adceb&amp;quot;
+p = &amp;quot;*a*b&amp;quot;
+输出: true
+解释: 第一个 &#39;*&#39; 可以匹配空字符串, 第二个 &#39;*&#39; 可以匹配字符串 &amp;quot;dce&amp;quot;.
+
+输入:
+s = &amp;quot;acdcb&amp;quot;
+p = &amp;quot;a*c?b&amp;quot;
+输入: false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/wildcard-matching/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>043.字符串相乘 Multiply Strings</title>
@@ -1245,105 +1308,6 @@ func findSubstring2(s string, words []string) []int {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/substring-with-concatenation-of-all-words/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>029_两数相除 Divide Two Integers</title>
-            <link>http://blog.flywithme.top/2019/03-15/029_divide_two_integers/</link>
-            <pubDate>Fri, 15 Mar 2019 20:43:00 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-15/029_divide_two_integers/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
-返回被除数 dividend 除以除数 divisor 得到的商。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;输入: dividend = 10, divisor = 3
-输出: 3
-
-输入: dividend = 7, divisor = -3
-输出: -2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;说明:&lt;/strong&gt;&lt;br /&gt;
-   - 被除数和除数均为 32 位有符号整数。
-   - 除数不为 0。
-   - 假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231,  231 − 1]。
-   本题中，如果除法结果溢出，则返回 231 − 1。&lt;/p&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;//使用加减法计算
-func divide(dividend int, divisor int) int {
-    if divisor == 0{
-        return 0
-    }
-
-    if dividend &amp;lt;= math.MinInt32 &amp;amp;&amp;amp; divisor == -1{
-        return math.MaxInt32
-    }
-    negative := 1
-    if dividend &amp;lt; 0 {
-        negative = -negative
-        dividend = -dividend
-    }
-    if divisor &amp;lt; 0 {
-        negative = -negative
-        divisor = -divisor
-    }
-
-    count := 0
-    for dividend &amp;gt;= divisor {
-        dividend = dividend - divisor
-        count ++
-    }
-    if negative &amp;lt; 0 {
-        count = -count
-    }
-    return count
-}
-
-//位移，计算速度更快
-func divide1(dividend int, divisor int) int {
-    if divisor == 0{
-        return 0
-    }
-
-    if dividend &amp;lt;= math.MinInt32 &amp;amp;&amp;amp; divisor == -1{
-        return math.MaxInt32
-    }
-    negative := 1
-    if dividend &amp;lt; 0 {
-        negative = -negative
-        dividend = -dividend
-    }
-    if divisor &amp;lt; 0 {
-        negative = -negative
-        divisor = -divisor
-    }
-
-    count := 0
-    for dividend &amp;gt;= divisor {
-        temp,m := divisor,1
-        for dividend &amp;gt;= temp&amp;lt;&amp;lt;1{
-            temp,m = temp&amp;lt;&amp;lt;1,m&amp;lt;&amp;lt;1
-        }
-        dividend -=temp
-        count +=m
-    }
-    if negative &amp;lt; 0 {
-        count = -count
-    }
-    return count
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/divide-two-integers/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
