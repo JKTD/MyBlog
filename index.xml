@@ -6,7 +6,95 @@
         <language>zh-CN</language>
         <author>Brasbug</author>
         <rights>Copyright (c) 2016, Brasbug; all rights reserved.</rights>
-        <updated>Mon, 18 Mar 2019 18:30:58 CST</updated>
+        <updated>Mon, 18 Mar 2019 21:05:03 CST</updated>
+        
+        <item>
+            <title>043.字符串相乘 Multiply Strings</title>
+            <link>http://blog.flywithme.top/2019/03-18/043.-Multiply-Strings/</link>
+            <pubDate>Mon, 18 Mar 2019 21:05:03 CST</pubDate>
+            <author>Brasbug</author>
+            <guid>http://blog.flywithme.top/2019/03-18/043.-Multiply-Strings/</guid>
+            <description>
+
+&lt;h5 id=&#34;description-font-color-red-size-3-medium-font&#34;&gt;Description &lt;font color=red size=3&gt;Medium&lt;/font&gt;&lt;/h5&gt;
+
+&lt;p&gt;给定两个以字符串形式表示的非负整数 &lt;code&gt;num1&lt;/code&gt; 和 &lt;code&gt;num2&lt;/code&gt;，
+ 返回 &lt;code&gt;num1&lt;/code&gt; 和 &lt;code&gt;num2&lt;/code&gt; 的乘积，它们的乘积也表示为字符串形式。&lt;/p&gt;
+
+&lt;h5 id=&#34;说明&#34;&gt;说明：&lt;/h5&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;num1&lt;/code&gt; 和 &lt;code&gt;num2&lt;/code&gt; 的长度小于110。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;num1&lt;/code&gt; 和 &lt;code&gt;num2&lt;/code&gt; 只包含数字 0-9。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;num1&lt;/code&gt; 和 &lt;code&gt;num2&lt;/code&gt; 均不以零开头，除非是数字 0 本身。&lt;/li&gt;
+&lt;li&gt;不能使用任何标准库的大数类型（比如 BigInteger）或直接将输入转换为整数来处理。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;输入: num1 = &amp;quot;2&amp;quot;, num2 = &amp;quot;3&amp;quot;
+输出: &amp;quot;6&amp;quot;
+
+输入: num1 = &amp;quot;123&amp;quot;, num2 = &amp;quot;456&amp;quot;
+输出: &amp;quot;56088&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func multiply(num1 string, num2 string) string {
+    if num1 == &amp;quot;0&amp;quot; || num2 == &amp;quot;0&amp;quot; {
+        return &amp;quot;0&amp;quot;
+    }
+    result := &amp;quot;0&amp;quot;
+    for i := len(num2)-1;i &amp;gt;=0;i -- {
+        temp := &amp;quot;0&amp;quot;
+        for j := 0;j &amp;lt; int(num2[i] - 48);j ++ {
+            temp = addTwoString(temp,num1)
+        }
+        num1 +=&amp;quot;0&amp;quot;
+        result =  addTwoString(result,temp)
+    }
+    return result
+}
+
+
+func maxInt(a,b int)int  {
+    if a &amp;gt; b {
+        return a
+    }
+    return b
+}
+
+//字符串
+func addTwoString(num1 string,num2 string)string  {
+    carry := 0
+    maxLen := maxInt(len(num2),len(num1))
+    result := make([]byte,maxLen+1)
+    for i := 0 ; i &amp;lt; maxLen; i ++ {
+        sum := carry
+        if len(num1) &amp;gt; i {
+            v1  :=  num1[len(num1) -i -1] - 48
+            sum += int(v1)
+        }
+        if len(num2) &amp;gt; i {
+            v2 := num2[len(num2) -i -1] - 48
+            sum += int(v2)
+        }
+        carry = sum/10
+        result[maxLen - i] = byte(sum%10 + 48)
+    }
+    if carry &amp;gt; 0 {
+        result[0] = byte(carry+48)
+    }else {
+        return string(result[1:])
+    }
+    return  string(result)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/multiply-strings/submissions/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
         
         <item>
             <title>042.接雨水 Trapping Rain Water</title>
@@ -1256,79 +1344,6 @@ func divide1(dividend int, divisor int) int {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/divide-two-integers/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-        <item>
-            <title>028_实现strStr()</title>
-            <link>http://blog.flywithme.top/2019/03-15/028_implementstr/</link>
-            <pubDate>Fri, 15 Mar 2019 20:15:55 CST</pubDate>
-            <author>Brasbug</author>
-            <guid>http://blog.flywithme.top/2019/03-15/028_implementstr/</guid>
-            <description>
-
-&lt;h5 id=&#34;description&#34;&gt;Description&lt;/h5&gt;
-
-&lt;p&gt;实现 strStr() 函数。
-给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。&lt;/p&gt;
-
-&lt;h5 id=&#34;example&#34;&gt;Example&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;输入: haystack = &amp;quot;hello&amp;quot;, needle = &amp;quot;ll&amp;quot;
-输出: 2
-
-输入: haystack = &amp;quot;aaaaa&amp;quot;, needle = &amp;quot;bba&amp;quot;
-输出: -1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;说明:&lt;/strong&gt;&lt;br /&gt;
-    当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。&lt;/p&gt;
-
-&lt;h5 id=&#34;solution&#34;&gt;Solution&lt;/h5&gt;
-
-&lt;pre&gt;&lt;code&gt;//暴力比较
-func strStr(haystack string, needle string) int {
-    if needle == &amp;quot;&amp;quot; {
-        return 0
-    }
-    for i := 0;i &amp;lt; len(haystack);i ++ {
-        equle := true
-        for j := 0; j &amp;lt; len(needle); j ++ {
-            if needle[j]!= haystack[i] {
-                equle = false
-                break
-            }
-        }
-        if equle {
-            return i
-        }
-    }
-
-    return -1
-}
-
-
-//字符串截取比较(可能不符合题设)
-func strStr(haystack string, needle string) int {
-    if needle == &amp;quot;&amp;quot; {
-        return 0
-    }
-    if len(needle) &amp;gt; len(haystack) {
-        return -1
-    }
-    for i := 0;i &amp;lt; len(haystack);i ++ {
-        if i + len(needle) &amp;gt; len(haystack) {
-            return -1
-        }
-        if needle == haystack[i:i+len(needle)]{
-            return i
-        }
-    }
-    return -1
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://leetcode.com/problems/implement-strstr/&#34;&gt;leetCode地址&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         
