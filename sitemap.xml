@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://blog.flywithme.top/2019/03-18/042.-Trapping-Rain-Water/</loc>
+        <lastmod>2019-03-18T18:30:58+08:00</lastmod>
+    </url>
+    
+    <url>
         <loc>http://blog.flywithme.top/2019/03-17/041.-First-Missing-Positive/</loc>
         <lastmod>2019-03-17T22:06:49+08:00</lastmod>
     </url>
@@ -739,13 +744,13 @@
     
     <url>
         <loc>http://blog.flywithme.top/</loc>
-        <lastmod>2019-03-17T22:06:49+08:00</lastmod>
+        <lastmod>2019-03-18T18:30:58+08:00</lastmod>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>http://blog.flywithme.top/post/</loc>
-        <lastmod>2019-03-17T22:06:49+08:00</lastmod>
+        <lastmod>2019-03-18T18:30:58+08:00</lastmod>
         <priority>0</priority>
     </url>
     
