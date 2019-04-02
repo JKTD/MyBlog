@@ -146,14 +146,16 @@ import (
     ...
 )
 
-// @Summary Add new user to the database
-// @Description Add a new user
+// @Summary index POST
+// @Description 测试服务是否正常
 // @Tags user
 // @Accept  json
 // @Produce  json
-// @Param user body user.CreateRequest true &amp;quot;Create a new user&amp;quot;
-// @Success 200 {object} user.CreateResponse &amp;quot;{&amp;quot;code&amp;quot;:0,&amp;quot;message&amp;quot;:&amp;quot;OK&amp;quot;,&amp;quot;data&amp;quot;:{&amp;quot;username&amp;quot;:&amp;quot;kong&amp;quot;}}&amp;quot;
-// @Router /user [post]
+// @Param user body model_user.User true &amp;quot;user info&amp;quot;
+// @Security ApiKeyAuth
+// @Success 200 {string} json &amp;quot;{&amp;quot;data&amp;quot;:{},&amp;quot;code&amp;quot;:200,&amp;quot;msg&amp;quot;:&amp;quot;&amp;quot;}&amp;quot;
+// @Router  /index   [post]
+
 func Create(c *gin.Context) {
     ...
 }  
