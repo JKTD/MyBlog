@@ -137,6 +137,61 @@ swag version v1.1.1
     r.GET(options.SwaggerOptions.SwaggerPath, ginSwagger.WrapHandler(swaggerFiles.Handler))
   }
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;API注释示例&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package user
+
+import (
+    ...
+)
+
+// @Summary Add new user to the database
+// @Description Add a new user
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param user body user.CreateRequest true &amp;quot;Create a new user&amp;quot;
+// @Success 200 {object} user.CreateResponse &amp;quot;{&amp;quot;code&amp;quot;:0,&amp;quot;message&amp;quot;:&amp;quot;OK&amp;quot;,&amp;quot;data&amp;quot;:{&amp;quot;username&amp;quot;:&amp;quot;kong&amp;quot;}}&amp;quot;
+// @Router /user [post]
+func Create(c *gin.Context) {
+    ...
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h6 id=&#34;语法说明&#34;&gt;语法说明：&lt;/h6&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Summary：简单阐述 API 的功能&lt;/li&gt;
+&lt;li&gt;Description：API 详细描述&lt;/li&gt;
+&lt;li&gt;Tags：API 所属分类&lt;/li&gt;
+&lt;li&gt;Accept：API 接收参数的格式&lt;/li&gt;
+&lt;li&gt;Produce：输出的数据格式，这里是 JSON 格式&lt;/li&gt;
+&lt;li&gt;Param：参数，分为 6 个字段，其中第 6 个字段是可选的，各字段含义为：
+
+&lt;ul&gt;
+&lt;li&gt;参数名称&lt;/li&gt;
+&lt;li&gt;参数在 HTTP 请求中的位置（body、path、query）&lt;/li&gt;
+&lt;li&gt;参数类型（string、int、bool 等）&lt;/li&gt;
+&lt;li&gt;是否必须（true、false）&lt;/li&gt;
+&lt;li&gt;参数描述&lt;/li&gt;
+&lt;li&gt;选项，这里用的是 default() 用来指定默认值&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Success：成功返回数据格式，分为 4 个字段
+
+&lt;ul&gt;
+&lt;li&gt;HTTP 返回 Code&lt;/li&gt;
+&lt;li&gt;返回数据类型&lt;/li&gt;
+&lt;li&gt;返回数据模型&lt;/li&gt;
+&lt;li&gt;说明&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;路由格式，分为 2 个字段：
+
+&lt;ul&gt;
+&lt;li&gt;API 路径&lt;/li&gt;
+&lt;li&gt;HTTP 方法&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         </item>
         

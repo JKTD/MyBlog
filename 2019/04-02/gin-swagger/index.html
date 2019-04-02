@@ -177,6 +177,61 @@ swag version v1.1.1
   }
 </code></pre>
 
+<p>API注释示例</p>
+
+<pre><code>package user
+
+import (
+    ...
+)
+
+// @Summary Add new user to the database
+// @Description Add a new user
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param user body user.CreateRequest true &quot;Create a new user&quot;
+// @Success 200 {object} user.CreateResponse &quot;{&quot;code&quot;:0,&quot;message&quot;:&quot;OK&quot;,&quot;data&quot;:{&quot;username&quot;:&quot;kong&quot;}}&quot;
+// @Router /user [post]
+func Create(c *gin.Context) {
+    ...
+}  
+</code></pre>
+
+<h6 id="语法说明">语法说明：</h6>
+
+<ul>
+<li>Summary：简单阐述 API 的功能</li>
+<li>Description：API 详细描述</li>
+<li>Tags：API 所属分类</li>
+<li>Accept：API 接收参数的格式</li>
+<li>Produce：输出的数据格式，这里是 JSON 格式</li>
+<li>Param：参数，分为 6 个字段，其中第 6 个字段是可选的，各字段含义为：
+
+<ul>
+<li>参数名称</li>
+<li>参数在 HTTP 请求中的位置（body、path、query）</li>
+<li>参数类型（string、int、bool 等）</li>
+<li>是否必须（true、false）</li>
+<li>参数描述</li>
+<li>选项，这里用的是 default() 用来指定默认值</li>
+</ul></li>
+<li>Success：成功返回数据格式，分为 4 个字段
+
+<ul>
+<li>HTTP 返回 Code</li>
+<li>返回数据类型</li>
+<li>返回数据模型</li>
+<li>说明</li>
+</ul></li>
+<li>路由格式，分为 2 个字段：
+
+<ul>
+<li>API 路径</li>
+<li>HTTP 方法</li>
+</ul></li>
+</ul>
+
 </div>
 
 
